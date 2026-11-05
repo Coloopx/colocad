@@ -1,0 +1,28 @@
+{
+  "package": "@coloopx/colocad",
+  "version": "0.1.0-alpha.2",
+  "registryTarball": "https://registry.npmjs.org/@coloopx/colocad/-/colocad-0.1.0-alpha.2.tgz",
+  "integrity": "sha512-NE/GKQXqpGh6FwGXYwTr3nzT+JdJtxWnHZLA3KU6pk8tIWPvTIR6qJIaPeJITaXZDXFtRGCCrswLbTppUQAlvQ==",
+  "linuxArm64CleanInstall": true,
+  "npmUserConfig": "/dev/null",
+  "geometry": {
+    "bbox_mm": [
+      [
+        -7.066362408932611e-13,
+        -1.0658141036401503e-14,
+        0
+      ],
+      [
+        90.00000000000003,
+        45.00000000000224,
+        12.000000000000194
+      ]
+    ],
+    "edges": 54,
+    "faces": 27,
+    "kind": "solid",
+    "solids": 1,
+    "void_regions": 0,
+    "volume_mm3": 45490.92421362917
+  }
+}
