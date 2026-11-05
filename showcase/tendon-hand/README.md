@@ -1,4 +1,8 @@
-# A tendon-driven hand: one finger versus the full assembly
+# A tendon-driven hand from one finger to a complete assembly
+
+[Watch the hand animation](replay/tendon-hand-en.mp4) · [Open the offline player and download the measured STEPs](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/hand-replay.html)
+
+The optimized source kernel delivers the full assembly in **2.24 seconds**, compared with **3.93 seconds** for the earlier published kernel and **3.34 seconds** for build123d in the same five-run test. The original measurements below describe the published alpha.2 binary. [Cause, change and independent readback](assembly-performance.md)
 
 [Four reference views](reference/four-views.png) · [Four reconstructed STEP views](static/readback.png) · [Download CAD sources and paired exports](hand-study.zip) · [Raw latency and memory](evidence/scope.json) · [100-second delivery log](evidence/window.json)
 

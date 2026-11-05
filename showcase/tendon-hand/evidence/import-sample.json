@@ -1,0 +1,90 @@
+[
+  {
+    "package": "OCP",
+    "rep": 0,
+    "import_ms": 489.5772500021849,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": []
+  },
+  {
+    "package": "build123d",
+    "rep": 0,
+    "import_ms": 1613.8175419764593,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": [
+      "numpy",
+      "scipy",
+      "IPython",
+      "ocpsvg",
+      "ocp_gordon"
+    ]
+  },
+  {
+    "package": "build123d",
+    "rep": 1,
+    "import_ms": 1369.0485839906614,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": [
+      "numpy",
+      "scipy",
+      "IPython",
+      "ocpsvg",
+      "ocp_gordon"
+    ]
+  },
+  {
+    "package": "OCP",
+    "rep": 1,
+    "import_ms": 370.08399999467656,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": []
+  },
+  {
+    "package": "OCP",
+    "rep": 2,
+    "import_ms": 357.10045899031684,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": []
+  },
+  {
+    "package": "build123d",
+    "rep": 2,
+    "import_ms": 1663.9111669792328,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": [
+      "numpy",
+      "scipy",
+      "IPython",
+      "ocpsvg",
+      "ocp_gordon"
+    ]
+  },
+  {
+    "package": "build123d",
+    "rep": 3,
+    "import_ms": 1350.1152929966338,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": [
+      "numpy",
+      "scipy",
+      "IPython",
+      "ocpsvg",
+      "ocp_gordon"
+    ]
+  },
+  {
+    "package": "OCP",
+    "rep": 3,
+    "import_ms": 363.84158401051536,
+    "CadQuery_loaded": false,
+    "OCP_loaded": true,
+    "py_libraries": []
+  }
+]

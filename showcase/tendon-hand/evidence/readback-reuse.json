@@ -1,0 +1,210 @@
+{
+  "hand": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 3.773024448659587e-16
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 1.0000719896652299e-07,
+      "max_relative_volume_delta": 6.528572174253067e-09
+    },
+    "valid_solids": 43,
+    "checked_definitions": [
+      {
+        "definition": "Yoke",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "WristAxle",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "PalmGuideIndex",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "LittleSocketGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ProximalCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "IntermediateCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "TipCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "Pin",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "LittleCordDef",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "RingSocketGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "RingCordDef",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "MiddleSocketGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "MiddleCordDef",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "IndexSocketGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "IndexCordDef",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ThumbSocketGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ThumbBaseLinkCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ThumbMidLinkCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ThumbEndLinkCableGuide",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "definition": "ThumbCordDef",
+        "difference_mm3": [
+          0.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "links-1": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 0.0
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 1.000000082740371e-07,
+      "max_relative_volume_delta": 4.053919795824049e-09
+    },
+    "valid_solids": 1
+  },
+  "links-16": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 2.752355497977794e-16
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 1.0000007932831068e-07,
+      "max_relative_volume_delta": 4.053919933441831e-09
+    },
+    "valid_solids": 16
+  },
+  "links-4": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 2.752355497977793e-16
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 1.000000082740371e-07,
+      "max_relative_volume_delta": 4.053919795824049e-09
+    },
+    "valid_solids": 4
+  },
+  "links-43": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 2.752355497977794e-16
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 1.0000007932831068e-07,
+      "max_relative_volume_delta": 4.05392020867738e-09
+    },
+    "valid_solids": 43
+  },
+  "pins-16": {
+    "colocad": {
+      "max_bounds_delta_mm": 0.0,
+      "max_relative_volume_delta": 0.0
+    },
+    "build123d": {
+      "max_bounds_delta_mm": 6.394884621840902e-14,
+      "max_relative_volume_delta": 1.1071678987838469e-15
+    },
+    "valid_solids": 16
+  }
+}

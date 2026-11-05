@@ -53,17 +53,23 @@ fn grid_stock_volume(model: &Model, feature: &Feature) -> Result<Option<f64>> {
     ))
 }
 
+pub(crate) fn last_body_use(id: &str, uses: &mut BTreeMap<String, usize>) -> Result<bool> {
+    let count = uses
+        .get_mut(id)
+        .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))?;
+    *count = count
+        .checked_sub(1)
+        .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))?;
+    Ok(*count == 0)
+}
+
 pub(crate) fn take_body(
     k: &mut Kernel,
     id: &str,
     bodies: &mut BTreeMap<String, Brep>,
     uses: &mut BTreeMap<String, usize>,
 ) -> Result<Brep> {
-    let count = uses
-        .get_mut(id)
-        .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))?;
-    *count -= 1;
-    if *count == 0 {
+    if last_body_use(id, uses)? {
         bodies
             .remove(id)
             .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))

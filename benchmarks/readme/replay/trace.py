@@ -16,16 +16,21 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def capture(backend, keep_step):
+def capture(backend, keep_step, case):
     cgroup = Path('/sys/fs/cgroup')
-    source = Path('/opt/package/examples/manifold.json')
     python = os.environ['BASELINE_PYTHON']
-    if backend == 'colocad':
-        step = Path('/tmp/result/part/model.step')
-        command = ['node', '/opt/package/bin/colocad.mjs', 'build', source, '/tmp/result']
+    cwd = Path('/tmp')
+    if case in ('finger','hand'):
+        source = Path('/inputs')/(case+'.json')
+        packages = cwd/'node_modules/@coloopx'
+        packages.mkdir(parents=True)
+        (packages/'colocad').symlink_to('/opt/package')
+        native_command = ['node', '/opt/bench/assembly.mjs', source, '/tmp/result']
     else:
-        step = Path('/tmp/model.step')
-        command = [python, '-I', '/opt/bench/baseline.py', source, step]
+        source = Path('/opt/package/examples/manifold.json')
+        native_command = ['node', '/opt/package/bin/colocad.mjs', 'build', source, '/tmp/result']
+    step = Path('/tmp/model.step')
+    command = native_command if backend == 'colocad' else [python, '-I', '/opt/bench/baseline.py', source, step]
 
     samples = []
     stop = threading.Event()
@@ -42,16 +47,18 @@ def capture(backend, keep_step):
     start = time.perf_counter_ns()
     start_sampling.set()
     try:
-        result = subprocess.run(command, capture_output=True, text=True, timeout=90)
+        result = subprocess.run(command, cwd=cwd, capture_output=True, text=True, timeout=90)
         elapsed = (time.perf_counter_ns() - start) / 1e6
         peak = int((cgroup / 'memory.peak').read_text())
     finally:
         stop.set()
         sampler.join()
+    if backend == 'colocad' and result.returncode == 0:
+        step = (Path(json.loads(result.stdout)['directory']) if case in ('finger','hand') else Path('/tmp/result/part'))/'model.step'
     if result.returncode or not step.is_file():
         raise RuntimeError(result.stderr or 'missing STEP output')
     if keep_step:
-        shutil.copyfile(step, Path('/evidence') / f'manifold-{backend}.step')
+        shutil.copyfile(step, Path('/evidence') / f'{case}-{backend}.step')
     return {
         'backend': backend, 'wall_ms': elapsed, 'peak_bytes': peak,
         'samples_ms_bytes': [[0, initial]] + [pair for pair in samples if pair[0] < elapsed],
@@ -69,10 +76,22 @@ def record(args):
         context = Path(tmp)
         shutil.copyfile(args.tarball, context / 'bundle.tgz')
         shutil.copy(__file__, context)
-        shutil.copy(benchmark / 'baseline.py', context)
+        extra = ''
+        if args.case in ('finger','hand'):
+            repo = benchmark.parents[1]
+            hand_bench = repo/'showcase/tendon-hand/bench'
+            subprocess.run(['node', hand_bench/'scope-models.mjs', context/'inputs'],check=True)
+            shutil.copy(hand_bench/'baseline.py', context)
+            shutil.copy(repo/'skills/colocad/scripts/assembly.mjs', context)
+            extra = 'COPY inputs/ /inputs/\nCOPY assembly.mjs /opt/bench/\n'
+        else:
+            shutil.copy(benchmark/'baseline.py', context)
+        if args.kernel:
+            shutil.copyfile(args.kernel,context/'candidate'); (context/'candidate').chmod(0o755)
+            extra += 'COPY candidate /opt/candidate\nENV AGENT_CAD_BINARY=/opt/candidate\n'
         (context / 'Dockerfile').write_text(
             'ARG BASE\nFROM ${BASE}\nADD bundle.tgz /opt/\n'
-            'COPY trace.py baseline.py /opt/bench/\n'
+            'COPY trace.py baseline.py /opt/bench/\n'+extra
         )
         image = subprocess.check_output([
             'docker','build','-q','--network=none','--build-arg','BASE='+args.image,str(context)
@@ -87,13 +106,14 @@ def record(args):
     for name, value in env.items():
         flags += ['-e',name+'='+value]
     def run(backend, keep=False):
-        cmd = flags + ['--entrypoint','python3',image,'/opt/bench/trace.py','capture',backend]
+        cmd = flags + ['--entrypoint','python3',image,'/opt/bench/trace.py','capture',backend,'--case',args.case]
         return json.loads(subprocess.check_output(cmd + (['--keep'] if keep else []),text=True))
     warmups = [run(name) for name in ('build123d','colocad')]
     recorded = [run(name,True) for name in ('colocad','build123d')]
-    data = {'case':'manifold','sampling_target_ms':20,'tarball_sha256':digest(args.tarball),
+    data = {'case':args.case,'sampling_target_ms':20,'tarball_sha256':digest(args.tarball),
             'base_image':subprocess.check_output(['docker','image','inspect','--format','{{.Id}}',args.image],text=True).strip(),
             'warmup_wall_ms':{row['backend']:row['wall_ms'] for row in warmups},'recorded':recorded}
+    if args.kernel: data['kernel_override_sha256']=digest(args.kernel)
     (args.out / 'trace.json').write_text(json.dumps(data,indent=2)+'\n')
 
 
@@ -108,8 +128,11 @@ if __name__ == '__main__':
     host.add_argument('tarball',type=Path)
     host.add_argument('out',type=Path)
     host.add_argument('--python',default='/home/agent/workspace/.structure-runtime/venv/bin/python3')
+    host.add_argument('--kernel',type=Path,help='Use a candidate Linux binary with the published SDK.')
+    for mode in (capture_parser,host):
+        mode.add_argument('--case', choices=('manifold','finger','hand'), default='manifold')
     args=parser.parse_args()
     if args.mode=='capture':
-        print(json.dumps(capture(args.backend,args.keep)))
+        print(json.dumps(capture(args.backend,args.keep,args.case)))
     else:
         record(args)

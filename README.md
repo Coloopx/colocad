@@ -4,13 +4,15 @@
 
 Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
 
-## Time to first STEP
+## Time to STEP on a tendon-driven hand
 
-**On the sensor rail and port manifold, a fresh colocad tool call delivered STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak sandbox memory.** Both backends constructed their own valid solid from the same inputs. A resident Python process can amortize import costs.
+Start with four views, reconstruct a proximal finger link, then assemble a 43-solid hand. The film measures the link and the full hand separately on a shared 512 MiB memory scale.
 
-![Recorded manifold build with aligned starts. Colocad delivers at 193 ms and build123d at 2,050 ms. The lower plot shows sampled sandbox memory.](docs/benchmarks/replay/manifold-en.gif)
+![Tendon hand from four reference views to finger bores, five-finger assembly, measured STEP delivery and memory](showcase/tendon-hand/replay/tendon-hand-en.gif)
 
-**Four-port manifold at actual speed.** The two launches share a time origin in the replay. Peak sandbox memory in this pair was 22.8 / 261.4 MiB. The plot uses samples taken about every 20 ms. The table below summarizes a separate five-run benchmark. [MP4](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/replay/manifold-en.mp4) · [Time series](docs/benchmarks/replay/trace.json) · [Method](benchmarks/readme/replay/README.md)
+**New source kernel, 43-solid hand.** Median delivery was **3.93 s** with the npm binary, **2.24 s** with the optimized kernel and **3.34 s** with build123d. Maximum measured peaks were **52.7 / 37.9 / 271.3 MiB**. The new kernel measured 21 instances and reused the results for 22 translated occurrences. The SDK was alpha.2 in both colocad arms. [MP4](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/tendon-hand-en.mp4) · [Diagnosis, CadQuery comparison and measurements](showcase/tendon-hand/assembly-performance.md) · [Previous manifold replay](benchmarks/readme/replay/README.md)
+
+The static scorecard below uses the **published alpha.2 binary**. With fresh tool processes the sensor rail and manifold reached STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak memory.
 
 <details>
 <summary>See the static comparison across four workloads</summary>
@@ -30,7 +32,7 @@ Generate a mechanical part from a JSON feature tree, export an exact STEP solid,
 
 [Rail/manifold samples](docs/benchmarks/runs.json) · [Finger/hand samples](showcase/tendon-hand/evidence/scope.json) · [Four-view hand study and CAD downloads](showcase/tendon-hand/README.md) · [Offline scorecard](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/time-to-step.html)
 
-**Where the advantage ends:** in a separate 100-second sweep of complete hand revisions, colocad delivered 24 STEPs to build123d’s 30. Every counted file reopened as a valid 43-solid assembly. [Timestamped outputs and paired geometry checks](showcase/tendon-hand/evidence/window.json)
+**Historical alpha.2 result.** in a separate 100-second sweep of complete hand revisions, colocad delivered 24 STEPs to build123d’s 30. Every counted file reopened as a valid 43-solid assembly. [Timestamped outputs and paired geometry checks](showcase/tendon-hand/evidence/window.json)
 
 ## SDK, CLI or skill?
 

@@ -1,0 +1,16 @@
+{
+  "fps": 25,
+  "duration_s": 23.2,
+  "chapters_s": {
+    "geometry": 1.8,
+    "finger": 6.4,
+    "finger-colocad": 6.65,
+    "finger-build123d": 8.41,
+    "assembly": 9.08,
+    "cause": 13.16,
+    "hand": 15.96,
+    "hand-colocad": 18.21,
+    "hand-build123d": 19.130000000000003,
+    "result": 19.8
+  }
+}

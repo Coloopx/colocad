@@ -4,13 +4,15 @@
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
 
-## Agent 等到首份 STEP，需要多久？
+## 用一只绳驱灵巧手测量 STEP 交付速度
 
-**在两个已验证的机械单件上，colocad 从新进程启动到写完 STEP 分别快 22.0× 和 12.9×，沙箱峰值内存分别为 build123d 的 7.7% 和 8.0%。** 同机同预算、同一组输入；两端独立建模，各自导出可回读的有效实体。这是每次工具调用新起进程的收益。常驻 Python 可以摊薄导入时间。
+同一套四视图，先重建食指近节，再装成 43 实体的五指手。回放里的两次计时分别测量一个零件和完整装配，内存使用同一把 512 MiB 标尺。
 
-![四盲孔歧管的交付回放，colocad 在 193 ms 写出 STEP，build123d 在 2,050 ms 写出，下方为实测内存曲线](docs/benchmarks/replay/manifold-zh-CN.gif)
+![绳驱灵巧手四视图、指骨布尔切除、五指装配以及两端的实际内存和 STEP 交付时间](showcase/tendon-hand/replay/tendon-hand-zh-CN.gif)
 
-**1× 原速回放，四盲孔歧管。** 两次独立调用按启动时刻对齐。本次实录的峰值内存为 22.8 / 261.4 MiB，曲线来自每约 20 ms 的容器内存采样。下表使用另外五轮测量的统计值。[可暂停的单文件回放及两份 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/replay/manifold-replay.html) · [逐点读数](docs/benchmarks/replay/trace.json)
+**本次源码优化实测。** 食指、掌部和销轴组成了 43 实体整手。五轮中位数为原 npm 内核 **3.93 s**、优化内核 **2.24 s**、build123d **3.34 s**。峰值内存分别为 **52.7 / 37.9 / 271.3 MiB**。其中 21 个实例完整检查，22 个同朝向的平移实例复用结果。使用 alpha.2 SDK 调用新源码内核。[单文件灵巧手回放与 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/hand-replay.html) · [原因、CadQuery 线索与数据](showcase/tendon-hand/assembly-performance.md) · [早期歧管实录](benchmarks/readme/replay/README.md)
+
+以下静态表记录 npm **0.1.0-alpha.2 自带内核**的历史基线。新进程交付导轨和歧管分别快 22.0× 和 12.9×，峰值内存分别为 build123d 的 7.7% 和 8.0%。
 
 <details>
 <summary>查看四种任务的静态对照图</summary>
@@ -30,7 +32,7 @@
 
 [原始读数：导轨与歧管](docs/benchmarks/runs.json) · [原始读数：指骨与整手](showcase/tendon-hand/evidence/scope.json) · [四视图、可编辑整手和 STEP](showcase/tendon-hand/README.md) · [离线数据卡](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/time-to-step.html)
 
-**整手是这条结论的边界。** 另一项 100 秒、按顺序改参的实测中，colocad 交付 24 份整手 STEP，build123d 交付 30 份；每份都是完整的 43 个实体，已逐件回读。[两端交付时间戳与几何核对](showcase/tendon-hand/evidence/window.json)
+**旧版整手基线。** 另一项 100 秒、按顺序改参的实测中，colocad 交付 24 份整手 STEP，build123d 交付 30 份；每份都是完整的 43 个实体，已逐件回读。[两端交付时间戳与几何核对](showcase/tendon-hand/evidence/window.json)
 
 ## SDK、CLI、skill 怎么选？
 

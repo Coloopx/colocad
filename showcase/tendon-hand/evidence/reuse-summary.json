@@ -1,0 +1,230 @@
+{
+  "links-1": {
+    "colocad": {
+      "median_ms": 227.539041,
+      "max_peak_mib": 21.6328125,
+      "median_phases_ms": {
+        "export": 4.447417000000001,
+        "geometry": 36.959458,
+        "total": 194.61237500000001,
+        "validation": 154.075625
+      },
+      "instances": 1,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 235.524916,
+      "max_peak_mib": 20.79296875,
+      "median_phases_ms": {
+        "export": 4.422209,
+        "geometry": 37.276208,
+        "total": 194.665917,
+        "validation": 152.392542
+      },
+      "instances": 1,
+      "reuses": 0
+    },
+    "build123d": {
+      "median_ms": 2116.792709,
+      "max_peak_mib": 260.09375,
+      "median_phases_ms": {
+        "import": 1584.7152,
+        "model": 92.7598,
+        "verify": 4.9627,
+        "write": 14.2698
+      },
+      "instances": 1,
+      "reuses": null
+    }
+  },
+  "links-4": {
+    "colocad": {
+      "median_ms": 694.159542,
+      "max_peak_mib": 24.2578125,
+      "median_phases_ms": {
+        "export": 4.499459,
+        "geometry": 35.228167,
+        "total": 659.385125,
+        "validation": 616.462167
+      },
+      "instances": 4,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 241.21575,
+      "max_peak_mib": 21.5,
+      "median_phases_ms": {
+        "export": 4.180708,
+        "geometry": 38.587584,
+        "total": 203.1585,
+        "validation": 159.323416
+      },
+      "instances": 4,
+      "reuses": 3
+    },
+    "build123d": {
+      "median_ms": 2226.051959,
+      "max_peak_mib": 259.97265625,
+      "median_phases_ms": {
+        "import": 1713.8435,
+        "model": 91.5783,
+        "verify": 22.6072,
+        "write": 9.8648
+      },
+      "instances": 4,
+      "reuses": null
+    }
+  },
+  "links-16": {
+    "colocad": {
+      "median_ms": 2719.182543,
+      "max_peak_mib": 34.625,
+      "median_phases_ms": {
+        "export": 4.426417,
+        "geometry": 34.995125,
+        "total": 2682.903001,
+        "validation": 2643.3136680000002
+      },
+      "instances": 16,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 228.852917,
+      "max_peak_mib": 21.77734375,
+      "median_phases_ms": {
+        "export": 3.938458,
+        "geometry": 37.242416,
+        "total": 194.60108300000002,
+        "validation": 154.408334
+      },
+      "instances": 16,
+      "reuses": 15
+    },
+    "build123d": {
+      "median_ms": 2130.739418,
+      "max_peak_mib": 260.2421875,
+      "median_phases_ms": {
+        "import": 1553.7693,
+        "model": 100.6197,
+        "verify": 114.3553,
+        "write": 10.7605
+      },
+      "instances": 16,
+      "reuses": null
+    }
+  },
+  "links-43": {
+    "colocad": {
+      "median_ms": 7420.437337,
+      "max_peak_mib": 57.62109375,
+      "median_phases_ms": {
+        "export": 4.948583,
+        "geometry": 35.011417,
+        "total": 7369.475461999999,
+        "validation": 7329.255837
+      },
+      "instances": 43,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 249.001625,
+      "max_peak_mib": 21.86328125,
+      "median_phases_ms": {
+        "export": 4.437084,
+        "geometry": 40.517291,
+        "total": 200.256375,
+        "validation": 155.499125
+      },
+      "instances": 43,
+      "reuses": 42
+    },
+    "build123d": {
+      "median_ms": 2612.236335,
+      "max_peak_mib": 261.05078125,
+      "median_phases_ms": {
+        "import": 1864.3501,
+        "model": 155.347,
+        "verify": 207.6484,
+        "write": 14.9259
+      },
+      "instances": 43,
+      "reuses": null
+    }
+  },
+  "pins-16": {
+    "colocad": {
+      "median_ms": 518.062042,
+      "max_peak_mib": 19.8359375,
+      "median_phases_ms": {
+        "export": 0.8605419999999999,
+        "geometry": 3.232709,
+        "total": 456.521626,
+        "validation": 452.42733400000003
+      },
+      "instances": 16,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 68.27275,
+      "max_peak_mib": 19.4140625,
+      "median_phases_ms": {
+        "export": 0.841583,
+        "geometry": 4.388125,
+        "total": 33.329459,
+        "validation": 28.058084
+      },
+      "instances": 16,
+      "reuses": 15
+    },
+    "build123d": {
+      "median_ms": 2199.55321,
+      "max_peak_mib": 258.0625,
+      "median_phases_ms": {
+        "import": 1812.7718,
+        "model": 7.5428,
+        "verify": 6.8631,
+        "write": 9.1964
+      },
+      "instances": 16,
+      "reuses": null
+    }
+  },
+  "hand": {
+    "colocad": {
+      "median_ms": 3929.174127,
+      "max_peak_mib": 52.6796875,
+      "median_phases_ms": {
+        "export": 47.257792,
+        "geometry": 317.572,
+        "total": 3877.973877,
+        "validation": 3501.9709190000003
+      },
+      "instances": 43,
+      "reuses": null
+    },
+    "candidate": {
+      "median_ms": 2238.983376,
+      "max_peak_mib": 37.8828125,
+      "median_phases_ms": {
+        "export": 46.020832999999996,
+        "geometry": 323.017375,
+        "total": 2170.216542,
+        "validation": 1801.8727509999999
+      },
+      "instances": 43,
+      "reuses": 22
+    },
+    "build123d": {
+      "median_ms": 3335.426585,
+      "max_peak_mib": 271.32421875,
+      "median_phases_ms": {
+        "import": 1851.8734,
+        "model": 959.8869,
+        "verify": 113.555,
+        "write": 57.797
+      },
+      "instances": 43,
+      "reuses": null
+    }
+  }
+}

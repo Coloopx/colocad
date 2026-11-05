@@ -1,0 +1,24 @@
+{
+  "alpha2": {
+    "solids": 43,
+    "instances": 43,
+    "hashes": {
+      "preview.png": "272ee8a7678963a976da13060ada0a597d55b07a782fc3a3d164ac5fa493e4fd",
+      "model.glb": "bbe269e57bcd81837e02b2d2808d1507adbdc5cc4acb5880c70791830600425a",
+      "model.stl": "840de8de54eb3c25a57fc9e4d8c92cd4bdd1ce1a8ede52fda44ec93bac017ebf"
+    },
+    "triangles": 147706,
+    "tessellations": 20
+  },
+  "optimized": {
+    "solids": 43,
+    "instances": 43,
+    "hashes": {
+      "preview.png": "272ee8a7678963a976da13060ada0a597d55b07a782fc3a3d164ac5fa493e4fd",
+      "model.glb": "bbe269e57bcd81837e02b2d2808d1507adbdc5cc4acb5880c70791830600425a",
+      "model.stl": "840de8de54eb3c25a57fc9e4d8c92cd4bdd1ce1a8ede52fda44ec93bac017ebf"
+    },
+    "triangles": 147706,
+    "tessellations": 20
+  }
+}

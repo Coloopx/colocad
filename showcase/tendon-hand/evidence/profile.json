@@ -1,0 +1,182 @@
+[
+  {
+    "case": "hand",
+    "rep": 1,
+    "stages_ms": {
+      "export": 59.192583,
+      "geometry": 504.166958,
+      "total": 4724.9050019999995,
+      "validation": 4157.557752
+    },
+    "detail_ms": {
+      "copy_or_take": 43.283750000000005,
+      "exchange_definition": 17.562581999999995,
+      "rigid_transform": 4.059955,
+      "validate_and_manifold": 3113.1387940000013,
+      "volume_integral": 777.2365020000001,
+      "world_bounds": 201.18983599999999,
+      "solid_count": 0.05754100000000003
+    },
+    "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566"
+  },
+  {
+    "case": "hand",
+    "rep": 2,
+    "stages_ms": {
+      "export": 47.663458,
+      "geometry": 458.365542,
+      "total": 4848.836377,
+      "validation": 4340.861127
+    },
+    "detail_ms": {
+      "copy_or_take": 12.911627000000003,
+      "exchange_definition": 9.827415000000002,
+      "rigid_transform": 6.612667999999998,
+      "validate_and_manifold": 3288.314420999999,
+      "volume_integral": 825.5482539999999,
+      "world_bounds": 196.34149999999997,
+      "solid_count": 0.06629100000000003
+    },
+    "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566"
+  },
+  {
+    "case": "hand",
+    "rep": 3,
+    "stages_ms": {
+      "export": 175.83575100000002,
+      "geometry": 381.346541,
+      "total": 4770.56271,
+      "validation": 4207.10121
+    },
+    "detail_ms": {
+      "copy_or_take": 8.524501,
+      "exchange_definition": 4.399126999999999,
+      "rigid_transform": 3.4154599999999995,
+      "validate_and_manifold": 3135.3924580000003,
+      "volume_integral": 827.8752899999997,
+      "world_bounds": 225.48108299999998,
+      "solid_count": 0.08404100000000005
+    },
+    "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566"
+  },
+  {
+    "case": "links-16",
+    "rep": 1,
+    "stages_ms": {
+      "export": 9.851375,
+      "geometry": 108.08325,
+      "total": 3201.710334,
+      "validation": 3081.14671
+    },
+    "detail_ms": {
+      "copy_or_take": 11.498835000000001,
+      "exchange_definition": 1.505959,
+      "rigid_transform": 2.6601660000000003,
+      "validate_and_manifold": 2338.8291249999997,
+      "volume_integral": 498.695457,
+      "world_bounds": 227.236582,
+      "solid_count": 0.032206
+    },
+    "step_sha256": "7ee4c038da17e79b1117fc3e554556c61c36938fcdb14386c9c66e6d480d6594"
+  },
+  {
+    "case": "links-16",
+    "rep": 2,
+    "stages_ms": {
+      "export": 21.326917,
+      "geometry": 58.644334,
+      "total": 3612.1097099999997,
+      "validation": 3528.7883770000003
+    },
+    "detail_ms": {
+      "copy_or_take": 6.313626000000001,
+      "exchange_definition": 1.8879579999999998,
+      "rigid_transform": 1.612626,
+      "validate_and_manifold": 2737.7910029999994,
+      "volume_integral": 545.854709,
+      "world_bounds": 234.50912300000002,
+      "solid_count": 0.046166000000000006
+    },
+    "step_sha256": "7ee4c038da17e79b1117fc3e554556c61c36938fcdb14386c9c66e6d480d6594"
+  },
+  {
+    "case": "links-16",
+    "rep": 3,
+    "stages_ms": {
+      "export": 5.828416000000001,
+      "geometry": 143.102041,
+      "total": 3061.333001,
+      "validation": 2911.82621
+    },
+    "detail_ms": {
+      "copy_or_take": 24.662581,
+      "exchange_definition": 1.618417,
+      "rigid_transform": 2.284502,
+      "validate_and_manifold": 2189.461044,
+      "volume_integral": 482.2855019999999,
+      "world_bounds": 210.01429199999998,
+      "solid_count": 0.026997999999999998
+    },
+    "step_sha256": "7ee4c038da17e79b1117fc3e554556c61c36938fcdb14386c9c66e6d480d6594"
+  },
+  {
+    "case": "pins-16",
+    "rep": 1,
+    "stages_ms": {
+      "export": 1.328416,
+      "geometry": 24.417209,
+      "total": 476.115875,
+      "validation": 450.099834
+    },
+    "detail_ms": {
+      "copy_or_take": 0.7287089999999999,
+      "exchange_definition": 0.677083,
+      "rigid_transform": 0.5640809999999999,
+      "validate_and_manifold": 325.024379,
+      "volume_integral": 82.815208,
+      "world_bounds": 40.019875,
+      "solid_count": 0.015874
+    },
+    "step_sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7"
+  },
+  {
+    "case": "pins-16",
+    "rep": 2,
+    "stages_ms": {
+      "export": 1.206625,
+      "geometry": 16.167,
+      "total": 455.931958,
+      "validation": 438.389125
+    },
+    "detail_ms": {
+      "copy_or_take": 0.509917,
+      "exchange_definition": 0.32625,
+      "rigid_transform": 0.3709570000000001,
+      "validate_and_manifold": 318.063291,
+      "volume_integral": 78.61187499999998,
+      "world_bounds": 40.24779100000001,
+      "solid_count": 0.014336000000000002
+    },
+    "step_sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7"
+  },
+  {
+    "case": "pins-16",
+    "rep": 3,
+    "stages_ms": {
+      "export": 6.285167,
+      "geometry": 42.529334,
+      "total": 494.681834,
+      "validation": 445.616376
+    },
+    "detail_ms": {
+      "copy_or_take": 0.5108320000000001,
+      "exchange_definition": 0.408125,
+      "rigid_transform": 0.470874,
+      "validate_and_manifold": 323.327541,
+      "volume_integral": 80.655166,
+      "world_bounds": 39.976997,
+      "solid_count": 0.012375
+    },
+    "step_sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7"
+  }
+]

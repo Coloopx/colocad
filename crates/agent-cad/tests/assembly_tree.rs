@@ -194,3 +194,34 @@ fn conversion_based_inch_units_apply_to_geometry_and_placements() {
         (result.report["geometry"]["bbox_mm"][0][0].as_f64().unwrap() - 80. * 25.4).abs() < 1e-4
     );
 }
+
+#[test]
+fn translated_links_reuse_measurement_and_rotated_links_keep_tight_bounds() {
+    let source = m(json!({
+        "version":1, "units":"mm", "parameters":{},
+        "features":[{"id":"part","op":"box","origin":[0,0,0],"size":[2,5,3]}],
+        "assembly":[
+            {"id":"reference","input":"part","translation":[-4,0,0]},
+            {"id":"copy","input":"part","translation":[6,2,-1]},
+            {"id":"turned","input":"part","rotation_deg":[0,0,90]},
+            {"id":"turned_copy","input":"part","rotation_deg":[0,0,90],"translation":[23,1,9]}
+        ]
+    }));
+    let b = build(&source).unwrap();
+    let instances = b.report["assembly"]["instances"].as_array().unwrap();
+    for (instance, expected) in instances.iter().zip([
+        [[-4., 0., 0.], [-2., 5., 3.]],
+        [[6., 2., -1.], [8., 7., 2.]],
+        [[-5., 0., 0.], [0., 2., 3.]],
+        [[18., 1., 9.], [23., 3., 12.]],
+    ]) {
+        assert!((instance["volume_mm3"].as_f64().unwrap() - 30.).abs() < 1e-7);
+        for (i, corner) in expected.iter().enumerate() {
+            for (j, value) in corner.iter().enumerate() {
+                assert!((instance["bbox_mm"][i][j].as_f64().unwrap() - value).abs() < 1e-6);
+            }
+        }
+    }
+    assert_eq!(b.report["validation"]["translated_instance_reuses"], 2);
+    assert_eq!(b.step.matches("NEXT_ASSEMBLY_USAGE_OCCURRENCE(").count(), 4);
+}

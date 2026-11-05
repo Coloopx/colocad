@@ -1,0 +1,72 @@
+--- a/crates/agent-cad/src/assembly.rs
++++ b/crates/agent-cad/src/assembly.rs
+@@ -255,6 +255,15 @@
+     geometry_ms: f64,
+     cache: &mut incremental::Checkpoints,
+ ) -> Result<Build> {
++    let mut phase_ms = [0.0_f64; 7];
++    macro_rules! timed {
++        ($index:expr, $work:expr) => {{
++            let timer = Instant::now();
++            let value = $work;
++            phase_ms[$index] += timer.elapsed().as_secs_f64() * 1000.;
++            value
++        }};
++    }
+     let tick = Instant::now();
+     let group_poses = placement::groups(m)?;
+     let initial = m
+@@ -283,15 +292,15 @@
+     }
+     let mut parts = BTreeMap::new();
+     for instance in &m.assembly {
+-        let mut b = take_body(k, &instance.input, bodies, uses)?;
++        let mut b = timed!(0, take_body(k, &instance.input, bodies, uses)?);
+         if instance.export && !definitions.contains_key(&instance.input) {
+             definitions.insert(
+                 instance.input.clone(),
+-                exchange::to_model(&b)
++                timed!(1, exchange::to_model(&b))
+                     .map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
+             );
+         }
+-        solved[&instance.id].apply(k, &mut b)?;
++        timed!(2, solved[&instance.id].apply(k, &mut b)?);
+         parts.insert(instance.id.clone(), b);
+     }
+     let mut instances = vec![];
+@@ -304,20 +313,20 @@
+     let mut hi = [f64::NEG_INFINITY; 3];
+     for instance in &m.assembly {
+         let b = parts.get_mut(&instance.id).expect("validated instance");
+-        let check = check_brep(k, b, CheckLevel::Level1)?;
+-        if !check.is_valid() || !brep_is_manifold_solid(b)? {
++        let check = timed!(3, check_brep(k, b, CheckLevel::Level1)?);
++        if !check.is_valid() || !timed!(3, brep_is_manifold_solid(b)?) {
+             return Err(CadError::new(
+                 "GEOMETRY_VALIDATION_FAILED",
+                 format!("instance {}: {}", instance.id, check.lines().join("; ")),
+             ));
+         }
+         warnings += check.warnings().count();
+-        let v = volume(k, b)?;
++        let v = timed!(4, volume(k, b)?);
+         if !v.is_finite() || v <= 0. {
+             return Err(CadError::new("INVALID_VOLUME", &instance.id));
+         }
+-        let bb = brep_bounding_box(k, b, true)?;
+-        let (solids, _) = brep_material_census(b)?;
++        let bb = timed!(5, brep_bounding_box(k, b, true)?);
++        let (solids, _) = timed!(6, brep_material_census(b)?);
+         instances.push(json!({"id":instance.id,"source_feature":instance.input,"representation":instance.representation,"parent":instance.parent,"poses":instance.poses,"metadata":instance.metadata,"world_placement":solved[&instance.id].json(),"exported":instance.export,"volume_mm3":v,"solids":solids,"bbox_mm":[[bb.min_at(0),bb.min_at(1),bb.min_at(2)],[bb.max_at(0),bb.max_at(1),bb.max_at(2)]],"translation_mm":point(&instance.translation,&m.parameters).map(|v|[v.x,v.y,v.z])?,"rotation_deg":point(&instance.rotation_deg,&m.parameters).map(|v|[v.x,v.y,v.z])?}));
+         if instance.export {
+             total_volume += v;
+@@ -462,7 +471,7 @@
+     let (artifacts, preview_report) = preview::finish(k, m, display, cache)?;
+     Ok(Build {
+         artifacts,
+-        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
++        report: json!({"assembly_profile_ms":phase_ms,"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
+         step,
+     })
+ }

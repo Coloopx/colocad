@@ -1,0 +1,18 @@
+{
+  "colocad": {
+    "valid": true,
+    "solids": 43,
+    "faces": 393,
+    "edges": 936,
+    "sha256": "b8bf881a1be36ef2adf36ea3fb0165749f7dcbf17ede5643f96d7af726abf199"
+  },
+  "build123d": {
+    "valid": true,
+    "solids": 43,
+    "faces": 393,
+    "edges": 936,
+    "sha256": "baf8d8ac4fc735944f0a3d45757937e09811dfa2ee14fd5557128fa8f9416eb2"
+  },
+  "max_bounds_delta_mm": 1.0000719896652299e-07,
+  "max_relative_volume_delta": 6.528572174253067e-09
+}

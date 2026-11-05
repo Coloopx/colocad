@@ -94,9 +94,16 @@ class Replay:
         label(draw,558,434,self.l('Two recorded launches aligned at t = 0.','两次实录按各自的启动时刻对齐。'),16,False,MUTED)
         return image
 
+    def race_heading(self):
+        return (self.l('Time to first STEP','第一份 STEP 什么时候交付？'),
+                self.l('Same inputs. Independent runs aligned at launch. The clock runs at 1×.','同一输入，两个独立运行的启动时刻对齐，回放速度 1×。'))
+
+    def pending(self,image,draw,x):
+        input_sketch(draw,(x+338,265),1.67,self.model,'#91a6a5')
+        return self.l('Input sketch','输入草图')
+
     def race(self,ms):
-        image,d=self.canvas(self.l('Time to first STEP','第一份 STEP 什么时候交付？'),
-            self.l('Same inputs. Independent runs aligned at launch. The clock runs at 1×.','同一输入，两个独立运行的启动时刻对齐，回放速度 1×。'))
+        image,d=self.canvas(*self.race_heading())
         for i,row in enumerate(self.runs):
             x=32+490*i; name=row['backend']; color=COLORS[i]
             d.rounded_rectangle((x,163,x+470,372),radius=13,fill=PAPER,outline=RULE)
@@ -110,8 +117,7 @@ class Replay:
                 image.paste(thumb,(x+224,218))
                 caption=self.l('STEP readback','STEP 回读图')
             else:
-                input_sketch(d,(x+338,265),1.67,self.model,'#91a6a5')
-                caption=self.l('Input sketch','输入草图')
+                caption=self.pending(image,d,x)
             label(d,x+343,333,caption,14,False,MUTED,'mt')
         label(d,34,398,self.l('Sandbox memory','沙箱内存'),22,True)
         label(d,299,404,self.l('Whole cgroup  ·  target sample interval 20 ms','整个 cgroup，每约 20 ms 采样一次'),15,False,MUTED)

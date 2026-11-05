@@ -243,6 +243,61 @@ fn overlapping_boxes(k: &Kernel, a: &Brep, b: &Brep) -> Result<bool> {
     Ok((0..3).all(|i| a.max_at(i).min(b.max_at(i)) - a.min_at(i).max(b.min_at(i)) > 1e-8))
 }
 
+#[derive(Clone, Copy)]
+struct MeasuredPart {
+    bounds: [[f64; 3]; 2],
+    volume: f64,
+    solids: usize,
+    faces: usize,
+    edges: usize,
+    warnings: usize,
+}
+
+impl MeasuredPart {
+    fn inspect(k: &mut Kernel, b: &mut Brep, id: &str) -> Result<Self> {
+        let check = check_brep(k, b, CheckLevel::Level1)?;
+        if !check.is_valid() || !brep_is_manifold_solid(b)? {
+            return Err(CadError::new(
+                "GEOMETRY_VALIDATION_FAILED",
+                format!("instance {}: {}", id, check.lines().join("; ")),
+            ));
+        }
+        let v = volume(k, b)?;
+        if !v.is_finite() || v <= 0. {
+            return Err(CadError::new("INVALID_VOLUME", id));
+        }
+        let bb = brep_bounding_box(k, b, true)?;
+        let (solids, _) = brep_material_census(b)?;
+        Ok(Self {
+            bounds: [
+                std::array::from_fn(|i| bb.min_at(i)),
+                std::array::from_fn(|i| bb.max_at(i)),
+            ],
+            volume: v,
+            solids,
+            faces: b.face_list().len(),
+            edges: b.edge_list().len(),
+            warnings: check.warnings().count(),
+        })
+    }
+
+    fn translated(mut self, delta: Vec3) -> Option<Self> {
+        for corner in &mut self.bounds {
+            for (value, offset) in corner.iter_mut().zip([delta.x, delta.y, delta.z]) {
+                // Retain the direct measurement path outside the ordinary model coordinate range.
+                if value.abs() > MAX_COORD {
+                    return None;
+                }
+                *value += offset;
+                if !value.is_finite() || value.abs() > MAX_COORD {
+                    return None;
+                }
+            }
+        }
+        Some(self)
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 pub(crate) fn finish(
     k: &mut Kernel,
@@ -282,18 +337,8 @@ pub(crate) fn finish(
         }
     }
     let mut parts = BTreeMap::new();
-    for instance in &m.assembly {
-        let mut b = take_body(k, &instance.input, bodies, uses)?;
-        if instance.export && !definitions.contains_key(&instance.input) {
-            definitions.insert(
-                instance.input.clone(),
-                exchange::to_model(&b)
-                    .map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
-            );
-        }
-        solved[&instance.id].apply(k, &mut b)?;
-        parts.insert(instance.id.clone(), b);
-    }
+    let mut measurements = BTreeMap::new();
+    let mut reused = 0usize;
     let mut instances = vec![];
     let mut total_volume = 0.;
     let mut total_faces = 0;
@@ -302,31 +347,71 @@ pub(crate) fn finish(
     let mut warnings = 0;
     let mut lo = [f64::INFINITY; 3];
     let mut hi = [f64::NEG_INFINITY; 3];
+    let p = &m.parameters;
     for instance in &m.assembly {
-        let b = parts.get_mut(&instance.id).expect("validated instance");
-        let check = check_brep(k, b, CheckLevel::Level1)?;
-        if !check.is_valid() || !brep_is_manifold_solid(b)? {
-            return Err(CadError::new(
-                "GEOMETRY_VALIDATION_FAILED",
-                format!("instance {}: {}", instance.id, check.lines().join("; ")),
-            ));
+        let source = instance.input.as_str();
+        let pose = solved[&instance.id];
+        if instance.export && !definitions.contains_key(source) {
+            let body = bodies
+                .get(source)
+                .ok_or_else(|| CadError::new("INVALID_REFERENCE", source))?;
+            definitions.insert(
+                instance.input.clone(),
+                exchange::to_model(body)
+                    .map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
+            );
         }
-        warnings += check.warnings().count();
-        let v = volume(k, b)?;
-        if !v.is_finite() || v <= 0. {
-            return Err(CadError::new("INVALID_VOLUME", &instance.id));
-        }
-        let bb = brep_bounding_box(k, b, true)?;
-        let (solids, _) = brep_material_census(b)?;
-        instances.push(json!({"id":instance.id,"source_feature":instance.input,"representation":instance.representation,"parent":instance.parent,"poses":instance.poses,"metadata":instance.metadata,"world_placement":solved[&instance.id].json(),"exported":instance.export,"volume_mm3":v,"solids":solids,"bbox_mm":[[bb.min_at(0),bb.min_at(1),bb.min_at(2)],[bb.max_at(0),bb.max_at(1),bb.max_at(2)]],"translation_mm":point(&instance.translation,&m.parameters).map(|v|[v.x,v.y,v.z])?,"rotation_deg":point(&instance.rotation_deg,&m.parameters).map(|v|[v.x,v.y,v.z])?}));
+
+        // Translation preserves topology, mass and tight axis-aligned bounds. A different
+        // linear transform (including any different rotation) gets its own measured shape.
+        // Explicit spatial checks always receive fully placed and independently checked bodies.
+        let key = (
+            source,
+            pose.axes
+                .map(|axis| [axis.x, axis.y, axis.z].map(f64::to_bits)),
+        );
+        let can_reuse = m.checks.is_empty();
+        let previous = measurements
+            .get(&key)
+            .and_then(|&(origin, part): &(Vec3, MeasuredPart)| {
+                part.translated(pose.origin - origin)
+            });
+        let measured = if let Some(part) = previous {
+            if crate::executor::last_body_use(source, uses)? {
+                bodies.remove(source);
+            }
+            reused += 1;
+            part
+        } else {
+            let mut body = take_body(k, source, bodies, uses)?;
+            pose.apply(k, &mut body)?;
+            let part = MeasuredPart::inspect(k, &mut body, &instance.id)?;
+            if can_reuse {
+                measurements.insert(key, (pose.origin, part));
+            } else {
+                parts.insert(instance.id.clone(), body);
+            }
+            part
+        };
+        warnings += measured.warnings;
+        let translation = point(&instance.translation, p)?;
+        let rotation = point(&instance.rotation_deg, p)?;
+        instances.push(json!({
+            "id": instance.id, "source_feature": source, "representation": instance.representation,
+            "parent": instance.parent, "poses": instance.poses, "metadata": instance.metadata,
+            "world_placement": pose.json(), "exported": instance.export,
+            "volume_mm3": measured.volume, "solids": measured.solids, "bbox_mm": measured.bounds,
+            "translation_mm": [translation.x, translation.y, translation.z],
+            "rotation_deg": [rotation.x, rotation.y, rotation.z],
+        }));
         if instance.export {
-            total_volume += v;
-            total_solids += solids;
-            total_faces += b.face_list().len();
-            total_edges += b.edge_list().len();
+            total_volume += measured.volume;
+            total_solids += measured.solids;
+            total_faces += measured.faces;
+            total_edges += measured.edges;
             for i in 0..3 {
-                lo[i] = lo[i].min(bb.min_at(i));
-                hi[i] = hi[i].max(bb.max_at(i));
+                lo[i] = lo[i].min(measured.bounds[0][i]);
+                hi[i] = hi[i].max(measured.bounds[1][i]);
             }
         }
     }
@@ -462,7 +547,7 @@ pub(crate) fn finish(
     let (artifacts, preview_report) = preview::finish(k, m, display, cache)?;
     Ok(Build {
         artifacts,
-        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
+        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","measured_instances":m.assembly.len()-reused,"translated_instance_reuses":reused,"valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
         step,
     })
 }
