@@ -1,6 +1,6 @@
 {
-  "name": "colocad",
-  "version": "0.1.0-alpha.1",
+  "name": "@coloopx/colocad",
+  "version": "0.1.0-alpha.2",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -48,5 +48,9 @@
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "build:kernel": "node scripts/build-kernel.mjs"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

@@ -12,3 +12,12 @@ python3 "$repo/research/sldprt/equivalent_ranges.py" from-step.json equivalent.j
 ```
 
 The normalizer verifies each carrier's parameter domain and endpoint agreement before using vertex-delimited edges. It rejects partial spline intervals, partial circle arcs and unrecognized carriers. The experiment measures B-rep recovery independently of instruction compilation. STEP supplies geometry only. A recoverable kernel body cannot establish that SolidWorks received editable feature inputs.
+
+To exercise authored sketches, first build the same B-rep for the same instruction sequence as the native job. Then project the native job into the decoded neutral geometry and run the probe:
+
+```sh
+node "$repo/research/sldprt/feature-inputs.mjs" equivalent.json "$repo/out/manifold/part/native-job.json" > with-graph.json
+"$probe" probe with-graph.json empty-envelope.bin
+```
+
+For an extrusion followed by the blind port cut, use the first two entries of the manifold feature list and regenerate both inputs before running these commands. The native data decodes into two sketches and two operations (add and remove material), but no native operation class declarations or driving-scalar records. The full manifold fails explicitly when writing the unbound six-edge fillet. The probe never offers a saleable SLDPRT based on an XML feature name or an unresolved selection.

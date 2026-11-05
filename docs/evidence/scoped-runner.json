@@ -1,0 +1,89 @@
+{
+  "platform": "linux",
+  "arch": "arm64",
+  "node": "v22.23.2",
+  "uid": 1000,
+  "cpuMax": "100000 100000",
+  "memoryLimit": 536870912,
+  "containerPeakBytes": 533733376,
+  "dispatch": "Pi createBashTool in Abelien runner; deterministic tool calls",
+  "steps": [
+    {
+      "name": "install",
+      "elapsedMs": 3228
+    },
+    {
+      "name": "manifold",
+      "elapsedMs": 272,
+      "geometry": {
+        "bbox_mm": [
+          [
+            -7.066362408932611e-13,
+            -1.0658141036401503e-14,
+            0
+          ],
+          [
+            90.00000000000003,
+            45.00000000000224,
+            12.000000000000194
+          ]
+        ],
+        "edges": 54,
+        "faces": 27,
+        "kind": "solid",
+        "solids": 1,
+        "void_regions": 0,
+        "volume_mm3": 45490.92421362917
+      }
+    },
+    {
+      "name": "rail",
+      "elapsedMs": 84,
+      "geometry": {
+        "bbox_mm": [
+          [
+            -15.000000000000002,
+            -11.000000000000007,
+            0
+          ],
+          [
+            15,
+            55.00000000000002,
+            9
+          ]
+        ],
+        "edges": 56,
+        "faces": 22,
+        "kind": "solid",
+        "solids": 1,
+        "void_regions": 0,
+        "volume_mm3": 16578.826043884186
+      }
+    },
+    {
+      "name": "edit",
+      "elapsedMs": 181,
+      "geometry": {
+        "bbox_mm": [
+          [
+            -7.066362408932611e-13,
+            -1.0658141036401503e-14,
+            0
+          ],
+          [
+            90.00000000000003,
+            45.00000000000224,
+            12.000000000000194
+          ]
+        ],
+        "edges": 51,
+        "faces": 25,
+        "kind": "solid",
+        "solids": 1,
+        "void_regions": 0,
+        "volume_mm3": 45717.118884762196
+      }
+    }
+  ],
+  "editVolumeDeltaMM3": 226.1946711330238
+}

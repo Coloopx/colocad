@@ -7,9 +7,9 @@ Local parametric CAD for agents. A TypeScript-compatible API compiles ordered sk
 ## Run the examples
 
 ```sh
-npm install colocad@alpha
-npx colocad build node_modules/colocad/examples/manifold.json ./manifold --preview
-npx colocad build node_modules/colocad/examples/sensor-rail.json ./rail
+npm install @coloopx/colocad@alpha
+npx colocad build node_modules/@coloopx/colocad/examples/manifold.json ./manifold --preview
+npx colocad build node_modules/@coloopx/colocad/examples/sensor-rail.json ./rail
 ```
 
 The manifold contains a six-sided extrusion, a blind circular cut, an upper-rim fillet, a four-instance pattern referencing the earlier cut, and a rectangular pocket. The sensor rail uses a different sketch, feature order and pattern direction. Both run through the same compiler. The pattern count includes the seed.
@@ -18,9 +18,9 @@ Each call requires a new output directory. The `part/` subdirectory holds `model
 
 ```js
 import { readFile } from 'node:fs/promises';
-import { build } from 'colocad';
+import { build } from '@coloopx/colocad';
 
-const tree = JSON.parse(await readFile('./node_modules/colocad/examples/manifold.json', 'utf8'));
+const tree = JSON.parse(await readFile('./node_modules/@coloopx/colocad/examples/manifold.json', 'utf8'));
 await build(tree, './original');
 tree.parameters.instances = 3;
 const edited = await build(tree, './edited');
@@ -29,7 +29,7 @@ console.log(edited.geometry.volume_mm3);
 
 All coordinates and lengths are in mm. The first extrusion creates a solid. Further extrusions add material and cuts remove material along +Z from a sketch at `startZ` (default 0). Profiles can be rectangles, circles or polygons. Fillets select edges on a specified Z plane and require the declared match count. A linear pattern refers to an earlier extrusion or cut by ID, with X/Y direction, positive pitch and instance count. IDs are unique, case-insensitively. A scalar is a finite number or a reference such as `{"param":"thickness"}`. The public TypeScript declaration defines the full input.
 
-The kernel API at `colocad/kernel` also exposes the lower-level geometry operations, STEP import, incremental revisions and preview cache. The npm tarball includes Linux arm64/x64 and macOS arm64 executables and dependency licenses. The checked-in sources build the kernel on supported toolchains.
+The kernel API at `@coloopx/colocad/kernel` also exposes the lower-level geometry operations, STEP import, incremental revisions and preview cache. The npm tarball includes Linux arm64/x64 and macOS arm64 executables and dependency licenses. The checked-in sources build the kernel on supported toolchains.
 
 ## Native SOLIDWORKS author (experimental)
 

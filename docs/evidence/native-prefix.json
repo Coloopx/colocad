@@ -1,0 +1,96 @@
+{
+  "checks": [],
+  "drivingScalarRecords": 0,
+  "edges": 21,
+  "editablePartVerified": false,
+  "experimentalContainerBytes": 3216,
+  "faces": 10,
+  "features": 4,
+  "history": [
+    {
+      "definition": {
+        "definition": "sketch",
+        "sketch": {
+          "sketch": "sldprt:model:sketch#2216:0:0",
+          "space": "planar"
+        }
+      },
+      "dependencies": [],
+      "name": "Sketch_Mount"
+    },
+    {
+      "definition": {
+        "definition": "extrude",
+        "direction": {
+          "kind": "profile_normal"
+        },
+        "extent": {
+          "kind": "one_sided",
+          "side": {
+            "termination": {
+              "kind": "blind",
+              "length": 12.0
+            }
+          }
+        },
+        "op": "join",
+        "profile": {
+          "kind": "sketch",
+          "value": "sldprt:model:sketch#2216:0:0"
+        },
+        "solid": true,
+        "start": {
+          "kind": "profile_plane"
+        }
+      },
+      "dependencies": [
+        "sldprt:model:feature#1985:0"
+      ],
+      "name": "Mount"
+    },
+    {
+      "definition": {
+        "definition": "sketch",
+        "sketch": {
+          "sketch": "sldprt:model:sketch#2216:1:0",
+          "space": "planar"
+        }
+      },
+      "dependencies": [],
+      "name": "Sketch_Port"
+    },
+    {
+      "definition": {
+        "definition": "extrude",
+        "direction": {
+          "kind": "profile_normal"
+        },
+        "extent": {
+          "kind": "one_sided",
+          "side": {
+            "termination": {
+              "kind": "blind",
+              "length": 8.0
+            }
+          }
+        },
+        "op": "cut",
+        "profile": {
+          "kind": "sketch",
+          "value": "sldprt:model:sketch#2216:1:0"
+        },
+        "solid": true,
+        "start": {
+          "kind": "profile_plane"
+        }
+      },
+      "dependencies": [
+        "sldprt:model:feature#1985:2"
+      ],
+      "name": "Port"
+    }
+  ],
+  "nativeOperationClasses": 0,
+  "sketches": 2,
+  "solids": 1
+}

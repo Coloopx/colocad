@@ -12,15 +12,15 @@ for (const [name, command] of [
   ],
   [
     "manifold",
-    "./node_modules/.bin/colocad build node_modules/colocad/examples/manifold.json original --preview",
+    "./node_modules/.bin/colocad build node_modules/@coloopx/colocad/examples/manifold.json original --preview",
   ],
   [
     "rail",
-    "./node_modules/.bin/colocad build node_modules/colocad/examples/sensor-rail.json rail",
+    "./node_modules/.bin/colocad build node_modules/@coloopx/colocad/examples/sensor-rail.json rail",
   ],
   [
     "edit",
-    `node --input-type=module -e "import fs from 'node:fs'; import {build} from 'colocad'; const t=JSON.parse(fs.readFileSync('original/part/feature-tree.json'));t.parameters.instances=3;console.log(JSON.stringify(await build(t,'edited')));"`,
+    `node --input-type=module -e "import fs from 'node:fs'; import {build} from '@coloopx/colocad'; const t=JSON.parse(fs.readFileSync('original/part/feature-tree.json'));t.parameters.instances=3;console.log(JSON.stringify(await build(t,'edited')));"`,
   ],
 ]) {
   const t = performance.now();
