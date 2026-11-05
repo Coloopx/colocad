@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "length": 40,
+    "width": 25,
+    "height": 8
+  },
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [0, 0, 0],
+      "size": [{"param": "length"}, {"param": "width"}, {"param": "height"}]
+    }
+  ],
+  "output": "stock"
+}

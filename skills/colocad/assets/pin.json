@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "diameter": 8,
+    "length": 20
+  },
+  "features": [
+    {
+      "id": "stock",
+      "op": "cylinder",
+      "origin": [0, 0, 0],
+      "radius": {"op": "div", "a": {"param": "diameter"}, "b": 2},
+      "height": {"param": "length"}
+    }
+  ],
+  "output": "stock"
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "outerDiameter": 12,
+    "boreDiameter": 6,
+    "length": 16
+  },
+  "features": [
+    {
+      "id": "sleeve",
+      "op": "extrude",
+      "profile": {"kind": "circle", "radius": {"op": "div", "a": {"param": "outerDiameter"}, "b": 2}},
+      "holes": [{"kind": "circle", "radius": {"op": "div", "a": {"param": "boreDiameter"}, "b": 2}}],
+      "height": {"param": "length"}
+    }
+  ],
+  "output": "sleeve"
+}

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "diameter": 16
+  },
+  "features": [
+    {
+      "id": "stock",
+      "op": "sphere",
+      "center": [0, 0, 0],
+      "radius": {"op": "div", "a": {"param": "diameter"}, "b": 2}
+    }
+  ],
+  "output": "stock"
+}

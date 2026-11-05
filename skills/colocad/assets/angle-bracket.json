@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "foot": 40,
+    "upright": 32,
+    "span": 24,
+    "wall": 4,
+    "holeDiameter": 5
+  },
+  "features": [
+    {
+      "id": "angle",
+      "op": "extrude",
+      "frame": {"origin": [0, 0, 0], "x_axis": [1, 0, 0], "y_axis": [0, 0, 1]},
+      "profile": {"kind": "polygon", "points": [[0, 0], [{"param": "foot"}, 0], [{"param": "foot"}, {"param": "wall"}], [{"param": "wall"}, {"param": "wall"}], [{"param": "wall"}, {"param": "upright"}], [0, {"param": "upright"}]]},
+      "height": {"param": "span"}
+    },
+    {
+      "id": "footHole",
+      "op": "face_holes",
+      "input": "angle",
+      "face": "neg_z",
+      "positions": [[{"op": "div", "a": {"param": "foot"}, "b": 2}, {"op": "div", "a": {"param": "span"}, "b": -2}]],
+      "radius": {"op": "div", "a": {"param": "holeDiameter"}, "b": 2},
+      "depth": {"param": "wall"}
+    },
+    {
+      "id": "uprightHole",
+      "op": "face_holes",
+      "input": "footHole",
+      "face": "neg_x",
+      "positions": [[{"op": "div", "a": {"param": "span"}, "b": -2}, {"op": "div", "a": {"param": "upright"}, "b": 2}]],
+      "radius": {"op": "div", "a": {"param": "holeDiameter"}, "b": 2},
+      "depth": {"param": "wall"}
+    }
+  ],
+  "output": "uprightHole"
+}

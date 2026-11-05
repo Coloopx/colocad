@@ -45,6 +45,8 @@ The static scorecard below uses the **published alpha.2 binary**. With fresh too
 
 ## SDK, CLI or skill?
 
+For a dimensioned part, try “Make a 100 × 50 × 6 mm plate with a centered 3 × 2 grid of Ø6 through-holes on 32 × 30 mm pitches.” The skill includes editable stock, hole grids, sleeves, brackets and open housings. [Quick-build commands and examples](skills/colocad/references/quick-build.md)
+
 - **In an application or harness:** call `build(tree, newDir, { preview: true })` in the SDK. Use `CadClient.build(model)` for named multi-solid assemblies.
 - **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.2`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
 - **From drawings with an agent:** install the [colocad skill](skills/colocad/SKILL.md). Start the next turn with “Use `$colocad` to reconstruct these four views, export STEP, and flag any internal details you inferred.” [Installation and assembly replay](showcase/tendon-hand/README.md#try-it-with-your-agent).
