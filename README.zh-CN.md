@@ -6,9 +6,11 @@
 
 ## 100 秒能交付多少版绳驱灵巧手？
 
-**colocad 交付 44 版，build123d 交付 33 版，多 11 版（33.3%）。** 每版都是一份重新建模、装配并写完的 43 实体 STEP。两条轨道按实际交付时间计数，底部同步显示整个沙箱的内存采样。
+**colocad 交付 44 版，build123d 交付 33 版：交付量多 33.3%，采样峰值内存低 57.1%。** 两边按同一组参数逐版建模、装配。每条刻线代表一份含 43 个实体的整手 STEP 已写入持久存储。
 
-![四视图、切除、改参、网格和五指装配。100 秒以 10 倍速播放，colocad 与 build123d 的交付计数和内存同屏。](showcase/tendon-hand/window/hand-window-zh-CN.gif)
+![绳驱灵巧手建模与装配的 10 倍速回放：两边交付 44 和 33 版，采样峰值内存分别为 130.9 和 304.9 MiB。](showcase/tendon-hand/window/hand-window-peak-en.gif)
+
+动图底部显示两边**从开始到当前时刻采到的最高内存**，共用 0–512 MiB 刻度。要看每次建模之间内存如何回落，可打开[瞬时内存回放（MP4）](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window-zh-CN.mp4)或[原始采样](showcase/tendon-hand/evidence/window-optimized.json)。
 
 | 同一改参队列，1 vCPU / 512 MiB | colocad 优化内核 | build123d |
 |---|---:|---:|
@@ -17,7 +19,7 @@
 | 共同前 33 份交付耗时中位数 | **2.234 s** | 2.855 s |
 | 连续 100 秒内的最高采样内存 | **130.9 MiB** | 304.9 MiB |
 
-各运行一个真实窗口，每版新起 CAD 进程。colocad 为 alpha.2 SDK 加源码优化内核。内存约每 25 ms 采样，包含子进程、临时文件和计入本容器的文件缓存。两边计入的 STEP 都已独立回读。四视图、布尔切除、孔径改参、三角网格和装配过程贯穿 10 秒回放。[单文件回放与 STEP 下载](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window.html) · [逐点读数](showcase/tendon-hand/evidence/window-optimized.json) · [建模细节与单次原速回放](showcase/tendon-hand/assembly-performance.md)
+各运行一个真实窗口，每版新起 CAD 进程。colocad 为 alpha.2 SDK 加源码优化内核。内存约每 25 ms 采样，包含子进程、临时文件和计入本容器的文件缓存。两边计入的 STEP 都已独立回读。[单文件回放与 STEP 下载](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window.html) · [建模细节与单次原速回放](showcase/tendon-hand/assembly-performance.md)
 
 以下静态表记录 npm **0.1.0-alpha.2 自带内核**的历史基线。新进程交付导轨和歧管分别快 22.0× 和 12.9×，峰值内存分别为 build123d 的 7.7% 和 8.0%。
 

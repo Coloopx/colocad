@@ -39,9 +39,10 @@ class Track:
 
 
 class Film:
-    def __init__(self,data,assets,zh):
+    def __init__(self,data,assets,zh,*,readme=False):
         self.assets=assets
         self.zh=zh
+        self.readme=readme
         self.tracks=[Track(data,k) for k in ARMS]
         self.checked=data['verified_pairs']
         self.loops=json.loads((assets/'loops.json').read_text())
@@ -101,7 +102,7 @@ class Film:
         d.rounded_rectangle((x,y,x+506,y+132),radius=11,fill='#ffffff',outline=RULE)
         label(d,x+15,y+13,'colocad' if i==0 else 'build123d',21,True,col)
         label(d,x+19,y+47,str(n).zfill(2),44,True,col)
-        label(d,x+104,y+62,self.l('STEPs delivered','份整手 STEP'),18,True)
+        label(d,x+(90 if self.readme else 104),y+62,self.l('STEPs delivered','份整手 STEP'),18,True)
         if n:
             event=track.events[n-1]
             diameter=self.checked[event['revision']]['step_guide_diameter_mm'][ARMS[i]]
@@ -136,8 +137,12 @@ class Film:
             gap=self.l('Equal deliveries so far','当前交付数量相同')
         label(d,548,418,gap,17,True,COLORS[0] if lead>=0 else COLORS[1])
         d.line((30,446,1050,446),fill=RULE)
-        label(d,31,461,self.l('Sandbox memory','沙箱内存'),23,True)
-        label(d,206,469,self.l('memory.current sampled ~25 ms','约每 25 ms 采集 memory.current'),15,False,MUTED)
+        if self.readme:
+            label(d,31,461,'Peak sandbox memory (MiB)',23,True)
+            label(d,432,468,'Highest sample since start  ·  sampled every ~25 ms',16,False,MUTED)
+        else:
+            label(d,31,461,self.l('Sandbox memory','沙箱内存'),23,True)
+            label(d,206,469,self.l('memory.current sampled ~25 ms','约每 25 ms 采集 memory.current'),15,False,MUTED)
         ax,ex,top,bottom=86,731,512,632
         def u(sec):return ax+(ex-ax)*sec/100
         def v(mib):return bottom-(bottom-top)*mib/512
@@ -148,17 +153,23 @@ class Film:
         d.line((u(t),top,u(t),bottom),fill='#909e98')
         for i,track in enumerate(self.tracks):
             j=bisect_right(track.times,t)-1
-            # Sample and hold. Never interpolate a future sample or claim a peak timestamp.
-            pts=[(ax,v(track.mib[0]))]
+            # Both tracks use the same statistic and only samples at or before this frame.
+            values=track.high if self.readme else track.mib
+            pts=[(u(track.times[0]),v(values[0]))]
             for k in range(1,j+1):
-                xx=u(track.times[k]);pts.extend([(xx,v(track.mib[k-1])),(xx,v(track.mib[k]))])
-            pts.append((u(t),v(track.mib[j])))
-            d.line(pts,fill=COLORS[i],width=2)
+                if values[k]!=values[k-1]:
+                    xx=u(track.times[k]);pts.extend([(xx,v(values[k-1])),(xx,v(values[k]))])
+            pts.append((u(t),v(values[j])))
+            d.line(pts,fill=COLORS[i],width=3 if self.readme else 2)
             lastx,lasty=pts[-1];d.ellipse((lastx-3,lasty-3,lastx+3,lasty+3),fill=COLORS[i])
             x=765;y=510+65*i
             label(d,x,y,'colocad' if i==0 else 'build123d',15,True,COLORS[i])
-            label(d,x,y+25,f'{track.mib[j]:.1f} / {track.high[j]:.1f} MiB',19,True,COLORS[i])
-        label(d,764,644,self.l('Current / sampled peak so far','当前 / 截至此刻的采样峰值'),14,False,MUTED)
+            if self.readme:
+                label(d,x,y+21,f'{values[j]:.1f} MiB',24,True,COLORS[i])
+            else:
+                label(d,x,y+25,f'{track.mib[j]:.1f} / {track.high[j]:.1f} MiB',19,True,COLORS[i])
+        if not self.readme:
+            label(d,764,644,self.l('Current / sampled peak so far','当前 / 截至此刻的采样峰值'),14,False,MUTED)
         label(d,32,685,self.l('Two serial recordings, starts aligned  ·  1 vCPU / 512 MiB each  ·  CAD detail shots are an editorial replay',
                               '两次独立实测按启动时刻对齐，各 1 vCPU / 512 MiB。左侧为几何过程回放，计数和内存均来自时间戳。'),14,False,MUTED)
         return im
@@ -184,8 +195,15 @@ def encode(film,path):
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     p.add_argument('evidence',type=Path);p.add_argument('assets',type=Path);p.add_argument('out',type=Path)
+    p.add_argument('--readme',action='store_true',help='render only the English running-peak GIF for both READMEs')
     args=p.parse_args();args.out.mkdir(exist_ok=True,parents=True)
     records=json.loads(args.evidence.read_text())
+    if args.readme:
+        with tempfile.TemporaryDirectory() as tmp:
+            movie=Path(tmp)/'hand-window-peak-en.mp4'
+            encode(Film(records,args.assets,False,readme=True),movie)
+            (args.out/movie.with_suffix('.gif').name).write_bytes(movie.with_suffix('.gif').read_bytes())
+        sys.exit(0)
     for zh,lang in [(True,'zh-CN'),(False,'en')]:
         film=Film(records,args.assets,zh)
         encode(film,args.out/f'hand-window-{lang}.mp4')

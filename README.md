@@ -6,9 +6,11 @@ Generate a mechanical part from a JSON feature tree, export an exact STEP solid,
 
 ## How many tendon hands can an agent deliver in 100 seconds?
 
-**colocad delivered 44 complete revisions to build123d’s 33, an increase of 11 hands (33.3%).** Both arms rebuilt and assembled the same 43-solid hand at each revision and handed off a STEP file. Each mark is a measured handoff. The synchronized traces show whole-sandbox memory.
+**colocad delivered 44 complete revisions to build123d’s 33 (+33.3%), with 57.1% lower peak sampled sandbox memory.** Both tools rebuilt and assembled the same 43-solid hand at each revision. Each tick marks a complete STEP handed off to storage.
 
-![10× replay of a 100-second hand modeling window, with CAD detail shots, delivered STEP counts and synchronized memory for colocad and build123d.](showcase/tendon-hand/window/hand-window-en.gif)
+![10× replay of tendon-hand modeling and assembly: 44 vs. 33 STEP deliveries; sampled sandbox memory peaks at 130.9 vs. 304.9 MiB.](showcase/tendon-hand/window/hand-window-peak-en.gif)
+
+The GIF shows the **highest memory sampled so far** for each tool on the same 0–512 MiB scale. For actual usage between builds, see the [instantaneous-memory replay (MP4)](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window-en.mp4) or the [timestamped samples](showcase/tendon-hand/evidence/window-optimized.json).
 
 | Same revision queue, 1 vCPU / 512 MiB | Optimized colocad | build123d |
 |---|---:|---:|
@@ -17,7 +19,7 @@ Generate a mechanical part from a JSON feature tree, export an exact STEP solid,
 | Median job time on the same first 33 inputs | **2.234 s** | 2.855 s |
 | Highest sampled cgroup memory over the 100 s window | **130.9 MiB** | 304.9 MiB |
 
-One measured window per backend, with a new CAD process for each revision. The colocad arm uses the alpha.2 SDK with the optimized source kernel. Memory samples taken about every 25 ms include subprocesses, tmpfs and charged file cache. Every counted STEP reopened successfully. The 10-second replay includes the four views, booleans, bore edit, tessellation and assembly. [MP4](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window-en.mp4) · [Method and raw data](showcase/tendon-hand/window/README.md) · [Detailed build and single-call replay](showcase/tendon-hand/assembly-performance.md)
+One measured window per backend, with a new CAD process for each revision. The colocad arm uses the alpha.2 SDK with the optimized source kernel. Memory samples taken about every 25 ms include subprocesses, tmpfs and charged file cache. Every counted STEP reopened successfully. [Measurement method](showcase/tendon-hand/window/README.md) · [Detailed build and single-call replay](showcase/tendon-hand/assembly-performance.md)
 
 The static scorecard below uses the **published alpha.2 binary**. With fresh tool processes the sensor rail and manifold reached STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak memory.
 
