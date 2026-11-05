@@ -8,7 +8,16 @@ Generate a mechanical part from a JSON feature tree, export an exact STEP solid,
 
 **On the sensor rail and port manifold, a fresh colocad tool call delivered STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak sandbox memory.** Both backends constructed their own valid solid from the same inputs. A resident Python process can amortize import costs.
 
+![Recorded manifold build with aligned starts. Colocad delivers at 193 ms and build123d at 2,050 ms. The lower plot shows sampled sandbox memory.](docs/benchmarks/replay/manifold-en.gif)
+
+**Four-port manifold at actual speed.** The two launches share a time origin in the replay. Peak sandbox memory in this pair was 22.8 / 261.4 MiB. The plot uses samples taken about every 20 ms. The table below summarizes a separate five-run benchmark. [MP4](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/replay/manifold-en.mp4) · [Time series](docs/benchmarks/replay/trace.json) · [Method](benchmarks/readme/replay/README.md)
+
+<details>
+<summary>See the static comparison across four workloads</summary>
+
 ![Time to STEP and peak cgroup memory across four workloads. Shorter bars are better.](docs/benchmarks/time-to-step.svg)
+
+</details>
 
 | Deliverable | Time to STEP: colocad / build123d | Speedup¹ | Peak memory: colocad / build123d | Share of build123d peak |
 | :--- | ---: | ---: | ---: | ---: |

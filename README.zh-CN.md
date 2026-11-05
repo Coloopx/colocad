@@ -8,7 +8,16 @@
 
 **在两个已验证的机械单件上，colocad 从新进程启动到写完 STEP 分别快 22.0× 和 12.9×，沙箱峰值内存分别为 build123d 的 7.7% 和 8.0%。** 同机同预算、同一组输入；两端独立建模，各自导出可回读的有效实体。这是每次工具调用新起进程的收益。常驻 Python 可以摊薄导入时间。
 
+![四盲孔歧管的交付回放，colocad 在 193 ms 写出 STEP，build123d 在 2,050 ms 写出，下方为实测内存曲线](docs/benchmarks/replay/manifold-zh-CN.gif)
+
+**1× 原速回放，四盲孔歧管。** 两次独立调用按启动时刻对齐。本次实录的峰值内存为 22.8 / 261.4 MiB，曲线来自每约 20 ms 的容器内存采样。下表使用另外五轮测量的统计值。[可暂停的单文件回放及两份 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/replay/manifold-replay.html) · [逐点读数](docs/benchmarks/replay/trace.json)
+
+<details>
+<summary>查看四种任务的静态对照图</summary>
+
 ![四种任务的交付 STEP 耗时与实测峰值内存](docs/benchmarks/time-to-step.zh-CN.svg)
+
+</details>
 
 | 独立交付物 | 首份 STEP：colocad / build123d | 交付速度比¹ | 沙箱峰值：colocad / build123d | 内存占对方 |
 |---|---:|---:|---:|---:|
