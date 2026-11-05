@@ -1,0 +1,162 @@
+{
+  "checks": [],
+  "drivingScalarRecords": 0,
+  "edges": 42,
+  "editablePartVerified": false,
+  "experimentalContainerBytes": 5226,
+  "faces": 21,
+  "features": 7,
+  "history": [
+    {
+      "definition": {
+        "definition": "sketch",
+        "sketch": {
+          "sketch": "sldprt:model:sketch#3948:0:0",
+          "space": "planar"
+        }
+      },
+      "dependencies": [],
+      "name": "Sketch_Mount"
+    },
+    {
+      "definition": {
+        "definition": "extrude",
+        "direction": {
+          "kind": "profile_normal"
+        },
+        "extent": {
+          "kind": "one_sided",
+          "side": {
+            "termination": {
+              "kind": "blind",
+              "length": 12.0
+            }
+          }
+        },
+        "op": "join",
+        "profile": {
+          "kind": "sketch",
+          "value": "sldprt:model:sketch#3948:0:0"
+        },
+        "solid": true,
+        "start": {
+          "kind": "profile_plane"
+        }
+      },
+      "dependencies": [
+        "sldprt:model:feature#3624:0"
+      ],
+      "name": "Mount"
+    },
+    {
+      "definition": {
+        "definition": "sketch",
+        "sketch": {
+          "sketch": "sldprt:model:sketch#3948:1:0",
+          "space": "planar"
+        }
+      },
+      "dependencies": [],
+      "name": "Sketch_Port"
+    },
+    {
+      "definition": {
+        "definition": "extrude",
+        "direction": {
+          "kind": "profile_normal"
+        },
+        "extent": {
+          "kind": "one_sided",
+          "side": {
+            "termination": {
+              "kind": "blind",
+              "length": 8.0
+            }
+          }
+        },
+        "op": "cut",
+        "profile": {
+          "kind": "sketch",
+          "value": "sldprt:model:sketch#3948:1:0"
+        },
+        "solid": true,
+        "start": {
+          "kind": "profile_plane"
+        }
+      },
+      "dependencies": [
+        "sldprt:model:feature#3624:2"
+      ],
+      "name": "Port"
+    },
+    {
+      "definition": {
+        "definition": "pattern",
+        "pattern": {
+          "count": 4,
+          "direction": {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "kind": "linear",
+          "spacing": 18.0
+        },
+        "seeds": [
+          {
+            "kind": "feature",
+            "value": "sldprt:model:feature#3624:3"
+          }
+        ]
+      },
+      "dependencies": [
+        "sldprt:model:feature#3624:3"
+      ],
+      "name": "PortRow"
+    },
+    {
+      "definition": {
+        "definition": "sketch",
+        "sketch": {
+          "sketch": "sldprt:model:sketch#3948:2:0",
+          "space": "planar"
+        }
+      },
+      "dependencies": [],
+      "name": "Sketch_Channel"
+    },
+    {
+      "definition": {
+        "definition": "extrude",
+        "direction": {
+          "kind": "profile_normal"
+        },
+        "extent": {
+          "kind": "one_sided",
+          "side": {
+            "termination": {
+              "kind": "blind",
+              "length": 4.0
+            }
+          }
+        },
+        "op": "cut",
+        "profile": {
+          "kind": "sketch",
+          "value": "sldprt:model:sketch#3948:2:0"
+        },
+        "solid": true,
+        "start": {
+          "kind": "profile_plane"
+        }
+      },
+      "dependencies": [
+        "sldprt:model:feature#3624:5"
+      ],
+      "name": "Channel"
+    }
+  ],
+  "nativeOperationClasses": 0,
+  "sketches": 3,
+  "solids": 1
+}

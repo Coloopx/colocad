@@ -1,0 +1,115 @@
+{
+  "feature": "Rim",
+  "inputState": "after Mount + Port, before Rim",
+  "selected": [
+    {
+      "edge": "sldprt:brep:edge#61",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#141"
+      ],
+      "curveKind": "line",
+      "start": {
+        "x": 90,
+        "y": 7,
+        "z": 12
+      },
+      "end": {
+        "x": 90,
+        "y": 38,
+        "z": 12
+      }
+    },
+    {
+      "edge": "sldprt:brep:edge#63",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#142"
+      ],
+      "curveKind": "line",
+      "start": {
+        "x": 90,
+        "y": 38,
+        "z": 12
+      },
+      "end": {
+        "x": 83,
+        "y": 45,
+        "z": 12
+      }
+    },
+    {
+      "edge": "sldprt:brep:edge#64",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#139"
+      ],
+      "curveKind": "line",
+      "start": {
+        "x": 83,
+        "y": 45,
+        "z": 12
+      },
+      "end": {
+        "x": 0,
+        "y": 45,
+        "z": 12
+      }
+    },
+    {
+      "edge": "sldprt:brep:edge#73",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#138"
+      ],
+      "curveKind": "nurbs",
+      "start": {
+        "x": 0,
+        "y": 0,
+        "z": 12
+      },
+      "end": {
+        "x": 83,
+        "y": 0,
+        "z": 12
+      }
+    },
+    {
+      "edge": "sldprt:brep:edge#74",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#140"
+      ],
+      "curveKind": "nurbs",
+      "start": {
+        "x": 83,
+        "y": 0,
+        "z": 12
+      },
+      "end": {
+        "x": 90,
+        "y": 7,
+        "z": 12
+      }
+    },
+    {
+      "edge": "sldprt:brep:edge#75",
+      "faces": [
+        "sldprt:brep:face#135",
+        "sldprt:brep:face#137"
+      ],
+      "curveKind": "nurbs",
+      "start": {
+        "x": 0,
+        "y": 45,
+        "z": 12
+      },
+      "end": {
+        "x": 0,
+        "y": 0,
+        "z": 12
+      }
+    }
+  ],
+  "solidWorksPersistenceVerified": false
+}
