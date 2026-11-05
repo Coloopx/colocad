@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "op": "profile_loft",
+      "id": "out",
+      "degree": 1,
+      "sections": [
+        {
+          "profile": {
+            "kind": "rectangle",
+            "width": 20,
+            "depth": 16,
+            "radius": 0
+          },
+          "frame": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "x_axis": [
+              1,
+              0,
+              0
+            ],
+            "y_axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "profile": {
+            "kind": "rectangle",
+            "width": 12,
+            "depth": 10,
+            "radius": 0
+          },
+          "frame": {
+            "origin": [
+              0,
+              0,
+              20
+            ],
+            "x_axis": [
+              1,
+              0,
+              0
+            ],
+            "y_axis": [
+              0,
+              1,
+              0
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "output": "out"
+}

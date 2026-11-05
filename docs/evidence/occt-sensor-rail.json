@@ -1,0 +1,1 @@
+{"case": "sensor-rail", "valid": true, "solids": 1, "volumeMM3": 16578.82595858081, "rustVolumeMM3": 16578.826043884186, "materialProbes": [[0, 3, 4, "outside"], [0, 22, 4, "outside"], [0, 41, 4, "outside"], [9, 3, 4, "inside"]]}

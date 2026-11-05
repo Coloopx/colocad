@@ -1,0 +1,9 @@
+{
+  "format":"colocad/1","units":"mm","parameters":{"copies":3,"step":19},
+  "features":[
+    {"id":"Rail","op":"extrude","profile":{"kind":"rectangle","center":[0,22],"size":[30,66]},"depth":9},
+    {"id":"EdgeRound","op":"fillet","edges":{"z":9,"count":4},"radius":0.8},
+    {"id":"Slot","op":"cut","profile":{"kind":"rectangle","center":[0,3],"size":[9,5]},"depth":10},
+    {"id":"Slots","op":"linearPattern","seed":"Slot","axis":"y","pitch":{"param":"step"},"count":{"param":"copies"}}
+  ]
+}

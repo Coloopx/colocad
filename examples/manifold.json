@@ -1,0 +1,11 @@
+{
+  "format":"colocad/1","units":"mm",
+  "parameters":{"thickness":12,"pocketRadius":3,"pitch":18,"instances":4,"rimRadius":1.2},
+  "features":[
+    {"id":"Mount","op":"extrude","profile":{"kind":"polygon","points":[[0,0],[83,0],[90,7],[90,38],[83,45],[0,45]]},"depth":{"param":"thickness"}},
+    {"id":"Port","op":"cut","profile":{"kind":"circle","center":[14,12],"radius":{"param":"pocketRadius"}},"depth":8},
+    {"id":"Rim","op":"fillet","edges":{"z":{"param":"thickness"},"count":6},"radius":{"param":"rimRadius"}},
+    {"id":"PortRow","op":"linearPattern","seed":"Port","axis":"x","pitch":{"param":"pitch"},"count":{"param":"instances"}},
+    {"id":"Channel","op":"cut","profile":{"kind":"rectangle","center":[43,32],"size":[48,8]},"depth":4}
+  ]
+}

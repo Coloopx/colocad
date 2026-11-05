@@ -1,0 +1,10 @@
+node_modules/
+target/
+vendor/
+third_party/*.tar.gz
+kernel/native/
+out/
+*.tgz
+.DS_Store
+solidworks/obj/
+solidworks/bin/

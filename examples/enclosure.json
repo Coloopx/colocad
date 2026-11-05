@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "width": 80,
+    "length": 50,
+    "height": 24,
+    "wall": 2
+  },
+  "features": [
+    {
+      "op": "box",
+      "id": "outer",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        {
+          "param": "width"
+        },
+        {
+          "param": "length"
+        },
+        {
+          "param": "height"
+        }
+      ]
+    },
+    {
+      "op": "box",
+      "id": "cavity",
+      "origin": [
+        {
+          "param": "wall"
+        },
+        {
+          "param": "wall"
+        },
+        {
+          "param": "wall"
+        }
+      ],
+      "size": [
+        {
+          "op": "sub",
+          "a": {
+            "param": "width"
+          },
+          "b": {
+            "op": "mul",
+            "a": 2,
+            "b": {
+              "param": "wall"
+            }
+          }
+        },
+        {
+          "op": "sub",
+          "a": {
+            "param": "length"
+          },
+          "b": {
+            "op": "mul",
+            "a": 2,
+            "b": {
+              "param": "wall"
+            }
+          }
+        },
+        {
+          "param": "height"
+        }
+      ]
+    },
+    {
+      "op": "cut",
+      "id": "open_enclosure",
+      "left": "outer",
+      "right": "cavity"
+    }
+  ],
+  "output": "open_enclosure"
+}

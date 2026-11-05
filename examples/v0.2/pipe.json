@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "op": "pipe",
+      "id": "out",
+      "path": {
+        "kind": "arc",
+        "start": [
+          10,
+          0,
+          0
+        ],
+        "via": [
+          0,
+          10,
+          0
+        ],
+        "end": [
+          -10,
+          0,
+          0
+        ]
+      },
+      "radius": 1
+    }
+  ],
+  "output": "out"
+}

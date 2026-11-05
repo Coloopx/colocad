@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "op": "box",
+      "id": "base",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        20,
+        16,
+        10
+      ]
+    },
+    {
+      "op": "shell",
+      "id": "out",
+      "input": "base",
+      "thickness": 2,
+      "open_faces": [
+        {
+          "axis": "z",
+          "value": 10,
+          "tolerance": 0.001,
+          "expected_count": 1
+        }
+      ]
+    }
+  ],
+  "output": "out"
+}

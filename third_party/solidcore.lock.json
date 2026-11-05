@@ -1,0 +1,7 @@
+{
+  "name": "solidcore",
+  "revision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+  "archive": "third_party/solidcore-source.tar.gz",
+  "sha256": "fd75dd9a3bbfe37e320a7d47f05a6a48566f8ffc93128eff92124b9259d812c0",
+  "url": "https://codeload.github.com/tangency-labs/solidcore/tar.gz/bff1569a4c3347ed9af67faab71578cadf84fde2"
+}

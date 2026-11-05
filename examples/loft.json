@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "waist": 15,
+    "top": 24
+  },
+  "features": [
+    {
+      "op": "loft",
+      "id": "smooth_housing",
+      "degree": 3,
+      "sections": [
+        {
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "radii": [
+            25,
+            18
+          ]
+        },
+        {
+          "center": [
+            2,
+            0,
+            20
+          ],
+          "radii": [
+            {
+              "param": "waist"
+            },
+            13
+          ]
+        },
+        {
+          "center": [
+            5,
+            0,
+            40
+          ],
+          "radii": [
+            18,
+            15
+          ]
+        },
+        {
+          "center": [
+            8,
+            0,
+            60
+          ],
+          "radii": [
+            {
+              "param": "top"
+            },
+            18
+          ]
+        }
+      ]
+    }
+  ],
+  "output": "smooth_housing"
+}

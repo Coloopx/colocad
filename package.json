@@ -1,0 +1,52 @@
+{
+  "name": "colocad",
+  "version": "0.1.0-alpha.1",
+  "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Coloopx/colocad.git"
+  },
+  "homepage": "https://github.com/Coloopx/colocad",
+  "bugs": {
+    "url": "https://github.com/Coloopx/colocad/issues"
+  },
+  "main": "./src/index.mjs",
+  "types": "./src/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.mts",
+      "import": "./src/index.mjs"
+    },
+    "./kernel": {
+      "types": "./kernel/dist/index.d.ts",
+      "import": "./kernel/dist/index.js"
+    },
+    "./schema": "./kernel/schemas/model.schema.json"
+  },
+  "bin": {
+    "colocad": "bin/colocad.mjs"
+  },
+  "files": [
+    "bin/colocad.mjs",
+    "src",
+    "kernel/dist",
+    "kernel/native",
+    "kernel/schemas",
+    "kernel/licenses",
+    "solidworks/managed",
+    "examples/manifold.json",
+    "examples/sensor-rail.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build:kernel": "node scripts/build-kernel.mjs"
+  }
+}

@@ -1,0 +1,58 @@
+//! A bounded, replayable feature IR over a pinned exact B-rep kernel.
+mod compound;
+mod distance;
+pub mod engineering;
+mod exchange;
+mod grid;
+mod hollow;
+pub mod mates;
+mod naming;
+mod network;
+pub mod operations;
+pub mod placement;
+pub mod preview;
+pub mod regions;
+pub mod sketch;
+mod solve;
+pub mod step_assembly;
+pub mod surfaces;
+use engineering::{Counterbore, OpenFace};
+pub mod assembly;
+use assembly::{AssemblyCheck, Instance};
+use operations::{EdgeSelector, FaceSelector, Frame, PathCurve, Profile, ProfileSection};
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
+use solidcore::boolean::api_brep::{boolean_difference, boolean_intersection, boolean_union};
+use solidcore::mass::integrator::properties::brep_volume_default;
+use solidcore::primitive::api_primitives::{create_box, create_cylinder, create_sphere};
+use solidcore::query::api_queries::{
+    brep_bounding_box, brep_is_manifold_solid, brep_material_census,
+};
+use solidcore::topology::brep::validation::{check_brep, CheckLevel};
+use solidcore::{Brep, Kernel, Vec3};
+use std::collections::{BTreeMap, BTreeSet};
+use std::time::Instant;
+
+pub const KERNEL_REV: &str = "bff1569a4c3347ed9af67faab71578cadf84fde2";
+pub const MAX_INPUT_BYTES: usize = 32 * 1024 * 1024;
+pub const EXECUTOR_VERSION: &str = env!("CARGO_PKG_VERSION");
+pub const MAX_FEATURES: usize = 128;
+pub const MAX_CUTTERS: usize = 1024;
+const MAX_COORD: f64 = 100_000.;
+pub type Result<T> = std::result::Result<T, CadError>;
+
+mod capabilities;
+mod error;
+mod executor;
+pub mod incremental;
+mod model;
+mod validation;
+pub use capabilities::capabilities;
+pub(crate) use capabilities::kernel_policy;
+pub use error::CadError;
+pub use executor::{build, build_revision, Build};
+pub(crate) use executor::{measured_volume, take_body};
+pub use model::*;
+pub use validation::validate;

@@ -1,0 +1,13 @@
+[package]
+name = "colocad-native-probe"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[dependencies]
+cadmpeg-codec-sldprt = { git = "https://github.com/cadmpeg/cadmpeg", rev = "d77e2dd2a9d154e7b432afb022c147864f2618bb" }
+cadmpeg-codec-step = { git = "https://github.com/cadmpeg/cadmpeg", rev = "d77e2dd2a9d154e7b432afb022c147864f2618bb" }
+cadmpeg-ir = { git = "https://github.com/cadmpeg/cadmpeg", rev = "d77e2dd2a9d154e7b432afb022c147864f2618bb" }
+serde_json = "1"

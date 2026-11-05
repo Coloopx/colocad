@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Colocad.SolidWorks/1.0.0": {
+        "runtime": {
+          "Colocad.SolidWorks.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Colocad.SolidWorks/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
