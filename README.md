@@ -4,24 +4,38 @@
 
 Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
 
-On the two parts below, the published CLI delivered STEP in **113–230 ms** on **1 vCPU / 512 MiB**, compared with **2.49–2.96 s** for a fresh build123d process. Both backends produced valid solids. The advantage is largest when an agent starts a fresh tool call; the manifold’s geometry phase alone was faster in build123d.
+## Time to first STEP
+
+**On the sensor rail and port manifold, a fresh colocad tool call delivered STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak sandbox memory.** Both backends constructed their own valid solid from the same inputs. A resident Python process can amortize import costs.
+
+![Time to STEP and peak cgroup memory across four workloads. Shorter bars are better.](docs/benchmarks/time-to-step.svg)
+
+| Deliverable | Time to STEP: colocad / build123d | Speedup¹ | Peak memory: colocad / build123d | Share of build123d peak |
+| :--- | ---: | ---: | ---: | ---: |
+| Sensor rail | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | **7.7%** |
+| Port manifold | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | **8.0%** |
+| Tendon-hand proximal link | 259 / 2,244 ms | **8.6×** | 21.4 / 260.1 MiB | **8.2%** |
+| Complete 43-solid hand | 3,952 / 3,293 ms | **0.83×** | 52.7 / 271.3 MiB | **19.4%** |
+
+¹ build123d time divided by colocad time from unrounded observations. Same Linux arm64 image, 1 vCPU, 512 MiB. Five fresh processes and cgroups per part and backend after warm-up. Time is the median wall clock including startup, imports, modeling, backend checks and STEP export. Memory is the maximum measured cgroup peak; charged pages, temporary outputs and tool descendants count. Installation, container startup, previews, inference and a resident agent are excluded.
+
+[Rail/manifold samples](docs/benchmarks/runs.json) · [Finger/hand samples](showcase/tendon-hand/evidence/scope.json) · [Four-view hand study and CAD downloads](showcase/tendon-hand/README.md) · [Offline scorecard](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/time-to-step.html)
+
+**Where the advantage ends:** in a separate 100-second sweep of complete hand revisions, colocad delivered 24 STEPs to build123d’s 30. Every counted file reopened as a valid 43-solid assembly. [Timestamped outputs and paired geometry checks](showcase/tendon-hand/evidence/window.json)
+
+## SDK, CLI or skill?
+
+- **In an application or harness:** call `build(tree, newDir, { preview: true })` in the SDK. Use `CadClient.build(model)` for named multi-solid assemblies.
+- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.2`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
+- **From drawings with an agent:** install the [colocad skill](skills/colocad/SKILL.md). Start the next turn with “Use `$colocad` to reconstruct these four views, export STEP, and flag any internal details you inferred.” [Installation and assembly replay](showcase/tendon-hand/README.md#try-it-with-your-agent).
+
+## What the two STEP writers produced
 
 ![Two independently modeled STEP pairs. Top: a sensor rail with three through-slots. Bottom: a manifold with four blind bores and a rectangular pocket. Colocad on the left; build123d on the right.](docs/benchmarks/step-comparison.png)
 
 Each backend modeled the part from the same parameters. The images use the exported STEPs, the same mesher and camera. OCCT reopened each file as **one valid solid**. Both rail exports had 22 faces and 56 edges; both manifold exports had 27 faces and 54 edges. The two directional boolean differences measured **0 mm³** in both cases (boolean tolerance: 0.000001 mm). [Geometry checks](docs/benchmarks/step-checks.json)
 
-## Performance in a small sandbox
-
-![Bar charts showing median time to STEP and highest peak memory for each CAD backend. Exact values appear in the table below.](docs/benchmarks/sandbox-performance.svg)
-
-| Part | Time to STEP: colocad / build123d | Speedup | Peak sandbox memory: colocad / build123d | Geometry only: colocad / build123d |
-| :--- | ---: | ---: | ---: | ---: |
-| [Sensor rail](examples/sensor-rail.json) | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | 26.9 / 41.1 ms |
-| [Port manifold](examples/manifold.json) | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | 53.7 / 43.8 ms |
-
-**What was timed:** published colocad 0.1.0-alpha.2 (Node + its Rust executable) versus build123d 0.11.1 / OCCT. Each arm got the same offline Linux arm64 container limits and input. One excluded warm-up, then five alternating fresh runs per part and backend; all 20 measured calls succeeded. Time is the median from process launch to exit after STEP export. Memory is the largest measured whole-container cgroup peak, including charged file pages and output. Package installation, container launch, agent inference and rendering are excluded.
-
-Python import alone took a median **2.01 s** for the rail and **2.45 s** for the manifold. A long-lived Python interpreter can amortize that cost. These results apply to this tool-call pattern and these fixtures; they do not establish a universal geometry-kernel speedup. [Every run](docs/benchmarks/runs.json) · [Method and reproduction](benchmarks/readme/README.md)
+On the manifold, build123d’s modeling phase alone was **43.8 ms** to colocad’s **53.7 ms**, while build123d import alone took **2.45 s**. The table measures a fresh tool call, not the speed of an isolated boolean operation. [Stage timings and reproduction](benchmarks/readme/README.md)
 
 ### When the agent only changes the camera
 

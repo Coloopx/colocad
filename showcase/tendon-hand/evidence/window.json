@@ -1,0 +1,1448 @@
+{
+  "window_s": 100,
+  "common_revisions": 24,
+  "summary": {
+    "colocad": {
+      "count": 24,
+      "first_s": 4.314985502016498,
+      "matched_median_s": 3.9464528355019866,
+      "last_completed_at_s": 96.61515529602184
+    },
+    "build123d": {
+      "count": 30,
+      "first_s": 2.949128626991296,
+      "matched_median_s": 3.0579997304885183,
+      "last_completed_at_s": 96.72166342198034
+    }
+  },
+  "events": {
+    "colocad": [
+      {
+        "revision": 0,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+        "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+        "start_s": 0.0007186250004451722,
+        "end_s": 4.315704127016943,
+        "job_s": 4.314985502016498,
+        "kernel_ms": {
+          "export": 55.051375,
+          "geometry": 345.35245799999996,
+          "total": 4182.812626999999,
+          "validation": 3781.639502
+        },
+        "in_window": true
+      },
+      {
+        "revision": 1,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "bd3adeda1217a80ae0a6543ae30fd477602a47f025eef7ebf24942a2656014d1",
+        "step_sha256": "8cd42b14c7dfcd2d48aa32d976ff1583be42fb2f633681be88319fbe5577a445",
+        "start_s": 4.3223159610060975,
+        "end_s": 8.933021838020068,
+        "job_s": 4.61070587701397,
+        "kernel_ms": {
+          "export": 79.76474999999999,
+          "geometry": 422.63262499999996,
+          "total": 4514.754085,
+          "validation": 4011.736419
+        },
+        "in_window": true
+      },
+      {
+        "revision": 2,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "640dd1100478185e4bdd903789d9e4cf01ff411cbba21e762f5c0a080021c4cf",
+        "step_sha256": "abe1adfcd82162adfb6550c01e5534561ba282b4becdb2af6e14037ad0ee67ff",
+        "start_s": 8.93887679601903,
+        "end_s": 12.91761229801341,
+        "job_s": 3.978735501994379,
+        "kernel_ms": {
+          "export": 46.485084,
+          "geometry": 325.14291699999995,
+          "total": 3901.791627,
+          "validation": 3529.387627
+        },
+        "in_window": true
+      },
+      {
+        "revision": 3,
+        "guide_diameter_mm": 3.26,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "d3186f5a63208a4fdbf1b44d3fae12c1a201f541818ac52af34b0a926d5c58db",
+        "step_sha256": "1812d9d2763d50bcec7f404d3528a1f1b765e24642794ce1151b885fd4413f81",
+        "start_s": 12.923370839998825,
+        "end_s": 17.018419216998154,
+        "job_s": 4.09504837699933,
+        "kernel_ms": {
+          "export": 78.30170799999999,
+          "geometry": 327.734875,
+          "total": 3928.3911270000003,
+          "validation": 3519.577001
+        },
+        "in_window": true
+      },
+      {
+        "revision": 4,
+        "guide_diameter_mm": 2.98,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "d0cccab6bf7d5fa694dae7989aecb2b6ddde6967343e75bacde8fdd356e46598",
+        "step_sha256": "07ffb17e9c5f095dfc50f29365adaab6ce0772f82ea888c4b779b6f8b704dc14",
+        "start_s": 17.042588717013132,
+        "end_s": 21.230349593999563,
+        "job_s": 4.187760876986431,
+        "kernel_ms": {
+          "export": 50.97691699999999,
+          "geometry": 469.492251,
+          "total": 4069.707211,
+          "validation": 3548.74921
+        },
+        "in_window": true
+      },
+      {
+        "revision": 5,
+        "guide_diameter_mm": 3.22,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "daf6c85faa74c18782d6ef0d20f5796998d28aaa4835c2f09ddce3884bde6668",
+        "step_sha256": "2486177edf63051c4cc7a521f411ae1a4fbe9af5b448de280f4092a4046888ab",
+        "start_s": 21.23723638500087,
+        "end_s": 25.208966346021043,
+        "job_s": 3.9717299610201735,
+        "kernel_ms": {
+          "export": 48.809917,
+          "geometry": 311.987125,
+          "total": 3903.417502,
+          "validation": 3541.005294
+        },
+        "in_window": true
+      },
+      {
+        "revision": 6,
+        "guide_diameter_mm": 3.02,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "6292c0b28f5305f57f06316ae0fd561a27867ceeb57836954a33a8d287bbd2b2",
+        "step_sha256": "4b43c2e3440f192aecc78b0fa66fd7c1fc1c43d370bdc98525284c8ca4b7b203",
+        "start_s": 25.21567784601939,
+        "end_s": 29.206317181000486,
+        "job_s": 3.990639334981097,
+        "kernel_ms": {
+          "export": 46.549708,
+          "geometry": 314.022625,
+          "total": 3909.999627,
+          "validation": 3548.723168
+        },
+        "in_window": true
+      },
+      {
+        "revision": 7,
+        "guide_diameter_mm": 3.18,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "aea6c3ae81a0635785ff788cb9dfa50e8832a273fcd83ad0ef8a1c02708d64fa",
+        "step_sha256": "ad3ccc58df5110abc68908774e962a07566fe8a01d562840d8a16997a9958bce",
+        "start_s": 29.212463431002107,
+        "end_s": 33.57484580800519,
+        "job_s": 4.362382377003087,
+        "kernel_ms": {
+          "export": 55.021209,
+          "geometry": 322.1985,
+          "total": 4258.138502,
+          "validation": 3879.985918
+        },
+        "in_window": true
+      },
+      {
+        "revision": 8,
+        "guide_diameter_mm": 3.06,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "ffe0028f7c426537317208457515bc1596feeb04429ea66d3feccdb29912d4a2",
+        "step_sha256": "6b8d3ea48be9b6860456d0e45986167fed32fae71f5ffe890c931114180215c7",
+        "start_s": 33.58099268301157,
+        "end_s": 37.67936756002018,
+        "job_s": 4.0983748770086095,
+        "kernel_ms": {
+          "export": 48.960125,
+          "geometry": 323.12350000000004,
+          "total": 4005.591376,
+          "validation": 3632.7493349999995
+        },
+        "in_window": true
+      },
+      {
+        "revision": 9,
+        "guide_diameter_mm": 3.14,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "b483347c0bd81c8252bd735613489e41a04d7ab54cc0543a3d19fd6538248127",
+        "step_sha256": "ac0a08818e928acc36c5a9be05b43ffc7fc6ccb2bc44f69eb063a21726490830",
+        "start_s": 37.68632622601581,
+        "end_s": 41.96008014501422,
+        "job_s": 4.273753918998409,
+        "kernel_ms": {
+          "export": 74.463167,
+          "geometry": 334.637375,
+          "total": 4158.770502,
+          "validation": 3749.034752
+        },
+        "in_window": true
+      },
+      {
+        "revision": 10,
+        "guide_diameter_mm": 3.1,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "9a39eeef9c770b8c34237e94373344018292a7adb1f3b0e7fbf2d808e1e6e343",
+        "step_sha256": "60457c57f7f566e37ab0e0590a8dc79029eb5ede9bb0b2ca63fe1519cf53f440",
+        "start_s": 41.9665938540129,
+        "end_s": 45.8447229800222,
+        "job_s": 3.8781291260092985,
+        "kernel_ms": {
+          "export": 44.64,
+          "geometry": 332.550292,
+          "total": 3810.551168,
+          "validation": 3432.868752
+        },
+        "in_window": true
+      },
+      {
+        "revision": 11,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "5043ad7804ee0074455715835ecb7a96ddc6d91b77cf834e83895d35f429ad20",
+        "step_sha256": "a8475bb56f7cb0b36142a4dd66d9d16fd00ba0c2b8b8e89da2d74da13bb610cc",
+        "start_s": 45.849829397018766,
+        "end_s": 49.680811816011555,
+        "job_s": 3.8309824189927895,
+        "kernel_ms": {
+          "export": 45.18225,
+          "geometry": 308.88800100000003,
+          "total": 3770.400044,
+          "validation": 3415.779501
+        },
+        "in_window": true
+      },
+      {
+        "revision": 12,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "cb39e23fd5a1dadde63d2d5cb0b18654c75c7a53b51e838227207f46bb30912a",
+        "step_sha256": "d48572a4570454a83d097bcd20d39e0ddac805bd9de0d1a83bbdb1b6eff71ca7",
+        "start_s": 49.685498899023514,
+        "end_s": 53.606674609007314,
+        "job_s": 3.9211757099837996,
+        "kernel_ms": {
+          "export": 47.341415999999995,
+          "geometry": 309.920458,
+          "total": 3848.70971,
+          "validation": 3490.91021
+        },
+        "in_window": true
+      },
+      {
+        "revision": 13,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "d0f97b2377c2468b272403074a584526f73c18ea4693ae57491f44aa451ba79e",
+        "step_sha256": "52e6a4efcd4f9ea65104171a3d067e9555b6d1ee911d4c4cce32f6506a37fae9",
+        "start_s": 53.61267044200213,
+        "end_s": 57.510674860997824,
+        "job_s": 3.898004418995697,
+        "kernel_ms": {
+          "export": 44.455083,
+          "geometry": 331.02387500000003,
+          "total": 3827.68446,
+          "validation": 3451.632502
+        },
+        "in_window": true
+      },
+      {
+        "revision": 14,
+        "guide_diameter_mm": 3.26,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "aeffa859ecf1de1e56aaa507afdf2203b297db263b1202e0b24e966224cb2c0c",
+        "step_sha256": "09aa3d3bd85361df067ce38cbd583f670fb444c60d8ef2bb2ac036a2fb2c6881",
+        "start_s": 57.51764486101456,
+        "end_s": 61.66855065501295,
+        "job_s": 4.15090579399839,
+        "kernel_ms": {
+          "export": 47.379167,
+          "geometry": 296.634167,
+          "total": 4066.685961,
+          "validation": 3721.748377
+        },
+        "in_window": true
+      },
+      {
+        "revision": 15,
+        "guide_diameter_mm": 2.98,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "c848d8cf116ae76966f587c04cbd470eb25178a058177fa5fda745afb3683013",
+        "step_sha256": "8ebc64fd78dfb2ea6133ad55c5a15c3570293dacf35a6a5aeeea3d9b4e2c1c9a",
+        "start_s": 61.674740571004804,
+        "end_s": 65.56734761499683,
+        "job_s": 3.8926070439920295,
+        "kernel_ms": {
+          "export": 45.543375,
+          "geometry": 334.609,
+          "total": 3820.759168,
+          "validation": 3439.808877
+        },
+        "in_window": true
+      },
+      {
+        "revision": 16,
+        "guide_diameter_mm": 3.22,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "7d38e1246a53f8383977ecc759f299f7e16debe232b30894a8eb321444c9966c",
+        "step_sha256": "3c5a7abc8c58b9e3a0f32709fb5a1632877abfb61b3fbc2f98ee2a1a38fec4f2",
+        "start_s": 65.57266815600451,
+        "end_s": 69.39851857500616,
+        "job_s": 3.825850419001654,
+        "kernel_ms": {
+          "export": 45.340625,
+          "geometry": 295.753459,
+          "total": 3759.504502,
+          "validation": 3417.6950850000003
+        },
+        "in_window": true
+      },
+      {
+        "revision": 17,
+        "guide_diameter_mm": 3.02,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "048c148ef90245a9b547a6353860b4e936d34878507e55b862cdb076f5662205",
+        "step_sha256": "67d73fcbc46a045546f8f3499b60c63ce3bb9c4aebaca4bf5d5dacca77084fdd",
+        "start_s": 69.40356465801597,
+        "end_s": 73.22512611802085,
+        "job_s": 3.8215614600048866,
+        "kernel_ms": {
+          "export": 43.048,
+          "geometry": 302.809125,
+          "total": 3753.13871,
+          "validation": 3406.820543
+        },
+        "in_window": true
+      },
+      {
+        "revision": 18,
+        "guide_diameter_mm": 3.18,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "9becc6f123596a9a9e5f6020c1e1b3606f53960ab867190eb81a1c9f0939e4ed",
+        "step_sha256": "b3629ef8a1f347df4361f71946c701b6a2195f3b57b88ae9e8bfa4ea88c2566c",
+        "start_s": 73.23000461800257,
+        "end_s": 77.20361349501763,
+        "job_s": 3.9736088770150673,
+        "kernel_ms": {
+          "export": 63.67479099999999,
+          "geometry": 298.820292,
+          "total": 3866.138335,
+          "validation": 3502.501501
+        },
+        "in_window": true
+      },
+      {
+        "revision": 19,
+        "guide_diameter_mm": 3.06,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "0debcb48518e54348e9c200158f0059092a906144f0a133e0b3a50230daec30e",
+        "step_sha256": "b32482bcf2cfca965bc73d733a1e49b39dc56e8b3cb0a1ec4b0b4182e7e6f7fc",
+        "start_s": 77.21098662001896,
+        "end_s": 81.12609808100387,
+        "job_s": 3.9151114609849174,
+        "kernel_ms": {
+          "export": 47.378084,
+          "geometry": 343.48925099999997,
+          "total": 3847.453086,
+          "validation": 3456.0879600000003
+        },
+        "in_window": true
+      },
+      {
+        "revision": 20,
+        "guide_diameter_mm": 3.14,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "f446fe621105e355413e3dceddb820835a23d924e5e6bbe9dd32f1eafdc74e6f",
+        "step_sha256": "8ba7577adbb01d13c1f0dbe55ef1ee78421f1f19af899aae1c975ab4fc5d4d46",
+        "start_s": 81.13151595601812,
+        "end_s": 84.99363208201248,
+        "job_s": 3.862116125994362,
+        "kernel_ms": {
+          "export": 45.354791,
+          "geometry": 308.807,
+          "total": 3801.522085,
+          "validation": 3446.8924190000002
+        },
+        "in_window": true
+      },
+      {
+        "revision": 21,
+        "guide_diameter_mm": 3.1,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "92883b4d52802d69d97cbdec63631f4c826b9429b6a0864b40cca3e4e3aded1a",
+        "step_sha256": "54aebfc8f2ea1af37a67ea6dcb0a4f95d00aaa6c3d2370be92df5c2a94e48d55",
+        "start_s": 84.99903670701315,
+        "end_s": 88.8404867509962,
+        "job_s": 3.841450043983059,
+        "kernel_ms": {
+          "export": 46.387792,
+          "geometry": 311.168709,
+          "total": 3783.237835,
+          "validation": 3425.095043
+        },
+        "in_window": true
+      },
+      {
+        "revision": 22,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "9b8b1f07cad318e85cb4b0159fe3484abac2df554e61551e7b07ba3cf8192055",
+        "step_sha256": "094ac1b62497c094e281377ced1d5c5b870b5b54a7adf34dafcaad221cdfb9b3",
+        "start_s": 88.84576991799986,
+        "end_s": 92.7294726280088,
+        "job_s": 3.883702710008947,
+        "kernel_ms": {
+          "export": 45.383041,
+          "geometry": 298.232167,
+          "total": 3810.599127,
+          "validation": 3466.393168
+        },
+        "in_window": true
+      },
+      {
+        "revision": 23,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "acad069b44af23d3f965302ae8c86f1217bd4b5ea7dde8cfe523514c315de92d",
+        "step_sha256": "b6d591cdee9aad1505685394ed8bd51d8643cbaaa3df9917b47ebb2305407ece",
+        "start_s": 92.73511041901656,
+        "end_s": 96.61515529602184,
+        "job_s": 3.8800448770052753,
+        "kernel_ms": {
+          "export": 44.972917,
+          "geometry": 305.73283299999997,
+          "total": 3807.342585,
+          "validation": 3456.117418
+        },
+        "in_window": true
+      },
+      {
+        "revision": 24,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "98f14edb5a6aa75450c38ba033b28cdd8283d16cc38c303c914039a34e4398c1",
+        "step_sha256": "b1a890e8e2dd33eaaf2eded2c8a681f37c71a0b7dde1cd3c50292c1ae68d1309",
+        "start_s": 96.6199388380046,
+        "end_s": 100.5441925060004,
+        "job_s": 3.9242536679957993,
+        "kernel_ms": {
+          "export": 46.26175,
+          "geometry": 295.474375,
+          "total": 3860.442585,
+          "validation": 3518.0966270000004
+        },
+        "in_window": false
+      }
+    ],
+    "build123d": [
+      {
+        "revision": 0,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+        "step_sha256": "41d44214b9f19e07d8fa82331c1faa3bd62f87ea7447f1655bb4bfdfd8d6c852",
+        "start_s": 0.0004280419962015003,
+        "end_s": 2.9495566689874977,
+        "job_s": 2.949128626991296,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.376670291996561,
+          "model_s": 0.9018250840017572,
+          "verify_s": 0.14426974998787045,
+          "write_s": 0.061273416999028996
+        },
+        "in_window": true
+      },
+      {
+        "revision": 1,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "bd3adeda1217a80ae0a6543ae30fd477602a47f025eef7ebf24942a2656014d1",
+        "step_sha256": "7d85cb557f65d7ab7e58bbe1732850b8606c84e9cc0c5615b33ad0cd3331c9b3",
+        "start_s": 2.952160585002275,
+        "end_s": 5.976448877976509,
+        "job_s": 3.0242882929742336,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.5564103340147994,
+          "model_s": 0.9572834999999031,
+          "verify_s": 0.10755524999694899,
+          "write_s": 0.049985708988970146
+        },
+        "in_window": true
+      },
+      {
+        "revision": 2,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "640dd1100478185e4bdd903789d9e4cf01ff411cbba21e762f5c0a080021c4cf",
+        "step_sha256": "724dda52abb1a46c01202b46e8f1f8ff6295d35e80a5f6020f3e757f4e9fed18",
+        "start_s": 5.9794549199868925,
+        "end_s": 8.678371670976048,
+        "job_s": 2.698916750989156,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.2280980840150733,
+          "model_s": 0.9662288329855073,
+          "verify_s": 0.10577316701528616,
+          "write_s": 0.051303166983416304
+        },
+        "in_window": true
+      },
+      {
+        "revision": 3,
+        "guide_diameter_mm": 3.26,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "d3186f5a63208a4fdbf1b44d3fae12c1a201f541818ac52af34b0a926d5c58db",
+        "step_sha256": "1a9b3ce6b40e1cf90bb472af07a9496f3004f931fd23767c0a2f275016524293",
+        "start_s": 8.680413879978005,
+        "end_s": 11.694716714002425,
+        "job_s": 3.01430283402442,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.3105690839875024,
+          "model_s": 0.9915572500030976,
+          "verify_s": 0.14535241699195467,
+          "write_s": 0.06461204201332293
+        },
+        "in_window": true
+      },
+      {
+        "revision": 4,
+        "guide_diameter_mm": 2.98,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "d0cccab6bf7d5fa694dae7989aecb2b6ddde6967343e75bacde8fdd356e46598",
+        "step_sha256": "0abdf341a332b495f5004efaaa2d478682477ea4c5e93ff4fcac60f1af9316c5",
+        "start_s": 11.69721163099166,
+        "end_s": 14.609134840982733,
+        "job_s": 2.9119232099910732,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.4006670840026345,
+          "model_s": 0.9765268340124749,
+          "verify_s": 0.120219290984096,
+          "write_s": 0.053651791997253895
+        },
+        "in_window": true
+      },
+      {
+        "revision": 5,
+        "guide_diameter_mm": 3.22,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "daf6c85faa74c18782d6ef0d20f5796998d28aaa4835c2f09ddce3884bde6668",
+        "step_sha256": "d574398868f59e21760d88ec19cb1e401d2de2d2e6f302b970820dc2b77ee68c",
+        "start_s": 14.611043256998528,
+        "end_s": 17.4174698839779,
+        "job_s": 2.8064266269793734,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.3183934170228895,
+          "model_s": 0.9497295839828439,
+          "verify_s": 0.12437299999874085,
+          "write_s": 0.05275929201161489
+        },
+        "in_window": true
+      },
+      {
+        "revision": 6,
+        "guide_diameter_mm": 3.02,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "6292c0b28f5305f57f06316ae0fd561a27867ceeb57836954a33a8d287bbd2b2",
+        "step_sha256": "321f1b2121d31e96c390f0d3aee87858c56f6ce5794d08420ea3f454576c2088",
+        "start_s": 17.420556716999272,
+        "end_s": 20.421954468998592,
+        "job_s": 3.0013977519993205,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.271120458986843,
+          "model_s": 1.1010441260004882,
+          "verify_s": 0.14892504102317616,
+          "write_s": 0.05780966699239798
+        },
+        "in_window": true
+      },
+      {
+        "revision": 7,
+        "guide_diameter_mm": 3.18,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "aea6c3ae81a0635785ff788cb9dfa50e8832a273fcd83ad0ef8a1c02708d64fa",
+        "step_sha256": "c80d267e90e243d667de46f7609c8c13176c6c5a7cc3502c2a2a1db24ecfd564",
+        "start_s": 20.425519926997367,
+        "end_s": 23.875128261977807,
+        "job_s": 3.4496083349804394,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.7261560430051759,
+          "model_s": 1.0278214590216521,
+          "verify_s": 0.146492790983757,
+          "write_s": 0.055782125011319295
+        },
+        "in_window": true
+      },
+      {
+        "revision": 8,
+        "guide_diameter_mm": 3.06,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "ffe0028f7c426537317208457515bc1596feeb04429ea66d3feccdb29912d4a2",
+        "step_sha256": "8ef51ebea29699e5d4c803567ff8fa5d22a91048f2248d9e50934eb37660017c",
+        "start_s": 23.87716676198761,
+        "end_s": 26.974397054989822,
+        "job_s": 3.0972302930022124,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.5435640839859843,
+          "model_s": 1.0206384590128437,
+          "verify_s": 0.09551891699084081,
+          "write_s": 0.05723533299169503
+        },
+        "in_window": true
+      },
+      {
+        "revision": 9,
+        "guide_diameter_mm": 3.14,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "b483347c0bd81c8252bd735613489e41a04d7ab54cc0543a3d19fd6538248127",
+        "step_sha256": "233dd2302d39a4b6a52fb4658491f144f78b3e79c1a00c4aa7c87ad3a837316b",
+        "start_s": 26.976222222001525,
+        "end_s": 30.046112764975987,
+        "job_s": 3.0698905429744627,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.3011437919922173,
+          "model_s": 1.1055113339971285,
+          "verify_s": 0.11788787500699982,
+          "write_s": 0.07250799998291768
+        },
+        "in_window": true
+      },
+      {
+        "revision": 10,
+        "guide_diameter_mm": 3.1,
+        "cable_radius_mm": 0.65,
+        "solids": 43,
+        "model_sha256": "9a39eeef9c770b8c34237e94373344018292a7adb1f3b0e7fbf2d808e1e6e343",
+        "step_sha256": "64c2c8e38753ea7761a378d19e280d6b6d564e0fe6c67bf68d97bbc251b8c8e0",
+        "start_s": 30.04947351498413,
+        "end_s": 33.01504355799989,
+        "job_s": 2.9655700430157594,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.443978208990302,
+          "model_s": 0.9702542920131236,
+          "verify_s": 0.1016164589964319,
+          "write_s": 0.05136533299810253
+        },
+        "in_window": true
+      },
+      {
+        "revision": 11,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "5043ad7804ee0074455715835ecb7a96ddc6d91b77cf834e83895d35f429ad20",
+        "step_sha256": "0b8da4d94780ff199193149593bab239402b827a20d2a4e9507b647cb0aee761",
+        "start_s": 33.01747280798736,
+        "end_s": 36.53434310099692,
+        "job_s": 3.5168702930095606,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.2997488330001943,
+          "model_s": 0.9675442510051653,
+          "verify_s": 0.2886657080089208,
+          "write_s": 0.12527474999660626
+        },
+        "in_window": true
+      },
+      {
+        "revision": 12,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "cb39e23fd5a1dadde63d2d5cb0b18654c75c7a53b51e838227207f46bb30912a",
+        "step_sha256": "ae0a3cea62b14815f8a2fe8edbc827681cd274a9f7fbbbc76291e6da1ce0f5c9",
+        "start_s": 36.53722801798722,
+        "end_s": 39.83548943599453,
+        "job_s": 3.298261418007314,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.7116003340051975,
+          "model_s": 1.0190692509931978,
+          "verify_s": 0.10075758301536553,
+          "write_s": 0.05940508400090039
+        },
+        "in_window": true
+      },
+      {
+        "revision": 13,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "d0f97b2377c2468b272403074a584526f73c18ea4693ae57491f44aa451ba79e",
+        "step_sha256": "a00794dfe64d7ebc03715b37a2c13ebdc5959e3406684a7e49f96ed238795c56",
+        "start_s": 39.83823518597637,
+        "end_s": 42.88434410397895,
+        "job_s": 3.0461089180025738,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.490222126012668,
+          "model_s": 0.9547962500073481,
+          "verify_s": 0.15337045799242333,
+          "write_s": 0.051061834004940465
+        },
+        "in_window": true
+      },
+      {
+        "revision": 14,
+        "guide_diameter_mm": 3.26,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "aeffa859ecf1de1e56aaa507afdf2203b297db263b1202e0b24e966224cb2c0c",
+        "step_sha256": "1c41ae31cc46d661773f5a24b0e19f44970219ccf651181de3b65493ab203884",
+        "start_s": 42.88970093798707,
+        "end_s": 46.2034584810026,
+        "job_s": 3.3137575430155266,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.7539142919995356,
+          "model_s": 1.003647876001196,
+          "verify_s": 0.10259445800329559,
+          "write_s": 0.06708145898301154
+        },
+        "in_window": true
+      },
+      {
+        "revision": 15,
+        "guide_diameter_mm": 2.98,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "c848d8cf116ae76966f587c04cbd470eb25178a058177fa5fda745afb3683013",
+        "step_sha256": "825710d3857f70a57a5f129920eacdd50925d0576670d5082b39cb46383ed170",
+        "start_s": 46.2058994389954,
+        "end_s": 49.20619781597634,
+        "job_s": 3.000298376980936,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.4176098350144457,
+          "model_s": 1.025218249997124,
+          "verify_s": 0.10071075000450946,
+          "write_s": 0.05392370800836943
+        },
+        "in_window": true
+      },
+      {
+        "revision": 16,
+        "guide_diameter_mm": 3.22,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "7d38e1246a53f8383977ecc759f299f7e16debe232b30894a8eb321444c9966c",
+        "step_sha256": "5f5be0bd727819d9d4e2c6a12aa4ed07cab12794ec7a29732d67afdf0746b429",
+        "start_s": 49.20822064898675,
+        "end_s": 52.134445192001294,
+        "job_s": 2.9262245430145413,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.347049459000118,
+          "model_s": 1.0018361670081504,
+          "verify_s": 0.11221770799602382,
+          "write_s": 0.06415316701168194
+        },
+        "in_window": true
+      },
+      {
+        "revision": 17,
+        "guide_diameter_mm": 3.02,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "048c148ef90245a9b547a6353860b4e936d34878507e55b862cdb076f5662205",
+        "step_sha256": "54394af2c30c1ce742455428e5a2f4fb81f247e21bc8c4fe4ef19b8adf02770b",
+        "start_s": 52.1368619419809,
+        "end_s": 55.33769398499862,
+        "job_s": 3.2008320430177264,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.5235002920089755,
+          "model_s": 0.9952409589895979,
+          "verify_s": 0.10498029200243764,
+          "write_s": 0.0600147079967428
+        },
+        "in_window": true
+      },
+      {
+        "revision": 18,
+        "guide_diameter_mm": 3.18,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "9becc6f123596a9a9e5f6020c1e1b3606f53960ab867190eb81a1c9f0939e4ed",
+        "step_sha256": "30a000c522cb21702a747700c4b8fc9032ea568aff47739481359b35c26c2d4c",
+        "start_s": 55.34120215199073,
+        "end_s": 58.937383404001594,
+        "job_s": 3.596181252010865,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.4994899170123972,
+          "model_s": 1.24209141699248,
+          "verify_s": 0.11432500000228174,
+          "write_s": 0.0749014999892097
+        },
+        "in_window": true
+      },
+      {
+        "revision": 19,
+        "guide_diameter_mm": 3.06,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "0debcb48518e54348e9c200158f0059092a906144f0a133e0b3a50230daec30e",
+        "step_sha256": "f7b75c37b376afd7fa970806b560f7fafe388511465654ee3cb5e35ecda7fafe",
+        "start_s": 58.94035286200233,
+        "end_s": 62.17589640498045,
+        "job_s": 3.235543542978121,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.6324763339944184,
+          "model_s": 0.9866681259882171,
+          "verify_s": 0.1393782920204103,
+          "write_s": 0.06640804099151865
+        },
+        "in_window": true
+      },
+      {
+        "revision": 20,
+        "guide_diameter_mm": 3.14,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "f446fe621105e355413e3dceddb820835a23d924e5e6bbe9dd32f1eafdc74e6f",
+        "step_sha256": "11eb74bae18e37b6eb80130eea25bbab04012deb7b3c75f82ea22ae703b65902",
+        "start_s": 62.17959469699417,
+        "end_s": 66.01943223999115,
+        "job_s": 3.8398375429969747,
+        "phases": {
+          "solids": 43,
+          "import_s": 2.12281941800029,
+          "model_s": 1.0723483340116218,
+          "verify_s": 0.12579679099144414,
+          "write_s": 0.07512933399993926
+        },
+        "in_window": true
+      },
+      {
+        "revision": 21,
+        "guide_diameter_mm": 3.1,
+        "cable_radius_mm": 0.66,
+        "solids": 43,
+        "model_sha256": "92883b4d52802d69d97cbdec63631f4c826b9429b6a0864b40cca3e4e3aded1a",
+        "step_sha256": "8fff33a0696ca5ae8b1b9194ed15bcbf3c29bba6f6e7795ff57b145770a2fc83",
+        "start_s": 66.02314736499102,
+        "end_s": 69.18567786700442,
+        "job_s": 3.1625305020133965,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.520765750989085,
+          "model_s": 1.034623624989763,
+          "verify_s": 0.14266137502272613,
+          "write_s": 0.05834283400326967
+        },
+        "in_window": true
+      },
+      {
+        "revision": 22,
+        "guide_diameter_mm": 2.9,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "9b8b1f07cad318e85cb4b0159fe3484abac2df554e61551e7b07ba3cf8192055",
+        "step_sha256": "5e7e0411a28ba9b1daeb9e5035e02d1e7d0c4be964019e370514d54fd38247ca",
+        "start_s": 69.18907365799532,
+        "end_s": 72.11499153499608,
+        "job_s": 2.9259178770007566,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.379249791993061,
+          "model_s": 1.0039318760100286,
+          "verify_s": 0.10100866598077118,
+          "write_s": 0.05498729200917296
+        },
+        "in_window": true
+      },
+      {
+        "revision": 23,
+        "guide_diameter_mm": 3.3,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "acad069b44af23d3f965302ae8c86f1217bd4b5ea7dde8cfe523514c315de92d",
+        "step_sha256": "ec285abb297e96ed3cdf86adbbc79647594944a1247eee6ae836e9ff1610ce6c",
+        "start_s": 72.11880486799055,
+        "end_s": 75.8119762869901,
+        "job_s": 3.6931714189995546,
+        "phases": {
+          "solids": 43,
+          "import_s": 2.035295751004014,
+          "model_s": 1.031289459002437,
+          "verify_s": 0.15023666599881835,
+          "write_s": 0.06227424999815412
+        },
+        "in_window": true
+      },
+      {
+        "revision": 24,
+        "guide_diameter_mm": 2.94,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "98f14edb5a6aa75450c38ba033b28cdd8283d16cc38c303c914039a34e4398c1",
+        "step_sha256": "e140e282d241be41af0336de398f0d153fe2b706e1db98071a02387937888719",
+        "start_s": 75.81432570298784,
+        "end_s": 79.23881770498701,
+        "job_s": 3.4244920019991696,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.6882712089864071,
+          "model_s": 1.062430874997517,
+          "verify_s": 0.0998959590215236,
+          "write_s": 0.06025395798496902
+        },
+        "in_window": true
+      },
+      {
+        "revision": 25,
+        "guide_diameter_mm": 3.26,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "f2e8b25604851b0534e2f3beb7dc78274cd3152aa5a01386222f99059194d2a6",
+        "step_sha256": "7eaed5e45a9b6e245ca796a511f54ea2e4adc42f9b7f788eb71792625fbfb79b",
+        "start_s": 79.24194128799718,
+        "end_s": 82.91100320700207,
+        "job_s": 3.669061919004889,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.4018373750150204,
+          "model_s": 1.1321727510076016,
+          "verify_s": 0.13905233299010433,
+          "write_s": 0.5132174169993959
+        },
+        "in_window": true
+      },
+      {
+        "revision": 26,
+        "guide_diameter_mm": 2.98,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "c1273ba6c840d7626d3fcf5b58803ae9d989aaa6a29653a4d56e6a85c7780c58",
+        "step_sha256": "c7f6611ded69dbf606a0af14917376dc420f431d77d1d6e78e12655491de51b7",
+        "start_s": 82.91396778999479,
+        "end_s": 87.276764041977,
+        "job_s": 4.362796251982218,
+        "phases": {
+          "solids": 43,
+          "import_s": 2.557703917991603,
+          "model_s": 1.0978350000223145,
+          "verify_s": 0.1211485419771634,
+          "write_s": 0.07241054202313535
+        },
+        "in_window": true
+      },
+      {
+        "revision": 27,
+        "guide_diameter_mm": 3.22,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "13c9948a8447e5f49ea8993d554cdd2a4c243e02ef483e39a5667f48b294bede",
+        "step_sha256": "9d22edab378f24b09fc0bdf58d97eb6fb38f86d84896d4b997b3b5777b81a571",
+        "start_s": 87.28079445898766,
+        "end_s": 90.73319383498165,
+        "job_s": 3.4523993759939913,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.8705216259986628,
+          "model_s": 1.0188154589850456,
+          "verify_s": 0.11538191701401956,
+          "write_s": 0.05545033299131319
+        },
+        "in_window": true
+      },
+      {
+        "revision": 28,
+        "guide_diameter_mm": 3.02,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "2ea82a24b419cacb5511f5664662c4a97723c0050db003d5a9adba07daa1b2f2",
+        "step_sha256": "05b84d1440c3f319be180e1ce6a7b798d8e84e9c509adffd2b17f696b0789c8b",
+        "start_s": 90.7355175440025,
+        "end_s": 93.76998046197696,
+        "job_s": 3.0344629179744516,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.4945694589987397,
+          "model_s": 0.9534954169939738,
+          "verify_s": 0.14842783400672488,
+          "write_s": 0.053052500006742775
+        },
+        "in_window": true
+      },
+      {
+        "revision": 29,
+        "guide_diameter_mm": 3.18,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "05edd4c6c7ee0892a9ecf9965d9b3d6a85dec06f2864d35caa8d77e839f27611",
+        "step_sha256": "032561900740197ae33081b011326bc7c88b56499af0681ce8caa6cc321332d5",
+        "start_s": 93.7732115869876,
+        "end_s": 96.72166342198034,
+        "job_s": 2.9484518349927384,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.3540012080047745,
+          "model_s": 0.965041333984118,
+          "verify_s": 0.13711370900273323,
+          "write_s": 0.06184004098759033
+        },
+        "in_window": true
+      },
+      {
+        "revision": 30,
+        "guide_diameter_mm": 3.06,
+        "cable_radius_mm": 0.67,
+        "solids": 43,
+        "model_sha256": "b3ce67439232da4f248d3ffc22f9fb339195cfddc62cf68379df2a86e61440e6",
+        "step_sha256": "20dd3e95699012c7bbfbba097b88d6b833343b4baee9981b1962d25625388f08",
+        "start_s": 96.72447621298488,
+        "end_s": 100.4486857150041,
+        "job_s": 3.724209502019221,
+        "phases": {
+          "solids": 43,
+          "import_s": 1.874761958984891,
+          "model_s": 1.1365888759901281,
+          "verify_s": 0.09676012501586229,
+          "write_s": 0.07345695799449459
+        },
+        "in_window": false
+      }
+    ]
+  },
+  "environments": {
+    "colocad": {
+      "window_s": 100.0,
+      "cpu_max": "100000 100000",
+      "memory_max_bytes": 536870912,
+      "oom_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "warmup_s": 4.779205834987806,
+      "platform": "aarch64"
+    },
+    "build123d": {
+      "window_s": 100.0,
+      "cpu_max": "100000 100000",
+      "memory_max_bytes": 536870912,
+      "oom_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "warmup_s": 5.475369168998441,
+      "platform": "aarch64"
+    }
+  },
+  "base_image": "sha256:418dc8b76cf532885f6404e3e540723be42a1970fddce6709e5fb1dac66229ef",
+  "verified_pairs": [
+    {
+      "revision": 0,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 1,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 2,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 3,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 4,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 5,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 6,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 7,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 8,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 9,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 10,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 11,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 12,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 13,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 14,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 15,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 16,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 17,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 18,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 19,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 20,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 21,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 22,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 23,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": []
+    },
+    {
+      "revision": 24,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    },
+    {
+      "revision": 25,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    },
+    {
+      "revision": 26,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    },
+    {
+      "revision": 27,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    },
+    {
+      "revision": 28,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    },
+    {
+      "revision": 29,
+      "solids": 43,
+      "bbox_max_mm": 1.0000719896652299e-07,
+      "max_part_relative_volume_delta": 6.528572174253067e-09,
+      "outside_window_reference": [
+        "colocad"
+      ]
+    }
+  ],
+  "first_pair_boolean_differences": [
+    {
+      "definition": "Yoke",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "WristAxle",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "PalmGuideIndex",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "LittleSocketGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ProximalCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "IntermediateCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "TipCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "Pin",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "LittleCordDef",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "RingSocketGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "RingCordDef",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "MiddleSocketGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "MiddleCordDef",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "IndexSocketGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "IndexCordDef",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ThumbSocketGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ThumbBaseLinkCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ThumbMidLinkCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ThumbEndLinkCableGuide",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "definition": "ThumbCordDef",
+      "differences_mm3": [
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

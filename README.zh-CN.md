@@ -4,6 +4,31 @@
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
 
+## Agent 等到首份 STEP，需要多久？
+
+**在两个已验证的机械单件上，colocad 从新进程启动到写完 STEP 分别快 22.0× 和 12.9×，沙箱峰值内存分别为 build123d 的 7.7% 和 8.0%。** 同机同预算、同一组输入；两端独立建模，各自导出可回读的有效实体。这是每次工具调用新起进程的收益。常驻 Python 可以摊薄导入时间。
+
+![四种任务的交付 STEP 耗时与实测峰值内存](docs/benchmarks/time-to-step.zh-CN.svg)
+
+| 独立交付物 | 首份 STEP：colocad / build123d | 交付速度比¹ | 沙箱峰值：colocad / build123d | 内存占对方 |
+|---|---:|---:|---:|---:|
+| 三槽导轨 | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | **7.7%** |
+| 四盲孔歧管 | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | **8.0%** |
+| 绳驱手近节指骨 | 259 / 2,244 ms | **8.6×** | 21.4 / 260.1 MiB | **8.2%** |
+| 43 实体整手 | 3,952 / 3,293 ms | **0.83×** | 52.7 / 271.3 MiB | **19.4%** |
+
+¹ 速度比为 build123d 用时 ÷ colocad 用时，按未取整的读数计算。Linux arm64、1 vCPU、512 MiB。每组预热后交替运行五轮，**耗时取中位数，内存取五轮容器 cgroup 峰值最大值**。计入启动、导入、建模、后端自身的检查及 STEP 导出；不含安装、容器启动、预览、模型推理或常驻 agent。单件和整手使用各自对应的公开接口。
+
+[原始读数：导轨与歧管](docs/benchmarks/runs.json) · [原始读数：指骨与整手](showcase/tendon-hand/evidence/scope.json) · [四视图、可编辑整手和 STEP](showcase/tendon-hand/README.md) · [离线数据卡](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/time-to-step.html)
+
+**整手是这条结论的边界。** 另一项 100 秒、按顺序改参的实测中，colocad 交付 24 份整手 STEP，build123d 交付 30 份；每份都是完整的 43 个实体，已逐件回读。[两端交付时间戳与几何核对](showcase/tendon-hand/evidence/window.json)
+
+## SDK、CLI、skill 怎么选？
+
+- **应用或 harness 集成：** 进程里直接调用 SDK 的 `build(tree, newDir, { preview: true })`；多实体装配用 `CadClient.build(model)`。
+- **终端或沙箱 agent：** 安装 `npm install @coloopx/colocad@0.1.0-alpha.2`；用 `./node_modules/.bin/colocad plan tree.json` 检查特征，再用 `./node_modules/.bin/colocad build tree.json ./new-part --preview`。成品在 `new-part/part/model.step`。全程在同一沙箱内。
+- **从多视图交给 agent：** 从 [skills/colocad](skills/colocad/SKILL.md) 安装 skill；下个回合输入「用 `$colocad` 读这四张图，生成可编辑模型和 STEP，并标出推断的内部结构」。[完整安装命令、SDK 装配示例和重放步骤](showcase/tendon-hand/README.md#try-it-with-your-agent)。
+
 以 Linux arm64 为例，安装后可执行文件就在 `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`。npm 分发编译产物；要读或修改 `.rs` 源文件，请用上面的 GitHub 源码链接。
 
 ## 两个建模后端做出来的东西一样吗？
@@ -12,20 +37,7 @@
 
 左右两列分别从相同参数独立建模、导出 STEP，再用同一套 OCCT 三角化参数、相机和光照出图。四份 STEP 回读都是有效的单实体。导轨各有 22 个面、56 条边；歧管各有 27 个面、54 条边。两个零件分别做 A−B、B−A，测得差集体积均为 **0 mm³**（布尔容差 0.000001 mm）。[逐件几何核对](docs/benchmarks/step-checks.json)
 
-## 同样的 1 vCPU / 512 MiB，能省多少？
-
-![同一 Linux arm64 沙箱预算下，从进程启动到交付 STEP 的时间和容器峰值内存。具体数值见下表。](docs/benchmarks/sandbox-performance.svg)
-
-下表每格均为 **colocad / build123d**，对比的是 npm 已发布的 **0.1.0-alpha.2**（Node CLI + 随包 Rust 可执行文件）和 **build123d 0.11.1 / OCCT**。
-
-| 零件 | 进程启动到写完 STEP | 交付加速比 | 沙箱峰值内存 | 仅几何构建 |
-| :--- | ---: | ---: | ---: | ---: |
-| [三槽传感器导轨](examples/sensor-rail.json) | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | 26.9 / 41.1 ms |
-| [四盲孔歧管](examples/manifold.json) | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | 53.7 / 43.8 ms |
-
-每件、每后端预热一次，再交替执行五轮，每次使用新进程和新容器。20 次正式调用全部成功。时间为中位数；内存取五轮容器 cgroup 峰值的最大值，包括计入该容器的文件页和临时输出。计时包括进程启动、导入、建模、各自的验证和 STEP 导出，不含安装、容器启动、渲染、agent 推理；此实验也没有把常驻 agent 的内存算进去。
-
-**最适合的是每次工具调用都启动新进程的场景。** build123d 在两个样件上仅导入就分别用了 2.01 s 和 2.45 s（中位数）。若 Python 解释器常驻，这笔成本可以摊薄。歧管只看几何阶段，build123d 的 43.8 ms 比 colocad 的 53.7 ms 更快。[原始逐轮数据](docs/benchmarks/runs.json) · [复现实验](benchmarks/readme/README.md)
+只看歧管几何阶段，build123d 是 43.8 ms，colocad 是 53.7 ms；build123d 导入则用了 2.45 s。端到端提速不能当作纯几何运算提速。[分阶段数据与复现方法](benchmarks/readme/README.md)
 
 ## 如果 agent 只是转动视角呢？
 

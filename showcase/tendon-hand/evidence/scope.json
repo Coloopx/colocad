@@ -1,0 +1,273 @@
+{
+  "environment": {
+    "base_image": "sha256:418dc8b76cf532885f6404e3e540723be42a1970fddce6709e5fb1dac66229ef",
+    "tarball_sha256": "f7d255b09b638ef6109a3fa45fe9076ebc92502e5abc31461c495c53e4fe0891",
+    "scope": "one fresh process & cgroup per trial; wall to process exit; whole-cgroup peak; preview off"
+  },
+  "runs": [
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 0,
+      "wall_ms": 3538.236168,
+      "peak_bytes": 272334848,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "935c1b6de8e6fdbe91f513dd8545f4c28f46fe6dfddd5d62960c923ae5027f6a",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 0,
+      "wall_ms": 306.127292,
+      "peak_bytes": 22470656,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 0,
+      "wall_ms": 4296.669669,
+      "peak_bytes": 55021568,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 0,
+      "wall_ms": 3587.12796,
+      "peak_bytes": 284237824,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3ba239f1e62ee2fe3583d4d996fdd8138e58977b3ad0f12f1123836294d7cc1",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 1,
+      "wall_ms": 259.465875,
+      "peak_bytes": 22470656,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 1,
+      "wall_ms": 2082.46646,
+      "peak_bytes": 272248832,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "cfd8fc52d0485596ee1a0bb789f41877936f8435ed541c6579b99fce6298b8c6",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 1,
+      "wall_ms": 3089.169835,
+      "peak_bytes": 284278784,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "3419494558528b0882b839923ae61e1b7810d58a15aa4cb4b64b96ed01934cee",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 1,
+      "wall_ms": 3807.252251,
+      "peak_bytes": 55001088,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 2,
+      "wall_ms": 2963.865168,
+      "peak_bytes": 272637952,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "489083a92d4c355c34772391933a12b35b1f358eb5d9326d030e32b1c1327dde",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 2,
+      "wall_ms": 374.805417,
+      "peak_bytes": 22282240,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 2,
+      "wall_ms": 4309.825002,
+      "peak_bytes": 55091200,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 2,
+      "wall_ms": 4312.526835,
+      "peak_bytes": 284475392,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "234efc71db7640ff98abd86246cb97e448bf2c5977015db711fe17bbf0708504",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 3,
+      "wall_ms": 261.715251,
+      "peak_bytes": 22462464,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 3,
+      "wall_ms": 2497.51296,
+      "peak_bytes": 272392192,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "16156d91fbf5662f0b0c9c148cb697ebc539f5d864a3ea15e3097b288b43a6d5",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 3,
+      "wall_ms": 3718.803252,
+      "peak_bytes": 284348416,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "97fe3ab2e0278e490071f0a59b9d413026f2dbfabf900affb7d3a7a9b8d0f3b3",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 3,
+      "wall_ms": 3951.54521,
+      "peak_bytes": 55222272,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 4,
+      "wall_ms": 2244.209417,
+      "peak_bytes": 272531456,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "8077ffed5839096110acc893b338773cfa8072125bc154f743527ff1da47f9b5",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 4,
+      "wall_ms": 223.829417,
+      "peak_bytes": 22466560,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 4,
+      "wall_ms": 4245.827335,
+      "peak_bytes": 55107584,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 4,
+      "wall_ms": 3292.982544,
+      "peak_bytes": 284446720,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "9442b418c350a53c4847569c6f50b385e48f194245fbc8475e054102bb8604ed",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "finger",
+      "rep": 5,
+      "wall_ms": 253.976417,
+      "peak_bytes": 22454272,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "finger",
+      "rep": 5,
+      "wall_ms": 2075.440335,
+      "peak_bytes": 272699392,
+      "solids": 1,
+      "source_sha256": "dad47d80b25a387e55f9f4db74ad3600b1d05d3b11e87ac08bb912f9910b3ed1",
+      "step_sha256": "bd073d3265c05ce053a2763ce6f913b58346b60bf426737fb0db16305c0f516f",
+      "oom_kill": 0
+    },
+    {
+      "backend": "build123d",
+      "case": "hand",
+      "rep": 5,
+      "wall_ms": 3050.529751,
+      "peak_bytes": 284200960,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "a6979c7375168022438dd333688ffba5d27087c99bdb4719e1e7c55c7122973a",
+      "oom_kill": 0
+    },
+    {
+      "backend": "colocad",
+      "case": "hand",
+      "rep": 5,
+      "wall_ms": 3883.216002,
+      "peak_bytes": 55218176,
+      "solids": 43,
+      "source_sha256": "6e478f458968defd88a608f9a527ab73cc956bac650a9dc01eaebb314bf91734",
+      "step_sha256": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "oom_kill": 0
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "sections": {
+    "ProximalCableGuide": {
+      "diameter_mm": 2.900000000000001,
+      "volume_mm3": 13217.692299430817
+    },
+    "guide-edit": {
+      "diameter_mm": 3.3000000000000003,
+      "volume_mm3": 13130.965628542543
+    }
+  },
+  "reference_silhouette_iou": {
+    "front": 0.9105,
+    "side": 0.8301,
+    "end": 0.7429,
+    "oblique": 0.9109
+  },
+  "individual_part_triangles": 6066,
+  "scenes": {
+    "wrist": {
+      "solids": 2,
+      "faces": 6,
+      "volume_mm3": 21923.938211906407,
+      "model_hash": "3b8f225e3c2d7c36d3039b0afb724c537b604718d76b30b21a47a2084e6b4a3f",
+      "step_sha256": "9cd922569d74914269c37fbee8d2ffb62ce3300c8eec552abce533a3bd30398a",
+      "timing_ms": {
+        "export": 3.1220839999999996,
+        "geometry": 91.85187499999999,
+        "total": 253.76008300000004,
+        "validation": 158.184834
+      }
+    },
+    "palm": {
+      "solids": 7,
+      "faces": 80,
+      "volume_mm3": 184341.6090684082,
+      "model_hash": "06f5cc02e5b7aa654722bb0283b569f23856c87b1b3f1685d6a41a06daa95eae",
+      "step_sha256": "64d4c4fd2ee77d8161cbe740fbef42226e6ed10e1d1c41e2513e86586ac958f2",
+      "timing_ms": {
+        "export": 15.448291,
+        "geometry": 118.229208,
+        "total": 750.487667,
+        "validation": 616.677291
+      }
+    },
+    "proximal": {
+      "solids": 11,
+      "faces": 152,
+      "volume_mm3": 237212.37860395812,
+      "model_hash": "93eb2f97f410253b43e214d9b8a83e5044375730725168f3e18acbee5b15a0a3",
+      "step_sha256": "750f79f654ecec91f53a945a6afc288f9bef04b3a09c9bd873fd193627779d68",
+      "timing_ms": {
+        "export": 20.701332999999998,
+        "geometry": 137.606292,
+        "total": 1379.38475,
+        "validation": 1220.902333
+      }
+    },
+    "middle": {
+      "solids": 15,
+      "faces": 224,
+      "volume_mm3": 261753.7469980489,
+      "model_hash": "06a6955d4537ebc77199e0e7051d07c92f07f9223a0c31fcbc33d38b8c4c08f7",
+      "step_sha256": "0adbde31b77ac6818a900c12bcc443cf6a4fe4717e588c004e07c2fe3562bb36",
+      "timing_ms": {
+        "export": 26.619916,
+        "geometry": 165.346459,
+        "total": 2079.55275,
+        "validation": 1887.333292
+      }
+    },
+    "tips": {
+      "solids": 19,
+      "faces": 272,
+      "volume_mm3": 281037.8989587003,
+      "model_hash": "d8d2ba2629c0872a96609f9f5d94fede853024cf86191ab9e0de2b048d07cfd0",
+      "step_sha256": "71d1b906e674e1efeca651bb3974d7218ff777dfac1d3d07d042b8186659e65e",
+      "timing_ms": {
+        "export": 30.012833,
+        "geometry": 217.356209,
+        "total": 2685.152167,
+        "validation": 2437.578958
+      }
+    },
+    "thumb": {
+      "solids": 23,
+      "faces": 333,
+      "volume_mm3": 311533.6363363622,
+      "model_hash": "9d119b4a2c7065f034d2b05f6ce9b3cc4936276acf654e92d1eff3208bc2df31",
+      "step_sha256": "db283fd4de9c02e5b5de8277212276714f1e800370a68c3adeddc9e2f7b2171f",
+      "timing_ms": {
+        "export": 47.911457999999996,
+        "geometry": 297.831333,
+        "total": 3198.857125,
+        "validation": 2852.7630830000003
+      }
+    },
+    "drive": {
+      "solids": 43,
+      "faces": 393,
+      "volume_mm3": 315782.15738723427,
+      "model_hash": "bf023e8e49b226baf5ea5db8c7be569230da2fbecff3345df6866ed89e0eea8e",
+      "step_sha256": "bc984bbeca59dae267aeb10bf2b884b07b6e78d24ec0a4530e564424b24d7ed4",
+      "timing_ms": {
+        "export": 51.680875,
+        "geometry": 314.321708,
+        "total": 5246.818791,
+        "validation": 3802.2616669999998
+      },
+      "preview": {
+        "triangles": 147706,
+        "tessellation_calls": 20,
+        "instance_mesh_hits": 23,
+        "revision_mesh_hits": 0
+      }
+    },
+    "ProximalBlank": {
+      "solids": 1,
+      "faces": 6,
+      "volume_mm3": 18736.5371769712,
+      "model_hash": "b9ec9b0000fb3634f59c674b6d2f9410036629ea78dfdfcde3fe8935141c1981",
+      "step_sha256": "41698be83c2359412b0b64eccab0e5dffd5174922ebb424974e514dfaab3c93d",
+      "timing_ms": {
+        "export": 0.4355,
+        "geometry": 3.343667,
+        "total": 33.188708,
+        "validation": 29.383209
+      },
+      "target_ms": 3.224666
+    },
+    "ProximalTangPos": {
+      "solids": 1,
+      "faces": 10,
+      "volume_mm3": 15793.087348924832,
+      "model_hash": "900e33cd0a22665794fa0da8cd70afbd0d81f317059a807b94c05e18ebad8275",
+      "step_sha256": "703806c90bb4467c694cc86c718e2592d0b891232fbff8c766ebec2b8a2b4455",
+      "timing_ms": {
+        "export": 0.43029199999999995,
+        "geometry": 7.642166,
+        "total": 40.6905,
+        "validation": 32.589
+      },
+      "target_ms": 1.012292
+    },
+    "ProximalPinRoot": {
+      "solids": 1,
+      "faces": 11,
+      "volume_mm3": 15691.950056660244,
+      "model_hash": "7f6c6886180d7bb00962b59a44841c44b8a4ff0bc7a8708215d34453daac4e14",
+      "step_sha256": "f5b2c697a34083c5d896a10874eb78ad8de310f2a56e841502b6b894863d601d",
+      "timing_ms": {
+        "export": 0.615959,
+        "geometry": 13.804333,
+        "total": 71.228208,
+        "validation": 56.775709
+      },
+      "target_ms": 2.778792
+    },
+    "ProximalFork": {
+      "solids": 1,
+      "faces": 15,
+      "volume_mm3": 13663.371000839106,
+      "model_hash": "2d4e86e3fd539a4b75f47a6a19cbe63d89174badd408bae6aa38bdf2d5449a0b",
+      "step_sha256": "5262d247c060273f0c31174e7b30293e4450fe864491dc299e67e81845f166a0",
+      "timing_ms": {
+        "export": 0.8432080000000001,
+        "geometry": 16.660917,
+        "total": 86.563917,
+        "validation": 69.023208
+      },
+      "target_ms": 1.551417
+    },
+    "ProximalPinEnd": {
+      "solids": 1,
+      "faces": 17,
+      "volume_mm3": 13512.357783664122,
+      "model_hash": "ced671cd15f26174eb7020da284cea46e0e74ced5dd6168f7a80816885e2a0f1",
+      "step_sha256": "14acf232cf66912082a9696baeb2838164b9a5341a849d6848596877a99aea05",
+      "timing_ms": {
+        "export": 1.249417,
+        "geometry": 26.125249999999998,
+        "total": 146.271917,
+        "validation": 118.85933299999999
+      },
+      "target_ms": 5.16225
+    },
+    "ProximalCableGuideTool": {
+      "solids": 1,
+      "faces": 3,
+      "volume_mm3": 446.5114222921379,
+      "model_hash": "620e623c8bbe788839f36d5e3261090d35fce552b467e27822f22a2c3e0910fe",
+      "step_sha256": "cfe921c7231183a73b5f2f406ebed63c9310731790260679404c668250fe7475",
+      "timing_ms": {
+        "export": 0.27270799999999995,
+        "geometry": 2.992917,
+        "total": 29.039709000000002,
+        "validation": 25.748375
+      },
+      "target_ms": 2.9056249999999997
+    },
+    "ProximalCableGuide": {
+      "solids": 1,
+      "faces": 18,
+      "volume_mm3": 13217.692383887494,
+      "model_hash": "ff5b7b4e71770ea566e96a1ab4d6f8640340d744d9109cade3d3ca3e3448d359",
+      "step_sha256": "8c54d79a65715ea9241345345c99e1199294bdde8f8e80169e12890f544d64e4",
+      "timing_ms": {
+        "export": 1.5584170000000002,
+        "geometry": 36.299458,
+        "total": 276.4385,
+        "validation": 153.647041
+      },
+      "preview": {
+        "triangles": 6066,
+        "tessellation_calls": 1,
+        "instance_mesh_hits": 0,
+        "revision_mesh_hits": 0
+      },
+      "target_ms": 6.997875
+    },
+    "guide-edit": {
+      "solids": 1,
+      "faces": 18,
+      "volume_mm3": 13130.965718510228,
+      "model_hash": "6e6b0e751b95d250779dab47f77232080ef2b751da3b73854c5ae21d3dfc9411",
+      "step_sha256": "41031c5e892d2ac07c4353fc18ad7934c1580ec0ada31e06c9bd3b8a54cf70f1",
+      "timing_ms": {
+        "export": 1.6588340000000001,
+        "geometry": 36.646041999999994,
+        "total": 183.98054199999999,
+        "validation": 145.635
+      },
+      "target_ms": 7.370917
+    }
+  }
+}

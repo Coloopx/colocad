@@ -1,0 +1,26 @@
+{
+  "finger": {
+    "solids": 1,
+    "valid": true,
+    "bounds_max_delta_mm": 1.000000082740371e-07,
+    "max_relative_volume_delta_per_solid": 4.053919520588499e-09,
+    "hashes": {
+      "colocad": "b74a50d45c31c5b066916af53ee2acdd410914c505474878ad36eb7bd069a8dd",
+      "build123d": "cfd8fc52d0485596ee1a0bb789f41877936f8435ed541c6579b99fce6298b8c6"
+    },
+    "difference_mm3": [
+      0.0,
+      0.0
+    ]
+  },
+  "hand": {
+    "solids": 43,
+    "valid": true,
+    "bounds_max_delta_mm": 1.0000719896652299e-07,
+    "max_relative_volume_delta_per_solid": 6.528572174253067e-09,
+    "hashes": {
+      "colocad": "e3d35ebb1113191b794f59359a919ad5d5c39fddb25ee8682575023e5e26c566",
+      "build123d": "3419494558528b0882b839923ae61e1b7810d58a15aa4cb4b64b96ed01934cee"
+    }
+  }
+}

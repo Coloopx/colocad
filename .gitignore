@@ -8,3 +8,5 @@ out/
 .DS_Store
 solidworks/obj/
 solidworks/bin/
+
+__pycache__/

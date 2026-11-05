@@ -1,0 +1,10 @@
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { hand } from '../model.mjs';
+const root=process.argv[2]; mkdirSync(root);
+const {model}=hand('drive');
+writeFileSync(join(root,'hand.json'),JSON.stringify(model));
+const index=model.assembly.find(i=>i.id==='Index_Proximal');
+const deps=new Set([index.input]);for(const f of [...model.features].reverse())if(deps.has(f.id))for(const k of ['input','left','right'])if(f[k])deps.add(f[k]);
+model.assembly=[index];model.features=model.features.filter(f=>deps.has(f.id));
+writeFileSync(join(root,'finger.json'),JSON.stringify(model));
