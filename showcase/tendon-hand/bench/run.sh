@@ -1,5 +1,5 @@
 #!/bin/sh
-# Usage: sh bench/run.sh IMAGE /absolute/file.tgz /absolute/NEW_OUTPUT_DIRECTORY
+# Usage: sh bench/run.sh IMAGE /absolute/file.tgz /absolute/NEW_OUTPUT_DIRECTORY [optimized-linux-binary]
 set -eu
 base=$1
 archive=$2
@@ -19,8 +19,15 @@ ADD bundle.tgz /opt/
 COPY baseline.py assembly.mjs window.py /bench/
 COPY inputs/drive.json /inputs/
 EOF
+arms="build123d colocad"
+if [ "$#" -eq 4 ]; then
+ cp "$4" "$ctx/optimized"
+ chmod 755 "$ctx/optimized"
+ echo 'COPY optimized /opt/optimized' >> "$ctx/Dockerfile"
+ arms="optimized build123d"
+fi
 img=$(docker build -q --network none --build-arg "BASE=$base" "$ctx")
 docker image inspect "$base" --format '{{.Id}}' > "$out/base-image.txt"
-for arm in build123d colocad; do
+for arm in $arms; do
  docker run --rm --network none --cpus 1 --memory 512m --memory-swap 512m --read-only --pids-limit 64 --cap-drop ALL --security-opt no-new-privileges --user 1000:1000 --tmpfs /tmp:rw,nosuid,size=128m -v "$out:/outputs" -e RAYON_NUM_THREADS=1 -e OMP_NUM_THREADS=1 -e OPENBLAS_NUM_THREADS=1 -e MKL_NUM_THREADS=1 -e NUMEXPR_NUM_THREADS=1 -e XDG_CACHE_HOME=/tmp -e MPLCONFIGDIR=/tmp/mpl -e PYTHONDONTWRITEBYTECODE=1 -e "BASELINE_PYTHON=${BASELINE_PYTHON:-/home/agent/workspace/.structure-runtime/venv/bin/python3}" --entrypoint python3 "$img" /bench/window.py "$arm" 100
 done

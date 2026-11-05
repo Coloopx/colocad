@@ -4,13 +4,20 @@
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
 
-## 用一只绳驱灵巧手测量 STEP 交付速度
+## 100 秒能交付多少版绳驱灵巧手？
 
-同一套四视图，先重建食指近节，再装成 43 实体的五指手。回放里的两次计时分别测量一个零件和完整装配，内存使用同一把 512 MiB 标尺。
+**colocad 交付 44 版，build123d 交付 33 版，多 11 版（33.3%）。** 每版都是一份重新建模、装配并写完的 43 实体 STEP。两条轨道按实际交付时间计数，底部同步显示整个沙箱的内存采样。
 
-![绳驱灵巧手四视图、指骨布尔切除、五指装配以及两端的实际内存和 STEP 交付时间](showcase/tendon-hand/replay/tendon-hand-zh-CN.gif)
+![四视图、切除、改参、网格和五指装配。100 秒以 10 倍速播放，colocad 与 build123d 的交付计数和内存同屏。](showcase/tendon-hand/window/hand-window-zh-CN.gif)
 
-**本次源码优化实测。** 食指、掌部和销轴组成了 43 实体整手。五轮中位数为原 npm 内核 **3.93 s**、优化内核 **2.24 s**、build123d **3.34 s**。峰值内存分别为 **52.7 / 37.9 / 271.3 MiB**。其中 21 个实例完整检查，22 个同朝向的平移实例复用结果。使用 alpha.2 SDK 调用新源码内核。[单文件灵巧手回放与 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/hand-replay.html) · [原因、CadQuery 线索与数据](showcase/tendon-hand/assembly-performance.md) · [早期歧管实录](benchmarks/readme/replay/README.md)
+| 同一改参队列，1 vCPU / 512 MiB | colocad 优化内核 | build123d |
+|---|---:|---:|
+| 100 秒内交付的完整整手 | **44 份** | 33 份 |
+| 首份 STEP | **2.223 s** | 3.010 s |
+| 共同前 33 份交付耗时中位数 | **2.234 s** | 2.855 s |
+| 连续 100 秒内的最高采样内存 | **130.9 MiB** | 304.9 MiB |
+
+各运行一个真实窗口，每版新起 CAD 进程。colocad 为 alpha.2 SDK 加源码优化内核。内存约每 25 ms 采样，包含子进程、临时文件和计入本容器的文件缓存。两边计入的 STEP 都已独立回读。四视图、布尔切除、孔径改参、三角网格和装配过程贯穿 10 秒回放。[单文件回放与 STEP 下载](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window.html) · [逐点读数](showcase/tendon-hand/evidence/window-optimized.json) · [建模细节与单次原速回放](showcase/tendon-hand/assembly-performance.md)
 
 以下静态表记录 npm **0.1.0-alpha.2 自带内核**的历史基线。新进程交付导轨和歧管分别快 22.0× 和 12.9×，峰值内存分别为 build123d 的 7.7% 和 8.0%。
 

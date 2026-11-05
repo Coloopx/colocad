@@ -1,5 +1,7 @@
 # A tendon-driven hand from one finger to a complete assembly
 
+The 100-second modeling and assembly replay compares the optimized kernel with build123d and keeps sampled memory visible throughout. The two arms delivered **44 and 33** complete revisions. [Watch the 10-second race](window/hand-window-en.mp4) · [Timing and memory details](window/README.md)
+
 [Watch the hand animation](replay/tendon-hand-en.mp4) · [Open the offline player and download the measured STEPs](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/hand-replay.html)
 
 The optimized source kernel delivers the full assembly in **2.24 seconds**, compared with **3.93 seconds** for the earlier published kernel and **3.34 seconds** for build123d in the same five-run test. The original measurements below describe the published alpha.2 binary. [Cause, change and independent readback](assembly-performance.md)
