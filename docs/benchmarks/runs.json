@@ -1,0 +1,277 @@
+{
+  "environment": {
+    "base_image_id": "sha256:418dc8b76cf532885f6404e3e540723be42a1970fddce6709e5fb1dac66229ef",
+    "tarball_sha256": "f7d255b09b638ef6109a3fa45fe9076ebc92502e5abc31461c495c53e4fe0891",
+    "package": "0.1.0-alpha.2",
+    "node": "v22.23.2",
+    "arch": "aarch64",
+    "python": "3.12.3",
+    "build123d": "0.11.1",
+    "ocp": "7.9.3.1.1",
+    "cpu_limit": 1,
+    "memory_limit_mib": 512,
+    "source_sha256": {
+      "run.py": "fa0f8c0bb1940148c4929f524b9cffb479c346aa7478a14c5f361318c3401968",
+      "measure.py": "71ed9f26031ad8edf00c6cc85477cad7c19fab564dfd408e627aba7d1e14b0d6",
+      "baseline.py": "82e39679d1d0ced53746c017b65d27d22c49fe86de8d5b06a683e34effd94d34"
+    }
+  },
+  "runs": [
+    {
+      "rep": 0,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 7406.733295,
+      "peak_bytes": 509276160,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 6708.416503010085,
+      "geometry_ms": 163.40374998981133
+    },
+    {
+      "rep": 0,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 127.062708,
+      "peak_bytes": 20148224,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 46.405958
+    },
+    {
+      "rep": 0,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 210.80675,
+      "peak_bytes": 21692416,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 47.309625000000004
+    },
+    {
+      "rep": 0,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 2478.471959,
+      "peak_bytes": 272113664,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 1960.24287599721,
+      "geometry_ms": 52.428249997319654
+    },
+    {
+      "rep": 1,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 87.376625,
+      "peak_bytes": 20078592,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 23.021957999999998,
+      "step_sha256": "6d5d1bfd8d0428b880286e0d80a2961dfcb20d7dc8d3516e432ceb964f67280e"
+    },
+    {
+      "rep": 1,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 2485.244085,
+      "peak_bytes": 271552512,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 2007.4792100058403,
+      "geometry_ms": 52.75245799566619,
+      "step_sha256": "e8ca35db09458fe69fd61e7721e736c70ae00f30487ccf3b498c4b0abe1a2b2b"
+    },
+    {
+      "rep": 1,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 2277.552626,
+      "peak_bytes": 271093760,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 1794.6901250106748,
+      "geometry_ms": 53.478458983590826,
+      "step_sha256": "b569262db2a5099edce00a0dd6e83b7b918a723007edc24f79a56023ce30d24e"
+    },
+    {
+      "rep": 1,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 229.594917,
+      "peak_bytes": 21688320,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 55.020708,
+      "step_sha256": "b8e8559016c8fa7cde247024840bc1732c1786f77cc72f00d07cee0efb53d5aa"
+    },
+    {
+      "rep": 2,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 2208.476043,
+      "peak_bytes": 271687680,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 1717.8393759822939,
+      "geometry_ms": 32.9489590076264
+    },
+    {
+      "rep": 2,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 87.267333,
+      "peak_bytes": 20324352,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 26.896625
+    },
+    {
+      "rep": 2,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 265.389959,
+      "peak_bytes": 21467136,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 54.068166
+    },
+    {
+      "rep": 2,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 2876.007459,
+      "peak_bytes": 271097856,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 2323.6101680085994,
+      "geometry_ms": 43.77504100557417
+    },
+    {
+      "rep": 3,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 114.850334,
+      "peak_bytes": 20475904,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 32.900959
+    },
+    {
+      "rep": 3,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 2454.415334,
+      "peak_bytes": 271380480,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 1938.215792994015,
+      "geometry_ms": 72.94983300380409
+    },
+    {
+      "rep": 3,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 2963.256418,
+      "peak_bytes": 270888960,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 2447.1148349985015,
+      "geometry_ms": 49.854082986712456
+    },
+    {
+      "rep": 3,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 230.764417,
+      "peak_bytes": 21745664,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 53.654917000000005
+    },
+    {
+      "rep": 4,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 6654.977169,
+      "peak_bytes": 271880192,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 6079.330294014653,
+      "geometry_ms": 41.05858301045373
+    },
+    {
+      "rep": 4,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 117.487375,
+      "peak_bytes": 20967424,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 29.226125
+    },
+    {
+      "rep": 4,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 224.38,
+      "peak_bytes": 21536768,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 50.531292
+    },
+    {
+      "rep": 4,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 3144.061126,
+      "peak_bytes": 271118336,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 2716.2120020075236,
+      "geometry_ms": 39.55162499914877
+    },
+    {
+      "rep": 5,
+      "case": "sensor-rail",
+      "backend": "colocad",
+      "wall_ms": 112.855,
+      "peak_bytes": 20156416,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 23.54475
+    },
+    {
+      "rep": 5,
+      "case": "sensor-rail",
+      "backend": "build123d",
+      "wall_ms": 4707.196628,
+      "peak_bytes": 271249408,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 4265.144918987062,
+      "geometry_ms": 32.54025001660921
+    },
+    {
+      "rep": 5,
+      "case": "manifold",
+      "backend": "build123d",
+      "wall_ms": 3108.489876,
+      "peak_bytes": 271269888,
+      "exit": 0,
+      "oom_kill": 0,
+      "import_ms": 2679.9077509786002,
+      "geometry_ms": 35.37633302039467
+    },
+    {
+      "rep": 5,
+      "case": "manifold",
+      "backend": "colocad",
+      "wall_ms": 186.963417,
+      "peak_bytes": 21737472,
+      "exit": 0,
+      "oom_kill": 0,
+      "geometry_ms": 41.084833
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "sensor-rail": {
+    "build123d": {
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 16578.826068749026,
+      "bounds_mm": [
+        -15.0,
+        -11.0,
+        0.0,
+        15.0,
+        55.0,
+        9.0
+      ],
+      "faces": 22,
+      "edges": 56,
+      "step_sha256": "e8ca35db09458fe69fd61e7721e736c70ae00f30487ccf3b498c4b0abe1a2b2b"
+    },
+    "colocad": {
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 16578.82594005017,
+      "bounds_mm": [
+        -15.0000001,
+        -11.0000001,
+        -1e-07,
+        15.0000001,
+        55.0000001,
+        9.000000100003488
+      ],
+      "faces": 22,
+      "edges": 56,
+      "step_sha256": "6d5d1bfd8d0428b880286e0d80a2961dfcb20d7dc8d3516e432ceb964f67280e"
+    },
+    "bounds_max_delta_mm": 1.0000348815708548e-07,
+    "volume_delta_mm3": 0.00012869885540567338,
+    "difference_volumes_mm3": [
+      0.0,
+      0.0
+    ],
+    "boolean_fuzzy_mm": 1e-06
+  },
+  "manifold": {
+    "build123d": {
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 45490.92426116928,
+      "bounds_mm": [
+        -2.0228263508670352e-13,
+        -2.0228263508670352e-13,
+        0.0,
+        90.0000000000001,
+        45.0000000000002,
+        12.0
+      ],
+      "faces": 27,
+      "edges": 54,
+      "step_sha256": "b569262db2a5099edce00a0dd6e83b7b918a723007edc24f79a56023ce30d24e"
+    },
+    "colocad": {
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 45490.92384048452,
+      "bounds_mm": [
+        -1.0000001421085471e-07,
+        -1.0000000077715611e-07,
+        -1e-07,
+        90.00000010000001,
+        45.00000010000001,
+        12.00000010000152
+      ],
+      "faces": 27,
+      "edges": 54,
+      "step_sha256": "b8e8559016c8fa7cde247024840bc1732c1786f77cc72f00d07cee0efb53d5aa"
+    },
+    "bounds_max_delta_mm": 1.0000151995370743e-07,
+    "volume_delta_mm3": 0.00042068476614076644,
+    "difference_volumes_mm3": [
+      0.0,
+      0.0
+    ],
+    "boolean_fuzzy_mm": 1e-06
+  }
+}

@@ -1,0 +1,266 @@
+[
+  {
+    "case": "sensor-rail",
+    "rep": 0,
+    "mode": "rebuild",
+    "wall_ms": 217.266292,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 0,
+    "mode": "cache",
+    "wall_ms": 21.96604100000002,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 1,
+    "mode": "cache",
+    "wall_ms": 19.368875000000003,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 1,
+    "mode": "rebuild",
+    "wall_ms": 266.791333,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 2,
+    "mode": "rebuild",
+    "wall_ms": 207.35408299999995,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 2,
+    "mode": "cache",
+    "wall_ms": 66.25450000000001,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 3,
+    "mode": "cache",
+    "wall_ms": 61.8884579999999,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 3,
+    "mode": "rebuild",
+    "wall_ms": 108.82158299999992,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 4,
+    "mode": "rebuild",
+    "wall_ms": 98.58529199999998,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 4,
+    "mode": "cache",
+    "wall_ms": 14.083707999999888,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 5,
+    "mode": "cache",
+    "wall_ms": 9.541167000000087,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "sensor-rail",
+    "rep": 5,
+    "mode": "rebuild",
+    "wall_ms": 101.02100000000019,
+    "hashes": {
+      "preview.png": "edb4d861aa76fbc1ddca1827a7eb48232f79ef906bacb8015e0713fc29ce186c",
+      "model.glb": "f84323fd5b784d6b72c26d4e6f7b64104633eba666de95ccd37057bc46ca54db",
+      "model.stl": "ddcfe906f5994c1be21f22c13861d7dc7cba60037a6485854e5c434e8d25599f"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 0,
+    "mode": "rebuild",
+    "wall_ms": 241.93129199999998,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 0,
+    "mode": "cache",
+    "wall_ms": 17.796333000000004,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 1,
+    "mode": "cache",
+    "wall_ms": 17.19374999999991,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 1,
+    "mode": "rebuild",
+    "wall_ms": 313.2323329999999,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 2,
+    "mode": "rebuild",
+    "wall_ms": 223.80754100000013,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 2,
+    "mode": "cache",
+    "wall_ms": 15.063167000000249,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 3,
+    "mode": "cache",
+    "wall_ms": 13.330875000000106,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 3,
+    "mode": "rebuild",
+    "wall_ms": 240.26600000000008,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 4,
+    "mode": "rebuild",
+    "wall_ms": 223.19079199999987,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 4,
+    "mode": "cache",
+    "wall_ms": 12.765667000000121,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 5,
+    "mode": "cache",
+    "wall_ms": 11.868457999999919,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  },
+  {
+    "case": "manifold",
+    "rep": 5,
+    "mode": "rebuild",
+    "wall_ms": 218.9932920000001,
+    "hashes": {
+      "preview.png": "1ca3b41f43339b682a3490c574b0748ba4d6ab9e27ce821f7d3d93c5c35c16f0",
+      "model.glb": "65c83ebbede0b8e87a48f79140899f4c7fe4f1957535caddc923c7b50a93eaf3",
+      "model.stl": "bb46936f742f9e442a475cc76465ffd02fc23f8fa1e6730bb0e10012962db96e"
+    }
+  }
+]

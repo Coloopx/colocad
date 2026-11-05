@@ -1,8 +1,48 @@
 # colocad
 
-Local parametric CAD for agents. A TypeScript-compatible API compiles ordered sketch extrusions, cuts, constant-radius fillets and linear feature patterns. A Rust B-rep kernel executes the graph inside the calling agent's sandbox. Node.js 22+.
+[中文说明](README.zh-CN.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
-**Alpha status.** Linux supports instruction-to-STEP, mesh previews, parameter edits and geometry verification. Direct editable SLDPRT generation on Linux is under development. A separate local Windows author uses the native SOLIDWORKS FeatureManager. It compiles against the 2024 interop API and awaits a licensed SOLIDWORKS runtime test. The Linux CLI returns `NATIVE_AUTHOR_UNAVAILABLE` for the native command.
+Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
+
+On the two parts below, the published CLI delivered STEP in **113–230 ms** on **1 vCPU / 512 MiB**, compared with **2.49–2.96 s** for a fresh build123d process. Both backends produced valid solids. The advantage is largest when an agent starts a fresh tool call; the manifold’s geometry phase alone was faster in build123d.
+
+![Two independently modeled STEP pairs. Top: a sensor rail with three through-slots. Bottom: a manifold with four blind bores and a rectangular pocket. Colocad on the left; build123d on the right.](docs/benchmarks/step-comparison.png)
+
+Each backend modeled the part from the same parameters. The images use the exported STEPs, the same mesher and camera. OCCT reopened each file as **one valid solid**. Both rail exports had 22 faces and 56 edges; both manifold exports had 27 faces and 54 edges. The two directional boolean differences measured **0 mm³** in both cases (boolean tolerance: 0.000001 mm). [Geometry checks](docs/benchmarks/step-checks.json)
+
+## Performance in a small sandbox
+
+![Bar charts showing median time to STEP and highest peak memory for each CAD backend. Exact values appear in the table below.](docs/benchmarks/sandbox-performance.svg)
+
+| Part | Time to STEP: colocad / build123d | Speedup | Peak sandbox memory: colocad / build123d | Geometry only: colocad / build123d |
+| :--- | ---: | ---: | ---: | ---: |
+| [Sensor rail](examples/sensor-rail.json) | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | 26.9 / 41.1 ms |
+| [Port manifold](examples/manifold.json) | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | 53.7 / 43.8 ms |
+
+**What was timed:** published colocad 0.1.0-alpha.2 (Node + its Rust executable) versus build123d 0.11.1 / OCCT. Each arm got the same offline Linux arm64 container limits and input. One excluded warm-up, then five alternating fresh runs per part and backend; all 20 measured calls succeeded. Time is the median from process launch to exit after STEP export. Memory is the largest measured whole-container cgroup peak, including charged file pages and output. Package installation, container launch, agent inference and rendering are excluded.
+
+Python import alone took a median **2.01 s** for the rail and **2.45 s** for the manifold. A long-lived Python interpreter can amortize that cost. These results apply to this tool-call pattern and these fixtures; they do not establish a universal geometry-kernel speedup. [Every run](docs/benchmarks/runs.json) · [Method and reproduction](benchmarks/readme/README.md)
+
+### When the agent only changes the camera
+
+The first preview saves a display mesh. For a second view of unchanged geometry, the kernel SDK can load that mesh instead of rebuilding the solid or triangulating it again. Here are five-run medians for the same **top view**, comparing two paths inside colocad:
+
+| Part | Rebuild part + render | Render from saved mesh | Speedup |
+| :--- | ---: | ---: | ---: |
+| Sensor rail | 108.8 ms | 19.4 ms | **5.6×** |
+| Port manifold | 223.8 ms | 13.3 ms | **16.8×** |
+
+The PNG, GLB and STL from both paths matched byte for byte on every pair. This test starts with the SDK already loaded and includes native process startup and display output. A geometry edit needs a new revision. [Preview measurements and hashes](docs/benchmarks/preview-runs.json)
+
+## What ships
+
+| In the [npm tarball](https://www.npmjs.com/package/@coloopx/colocad) | In the [source repository](https://github.com/Coloopx/colocad) |
+| :--- | :--- |
+| CLI, JavaScript API, TypeScript declarations and precompiled Rust executables for **Linux x64, Linux arm64 and macOS arm64**. Node.js 22+. | [Rust CAD source](crates/agent-cad/src), [TypeScript kernel SDK](kernel/src), [feature compiler](src/tree.mjs), tests and [pinned SolidCore dependency](third_party/solidcore.lock.json). |
+
+For example, on Linux arm64 the CLI launches `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`. The tarball contains the executable; the Rust `.rs` files are in the repository.
+
+**Alpha status.** Linux supports parametric edits, STEP and PNG/GLB/STL export. Direct generation of a complex, editable SOLIDWORKS part on Linux is still experimental. The optional Windows author compiles against the SOLIDWORKS 2024 interop API; a licensed native rebuild has not been verified. See the [native author](#native-solidworks-author-experimental) and [validation notes](docs/validation.md).
 
 ## Run the examples
 
