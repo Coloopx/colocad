@@ -1,0 +1,119 @@
+{
+  "package": "@coloopx/colocad",
+  "version": "0.1.0-alpha.3",
+  "tarball": {
+    "bytes": 43283895,
+    "sha256": "edd4c65d1e51c7734785bbe4959e06da98a34d15c6ee5bc4a237618ef9a861c7",
+    "integrity": "sha512-4MWBkrUvfqmnMBDLHnCQVIaA/ZEWJ/xNJZLJ+lHwhxFZ87A8IRLpuI4qXPqg2GcfRLdDCrurrJaO4SWKoAiIhg=="
+  },
+  "smoke": {
+    "darwin-arm64": {
+      "node_platform": "darwin-arm64",
+      "binary_sha256": "fa439185a647a66e65fba6d61d816dacb1e2ab3ba89665c5e89d4821123fcf65",
+      "offline_install": true,
+      "binary_override": false,
+      "results": {
+        "manifold": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 45490.92387,
+          "material_probes": 12
+        },
+        "plate": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 28982.12398,
+          "confirmed_through_bores": 6
+        },
+        "pair": {
+          "valid": true,
+          "solids": 2,
+          "occt_volume_mm3": 2714.33605,
+          "axial_gap_mm": 8.0
+        },
+        "hand": {
+          "valid": true,
+          "solids": 43,
+          "occt_volume_mm3": 315830.25957,
+          "index_guide_diameter_mm": 2.9,
+          "measured_instances": 21,
+          "translated_instance_reuses": 22
+        }
+      }
+    },
+    "linux-arm64": {
+      "node_platform": "linux-arm64",
+      "binary_sha256": "332bc7b75ad66816617b12ed2a11823bd5061105a8df9da2c884ad6824825c4f",
+      "offline_install": true,
+      "binary_override": false,
+      "results": {
+        "manifold": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 45490.92387,
+          "material_probes": 12
+        },
+        "plate": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 28982.12398,
+          "confirmed_through_bores": 6
+        },
+        "pair": {
+          "valid": true,
+          "solids": 2,
+          "occt_volume_mm3": 2714.33605,
+          "axial_gap_mm": 8.0
+        },
+        "hand": {
+          "valid": true,
+          "solids": 43,
+          "occt_volume_mm3": 315830.25957,
+          "index_guide_diameter_mm": 2.9,
+          "measured_instances": 21,
+          "translated_instance_reuses": 22
+        }
+      },
+      "cpu": 1,
+      "memory_limit_mib": 512,
+      "architecture_execution": "native arm64"
+    },
+    "linux-x64": {
+      "node_platform": "linux-x64",
+      "binary_sha256": "0a5d2ab6b8a5fc9ae36d61affc97a33ffab734842762ece73d73980dd9069a32",
+      "offline_install": true,
+      "binary_override": false,
+      "results": {
+        "manifold": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 45490.92387,
+          "material_probes": 12
+        },
+        "plate": {
+          "valid": true,
+          "solids": 1,
+          "occt_volume_mm3": 28982.12398,
+          "confirmed_through_bores": 6
+        },
+        "pair": {
+          "valid": true,
+          "solids": 2,
+          "occt_volume_mm3": 2714.33605,
+          "axial_gap_mm": 8.0
+        },
+        "hand": {
+          "valid": true,
+          "solids": 43,
+          "occt_volume_mm3": 315830.25957,
+          "index_guide_diameter_mm": 2.9,
+          "measured_instances": 21,
+          "translated_instance_reuses": 22
+        }
+      },
+      "cpu": 1,
+      "memory_limit_mib": 512,
+      "architecture_execution": "emulated x64"
+    }
+  }
+}

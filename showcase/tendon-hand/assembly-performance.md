@@ -34,7 +34,7 @@ OpenCascade independently reopened the three outputs for each workload. Every pl
 
 The hand animation contains two fresh instrumented comparisons at actual playback speed. These use the same optimized Linux arm64 kernel as the five-run experiment. The section and assembly milestones use independently reopened geometry and are outside the measurement clock. The reference is Shadow Hand E3M5, and the internal cord routes are assumptions. [Single-file player with both STEP pairs](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/replay/hand-replay.html) · [Finger trace](replay/finger-trace.json) · [Hand trace](replay/hand-trace.json) · [Reference provenance](reference/NOTICE.md)
 
-The public npm baseline is `@coloopx/colocad@0.1.0-alpha.2`. To use the optimized source kernel, build on the target platform from this checkout, then point the installed SDK at that executable. The following commands run from the checkout on Linux arm64 with the project's Rust toolchain.
+Install `@coloopx/colocad@0.1.0-alpha.3` to use the optimized kernel directly. The historical npm baseline for the following reproduction is `@coloopx/colocad@0.1.0-alpha.2`. To use the optimized source kernel, build on the target platform from this checkout, then point the installed SDK at that executable. The following commands run from the checkout on Linux arm64 with the project's Rust toolchain.
 
 ```sh
 npm run build:kernel

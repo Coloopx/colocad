@@ -19,7 +19,7 @@ The GIF shows the **highest memory sampled so far** for each tool on the same 0�
 | Median job time on the same first 33 inputs | **2.234 s** | 2.855 s |
 | Highest sampled cgroup memory over the 100 s window | **130.9 MiB** | 304.9 MiB |
 
-One measured window per backend, with a new CAD process for each revision. The colocad arm uses the alpha.2 SDK with the optimized source kernel. Memory samples taken about every 25 ms include subprocesses, tmpfs and charged file cache. Every counted STEP reopened successfully. [Measurement method](showcase/tendon-hand/window/README.md) · [Detailed build and single-call replay](showcase/tendon-hand/assembly-performance.md)
+One measured window per backend, with a new CAD process for each revision. The original run used the alpha.2 SDK and the optimized Linux arm64 kernel now bundled in alpha.3. Memory samples taken about every 25 ms include subprocesses, tmpfs and charged file cache. Every counted STEP reopened successfully. [Measurement method](showcase/tendon-hand/window/README.md) · [Detailed build and single-call replay](showcase/tendon-hand/assembly-performance.md)
 
 The static scorecard below uses the **published alpha.2 binary**. With fresh tool processes the sensor rail and manifold reached STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak memory.
 
@@ -45,10 +45,12 @@ The static scorecard below uses the **published alpha.2 binary**. With fresh too
 
 ## SDK, CLI or skill?
 
+Install with `npm install @coloopx/colocad@0.1.0-alpha.3`. This version bundles the optimized assembly kernel and the complete agent skill. The skill lives at `node_modules/@coloopx/colocad/skills/colocad/`. Point your harness at its `SKILL.md` or copy the whole directory into your agent’s skill collection.
+
 For a dimensioned part, try “Make a 100 × 50 × 6 mm plate with a centered 3 × 2 grid of Ø6 through-holes on 32 × 30 mm pitches.” The skill includes editable stock, hole grids, sleeves, brackets and open housings. [Quick-build commands and examples](skills/colocad/references/quick-build.md)
 
 - **In an application or harness:** call `build(tree, newDir, { preview: true })` in the SDK. Use `CadClient.build(model)` for named multi-solid assemblies.
-- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.2`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
+- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.3`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
 - **From drawings with an agent:** install the [colocad skill](skills/colocad/SKILL.md). Start the next turn with “Use `$colocad` to reconstruct these four views, export STEP, and flag any internal details you inferred.” [Installation and assembly replay](showcase/tendon-hand/README.md#try-it-with-your-agent).
 
 ## What the two STEP writers produced
@@ -74,7 +76,7 @@ The PNG, GLB and STL from both paths matched byte for byte on every pair. This t
 
 | In the [npm tarball](https://www.npmjs.com/package/@coloopx/colocad) | In the [source repository](https://github.com/Coloopx/colocad) |
 | :--- | :--- |
-| CLI, JavaScript API, TypeScript declarations and precompiled Rust executables for **Linux x64, Linux arm64 and macOS arm64**. Node.js 22+. | [Rust CAD source](crates/agent-cad/src), [TypeScript kernel SDK](kernel/src), [feature compiler](src/tree.mjs), tests and [pinned SolidCore dependency](third_party/solidcore.lock.json). |
+| Agent skill, CLI, JavaScript API, TypeScript declarations and precompiled Rust executables for **Linux x64, Linux arm64 and macOS arm64**. Node.js 22+. | [Rust CAD source](crates/agent-cad/src), [TypeScript kernel SDK](kernel/src), [feature compiler](src/tree.mjs), tests and [pinned SolidCore dependency](third_party/solidcore.lock.json). |
 
 For example, on Linux arm64 the CLI launches `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`. The tarball contains the executable; the Rust `.rs` files are in the repository.
 

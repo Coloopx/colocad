@@ -19,7 +19,7 @@ def job(i,warm=False):
     scratch=Path('/tmp/job');scratch.mkdir()
     diameter,cable,data=make(i)
     src=scratch/'hand.json';src.write_bytes(data)
-    if native: cmd=['node','/bench/assembly.mjs',str(src),str(scratch/'build')]
+    if native: cmd=['node','/bench/build.mjs',str(src),str(scratch/'build')]
     else: cmd=[os.environ['BASELINE_PYTHON'],'-I','/bench/baseline.py',str(src),str(scratch/'model.step')]
     tic=time.perf_counter()
     p=subprocess.run(cmd,cwd=project,capture_output=True,text=True,timeout=110)

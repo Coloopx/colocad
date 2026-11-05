@@ -12,9 +12,9 @@ with tempfile.TemporaryDirectory() as t:
     ctx=Path(t)
     shutil.copyfile(a.tarball,ctx/'bundle.tgz')
     call('node',here/'scope-models.mjs',ctx/'inputs',*(['--instances'] if a.instances else []))
-    for f in [here/'baseline.py',here/'scope_trial.py',here.parents[2]/'skills/colocad/scripts/assembly.mjs']:shutil.copy(f,ctx)
+    for f in [here/'baseline.py',here/'scope_trial.py',here.parents[2]/'skills/colocad/scripts/build.mjs']:shutil.copy(f,ctx)
     if a.candidate: shutil.copyfile(a.candidate,ctx/'candidate'); (ctx/'candidate').chmod(0o755)
-    (ctx/'Dockerfile').write_text('ARG BASE\nFROM ${BASE}\nADD bundle.tgz /opt/\nCOPY inputs/ /inputs/\nCOPY baseline.py scope_trial.py assembly.mjs /bench/\n'+('COPY candidate /opt/candidate\n' if a.candidate else ''))
+    (ctx/'Dockerfile').write_text('ARG BASE\nFROM ${BASE}\nADD bundle.tgz /opt/\nCOPY inputs/ /inputs/\nCOPY baseline.py scope_trial.py build.mjs /bench/\n'+('COPY candidate /opt/candidate\n' if a.candidate else ''))
     img=call('docker','build','-q','--network=none','--build-arg','BASE='+a.image,t).splitlines()[-1]
 env=['BASELINE_PYTHON='+a.python,'RAYON_NUM_THREADS=1','OMP_NUM_THREADS=1','OPENBLAS_NUM_THREADS=1','MKL_NUM_THREADS=1','NUMEXPR_NUM_THREADS=1','XDG_CACHE_HOME=/tmp','MPLCONFIGDIR=/tmp/mpl','PYTHONDONTWRITEBYTECODE=1']
 docker=['docker','run','--rm','--cpus','1','--memory','512m','--memory-swap','512m','--pids-limit','64','--read-only','--network','none','--cap-drop','ALL','--security-opt','no-new-privileges','--user','1000:1000','--tmpfs','/tmp:rw,nosuid,size=128m','-v',str(a.out.resolve())+':/evidence']

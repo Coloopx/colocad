@@ -19,7 +19,7 @@
 | 共同前 33 份交付耗时中位数 | **2.234 s** | 2.855 s |
 | 连续 100 秒内的最高采样内存 | **130.9 MiB** | 304.9 MiB |
 
-各运行一个真实窗口，每版新起 CAD 进程。colocad 为 alpha.2 SDK 加源码优化内核。内存约每 25 ms 采样，包含子进程、临时文件和计入本容器的文件缓存。两边计入的 STEP 都已独立回读。[单文件回放与 STEP 下载](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window.html) · [建模细节与单次原速回放](showcase/tendon-hand/assembly-performance.md)
+各运行一个真实窗口，每版新起 CAD 进程。这次原始记录使用 alpha.2 SDK 和优化后的 Linux arm64 内核。alpha.3 已内置同一份二进制。内存约每 25 ms 采样，包含子进程、临时文件和计入本容器的文件缓存。两边计入的 STEP 都已独立回读。[单文件回放与 STEP 下载](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window.html) · [建模细节与单次原速回放](showcase/tendon-hand/assembly-performance.md)
 
 以下静态表记录 npm **0.1.0-alpha.2 自带内核**的历史基线。新进程交付导轨和歧管分别快 22.0× 和 12.9×，峰值内存分别为 build123d 的 7.7% 和 8.0%。
 
@@ -45,10 +45,12 @@
 
 ## SDK、CLI、skill 怎么选？
 
+运行 `npm install @coloopx/colocad@0.1.0-alpha.3` 即可安装优化后的装配内核和完整 skill。沙箱内的 harness 可加载 `node_modules/@coloopx/colocad/skills/colocad/SKILL.md`，也可以把整个 `colocad` skill 目录复制到 agent 的技能目录。
+
 常见机械件可以让 agent 直接按尺寸搭建。例如「做一块 100 × 50 × 6 mm 的安装板，钻 3 × 2 个 Ø6 通孔，两向孔距 32 和 30 mm」。skill 自带可改参的孔阵列、轴套、角码、开口壳和四种基础实体。参见[基础形状与结构的命令示例](skills/colocad/references/quick-build.md)。
 
 - **应用或 harness 集成：** 进程里直接调用 SDK 的 `build(tree, newDir, { preview: true })`；多实体装配用 `CadClient.build(model)`。
-- **终端或沙箱 agent：** 安装 `npm install @coloopx/colocad@0.1.0-alpha.2`；用 `./node_modules/.bin/colocad plan tree.json` 检查特征，再用 `./node_modules/.bin/colocad build tree.json ./new-part --preview`。成品在 `new-part/part/model.step`。全程在同一沙箱内。
+- **终端或沙箱 agent：** 安装 `npm install @coloopx/colocad@0.1.0-alpha.3`；用 `./node_modules/.bin/colocad plan tree.json` 检查特征，再用 `./node_modules/.bin/colocad build tree.json ./new-part --preview`。成品在 `new-part/part/model.step`。全程在同一沙箱内。
 - **从多视图交给 agent：** 从 [skills/colocad](skills/colocad/SKILL.md) 安装 skill；下个回合输入「用 `$colocad` 读这四张图，生成可编辑模型和 STEP，并标出推断的内部结构」。[完整安装命令、SDK 装配示例和重放步骤](showcase/tendon-hand/README.md#try-it-with-your-agent)。
 
 以 Linux arm64 为例，安装后可执行文件就在 `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`。npm 分发编译产物；要读或修改 `.rs` 源文件，请用上面的 GitHub 源码链接。
@@ -77,7 +79,7 @@
 需要 Node.js 22+。输出目录必须是新目录。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.2
+npm install @coloopx/colocad@0.1.0-alpha.3
 npx colocad build node_modules/@coloopx/colocad/examples/manifold.json ./manifold --preview
 ```
 

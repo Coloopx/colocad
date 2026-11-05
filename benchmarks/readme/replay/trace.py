@@ -25,7 +25,7 @@ def capture(backend, keep_step, case):
         packages = cwd/'node_modules/@coloopx'
         packages.mkdir(parents=True)
         (packages/'colocad').symlink_to('/opt/package')
-        native_command = ['node', '/opt/bench/assembly.mjs', source, '/tmp/result']
+        native_command = ['node', '/opt/bench/build.mjs', source, '/tmp/result']
     else:
         source = Path('/opt/package/examples/manifold.json')
         native_command = ['node', '/opt/package/bin/colocad.mjs', 'build', source, '/tmp/result']
@@ -82,8 +82,8 @@ def record(args):
             hand_bench = repo/'showcase/tendon-hand/bench'
             subprocess.run(['node', hand_bench/'scope-models.mjs', context/'inputs'],check=True)
             shutil.copy(hand_bench/'baseline.py', context)
-            shutil.copy(repo/'skills/colocad/scripts/assembly.mjs', context)
-            extra = 'COPY inputs/ /inputs/\nCOPY assembly.mjs /opt/bench/\n'
+            shutil.copy(repo/'skills/colocad/scripts/build.mjs', context)
+            extra = 'COPY inputs/ /inputs/\nCOPY build.mjs /opt/bench/\n'
         else:
             shutil.copy(benchmark/'baseline.py', context)
         if args.kernel:

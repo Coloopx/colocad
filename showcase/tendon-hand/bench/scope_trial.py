@@ -8,7 +8,7 @@ step=Path('/tmp/model.step')
 native=arm in ('colocad','candidate')
 env=dict(os.environ)
 if arm=='candidate': env['AGENT_CAD_BINARY']='/opt/candidate'
-cmd=['node','/bench/assembly.mjs',str(src),'/tmp/part'] if native else [os.environ['BASELINE_PYTHON'],'-I','/bench/baseline.py',str(src),str(step)]
+cmd=['node','/bench/build.mjs',str(src),'/tmp/part'] if native else [os.environ['BASELINE_PYTHON'],'-I','/bench/baseline.py',str(src),str(step)]
 t=time.perf_counter_ns();p=subprocess.run(cmd,cwd=proj,env=env,capture_output=True,text=True,timeout=100)
 elapsed=(time.perf_counter_ns()-t)/1e6
 cg=Path('/sys/fs/cgroup');peak=int((cg/'memory.peak').read_text())

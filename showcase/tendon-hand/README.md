@@ -16,7 +16,7 @@ This is a simplified reconstruction of the right Shadow Hand E3M5 using four sca
 
 ## Try it with your agent
 
-1. Install Node 22+ and the **project-local** SDK: `npm install @coloopx/colocad@0.1.0-alpha.2`.
+1. Install Node 22+ and the **project-local** SDK: `npm install @coloopx/colocad@0.1.0-alpha.3`.
 2. In Codex request: `$skill-installer install https://github.com/Coloopx/colocad/tree/main/skills/colocad`. The [skill](../../skills/colocad/SKILL.md) guides the agent; it does not contain a CAD engine.
 3. In the next turn, give the agent [four-views.png](reference/four-views.png) with: *“Use $colocad to reconstruct the wrist and five fingers as a named assembly. Give me an editable model, a STEP, and four projected views at the reference cameras. Mark the internal features you had to assume.”*
 

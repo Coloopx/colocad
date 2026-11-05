@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -43,11 +43,16 @@
     "examples/sensor-rail.json",
     "README.md",
     "LICENSE",
-    "NOTICE.md"
+    "NOTICE.md",
+    "skills/colocad",
+    "kernel/release.json",
+    "scripts/check-release.mjs",
+    "README.zh-CN.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs",
-    "build:kernel": "node scripts/build-kernel.mjs"
+    "build:kernel": "node scripts/build-kernel.mjs",
+    "prepack": "node scripts/check-release.mjs"
   },
   "publishConfig": {
     "access": "public",

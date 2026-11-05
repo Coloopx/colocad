@@ -10,13 +10,13 @@ mkdir "$out"
 ctx=$(mktemp -d)
 trap 'rm -rf "$ctx"' EXIT
 cp "$archive" "$ctx/bundle.tgz"
-cp "$root/skills/colocad/scripts/assembly.mjs" "$hand/bench/baseline.py" "$hand/bench/window.py" "$ctx/"
+cp "$root/skills/colocad/scripts/build.mjs" "$hand/bench/baseline.py" "$hand/bench/window.py" "$ctx/"
 node "$hand/model.mjs" "$ctx/inputs"
 cat > "$ctx/Dockerfile" <<'EOF'
 ARG BASE
 FROM ${BASE}
 ADD bundle.tgz /opt/
-COPY baseline.py assembly.mjs window.py /bench/
+COPY baseline.py build.mjs window.py /bench/
 COPY inputs/drive.json /inputs/
 EOF
 arms="build123d colocad"

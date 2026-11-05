@@ -21,7 +21,7 @@ def difference(a,b):
     return abs(vol(algo.Shape()))
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('run',type=Path);p.add_argument('model',type=Path);p.add_argument('project',type=Path);p.add_argument('out',type=Path);p.add_argument('--native-arm',choices=('colocad','optimized'),default='colocad');p.add_argument('--supplemental-kernel',type=Path);a=p.parse_args()
-    tool=Path(__file__).resolve().parents[3]/'skills/colocad/scripts/assembly.mjs'
+    tool=Path(__file__).resolve().parents[3]/'skills/colocad/scripts/build.mjs'
     arms=[a.native_arm,'build123d'];doc=json.loads(a.model.read_text());events={};verified=[];differences=[]
     for arm in arms:
         events[arm]=[json.loads(r) for r in (a.run/arm/'events.jsonl').read_text().splitlines()]
