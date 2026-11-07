@@ -46,7 +46,12 @@ export async function publishArchive(file,{credential=process.env.COLOCAD_NPM_TO
   }
   if(remote!==info.integrity)throw Error('Registry archive integrity does not match the tested tarball');
   await npm('dist-tag','add',spec,tag);if(latest)await npm('dist-tag','add',spec,'latest');
-  return {...result,published:true,tags:JSON.parse(await npm('view',info.name,'dist-tags','--json','--prefer-online'))};
+  for(let attempt=0;;attempt++){
+   const tags=JSON.parse(await npm('view',info.name,'dist-tags','--json','--prefer-online'));
+   if(tags[tag]===info.version&&(!latest||tags.latest===info.version))return {...result,published:true,tags};
+   if(attempt>=delays.length)throw Object.assign(Error('DIST_TAG_PENDING: public metadata has not exposed the requested tags; resume verification before claiming the default install is updated.'),{code:'DIST_TAG_PENDING'});
+   await waitForRetry(delays[attempt]);
+  }
  }finally{await rm(temp,{recursive:true,force:true});}
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){

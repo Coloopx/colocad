@@ -1,0 +1,34 @@
+{
+  "verifiedAt": "2026-11-07T07:06:06.291475+00:00",
+  "version": "0.1.0-alpha.6",
+  "registryIntegrity": "sha512-wMLUDMkpgCkg4/GQnSPyM7Wor22rm6NlFA4tBFz1Q7YU2Wjrf/cTX52gzGYrhti4iCuqfkNFwR9GZOIMWvC5vQ==",
+  "tags": {
+    "latest": "0.1.0-alpha.6",
+    "alpha": "0.1.0-alpha.6"
+  },
+  "freshPublicInstall": {
+    "version": "0.1.0-alpha.6",
+    "defaultInstall": true,
+    "freshCache": true,
+    "integrityMatches": true,
+    "readmeMatches": true,
+    "guidedWorkflow": true
+  },
+  "githubAsset": {
+    "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.6/coloopx-colocad-0.1.0-alpha.6.tgz",
+    "size": 43645643,
+    "sha256": "bbf07522bf1e8290b72a0ef48e050d8d92130871399dd39b527a0a92085a38fa",
+    "verifiedAgainstTestedArchive": true
+  },
+  "sourceRegression": {
+    "node": 28,
+    "notes": "Three additional maintainer publication-state tests after the alpha.6 package was frozen; runtime and packaged README unchanged."
+  },
+  "publishObservation": {
+    "firstUploadAccepted": true,
+    "laterAttempt": "E409 previously staged version",
+    "explicitApprovalQueue": [],
+    "publicAvailabilityVerified": true,
+    "lesson": "Upload acceptance, scan completion, dist-tag visibility and fresh installation are separate checks."
+  }
+}

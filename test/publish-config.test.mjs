@@ -45,3 +45,15 @@ test('a staged conflict waits for integrity and rejects another archive before c
  }}),/integrity/);
  assert.equal(calls.filter(x=>x==='publish').length,1);assert.ok(!calls.includes('dist-tag'));
 });
+
+test('tag visibility is verified without repeating tag writes',async t=>{
+ const file=await archive(t),info=await readArchive(file),writes=[];let reads=0,waits=0;
+ const result=await publishArchive(file,{credential:'test',resume:true,latest:true,waitForRetry:async()=>{waits++;},runNpm:async args=>{
+  if(args[0]==='whoami')return 'release-user';
+  if(args[0]==='view'&&args[2]==='dist.integrity')return JSON.stringify(info.integrity);
+  if(args[0]==='dist-tag'){writes.push(args);return '';}
+  if(args[0]==='view')return JSON.stringify({alpha:info.version,latest:++reads===1?'0.1.0-alpha.3':info.version});
+  throw Error('Unexpected mutation');
+ }});
+ assert.equal(result.tags.latest,info.version);assert.equal(writes.length,2);assert.equal(waits,1);
+});
