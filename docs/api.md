@@ -20,7 +20,7 @@ colocad build TREE.json NEW_DIRECTORY [--preview]
 colocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT
 ```
 
-CLI success prints JSON to stdout. Failure prints an error to stderr and exits nonzero. Feature-tree CLI input is limited to 2 MiB. The third command is the [experimental Windows author](../README.md#native-solidworks-author-experimental).
+CLI success prints JSON to stdout. Failure prints an error to stderr and exits nonzero. Feature-tree CLI input is limited to 2 MiB. The third command is the [experimental Windows author](native-solidworks.md).
 
 ## Kernel SDK
 
@@ -59,7 +59,7 @@ Build receipts include `artifact_directory`, `geometry`, `validation`, feature r
 
 Preview options include `view: "iso" | "top" | "bottom" | "front" | "back" | "left" | "right"`, image size, `chord_mm` and section settings. Use the schema for exact fields and limits. A different camera can reuse geometry; changing mesh precision or geometry can require new work.
 
-The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.5: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
+The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.6: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
 
 ## Agent tools
 
