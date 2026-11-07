@@ -26,3 +26,22 @@ test('a transient post-publish 404 retries the read, not publication',async t=>{
  }});
  assert.equal(result.published,true);assert.equal(waits,1);assert.equal(calls.filter(x=>x.startsWith('publish ')).length,1);assert.equal(calls.filter(x=>x.startsWith('dist-tag add ')).length,2);
 });
+
+test('resume never uploads an accepted version and reports a bounded pending state',async t=>{
+ const file=await archive(t),calls=[];
+ await assert.rejects(publishArchive(file,{credential:'test',resume:true,latest:true,waitForRetry:async()=>{},runNpm:async args=>{
+  calls.push(args[0]);if(args[0]==='whoami')return 'release-user';throw Object.assign(Error('not visible'),{stderr:'E404'});
+ }}),e=>e.code==='PUBLICATION_PENDING');
+ assert.ok(!calls.includes('publish'));assert.ok(!calls.includes('dist-tag'));assert.ok(calls.length<20);
+});
+
+test('a staged conflict waits for integrity and rejects another archive before changing tags',async t=>{
+ const file=await archive(t),calls=[];let reads=0;
+ await assert.rejects(publishArchive(file,{credential:'test',latest:true,waitForRetry:async()=>{},runNpm:async args=>{
+  calls.push(args[0]);if(args[0]==='whoami')return 'release-user';
+  if(args[0]==='publish')throw Object.assign(Error('conflict'),{stderr:'E409 Cannot publish over previously staged version'});
+  if(args[0]==='view'){if(++reads<3)throw Object.assign(Error('not visible'),{stderr:'E404'});return JSON.stringify('sha512-different-archive');}
+  return '';
+ }}),/integrity/);
+ assert.equal(calls.filter(x=>x==='publish').length,1);assert.ok(!calls.includes('dist-tag'));
+});
