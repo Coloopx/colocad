@@ -48,3 +48,16 @@ Update release notes and package metadata together. Build all required native ta
 Publishing requires maintainer registry access. Never commit tokens, private `.npmrc` files or third-party proprietary CAD binaries. Native dependency notices live in [NOTICE.md](NOTICE.md) and `kernel/licenses`.
 
 For a pull request, describe the concrete behavior change, the reproduction model and the checks actually run. Call out unsupported cases and environmental gaps instead of presenting a compile-only result as runtime validation.
+
+## Publish a tested archive with the intended identity
+
+Run the kernel, Node, integration and browser checks appropriate to the change, then `npm pack --json`. Keep the prebuilt native manifests/release hashes consistent. For npm publishing, supply `COLOCAD_NPM_TOKEN` through a secret manager or hidden prompt and use:
+
+```sh
+node scripts/publish-npm.mjs /absolute/path/to/tested-package.tgz --check-only --expected-user YOUR_NPM_USER
+node scripts/publish-npm.mjs /absolute/path/to/tested-package.tgz --expected-user YOUR_NPM_USER --latest
+```
+
+The helper isolates npm configuration from project/global credentials, reports the actor, never writes the token to npmrc, publishes the exact archive with scripts disabled, verifies registry SHA-512 integrity, and then updates tags. It refuses a mismatching immutable version. An authenticated `whoami` alone does not establish package write permission; a registry 404 on PUT can still be an authorization issue. The alpha.4 attempt exposed a default-account mismatch; the organization credential was required. Do not replace another project's npm configuration to fix a release.
+
+Keep published Git tags immutable. New skill/tool documentation changes after a tagged release belong to a new release. Attach the verified tarball and link the reproducible modeling artifacts. Never include credentials or local npm configuration in Git or release assets.

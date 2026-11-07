@@ -1,6 +1,6 @@
 # SDK, CLI and tool reference
 
-Targets `@coloopx/colocad@0.1.0-alpha.3`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
+Targets `@coloopx/colocad@0.1.0-alpha.5`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
 
 ## Feature-tree SDK and CLI
 
@@ -59,7 +59,7 @@ Build receipts include `artifact_directory`, `geometry`, `validation`, feature r
 
 Preview options include `view: "iso" | "top" | "bottom" | "front" | "back" | "left" | "right"`, image size, `chord_mm` and section settings. Use the schema for exact fields and limits. A different camera can reuse geometry; changing mesh precision or geometry can require new work.
 
-The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.3: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
+The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.5: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
 
 ## Agent tools
 
@@ -80,3 +80,16 @@ Preserve the complete `inputSchema`, including root `$defs`. Do not wrap it with
 The Pi example exposes the first five tools for a smaller modeling surface. It converts failed receipts into failed tool results and includes PNG bytes in image content when a preview is at most 4 MiB. The full model/source is in the artifact directory, not in a fabricated project ID.
 
 For STEP imports, use `attachStep(model, assetId, stepText)` from `@coloopx/colocad/kernel`. The host registers text under an opaque ID; the model need not choose arbitrary filesystem paths. The returned model is a copy. [Integration policy and lifecycle](integrations/overview.md).
+
+## Persistent sessions and CLI visualization (alpha.4+)
+
+Import `ModelingSession`, `createSessionTools`, `readSessionBundle` and `exportSessionHtml` from `@coloopx/colocad/session`. A recorded edit takes `{parameters}` and uses the accepted source; it does not take the plain tool's `{model, parameters}` input. The browser component is exported at `@coloopx/colocad/viewer`.
+
+```sh
+colocad record MODEL.json SESSION --label "Milestone"
+colocad view SESSION --no-open --port 8787
+colocad replay SESSION review.html
+colocad render SESSION modeling.mp4 --width 1280 --height 800 --fps 15
+```
+
+`record` accepts feature trees or kernel JSON. The viewer serves a local snapshot. `replay` creates a self-contained HTML file. `render` uses optional Playwright/Chromium and FFmpeg to encode actual saved meshes; it writes a movie, poster and manifest. See [modeling history](modeling-history.md) for lifecycle, all options and artifact semantics.

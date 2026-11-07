@@ -1,0 +1,20 @@
+{
+  "purpose": "Evidence handoff example; this is not executable kernel model JSON",
+  "product": {"manufacturer":"HIWIN","series":"KK60 standard","configuration":"5 mm lead / 300 mm rail / one A block / open / no motor or switches"},
+  "units":"mm",
+  "frame":{"x":"width","y":"vertical","z":"travel","overallZ":[0,370]},
+  "sources":[{"id":"hiwin-catalog","url":"https://hiwin.com/wp-content/uploads/2026/08/HIWIN-Ballscrew-Driven-Stages-Catalog-1.pdf","revision":"K99TE16-1906","pdfPage":25,"printedPage":22,"views":["SECTION A-A","VIEW B","top","side"]}],
+  "dimensions":[
+    {"id":"railLength","value":300,"state":"specified","source":"hiwin-catalog","locator":"length table, 300 mm row"},
+    {"id":"screwAxisHeight","value":23,"state":"specified","source":"hiwin-catalog","locator":"SECTION A-A"},
+    {"id":"carriageHeight","value":33,"state":"specified","source":"hiwin-catalog","locator":"SECTION A-A"},
+    {"id":"stroke","value":210,"state":"specified","source":"hiwin-catalog","locator":"length table, A1 column"},
+    {"id":"midStrokeZ","value":157,"state":"derived","relation":"rail origin 7 + railLength / 2"},
+    {"id":"guideBallRadius","value":1.5,"state":"assumed","reason":"Catalog does not dimension rolling elements; reconstruction only"},
+    {"id":"nutRecirculationPath","value":null,"state":"unknown","affects":["OEM internal geometry","functional ball circulation"]}
+  ],
+  "interfaces":[{"id":"carriage-to-rail","datums":["travel axis Z","rail bottom Y=0"],"checks":["carriage height 33","rail/carriage overlap at travel -105,0,105"]}],
+  "acceptance":[{"quantity":"screwAxisHeight","expected":23,"numericCheckTolerance":0.01,"note":"Reconstruction check threshold, not a manufacturer tolerance"}],
+  "delivery":["editable model","whole-product STEP","recorded session","CLI-exported offline HTML","requested animation"],
+  "claimScope":"Catalog interfaces and documented reconstruction; no manufacturing or recirculation certification"
+}

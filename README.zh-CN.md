@@ -1,14 +1,92 @@
 # colocad
 
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling.gif)
+
+**HIWIN KK60 线性执行器** · [建模案例](examples/hiwin-kk60/README.md) · [MP4 动画](showcase/hiwin-kk60/modeling.mp4) · [独立验证](showcase/hiwin-kk60/verification.json)
+
 [English](README.md) · [开发与接入指南](docs/README.zh-CN.md) · [npm 包](https://www.npmjs.com/package/@coloopx/colocad) · [下载单文件对比报告：含四份 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
+
+## 从这里开始：SDK + CLI + skill
+
+[完整建模与 skill/提示词指南](docs/agent-modeling-handbook.zh-CN.md) · [研究依据](docs/agent-modeling-research.md)
+
+**SDK 是建模基础，CLI 提供命令行入口，skill 指导 agent 选择几何操作和验收方法。** Agent、harness、SDK 与 Rust 可执行文件在同一个沙箱中运行。建模会话保存实际输入、结果与失败记录，供人类通过查看器检查。
+
+```mermaid
+flowchart LR
+  A[Agent + colocad skill] --> H[Harness]
+  H --> C[colocad CLI]
+  H --> S[TypeScript SDK]
+  C --> S
+  S --> K[本地 Rust B-rep 内核]
+  K --> F[STEP + 模型 + 回执 + 网格]
+  F --> V[CLI 查看器 / HTML / MP4 / GIF]
+```
+
+### CLI：建模、查看、保存过程
+
+```sh
+npm install @coloopx/colocad@0.1.0-alpha.5
+
+# 构建随包提供的模型，同时记录一个真实建模阶段。
+npx colocad record node_modules/@coloopx/colocad/examples/manifold.json ./history \
+  --label "Build the manifold"
+
+# 启动交互式查看器并打开浏览器。
+npx colocad view ./history
+
+# 导出单文件 HTML，包含最终 STEP 的下载入口。
+npx colocad replay ./history ./review.html
+```
+
+把修改后的 JSON 再 `record` 到同一个 `history` 目录，即可追加阶段。输入、回执和失败都保留。查看器展示会话快照；追加阶段后重新打开即可。在无桌面的沙箱中运行 `colocad view ./history --no-open --port 8787`，使用现有 harness 的端口转发。监听地址是 `127.0.0.1`。
+
+| 命令 | 输入 | 结果 |
+| --- | --- | --- |
+| `colocad plan TREE.json` | `colocad/1` 特征树 | 编译原生建模任务，不生成几何 |
+| `colocad build TREE.json NEW_DIR --preview` | `colocad/1` 特征树 | STEP、可编辑特征树、报告与预览 |
+| `colocad record MODEL.json SESSION --label TEXT` | 特征树或内核模型 JSON | 构建并追加持久化建模阶段 |
+| `colocad view SESSION` | 已保存会话 | 启动查看器，可加 `--export review.html` |
+| `colocad replay SESSION review.html` | 已保存会话 | 导出离线单文件 HTML |
+| `colocad render SESSION modeling.mp4` | 已保存会话 | 导出四视图动画、时间/哈希清单和封面，也支持 `.gif` |
+
+### 可视化与动画由 CLI 启动
+
+![CLI 建模历史查看器，显示本次 KK60 整机](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
+
+查看器提供阶段时间线、特征/源码/回执检查、零件选择与显隐、四种镜头、显示剖切与爆炸，以及模型和最终 STEP 下载。HTML 内嵌代码和几何，可离线打开。宿主界面也可使用 `@coloopx/colocad/viewer` 嵌入同一组件。
+
+```sh
+# 以下依赖仅视频编码需要：
+npm install -D playwright
+npx playwright install chromium
+# 在宿主安装 FFmpeg 后，直接从会话导出：
+npx colocad render ./history ./modeling.mp4 --width 1280 --height 800 --fps 15
+npx colocad render ./history ./modeling.gif --width 960 --height 600 --fps 10
+```
+
+动画回放实际保存的 CAD 阶段，四个镜头同步显示，并保留每步实测耗时。播放节奏和显示爆炸是展示设置；视频时长不能当作建模耗时。几何构建和 HTML 导出不依赖 Chromium/FFmpeg。[完整使用文档](docs/modeling-history.md)。
+
+### SDK 和 agent skill 如何接入
+
+SDK 使用 `CadClient` 直接构建、改参和复用预览；需要持久化过程时使用 `ModelingSession.build / edit`。`createCadTools` 和 `createSessionTools` 给 harness 提供工具 schema 与执行器。[可运行集成示例](examples/integrations/README.md)覆盖 Pi core/extension 和 Codex/Claude 本地 skill 路径，并明确区分脚本化工具测试与真实模型推理。
+
+```sh
+# Codex 项目：复制完整目录，保留脚本、参考文档和可编辑基础形状。
+mkdir -p .agents/skills
+cp -R node_modules/@coloopx/colocad/skills/colocad .agents/skills/colocad
+
+# Claude Code 使用 .claude/skills/colocad 路径。
+```
+
+要求 agent 使用 colocad skill，提供目标产品/尺寸，并交付建模会话、精确 STEP 与 CLI 导出的可视化结果。其他 harness 可直接加载 `skills/colocad/SKILL.md` 并注册 SDK 工具。图纸理解与几何规划由 agent 完成，colocad 执行明确的建模指令。[实际操作流程](docs/modeling-workflow.zh-CN.md) · [Codex](docs/integrations/codex.md) · [Claude Code](docs/integrations/claude-code.md) · [Pi](docs/integrations/pi.md)。
 
 ## 真实工业产品：从厂家图纸到整机及建模动画
 
 [HIWIN KK60 执行器实例](examples/hiwin-kk60/README.md)对应真实目录配置：300 mm 导轨、5 mm 导程、210 mm 行程，包含 **52 个原生特征、81 个命名实例、16 个持久化建模阶段**。螺旋槽、安装孔、导轨滚道均为实际 B-rep 几何。
 
-![实际建模记录的四视图回放](showcase/hiwin-kk60/modeling.gif)
 
 [MP4 动画](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [独立验证](showcase/hiwin-kk60/verification.json) · [尺寸来源与假设](examples/hiwin-kk60/sources.json)
 
@@ -74,12 +152,12 @@ SDK 是基础，CLI / 工具负责执行，skill 提供建模步骤与常用结�
 
 [可运行示例与接入回归](examples/integrations/README.md) · [建模最佳实践](docs/best-practices.md) · [常见故障](docs/troubleshooting.md) · [贡献指南](CONTRIBUTING.md)
 
-运行 `npm install @coloopx/colocad@0.1.0-alpha.3` 即可安装优化后的装配内核和完整 skill。沙箱内的 harness 可加载 `node_modules/@coloopx/colocad/skills/colocad/SKILL.md`，也可以把整个 `colocad` skill 目录复制到 agent 的技能目录。
+运行 `npm install @coloopx/colocad@0.1.0-alpha.5` 即可安装优化后的装配内核和完整 skill。沙箱内的 harness 可加载 `node_modules/@coloopx/colocad/skills/colocad/SKILL.md`，也可以把整个 `colocad` skill 目录复制到 agent 的技能目录。
 
 常见机械件可以让 agent 直接按尺寸搭建。例如「做一块 100 × 50 × 6 mm 的安装板，钻 3 × 2 个 Ø6 通孔，两向孔距 32 和 30 mm」。skill 自带可改参的孔阵列、轴套、角码、开口壳和四种基础实体。参见[基础形状与结构的命令示例](skills/colocad/references/quick-build.md)。
 
 - **应用或 harness 集成：** 进程里直接调用 SDK 的 `build(tree, newDir, { preview: true })`；多实体装配用 `CadClient.build(model)`。
-- **终端或沙箱 agent：** 安装 `npm install @coloopx/colocad@0.1.0-alpha.3`；用 `./node_modules/.bin/colocad plan tree.json` 检查特征，再用 `./node_modules/.bin/colocad build tree.json ./new-part --preview`。成品在 `new-part/part/model.step`。全程在同一沙箱内。
+- **终端或沙箱 agent：** 安装 `npm install @coloopx/colocad@0.1.0-alpha.5`；用 `./node_modules/.bin/colocad plan tree.json` 检查特征，再用 `./node_modules/.bin/colocad build tree.json ./new-part --preview`。成品在 `new-part/part/model.step`。全程在同一沙箱内。
 - **从多视图交给 agent：** 从 [skills/colocad](skills/colocad/SKILL.md) 安装 skill；下个回合输入「用 `$colocad` 读这四张图，生成可编辑模型和 STEP，并标出推断的内部结构」。[完整安装命令、SDK 装配示例和重放步骤](showcase/tendon-hand/README.md#try-it-with-your-agent)。
 
 以 Linux arm64 为例，安装后可执行文件就在 `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`。npm 分发编译产物；要读或修改 `.rs` 源文件，请用上面的 GitHub 源码链接。
@@ -108,7 +186,7 @@ SDK 是基础，CLI / 工具负责执行，skill 提供建模步骤与常用结�
 需要 Node.js 22+。输出目录必须是新目录。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.3
+npm install @coloopx/colocad@0.1.0-alpha.5
 npx colocad build node_modules/@coloopx/colocad/examples/manifold.json ./manifold --preview
 ```
 

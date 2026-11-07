@@ -35,3 +35,13 @@ node examples/integrations/shell-harness.mjs claude-code ./out/claude-project
 ```
 
 `recorded-pi.mjs` runs an actual Pi tool loop with a scripted stream: build, failed edit, correction, then offline replay. `shell-harness.mjs` installs the complete skill into the corresponding project skill directory and executes its helper and the record/replay CLI. These validate local tool integration, not live Codex/Claude inference. The Pi extension opts into recording when `COLOCAD_SESSION_DIR` is set. SDK callers pass `cadSession` to `createCadAgent`. All code runs in the same sandbox.
+
+## Compact feedback and a complete guided workflow (alpha.5)
+
+`compact-tools.mjs` preserves the existing schemas and error/degradation semantics while returning measurements, timing and references to full receipts. It is transport-neutral. `guided-workflow.mjs` executes real native modeling, analytic edit checks, failure recovery, cached observation and CLI HTML export. Both files are included in the alpha.5 package.
+
+```sh
+node examples/integrations/guided-workflow.mjs ./out/guided-workflow
+```
+
+Read the [handbook](../../docs/agent-modeling-handbook.md) for materials, tool abstractions, skill structure, prompt examples and tuning. The walkthrough's decisions are scripted; no live-model reconstruction score is claimed.

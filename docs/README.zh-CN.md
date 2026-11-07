@@ -1,17 +1,21 @@
 # 开发与接入指南
 
-[实际操作、输入输出与效果提升方法](modeling-workflow.zh-CN.md) · [CLI 查看器与离线导出（开发分支）](modeling-history.md)
+[实际操作、输入输出与效果提升方法](modeling-workflow.zh-CN.md) · [CLI 查看器与离线导出](modeling-history.md)
 
 colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导建模流程**。Agent、harness 和 Rust CAD 进程都在同一个沙箱内，共享项目目录。现有 harness 负责模型推理、权限、会话和产物保存，不需要额外部署 CAD 服务。
 
-本文对应 `@coloopx/colocad@0.1.0-alpha.3`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
+本文对应 `@coloopx/colocad@0.1.0-alpha.5`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
+
+## 从材料到交付的完整指南
+
+[全套建模、skill/提示词与调优指南](agent-modeling-handbook.zh-CN.md)覆盖资料预备、尺寸证据、工具抽象、典型 agent 闭环、验证、失败恢复和性能/质量调优；[研究依据](agent-modeling-research.md)区分公开研究与本仓库实际执行结果。
 
 ## 先跑通一个零件
 
 在已有 Node 项目根目录执行；没有 `package.json` 时先运行 `npm init -y`：
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.3
+npm install --save-exact @coloopx/colocad@0.1.0-alpha.5
 ./node_modules/.bin/colocad build \
   node_modules/@coloopx/colocad/examples/manifold.json ./manifold-v1 --preview
 ```

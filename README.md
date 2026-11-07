@@ -1,14 +1,111 @@
 # Colocad
 
+![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling.gif)
+
+**HIWIN KK60 linear actuator** · [Modeling example](examples/hiwin-kk60/README.md) · [Watch MP4](showcase/hiwin-kk60/modeling.mp4) · [Independent checks](showcase/hiwin-kk60/verification.json)
+
 [中文说明](README.zh-CN.md) · [Developer docs](docs/README.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
 Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
+
+## Start here: SDK + CLI + skill
+
+[End-to-end agent modeling handbook](docs/agent-modeling-handbook.md) · [Research and evidence](docs/agent-modeling-research.md)
+
+The **SDK is the modeling foundation**. The CLI exposes it to a shell-based harness; the skill supplies modeling instructions, editable starter shapes and verification guidance. The agent, harness and CAD executable run inside the same sandbox. A recorded session provides the human-facing view of that work.
+
+```mermaid
+flowchart LR
+  A[Agent + colocad skill] --> H[Harness]
+  H --> C[colocad CLI]
+  H --> S[TypeScript SDK]
+  C --> S
+  S --> K[Local Rust B-rep kernel]
+  K --> F[STEP + model + receipts + meshes]
+  F --> V[CLI viewer / HTML / MP4 / GIF]
+```
+
+### CLI: build, inspect and keep the modeling process
+
+```sh
+npm install @coloopx/colocad@0.1.0-alpha.5
+
+# Build the packaged example and persist an inspectable native revision.
+npx colocad record node_modules/@coloopx/colocad/examples/manifold.json ./history \
+  --label "Build the manifold"
+
+# Launch the viewer and open the browser.
+npx colocad view ./history
+
+# Export one self-contained HTML file, including the final STEP download.
+npx colocad replay ./history ./review.html
+```
+
+Record the next edited JSON into the **same** history directory to append a revision. Every attempted build retains its source and receipt; failures remain visible. `view` serves a snapshot, so reopen it after adding revisions. In a headless sandbox, use `colocad view ./history --no-open --port 8787` and the harness's existing port forwarding. The listener binds to `127.0.0.1`.
+
+| CLI command | Input | Output / purpose |
+| --- | --- | --- |
+| `colocad plan TREE.json` | `colocad/1` feature tree | Compile a native modeling job without building geometry |
+| `colocad build TREE.json NEW_DIR --preview` | `colocad/1` feature tree | STEP, editable tree, report and previews |
+| `colocad record MODEL.json SESSION --label TEXT` | Feature tree **or** kernel model JSON | Build and append a persistent modeling milestone |
+| `colocad view SESSION` | Recorded session | Local interactive viewer; optional `--export review.html` |
+| `colocad replay SESSION review.html` | Recorded session | Single offline HTML, no listening process |
+| `colocad render SESSION modeling.mp4` | Recorded session | Four-view animation, timing/hash manifest and poster; `.gif` also supported |
+
+### Visualization and animation are launched from the CLI
+
+![CLI-launched modeling-history viewer with the real KK60 assembly](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
+
+The viewer includes a step timeline, source/feature/receipt inspector, part selection and visibility, four camera presets, display cutaway/explosion, and downloads of the current model and final STEP. The HTML embeds its rendering code and geometry; it works offline. The browser component is also available as `@coloopx/colocad/viewer` for a host application.
+
+```sh
+# Optional dependencies for movie encoding only:
+npm install -D playwright
+npx playwright install chromium
+# Install FFmpeg on your host, then export from the same persisted session:
+npx colocad render ./history ./modeling.mp4 --width 1280 --height 800 --fps 15
+npx colocad render ./history ./modeling.gif --width 960 --height 600 --fps 10
+```
+
+Movies replay **actual saved CAD revisions** with four synchronized views and measured call times. Playback pacing and exploded placement are presentation controls; film duration is not CAD build time. Geometry builds and offline HTML export do not need Chromium or FFmpeg. [Complete CLI / recorder / renderer guide](docs/modeling-history.md).
+
+### SDK: call the same kernel from your harness
+
+```js
+import { ModelingSession } from '@coloopx/colocad/session';
+
+const session = await ModelingSession.create('./history', { title: 'Agent modeling' });
+const model = {
+  version: 1, units: 'mm', parameters: { length: 60 },
+  features: [{ id: 'stock', op: 'box', origin: [0, 0, 0],
+    size: [{ param: 'length' }, 30, 8] }],
+  output: 'stock',
+};
+const result = await session.build(model, { label: 'Extrude the stock' });
+if (!result.ok) throw new Error(JSON.stringify(result.error));
+await session.edit({ length: 80 }, { label: 'Lengthen the stock' });
+```
+
+Use `CadClient` for direct builds, edits and cached observation without a session; use `ModelingSession` when the modeling process must be persisted. `createCadTools` and `createSessionTools` expose tool schemas/executors for a harness adapter. [Runnable integrations](examples/integrations/README.md) cover Pi core/extension and the Codex/Claude local skill paths; scripted integration tests are distinguished from live model reasoning.
+
+### Skill: give the agent the complete modeling guide
+
+Copy the **whole** bundled skill directory, including scripts, references and editable shape assets:
+
+```sh
+# Codex project skill
+mkdir -p .agents/skills
+cp -R node_modules/@coloopx/colocad/skills/colocad .agents/skills/colocad
+
+# For Claude Code, use .claude/skills/colocad instead.
+```
+
+Then ask the agent to use the colocad skill, specify the product/dimensions and require a recorded session, exact STEP and CLI-exported review. For other harnesses, load `skills/colocad/SKILL.md` and register the SDK tools. The skill guides interpretation and verification; colocad executes explicit geometry instructions. [Codex](docs/integrations/codex.md) · [Claude Code](docs/integrations/claude-code.md) · [Pi](docs/integrations/pi.md) · [Actual drawing-to-model workflow](docs/modeling-workflow.zh-CN.md).
 
 ## Reconstruct a real industrial product and replay its modeling history
 
 The [HIWIN KK60 actuator example](examples/hiwin-kk60/README.md) reconstructs a specific manufacturer catalog configuration: 300 mm rail, 5 mm lead, 210 mm travel. Its **52 native features, 81 named occurrences and 16 persisted milestones** include a physically cut helical screw groove, guide tracks, mounting holes, bearings, carriage and coupling.
 
-![Actual native construction and assembly, replayed in four views](showcase/hiwin-kk60/modeling.gif)
 
 [Watch the MP4](showcase/hiwin-kk60/modeling.mp4) · [Edit the model](showcase/hiwin-kk60/model.json) · [Read the independent checks](showcase/hiwin-kk60/verification.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json)
 
@@ -74,12 +171,12 @@ The static scorecard below uses the **published alpha.2 binary**. With fresh too
 
 The [runnable examples](examples/integrations/README.md) exercise the published package, real native builds and Pi tool-loop error recovery. See [what was verified](docs/integrations/verification.md) and [how to contribute](CONTRIBUTING.md).
 
-Install with `npm install @coloopx/colocad@0.1.0-alpha.3`. This version bundles the optimized assembly kernel and the complete agent skill. The skill lives at `node_modules/@coloopx/colocad/skills/colocad/`. Point your harness at its `SKILL.md` or copy the whole directory into your agent’s skill collection.
+Install with `npm install @coloopx/colocad@0.1.0-alpha.5`. This version bundles the optimized assembly kernel and the complete agent skill. The skill lives at `node_modules/@coloopx/colocad/skills/colocad/`. Point your harness at its `SKILL.md` or copy the whole directory into your agent’s skill collection.
 
 For a dimensioned part, try “Make a 100 × 50 × 6 mm plate with a centered 3 × 2 grid of Ø6 through-holes on 32 × 30 mm pitches.” The skill includes editable stock, hole grids, sleeves, brackets and open housings. [Quick-build commands and examples](skills/colocad/references/quick-build.md)
 
 - **In an application or harness:** call `build(tree, newDir, { preview: true })` in the SDK. Use `CadClient.build(model)` for named multi-solid assemblies.
-- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.3`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
+- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.5`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
 - **From drawings with an agent:** install the [colocad skill](skills/colocad/SKILL.md). Start the next turn with “Use `$colocad` to reconstruct these four views, export STEP, and flag any internal details you inferred.” [Installation and assembly replay](showcase/tendon-hand/README.md#try-it-with-your-agent).
 
 ## What the two STEP writers produced

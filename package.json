@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -63,7 +63,10 @@
     "examples/hiwin-kk60/run.mjs",
     "examples/hiwin-kk60/README.md",
     "examples/hiwin-kk60/sources.json",
-    "docs/modeling-history.md"
+    "examples/integrations/compact-tools.mjs",
+    "examples/integrations/guided-workflow.mjs",
+    "docs/*.md",
+    "docs/integrations/*.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs",

@@ -1,0 +1,75 @@
+{
+  "version": "0.1.0-alpha.5",
+  "testedArchive": {
+    "filename": "coloopx-colocad-0.1.0-alpha.5.tgz",
+    "size": 43647779,
+    "shasum": "f33c06a58b70bdaa845e1a8542dc56478c92e4ff",
+    "integrity": "sha512-Q7Us3taJMNaX1mQ19gDlRvFcilIE7Roo7I4PH+aXS7xe4D3PTehBpa+th41tgXX+DBY0mYdurXpghhtRgcUS0w==",
+    "entryCount": 234
+  },
+  "regression": {
+    "node": 25,
+    "piCompatibilityAlpha3": 6,
+    "offlineViewer": true,
+    "cliMp4": true,
+    "skillStructure": "passed"
+  },
+  "installedArchiveSmoke": [
+    {
+      "environment": "darwin",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "darwin-arm64",
+      "version": "0.1.0-alpha.5",
+      "guideAndSkill": true
+    },
+    {
+      "environment": "linux-arm64",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "linux-arm64",
+      "version": "0.1.0-alpha.5",
+      "guideAndSkill": true
+    },
+    {
+      "environment": "linux-x64",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "linux-x64",
+      "version": "0.1.0-alpha.5",
+      "guideAndSkill": true
+    }
+  ],
+  "linuxLimits": {
+    "cpus": 1,
+    "memoryMiB": 512,
+    "network": "none",
+    "x64": "emulated on arm64 host"
+  },
+  "kernel": "Unchanged from alpha.4; all three packaged binary hashes verified",
+  "scope": "Actual native builds and quantitative edits with scripted decisions; not a blind LLM reconstruction or skill-ablation study"
+}

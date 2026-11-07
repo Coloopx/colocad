@@ -1,5 +1,8 @@
 # Modeling and integration best practices
 
+For the complete material preparation, tool/skill/prompt design, workflow and tuning guide, see the [agent modeling handbook](agent-modeling-handbook.md).
+
+
 ## Start from the structure that controls the part
 
 Use a parameterized asset when it matches the requested geometry. A plate with a hole grid should begin with stock dimensions and grid parameters; a sleeve should begin with outer diameter, bore and length. The [quick-build guide](../skills/colocad/references/quick-build.md) gives datums and checks for eight structures. Adapt the feature program when the part differs; an asset is a starting point, not a replacement for reading the drawing.
