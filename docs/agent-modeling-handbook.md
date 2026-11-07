@@ -1,6 +1,6 @@
 # Agent CAD handbook
 
-A complete workflow for source preparation, modeling tools, agent guidance, validation and tuning. This describes the implemented Colocad alpha.5 interfaces and recommendations informed by actual use and primary sources. It is not a claim of universal optimal prompting or autonomous industrial reconstruction.
+A complete workflow for source preparation, modeling tools, agent guidance, validation and tuning. This describes the implemented Colocad alpha.6 interfaces and recommendations informed by actual use and primary sources. It is not a claim of universal optimal prompting or autonomous industrial reconstruction.
 
 [完整中文指南](agent-modeling-handbook.zh-CN.md) · [Research and evidence](agent-modeling-research.md) · [Packaged skill](../skills/colocad/SKILL.md)
 

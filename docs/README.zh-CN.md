@@ -4,7 +4,7 @@
 
 colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导建模流程**。Agent、harness 和 Rust CAD 进程都在同一个沙箱内，共享项目目录。现有 harness 负责模型推理、权限、会话和产物保存，不需要额外部署 CAD 服务。
 
-本文对应 `@coloopx/colocad@0.1.0-alpha.5`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
+本文对应 `@coloopx/colocad@0.1.0-alpha.6`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
 
 ## 从材料到交付的完整指南
 
@@ -15,7 +15,7 @@ colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导�
 在已有 Node 项目根目录执行；没有 `package.json` 时先运行 `npm init -y`：
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.5
+npm install --save-exact @coloopx/colocad@0.1.0-alpha.6
 ./node_modules/.bin/colocad build \
   node_modules/@coloopx/colocad/examples/manifold.json ./manifold-v1 --preview
 ```
@@ -83,3 +83,5 @@ test ! -e .agents/skills/colocad && \
 接入示例用已发布 npm 包执行实际 Rust 建模，并经过 Pi core 工具循环、错误恢复、扩展加载和 skill 发现测试。模型回复采用确定性脚本，因此这是接入回归，不是未知图纸上的自主建模成功率测试。Claude Code 尚未做实机推理验收。
 
 参数 JSON 可重建，STEP 是精确几何；二者不等于 SOLIDWORKS 原生特征树。Linux 通用可编辑 `.SLDPRT` 尚未完成，Windows author 尚缺授权软件内的完整回读重建验收。[接入验证范围](integrations/verification.md) · [几何与原生输出验证](validation.md)
+
+[性能证据与测量边界](performance.md) · [SOLIDWORKS 原生导出状态](native-solidworks.md)

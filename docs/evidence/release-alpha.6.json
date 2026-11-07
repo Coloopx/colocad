@@ -1,0 +1,85 @@
+{
+  "version": "0.1.0-alpha.6",
+  "testedArchive": {
+    "filename": "coloopx-colocad-0.1.0-alpha.6.tgz",
+    "size": 43645643,
+    "shasum": "075a8c3a401ef7a7bc5372194fb93b7c15dc55fe",
+    "integrity": "sha512-wMLUDMkpgCkg4/GQnSPyM7Wor22rm6NlFA4tBFz1Q7YU2Wjrf/cTX52gzGYrhti4iCuqfkNFwR9GZOIMWvC5vQ==",
+    "entryCount": 236
+  },
+  "regression": {
+    "node": 25,
+    "publishConfiguration": 3,
+    "piCompatibilityAlpha3": {
+      "passed": 6,
+      "run": "alpha.5; adapter unchanged"
+    },
+    "offlineViewer": {
+      "passed": true,
+      "run": "alpha.5; viewer unchanged"
+    },
+    "cliMp4": {
+      "passed": true,
+      "run": "alpha.5; renderer unchanged"
+    },
+    "skillStructure": "passed; skill unchanged from alpha.5"
+  },
+  "installedArchiveSmoke": [
+    {
+      "environment": "darwin",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "darwin-arm64",
+      "version": "0.1.0-alpha.6",
+      "guideAndSkill": true
+    },
+    {
+      "environment": "linux-arm64",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "linux-arm64",
+      "version": "0.1.0-alpha.6",
+      "guideAndSkill": true
+    },
+    {
+      "environment": "linux-x64",
+      "workflow": {
+        "passed": true,
+        "scope": "Scripted tool-contract workflow, not a live model evaluation",
+        "steps": 5,
+        "html": "consumer/guided/review.html",
+        "measurements": {
+          "holeEditRemovedMm3": 527.7875658030853,
+          "finalLengthMm": 100
+        }
+      },
+      "platform": "linux-x64",
+      "version": "0.1.0-alpha.6",
+      "guideAndSkill": true
+    }
+  ],
+  "linuxLimits": {
+    "cpus": 1,
+    "memoryMiB": 512,
+    "network": "none",
+    "x64": "emulated on arm64 host"
+  },
+  "kernel": "Unchanged from alpha.4; all three packaged binary hashes verified",
+  "scope": "Real native geometry with scripted tool decisions; no blind LLM reconstruction study or new performance benchmark"
+}

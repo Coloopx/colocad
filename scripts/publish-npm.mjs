@@ -32,7 +32,7 @@ export async function publishArchive(file,{credential=process.env.COLOCAD_NPM_TO
   if(!remote)await npm('publish',info.archive,'--ignore-scripts','--access','public','--tag',tag,'--loglevel=warn');
   // Registry read replicas may briefly lag a successful PUT. Retry only reads,
   // never repeat publication merely because the immediate read returned 404.
-  const delays=[1000,2000,4000,8000,16000];
+  const delays=[1000,2000,4000,8000,16000,30000,30000,30000,30000,30000,30000];
   for(let attempt=0;;attempt++){
    try{remote=JSON.parse(await npm('view',spec,'dist.integrity','--json','--prefer-online'));break;}
    catch(e){if(attempt>=delays.length||!/E404/.test(e.stderr??e.message))throw e;await waitForRetry(delays[attempt]);}

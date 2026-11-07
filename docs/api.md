@@ -1,6 +1,6 @@
 # SDK, CLI and tool reference
 
-Targets `@coloopx/colocad@0.1.0-alpha.5`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
+Targets `@coloopx/colocad@0.1.0-alpha.6`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
 
 ## Feature-tree SDK and CLI
 

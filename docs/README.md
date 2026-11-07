@@ -4,7 +4,7 @@
 
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
-These guides target **@coloopx/colocad 0.1.0-alpha.5**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+These guides target **@coloopx/colocad 0.1.0-alpha.6**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
 
 [中文开发指南](README.zh-CN.md)
 
@@ -21,8 +21,10 @@ These guides target **@coloopx/colocad 0.1.0-alpha.5**, Node.js 22+, Linux x64/a
 | Model efficiently from dimensions or views | [Best practices](best-practices.md) |
 | Diagnose a failed call or installation | [Troubleshooting](troubleshooting.md) |
 | Run examples and contribute a change | [Contributing](../CONTRIBUTING.md) |
+| Compare execution performance and limits | [Performance evidence](performance.md) |
+| Check native SOLIDWORKS export status | [Native author](native-solidworks.md) |
 | Understand what has actually been tested | [Integration verification](integrations/verification.md), [geometry validation](validation.md) |
 
 Runnable adapters and their regression tests live in [examples/integrations](../examples/integrations/README.md). They install the published npm release. The complete Pi example project is in GitHub. Alpha.5 also packages the compact adapter and guided workflow example. The skill, assets and its helper scripts **are** included.
 
-Performance depends on workload and execution mode. See the [README measurements](../README.md#how-many-tendon-hands-can-an-agent-deliver-in-100-seconds), with their startup, geometry and memory accounting, before choosing a budget. A 512 MiB CAD benchmark is not a 512 MiB guarantee for a resident LLM harness plus CAD.
+Performance depends on workload and execution mode. See the [README measurements](../README.md#performance), with their startup, geometry and memory accounting, before choosing a budget. A 512 MiB CAD benchmark is not a 512 MiB guarantee for a resident LLM harness plus CAD.

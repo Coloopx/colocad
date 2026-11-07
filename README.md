@@ -2,257 +2,194 @@
 
 ![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling.gif)
 
-**HIWIN KK60 linear actuator** · [Modeling example](examples/hiwin-kk60/README.md) · [Watch MP4](showcase/hiwin-kk60/modeling.mp4) · [Independent checks](showcase/hiwin-kk60/verification.json)
+**Parametric CAD for agents. Local Rust geometry, a TypeScript SDK, a CLI, and an inspectable modeling history.**
 
-[中文说明](README.zh-CN.md) · [Developer docs](docs/README.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
+[中文](README.zh-CN.md) · [Documentation](docs/README.md) · [npm](https://www.npmjs.com/package/@coloopx/colocad) · [Releases](https://github.com/Coloopx/colocad/releases) · [Model behind the cover](examples/hiwin-kk60/README.md)
 
-Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
+Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
-## Start here: SDK + CLI + skill
+**Alpha software:** useful for supported mechanical parts and assemblies, with measured performance and reproducible examples. It is not a complete replacement for build123d or a manufacturing-certified CAD system. See [support and limits](#support-and-limits).
 
-[End-to-end agent modeling handbook](docs/agent-modeling-handbook.md) · [Research and evidence](docs/agent-modeling-research.md)
+## What you can build
 
-The **SDK is the modeling foundation**. The CLI exposes it to a shell-based harness; the skill supplies modeling instructions, editable starter shapes and verification guidance. The agent, harness and CAD executable run inside the same sandbox. A recorded session provides the human-facing view of that work.
+- **Parts and assemblies:** parametric features, repeated part definitions, exact STEP and PNG/GLB/STL previews.
+- **Agent workflows:** SDK tools and a bundled skill for interpreting dimensions, planning features, editing and checking results.
+- **Human review:** persistent build attempts, source/receipt inspection, offline single-file HTML and four-view MP4/GIF replay.
+
+The SDK is the foundation; the CLI and tool adapters expose it to your harness; the skill guides modeling decisions. Images and drawings are evidence the agent interprets. Colocad executes explicit geometry instructions.
 
 ```mermaid
 flowchart LR
-  A[Agent + colocad skill] --> H[Harness]
-  H --> C[colocad CLI]
-  H --> S[TypeScript SDK]
-  C --> S
-  S --> K[Local Rust B-rep kernel]
-  K --> F[STEP + model + receipts + meshes]
-  F --> V[CLI viewer / HTML / MP4 / GIF]
+  A[Agent + skill] --> H[Existing harness]
+  H --> C[CLI / SDK tools]
+  C --> K[Local Rust kernel]
+  K --> F[STEP + source + receipts + meshes]
+  F --> V[CLI viewer / HTML / animation]
 ```
 
-### CLI: build, inspect and keep the modeling process
+## Install
+
+Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.5
+npm install @coloopx/colocad@0.1.0-alpha.6
+```
 
-# Build the packaged example and persist an inspectable native revision.
+The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
+
+## Quick start
+
+Run these commands from your Node project:
+
+```sh
+# Build the packaged manifold and save its source, receipt and geometry.
 npx colocad record node_modules/@coloopx/colocad/examples/manifold.json ./history \
   --label "Build the manifold"
 
-# Launch the viewer and open the browser.
+# Launch the interactive viewer.
 npx colocad view ./history
 
-# Export one self-contained HTML file, including the final STEP download.
+# Export one offline HTML file, including a final STEP download.
 npx colocad replay ./history ./review.html
 ```
 
-Record the next edited JSON into the **same** history directory to append a revision. Every attempted build retains its source and receipt; failures remain visible. `view` serves a snapshot, so reopen it after adding revisions. In a headless sandbox, use `colocad view ./history --no-open --port 8787` and the harness's existing port forwarding. The listener binds to `127.0.0.1`.
+The manifold includes an extrusion, blind cut, fillet, linear pattern and pocket. Record an edited JSON into the same history directory to append a revision; failed attempts remain visible. `view` serves a snapshot, so reopen it after adding revisions. [First part and parameter edit](docs/getting-started.md).
 
-| CLI command | Input | Output / purpose |
-| --- | --- | --- |
-| `colocad plan TREE.json` | `colocad/1` feature tree | Compile a native modeling job without building geometry |
-| `colocad build TREE.json NEW_DIR --preview` | `colocad/1` feature tree | STEP, editable tree, report and previews |
-| `colocad record MODEL.json SESSION --label TEXT` | Feature tree **or** kernel model JSON | Build and append a persistent modeling milestone |
-| `colocad view SESSION` | Recorded session | Local interactive viewer; optional `--export review.html` |
-| `colocad replay SESSION review.html` | Recorded session | Single offline HTML, no listening process |
-| `colocad render SESSION modeling.mp4` | Recorded session | Four-view animation, timing/hash manifest and poster; `.gif` also supported |
-
-### Visualization and animation are launched from the CLI
-
-![CLI-launched modeling-history viewer with the real KK60 assembly](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
-
-The viewer includes a step timeline, source/feature/receipt inspector, part selection and visibility, four camera presets, display cutaway/explosion, and downloads of the current model and final STEP. The HTML embeds its rendering code and geometry; it works offline. The browser component is also available as `@coloopx/colocad/viewer` for a host application.
-
-```sh
-# Optional dependencies for movie encoding only:
-npm install -D playwright
-npx playwright install chromium
-# Install FFmpeg on your host, then export from the same persisted session:
-npx colocad render ./history ./modeling.mp4 --width 1280 --height 800 --fps 15
-npx colocad render ./history ./modeling.gif --width 960 --height 600 --fps 10
-```
-
-Movies replay **actual saved CAD revisions** with four synchronized views and measured call times. Playback pacing and exploded placement are presentation controls; film duration is not CAD build time. Geometry builds and offline HTML export do not need Chromium or FFmpeg. [Complete CLI / recorder / renderer guide](docs/modeling-history.md).
-
-### SDK: call the same kernel from your harness
+Prefer an API? Use the same kernel through a persistent session:
 
 ```js
 import { ModelingSession } from '@coloopx/colocad/session';
 
-const session = await ModelingSession.create('./history', { title: 'Agent modeling' });
-const model = {
+const session = await ModelingSession.create('./sdk-history');
+const result = await session.build({
   version: 1, units: 'mm', parameters: { length: 60 },
   features: [{ id: 'stock', op: 'box', origin: [0, 0, 0],
     size: [{ param: 'length' }, 30, 8] }],
   output: 'stock',
-};
-const result = await session.build(model, { label: 'Extrude the stock' });
+});
 if (!result.ok) throw new Error(JSON.stringify(result.error));
-await session.edit({ length: 80 }, { label: 'Lengthen the stock' });
+await session.edit({ length: 80 });
 ```
 
-Use `CadClient` for direct builds, edits and cached observation without a session; use `ModelingSession` when the modeling process must be persisted. `createCadTools` and `createSessionTools` expose tool schemas/executors for a harness adapter. [Runnable integrations](examples/integrations/README.md) cover Pi core/extension and the Codex/Claude local skill paths; scripted integration tests are distinguished from live model reasoning.
+Use `CadClient` for direct builds without session recording. [SDK, CLI and tool API](docs/api.md).
 
-### Skill: give the agent the complete modeling guide
+## Visualize and export from the CLI
 
-Copy the **whole** bundled skill directory, including scripts, references and editable shape assets:
+![CLI modeling-history viewer showing the KK60 assembly](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
+
+Inspect the timeline, source, features, receipts and selected parts. Switch cameras, show display sections or explosion, and download artifacts. The offline HTML embeds its rendering code and geometry. Hosts can also embed `@coloopx/colocad/viewer`.
+
+| Command | Input | Result |
+| --- | --- | --- |
+| `colocad plan TREE.json` | `colocad/1` feature tree | Compile and inspect a native job |
+| `colocad build TREE.json NEW_DIR --preview` | Feature tree | STEP, editable source and previews |
+| `colocad record MODEL.json SESSION` | Feature tree or kernel JSON | Build and persist a milestone |
+| `colocad view SESSION` | Saved session | Interactive local viewer |
+| `colocad replay SESSION review.html` | Saved session | Self-contained offline HTML |
+| `colocad render SESSION modeling.mp4` | Saved session | Four-view animation; `.gif` also supported |
+
+In a headless sandbox, use `colocad view ./history --no-open --port 8787` with the harness's port forwarding; the listener binds to `127.0.0.1`.
 
 ```sh
-# Codex project skill
-mkdir -p .agents/skills
-cp -R node_modules/@coloopx/colocad/skills/colocad .agents/skills/colocad
-
-# For Claude Code, use .claude/skills/colocad instead.
+# Optional movie dependencies; install FFmpeg on the host as well.
+npm install -D playwright
+npx playwright install chromium
+npx colocad render ./history ./modeling.mp4 --width 1280 --height 800 --fps 15
 ```
 
-Then ask the agent to use the colocad skill, specify the product/dimensions and require a recorded session, exact STEP and CLI-exported review. For other harnesses, load `skills/colocad/SKILL.md` and register the SDK tools. The skill guides interpretation and verification; colocad executes explicit geometry instructions. [Codex](docs/integrations/codex.md) · [Claude Code](docs/integrations/claude-code.md) · [Pi](docs/integrations/pi.md) · [Actual drawing-to-model workflow](docs/modeling-workflow.zh-CN.md).
+Movies replay **actual saved revisions**. Recorded call times and edited playback duration are separate. Building geometry and exporting HTML do not need Chromium or FFmpeg. [History, viewer and rendering guide](docs/modeling-history.md).
 
-## Reconstruct a real industrial product and replay its modeling history
+## Use with your agent
 
-The [HIWIN KK60 actuator example](examples/hiwin-kk60/README.md) reconstructs a specific manufacturer catalog configuration: 300 mm rail, 5 mm lead, 210 mm travel. Its **52 native features, 81 named occurrences and 16 persisted milestones** include a physically cut helical screw groove, guide tracks, mounting holes, bearings, carriage and coupling.
+Copy the whole skill, including its references, scripts and editable shape assets:
 
+```sh
+# Codex project skill; use .claude/skills for Claude Code.
+mkdir -p .agents/skills
+cp -R node_modules/@coloopx/colocad/skills/colocad .agents/skills/colocad
+```
 
-[Watch the MP4](showcase/hiwin-kk60/modeling.mp4) · [Edit the model](showcase/hiwin-kk60/model.json) · [Read the independent checks](showcase/hiwin-kk60/verification.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json)
+If that skill already exists, preserve local customizations before updating it. Then ask:
+
+> Use the colocad skill to build a 100 × 50 × 6 mm plate with a centered 3 × 2 grid of Ø6 through-holes on 32 × 30 mm pitches. Keep editable source and modeling history, verify the dimensions, and export STEP and an offline HTML review through the CLI.
+
+| Harness | Integration |
+| --- | --- |
+| Codex | [Project skill and CLI](docs/integrations/codex.md) |
+| Claude Code | [Project skill and local tools](docs/integrations/claude-code.md) |
+| Pi core / coding agent | [Typed tool adapter and extension](docs/integrations/pi.md) |
+| Your own harness | [SDK schemas, state and artifact lifecycle](docs/integrations/overview.md) |
+
+The [end-to-end handbook](docs/agent-modeling-handbook.md) covers source preparation, dimension uncertainty, tool abstraction, prompts, modeling loops, validation and tuning. A [runnable guided workflow](examples/integrations/README.md) demonstrates real builds, quantitative edits and recovery; its decisions are scripted, not a live-LLM benchmark.
+
+## Example: a complete linear actuator
+
+The cover reconstructs a **HIWIN KK60, 300 mm rail, 5 mm lead, 210 mm travel** from manufacturer drawings: **52 final features, 81 named solid occurrences and 16 modeling milestones**. It includes a physically cut helical screw groove, rail tracks, mounting holes, carriage, bearings and coupling.
 
 ```sh
 node node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs ./actuator
 npx colocad view ./actuator/session
-npx colocad replay ./actuator/session ./actuator.html
-# Optional: Playwright/Chromium + FFmpeg are required for video encoding.
 npx colocad render ./actuator/session ./modeling.mp4
 ```
 
-This is a catalog-based product reconstruction, with explicitly approximated internal races/bearings and no manufacturing certification. The animation reads actual saved CAD revisions; measured call times appear separately from edited playback. It is not a performance comparison. See [CLI history/rendering](docs/modeling-history.md) and the [actual agent modeling workflow](docs/modeling-workflow.zh-CN.md).
+Independent OCCT checks cover all 16 STEP revisions, 64 material probes and selected rail/carriage clearances. Proprietary internals are explicitly approximated or omitted; this is a catalog reconstruction, not a production drawing package. The animation is not a speed benchmark.
 
-## How many tendon hands can an agent deliver in 100 seconds?
+[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](showcase/hiwin-kk60/verification.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
-**colocad delivered 44 complete revisions to build123d’s 33 (+33.3%), with 57.1% lower peak sampled sandbox memory.** Both tools rebuilt and assembled the same 43-solid hand at each revision. Each tick marks a complete STEP handed off to storage.
+## Performance
 
-![10× replay of tendon-hand modeling and assembly: 44 vs. 33 STEP deliveries; sampled sandbox memory peaks at 130.9 vs. 304.9 MiB.](showcase/tendon-hand/window/hand-window-peak-en.gif)
+Performance depends on geometry and execution mode. In a measured 100-second queue of the same **43-solid tendon hand**, Colocad delivered **44 complete STEP revisions versus build123d's 33**, with **57.1% lower highest sampled sandbox memory**.
 
-The GIF shows the **highest memory sampled so far** for each tool on the same 0–512 MiB scale. For actual usage between builds, see the [instantaneous-memory replay (MP4)](https://github.com/Coloopx/colocad/raw/refs/heads/main/showcase/tendon-hand/window/hand-window-en.mp4) or the [timestamped samples](showcase/tendon-hand/evidence/window-optimized.json).
+![10× replay: STEP deliveries and peak-so-far sampled sandbox memory](showcase/tendon-hand/window/hand-window-peak-en.gif)
 
-| Same revision queue, 1 vCPU / 512 MiB | Optimized colocad | build123d |
-|---|---:|---:|
-| Complete hands delivered in 100 s | **44** | 33 |
+| Same revision queue, 1 vCPU / 512 MiB | Colocad | build123d |
+| --- | ---: | ---: |
+| Complete STEP deliveries in 100 s | **44** | 33 |
 | First STEP | **2.223 s** | 3.010 s |
-| Median job time on the same first 33 inputs | **2.234 s** | 2.855 s |
-| Highest sampled cgroup memory over the 100 s window | **130.9 MiB** | 304.9 MiB |
+| Median job, same first 33 inputs | **2.234 s** | 2.855 s |
+| Highest sampled cgroup memory | **130.9 MiB** | 304.9 MiB |
 
-One measured window per backend, with a new CAD process for each revision. The original run used the alpha.2 SDK and the optimized Linux arm64 kernel now bundled in alpha.3. Memory samples taken about every 25 ms include subprocesses, tmpfs and charged file cache. Every counted STEP reopened successfully. [Measurement method](showcase/tendon-hand/window/README.md) · [Detailed build and single-call replay](showcase/tendon-hand/assembly-performance.md)
-
-The static scorecard below uses the **published alpha.2 binary**. With fresh tool processes the sensor rail and manifold reached STEP 22.0× and 12.9× faster than build123d, using 7.7% and 8.0% of its peak memory.
+One window per backend; a fresh CAD process per revision; approximately 25 ms memory sampling includes subprocesses, temporary files and charged file cache. Every counted STEP reopened successfully. This run used the alpha.2 SDK and the optimized kernel first bundled in alpha.3; it is not a new alpha.6 measurement. The GIF plots the highest sample so far, not instantaneous usage. [Method and samples](showcase/tendon-hand/window/README.md).
 
 <details>
-<summary>See the static comparison across four workloads</summary>
+<summary>Cold-start parts and cached previews</summary>
 
-![Time to STEP and peak cgroup memory across four workloads. Shorter bars are better.](docs/benchmarks/time-to-step.svg)
+![Time to STEP and peak memory on four historical workloads](docs/benchmarks/time-to-step.svg)
+
+The published alpha.2 kernel reached STEP **22.0× faster** for a sensor rail and **12.9× faster** for a manifold, using **7.7% and 8.0%** of build123d's peak memory. Five fresh processes/cgroups per part and backend after warm-up; Linux arm64, 1 vCPU / 512 MiB. Startup/imports, modeling, checks and export count; installation, previews, inference and a resident agent do not. These gains do not apply to every operation: manifold geometry alone took 53.7 ms versus build123d's 43.8 ms, and the old complete-hand result was slower.
+
+For unchanged geometry, saved-mesh observation was 5.6×–16.8× faster than Colocad's own rebuild-and-render path on two parts. This is an internal cache comparison, not a build123d result.
 
 </details>
 
-| Deliverable | Time to STEP: colocad / build123d | Speedup¹ | Peak memory: colocad / build123d | Share of build123d peak |
-| :--- | ---: | ---: | ---: | ---: |
-| Sensor rail | 113 / 2,485 ms | **22.0×** | 20.0 / 259.3 MiB | **7.7%** |
-| Port manifold | 230 / 2,963 ms | **12.9×** | 20.7 / 258.7 MiB | **8.0%** |
-| Tendon-hand proximal link | 259 / 2,244 ms | **8.6×** | 21.4 / 260.1 MiB | **8.2%** |
-| Complete 43-solid hand | 3,952 / 3,293 ms | **0.83×** | 52.7 / 271.3 MiB | **19.4%** |
+[Full performance evidence and limitations](docs/performance.md) · [Offline comparison with STEP downloads](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html).
 
-¹ build123d time divided by colocad time from unrounded observations. Same Linux arm64 image, 1 vCPU, 512 MiB. Five fresh processes and cgroups per part and backend after warm-up. Time is the median wall clock including startup, imports, modeling, backend checks and STEP export. Memory is the maximum measured cgroup peak; charged pages, temporary outputs and tool descendants count. Installation, container startup, previews, inference and a resident agent are excluded.
+## Support and limits
 
-[Rail/manifold samples](docs/benchmarks/runs.json) · [Finger/hand samples](showcase/tendon-hand/evidence/scope.json) · [Four-view hand study and CAD downloads](showcase/tendon-hand/README.md) · [Offline scorecard](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/time-to-step.html)
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.6.json).
+- Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
+- General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
+- CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).
+- A 512 MiB CAD test is not a memory guarantee for an entire resident agent, browser or video encoder.
 
-**Historical alpha.2 result.** in a separate 100-second sweep of complete hand revisions, colocad delivered 24 STEPs to build123d’s 30. Every counted file reopened as a valid 43-solid assembly. [Timestamped outputs and paired geometry checks](showcase/tendon-hand/evidence/window.json)
+## Documentation and help
 
-## SDK, CLI or skill?
+[Getting started](docs/getting-started.md) · [API](docs/api.md) · [Agent handbook](docs/agent-modeling-handbook.md) · [Skill](skills/colocad/SKILL.md) · [Troubleshooting](docs/troubleshooting.md) · [All documentation](docs/README.md)
 
-**Start here:** [first part and edit](docs/getting-started.md) · [SDK/API reference](docs/api.md) · [modeling best practices](docs/best-practices.md).
+For a bug or feature request, [open an issue](https://github.com/Coloopx/colocad/issues) with the package version, platform, minimal model and relevant receipt. Remove credentials and private source material.
 
-| Your harness | Integration guide |
-| --- | --- |
-| Pi agent core / Pi coding agent | [Typed tool adapter, extension and skill](docs/integrations/pi.md) |
-| Claude Code | [Project skill and local CLI](docs/integrations/claude-code.md) |
-| Codex | [Project skill, invocation and artifact inspection](docs/integrations/codex.md) |
-| Other harnesses | [Sandbox architecture, revision state and artifact lifecycle](docs/integrations/overview.md) |
-
-The [runnable examples](examples/integrations/README.md) exercise the published package, real native builds and Pi tool-loop error recovery. See [what was verified](docs/integrations/verification.md) and [how to contribute](CONTRIBUTING.md).
-
-Install with `npm install @coloopx/colocad@0.1.0-alpha.5`. This version bundles the optimized assembly kernel and the complete agent skill. The skill lives at `node_modules/@coloopx/colocad/skills/colocad/`. Point your harness at its `SKILL.md` or copy the whole directory into your agent’s skill collection.
-
-For a dimensioned part, try “Make a 100 × 50 × 6 mm plate with a centered 3 × 2 grid of Ø6 through-holes on 32 × 30 mm pitches.” The skill includes editable stock, hole grids, sleeves, brackets and open housings. [Quick-build commands and examples](skills/colocad/references/quick-build.md)
-
-- **In an application or harness:** call `build(tree, newDir, { preview: true })` in the SDK. Use `CadClient.build(model)` for named multi-solid assemblies.
-- **In a shell or agent tool call:** install `npm install @coloopx/colocad@0.1.0-alpha.5`. Run `./node_modules/.bin/colocad plan tree.json`, then `./node_modules/.bin/colocad build tree.json ./new-part --preview`. Open `new-part/part/model.step`.
-- **From drawings with an agent:** install the [colocad skill](skills/colocad/SKILL.md). Start the next turn with “Use `$colocad` to reconstruct these four views, export STEP, and flag any internal details you inferred.” [Installation and assembly replay](showcase/tendon-hand/README.md#try-it-with-your-agent).
-
-## What the two STEP writers produced
-
-![Two independently modeled STEP pairs. Top: a sensor rail with three through-slots. Bottom: a manifold with four blind bores and a rectangular pocket. Colocad on the left; build123d on the right.](docs/benchmarks/step-comparison.png)
-
-Each backend modeled the part from the same parameters. The images use the exported STEPs, the same mesher and camera. OCCT reopened each file as **one valid solid**. Both rail exports had 22 faces and 56 edges; both manifold exports had 27 faces and 54 edges. The two directional boolean differences measured **0 mm³** in both cases (boolean tolerance: 0.000001 mm). [Geometry checks](docs/benchmarks/step-checks.json)
-
-On the manifold, build123d’s modeling phase alone was **43.8 ms** to colocad’s **53.7 ms**, while build123d import alone took **2.45 s**. The table measures a fresh tool call, not the speed of an isolated boolean operation. [Stage timings and reproduction](benchmarks/readme/README.md)
-
-### When the agent only changes the camera
-
-The first preview saves a display mesh. For a second view of unchanged geometry, the kernel SDK can load that mesh instead of rebuilding the solid or triangulating it again. Here are five-run medians for the same **top view**, comparing two paths inside colocad:
-
-| Part | Rebuild part + render | Render from saved mesh | Speedup |
-| :--- | ---: | ---: | ---: |
-| Sensor rail | 108.8 ms | 19.4 ms | **5.6×** |
-| Port manifold | 223.8 ms | 13.3 ms | **16.8×** |
-
-The PNG, GLB and STL from both paths matched byte for byte on every pair. This test starts with the SDK already loaded and includes native process startup and display output. A geometry edit needs a new revision. [Preview measurements and hashes](docs/benchmarks/preview-runs.json)
-
-## What ships
-
-| In the [npm tarball](https://www.npmjs.com/package/@coloopx/colocad) | In the [source repository](https://github.com/Coloopx/colocad) |
-| :--- | :--- |
-| Agent skill, CLI, JavaScript API, TypeScript declarations and precompiled Rust executables for **Linux x64, Linux arm64 and macOS arm64**. Node.js 22+. | [Rust CAD source](crates/agent-cad/src), [TypeScript kernel SDK](kernel/src), [feature compiler](src/tree.mjs), tests and [pinned SolidCore dependency](third_party/solidcore.lock.json). |
-
-For example, on Linux arm64 the CLI launches `node_modules/@coloopx/colocad/kernel/native/linux-arm64/agent-cad`. The tarball contains the executable; the Rust `.rs` files are in the repository.
-
-**Alpha status.** Linux supports parametric edits, STEP and PNG/GLB/STL export. Direct generation of a complex, editable SOLIDWORKS part on Linux is still experimental. The optional Windows author compiles against the SOLIDWORKS 2024 interop API; a licensed native rebuild has not been verified. See the [native author](#native-solidworks-author-experimental) and [validation notes](docs/validation.md).
-
-## Run the examples
+## Develop and contribute
 
 ```sh
-npm install @coloopx/colocad@alpha
-npx colocad build node_modules/@coloopx/colocad/examples/manifold.json ./manifold --preview
-npx colocad build node_modules/@coloopx/colocad/examples/sensor-rail.json ./rail
-```
-
-The manifold contains a six-sided extrusion, a blind circular cut, an upper-rim fillet, a four-instance pattern referencing the earlier cut, and a rectangular pocket. The sensor rail uses a different sketch, feature order and pattern direction. Both run through the same compiler. The pattern count includes the seed.
-
-Each call requires a new output directory. The `part/` subdirectory holds `model.step`, `feature-tree.json`, a kernel report, and `native-job.json`. With `--preview` it also contains PNG, STL and GLB files. The native job stores the ordered feature definitions, resolved inputs and reference geometry measurements.
-
-```js
-import { readFile } from 'node:fs/promises';
-import { build } from '@coloopx/colocad';
-
-const tree = JSON.parse(await readFile('./node_modules/@coloopx/colocad/examples/manifold.json', 'utf8'));
-await build(tree, './original');
-tree.parameters.instances = 3;
-const edited = await build(tree, './edited');
-console.log(edited.geometry.volume_mm3);
-```
-
-All coordinates and lengths are in mm. The first extrusion creates a solid. Further extrusions add material and cuts remove material along +Z from a sketch at `startZ` (default 0). Profiles can be rectangles, circles or polygons. Fillets select edges on a specified Z plane and require the declared match count. A linear pattern refers to an earlier extrusion or cut by ID, with X/Y direction, positive pitch and instance count. IDs are unique, case-insensitively. A scalar is a finite number or a reference such as `{"param":"thickness"}`. The public TypeScript declaration defines the full input.
-
-The kernel API at `@coloopx/colocad/kernel` also exposes the lower-level geometry operations, STEP import, incremental revisions and preview cache. The npm tarball includes Linux arm64/x64 and macOS arm64 executables and dependency licenses. The checked-in sources build the kernel on supported toolchains.
-
-## Native SOLIDWORKS author (experimental)
-
-The Windows entry point consumes the same job. It starts a blank part using the application's configured default, builds sketches with native lines and circles, calls extrusion/cut/fillet/pattern APIs and names the resulting features. The fillet uses body edges and the native pattern selects the original seed feature. There are no part-specific model files. Running it requires local Windows, .NET 8 and a licensed SOLIDWORKS installation with a valid default blank part configuration.
-
-```powershell
-colocad solidworks .\manifold\part\native-job.json .\manifold.SLDPRT
-```
-
-Use `COLOCAD_SW_INTEROP` for an alternate directory containing the local SOLIDWORKS interop DLLs. The completion check is designed to save a temporary part, reopen it, verify native types, radius, pattern seed, count, pitch and reference volume, then edit a driving extrusion dimension, rebuild, restore and check it. Only a successful check publishes the output. The current release has **no native runtime pass** for either complex part. The package includes no four-hole template and does not route jobs to another machine.
-
-## Build and verify from source
-
-```sh
+git clone https://github.com/Coloopx/colocad.git
+cd colocad
+npm ci
 npm run build:kernel
 npm test
-node bin/colocad.mjs build examples/manifold.json ./out/manifold --preview
 ```
 
-The first command fetches the pinned SolidCore archive, checks its SHA-256 and builds the local Rust executable. The plain Node tests use the local executable or `AGENT_CAD_BINARY`. The repository includes the TypeScript kernel SDK source and its compiled distribution. To rebuild the .NET author, build `solidworks/Colocad.SolidWorks.csproj` with a .NET 8 SDK and `-p:SWInteropDir=<directory containing the two SOLIDWORKS interop DLLs>`. Copy only Colocad.SolidWorks.dll, its deps.json and runtimeconfig.json to solidworks/managed.
+Building from source requires the Rust toolchain and fetches the pinned SolidCore dependency. Viewer/render and Pi integration checks have additional dependencies; see [CONTRIBUTING.md](CONTRIBUTING.md) for setup, tests and release instructions. Contributions are welcome as issues and pull requests.
 
-Independent OCCT validation is in `test/validation/geometry.py`. It reopens the STEP and checks both volume and whether selected points lie inside the plate, the holes, the recess or the fillet. The measured results and the limits of the native experiment are in [the validation notes](docs/validation.md).
+## License and acknowledgments
+
+Colocad application code is [MIT licensed](LICENSE). The kernel builds on [SolidCore](https://github.com/tangency-labs/solidcore), including work derived from NVIDIA USD BRep / SMLib; the viewer uses Three.js. Dependency licenses and attribution are in [NOTICE.md](NOTICE.md) and [kernel/licenses](kernel/licenses). The industrial example is not affiliated with or endorsed by HIWIN.
