@@ -1,6 +1,6 @@
 # colocad
 
-[中文说明](README.zh-CN.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
+[中文说明](README.zh-CN.md) · [Developer docs](docs/README.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
 Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
 
@@ -44,6 +44,17 @@ The static scorecard below uses the **published alpha.2 binary**. With fresh too
 **Historical alpha.2 result.** in a separate 100-second sweep of complete hand revisions, colocad delivered 24 STEPs to build123d’s 30. Every counted file reopened as a valid 43-solid assembly. [Timestamped outputs and paired geometry checks](showcase/tendon-hand/evidence/window.json)
 
 ## SDK, CLI or skill?
+
+**Start here:** [first part and edit](docs/getting-started.md) · [SDK/API reference](docs/api.md) · [modeling best practices](docs/best-practices.md).
+
+| Your harness | Integration guide |
+| --- | --- |
+| Pi agent core / Pi coding agent | [Typed tool adapter, extension and skill](docs/integrations/pi.md) |
+| Claude Code | [Project skill and local CLI](docs/integrations/claude-code.md) |
+| Codex | [Project skill, invocation and artifact inspection](docs/integrations/codex.md) |
+| Other harnesses | [Sandbox architecture, revision state and artifact lifecycle](docs/integrations/overview.md) |
+
+The [runnable examples](examples/integrations/README.md) exercise the published package, real native builds and Pi tool-loop error recovery. See [what was verified](docs/integrations/verification.md) and [how to contribute](CONTRIBUTING.md).
 
 Install with `npm install @coloopx/colocad@0.1.0-alpha.3`. This version bundles the optimized assembly kernel and the complete agent skill. The skill lives at `node_modules/@coloopx/colocad/skills/colocad/`. Point your harness at its `SKILL.md` or copy the whole directory into your agent’s skill collection.
 

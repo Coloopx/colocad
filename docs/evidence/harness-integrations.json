@@ -1,0 +1,277 @@
+{
+  "verifiedOn": "2026-11-07",
+  "platform": "darwin-arm64",
+  "node": "22.23.3",
+  "package": "@coloopx/colocad@0.1.0-alpha.3",
+  "piAgentCore": "1.5.0",
+  "piCodingAgent": "1.5.0",
+  "integrationTests": {
+    "passed": 5,
+    "failed": 0,
+    "modelStream": "deterministic scripted responses; real Pi loop and native CAD execution"
+  },
+  "rootNodeTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "independentSTEPChecks": [
+    {
+      "case": "feature-tree-build",
+      "valid": true,
+      "solids": 1,
+      "volumeMM3": 45490.92386573395,
+      "rustVolumeMM3": 45490.92421362917,
+      "materialProbes": [
+        [
+          14,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          14,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          32,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          32,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          50,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          50,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          68,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          68,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          43,
+          32,
+          2,
+          "outside"
+        ],
+        [
+          43,
+          32,
+          6,
+          "inside"
+        ],
+        [
+          0.05,
+          24,
+          11.95,
+          "outside"
+        ],
+        [
+          2,
+          24,
+          11.95,
+          "inside"
+        ]
+      ],
+      "stepSHA256": "0be3e7968361569b94314e1852d5a766fcb86a119790376e9299a7d535e647b9"
+    },
+    {
+      "case": "feature-tree-edit",
+      "valid": true,
+      "solids": 1,
+      "volumeMM3": 45717.11853266934,
+      "rustVolumeMM3": 45717.118884762196,
+      "materialProbes": [
+        [
+          14,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          14,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          32,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          32,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          50,
+          12,
+          6,
+          "outside"
+        ],
+        [
+          50,
+          12,
+          10,
+          "inside"
+        ],
+        [
+          43,
+          32,
+          2,
+          "outside"
+        ],
+        [
+          43,
+          32,
+          6,
+          "inside"
+        ],
+        [
+          0.05,
+          24,
+          11.95,
+          "outside"
+        ],
+        [
+          2,
+          24,
+          11.95,
+          "inside"
+        ]
+      ],
+      "stepSHA256": "bbd1cb5f8e2caa391a2f8e5f57683db19da5f3708ab2c0f61f2378fdca95f3d8"
+    },
+    {
+      "case": "copied-skill-codex-pi",
+      "valid": true,
+      "solids": 1,
+      "volumeMM3": 28982.12398023691,
+      "expectedVolumeMM3": 28982.123980236905,
+      "materialProbes": [
+        [
+          18,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          18,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          82,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          82,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          25,
+          3,
+          "inside"
+        ]
+      ],
+      "stepSHA256": "4c1e8bc3a44e29fe463657f2d30cdcdcd937b6b9e6da4aeb2219f947ff5ac801"
+    },
+    {
+      "case": "copied-skill-claude-code",
+      "valid": true,
+      "solids": 1,
+      "volumeMM3": 28982.12398023691,
+      "expectedVolumeMM3": 28982.123980236905,
+      "materialProbes": [
+        [
+          18,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          18,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          82,
+          10,
+          3,
+          "outside"
+        ],
+        [
+          82,
+          40,
+          3,
+          "outside"
+        ],
+        [
+          50,
+          25,
+          3,
+          "inside"
+        ]
+      ],
+      "stepSHA256": "4c1e8bc3a44e29fe463657f2d30cdcdcd937b6b9e6da4aeb2219f947ff5ac801"
+    }
+  ],
+  "liveModelEvaluation": false,
+  "claudeCodeSessionTested": false
+}

@@ -1,6 +1,6 @@
 # colocad
 
-[English](README.md) · [npm 包](https://www.npmjs.com/package/@coloopx/colocad) · [下载单文件对比报告：含四份 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
+[English](README.md) · [开发与接入指南](docs/README.zh-CN.md) · [npm 包](https://www.npmjs.com/package/@coloopx/colocad) · [下载单文件对比报告：含四份 STEP](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
 
@@ -44,6 +44,17 @@
 **旧版整手基线。** 另一项 100 秒、按顺序改参的实测中，colocad 交付 24 份整手 STEP，build123d 交付 30 份；每份都是完整的 43 个实体，已逐件回读。[两端交付时间戳与几何核对](showcase/tendon-hand/evidence/window.json)
 
 ## SDK、CLI、skill 怎么选？
+
+SDK 是基础，CLI / 工具负责执行，skill 提供建模步骤与常用结构。完整文档从[中文开发指南](docs/README.zh-CN.md)开始，包含模型格式、改参、预览复用、失败处理和产物保存。
+
+| 使用环境 | 接入文档 |
+| --- | --- |
+| Pi agent core / Pi coding agent | [工具适配器、extension 与 skill](docs/integrations/pi.md) |
+| Claude Code | [项目 skill + 本地 CLI](docs/integrations/claude-code.md) |
+| Codex | [skill 安装、调用与产物检查](docs/integrations/codex.md) |
+| 自建 harness | [同沙箱架构、会话状态与产物生命周期](docs/integrations/overview.md) |
+
+[可运行示例与接入回归](examples/integrations/README.md) · [建模最佳实践](docs/best-practices.md) · [常见故障](docs/troubleshooting.md) · [贡献指南](CONTRIBUTING.md)
 
 运行 `npm install @coloopx/colocad@0.1.0-alpha.3` 即可安装优化后的装配内核和完整 skill。沙箱内的 harness 可加载 `node_modules/@coloopx/colocad/skills/colocad/SKILL.md`，也可以把整个 `colocad` skill 目录复制到 agent 的技能目录。
 
