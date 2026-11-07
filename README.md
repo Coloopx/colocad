@@ -1,4 +1,4 @@
-# colocad
+# Colocad
 
 [中文说明](README.zh-CN.md) · [Developer docs](docs/README.md) · [npm package](https://www.npmjs.com/package/@coloopx/colocad) · [Download the offline comparison](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)
 
