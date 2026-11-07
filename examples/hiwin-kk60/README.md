@@ -4,7 +4,7 @@ This example models one complete configuration of a real product: **HIWIN KK60 s
 
 ![Four synchronized views of actual recorded native construction](../../showcase/hiwin-kk60/modeling.gif)
 
-[MP4](../../showcase/hiwin-kk60/modeling.mp4) · [Editable generated model](../../showcase/hiwin-kk60/model.json) · [Independent verification](../../showcase/hiwin-kk60/verification.json) · [Source dimensions and assumptions](sources.json)
+[Complete offline delivery: HTML, STEP and session ZIP](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip) · [MP4](../../showcase/hiwin-kk60/modeling.mp4) · [Editable generated model](../../showcase/hiwin-kk60/model.json) · [Independent verification](../../showcase/hiwin-kk60/verification.json) · [Source dimensions and assumptions](sources.json)
 
 ## Build, view and export through the CLI
 

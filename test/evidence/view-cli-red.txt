@@ -8,7 +8,7 @@ not ok 1 - CLI launches local viewer and exports the same offline history
   failureType: 'testCodeFailure'
   error: |-
     viewer exited 1: {"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}
-    
+
   code: 'ERR_TEST_FAILURE'
   stack: |-
     ChildProcess.<anonymous> (file://$REPO/test/view-cli.test.mjs:22:58)
@@ -25,15 +25,15 @@ not ok 2 - CLI refuses an invalid viewer port
   failureType: 'testCodeFailure'
   error: |-
     The input did not match the regular expression /port/. Input:
-    
+
     '{"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\\ncolocad plan TREE.json\\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\\ncolocad replay SESSION_DIRECTORY OUTPUT.html\\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}\n'
-    
+
   code: 'ERR_ASSERTION'
   name: 'AssertionError'
   expected:
   actual: |-
     {"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}
-    
+
   operator: 'match'
   stack: |-
     TestContext.<anonymous> (file://$REPO/test/view-cli.test.mjs:34:68)
