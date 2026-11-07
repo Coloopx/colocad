@@ -1,0 +1,843 @@
+{
+  "validator": "independent OCCT via cadquery-ocp",
+  "passed": 16,
+  "results": [
+    {
+      "id": "s0001",
+      "label": "Extrude the U-section rail",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 181500.0,
+      "native_volume_mm3": 181500.00000000012,
+      "relative_volume_error": 6.414067318288416e-16,
+      "bbox_mm": [
+        -30.0000001,
+        -1e-07,
+        6.9999999,
+        30.0000001,
+        22.0000001,
+        307.0000001
+      ],
+      "step_sha256": "4aeb0e0fa39f0ee852116612e489752c758a64ff13ec84748b1d888429fda17a",
+      "materialProbes": []
+    },
+    {
+      "id": "s0002",
+      "label": "Cut the four guide raceways",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 178317.4736390286,
+      "native_volume_mm3": 178317.4736457727,
+      "relative_volume_error": 3.78206631952611e-11,
+      "bbox_mm": [
+        -30.0000001,
+        -1e-07,
+        6.999999899999999,
+        30.0000001,
+        22.0000001,
+        307.0000001
+      ],
+      "step_sha256": "5f89fc63fdb58f3d1076cac165c16fe40230b937de7603efb8026854f8f0c060",
+      "materialProbes": []
+    },
+    {
+      "id": "s0003",
+      "label": "Drill and counterbore the six mounting holes",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 176190.882447924,
+      "native_volume_mm3": 176190.88243845556,
+      "relative_volume_error": 5.373965067283162e-11,
+      "bbox_mm": [
+        -30.0000001,
+        -1e-07,
+        6.999999899999999,
+        30.0000001,
+        22.0000001,
+        307.0000001
+      ],
+      "step_sha256": "f6770a50903ce6d5fd758f1cb1d9f43d536e13674050396812d9e42dc4260df1",
+      "materialProbes": [
+        {
+          "point": [
+            -15,
+            0.1,
+            57
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -11,
+            0.1,
+            57
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -11,
+            2,
+            57
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -10,
+            2,
+            57
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -15,
+            0.1,
+            157
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -11,
+            0.1,
+            157
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -11,
+            2,
+            157
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -10,
+            2,
+            157
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -15,
+            0.1,
+            257
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -11,
+            0.1,
+            257
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -11,
+            2,
+            257
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -10,
+            2,
+            257
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            15,
+            0.1,
+            57
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            19,
+            0.1,
+            57
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            19,
+            2,
+            57
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            20,
+            2,
+            57
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            15,
+            0.1,
+            157
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            19,
+            0.1,
+            157
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            19,
+            2,
+            157
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            20,
+            2,
+            157
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            15,
+            0.1,
+            257
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            19,
+            0.1,
+            257
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            19,
+            2,
+            257
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            20,
+            2,
+            257
+          ],
+          "material": true
+        }
+      ]
+    },
+    {
+      "id": "s0004",
+      "label": "Extrude the carriage saddle",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 51377.399999999994,
+      "native_volume_mm3": 51377.399999999994,
+      "relative_volume_error": 0.0,
+      "bbox_mm": [
+        -21.0000001,
+        7.9999999,
+        -25.5000001,
+        21.0000001,
+        33.0000001,
+        25.5000001
+      ],
+      "step_sha256": "16aae791683e803370751a1f6c7ee7f275125cb78e7c8cb5fb80c054f209b50e",
+      "materialProbes": []
+    },
+    {
+      "id": "s0005",
+      "label": "Machine the nut seat and ball tracks",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 37460.51552866624,
+      "native_volume_mm3": 37460.515529086944,
+      "relative_volume_error": 1.123057542769364e-11,
+      "bbox_mm": [
+        -21.0000001,
+        7.9999999,
+        -25.5000001,
+        21.0000001,
+        33.0000001,
+        25.5000001
+      ],
+      "step_sha256": "bbb3a7c5770e9a57dc9f15adddcb5746757dde839e1e7d6bf8b6ac8a4a8ce2b1",
+      "materialProbes": []
+    },
+    {
+      "id": "s0006",
+      "label": "Drill the M5 mounting pattern and datum slots",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 36640.29239071833,
+      "native_volume_mm3": 36640.29239109416,
+      "relative_volume_error": 1.0257350312367622e-11,
+      "bbox_mm": [
+        -21.0000001,
+        7.9999999,
+        -25.500000100000005,
+        21.0000001,
+        33.0000001,
+        25.500000100000005
+      ],
+      "step_sha256": "863683ec9189e1f2598c44131d719c304af3d288b1e4777dbea8ffc584d28811",
+      "materialProbes": [
+        {
+          "point": [
+            -15,
+            28,
+            -15
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -12,
+            28,
+            -15
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -15,
+            28,
+            15
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -12,
+            28,
+            15
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            15,
+            28,
+            -15
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            18,
+            28,
+            -15
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            15,
+            28,
+            15
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            18,
+            28,
+            15
+          ],
+          "material": true
+        }
+      ]
+    },
+    {
+      "id": "s0007",
+      "label": "Revolve the stepped ballscrew blank",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 35104.15631121218,
+      "native_volume_mm3": 35104.15630415492,
+      "relative_volume_error": 2.010376440632759e-10,
+      "bbox_mm": [
+        -6.0000001,
+        -6.0000001,
+        -7.0000001,
+        6.0000001,
+        6.0000001,
+        340.0000001
+      ],
+      "step_sha256": "bc96a658785a60a8b32a64528eb7f77ba084f4131aee310c1247b86ca8d68843",
+      "materialProbes": []
+    },
+    {
+      "id": "s0008",
+      "label": "Cut 56 helical turns at 5 mm lead",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 32779.782693456975,
+      "native_volume_mm3": 32780.63748223367,
+      "relative_volume_error": 2.6076026653276346e-05,
+      "bbox_mm": [
+        -6.000000100000002,
+        -6.000000100000002,
+        -7.0000001,
+        6.0000001,
+        6.000000100000002,
+        340.0000001
+      ],
+      "step_sha256": "57c113c75cd998520358807eb5c3869e60ec1b5300c462461e4a9ad1bfd9d153",
+      "materialProbes": [
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            5.625
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            8.125
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            6.875
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            9.375
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            8.125
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            10.625
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            9.375
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            11.875
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            65.625
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            68.125
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            66.875
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            69.375
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            68.125
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            70.625
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            69.375
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            71.875
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            140.625
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            143.125
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            141.875
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            144.375
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            143.125
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            145.625
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            144.375
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            146.875
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            280.625
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.030508652763321,
+            4.030508652763321,
+            283.125
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            281.875
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763321,
+            4.030508652763321,
+            284.375
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            283.125
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            -4.030508652763322,
+            -4.030508652763321,
+            285.625
+          ],
+          "material": true
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            284.375
+          ],
+          "material": false
+        },
+        {
+          "point": [
+            4.03050865276332,
+            -4.030508652763322,
+            281.875
+          ],
+          "material": true
+        }
+      ]
+    },
+    {
+      "id": "s0009",
+      "label": "Machine the end bearing plate",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 26397.03209422664,
+      "native_volume_mm3": 26397.0320942833,
+      "relative_volume_error": 2.1463731884432764e-12,
+      "bbox_mm": [
+        -29.8,
+        0.5,
+        0.0,
+        29.8,
+        45.0,
+        11.0
+      ],
+      "step_sha256": "7fd287f0697210eb714600778ae2ecdc18e0ca6366ba0a28b020dcb030aa09a0",
+      "materialProbes": []
+    },
+    {
+      "id": "s0010",
+      "label": "Machine the motor support and register",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 90373.03581311031,
+      "native_volume_mm3": 90373.03581162763,
+      "relative_volume_error": 1.6406222026153343e-11,
+      "bbox_mm": [
+        -29.800000100000002,
+        0.5,
+        310.9999999,
+        29.800000100000002,
+        45.00000010000001,
+        370.0000001
+      ],
+      "step_sha256": "ad9691ce05f6ac2ada90eeae6981249783edc64679ce10d88393395f4799041d",
+      "materialProbes": []
+    },
+    {
+      "id": "s0011",
+      "label": "Bore and split the coupling hubs",
+      "solids": 1,
+      "valid": true,
+      "volume_mm3": 2237.8006974752616,
+      "native_volume_mm3": 2237.79803794812,
+      "relative_volume_error": 1.1884571781867757e-06,
+      "bbox_mm": [
+        -10.0000001,
+        -10.0000001,
+        -1e-07,
+        10.0000001,
+        10.0000001,
+        8.0000001
+      ],
+      "step_sha256": "81ad7be8f34a60a70eecf95137b552bd4a685e8f7196ee599bc0395c98c7ab24",
+      "materialProbes": []
+    },
+    {
+      "id": "s0012",
+      "label": "Install the rail and end supports",
+      "solids": 3,
+      "valid": true,
+      "volume_mm3": 292960.950355261,
+      "native_volume_mm3": 292960.9503443665,
+      "relative_volume_error": 3.718753318394107e-11,
+      "bbox_mm": [
+        -30.0000001,
+        -1e-07,
+        0.0,
+        30.0000001,
+        45.00000010000001,
+        370.0000001
+      ],
+      "step_sha256": "2fc14d8d15f2f0d4952b75052668d79dc72c08ac148d7b555a7a21b7bd3493d0",
+      "materialProbes": []
+    },
+    {
+      "id": "s0013",
+      "label": "Install the ballscrew and support bearings",
+      "solids": 32,
+      "valid": true,
+      "volume_mm3": 327107.4749093048,
+      "native_volume_mm3": 327108.30001141987,
+      "relative_volume_error": 2.522412653610907e-06,
+      "bbox_mm": [
+        -30.0,
+        0.0,
+        0.0,
+        30.0,
+        45.00000010000001,
+        370.0000001
+      ],
+      "step_sha256": "7ba1fc4a46560c02c1a937cdbe4ed046f6b3deaa2a6a14331c26cbb8a5b56fb3",
+      "materialProbes": []
+    },
+    {
+      "id": "s0014",
+      "label": "Install the carriage and end caps",
+      "solids": 3,
+      "valid": true,
+      "volume_mm3": 61894.51201294733,
+      "native_volume_mm3": 61894.51201339967,
+      "relative_volume_error": 7.308224819968556e-12,
+      "bbox_mm": [
+        -21.0000001,
+        7.9999999,
+        115.9999999,
+        21.0000001,
+        33.0000001,
+        198.0000001
+      ],
+      "step_sha256": "c1c5d0613241b3f5fb66bf91b65dbae4e3976dc50d6ed83e365002bf3938b425",
+      "materialProbes": []
+    },
+    {
+      "id": "s0015",
+      "label": "Add the ball nut, guide balls and wipers",
+      "solids": 70,
+      "valid": true,
+      "volume_mm3": 395524.9228727904,
+      "native_volume_mm3": 395525.74797516444,
+      "relative_volume_error": 2.086090167934278e-06,
+      "bbox_mm": [
+        -30.0000001,
+        -1e-07,
+        0.0,
+        30.0000001,
+        45.00000010000001,
+        370.0000001
+      ],
+      "step_sha256": "7f5f195decea001a7a125b5b1138ec8a541d160813f3917999023893e10b0675",
+      "materialProbes": []
+    },
+    {
+      "id": "s0016",
+      "label": "Complete the actuator and mounting hardware",
+      "solids": 81,
+      "valid": true,
+      "volume_mm3": 401323.6928696183,
+      "native_volume_mm3": 401324.5153124568,
+      "relative_volume_error": 2.049321203002924e-06,
+      "bbox_mm": [
+        -30.0,
+        0.0,
+        -1.0000000061316145e-07,
+        30.0,
+        45.00000010000001,
+        370.0000001
+      ],
+      "step_sha256": "c25c2f401feca1c4f612d33c2d0ef8ad8c56850539337080d58f7d0496a7ed80",
+      "materialProbes": []
+    }
+  ],
+  "clearances": [
+    {
+      "travelMm": -105,
+      "railCarriageOverlapMm3": 0.0,
+      "scope": "machined carriage body vs rail only"
+    },
+    {
+      "travelMm": 0,
+      "railCarriageOverlapMm3": 0.0,
+      "scope": "machined carriage body vs rail only"
+    },
+    {
+      "travelMm": 105,
+      "railCarriageOverlapMm3": 0.0,
+      "scope": "machined carriage body vs rail only"
+    }
+  ],
+  "limitations": "Catalog-interface reconstruction; proprietary race profile, bearing load/preload, all-pairs interference and manufacturing tolerances are not certified."
+}

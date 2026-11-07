@@ -13,6 +13,14 @@ fn limits() -> step_import::Limits {
         max_list_len: 16_384,
     }
 }
+// Internal serialization is bounded separately from untrusted imported assets.
+// A valid lofted screw can exceed 100k STEP records before it is instanced.
+fn generated_limits() -> step_import::Limits {
+    step_import::Limits {
+        max_entities: 1_000_000,
+        ..limits()
+    }
+}
 fn quoted(s: &str) -> String {
     format!("'{}'", s.replace('\'', "''"))
 }
@@ -112,7 +120,7 @@ pub(crate) fn write(
     let mut shared = None;
     for (name, body) in defs {
         let text = write_solids(body)?;
-        let parsed = part21::parse(text.as_bytes(), &limits()).map_err(failure)?;
+        let parsed = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
         let shift = w.items.len() as u64;
         let find = |ty| {
             parsed
@@ -752,7 +760,7 @@ pub(crate) fn write_surface(model: &step_import::model::Model) -> Result<String>
         }
     }
     let text = step_export::write(&source).map_err(failure)?;
-    let mut file = part21::parse(text.as_bytes(), &limits()).map_err(failure)?;
+    let mut file = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
     for item in file.entities.values_mut() {
         if let StepInstance::Simple(r) = item {
             match r.name.as_str() {
@@ -815,7 +823,7 @@ pub(crate) fn write_solids(model: &step_import::model::Model) -> Result<String> 
         groups.push(start..flat.bodies.len());
     }
     let text = step_export::write(&flat).map_err(failure)?;
-    let mut file = part21::parse(text.as_bytes(), &limits()).map_err(failure)?;
+    let mut file = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
     let solids = file
         .entities
         .iter()
@@ -875,4 +883,25 @@ pub(crate) fn write_solids(model: &step_import::model::Model) -> Result<String> 
     }
     out.push_str("ENDSEC;\nEND-ISO-10303-21;\n");
     Ok(out)
+}
+
+#[cfg(test)]
+mod export_limits_tests {
+    use super::*;
+    #[test]
+    fn generated_definitions_can_exceed_external_import_budget() {
+        let mut text = String::from("ISO-10303-21;\nHEADER;\nENDSEC;\nDATA;\n");
+        for id in 1..=100_001 {
+            text.push_str(&format!("#{id}=CARTESIAN_POINT('',(0.,0.,0.));\n"));
+        }
+        text.push_str("ENDSEC;\nEND-ISO-10303-21;\n");
+        assert!(part21::parse(text.as_bytes(), &limits()).is_err());
+        assert_eq!(
+            part21::parse(text.as_bytes(), &generated_limits())
+                .unwrap()
+                .entities
+                .len(),
+            100_001
+        );
+    }
 }

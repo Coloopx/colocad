@@ -1,0 +1,88 @@
+{
+  "product": "HIWIN KK60 Standard, 5 mm lead, 300 mm rail, one A block, no motor/cover/switch",
+  "source": {
+    "publisher": "HIWIN Corporation",
+    "productUrl": "https://hiwin.com/products/kk-series-ballscrew-stages/kk-series/",
+    "catalogUrl": "https://hiwin.com/wp-content/uploads/2026/08/HIWIN-Ballscrew-Driven-Stages-Catalog-1.pdf",
+    "documentCode": "K99TE16-1906",
+    "downloaded": "2026-11-07",
+    "pages": {
+      "modelCode": 15,
+      "screwDiameterLead": 16,
+      "dimensionDrawing": 22
+    },
+    "pdfPages": {
+      "modelCode": 18,
+      "screwDiameterLead": 19,
+      "dimensionDrawing": 25
+    },
+    "sha256": "be54c5158ef723dfe2d97be26403b3970f5bc6c9290352e3d6b321d4560481c0"
+  },
+  "catalogDimensionsMm": {
+    "railLength": 300,
+    "overallLength": 370,
+    "railWidth": 60,
+    "carriageHeight": 33,
+    "screwAxisHeight": 23,
+    "railTopHeight": 22,
+    "carriageLength": 82,
+    "carriageMetalLength": 51,
+    "carriageWidth": 42,
+    "stroke": 210,
+    "screwDiameter": 12,
+    "lead": 5,
+    "driveShaftDiameter": 6,
+    "railMountHoles": {
+      "count": 6,
+      "diameter": 5.5,
+      "counterboreDiameter": 9.5,
+      "counterboreDepth": 4.7,
+      "xPitch": 30,
+      "zPitch": 100,
+      "G": 50
+    },
+    "carriageMountHoles": {
+      "count": 4,
+      "thread": "M5 x 0.8",
+      "depth": 8,
+      "pitch": [
+        30,
+        30
+      ]
+    },
+    "motorSupport": {
+      "width": 59.6,
+      "height": 44.5,
+      "bottomOffset": 0.5,
+      "length": 59,
+      "registerDiameter": 28,
+      "boltCircleDiameter": 40
+    },
+    "datumSlots": {
+      "width": 15,
+      "depth": 1.5
+    }
+  },
+  "datumInterpretations": [
+    "X is width, Y is vertical, Z is the travel axis; overall Z=0..370.",
+    "Rail Z=7..307; three mounting stations Z=57,157,257, measured from the right rail end using G=50.",
+    "Mid-stroke carriage center Z=157; travel +/-105 gives full block envelope Z=11..303.",
+    "Screw axis Y=23 was checked on the enlarged SECTION A-A, not inferred from the 15 mm side-hole dimension."
+  ],
+  "assumptions": [
+    "U-rail internal wall/floor profile, chamfers, groove radii and guide ball spacing are reconstructed. They are not manufacturing dimensions.",
+    "Screw groove uses four cubic circular-section lofts per turn, repeated 56 times. This is a geometric helix approximation, not the manufacturer's gothic-arch ground raceway.",
+    "Ball-nut internals and recirculation passages are not disclosed in the catalog. The nut is an annular envelope; no recirculation or load rating is claimed.",
+    "Support bearing race dimensions and rolling balls are illustrative and are not a sourced bearing SKU.",
+    "Motor bracket window, support screws, coupling/spider and wiper seats use documented example geometry where the catalog does not dimension them.",
+    "Threaded holes use nominal diameter cylinders; screws have plain shanks and real hex sockets. Thread geometry and tolerance fits are not modeled.",
+    "Motion uses the nominal screw relation 360 degrees per 5 mm; no dynamic/contact or preload simulation is performed.",
+    "Colors distinguish components; they do not establish manufacturer materials. No production mass or structural rating is claimed."
+  ],
+  "notIncluded": [
+    "optional motor",
+    "optional cover/bellows",
+    "optional limit switches",
+    "proprietary recirculation geometry"
+  ]
+}

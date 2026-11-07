@@ -1,0 +1,12 @@
+{
+  "id": "s0013",
+  "label": "Install the ballscrew and support bearings",
+  "status": "failed",
+  "durationMs": 19194.61675,
+  "error": {
+    "code": "STEP_ASSEMBLY",
+    "feature_id": null,
+    "message": "line 103625: more than 100000 entities"
+  },
+  "inputSha256": "862ed3b5b75cf87738f43f52efc535b3edeb7bfca5c56a20283d1dd254563184"
+}

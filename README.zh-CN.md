@@ -4,6 +4,24 @@
 
 让沙箱内的 agent 用 JSON 描述可改参的机械零件，输出 STEP 实体、PNG 预览和 GLB/STL 网格。**npm 包自带编译好的 Rust CAD 内核**：Linux x64、Linux arm64 和 macOS arm64 各一份。agent 和 harness 在同一沙箱里调用 Node CLI 或 TypeScript API，CLI 直接启动本地 Rust 程序。安装后建模不需要网络、Python、Rust 工具链或额外服务。[Rust 源码](crates/agent-cad/src)和[内核依赖版本](third_party/solidcore.lock.json)在本仓库。
 
+## 真实工业产品：从厂家图纸到整机及建模动画
+
+[HIWIN KK60 执行器实例](examples/hiwin-kk60/README.md)对应真实目录配置：300 mm 导轨、5 mm 导程、210 mm 行程，包含 **52 个原生特征、81 个命名实例、16 个持久化建模阶段**。螺旋槽、安装孔、导轨滚道均为实际 B-rep 几何。
+
+![实际建模记录的四视图回放](showcase/hiwin-kk60/modeling.gif)
+
+[MP4 动画](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [独立验证](showcase/hiwin-kk60/verification.json) · [尺寸来源与假设](examples/hiwin-kk60/sources.json)
+
+```sh
+node node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs ./actuator
+npx colocad view ./actuator/session
+npx colocad replay ./actuator/session ./actuator.html
+# 视频导出另需 Playwright/Chromium 和 FFmpeg。
+npx colocad render ./actuator/session ./modeling.mp4
+```
+
+这是依据厂家目录进行的整机复建，未公开的轴承、滚道与回珠细节有明确近似/缺失标注，不能作为制造认证模型。动画读取实际保存的建模结果，播放节奏与实测构建耗时分开显示，不构成 build123d 性能比较。参见[实际操作流程](docs/modeling-workflow.zh-CN.md)和 [CLI 可视化与导出](docs/modeling-history.md)。
+
 ## 100 秒能交付多少版绳驱灵巧手？
 
 **colocad 交付 44 版，build123d 交付 33 版：交付量多 33.3%，采样峰值内存低 57.1%。** 两边按同一组参数逐版建模、装配。每条刻线代表一份含 43 个实体的整手 STEP 已写入持久存储。

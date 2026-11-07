@@ -1,10 +1,11 @@
 import { CadClient, createCadTools } from '@coloopx/colocad';
 import { readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
+import { createSessionTools } from '../../src/session.mjs';
 
 // Reuse one client for a sequential modeling session to retain checkpoint/mesh reuse.
-export async function createPiCadTools(config) {
-  const definitions = await createCadTools(new CadClient(config));
+export async function createPiCadTools(config, { session } = {}) {
+  const definitions = session ? await createSessionTools(session) : await createCadTools(new CadClient(config));
   const enabled = new Set(['cad_capabilities', 'cad_validate', 'cad_build', 'cad_preview', 'cad_edit']);
   return definitions.filter((tool) => enabled.has(tool.name)).map((tool) => ({
     name: tool.name,

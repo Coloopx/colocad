@@ -1,0 +1,55 @@
+{
+  "version": "0.1.0-alpha.4",
+  "kernel": {
+    "version": "0.1.0-alpha.4",
+    "sha256": {
+      "darwin-arm64": "e3cbc7abf95cc0911e5e9a1dae565c52e7bafe927f5bf7a42901aa9a48f2bca9",
+      "linux-arm64": "9e2e965f2e136d2fe31009738be8c42e98b39ccccf838c6f22b07d7ead39e714",
+      "linux-x64": "33031163011d5fb73f12366362f74cdb72115e452c66116e5a53bb433eb1779e"
+    }
+  },
+  "installedArchiveSmoke": [
+    {
+      "platform": "darwin-arm64",
+      "ok": true,
+      "solids": 1,
+      "steps": 1,
+      "bytes": 1769444
+    },
+    {
+      "platform": "linux-arm64",
+      "ok": true,
+      "solids": 1,
+      "steps": 1,
+      "bytes": 1749262
+    },
+    {
+      "platform": "linux-x64",
+      "ok": true,
+      "solids": 1,
+      "steps": 1,
+      "bytes": 1749302
+    }
+  ],
+  "regression": {
+    "node": 19,
+    "rust": 72,
+    "piIntegrations": 6,
+    "browser": true,
+    "cliMp4": true,
+    "independentStepRevisions": 16,
+    "materialProbes": 64
+  },
+  "fullProductSandbox": {
+    "platform": "linux-arm64",
+    "ok": true,
+    "solids": 81,
+    "features": 52,
+    "timing": {
+      "export": 341.991875,
+      "geometry": 15005.232382999999,
+      "total": 24192.333304000003,
+      "validation": 6971.694879000001
+    }
+  }
+}

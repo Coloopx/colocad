@@ -15,3 +15,5 @@ Choose the entry point that matches the model:
 - For a `colocad/1` XY feature tree use the project's `node_modules/.bin/colocad plan TREE.json` and `node_modules/.bin/colocad build TREE.json NEW_DIR --preview`. Cuts start at `startZ` and travel along +Z. Linear pattern counts include their seed. This entry point also produces the feature tree and native job in `NEW_DIR/part/`.
 
 Return the editable model and STEP. Reopen the STEP and check the dimensions that distinguish success for this task, such as a bore's diameter and axis or a cut reaching the cavity. For a long construction, keep inspectable milestones and a fixed camera. An assembly preview establishes appearance. A fit or motion claim needs the corresponding measurement.
+
+For human review of construction steps, use the [persistent history workflow](references/history.md). Record real geometry milestones as well as assembly placements, retain failed attempts, and deliver the offline HTML alongside the editable source and STEP.

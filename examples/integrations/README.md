@@ -23,3 +23,15 @@ node examples/integrations/sdk.mjs ./out/sdk-example
 The test model stream is scripted; no LLM provider or credentials are needed. The test asserts a failed edit reaches the agent as an error and the subsequent corrected call exports STEP. It measures integration correctness, not model intelligence or drawing reconstruction success.
 
 Use the [Pi guide](../../docs/integrations/pi.md) to connect real inference. [Codex](../../docs/integrations/codex.md) and [Claude Code](../../docs/integrations/claude-code.md) use the bundled skill and local CLI. These example files live in GitHub and are not part of the existing alpha.3 tarball.
+
+## Record history in the source checkout
+
+The original SDK tests still pin the published alpha.3 package as a compatibility baseline. The new recorded paths import this checkout's `/session` module and use its native executable.
+
+```sh
+node examples/integrations/recorded-pi.mjs ./out/recorded-pi
+node examples/integrations/shell-harness.mjs codex ./out/codex-project
+node examples/integrations/shell-harness.mjs claude-code ./out/claude-project
+```
+
+`recorded-pi.mjs` runs an actual Pi tool loop with a scripted stream: build, failed edit, correction, then offline replay. `shell-harness.mjs` installs the complete skill into the corresponding project skill directory and executes its helper and the record/replay CLI. These validate local tool integration, not live Codex/Claude inference. The Pi extension opts into recording when `COLOCAD_SESSION_DIR` is set. SDK callers pass `cadSession` to `createCadAgent`. All code runs in the same sandbox.

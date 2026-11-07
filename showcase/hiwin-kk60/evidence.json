@@ -1,0 +1,39 @@
+{
+  "product": "HIWIN KK60 standard / 5 mm lead / 300 mm rail / A1",
+  "features": 52,
+  "instances": 81,
+  "milestones": 16,
+  "recordedCallsMs": 124080.92445800001,
+  "environment": {
+    "history": "macOS arm64 developer host; concurrent development work; not a benchmark",
+    "sandbox": "Linux arm64, 1 vCPU, 512 MiB memory limit, no network",
+    "sandboxPreview": {
+      "chord_mm": 0.5,
+      "width": 640,
+      "height": 480
+    },
+    "sandboxPeakMemoryMeasured": false
+  },
+  "sandbox": {
+    "platform": "linux-arm64",
+    "ok": true,
+    "solids": 81,
+    "features": 52,
+    "timing": {
+      "export": 341.991875,
+      "geometry": 15005.232382999999,
+      "total": 24192.333304000003,
+      "validation": 6971.694879000001
+    }
+  },
+  "checks": {
+    "node": 19,
+    "rust": 72,
+    "piIntegrations": 6,
+    "browser": true,
+    "cliMp4": true,
+    "independentStepRevisions": 16,
+    "materialProbes": 64
+  },
+  "limitations": "Catalog-based reconstruction with approximate internals. No build123d comparison for this product."
+}

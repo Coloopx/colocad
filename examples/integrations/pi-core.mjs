@@ -2,7 +2,7 @@ import { Agent } from '@earendil-works/pi-agent-core';
 import { createPiCadTools } from './pi-tools.mjs';
 
 // Supply your harness's existing model and stream function.
-export async function createCadAgent({ model, streamFn, getApiKey, outputRoot }) {
+export async function createCadAgent({ model, streamFn, getApiKey, outputRoot, cadSession }) {
   return new Agent({
     initialState: {
       model,
@@ -10,7 +10,7 @@ export async function createCadAgent({ model, streamFn, getApiKey, outputRoot })
         + 'Use cad_capabilities to inspect available operations. Validate the model, '
         + 'then build and inspect its geometry. Return the saved model and STEP paths. '
         + 'Treat reported failures as failed builds and correct the indicated feature.',
-      tools: await createPiCadTools({ outputRoot, wallMs: 30_000 }),
+      tools: await createPiCadTools({ outputRoot, wallMs: 30_000 }, { session: cadSession }),
     },
     streamFn,
     getApiKey,

@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[实际操作、输入输出与效果提升方法](modeling-workflow.zh-CN.md) · [CLI 查看器与离线导出（开发分支）](modeling-history.md)
+
 colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导建模流程**。Agent、harness 和 Rust CAD 进程都在同一个沙箱内，共享项目目录。现有 harness 负责模型推理、权限、会话和产物保存，不需要额外部署 CAD 服务。
 
 本文对应 `@coloopx/colocad@0.1.0-alpha.3`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。

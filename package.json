@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -26,7 +26,15 @@
       "types": "./kernel/dist/index.d.ts",
       "import": "./kernel/dist/index.js"
     },
-    "./schema": "./kernel/schemas/model.schema.json"
+    "./schema": "./kernel/schemas/model.schema.json",
+    "./session": {
+      "types": "./src/session.d.mts",
+      "import": "./src/session.mjs"
+    },
+    "./viewer": {
+      "types": "./viewer/index.d.ts",
+      "import": "./viewer/dist/index.js"
+    }
   },
   "bin": {
     "colocad": "bin/colocad.mjs"
@@ -47,15 +55,40 @@
     "skills/colocad",
     "kernel/release.json",
     "scripts/check-release.mjs",
-    "README.zh-CN.md"
+    "README.zh-CN.md",
+    "viewer/dist",
+    "viewer/index.d.ts",
+    "viewer/THREE-LICENSE",
+    "examples/hiwin-kk60/model.mjs",
+    "examples/hiwin-kk60/run.mjs",
+    "examples/hiwin-kk60/README.md",
+    "examples/hiwin-kk60/sources.json",
+    "docs/modeling-history.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs",
     "build:kernel": "node scripts/build-kernel.mjs",
-    "prepack": "node scripts/check-release.mjs"
+    "prepack": "node scripts/check-release.mjs",
+    "build:viewer": "node scripts/build-viewer.mjs",
+    "test:viewer": "node test/viewer.browser.mjs",
+    "test:integrations": "npm test --prefix examples/integrations",
+    "test:render": "node test/render.browser.mjs"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "playwright": "1.65.0",
+    "three": "0.187.0"
+  },
+  "peerDependencies": {
+    "playwright": ">=1.50.0 <2"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    }
   }
 }

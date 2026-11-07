@@ -10,3 +10,5 @@ solidworks/obj/
 solidworks/bin/
 
 __pycache__/
+
+.playwright-cli/

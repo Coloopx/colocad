@@ -1,8 +1,8 @@
 {
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "sha256": {
-    "linux-arm64": "332bc7b75ad66816617b12ed2a11823bd5061105a8df9da2c884ad6824825c4f",
-    "linux-x64": "0a5d2ab6b8a5fc9ae36d61affc97a33ffab734842762ece73d73980dd9069a32",
-    "darwin-arm64": "fa439185a647a66e65fba6d61d816dacb1e2ab3ba89665c5e89d4821123fcf65"
+    "darwin-arm64": "e3cbc7abf95cc0911e5e9a1dae565c52e7bafe927f5bf7a42901aa9a48f2bca9",
+    "linux-arm64": "9e2e965f2e136d2fe31009738be8c42e98b39ccccf838c6f22b07d7ead39e714",
+    "linux-x64": "33031163011d5fb73f12366362f74cdb72115e452c66116e5a53bb433eb1779e"
   }
 }

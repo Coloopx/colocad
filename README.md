@@ -4,6 +4,24 @@
 
 Generate a mechanical part from a JSON feature tree, export an exact STEP solid, and give an agent a PNG or 3D preview to inspect. **The npm package ships the compiled Rust CAD kernel.** The agent and harness call it locally in the same sandbox through the Node CLI or TypeScript API. No Python, Rust toolchain, network or separate service is required to build a part after installation.
 
+## Reconstruct a real industrial product and replay its modeling history
+
+The [HIWIN KK60 actuator example](examples/hiwin-kk60/README.md) reconstructs a specific manufacturer catalog configuration: 300 mm rail, 5 mm lead, 210 mm travel. Its **52 native features, 81 named occurrences and 16 persisted milestones** include a physically cut helical screw groove, guide tracks, mounting holes, bearings, carriage and coupling.
+
+![Actual native construction and assembly, replayed in four views](showcase/hiwin-kk60/modeling.gif)
+
+[Watch the MP4](showcase/hiwin-kk60/modeling.mp4) · [Edit the model](showcase/hiwin-kk60/model.json) · [Read the independent checks](showcase/hiwin-kk60/verification.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json)
+
+```sh
+node node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs ./actuator
+npx colocad view ./actuator/session
+npx colocad replay ./actuator/session ./actuator.html
+# Optional: Playwright/Chromium + FFmpeg are required for video encoding.
+npx colocad render ./actuator/session ./modeling.mp4
+```
+
+This is a catalog-based product reconstruction, with explicitly approximated internal races/bearings and no manufacturing certification. The animation reads actual saved CAD revisions; measured call times appear separately from edited playback. It is not a performance comparison. See [CLI history/rendering](docs/modeling-history.md) and the [actual agent modeling workflow](docs/modeling-workflow.zh-CN.md).
+
 ## How many tendon hands can an agent deliver in 100 seconds?
 
 **colocad delivered 44 complete revisions to build123d’s 33 (+33.3%), with 57.1% lower peak sampled sandbox memory.** Both tools rebuilt and assembled the same 43-solid hand at each revision. Each tick marks a complete STEP handed off to storage.

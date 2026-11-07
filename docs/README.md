@@ -1,5 +1,7 @@
 # Developer documentation
 
+[Actual modeling workflow](modeling-workflow.zh-CN.md) · [CLI modeling history and viewer (development)](modeling-history.md)
+
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
 These guides target **@coloopx/colocad 0.1.0-alpha.3**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.

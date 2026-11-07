@@ -1,0 +1,52 @@
+TAP version 13
+# Subtest: CLI launches local viewer and exports the same offline history
+not ok 1 - CLI launches local viewer and exports the same offline history
+  ---
+  duration_ms: 157.34775
+  type: 'test'
+  location: '$REPO/test/view-cli.test.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    viewer exited 1: {"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    ChildProcess.<anonymous> (file://$REPO/test/view-cli.test.mjs:22:58)
+    Object.onceWrapper (node:events:634:26)
+    ChildProcess.emit (node:events:519:28)
+    ChildProcess._handle.onexit (node:internal/child_process:293:12)
+  ...
+# Subtest: CLI refuses an invalid viewer port
+not ok 2 - CLI refuses an invalid viewer port
+  ---
+  duration_ms: 64.423833
+  type: 'test'
+  location: '$REPO/test/view-cli.test.mjs:32:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /port/. Input:
+    
+    '{"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\\ncolocad plan TREE.json\\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\\ncolocad replay SESSION_DIRECTORY OUTPUT.html\\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    {"error":"colocad build TREE.json NEW_DIRECTORY [--preview]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT"}
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file://$REPO/test/view-cli.test.mjs:34:68)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 303.983125

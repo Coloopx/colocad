@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": { "node": ">=22" },
-  "scripts": { "test": "node --test integration.test.mjs", "sdk": "node sdk.mjs" },
+  "scripts": { "test": "node --test *.test.mjs", "sdk": "node sdk.mjs", "recorded-pi": "node recorded-pi.mjs" },
   "dependencies": {
     "@coloopx/colocad": "0.1.0-alpha.3",
     "@earendil-works/pi-agent-core": "1.5.0",
