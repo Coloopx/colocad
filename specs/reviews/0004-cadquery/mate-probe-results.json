@@ -1,0 +1,99 @@
+{
+  "scope": "Existing native mate semantics; not a new query implementation or a CadQuery runtime comparison",
+  "platform": {
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "native_sha256": "e3cbc7abf95cc0911e5e9a1dae565c52e7bafe927f5bf7a42901aa9a48f2bca9",
+  "results": [
+    {
+      "case": "opposed_plane",
+      "ok": true,
+      "degrees_of_freedom": 0,
+      "max_residual": 0.0,
+      "constraint_residuals": [
+        {
+          "id": "surface",
+          "residuals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opposed_plane_plus_concentric",
+      "ok": false,
+      "error_code": "MATE_INCONSISTENT",
+      "degrees_of_freedom": 0,
+      "max_residual": 2.0,
+      "constraint_residuals": [
+        {
+          "id": "surface",
+          "residuals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "axis",
+          "residuals": [
+            0.0,
+            0.0,
+            -2.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opposed_fixed",
+      "ok": false,
+      "error_code": "MATE_INCONSISTENT",
+      "degrees_of_freedom": 0,
+      "max_residual": 20.0,
+      "constraint_residuals": [
+        {
+          "id": "fixed",
+          "residuals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -20.0,
+            0.0,
+            0.0,
+            0.0,
+            -20.0
+          ]
+        }
+      ]
+    },
+    {
+      "case": "plane_free_sliding",
+      "ok": true,
+      "degrees_of_freedom": 3,
+      "max_residual": 0.0,
+      "constraint_residuals": [
+        {
+          "id": "surface",
+          "residuals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

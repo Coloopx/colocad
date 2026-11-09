@@ -1,0 +1,67 @@
+{
+  "review_date": "2026-11-09",
+  "upstream_commit": "b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb",
+  "note": "Pinned upstream source audit; /en/latest documentation is a separate mutable source, not asserted to use the same commit.",
+  "sources": [
+    {
+      "path": "cadquery/occ_impl/solver.py",
+      "sha256": "d1bdddc03de8c5c31a596a7fead6687f2646eee01b8c45f8d428e67f0c54e572",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/cadquery/occ_impl/solver.py",
+      "bytes": 18109
+    },
+    {
+      "path": "cadquery/selectors.py",
+      "sha256": "5c6ba0929bab58fe992a56c1ad323cd29c5a934efc2ae7f82de1ec8451146fdf",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/cadquery/selectors.py",
+      "bytes": 26001
+    },
+    {
+      "path": "cadquery/assembly.py",
+      "sha256": "749f5ac94978cc99b17a4b232731adcede2dc71994fe398366ce89335086f5e6",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/cadquery/assembly.py",
+      "bytes": 27099
+    },
+    {
+      "path": "cadquery/cq.py",
+      "sha256": "0638099b91984818ad36b7b17163409746c5b992670198aecd1213776e591a8b",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/cadquery/cq.py",
+      "bytes": 171042
+    },
+    {
+      "path": "cadquery/occ_impl/shapes.py",
+      "sha256": "3ae598c8907b214591ac1680a275908dd24328d68156e579b6d8ec85b66e2da3",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/cadquery/occ_impl/shapes.py",
+      "bytes": 258307
+    },
+    {
+      "path": "doc/free-func.rst",
+      "sha256": "e9a6bfbadb4f3bdb6b24acbf5b30fc0bfb7b171b239e87eb330c7882bab26214",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/doc/free-func.rst",
+      "bytes": 15357
+    },
+    {
+      "path": "doc/selectors.rst",
+      "sha256": "936495fb834b0344ffb1725624e92262c9a1c72f096862e358973623f881b23d",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/doc/selectors.rst",
+      "bytes": 9105
+    },
+    {
+      "path": "doc/assy.rst",
+      "sha256": "118dc3d82e07b2b13406e8afc7634ddf142ce779d178d498ddd04f579a75deed",
+      "url": "https://github.com/CadQuery/cadquery/blob/b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb/doc/assy.rst",
+      "bytes": 91922
+    }
+  ],
+  "colocad_reviewed_commit": "1def0fb",
+  "documentation_urls": [
+    "https://cadquery.readthedocs.io/en/latest/",
+    "https://cadquery.readthedocs.io/en/latest/primer.html",
+    "https://cadquery.readthedocs.io/en/latest/designprinciples.html",
+    "https://cadquery.readthedocs.io/en/latest/workplane.html",
+    "https://cadquery.readthedocs.io/en/latest/selectors.html",
+    "https://cadquery.readthedocs.io/en/latest/assy.html",
+    "https://cadquery.readthedocs.io/en/latest/classreference.html",
+    "https://cadquery.readthedocs.io/en/latest/free-func.html",
+    "https://cadquery.readthedocs.io/en/latest/importexport.html"
+  ]
+}

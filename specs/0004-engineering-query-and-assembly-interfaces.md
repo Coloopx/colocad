@@ -4,6 +4,8 @@
 
 Date: 2026-11-09. Baseline: npm alpha.6; source `3c93d2c`. This document defines the proposed contract, not the capabilities of the published package. Normative terms **MUST**, **MUST NOT** and **SHOULD** describe implementation requirements. [中文实施说明](0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
+**Review: changes requested.** The [2026-11-09 CadQuery-based review](reviews/0004-cadquery-2026-11-09.md) records a reproduced mate-direction conflict and proposed changes to selection, datums, checks and delivery order. The API clauses below remain the reviewed proposal, not a frozen contract or an implementation claim.
+
 ## 1. Problem and outcome
 
 An agent can build a part and place an assembly when it already knows every attachment coordinate. It cannot yet reliably ask an unfamiliar part for candidate mounting planes, holes, hole groups and datums, then use those results in the existing assembly solver. Putting that geometry interpretation in each workflow repeats expensive work and binds the workflow to particular parts.
