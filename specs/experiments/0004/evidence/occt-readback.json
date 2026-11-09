@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "method": "independent OCCT STEP readback",
+  "ocpPackage": "7.9.3.1.1",
+  "stepSha256": "140d4f3938dd0a2fa0261db2339f460069efe092712051bd8039ffd5c62cd1b4",
+  "valid": true,
+  "solids": 2,
+  "volumeMm3": [
+    738.9025921243153,
+    4460.707993412301
+  ],
+  "expectedVolumeMm3": [
+    738.9025921243192,
+    4460.707993412302
+  ],
+  "minimumDistanceMm": 0.1999999872045466,
+  "expectedMinimumDistanceMm": 0.2,
+  "scope": "exported shape/placement correctness; not datum or clearance-query API acceptance"
+}

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {"shaft_radius": 2.8},
+  "features": [
+    {"id":"stock","op":"box","origin":[-10,-10,0],"size":[20,20,12]},
+    {"id":"bore","op":"cylinder","origin":[0,0,-1],"radius":3,"height":14},
+    {"id":"support","op":"cut","left":"stock","right":"bore"},
+    {"id":"shaft","op":"cylinder","origin":[0,0,0],"radius":{"param":"shaft_radius"},"height":30}
+  ],
+  "assembly": [
+    {"id":"support","input":"support"},
+    {"id":"shaft","input":"shaft","translation":[2,-3,-7],"rotation_deg":[10,-15,20]}
+  ],
+  "mates": {
+    "anchors":["support"],
+    "expected_degrees_of_freedom":1,
+    "constraints":[
+      {"id":"coaxial","kind":"concentric","alignment":"opposed",
+        "a":{"instance":"support"},
+        "b":{"instance":"shaft","frame":{"origin":[0,0,0],"x_axis":[1,0,0],"y_axis":[0,-1,0]}}},
+      {"id":"axial_stop","kind":"plane","opposed":true,"distance":-8,
+        "a":{"instance":"support"},
+        "b":{"instance":"shaft","frame":{"origin":[0,0,0],"x_axis":[1,0,0],"y_axis":[0,-1,0]}}}
+    ]
+  },
+  "checks":[{"kind":"collision","parts":["support","shaft"],"max_overlap_mm3":0.000001}]
+}

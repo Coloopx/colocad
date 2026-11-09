@@ -1,0 +1,51 @@
+   Compiling agent-cad v0.5.0 ($EXPERIMENT_WORKSPACE/outputs/colocad/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 22.96s
+     Running tests/mates_alignment.rs ($EXPERIMENT_WORKSPACE/work/colocad-build/target/release/deps/mates_alignment-4aef1f0f629c655d)
+
+running 6 tests
+test opposed_and_unoriented_axes_accept_outward_surface_frames ... FAILED
+test incompatible_direction_still_fails_and_unoriented_fixed_is_invalid ... FAILED
+test opposed_full_frame_is_a_proper_rotation_with_explicit_twist ... FAILED
+test direction_policies_preserve_motion_degrees_of_freedom ... FAILED
+test opposed_plane_and_opposed_concentric_are_compatible ... FAILED
+test legacy_direction_defaults_remain_aligned ... ok
+
+failures:
+
+---- opposed_and_unoriented_axes_accept_outward_surface_frames stdout ----
+
+thread 'opposed_and_unoriented_axes_accept_outward_surface_frames' (10567820) panicked at crates/agent-cad/tests/mates_alignment.rs:18:46:
+additive direction schema: Error("unknown field `alignment`, expected one of `id`, `a`, `b`", line: 0, column: 0)
+
+---- incompatible_direction_still_fails_and_unoriented_fixed_is_invalid stdout ----
+
+thread 'incompatible_direction_still_fails_and_unoriented_fixed_is_invalid' (10567818) panicked at crates/agent-cad/tests/mates_alignment.rs:18:46:
+additive direction schema: Error("unknown field `alignment`, expected one of `id`, `a`, `b`", line: 0, column: 0)
+
+---- opposed_full_frame_is_a_proper_rotation_with_explicit_twist stdout ----
+
+thread 'opposed_full_frame_is_a_proper_rotation_with_explicit_twist' (10567821) panicked at crates/agent-cad/tests/mates_alignment.rs:18:46:
+additive direction schema: Error("unknown field `alignment`, expected one of `id`, `a`, `b`", line: 0, column: 0)
+
+---- direction_policies_preserve_motion_degrees_of_freedom stdout ----
+
+thread 'direction_policies_preserve_motion_degrees_of_freedom' (10567817) panicked at crates/agent-cad/tests/mates_alignment.rs:18:46:
+additive direction schema: Error("unknown field `alignment`, expected one of `id`, `a`, `b`", line: 0, column: 0)
+
+---- opposed_plane_and_opposed_concentric_are_compatible stdout ----
+
+thread 'opposed_plane_and_opposed_concentric_are_compatible' (10567822) panicked at crates/agent-cad/tests/mates_alignment.rs:18:46:
+additive direction schema: Error("unknown field `alignment`, expected one of `id`, `a`, `b`", line: 0, column: 0)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    direction_policies_preserve_motion_degrees_of_freedom
+    incompatible_direction_still_fails_and_unoriented_fixed_is_invalid
+    opposed_and_unoriented_axes_accept_outward_surface_frames
+    opposed_full_frame_is_a_proper_rotation_with_explicit_twist
+    opposed_plane_and_opposed_concentric_are_compatible
+
+test result: FAILED. 1 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p agent-cad --test mates_alignment`

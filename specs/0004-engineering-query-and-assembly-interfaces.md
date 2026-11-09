@@ -1,10 +1,10 @@
 # SDD 0004 — Engineering queries and geometry-backed assembly interfaces
 
-**Status: Proposed; implementation and acceptance tests are not complete.**
+**Status: Revised proposal (revision 2); staged implementation and acceptance in progress.**
 
 Date: 2026-11-09. Baseline: npm alpha.6; source `3c93d2c`. This document defines the proposed contract, not the capabilities of the published package. Normative terms **MUST**, **MUST NOT** and **SHOULD** describe implementation requirements. [中文实施说明](0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
-**Review: changes requested.** The [2026-11-09 CadQuery-based review](reviews/0004-cadquery-2026-11-09.md) records a reproduced mate-direction conflict and proposed changes to selection, datums, checks and delivery order. The API clauses below remain the reviewed proposal, not a frozen contract or an implementation claim.
+The [2026-11-09 CadQuery review](reviews/0004-cadquery-2026-11-09.md) is incorporated here: F01 in §7.2, F02 in §5.6, F03 in §5.5, F04 in §4.2/5.4, F05 in §7.3, and F06 in §10–11. Schemas freeze per implemented layer, not all at M0. [Experiment and implementation ledger](experiments/0004/README.md) is the authority for actual evidence; this specification alone is not an implementation claim.
 
 ## 1. Problem and outcome
 
@@ -13,9 +13,9 @@ An agent can build a part and place an assembly when it already knows every atta
 The required path is:
 
 ```text
-exact B-rep → geometry queries → engineering features → named interfaces
-                                                        ↓
-agent selects intent / resolves ambiguity → assembly constraints → checks
+exact B-rep → composable selection → point/plane/axis/frame datums → mates/checks
+                       ↓                         ↑
+              hole/group recognition → optional mounting-interface profiles
 ```
 
 Success is replacing an imported component with another compatible component, without changing workflow coordinates or face indices; incompatible or ambiguous replacements must produce useful failures. The SDK and Rust executable remain local to the agent and harness in the same sandbox.
@@ -35,7 +35,7 @@ SolidCore is derived from SMLib in USD BRep and evolves independently. This work
 
 ## 2. Scope and completion boundary
 
-**Required for this spec:** exact face/edge descriptors and selection; evaluation on trimmed faces; cylindrical-hole recognition in the bounded domain below; planar hole groups; declared and recognized mounting interfaces; versioned references; interface attachments for the existing mate solver; CLI/SDK/tool access; persisted evidence and regression fixtures.
+**Required for this spec:** bounded composable topology selection; exact descriptors and trimmed-face evaluation; geometry-backed point/plane/axis/frame datums directly consumable by mates; cylindrical-hole recognition in the bounded domain below; planar hole groups; declared/recognized mounting interfaces; versioned references; explicit contact/clearance checks; CLI/SDK/tool access; persisted evidence and regression fixtures. A hole group is not a prerequisite for basic assembly.
 
 **Not required here:** general feature-history reconstruction, universal hole recognition on arbitrary spline surfaces, thread/pitch recognition from nominal bores, automatic inference of manufacturing fits, a new global assembly solver, arbitrary mating-interface standards, mesh-based reverse engineering, SOLIDWORKS output, a remote service, or an autonomous drawing-understanding model.
 
@@ -46,7 +46,7 @@ Completing geometry queries alone is milestone M1, not completion of SDD 0004. C
 | Component | Responsibility |
 | --- | --- |
 | Rust query module | Load verified exact snapshots; topology, curve/surface descriptors, evaluation, adjacency, geometric/material predicates and recognition |
-| Rust interface module | Resolve semantic declarations, validate geometry, produce interface candidates and frames |
+| Rust datum/interface modules | Derive geometric datums, resolve semantic declarations, validate geometry, produce optional engineering interfaces |
 | Existing Rust mate/check modules | Consume resolved frames; solve, report DOF/residuals; run requested exact checks |
 | TS SDK | Typed requests/receipts, artifact access and budgets, batch transport, explicit revision selection and persistence |
 | CLI | Invoke the same SDK/native contracts; print JSON and optionally save receipts |
@@ -77,7 +77,7 @@ type TopologyRef = {
   query_revision_id: string;
   definition_id: string;
   definition_sha256: string;
-  kind: 'face' | 'edge';
+  kind: 'face' | 'edge' | 'vertex' | 'loop';
   topology_id: string;
   instance_path?: string[];
 };
@@ -94,7 +94,7 @@ Copy/split/merge notifications can preserve semantic intent, but one name resolv
 ### 5.1 Proposed entry points
 
 ```ts
-client.build(model, { queryable: true });
+client.build(model, { queryable: true }); // additive overload; retain legacy previousRevision string
 client.query(artifactDirectory, request); // Promise<QueryReceipt>
 ```
 
@@ -110,7 +110,7 @@ agent-cad query --snapshot REVISION_DIR < REQUEST.json
 
 One optional agent tool, `cad_query`, accepts `{ artifact_directory, request }`. Register it only when capabilities advertise this query schema. The host selects allowed artifact roots; tool arguments cannot set native executable paths or resource ceilings. Existing `cad_inspect_step` and `inspect()` retain their original meanings.
 
-`cad_build` gains an optional `options.queryable`; `ModelingSession.build`/`edit` gain a queryable option, and `ModelingSession.query(request)` records an observation receipt against the explicitly expected accepted revision without changing accepted source. Queryable session edits retain queryability unless explicitly disabled and no interface depends on it. Models using `interfaces` opt into query snapshot creation; an explicitly false queryable option with interface use is rejected. Query observations retain the exact source/receipt hashes; preview-only artifacts redirect through their verified source geometry, never through an unverified path.
+`cad_build` gains an optional `options.queryable`; `ModelingSession.build`/`edit` gain a queryable option, and `ModelingSession.query(request)` records an observation receipt against the explicitly expected accepted revision without changing accepted source. Queryable session edits retain queryability unless explicitly disabled and no datum/interface depends on it. Models declaring `datums` or `interfaces` opt into query snapshot creation; an explicitly false queryable option with either declaration is rejected. Query observations retain the exact source/receipt hashes; preview-only artifacts redirect through their verified source geometry, never through an unverified path.
 
 Successful CLI execution writes the receipt to stdout and exits 0; failure writes a structured error to stderr and exits nonzero. `--out` also saves the receipt to a new file and refuses overwrite. Querying does not mutate the snapshot. Optional rebuildable caches live in a separate host-managed cache directory.
 
@@ -127,21 +127,25 @@ See the parseable [request example](examples/0004-query-request.json). Fields:
 | `tolerance` | Required positive `linear_mm` and `angular_rad`; geometric comparison thresholds, not manufacturing tolerances |
 | `queries` | 1–64 independent requests, each with a unique `id`, `op`, optional typed filters and bounded `limit` |
 
-Queries do not depend on earlier entries within the same batch. All use the same verified snapshot and target. The native process loads each needed definition once per batch. Geometry for repeated occurrences is shared; descriptors are transformed on demand.
+Queries do not depend on earlier entries within the same batch. One query may contain a bounded selection expression (§5.5), evaluated entirely in the same native invocation. Ordinary selections use the same verified snapshot and target; explicit two-target measurement has its own operation contract. The native process loads each needed definition once per batch. Geometry for repeated occurrences is shared; descriptors are transformed on demand.
 
 For `describe`/`evaluate_face`, every reference must match the revision and target definition; an embedded occurrence path must match the instance target. A definition-only ref may be evaluated on the explicitly selected occurrence. Mixed definitions or implicit occurrence selection fail. Numeric inputs must be finite; ranges are inclusive with `min <= max` and at least one endpoint.
 
-The first implementation supports these operations:
+Operations are delivered by milestone, and only implemented operations are advertised:
 
 | `op` | Input beyond common fields | Result |
 | --- | --- | --- |
 | `faces` | `where` filters, `limit`, optional `cursor` | Face descriptors and references |
 | `edges` | `where` filters, `limit`, optional `cursor` | Edge descriptors and references |
+| `vertices`, `loops` | Selection/filters, `limit`, optional `cursor` | Vertex and ordered loop descriptors (M1) |
+| `select` | A bounded `selection` expression | Typed topology set with explicit cardinality (M1) |
+| `datums` | Named datum IDs or a supported derivation | Point/plane/axis/direction/frame with evidence and unresolved freedoms (M1) |
 | `describe` | `refs` (1–256) | Detailed descriptors for explicitly referenced entities |
 | `evaluate_face` | Face `ref` and native surface `uv` pair | Position, oriented normal and trim-membership result |
 | `holes` | Typed recognition filters, `limit`, optional `cursor` | Recognized holes, uncertain candidates and coverage diagnostics |
 | `hole_groups` | Candidate support-face refs and typed pattern filters | Groups on actual support planes, with evidence and unresolved symmetries |
 | `interfaces` | Named declaration IDs or a supported profile ID | Declared interface resolutions or recognized interface candidates |
+| `measure` | Two explicit owner/occurrence targets, operation and numerical tolerance | Distance, witness and relationship diagnostics (M2; §7.3) |
 
 `faces.where` supports `surface_type`, inclusive `area_mm2` range, `planar_normal_parallel_to`, `planar_normal_aligned_with` and semantic `name`. Direction filters accept a nonzero vector and use `angular_rad`; nonplanar faces do not pass planar-normal filters. `edges.where` supports `curve_type`, `length_mm` range, circular `radius_mm` range and semantic `name`. Type-dependent filters on incompatible geometry types exclude that item; unknown filter names are invalid requests.
 
@@ -166,10 +170,13 @@ Syntax, stale references, integrity or resource failures fail the batch; already
 | Entity | Required fields/meaning |
 | --- | --- |
 | Face | Ref, actual surface type, trimmed area/centroid/bounds, outer/inner loop references, adjacent faces/edges, orientation validity, semantic names |
+| Face parameterization | Native UV ranges, periodic axes/periods, seam and singularity information; ranges do not imply trim membership |
 | Plane | A point on the underlying plane and oriented unit normal; trimmed face boundaries are separate |
 | Cylinder | Axis line, radius, axial interval and angular coverage of the trimmed patch; surface type alone does not mean a hole |
 | Other surface | Actual analytic type or `nurbs`/`other`; unsupported specialized parameters are explicit |
 | Edge | Ref, actual curve type, trimmed length/bounds, vertices, incident face uses, closed/periodic/seam status; circle adds center/axis/radius and arc coverage |
+| Vertex | Ref and point in the requested space, tolerance when known, incident edges |
+| Loop | Ref, owning face, outer/inner/unknown classification, ordered edge uses; each use carries edge ref, orientation and face-local trim domain |
 | Evaluation | Point and unit normal at native UV, trimmed-domain membership, orientation status; degeneracy/singularities explicit |
 
 A surface centroid is not necessarily inside a trimmed face. If an interior witness is returned it must be separately identified and tested against trims. UV bounds are not a substitute for trim containment. A point in a hole cut out of a face returns `outside_trim`, not a valid face attachment.
@@ -180,11 +187,37 @@ Only rigid transforms are accepted in v1. Positions include translation; directi
 
 Geometric comparison tolerances MUST NOT be silently enlarged to make a match succeed. Report known source/kernel precision and reject an unsupported precision claim. Unknown source accuracy remains unknown, even when numerical predicates pass. Recognition thresholds, manufacturing clearance requirements and solver tolerances are distinct fields.
 
+Loop edge uses are not unique global edges: a periodic seam may use the same edge more than once. Every returned topology reference has a `describe`/traversal consumer. Point projection, if advertised, distinguishes projection onto the underlying surface from the closest point on the actual trimmed face. Invalid UVs, singular normals and trim boundaries have explicit statuses, never fabricated normals.
+
+### 5.5 Composable selection (M1)
+
+One typed expression supports entity enumeration, child topology, ancestors, siblings, typed filtering, union/intersection/difference, geometric ranking, and cardinality assertions. Predicates support bounded `all`/`any`/`not`; property names and compatible entity kinds are enumerated in the Rust-generated schema. No executable code, arbitrary property lookup or general task DAG is accepted.
+
+Initial expression ceilings are depth 8 and 128 nodes, in addition to §8 traversal/output budgets. Deduplicate entity sets by exact identity; preserve repeated uses inside ordered loops. Ranking declares the measured property (e.g. area or center projection), direction, rank and tie tolerance. A tied rank returns the whole tied set, and a later `expect` requiring one entity fails. Pagination never changes cardinality. Definition-space predicates may refer to an earlier named datum in the same definition; the bounded datum dependency graph must be acyclic.
+
+Persistent declarations and read-only queries share selection semantics. Model recipes use names, typed predicates and relationships, not previous-snapshot refs. The minimum acceptance chain is `selected plane → inner boundary loops → circular edges → circle centers/directions`. A second independent installation plane must not leak its edges into that result. Relative selectors and geometry-derived orientation must follow a rotated imported part; genuinely symmetric geometry remains ambiguous.
+
+### 5.6 Geometric datums (M1/M2)
+
+Add `Model.datums: DatumDeclaration[]` independently of engineering interfaces. A declaration identifies `id`, final part `definition`, output `kind`, bounded geometry `selection`, a supported `derive` rule and verification tolerance. Names are unique within their definition. Source geometry must exist and meet cardinality; declarations do not bypass degraded features.
+
+| Kind | Supported foundation and output |
+| --- | --- |
+| `point` | Selected vertex, analytic circle center, or an explicitly declared design point; distinguish geometric center from a point on material |
+| `plane` | Selected analytic planar face: a point on its support plane and oriented material normal where known; not a fully positioned XY frame |
+| `axis` | Selected analytic cylinder axis or circle axis: a line point and direction with `unoriented` or explicitly declared direction semantics |
+| `direction` | Selected straight edge, or ordered difference of two named geometric points; nonzero and typed as direction, not position |
+| `frame` | Origin from a point datum and nondegenerate axis/direction datums; explicit handedness and orthogonality checks |
+
+`Attachment.datum` is an additional alternative to legacy `frame` and engineering `interface`. A plane mate consumes a plane; a concentric mate consumes an axis; point coincidence consumes a point; fixed consumes a complete frame. An internal numerical basis may complete an incomplete datum for evaluation only: its arbitrary axes MUST NOT add constraints or become claimed engineering orientation. Emit derivation/evidence, coordinate space, source revision and unresolved freedoms in receipts.
+
+Supported geometry-derived datums precede hole-group recognition. A shaft, bearing bore or unperforated plate can be assembled without fabricating a `planar_hole_mount` profile. Snapshot observation identity and persistent reconstruction intent remain distinct.
+
 ## 6. Engineering recognition
 
 ### 6.1 Bounded hole domain
 
-M2 MUST handle analytic cylindrical through holes and cylindrical blind holes with planar bottoms, plus coaxial counterbore steps, in valid closed solids with planar openings. It must recognize equivalent holes split across multiple cylindrical patches or periodic seams. An external shaft, convex boss or unclosed cylindrical recess is not automatically a bore.
+M3 MUST handle analytic cylindrical through holes and cylindrical blind holes with planar bottoms, plus coaxial counterbore steps, in valid closed solids with planar openings. It must recognize equivalent holes split across multiple cylindrical patches or periodic seams. An external shaft, convex boss or unclosed cylindrical recess is not automatically a bore.
 
 Recognition combines exact surface classification, adjacency, trimmed angular/axial coverage, material-side checks and opening/end topology. Coaxial faces merge into one segment only when continuity and boundary evidence support it; equal radius and axis alone must not join disconnected bores. A circle edge alone is insufficient.
 
@@ -202,7 +235,7 @@ Rectangular patterns report both pitches and counts; circular patterns report ce
 
 Self-authored geometry SHOULD declare design interfaces using stable feature/name relationships. Imported geometry uses recognition where design intent is unavailable. Both resolve to the same output contract, but provenance remains visible and declarations are checked against the final geometry. Declarations cannot manufacture missing planes/holes or bypass a failed required feature.
 
-Initial profile: `planar_hole_mount/v1`. It groups one supported mounting plane (or an explicitly declared coplanar aggregate), one hole group, and optionally a coaxial register or pilot. Candidate recognition is per definition and reusable across occurrences. The profile does not automatically infer bolt size, thread, load capacity or standard compliance.
+Initial optional profile: `planar_hole_mount/v1`. It groups geometric datums for one supported mounting plane (or an explicitly declared coplanar aggregate), one hole group, and optionally a coaxial register or pilot. Candidate recognition is per definition and reusable across occurrences. The profile does not automatically infer bolt size, thread, load capacity or standard compliance, and is not required for raw geometric datum mates.
 
 A resolved interface contains: `name/id`, owner definition/digest, supporting topology/holes, explicit datum origin rule, plane normal, optional locating axis, optional in-plane orientation, actual dimensions, applicable tolerances, provenance, evidence refs and unresolved freedoms. Origin rules are `hole_group_center`, `axis_plane_intersection`, or a declared geometric datum point. A numeric legacy frame alone is not evidence of a recognized mounting interface.
 
@@ -222,7 +255,7 @@ The [declaration fragment](examples/0004-interface-declaration.json) fixes the v
 | `datum.origin` | `hole_group_center`; `axis_plane_intersection` with `axis_slot: "register"`; or `declared_point` with a bounded scalar `point` on the support plane |
 | `datum.normal` | `outward` in this closed-solid profile; flipping it for a mate is not part of recognition |
 | `datum.x_axis` (optional) | `{kind: "orientation_datum", name}` explicitly selects one of the declaration's named orientation datums |
-| `orientation_datums` (optional) | Unique named `direction` vectors in definition coordinates; nonzero and in the mounting plane; declared intent is labelled, not inferred from a name such as “connector” |
+| `orientation_datums` (optional) | Unique named references to geometry-derived direction datums, or explicitly declared numeric directions in definition coordinates; nonzero and in-plane. Numeric intent is labelled and not falsely claimed to follow a changed source geometry. |
 | `requirements.verification_tolerance` | Positive linear/angular comparison thresholds; separate from manufacturing fit requirements |
 | `requirements.pattern` | Declared supported pattern dimensions/counts; rectangular pitch/count order is relative to the selected orientation datum, or reported as unresolved if no unique axes exist |
 | `requirements.bore_diameter_mm`, `termination` | Required actual opening bore diameter and termination for all selected members |
@@ -245,13 +278,13 @@ Proposed alternative form:
 {"instance":"motor", "interface":"mount", "orientation":{"kind":"datum","name":"connector_up"}}
 ```
 
-Exactly one of `frame` and `interface` is allowed. `instance` keeps the current instance-ID namespace; interface lookup is scoped to that instance's definition. `orientation` is required only when the requested mate needs an orientation not already uniquely defined. The v1 model form selects a declared datum with `{kind: "datum", name}`. Supplying no orientation never means “choose the first.”
+Exactly one of explicit `frame`, `datum` and `interface` is allowed; omitted selection retains the legacy default frame only for legacy attachments. `instance` keeps the current instance-ID namespace; datum/interface lookup is scoped to that instance's definition. `orientation` is required only when the requested mate needs orientation not uniquely defined by its datum. The model form selects a declared datum with `{kind: "datum", name}`. Supplying no orientation never means “choose the first.”
 
 Reported alternatives have revision-bound IDs for inspection and evidence, not persistent mate selectors. If an agent chooses one, it must express that choice as declared orientation intent in definition coordinates, retain its source receipt, and rebuild/revalidate the declaration and its geometric requirements. The new result gets new refs. A numeric direction alone does not establish correspondence to a connector or key. Changing or rotating source geometry requires fresh semantic resolution; no automatic carry-over of the old alternative ID is allowed.
 
 Resolution produces a frame in definition coordinates, then applies the same nested placement chain used by the existing assembly implementation. The interface's reference plane and origin are oriented so +Z points out of the mating surface; the declared X direction and `Y = Z × X` form a right-handed frame. A hole's inward drilling direction remains separate. Resolution errors precede the mate solve.
 
-The existing fixed/coincident/concentric/plane/revolute/prismatic/distance semantics remain unchanged. A local solver result is not a proof of a globally unique assembly. Results expose per-mate positional/angular residuals, remaining continuous DOF, discrete alternatives and failed constraints. Expectations for free motion must be declared. No silent substitution of fixed for revolute/prismatic, and no fixture-specific translation fallback.
+Legacy defaults for fixed/coincident/concentric/plane/revolute/prismatic/distance remain unchanged. Additive direction policies are specified in §7.2. A local solver result is not a proof of a globally unique assembly. Results expose physical positional/angular residuals separately from weighted solver residuals, remaining continuous DOF, discrete alternatives and failed constraints. Expectations for free motion must be declared. No silent substitution of fixed for revolute/prismatic, and no fixture-specific translation fallback.
 
 ### 7.1 Interface compatibility and fit checks
 
@@ -268,6 +301,22 @@ Requirements distinguish clearance bores, nominal threaded holes and mating regi
 Exact interference/clearance checks use actual transformed B-reps and explicit part pairs, allowed contact regions, pose samples and tolerances. Contact at an intended mounting face is not automatically interference. Required check failures keep the attempt as failed in the modeling session and do not replace the accepted source. Do not add an unconditional all-pairs Boolean pass to every assembly.
 
 Envelope/simplified representations and feature degradations remain visible in every dependent interface/check result. Required exact fit cannot be certified from an envelope or an omitted supporting feature. An explicitly allowed reduced-scope check must be labelled with its weakened claim. Existing whole-pair collision exemptions are not evidence that an interface fits.
+
+### 7.2 Direction and frame compatibility (M0 proof, M2 consumption)
+
+Material outward normal, unoriented axis line and chosen mate direction are separate. Add `alignment: aligned | opposed | unoriented` to concentric/revolute constraints, defaulting to `aligned` for legacy calls. An unoriented axis accepts either direction and reports the numerical branch selected from initial placement; it does not establish unique physical rotation. Branch choice remains fixed during one local solve, with no discontinuous sign switch inside a residual evaluation.
+
+For fixed/prismatic frame relationships, add `alignment: aligned | opposed` and `twist_deg` (default 0). Let the A frame axes be X,Y,Z, `s=+1` for aligned and `s=-1` for opposed, and θ be twist about A's +Z. The target B axes are `X'=cosθ X+sinθ Y`, `Z'=s Z`, `Y'=Z'×X'`. This is a proper rotation, including for opposed normals. Fixed also coincides origins; prismatic leaves translation along Z free. Existing plane `opposed` and signed distance retain their meanings. Raw unoriented alignment is invalid for a full fixed frame.
+
+For one anchored and one free rigid body: point coincidence leaves 3 DOF; plane relation leaves 3; concentric leaves 2; revolute leaves 1; prismatic leaves 1; fixed leaves 0, away from degenerate geometry. A direction-only relation is not a coaxial relation. These contracts, not CadQuery operation names, define compatibility. The same direction interpretation is used by solving and checking.
+
+### 7.3 Measured relationship/check contract (M2)
+
+Add `geometric_relationship` checks with explicit `a`/`b` occurrence targets, optional semantic surface regions, required numerical `tolerance`, `max_overlap_mm3`, optional `min_clearance_mm`, and explicit allowed-contact region pairs. Values are finite/nonnegative. A measurement receipt reports `separated | touching | overlapping | contained | indeterminate`, boundary distance in mm, overlap volume in mm³ where requested, closest-point pairs/support refs where available, and actual predicate tolerances.
+
+Boundary distance is not signed penetration depth. Zero distance does not distinguish contact from overlap. Full containment must be detected independently of a positive boundary gap. Minimum clearance requires a separated relationship and adequate distance; allowed face contact cannot exempt interference elsewhere on that part pair. If region-restricted classification or witness computation is unsupported, report that fact; a required claim fails rather than falling back to whole-pair exemption. Numerical uncertainty is `indeterminate`, never pass.
+
+Pose samples are explicit, bounded rigid transforms in assembly space (maximum 32/check initially). Receipts list each checked pose; no continuous-motion clearance claim follows from discrete samples. A failed required check does not replace accepted session source. Existing Collision/Opening/Containment contracts remain compatible and retain their original scope.
 
 ## 8. Persistence, budgets and performance
 
@@ -296,6 +345,11 @@ Compare CadQuery/OCCT only on the same geometry, precision, scope and outputs. I
 | `QUERY_ARGUMENT` | Invalid units, vector, UV, filter, tolerance or mixed target |
 | `QUERY_PRECISION_UNSUPPORTED` | Requested precision is unsupported by known input/kernel accuracy |
 | `QUERY_LIMIT` / `RESOURCE_LIMIT` | Exploration, output, payload, time or memory budget exceeded |
+| `SELECTION_CARDINALITY` | Complete selection violates required count, including unresolved tied rank |
+| `DATUM_REFERENCE` | Missing definition/dependency or cyclic datum dependency |
+| `DATUM_AMBIGUOUS` | Geometry does not determine a required origin/direction uniquely |
+| `DATUM_DEGENERATE` | Zero direction, singular or nonorthogonal frame derivation |
+| `DATUM_UNSUPPORTED` | Requested derivation/type is outside the supported geometric domain |
 | `INTERFACE_NOT_FOUND` | Required declared interface/supporting geometry absent |
 | `INTERFACE_AMBIGUOUS` | Cardinality, origin/orientation or correspondence not resolved |
 | `INTERFACE_CHANGED` | Pinned definition or required geometric relationship changed |
@@ -316,10 +370,10 @@ Default analytic-fixture acceptance: position/diameter/depth error ≤ `1e-5 mm`
 | --- | --- | --- |
 | Q01 | Box with offset bore, blind bore and counterbore | Correct plane/cylinder/edge descriptors, sizes, axes and area/volume sanity |
 | Q02 | Arbitrary rigid rotation and nested instances | Local descriptors invariant; world points/normals/axes transform correctly; two copies have distinct occurrence refs |
-| Q03 | Annular trimmed face and periodic cylinder seam | UV inside/outside trim correct; seam does not double-count a bore; centroid is not used as an interior witness |
+| Q03 | Annular trimmed face and periodic cylinder seam | UV/trim membership and repeated edge uses correct; centroid is not an interior witness; no hole-recognition dependency |
 | Q04 | Save/reopen/relocate snapshot; change payload/name map | Same refs resolve on unchanged snapshot; altered data fails integrity |
 | Q05 | Parameter edit; named face split/merge/delete | Old refs rejected; semantic resolution returns new refs, ambiguity or missing status; no nearest-face fallback |
-| Q06 | Shaft/boss, through hole, planar blind hole, counterbore | Correct material classification, entrances and segment depths; shaft never reported as hole |
+| Q06 | Shaft/boss, through hole, planar blind hole, counterbore and split/seam cylinder | Correct material classification, entrances and segment depths; shaft never reported as hole; seam does not double-count a bore |
 | Q07 | Intersecting bore, side-open recess, conical tip, spline cylinder | Partial/unsupported result where necessary; no false complete recognition |
 | Q08 | Rectangular/circular/linear patterns plus extra holes | Correct pitches/PCD/members; alternative subsets and symmetry retained |
 | Q09 | Two coincident-looking faces and incomplete pages | Required uniqueness fails; stable complete pagination; cursor from another revision rejected |
@@ -334,6 +388,14 @@ Default analytic-fixture acceptance: position/diameter/depth error ≤ `1e-5 mm`
 | I02 | Normal query/filter/profile result in viewer | Selected face/axis/group visibly matches native references; display explosion does not change query coordinates |
 | P01 | Plate, imported flange, KK60, repeated definitions | Resource and stage measurements per §8; no rebuild for descriptor-only queries |
 | R01 | Existing native/Node/integration/viewer tests | Existing APIs/fixtures retain semantics; no forced query overhead on legacy builds |
+| S01 | Selected plane → inner loops → circle edges → centers | One bounded native expression; no edges from other planes; explicit ties/cardinality |
+| S02 | Rotated imported part with an asymmetric geometric key | Relative recipe follows geometry; symmetric/no-key variant remains ambiguous |
+| D01 | Point, plane, cylinder axis, circle center, direction and frame | Correct primitive datums without a hole-group profile; singular/degenerate derivations rejected |
+| D02 | Opposed surface frames, aligned/opposed/unoriented axis policies, frame twist | Valid mounting relation succeeds; legacy defaults unchanged; actual conflict fails |
+| D03 | Point/plane/concentric/revolute/prismatic/fixed | Required DOF and physical residuals; no artificial constraint from basis completion |
+| D04 | Rebuild named datum after dimension/source changes | New refs, semantic re-resolution, explicit missing/ambiguous outcome; no persisted arena index |
+| C01 | Touching, 0.2 mm gap, penetration and full containment | Correct distinct relationships, measured distance/volume and unsupported/uncertain states |
+| C02 | Allowed installation-face contact plus collision elsewhere; travel samples | Region exception does not hide other collision; receipt lists exactly tested poses |
 
 For each milestone: write failing tests first, retain the initial failure command, implement the contract, run the affected tests, then update the implementation/evidence table. Analytic fixtures give known answers; independent OCCT readback/material/transform checks catch agreement between two implementations of the same bug. Match geometry/adjacency and measurements rather than assuming identical face counts across exporters.
 
@@ -343,10 +405,10 @@ Automated tool sequences establish API/geometry behavior. A live agent run is re
 
 | Milestone | Deliverable and gate |
 | --- | --- |
-| **M0 — feasibility and frozen schemas** | Audit the pinned kernel's surface/curve evaluation, material predicates and serializer; prototype exact snapshot/name reload; validate the proposed exploration ceilings; publish Rust-derived JSON Schemas and generated TS types for requests/results/interfaces. Do not advertise support before the spike passes. |
-| **M1 — geometry query foundation** | Immutable snapshots, scoped refs, batch CLI/SDK/tool, descriptors/evaluation, integrity/units/transform contracts. Q01–Q05, Q09, I01 and baseline P01. |
-| **M2 — engineering interfaces** | Hole domain, groups, declared interface schema and `planar_hole_mount/v1`, evidence and ambiguity. Q06–Q08, Q10. No part-specific workflow recognizers. |
-| **M3 — assembly consumption** | Interface attachments, compatibility checks, DOF/residual reporting, product fixtures. A01–A06 and R01; complete fit tests before claiming generic assembly. |
+| **M0 — feasibility and direction contract** | Audit pinned evaluation/material/serialization support; prove exact snapshot/name/ID reload; reproduce then repair D02 direction conflict with legacy controls; validate budgets. Freeze only tested layer schemas. |
+| **M1 — composable geometry and datums** | Immutable snapshots, scoped refs, bounded selection/traversal, descriptors/evaluation, datum derivations and SDK/CLI/tool. Q01–Q05, Q09, S01–S02, D01/D04, I01 and baseline P01. Include minimal external STEP import→query. |
+| **M2 — basic assembly and measurements** | Datums directly consumed by existing mates; direction/frame adapter, physical residuals/DOF and explicit measurement/contact checks. D02–D03, C01–C02, A05; no dependency on engineering hole-group recognition. |
+| **M3 — engineering interfaces and replacement** | Bounded holes/groups, declared/recognized profiles, interface compatibility and product replacement fixtures. Q06–Q08/Q10, A01–A04/A06; no part-specific workflow recognizers. |
 | **M4 — review, docs and release** | Viewer reference highlight, examples, skill/tool guidance, full evidence and resource report. I02 plus complete matrix. Bump/release only after the documented gate is met. |
 
 Each PR includes a small reproducible fixture and stated supported geometry. Kernel fixes are separate from public API adapters where possible; adding a plane query must not require merging a complete product workflow. New constraints reuse the current solver instead of replacing it as a side effect.
@@ -357,6 +419,6 @@ Proposed implementation locations: `crates/agent-cad/src/query/{snapshot,topolog
 
 All matrix rows must have executable evidence or a reviewed explicit scope revision. Public capabilities list supported operations, recognition domain, profile/schema versions and budgets. Examples show declaration and imported recognition, a successful replacement, ambiguity, incompatibility and an edit invalidating bindings. Documentation distinguishes candidate recognition from verified engineering fit and preserves the low-cost local execution model.
 
-**Current evidence for this document:** source audit and specification/example consistency checks only. No geometry-query implementation, M0 serializer proof, imported-interface acceptance or new performance result is claimed.
+**Current implementation evidence:** see the [experiment ledger](experiments/0004/README.md). This revision incorporates all six review findings and defines 28 acceptance rows. Passing one native experiment does not complete a milestone; imported-interface acceptance and performance results require their own recorded evidence.
 
 Primary references: [SolidCore](https://github.com/tangency-labs/solidcore), [USD BRep](https://github.com/NVIDIA-Omniverse/usd-brep), [CadQuery selectors](https://cadquery.readthedocs.io/en/latest/selectors.html), [CadQuery assemblies](https://cadquery.readthedocs.io/en/latest/assy.html). These inform the design; the pinned dependency and passing local tests determine actual capabilities.

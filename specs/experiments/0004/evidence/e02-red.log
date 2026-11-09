@@ -1,0 +1,63 @@
+   Compiling agent-cad v0.5.0 ($EXPERIMENT_WORKSPACE/outputs/colocad/crates/agent-cad)
+warning: variable does not need to be mutable
+  --> crates/agent-cad/src/query/snapshot.rs:48:41
+   |
+48 |         let mut k=Kernel::default();let mut block=create_box(&mut k,Vec3::ZERO,20.,20.,10.).unwrap();
+   |                                         ----^^^^^
+   |                                         |
+   |                                         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable does not need to be mutable
+  --> crates/agent-cad/src/query/snapshot.rs:49:13
+   |
+49 |         let mut tool=create_cylinder(&mut k,Vec3::new(10.,10.,-1.),3.,12.).unwrap();
+   |             ----^^^^
+   |             |
+   |             help: remove this `mut`
+
+warning: function `names` is never used
+   --> crates/agent-cad/src/naming.rs:102:15
+    |
+102 | pub(crate) fn names(b: &Brep, e: EntityRef) -> Vec<String> {
+    |               ^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `agent-cad` (lib test) generated 3 warnings (run `cargo fix --lib -p agent-cad --tests` to apply 2 suggestions)
+    Finished `release` profile [optimized] target(s) in 2.43s
+     Running unittests src/lib.rs ($EXPERIMENT_WORKSPACE/work/colocad-build/target/release/deps/agent_cad-2670c70bad795758)
+
+running 3 tests
+test query::snapshot::tests::named_geometry_and_ids_survive_serialization_reload ... FAILED
+test query::snapshot::tests::changed_geometry_or_name_sidecar_is_not_the_same_snapshot ... FAILED
+test query::snapshot::tests::analytic_bore_geometry_survives_without_step_or_mesh_fallback ... FAILED
+
+failures:
+
+---- query::snapshot::tests::named_geometry_and_ids_survive_serialization_reload stdout ----
+
+thread 'query::snapshot::tests::named_geometry_and_ids_survive_serialization_reload' (10589589) panicked at crates/agent-cad/src/query/snapshot.rs:35:60:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "M0 snapshot proof pending", feature_id: None }
+
+---- query::snapshot::tests::changed_geometry_or_name_sidecar_is_not_the_same_snapshot stdout ----
+
+thread 'query::snapshot::tests::changed_geometry_or_name_sidecar_is_not_the_same_snapshot' (10589588) panicked at crates/agent-cad/src/query/snapshot.rs:62:60:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "M0 snapshot proof pending", feature_id: None }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- query::snapshot::tests::analytic_bore_geometry_survives_without_step_or_mesh_fallback stdout ----
+
+thread 'query::snapshot::tests::analytic_bore_geometry_survives_without_step_or_mesh_fallback' (10589587) panicked at crates/agent-cad/src/query/snapshot.rs:51:60:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "M0 snapshot proof pending", feature_id: None }
+
+
+failures:
+    query::snapshot::tests::analytic_bore_geometry_survives_without_step_or_mesh_fallback
+    query::snapshot::tests::changed_geometry_or_name_sidecar_is_not_the_same_snapshot
+    query::snapshot::tests::named_geometry_and_ids_survive_serialization_reload
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p agent-cad --lib`

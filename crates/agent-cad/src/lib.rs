@@ -11,6 +11,7 @@ mod network;
 pub mod operations;
 pub mod placement;
 pub mod preview;
+pub mod query;
 pub mod regions;
 pub mod sketch;
 mod solve;

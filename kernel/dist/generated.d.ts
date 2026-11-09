@@ -21,6 +21,7 @@ export type Attachment = {
     "instance": string;
 };
 export type Axis = "x" | "y" | "z";
+export type AxisAlignment = "aligned" | "opposed" | "unoriented";
 export type Boundary = ({
     "kind": "polygon";
     "points": Array<string>;
@@ -495,6 +496,7 @@ export type Frame = {
     "x_axis": [Scalar, Scalar, Scalar];
     "y_axis": [Scalar, Scalar, Scalar];
 };
+export type FrameAlignment = "aligned" | "opposed";
 export type Group = {
     "id": string;
     "parent"?: string | null;
@@ -520,9 +522,11 @@ export type LoftSection = {
 };
 export type Mate = ({
     "a": Attachment;
+    "alignment"?: FrameAlignment;
     "b": Attachment;
     "id": string;
     "kind": "fixed";
+    "twist_deg"?: Scalar;
 }) | ({
     "a": Attachment;
     "b": Attachment;
@@ -530,19 +534,23 @@ export type Mate = ({
     "kind": "coincident";
 }) | ({
     "a": Attachment;
+    "alignment"?: AxisAlignment;
     "b": Attachment;
     "id": string;
     "kind": "concentric";
 }) | ({
     "a": Attachment;
+    "alignment"?: AxisAlignment;
     "b": Attachment;
     "id": string;
     "kind": "revolute";
 }) | ({
     "a": Attachment;
+    "alignment"?: FrameAlignment;
     "b": Attachment;
     "id": string;
     "kind": "prismatic";
+    "twist_deg"?: Scalar;
 }) | ({
     "a": Attachment;
     "b": Attachment;

@@ -1,0 +1,188 @@
+
+> @coloopx/colocad@0.1.0-alpha.6 test
+> node --test test/*.test.mjs
+
+TAP version 13
+# Subtest: K1/K2: catalog actuator is a complete product with named native parts
+ok 1 - K1/K2: catalog actuator is a complete product with named native parts
+  ---
+  duration_ms: 956.098208
+  type: 'test'
+  ...
+# Subtest: K4: stroke endpoints remain editable and within the catalog guide envelope
+ok 2 - K4: stroke endpoints remain editable and within the catalog guide envelope
+  ---
+  duration_ms: 1550.869875
+  type: 'test'
+  ...
+# Subtest: SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+ok 3 - SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+  ---
+  duration_ms: 267.473375
+  type: 'test'
+  ...
+# Subtest: release preflight isolates npm config and does not persist the credential
+ok 4 - release preflight isolates npm config and does not persist the credential
+  ---
+  duration_ms: 27.890417
+  type: 'test'
+  ...
+# Subtest: wrong identity or a different immutable archive prevents publishing and tag updates
+ok 5 - wrong identity or a different immutable archive prevents publishing and tag updates
+  ---
+  duration_ms: 21.526208
+  type: 'test'
+  ...
+# Subtest: a transient post-publish 404 retries the read, not publication
+ok 6 - a transient post-publish 404 retries the read, not publication
+  ---
+  duration_ms: 16.467708
+  type: 'test'
+  ...
+# Subtest: resume never uploads an accepted version and reports a bounded pending state
+ok 7 - resume never uploads an accepted version and reports a bounded pending state
+  ---
+  duration_ms: 13.468
+  type: 'test'
+  ...
+# Subtest: a staged conflict waits for integrity and rejects another archive before changing tags
+ok 8 - a staged conflict waits for integrity and rejects another archive before changing tags
+  ---
+  duration_ms: 14.423458
+  type: 'test'
+  ...
+# Subtest: tag visibility is verified without repeating tag writes
+ok 9 - tag visibility is verified without repeating tag writes
+  ---
+  duration_ms: 17.340917
+  type: 'test'
+  ...
+# Subtest: H2: codex skill layout records local commands and exports offline history
+ok 10 - H2: codex skill layout records local commands and exports offline history
+  ---
+  duration_ms: 871.833875
+  type: 'test'
+  ...
+# Subtest: H2: claude-code skill layout records local commands and exports offline history
+ok 11 - H2: claude-code skill layout records local commands and exports offline history
+  ---
+  duration_ms: 824.430084
+  type: 'test'
+  ...
+# Subtest: R1/R2: deterministic film timing is separate from recorded build times
+ok 12 - R1/R2: deterministic film timing is separate from recorded build times
+  ---
+  duration_ms: 0.779791
+  type: 'test'
+  ...
+# Subtest: R3: invalid movie options fail before rendering
+ok 13 - R3: invalid movie options fail before rendering
+  ---
+  duration_ms: 0.133875
+  type: 'test'
+  ...
+# Subtest: S1: immutable native history survives reopening and relocation
+ok 14 - S1: immutable native history survives reopening and relocation
+  ---
+  duration_ms: 122.543083
+  type: 'test'
+  ...
+# Subtest: S2: failed attempt persists and edits start from last successful source
+ok 15 - S2: failed attempt persists and edits start from last successful source
+  ---
+  duration_ms: 46.205792
+  type: 'test'
+  ...
+# Subtest: S3: concurrent writer refused; crashed attempt preserved as interrupted
+ok 16 - S3: concurrent writer refused; crashed attempt preserved as interrupted
+  ---
+  duration_ms: 23.153375
+  type: 'test'
+  ...
+# Subtest: S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+ok 17 - S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+  ---
+  duration_ms: 30.037625
+  type: 'test'
+  ...
+# Subtest: compact tools keep executable schemas, exact measurements and recovery state
+ok 18 - compact tools keep executable schemas, exact measurements and recovery state
+  ---
+  duration_ms: 107.244458
+  type: 'test'
+  ...
+# Subtest: response compaction never erases degradation, errors or capability limits
+ok 19 - response compaction never erases degradation, errors or capability limits
+  ---
+  duration_ms: 0.846708
+  type: 'test'
+  ...
+# Subtest: guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+ok 20 - guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+  ---
+  duration_ms: 646.530583
+  type: 'test'
+  ...
+# Subtest: one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+ok 21 - one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+  ---
+  duration_ms: 5.80775
+  type: 'test'
+  ...
+# Subtest: invalid operations, stale references and resource limits fail before geometry
+ok 22 - invalid operations, stale references and resource limits fail before geometry
+  ---
+  duration_ms: 1.326042
+  type: 'test'
+  ...
+# Subtest: manifold edits rebuild material; two independent builds never overwrite the same destination
+ok 23 - manifold edits rebuild material; two independent builds never overwrite the same destination
+  ---
+  duration_ms: 599.2365
+  type: 'test'
+  ...
+# Subtest: Y-direction rectangular slots rebuild through the same compiler
+ok 24 - Y-direction rectangular slots rebuild through the same compiler
+  ---
+  duration_ms: 95.595041
+  type: 'test'
+  ...
+# Subtest: headless host returns an explicit native error and never emits a mislabeled file
+ok 25 - headless host returns an explicit native error and never emits a mislabeled file
+  ---
+  duration_ms: 0.855417
+  type: 'test'
+  ...
+# Subtest: E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+ok 26 - E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+  ---
+  duration_ms: 127.560084
+  type: 'test'
+  ...
+# Subtest: E3: editable tip radius changes exact engine bounds
+ok 27 - E3: editable tip radius changes exact engine bounds
+  ---
+  duration_ms: 665.56725
+  type: 'test'
+  ...
+# Subtest: CLI launches local viewer and exports the same offline history
+ok 28 - CLI launches local viewer and exports the same offline history
+  ---
+  duration_ms: 215.800458
+  type: 'test'
+  ...
+# Subtest: CLI refuses an invalid viewer port
+ok 29 - CLI refuses an invalid viewer port
+  ---
+  duration_ms: 96.021833
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2591.855667

@@ -79,7 +79,7 @@ fn read(b: &Brep, e: EntityRef) -> Option<&Names> {
     b.find_attribute(e, ID)
         .and_then(|a| a.application_value::<Names>())
 }
-fn attach(b: &mut Brep, e: EntityRef, name: &str) -> Result<()> {
+pub(crate) fn attach(b: &mut Brep, e: EntityRef, name: &str) -> Result<()> {
     let mut data = read(b, e)
         .cloned()
         .unwrap_or_else(|| Names(BTreeSet::new()));
@@ -98,6 +98,11 @@ fn attach(b: &mut Brep, e: EntityRef, name: &str) -> Result<()> {
 }
 pub(crate) fn has(b: &Brep, e: EntityRef, name: &str) -> bool {
     read(b, e).is_some_and(|n| n.0.contains(name))
+}
+pub(crate) fn names(b: &Brep, e: EntityRef) -> Vec<String> {
+    read(b, e)
+        .map(|n| n.0.iter().cloned().collect())
+        .unwrap_or_default()
 }
 pub(crate) fn validate(f: &Feature, p: &BTreeMap<String, f64>) -> Result<()> {
     let Feature::NameTopology { edges, faces, .. } = f else {

@@ -1,0 +1,201 @@
+{
+  "schema": "colocad.sdd0004.experiment/1",
+  "date": "2026-11-09T08:26:24.367Z",
+  "scope": "M0 local SDK/native direction smoke; explicit numeric attachments, not geometry-backed datums or query acceptance",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v22.23.3"
+  },
+  "baselineCommit": "356aff8786299efcac4eba79a2620b771eb23393",
+  "dirty": true,
+  "sourceSha256": {
+    "Cargo.lock": "f765dc7fd4d5da82835cd83e91262a483e12081b0fe551fc7dba76275ed4a965",
+    "Cargo.toml": "aea7c7cf4716a0265c356783fc44375326fbe39a45e2bd5ae67dd30370ec501d",
+    "crates/agent-cad/Cargo.toml": "6417bee081354b746f8788b36eac9d1a8894a19e2bd67af50d79a21c18074c21",
+    "crates/agent-cad/src/assembly.rs": "5c2116b254ea28bcd7d3592adfc4ee7940c5e904698cff2bb79ad63b29d77de2",
+    "crates/agent-cad/src/capabilities.rs": "7152bafbe72197b10348a96c0cc9d609dddb3eab12e5e7d237502f58c5c55f0e",
+    "crates/agent-cad/src/compound.rs": "e4c3a6f0816313381afc1ecebc9022cac8303f0612eaec41906d053efb67321d",
+    "crates/agent-cad/src/distance.rs": "f512430809a4e2db2b11491402a8e983bd918daa1c9e4079d85c92e6df56612c",
+    "crates/agent-cad/src/engineering.rs": "0b6d65ae424e829295b26eca844749d4ccad1b1d2dfda6a9b876e496d509b68a",
+    "crates/agent-cad/src/error.rs": "e330c7c534751912a1164c31d2f876a1e66b1391a0e685471eeeb8505105565a",
+    "crates/agent-cad/src/exchange.rs": "6918102d7757170a36579482948c948e5e2219f363a38b3cbdc8663ed2835439",
+    "crates/agent-cad/src/executor.rs": "b13c714430318bc50296e2df2636def103df328fef598ba25135925f01e9a1d6",
+    "crates/agent-cad/src/grid.rs": "715dce2dc71e8444af28dce1fb1ff251a84b88ba6af2acfa2e64aa2948f5f638",
+    "crates/agent-cad/src/hollow.rs": "ea47c87e76dcec75ea33ca1da32435bb51426577b17b55d1df6cffa3484848e3",
+    "crates/agent-cad/src/incremental.rs": "45bce41988077a8ebf6cb9607b52da5e10ed3770d07ccbb06f888c89d5967c48",
+    "crates/agent-cad/src/lib.rs": "9022396a561ed99b165d06eaff08e86ac824f642550f6473056689b553366e46",
+    "crates/agent-cad/src/main.rs": "f129e8f5e8c51ea661353df44e149cb8d057fff83cd7d719085e2e73dc0840c9",
+    "crates/agent-cad/src/mates.rs": "dd9af168b5947bd938cfe6ea82f066f1faf70bf8b55d2cc29cdebf3ab79212be",
+    "crates/agent-cad/src/model.rs": "0f6c4f4d0c1111f00803bad64edf09d4f179f27e1d4b5f51d372b5a89e9bb02d",
+    "crates/agent-cad/src/naming.rs": "d34124997e3653239ec0b31ef47ec800187868e620d3d9f504c1a9891510eb99",
+    "crates/agent-cad/src/network.rs": "bc55b15f9ce43aff365430b64a1f9d1f182ef9aa3e94a9f1892da077720b4835",
+    "crates/agent-cad/src/operations.rs": "525bef6f838bb1239dbc5f66f0b5a10cbd3b27227178ff735ef9dcf14a51dd68",
+    "crates/agent-cad/src/placement.rs": "511d052256707f0015d5f494da0aea6e4755512f3bee6f8a616e46d9dfa69dae",
+    "crates/agent-cad/src/preview/analytic.rs": "2d70cf3a2b2fb52c1020a55f81c37ee7524951be0f836f9b2cbc7122b0a724b8",
+    "crates/agent-cad/src/preview/cache.rs": "2d19b7a9dd61c74abde7e30e08ef17c66f166fc9a885aecc3b5bdf102eb7d996",
+    "crates/agent-cad/src/preview/mod.rs": "adaa5a7190c37f0641bef6dc3c6a1eebf1a2c6131ab96b5a5d3c97725c0d25df",
+    "crates/agent-cad/src/preview/record.rs": "454f01beb7b20bfddd064c81abc314bba3196f7b4839864d0c17b3846f495e77",
+    "crates/agent-cad/src/preview/render.rs": "6da7346bae1c2618ae444d4ab1c442b2924ce6866fa5bcc1ee39c783b318bda1",
+    "crates/agent-cad/src/preview/section.rs": "eda04ea9ea8f9e3c1fe20985a5b762ff166243b67af69c8a6aa583755ab40688",
+    "crates/agent-cad/src/query/face.rs": "d913f99cb9528347a992212869888943c455999a4cc590ae031ec36c62f2f979",
+    "crates/agent-cad/src/query/mod.rs": "443736bed7a355f173da998ba6c10645c7cc015f8cc2f43c24dff26fa684da45",
+    "crates/agent-cad/src/query/snapshot.rs": "c68664d86ccce6295e4905ff61614b63eb97c122a9c76af49722933bc27ec633",
+    "crates/agent-cad/src/regions.rs": "f42cab66137c7568efd738f3129cd8869df7047bc12e19886d73ce5096cb127c",
+    "crates/agent-cad/src/sketch.rs": "06519e49a5315e4c691268af3575d1a1c1af4c38fd5b70fd4333efa79d9806c1",
+    "crates/agent-cad/src/solve.rs": "d46baef7c72e336e5bd4f8fdf28792368783300fa783891cb4daecaba71cecf3",
+    "crates/agent-cad/src/step_assembly.rs": "9f653742d9c13b73a944cf6aa781d0eda3fa8faa78f210ff0d1bc035f6412444",
+    "crates/agent-cad/src/surfaces.rs": "8a5644de427f9516e4880d9422b53fd0546914430244ba6f508a15ac17e098bd",
+    "crates/agent-cad/src/validation.rs": "1997753ff42055a99881d2a2792d38927f616d01a60d252475caa788822168ef",
+    "crates/agent-cad/tests/assembly_tree.rs": "a404b5d525e8c8b4a032ed61a42492ec9127b98e31f06f410748eb047cc65dc4",
+    "crates/agent-cad/tests/capabilities.rs": "b1a092dc8d5b473f5013ddea74db66401891a306dd8564bda0c43620ad62d13a",
+    "crates/agent-cad/tests/fixtures/nested-assembly.step": "a00e6700566f453153c2f193cfed8fa004c30c4aa1723901334c57d6240153ef",
+    "crates/agent-cad/tests/fixtures/occt-drilled-block.step": "576b003a1788fce49a3512f683aa8e1463e808fbcbd0bf6454f5c1ace7435675",
+    "crates/agent-cad/tests/geometry.rs": "d706348b8acdd5643798a1c32ea2697d3f57b9bf40245b7dbc2b7e71e6b447f6",
+    "crates/agent-cad/tests/grid.rs": "c0d9d353c5d5c7e5eb9f4ecf3cb5825946789e51a57a546aa56d31e194b134da",
+    "crates/agent-cad/tests/hollow.rs": "f6e714e861bfa3e19a22451d14d296806e553b4872745e09a8ef1486e054aa36",
+    "crates/agent-cad/tests/mates.rs": "637b83e161d8d4566ef3357fede7ed4fc7d82a991bc17bc2aaf159a33a8a8cab",
+    "crates/agent-cad/tests/mates_alignment.rs": "603430e3528767113747e06a9d50b8f8fce2b30ad37af6b9548c42ab8d24eb16",
+    "crates/agent-cad/tests/naming.rs": "d9808b9b0052d87c2d8f9209ef2f758868cb55ae0237c2175654fa91e1d380f9",
+    "crates/agent-cad/tests/network.rs": "225e69a76ad800d6031b838f2e1a220b5cb2bb6a9aab5b09183501277bb082c7",
+    "crates/agent-cad/tests/parity.rs": "1bf4a91cfc780ebfdb64769ede213f63c65bb86e404aa6970b8ffc560134c931",
+    "crates/agent-cad/tests/preview.rs": "e3bd1ec4471d09da05f01c141305433455fd17dce60aabf993abdcc45fd8614b",
+    "crates/agent-cad/tests/query_kernel_probe.rs": "86ab3fb29f64b7be75d523ada5012387493af6a2f08384538383d1748f0cef87",
+    "crates/agent-cad/tests/regions.rs": "f782e35118282f6794275df5fb10f0aefe0b8db0bcf561ad5671692926926bc9",
+    "crates/agent-cad/tests/sketch.rs": "2f346b1958e0c6fbfa8db47bc89d695c8b0ad2cfeececcc9278e3cefff270295",
+    "crates/agent-cad/tests/surfaces.rs": "24cc8a1495681a9563782cad90673da670bc024424fb830f8f9ebf2d76924590",
+    "kernel/src/artifacts.ts": "306549c5314f3c760f46c9fa4e8a8e902c372951b488c3a64ba6e0df57d43be5",
+    "kernel/src/assets.ts": "4aca9ba0ccba53b280706bfbcc4d071805b679d3e1e550938d4381cbcc5923db",
+    "kernel/src/binary.ts": "3aaba4c23539ab3e65fda98e98f33d38fe189b42b47b623543311dc8017ea409",
+    "kernel/src/client.ts": "94b053a9a432f6d7d5bb184e5790b93d6f8697ec654eef01c4e269c23c03edd3",
+    "kernel/src/files.ts": "4d7031a9193d9cd896404eaf66ff070f980dcca12a7dc52e6888c7b81642048c",
+    "kernel/src/generated.ts": "f0919cedabd7f8a42997b3a3e8a4c29b61d1c5fc7b6511e45904197835ae2f64",
+    "kernel/src/helpers.ts": "d2a1a9b9d661cd5fec9e4ac332fe5dfe63dfc928ae0f15fb7163377ca72cb635",
+    "kernel/src/index.ts": "e2cc927efb9c953b6e78b75a159e5009dd244ba88f7ba42d75be0434175fa778",
+    "kernel/src/preview-cache.ts": "9dd344bf2b043721e7c03c4a244d4671cebe9da52cb9e0f7ea2f1aaa82a2d465",
+    "kernel/src/process.ts": "f957f1dc34a82da8710f793557ddcfaa67202d2a0bf6c9fa058533bd2bbc5aac",
+    "kernel/src/tools.ts": "f029e08845dd506bc625d4ecd12ba2622d3b17ecd32fa24daefe26da27858e6d",
+    "kernel/src/types.ts": "1460d13a290d4c0a71ecaaa8324e2e91780a0123fd239b28254038d32b03b370",
+    "scripts/schema.mjs": "167fe568162c545a6d4ae45970abda454918f0478eee5d22e7a2611a671207e7"
+  },
+  "nativeSha256": "d1d080a537fb5d10f791e7b8820c143003b5fb8a85ec2b5a3f7978e1d03fcf7d",
+  "kernel": {
+    "name": "solidcore",
+    "revision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+    "scoped_fixes": {
+      "measurement": [
+        "precise_properties_body_length_scale",
+        "precise_properties_split_at_surface_knots",
+        "precise_properties_span_end_from_below",
+        "precise_properties_trim_base_v",
+        "integrator_propagates_failure"
+      ],
+      "thicken": [
+        "shell_one_construction"
+      ]
+    },
+    "tolerances": "kernel_defaults",
+    "upstream_fixes": [
+      "transform_scales_each_tolerance",
+      "transform_model_size_from_body_box",
+      "fillet_chamfer_cone_on_arc",
+      "shell_edges_on_analytics_exact"
+    ],
+    "volume_integration_accuracy": 1e-08
+  },
+  "fixtureSha256": "70e0c1c5b917a420e8ea2cd7e0c6d45a48d58232c3fca22c6088d4734c38478f",
+  "artifactDirectory": "builds/job-sRKkiw/revision",
+  "stepSha256": "140d4f3938dd0a2fa0261db2339f460069efe092712051bd8039ffd5c62cd1b4",
+  "result": {
+    "passed": true,
+    "degreesOfFreedom": 1,
+    "iterations": 3,
+    "constraints": [
+      {
+        "id": "coaxial",
+        "physical_residual": {
+          "angular_rad": 0,
+          "linear_mm": 1.3334631213458818e-10
+        },
+        "residuals": [
+          -6.360743043387629e-10,
+          1.0090853153066348e-10,
+          0,
+          -1.109508040997298e-10,
+          -7.39672767480215e-11,
+          0
+        ],
+        "unoriented_branch": null
+      },
+      {
+        "id": "axial_stop",
+        "physical_residual": {
+          "angular_rad": 0,
+          "linear_mm": 3.6983749396313215e-11
+        },
+        "residuals": [
+          -6.360743043387629e-09,
+          1.0090853153066348e-09,
+          0,
+          3.6983749396313215e-11
+        ],
+        "unoriented_branch": null
+      }
+    ],
+    "placements": {
+      "shaft": {
+        "axes": [
+          [
+            0.9356400275687933,
+            0.35295571791808084,
+            -5.595203467212428e-10
+          ],
+          [
+            -0.3529557179180808,
+            0.9356400275687933,
+            3.1892014029644145e-10
+          ],
+          [
+            6.360743043387629e-10,
+            -1.0090853153066348e-10,
+            1
+          ]
+        ],
+        "origin_mm": [
+          7.39672767480215e-11,
+          -1.109508040997298e-10,
+          -7.999999999963016
+        ]
+      },
+      "support": {
+        "axes": [
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "origin_mm": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "oversizedShaft": {
+    "passed": true,
+    "errorCode": "ASSEMBLY_COLLISION"
+  },
+  "independentReadback": "pending; run verify-step.py with an OCCT environment"
+}

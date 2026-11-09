@@ -24,7 +24,7 @@ These guides target **@coloopx/colocad 0.1.0-alpha.6**, Node.js 22+, Linux x64/a
 | Compare execution performance and limits | [Performance evidence](performance.md) |
 | Check native SOLIDWORKS export status | [Native author](native-solidworks.md) |
 | Understand what has actually been tested | [Integration verification](integrations/verification.md), [geometry validation](validation.md) |
-| Contribute geometry queries and assembly interfaces | [SDD 0004 — proposed contract and acceptance matrix](../specs/0004-engineering-query-and-assembly-interfaces.md) |
+| Contribute geometry queries and assembly interfaces | [SDD 0004 revision 2 — contract and 28 acceptance cases](../specs/0004-engineering-query-and-assembly-interfaces.md), [implementation evidence](../specs/experiments/0004/README.md) |
 
 Runnable adapters and their regression tests live in [examples/integrations](../examples/integrations/README.md). They install the published npm release. The complete Pi example project is in GitHub. Alpha.5 also packages the compact adapter and guided workflow example. The skill, assets and its helper scripts **are** included.
 

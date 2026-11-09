@@ -146,6 +146,15 @@
       ],
       "type": "string"
     },
+    "AxisAlignment": {
+      "description": "Surface normals remain outward; a mate separately chooses the axis relation.",
+      "enum": [
+        "aligned",
+        "opposed",
+        "unoriented"
+      ],
+      "type": "string"
+    },
     "Boundary": {
       "oneOf": [
         {
@@ -2860,6 +2869,13 @@
       ],
       "type": "object"
     },
+    "FrameAlignment": {
+      "enum": [
+        "aligned",
+        "opposed"
+      ],
+      "type": "string"
+    },
     "Group": {
       "additionalProperties": false,
       "properties": {
@@ -3011,6 +3027,9 @@
             "a": {
               "$ref": "#/$defs/Attachment"
             },
+            "alignment": {
+              "$ref": "#/$defs/FrameAlignment"
+            },
             "b": {
               "$ref": "#/$defs/Attachment"
             },
@@ -3020,6 +3039,9 @@
             "kind": {
               "const": "fixed",
               "type": "string"
+            },
+            "twist_deg": {
+              "$ref": "#/$defs/Scalar"
             }
           },
           "required": [
@@ -3061,6 +3083,9 @@
             "a": {
               "$ref": "#/$defs/Attachment"
             },
+            "alignment": {
+              "$ref": "#/$defs/AxisAlignment"
+            },
             "b": {
               "$ref": "#/$defs/Attachment"
             },
@@ -3085,6 +3110,9 @@
           "properties": {
             "a": {
               "$ref": "#/$defs/Attachment"
+            },
+            "alignment": {
+              "$ref": "#/$defs/AxisAlignment"
             },
             "b": {
               "$ref": "#/$defs/Attachment"
@@ -3111,6 +3139,9 @@
             "a": {
               "$ref": "#/$defs/Attachment"
             },
+            "alignment": {
+              "$ref": "#/$defs/FrameAlignment"
+            },
             "b": {
               "$ref": "#/$defs/Attachment"
             },
@@ -3120,6 +3151,9 @@
             "kind": {
               "const": "prismatic",
               "type": "string"
+            },
+            "twist_deg": {
+              "$ref": "#/$defs/Scalar"
             }
           },
           "required": [

@@ -14,7 +14,7 @@ pub fn capabilities() -> Value {
     json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"units":["mm"],
         "operations":operations,
         "profiles":["rectangle","circle","ellipse","polygon","outline_lines_and_arcs","constrained_sketch"],
-        "assembly":{"named_instances":true,"hierarchy":true,"shared_definitions":true,"construction_volumes":true,"representation_declarations":true,"poses":["normal","internal","exploded"],"checks":["collision","containment","opening"],"step":"native_product_instance_tree","mates":["fixed","coincident","concentric","plane","distance","revolute","prismatic"]},
+        "assembly":{"named_instances":true,"hierarchy":true,"shared_definitions":true,"construction_volumes":true,"representation_declarations":true,"poses":["normal","internal","exploded"],"checks":["collision","containment","opening"],"step":"native_product_instance_tree","mates":["fixed","coincident","concentric","plane","distance","revolute","prismatic"],"mate_direction":{"axis":["aligned","opposed","unoriented"],"frame":["aligned","opposed"],"frame_twist_deg":true,"default":"aligned","unoriented_branch":"initial_pose_fixed_during_local_solve"},"mate_physical_residual_units":["mm","rad"]},
         "exports":["step_exact_solids","step_exact_surfaces","feature_ir","png","glb","stl"],
         "naming":{"source":"native_topology_notifications","split_merge":true,"parameter_replay":true,"ambiguity":"expected_count_required","persistence":"feature_IR_names; not foreign STEP entity numbers"},
         "sketch":{"solver":"bounded_local_levenberg_marquardt","degrees_of_freedom":true,"constraint_residuals":true},

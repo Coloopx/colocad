@@ -69,6 +69,8 @@
     "docs/integrations/*.md"
   ],
   "scripts": {
+    "schema": "node scripts/schema.mjs",
+    "schema:check": "node scripts/schema.mjs --check",
     "test": "node --test test/*.test.mjs",
     "build:kernel": "node scripts/build-kernel.mjs",
     "prepack": "node scripts/check-release.mjs",

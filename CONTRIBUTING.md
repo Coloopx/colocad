@@ -22,7 +22,20 @@ npm run build --prefix kernel
 npm test
 ```
 
-Commit the matching generated `kernel/dist` files with SDK source changes. For harness example changes:
+Commit the matching generated `kernel/dist` files with SDK source changes.
+
+When changing Rust model fields, regenerate the JSON schema and TypeScript types from a freshly built native executable before compiling the SDK:
+
+```sh
+cargo build --release --locked -p agent-cad
+npm run schema
+npm run build --prefix kernel
+npm run schema:check
+```
+
+The generator honors `CARGO_TARGET_DIR`, or an explicit `AGENT_CAD_BUILD_BINARY`. Runtime tests use `AGENT_CAD_BINARY`; these settings must refer to the same build. The SDK/package and native executor have separate version numbers. For SDD 0004 fixtures, failure logs and independent STEP verification, see the [experiment ledger](specs/experiments/0004/README.md).
+
+For harness example changes:
 
 ```sh
 npm ci --prefix examples/integrations --ignore-scripts

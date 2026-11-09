@@ -1,0 +1,65 @@
+{
+  "schema": {
+    "generated": true,
+    "checkPassed": true,
+    "typeScriptCompiled": true
+  },
+  "date": "2026-11-09",
+  "baselineCommit": "356aff8786299efcac4eba79a2620b771eb23393",
+  "nativeSha256": "d1d080a537fb5d10f791e7b8820c143003b5fb8a85ec2b5a3f7978e1d03fcf7d",
+  "kernelRevision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+  "platform": "Darwin arm64",
+  "native": {
+    "passed": 87,
+    "failed": 0,
+    "ignored": 0,
+    "command": "cargo test --locked --release -p agent-cad"
+  },
+  "node": {
+    "passed": 29,
+    "failed": 0,
+    "command": "AGENT_CAD_BINARY=\"$CARGO_TARGET_DIR/release/agent-cad\" npm test"
+  },
+  "integrationExamples": {
+    "passed": 6,
+    "failed": 0,
+    "scope": "pinned published SDK alpha.3 examples with new native override; not full source-SDK acceptance",
+    "command": "AGENT_CAD_BINARY=\"$CARGO_TARGET_DIR/release/agent-cad\" npm run test:integrations"
+  },
+  "independentSTEP": {
+    "passed": true,
+    "method": "independent OCCT STEP readback",
+    "ocpPackage": "7.9.3.1.1",
+    "stepSha256": "140d4f3938dd0a2fa0261db2339f460069efe092712051bd8039ffd5c62cd1b4",
+    "valid": true,
+    "solids": 2,
+    "volumeMm3": [
+      738.9025921243153,
+      4460.707993412301
+    ],
+    "expectedVolumeMm3": [
+      738.9025921243192,
+      4460.707993412302
+    ],
+    "minimumDistanceMm": 0.1999999872045466,
+    "expectedMinimumDistanceMm": 0.2,
+    "scope": "exported shape/placement correctness; not datum or clearance-query API acceptance"
+  },
+  "gates": {
+    "D02": "passed for numeric frame/axis mate policies; datum consumption remains M2",
+    "Q04": "definition-level feasibility only; public manifest/ref/session acceptance pending",
+    "Q01_Q03": "analytic area/trim/seam feasibility only; public query contract pending",
+    "P01": "not measured; Linux 1 vCPU / 512 MiB pending",
+    "SDD0004": "in progress, not complete",
+    "npm": "not released"
+  },
+  "logsSha256": {
+    "e01-red.log": "e07c222464e3ee64608e595b21fc7f74c3f0ce41f2ae1c06825e7cf395aa2271",
+    "e02-red.log": "2876e0939918f0b278226288594021a9b26618fcde75397a01bc84dbd213d8a8",
+    "e03-initial-probe.log": "779821e1eaeb87a10aaf2bac2d175d596133a4654f48cb445fdb9d558dfb86a4",
+    "e03-red.log": "142dc23b076fc4de91aec28d6464c4178b82f729bf6ffa9e6d49a78f04928456",
+    "native-tests.log": "f8bd6b1bbfddf9598580baa745074b592608e0a98c47ef40209f200baa16d5f2",
+    "node-tests.log": "ac550366a1b50119ddafd5a6421c74e091600ff1174716fac32451cf71e94f62",
+    "integrations.log": "cdd99ae33117a49d8e4298af4152a477b6e8e1c51fc8ed7b72bc1daa3d1ce4ba"
+  }
+}

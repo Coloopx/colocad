@@ -1,0 +1,38 @@
+   Compiling agent-cad v0.5.0 ($EXPERIMENT_WORKSPACE/outputs/colocad/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 20.94s
+     Running tests/query_kernel_probe.rs ($EXPERIMENT_WORKSPACE/work/colocad-build/target/release/deps/query_kernel_probe-3deab87960fde5fc)
+
+running 3 tests
+test invalid_uv_is_an_error_not_outside_trim ... FAILED
+test planar_area_and_classification_respect_through_blind_and_counterbore_trims ... FAILED
+test exact_snapshot_preserves_trim_classification_in_a_fresh_kernel ... FAILED
+
+failures:
+
+---- invalid_uv_is_an_error_not_outside_trim stdout ----
+
+thread 'invalid_uv_is_an_error_not_outside_trim' (10625067) panicked at crates/agent-cad/tests/query_kernel_probe.rs:65:9:
+assertion `left == right` failed
+  left: "QUERY_UNSUPPORTED"
+ right: "QUERY_ARGUMENT"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- planar_area_and_classification_respect_through_blind_and_counterbore_trims stdout ----
+
+thread 'planar_area_and_classification_respect_through_blind_and_counterbore_trims' (10625068) panicked at crates/agent-cad/tests/query_kernel_probe.rs:54:49:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "trim adapter pending", feature_id: None }
+
+---- exact_snapshot_preserves_trim_classification_in_a_fresh_kernel stdout ----
+
+thread 'exact_snapshot_preserves_trim_classification_in_a_fresh_kernel' (10625066) panicked at crates/agent-cad/tests/query_kernel_probe.rs:54:49:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "trim adapter pending", feature_id: None }
+
+
+failures:
+    exact_snapshot_preserves_trim_classification_in_a_fresh_kernel
+    invalid_uv_is_an_error_not_outside_trim
+    planar_area_and_classification_respect_through_blind_and_counterbore_trims
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+error: test failed, to rerun pass `-p agent-cad --test query_kernel_probe`

@@ -1,0 +1,33 @@
+   Compiling agent-cad v0.5.0 ($EXPERIMENT_WORKSPACE/outputs/colocad/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 21.49s
+     Running tests/query_kernel_probe.rs ($EXPERIMENT_WORKSPACE/work/colocad-build/target/release/deps/query_kernel_probe-3deab87960fde5fc)
+
+running 2 tests
+test planar_area_and_classification_respect_through_blind_and_counterbore_trims ... FAILED
+test exact_snapshot_preserves_trim_classification_in_a_fresh_kernel ... FAILED
+
+failures:
+
+---- planar_area_and_classification_respect_through_blind_and_counterbore_trims stdout ----
+
+thread 'planar_area_and_classification_respect_through_blind_and_counterbore_trims' (10621029) panicked at crates/agent-cad/tests/query_kernel_probe.rs:54:13:
+assertion `left == right` failed
+  left: Unknown
+ right: Nothing
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- exact_snapshot_preserves_trim_classification_in_a_fresh_kernel stdout ----
+
+thread 'exact_snapshot_preserves_trim_classification_in_a_fresh_kernel' (10621028) panicked at crates/agent-cad/tests/query_kernel_probe.rs:54:13:
+assertion `left == right` failed
+  left: Unknown
+ right: Nothing
+
+
+failures:
+    exact_snapshot_preserves_trim_classification_in_a_fresh_kernel
+    planar_area_and_classification_respect_through_blind_and_counterbore_trims
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+error: test failed, to rerun pass `-p agent-cad --test query_kernel_probe`
