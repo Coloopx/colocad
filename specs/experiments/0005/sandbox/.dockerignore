@@ -1,0 +1,7 @@
+*
+!Cargo.toml
+!Cargo.lock
+!crates/
+!crates/**
+!third_party/
+!third_party/solidcore-source.tar.gz

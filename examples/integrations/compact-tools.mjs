@@ -10,7 +10,7 @@ export function compactReceipt(receipt){
   .map(([name,sha256])=>[name,{path:join(d.artifact_directory,name),sha256}]));
  return {ok:true,...(receipt.session_step?{session_step:receipt.session_step}:{}),data:{
   artifact_directory:d.artifact_directory,source_artifact_directory:d.source_artifact_directory,
-  model_hash:d.model_hash,source_hash:d.source_hash,geometry:structuredClone(d.geometry),
+  model_hash:d.model_hash,source_hash:d.source_hash,query_revision_id:d.query_revision_id,execution_policy:d.execution_policy,geometry:structuredClone(d.geometry),
   timing_ms:structuredClone(d.timing_ms),validation:structuredClone(d.validation),artifacts,
   feature_summary:{count:features.length,reused:features.filter(f=>f.cache_hit).length,
    slowest:[...features].sort((a,b)=>(b.elapsed_ms??0)-(a.elapsed_ms??0)).slice(0,3).map(f=>({id:f.id,elapsed_ms:f.elapsed_ms,cache_hit:f.cache_hit})),

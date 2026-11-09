@@ -1,0 +1,71 @@
+TAP version 13
+# Subtest: semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+not ok 1 - semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+  ---
+  duration_ms: 111.242
+  type: 'test'
+  location: '$REPO/test/lifecycle.test.mjs:15:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'SELECTION_CARDINALITY'
+    - 'SELECTION_AMBIGUOUS'
+                 ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'SELECTION_AMBIGUOUS'
+  actual: 'SELECTION_CARDINALITY'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://$REPO/test/lifecycle.test.mjs:24:165)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: foreign assembly replacement and rejected replacement retain accepted session across relocation
+ok 2 - foreign assembly replacement and rejected replacement retain accepted session across relocation
+  ---
+  duration_ms: 2436.336834
+  type: 'test'
+  ...
+# Subtest: checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+not ok 3 - checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+  ---
+  duration_ms: 7.009167
+  type: 'test'
+  location: '$REPO/test/lifecycle.test.mjs:45:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'undefined'
+    - 'string'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'string'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://$REPO/test/lifecycle.test.mjs:46:124)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+ok 4 - real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+  ---
+  duration_ms: 3381.061791
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 2
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6021.250334

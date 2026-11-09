@@ -1,0 +1,2107 @@
+[
+  {
+    "tool": "cad_capabilities",
+    "toolCallId": "call_00_ZzBTCsyzBZP5ZXNmUn5U2515",
+    "arguments": {},
+    "result": {
+      "data": {
+        "assembly": {
+          "checks": [
+            "collision",
+            "containment",
+            "opening",
+            "interface_compatibility",
+            "geometric_relationship"
+          ],
+          "construction_volumes": true,
+          "hierarchy": true,
+          "mate_direction": {
+            "axis": [
+              "aligned",
+              "opposed",
+              "unoriented"
+            ],
+            "default": "aligned",
+            "frame": [
+              "aligned",
+              "opposed"
+            ],
+            "frame_twist_deg": true,
+            "unoriented_branch": "initial_pose_fixed_during_local_solve"
+          },
+          "mate_physical_residual_units": [
+            "mm",
+            "rad"
+          ],
+          "mates": [
+            "fixed",
+            "coincident",
+            "concentric",
+            "plane",
+            "distance",
+            "revolute",
+            "prismatic"
+          ],
+          "named_instances": true,
+          "poses": [
+            "normal",
+            "internal",
+            "exploded"
+          ],
+          "representation_declarations": true,
+          "shared_definitions": true,
+          "step": "native_product_instance_tree"
+        },
+        "execution": "Agent, Harness and the CAD package run in the same sandbox; Harness invokes local module actions",
+        "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+        "executor_version": "0.5.0",
+        "exports": [
+          "step_exact_solids",
+          "step_exact_surfaces",
+          "feature_ir",
+          "png",
+          "glb",
+          "stl"
+        ],
+        "incremental": {
+          "dependency_keys": true,
+          "exact_checkpoints": true,
+          "replay_for_named_or_region_features": true
+        },
+        "inspection_regions": {
+          "automatic_propagation": true,
+          "computed_on_demand": true,
+          "exact_required_option": true
+        },
+        "kernel": {
+          "name": "solidcore",
+          "revision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+          "scoped_fixes": {
+            "measurement": [
+              "precise_properties_body_length_scale",
+              "precise_properties_split_at_surface_knots",
+              "precise_properties_span_end_from_below",
+              "precise_properties_trim_base_v",
+              "integrator_propagates_failure"
+            ],
+            "thicken": [
+              "shell_one_construction"
+            ]
+          },
+          "tolerances": "kernel_defaults",
+          "upstream_fixes": [
+            "transform_scales_each_tolerance",
+            "transform_model_size_from_body_box",
+            "fillet_chamfer_cone_on_arc",
+            "shell_edges_on_analytics_exact"
+          ],
+          "volume_integration_accuracy": 1e-8
+        },
+        "limits": {
+          "checked_pairs": 8128,
+          "cutters": 1024,
+          "features": 128,
+          "generated_step_entities_per_definition": 1000000,
+          "groups": 512,
+          "input_bytes": 33554432,
+          "instances": 128,
+          "preview_triangles": 200000,
+          "solver_variables": 128,
+          "step_asset_bytes": 25165824,
+          "step_entities": 100000
+        },
+        "naming": {
+          "ambiguity": "expected_count_required",
+          "parameter_replay": true,
+          "persistence": "feature_IR_names; not foreign STEP entity numbers",
+          "source": "native_topology_notifications",
+          "split_merge": true
+        },
+        "operations": [
+          "draft_extrude",
+          "name_topology",
+          "surface_network",
+          "surface_patch",
+          "surface_bridge",
+          "surface_edit",
+          "thicken",
+          "sew",
+          "inspection_region",
+          "hollow",
+          "shell_body",
+          "lid_for",
+          "face_cutout",
+          "face_hole_grid",
+          "face_tool",
+          "face_holes",
+          "cutout",
+          "holes",
+          "split",
+          "extrude",
+          "revolve",
+          "sweep",
+          "curve_sweep",
+          "pipe",
+          "profile_loft",
+          "place",
+          "rotate",
+          "mirror",
+          "fillet",
+          "chamfer",
+          "shell",
+          "boss",
+          "pattern",
+          "component_cad",
+          "import_step",
+          "loft",
+          "box",
+          "cone",
+          "cylinder",
+          "sphere",
+          "cut",
+          "union",
+          "intersect",
+          "translate",
+          "hole_grid"
+        ],
+        "preview": {
+          "analytic_full_cylinder_and_cone": true,
+          "halfspace_section": true,
+          "instance_mesh_reuse": true,
+          "revision_mesh_reuse": true
+        },
+        "profiles": [
+          "rectangle",
+          "circle",
+          "ellipse",
+          "polygon",
+          "outline_lines_and_arcs",
+          "constrained_sketch"
+        ],
+        "protocol": "agent-cad/1",
+        "query": {
+          "contact_exception_domain": "certified_polyhedral_separating_plane",
+          "datum_derivations": [
+            "vertex_or_circle_point",
+            "planar_face",
+            "cylinder_or_circle_axis",
+            "straight_edge_direction",
+            "declared_design_point",
+            "ordered_point_difference",
+            "right_handed_frame"
+          ],
+          "hole_domain": "connected_analytic_cylinders_planar_ends",
+          "hole_patterns": [
+            "linear",
+            "rectangular",
+            "circular",
+            "unstructured"
+          ],
+          "interface_profiles": [
+            "planar_hole_mount/v1"
+          ],
+          "limits": {
+            "adjacency_visits": 200000,
+            "batch": 64,
+            "expression_depth": 8,
+            "expression_nodes": 128,
+            "page": 256,
+            "receipt_bytes": 8388608,
+            "request_bytes": 2097152,
+            "snapshot_bytes": 67108864
+          },
+          "native_ref_display": "build_time_outline_artifact",
+          "operations": [
+            "faces",
+            "edges",
+            "vertices",
+            "loops",
+            "describe",
+            "select",
+            "datums",
+            "named_datums",
+            "evaluate_face",
+            "holes",
+            "hole_groups",
+            "interfaces",
+            "measure"
+          ],
+          "persistent_datums": true,
+          "relative_predicates": [
+            "planar_normal_parallel_to",
+            "planar_normal_aligned_with",
+            "planar_coplanar_with"
+          ],
+          "restrictions": [
+            "bounds_are_transformed_definition_aabbs",
+            "complex_bores_return_partial",
+            "nonseparating_or_curved_contact_regions_unsupported",
+            "source_accuracy_unknown"
+          ],
+          "schema": "colocad.query/1",
+          "selection": [
+            "entities",
+            "refs",
+            "filter",
+            "children",
+            "ancestors",
+            "siblings",
+            "union",
+            "intersection",
+            "difference",
+            "rank",
+            "expect"
+          ],
+          "snapshot": "colocad.query-manifest/1"
+        },
+        "restrictions": {
+          "curve_sweep": "one line/arc/Bezier path; explicit profile at path start",
+          "fillet_shell": "kernel failures surfaced; optional explicit on_fail record preserves the input with a degradation receipt",
+          "large_grid": "1024 holes supported; may require host wallMs=120000",
+          "offset_profile": "must retain one connected boundary",
+          "profile_loft": "2..12 corresponding-curve sections; degree 1..3",
+          "solvers": "local branch and local Jacobian rank; not a proof of global uniqueness",
+          "step_import": "rigid product and mapped-item placements; shared definitions; mixed representation units and nonrigid mappings refused",
+          "surface_bridge": "Bezier U-end to U-start; matching V degree; analytic C2 jets; no global Class-A certification",
+          "sweep": "continuous planar path"
+        },
+        "sketch": {
+          "constraint_residuals": true,
+          "degrees_of_freedom": true,
+          "solver": "bounded_local_levenberg_marquardt"
+        },
+        "surfaces": {
+          "bezier_control_edit": true,
+          "c2_boundary_jet_bridge": true,
+          "class_a_certified": false,
+          "gordon_network": {
+            "bezier_degrees": [
+              1,
+              7
+            ],
+            "curve_family_size": [
+              2,
+              8
+            ],
+            "intersection_tolerance_mm": 1e-7
+          },
+          "sew": true,
+          "thicken": true
+        },
+        "units": [
+          "mm"
+        ],
+        "unsupported": [
+          "general_class_a_certification",
+          "arbitrary_multi_rail_surface_network",
+          "commercial_native_feature_tree"
+        ]
+      },
+      "ok": true
+    },
+    "duration_ms": 5.0931669999990845,
+    "resources": {
+      "label": "cad_capabilities",
+      "cpu_max": "100000 100000",
+      "memory_max": 536870912,
+      "memory_swap_max": "0",
+      "memory_peak_bytes": 365666304,
+      "memory_current_bytes": 92499968,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "memory_stat": {
+        "anon": 31961088,
+        "file": 56737792,
+        "kernel": 2789376,
+        "kernel_stack": 180224,
+        "pagetables": 1155072,
+        "sec_pagetables": 0,
+        "percpu": 3360,
+        "sock": 0,
+        "vmalloc": 8192,
+        "shmem": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "file_mapped": 0,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "swapcached": 0,
+        "anon_thp": 0,
+        "file_thp": 0,
+        "shmem_thp": 0,
+        "inactive_anon": 0,
+        "active_anon": 31850496,
+        "inactive_file": 56737792,
+        "active_file": 0,
+        "unevictable": 0,
+        "slab_reclaimable": 780232,
+        "slab_unreclaimable": 316448,
+        "slab": 1096680,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "workingset_nodereclaim": 0,
+        "pgscan": 0,
+        "pgsteal": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgfault": 193063,
+        "pgmajfault": 0,
+        "pgrefill": 0,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0,
+        "thp_fault_alloc": 0,
+        "thp_collapse_alloc": 0,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0
+      },
+      "cpu_stat": {
+        "usage_usec": 42770499,
+        "user_usec": 42519660,
+        "system_usec": 250838,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 438,
+        "nr_throttled": 72,
+        "throttled_usec": 89249,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "processes": [
+        {
+          "pid": 1,
+          "name": "node",
+          "rss_kib": 81032
+        }
+      ],
+      "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+    }
+  },
+  {
+    "tool": "cad_query",
+    "toolCallId": "call_00_Yzan1CFOBPTj3JTGUzCd1306",
+    "arguments": {
+      "request": {
+        "queries": [
+          {
+            "id": "q-bracket-mount",
+            "op": "interfaces",
+            "ids": [
+              "mount"
+            ]
+          }
+        ],
+        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+        "schema": "colocad.query/1",
+        "space": "assembly",
+        "target": {
+          "instance_path": [
+            "accessory-bracket"
+          ]
+        },
+        "tolerance": {
+          "angular_rad": 0.0001,
+          "linear_mm": 0.01
+        }
+      }
+    },
+    "result": {
+      "data": {
+        "cache": {
+          "descriptors": "request_local",
+          "geometry": "exact_snapshot"
+        },
+        "degradations": [],
+        "execution": {
+          "definitions_loaded": 1,
+          "geometry_build_calls": 0,
+          "material_probes": 0,
+          "measurement_boolean_intersection_calls": 0,
+          "measurement_calls": 0,
+          "pattern_hypotheses": 0,
+          "step_export_calls": 0,
+          "tessellation_calls": 0
+        },
+        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+        "results": [
+          {
+            "coverage": {
+              "recognition_complete": true,
+              "scope": "named_declarations"
+            },
+            "diagnostics": [],
+            "id": "q-bracket-mount",
+            "items": [
+              {
+                "continuous_freedoms": [],
+                "definition_id": "accessoryBracket",
+                "engineering_fit": "not_asserted",
+                "group": {
+                  "center_mm": [
+                    0,
+                    32.99999999999996,
+                    156.99999999999977
+                  ],
+                  "continuous_freedoms": [],
+                  "equal_diameter": true,
+                  "excluded_members": [],
+                  "id": "group-t6-rectangular-hole-t10-hole-t11-hole-t12-hole-t9",
+                  "max_fit_residual_mm": 0,
+                  "members": [
+                    {
+                      "center_mm": [
+                        15,
+                        32.99999999538342,
+                        171.99999999999977
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t39"
+                        }
+                      ],
+                      "hole_id": "hole-t10",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t90"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t10"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        -15,
+                        33.000000004616496,
+                        141.99999999999977
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t40"
+                        }
+                      ],
+                      "hole_id": "hole-t11",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t91"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t11"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        15,
+                        33.000000004616496,
+                        141.99999999999977
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t41"
+                        }
+                      ],
+                      "hole_id": "hole-t12",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t92"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t12"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        -15,
+                        32.99999999538342,
+                        171.99999999999977
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t38"
+                        }
+                      ],
+                      "hole_id": "hole-t9",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t89"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                          "topology_id": "t9"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    }
+                  ],
+                  "normal": [
+                    0,
+                    -1,
+                    -3.0776898269156824e-10
+                  ],
+                  "orientation_unique": false,
+                  "pairwise_distances": [
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t11",
+                      "distance_mm": 42.42640687119285
+                    },
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t12",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t9",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t11",
+                      "b": "hole-t12",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t11",
+                      "b": "hole-t9",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t12",
+                      "b": "hole-t9",
+                      "distance_mm": 42.42640687119285
+                    }
+                  ],
+                  "parameters": {
+                    "axes": [
+                      [
+                        0,
+                        3.0776898269156824e-10,
+                        -1
+                      ],
+                      [
+                        -1,
+                        0,
+                        0
+                      ]
+                    ],
+                    "count": [
+                      2,
+                      2
+                    ],
+                    "pitch_mm": [
+                      30,
+                      30
+                    ]
+                  },
+                  "pattern": "rectangular",
+                  "provenance": "recognized",
+                  "support_face": {
+                    "definition_id": "accessoryBracket",
+                    "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                    "instance_path": [
+                      "accessory-bracket"
+                    ],
+                    "kind": "face",
+                    "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                    "topology_id": "t6"
+                  },
+                  "symmetry": {
+                    "orientation_semantics": "requires_explicit_orientation_datum_for_fixed_attachment",
+                    "rotations_about_normal_rad": [
+                      0,
+                      1.5707963267948966,
+                      3.141592653589793,
+                      4.71238898038469
+                    ]
+                  }
+                },
+                "id": "mount",
+                "normal": [
+                  0,
+                  -1,
+                  -3.0776898269156824e-10
+                ],
+                "orientation": {
+                  "name": "designX",
+                  "source": "declared_numeric_direction",
+                  "x_axis": [
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                "orientation_datums": {
+                  "designX": {
+                    "name": "designX",
+                    "source": "declared_numeric_direction",
+                    "x_axis": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                "origin_mm": [
+                  0,
+                  32.99999999999996,
+                  156.99999999999977
+                ],
+                "origin_rule": {
+                  "kind": "hole_group_center"
+                },
+                "origin_trim_membership": "inside",
+                "profile": "planar_hole_mount/v1",
+                "provenance": "declared",
+                "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                "recognition_coverage": {
+                  "complete": true,
+                  "diagnostics": [],
+                  "scope": "declared_support_face"
+                },
+                "register": null,
+                "requirements": {
+                  "bore_diameter_mm": 5.5,
+                  "pattern": {
+                    "count": [
+                      2,
+                      2
+                    ],
+                    "kind": "rectangular",
+                    "pitch_mm": [
+                      30,
+                      30
+                    ]
+                  },
+                  "termination": "through",
+                  "verification_tolerance": {
+                    "angular_rad": 0.0001,
+                    "linear_mm": 0.01
+                  }
+                },
+                "support_face": {
+                  "definition_id": "accessoryBracket",
+                  "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                  "instance_path": [
+                    "accessory-bracket"
+                  ],
+                  "kind": "face",
+                  "query_revision_id": "sha256:6bfcda3ef413e7efac409a5b6b8c1cb368fa2ac6abb141c5a98f12ee25517aa3",
+                  "topology_id": "t6"
+                }
+              }
+            ],
+            "next_cursor": null,
+            "op": "interfaces",
+            "returned_count": 1,
+            "status": "complete",
+            "total_count": 1
+          }
+        ],
+        "schema": "colocad.query/1",
+        "source_accuracy": "unknown",
+        "space": "assembly",
+        "target": {
+          "instance_path": [
+            "accessory-bracket"
+          ]
+        },
+        "timing_ms": {
+          "index": 0.018792,
+          "load": 5.1865000000000006,
+          "query": 0.13124999999999912,
+          "total": 5.336625000000001
+        },
+        "tolerance": {
+          "angular_rad": 0.0001,
+          "linear_mm": 0.01
+        },
+        "artifact_directory": "/evidence/session/artifacts/job-ba1CF3/revision",
+        "source_artifact_directory": "/evidence/session/artifacts/job-ba1CF3/revision",
+        "source_artifact_sha256": {
+          "geom-050e370d49ebd2d674c2558ef213b3650d48bb9054af293a7922d29a110372ce.smb": "8d54183ea80ebf64d65aa726aec1172deff14a387c377cff3780434d299a9136",
+          "geom-08232cca04617f4ea39ea0216af52679403298891d5b56373ea91b11466f3679.smb": "3253f92bbe4eb6fb2b5b19561e71246e6c3c4bba979d0f014fb17259fb588a19",
+          "geom-08ed639a741e25c1c297e0e45997bbb6c01c4a67a72d58b73d71c810025cf6ba.smb": "8ca8cd7bdbd37ffcea843afa9a99ded1e7cc5c254f1d9388643ff6b4f466adfd",
+          "geom-0d9437c365e46ba5b285063f64fe59b598f631cc73418543549134a592fdf465.smb": "637c04a9c1f0ad9a89d298cbac59e2d05afc5930e2ff1376a1a783d0f29d4669",
+          "geom-135bd6608343e23b98950fa3ce6034f48d5c944312507bd6f2750f67262daa9a.smb": "fc155b6547dcb033e164b931e1e15e462efdde22700a6f7720cfa4b9b810396b",
+          "geom-22a3c6bc93b381754ebe50a47a50195615d573b5cb8449299bceac5b334d1285.smb": "37b1f68f0f830851052d31d98357b6d9e2205ae5eaf061d0b9d4ccea3d86b34e",
+          "geom-24ece24b8348fd20d10f21f4eb9efa818b34ac0757199a1bd34b3677ee2d289d.smb": "92b1fac251493c716857423c9eb594474e475c7b54b0e0f16b80a2c953b8b546",
+          "geom-2520e9d6f78414a1e3c1578b7e9358850d9d40d2494d52e0775c417b8d1f44e2.smb": "818fdf1c4fb6eaa0b325b5dcf1426f2a73c7b9bdbe9af79453a804e08e1e6a06",
+          "geom-25fa12d2761726015d79876d050ef34b791b72b1a5bbc1beec554e952c908374.smb": "e26e9107d5b84003011c891fbdc19280bc3b2add59c734785ca6495be0e0d7b6",
+          "geom-28831634656387f49bdc7ac3aae47dacd948c49d24407bbeffce5cefea4750e9.smb": "7d42c85df92c1b4d9683c18a42bdaf50a187fe1ff6b68366e7c5e4f8f756c5c5",
+          "geom-28aad56b29eab83ba6a26ebd43147d2cfc9e516671a640e0be5a080627a64ece.smb": "632fcf9d69c3e1b8919bdbab4c98437815bcf39ef17f096c28c6b664e010d289",
+          "geom-28b2e292fafd1920555fa136413270b0ec5d1fb6fd743d8d527526065dca6ae2.smb": "2416ca6422c3ff7c04ecf19280a9ed98a7fb3345f4f73929592d42320c56f8df",
+          "geom-28b5841c2bcbc605f6c664deff9f716f12cf42680f51640670d5650e3e98c80a.smb": "fa5f8459627fca3a8bcda40c2071d5457ee7dce17f84b524e730c9f13eb507f8",
+          "geom-2ce1778d639476c8a9921dd696fb85172a9edd624d37515a513c1bf0d948090e.smb": "3d176599da530b182cc1587267218f1b902d65784ff3da23289f0fc6e078a96c",
+          "geom-3272c6168ce79b1d291f0e00b144046295da0dc99327d1c1c38ba2d5b7540b30.smb": "3151afb35ce0837c356c2908491e7d0b345fe7055bdb389df7d2c3d237b3ac3f",
+          "geom-39261bdbd70c20ad77d1ce5c57d7b86382c8aa439bf0f1e9524d79296cb04d1c.smb": "1ca4fac5c11eba96bd28f8fb4ce1977e7c1ccc6219dcabebb03e819bb2c79c46",
+          "geom-429c1093820c429c20c3aa2a6cc69bd70ffc86ed1d2ca64d6fe102811c85de86.smb": "67ac5143e02f5d33d40985aeae61be56bd89f7d8e9e02dadb0942ea0f22fa5e5",
+          "geom-4319433ac312e4c15561afa15a4417921b6f33c15db709769ee9d88f048c8908.smb": "a3ae467972cb159290a4310496bca42900c0c39a87941393f9dee853084ff37c",
+          "geom-466388ad0b30c92aec14a1674793b60bc51d540f8547e02d25da6e480fd76afc.smb": "e5d6e82613954ed48ebb32bb1a056e12f1f91a75c3324a0d69324bdb68f5e2b1",
+          "geom-597791bfca8c433b06971cbb0e1c67792cd07d6425c35c67da5deb666bdf5963.smb": "1eb0bcc067e3a0276be800338524a3c3bb650ab8dfcf09afde475553fef97c3b",
+          "geom-67b7ec8b2bc2c0108e914cdb6d73dea5d2c0b17d288802503dcbfc7e2759a112.smb": "e460624651535e3acee988575ce3252917c01d2eeb04cad0b047694cec8fc910",
+          "geom-6bbdb58effd04ce5b251bd288beec68a2a667fbbe9029e2628b8cd09464d7669.smb": "2878ec0d9d73bc31dd81f1d4a23f7973a50541f5d32052d2bfa7e103f561bf0e",
+          "geom-7074df86abb4449bbe37fdddaa9c2f00c314103de54325e93a162f0ee141913e.smb": "73357898fcd605cbab5ec795b462b35221abcfb68dad2aa301d50ace2e1bb376",
+          "geom-74976ad024e2ee07c590e116a46e029a411fa2400f8e905c8f767841f51592f1.smb": "a1aa84b3879fd27b94cc9b2a37402e26d943298dbbaa4ba67673a61ee8f1808e",
+          "geom-755cae3d010b9faaeee395dccc308cf8fe978ca0ef5443b8ad8e00c23c44855e.smb": "9adb38f9d7bbe5f95acbc963a8c96e8e1913c641f107201bf810ae231b514f3f",
+          "geom-7b8baf442b8c0654ba2a124abd63b1c32cfa04af05da423426095b1e08a7e113.smb": "1f1331185ca6af1bf3ad7680700648e8911afd0f9d8533b7032d25fa6745f55e",
+          "geom-7ca37070e664b46d22093547f1bd0aa88148c44c4ac62d303e8e3d3232949edd.smb": "7faa8bdbecadb1b171776dd2135c27ac414b8a483409f0b2d654b5bfd21b66dd",
+          "geom-7d75a2656b2689f22be080cae4e91d1b110e703a0cb2daa243eda015591630d9.smb": "7158eb9e442d1007ef6991bc64c210ce3ffef56ee66eb9514e6ba253b7bd2c4a",
+          "geom-80ccce2b0de4e80e6b764d6686a578e2ea290d6f9e6b0cc0f284e8fc6a0b6351.smb": "1d6dc98ba24edaef07e84c1e57ccd22ad9cb9c63b9c99b48b2a7d80f00da9fda",
+          "geom-844778418e972b35997f4585f22c12b3d866d67508e313f90d1d5f02aace5ddb.smb": "bf97f74877d9ca0789109488f57e7acd7fbeadf7ab9de459502a5c0334decca3",
+          "geom-8da007d457902942d716b5d684bf7335851d3ec7741c76cf67d731ca6c9d84e7.smb": "952ab5b81d166036fabe48f034c1c5588cceb2efde55943818bfb8134f88f0ea",
+          "geom-90aff14c2d8e54da82dcf44e1c25b8a846aecdd2f5aa0c0855dc014151e4aaf4.smb": "b3017f21c39b56595893f88685eca54efc63c8e6da91b966a66fd4f36edc651f",
+          "geom-93b07089d153b0387d1373030b1c8c0c073989b2a7c3d8f9ed898efc5b6224f3.smb": "d8c6a41b943ee5ff87b844db5f7565ffd69da51f80c8c861ed79b62e51504ad5",
+          "geom-94d6f532ccc0407c02c3d9d086efb402a1d1edd4f7216fa60ae3c2260abab1e2.smb": "89430ed02a78def3b30d574bf4b7ff967c32e74140f193a67d4a5e917828e32e",
+          "geom-98019c9344ca04020219256f636d444d84d787be7d85f742882c75a56feedae8.smb": "fe5edef91ab7bb118edc397c0ac91ba8a174b2190a3e6433414d2b87ac4e58b6",
+          "geom-a3b5ebf682c686112b104a6096b6eb159bc6cd4e701a4f046844493212275c0d.smb": "0fbd31369832b9e9b5351cd8d9d9189f1c0af39380650d2a8bcfcc5a2cb93b1c",
+          "geom-a6ccc26a2aa984e3faef41877582f973e0ab0f9e4951f35fb9262f014c0cc7ba.smb": "38b14bb6cd5085d30ff59d0bc85dff8c9e1baacf764426dd40434a9e116987b7",
+          "geom-a924d960aaf96c850e0249d8179bf2d3dd63a9052ba535c25fc6b47760aed40a.smb": "ceab50708fa3259070ad9eada5374c28a3b3a04f8551ee01cfe9edb1f3845a6e",
+          "geom-a9990f84192961ad881ba251449bd508632ba50a1eb0e682e7ec38716179c61a.smb": "4fa4ef52493d3ca213a70782bb9b5ef97b4ba2c6a13814cfe5b5b4f244a599ce",
+          "geom-a9f2ca103a77f4be730c357a6d24e421649fe1a5b720c1048da2bdfa2438b5b4.smb": "a80953828931c877c6d27026a63046f76d5499c99a19c26cba242491f1844c77",
+          "geom-b462d84b4a0fd9051b2515ec47f91506f0a82b4edcdd52ba64cb71c88087e17c.smb": "fb7e3d19591847656a31d0f9760ac00466de9a6a16c5dd41d2491b25c597b5fe",
+          "geom-b5158c7418d6e8466ba62d754f2a17148747a4ccc6ce957611bbb1f1cc4acb65.smb": "ba03b110c176a413575853b70e142beba9db04222b867780f5a98ba00405ea66",
+          "geom-bcef410542dd6198178f8158635f3dd9f85cebdc03eaf2246a96d13cca44383f.smb": "7a1facc4e551c139ba5d251a3794bf174ca2518524fc433318d4d62a7a96c984",
+          "geom-bd9bec3bc57fd4eb11b7d402208d32c193d2596d4a6d0150473190e13a804c5f.smb": "c8484fe710775b03b639a180804ab8a06bc8a2a85fb658f53b41d4242a2add53",
+          "geom-c16265148ce7448a00a49b5acade0cc0aa2423a616c66b0f7849a4d6dc3a72d7.smb": "0b20e64fcf362c4158c433f324dd25752af51ffccb131ca017d37b5a3f02e618",
+          "geom-d076aa12d415c6f652f271adad0442e236374125841f5f65cad05e79731ca65c.smb": "53da96adab390ae15c5e59e2277648a9c5d3b937076cad269904eb69f9b98b4a",
+          "geom-d12524e1d86179e72b0b45863a7ae7e0b00b1b363bc1230ea73272735a591060.smb": "ba995483677cd892c4bcc03741e26563eb4597318b5699ab0be66a4e4ae63ffb",
+          "geom-d50d30a08562bea58b104709a25afeb462c3652d1dfc4ca4d0269c673746d952.smb": "838a0f078179d914c8b832ac793d38c778b93d4252219c2cdecb954031894009",
+          "geom-e2e00e585bc066ed06c5fe370c693b6332a86553b782826e16202e09a8db98d0.smb": "78c77de9de57a49b790cee8c79907642f925b0fec71577b0fb23aa53967e83a2",
+          "geom-ec79e38036beb2f6e61c327bf19dd1ef75d813f28f91e21f5a8c8091dcb28ee8.smb": "88f5ebb847d395a18c880b110c61fca3619373463e39bb9dabb3378bf7f4d389",
+          "geom-f057f3be7ae80b70e31fc11c587cc5ffa9860694d71b092dd688d28086e97654.smb": "0809f2461a5327fd908b4eb8fc1955feaea3c94c8d955fa49f19ed0f40b4156a",
+          "geom-f325e5e53e970598328f200e282281c0569f674c0d5527e09602ab1bda883adf.smb": "b87a6c616a6ceecd19b9b0b739ad77fd6f69760caaf2b6d43d0e8bfc75fb1937",
+          "geom-fd6143afb6aa1a9f0c02b254427c5d3c60e23d1e53f9c4f5883f1b237ccfa7d5.smb": "952ab5b81d166036fabe48f034c1c5588cceb2efde55943818bfb8134f88f0ea",
+          "mesh-39261bdbd70c20ad77d1ce5c57d7b86382c8aa439bf0f1e9524d79296cb04d1c-3ff0000000000000.json": "80bfa6bbf057d9d7dede95137762256be30b4dd9d58190e552a94fa98cfaa667",
+          "mesh-466388ad0b30c92aec14a1674793b60bc51d540f8547e02d25da6e480fd76afc-3ff0000000000000.json": "2348bb970f083a2c55b615d36231ab3c19e086bb443265b4d45ddae8c316d6a9",
+          "mesh-7ca37070e664b46d22093547f1bd0aa88148c44c4ac62d303e8e3d3232949edd-3ff0000000000000.json": "4fc38fc249e5a711011ef704470497476974d17455ee377a8bc735d60a93fc5c",
+          "mesh-80ccce2b0de4e80e6b764d6686a578e2ea290d6f9e6b0cc0f284e8fc6a0b6351-3ff0000000000000.json": "2bcddee29ac6b5987a66e07060c968f97d5dbdb536b2a9417e1c445e2a482032",
+          "mesh-a924d960aaf96c850e0249d8179bf2d3dd63a9052ba535c25fc6b47760aed40a-3ff0000000000000.json": "6737971941cc6168cfff7cccb8a7076389b58a80c4ca3d951513de31600ea0e6",
+          "mesh-a9990f84192961ad881ba251449bd508632ba50a1eb0e682e7ec38716179c61a-3ff0000000000000.json": "a280e5377ca9eec84cd898c1f05813a49745e999efbf3946876249587b56fc6b",
+          "model.glb": "528f7a422aa25e7a2986817c607a64c4e9713d3c8b98f556a4b45c84d9e5f2ba",
+          "model.step": "6a5b3312f824baa04ca2b0a8ea9b680f560ed5bf7650fd4667b6b0730a39e030",
+          "model.stl": "4539d9ffc620b36225b3d0f375fd5cc9eda5b333d123d4427411ad8a5d3628f7",
+          "preview.mesh.json": "11c8f19ad653ce5c9b28e9bf4da96b41f364719b46e937c7c1381a4be1b8d78c",
+          "preview.png": "6022d81f88950f7debc34f8912d43233716ce9482f7c2b439570d58fa9e5697c",
+          "query-definition-0.smb": "23bf8f203b7ca1fc88560f7e87f5a2b282b6b78120a59c2543c1dc19d99c4119",
+          "query-definition-1.smb": "cfb8e1cf54238bfa37a47856adde3115ba39f22d02f152c3f29d6e3ddb3acca9",
+          "query-definition-10.smb": "6155c25f3cbc4e73764be5230539fde93a5540b7f154e995cdd21a454c2cf9e3",
+          "query-definition-11.smb": "ed58713746dbf28cbb75ca04222e231bad3ee76af821ad03f91686ced2e63cb3",
+          "query-definition-12.smb": "58b068ab10138f9519114d63410bf5182fa8ea9bc45ce25ffb7bb5b2bbdc2598",
+          "query-definition-13.smb": "c8e8dd4430f555b7e145c2bee6e9571ee615a86bcbe155308c99a1d70c56c3de",
+          "query-definition-14.smb": "386afd7dbb5c8d393ec37e7ee52d75b121f6994481c3225a6522780f99ea5629",
+          "query-definition-15.smb": "f2d552b9399584c1b0f766b185c852c640bb572fa2d8a7b3cf8562279b7d53fb",
+          "query-definition-16.smb": "a3d39cc66993ef2f39ccc9dd6b5823d4d18030bf32d19f9a8f137936c28869c2",
+          "query-definition-17.smb": "db9fca74244bc6c46a9e055f0364c99507296dee8fcd3d0a27aad531509a8527",
+          "query-definition-18.smb": "d706cce750ef9264a33ca92315416ee8b99686c4075420274e0ace3ec8058e9b",
+          "query-definition-19.smb": "fea21652e63e2f1cc27e67140c9b288f1c06d4b2ef24bc0e35bfff900f6326f7",
+          "query-definition-2.smb": "e1143498b4a318f379b0a6a6935cefed40252209551921fed95f44a588352902",
+          "query-definition-3.smb": "ec32d583ad24e3c5c44cd89137210c83b7fb6e5cabd016bd2c95a5ae28912844",
+          "query-definition-4.smb": "8bdc512e47f06df8a3f4282f7eba50ade41c5bb8cf299bacfb9cd0ce13675345",
+          "query-definition-5.smb": "445a0cf6e74e0f5d8623df58d199c39d33b5d8ad9c0854ec1f9dbf01d3dbc179",
+          "query-definition-6.smb": "8fffff272a0fced7286700bdb5cae1e69898b74e92c468e5d9c6c4a6dd6ce0ae",
+          "query-definition-7.smb": "712c57acdcad6a53f137ed31c190fea4637dfe9448e2ec3c90817668cac349f6",
+          "query-definition-8.smb": "5c4fb62a23cce9e3aca2619015d7e8a032930d66208f83d61e768256d309de07",
+          "query-definition-9.smb": "e9a2fc2b038cb2f9c7e81846e6293f83906803d00aeef0f86f228b8a9e2a39ff",
+          "query-display.json": "cd2c14eee4c9a9fc962006519f42e2acf750c8080082acd9ea3807025756379b",
+          "query-manifest.json": "685b748a7f25ca91f3f1bd663a06de5b1d4e3918f9b09dc038ee37946ee42458"
+        }
+      },
+      "ok": true,
+      "session_step": "s0002",
+      "receipt_file": "/evidence/session/steps/s0002/receipt.json"
+    },
+    "duration_ms": 25.625832999998238,
+    "resources": {
+      "label": "cad_query",
+      "cpu_max": "100000 100000",
+      "memory_max": 536870912,
+      "memory_swap_max": "0",
+      "memory_peak_bytes": 365666304,
+      "memory_current_bytes": 94494720,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "memory_stat": {
+        "anon": 33673216,
+        "file": 56913920,
+        "kernel": 2736128,
+        "kernel_stack": 180224,
+        "pagetables": 1204224,
+        "sec_pagetables": 0,
+        "percpu": 3360,
+        "sock": 0,
+        "vmalloc": 8192,
+        "shmem": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "file_mapped": 0,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "swapcached": 0,
+        "anon_thp": 0,
+        "file_thp": 0,
+        "shmem_thp": 0,
+        "inactive_anon": 0,
+        "active_anon": 33656832,
+        "inactive_file": 56913920,
+        "active_file": 0,
+        "unevictable": 0,
+        "slab_reclaimable": 786560,
+        "slab_unreclaimable": 314680,
+        "slab": 1101240,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "workingset_nodereclaim": 0,
+        "pgscan": 0,
+        "pgsteal": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgfault": 195850,
+        "pgmajfault": 0,
+        "pgrefill": 0,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0,
+        "thp_fault_alloc": 0,
+        "thp_collapse_alloc": 0,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0
+      },
+      "cpu_stat": {
+        "usage_usec": 42927152,
+        "user_usec": 42654335,
+        "system_usec": 272816,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 458,
+        "nr_throttled": 72,
+        "throttled_usec": 89249,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "processes": [
+        {
+          "pid": 1,
+          "name": "node",
+          "rss_kib": 82720
+        }
+      ],
+      "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+    }
+  },
+  {
+    "tool": "cad_edit",
+    "toolCallId": "call_00_cN2hpoXLMNOyr5gHcIgy3921",
+    "arguments": {
+      "parameters": {
+        "travel": 20
+      }
+    },
+    "result": {
+      "ok": true,
+      "session_step": "s0003",
+      "data": {
+        "artifact_directory": "/evidence/session/artifacts/job-zZSxWl/revision",
+        "model_hash": "6c56e2111c71de99089be9cd63987552cbcadcd021622083e48afff080dcac6c",
+        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+        "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+        "geometry": {
+          "bbox_mm": [
+            [
+              -30,
+              0,
+              0
+            ],
+            [
+              30,
+              66.00000000769418,
+              370.00000000000006
+            ]
+          ],
+          "edges": 1600,
+          "faces": 712,
+          "solids": 82,
+          "volume_mm3": 426562.9224778917,
+          "volume_semantics": "sum_of_exported_instances"
+        },
+        "timing_ms": {
+          "datum_resolution": 81.727209,
+          "export": 352.374792,
+          "geometry": 30776.162098,
+          "query_snapshot": 50.709251,
+          "total": 48939.44744,
+          "validation": 15928.597674
+        },
+        "validation": {
+          "level": "kernel_level_1_per_instance",
+          "manifold": true,
+          "measured_instances": 82,
+          "translated_instance_reuses": 0,
+          "valid": true,
+          "warnings": 0
+        },
+        "artifacts": {
+          "model.glb": {
+            "path": "/evidence/session/artifacts/job-zZSxWl/revision/model.glb",
+            "sha256": "7acd04b560ee39141623236a315c37194d4c4047fe6db37976ffcc573a7b31af"
+          },
+          "model.step": {
+            "path": "/evidence/session/artifacts/job-zZSxWl/revision/model.step",
+            "sha256": "f300d2415caed6b2c6680403b186514397a133f157da6a8377cadf9d844bf110"
+          },
+          "model.stl": {
+            "path": "/evidence/session/artifacts/job-zZSxWl/revision/model.stl",
+            "sha256": "7f5738955da33ba141acbb04d1f6039d6d4bf564fd0fd6b20065dce618289782"
+          },
+          "preview.mesh.json": {
+            "path": "/evidence/session/artifacts/job-zZSxWl/revision/preview.mesh.json",
+            "sha256": "3e64d4340ae3507af277678ecb7fe44552f77f2c4150763f636ba8433b7a7028"
+          },
+          "preview.png": {
+            "path": "/evidence/session/artifacts/job-zZSxWl/revision/preview.png",
+            "sha256": "79c5d1fd2d121eb218d434803e6650fc0fbaf81b3552b44de1558798ca54c0ab"
+          }
+        },
+        "feature_summary": {
+          "count": 53,
+          "reused": 28,
+          "slowest": [
+            {
+              "id": "screwGroove2",
+              "elapsed_ms": 8730.171046000001,
+              "cache_hit": false
+            },
+            {
+              "id": "screwGroove1",
+              "elapsed_ms": 5722.914752999999,
+              "cache_hit": false
+            },
+            {
+              "id": "helicalTools3",
+              "elapsed_ms": 2869.969334,
+              "cache_hit": true
+            }
+          ],
+          "degradations": []
+        }
+      },
+      "receipt_file": "/evidence/session/steps/s0003/receipt.json"
+    },
+    "duration_ms": 49169.248565,
+    "resources": {
+      "label": "cad_edit",
+      "cpu_max": "100000 100000",
+      "memory_max": 536870912,
+      "memory_swap_max": "0",
+      "memory_peak_bytes": 388571136,
+      "memory_current_bytes": 154259456,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "memory_stat": {
+        "anon": 36081664,
+        "file": 113668096,
+        "kernel": 3493888,
+        "kernel_stack": 180224,
+        "pagetables": 1277952,
+        "sec_pagetables": 0,
+        "percpu": 3360,
+        "sock": 0,
+        "vmalloc": 8192,
+        "shmem": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "file_mapped": 0,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "swapcached": 0,
+        "anon_thp": 0,
+        "file_thp": 0,
+        "shmem_thp": 0,
+        "inactive_anon": 0,
+        "active_anon": 36061184,
+        "inactive_file": 113655808,
+        "active_file": 0,
+        "unevictable": 0,
+        "slab_reclaimable": 1073824,
+        "slab_unreclaimable": 317872,
+        "slab": 1391696,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "workingset_nodereclaim": 0,
+        "pgscan": 0,
+        "pgsteal": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgfault": 357622,
+        "pgmajfault": 0,
+        "pgrefill": 0,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0,
+        "thp_fault_alloc": 0,
+        "thp_collapse_alloc": 0,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0
+      },
+      "cpu_stat": {
+        "usage_usec": 91963784,
+        "user_usec": 91510067,
+        "system_usec": 453717,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 958,
+        "nr_throttled": 147,
+        "throttled_usec": 179980,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "processes": [
+        {
+          "pid": 1,
+          "name": "node",
+          "rss_kib": 85136
+        }
+      ],
+      "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+    }
+  },
+  {
+    "tool": "cad_query",
+    "toolCallId": "call_00_4dE15IrDkzUkY0zeXsuN7828",
+    "arguments": {
+      "request": {
+        "queries": [
+          {
+            "id": "q-bracket-mount-new",
+            "op": "interfaces",
+            "ids": [
+              "mount"
+            ]
+          },
+          {
+            "a": {
+              "instance_path": [
+                "accessory-bracket"
+              ]
+            },
+            "b": {
+              "instance_path": [
+                "motor-bearing-support"
+              ]
+            },
+            "id": "q-bracket-to-motor-support",
+            "op": "measure"
+          }
+        ],
+        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+        "schema": "colocad.query/1",
+        "space": "assembly",
+        "target": {
+          "instance_path": [
+            "accessory-bracket"
+          ]
+        },
+        "tolerance": {
+          "angular_rad": 0.0001,
+          "linear_mm": 0.01
+        }
+      }
+    },
+    "result": {
+      "data": {
+        "cache": {
+          "descriptors": "request_local",
+          "geometry": "exact_snapshot"
+        },
+        "degradations": [],
+        "execution": {
+          "definitions_loaded": 2,
+          "geometry_build_calls": 0,
+          "material_probes": 0,
+          "measurement_boolean_intersection_calls": 1,
+          "measurement_calls": 1,
+          "pattern_hypotheses": 0,
+          "step_export_calls": 0,
+          "tessellation_calls": 0
+        },
+        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+        "results": [
+          {
+            "coverage": {
+              "recognition_complete": true,
+              "scope": "named_declarations"
+            },
+            "diagnostics": [],
+            "id": "q-bracket-mount-new",
+            "items": [
+              {
+                "continuous_freedoms": [],
+                "definition_id": "accessoryBracket",
+                "engineering_fit": "not_asserted",
+                "group": {
+                  "center_mm": [
+                    0,
+                    32.99999999999996,
+                    176.99999999999974
+                  ],
+                  "continuous_freedoms": [],
+                  "equal_diameter": true,
+                  "excluded_members": [],
+                  "id": "group-t6-rectangular-hole-t10-hole-t11-hole-t12-hole-t9",
+                  "max_fit_residual_mm": 0,
+                  "members": [
+                    {
+                      "center_mm": [
+                        15,
+                        32.99999999538342,
+                        191.99999999999974
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t39"
+                        }
+                      ],
+                      "hole_id": "hole-t10",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t90"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t10"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        -15,
+                        33.000000004616496,
+                        161.99999999999974
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t40"
+                        }
+                      ],
+                      "hole_id": "hole-t11",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t91"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t11"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        15,
+                        33.000000004616496,
+                        161.99999999999974
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t41"
+                        }
+                      ],
+                      "hole_id": "hole-t12",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t92"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t12"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    },
+                    {
+                      "center_mm": [
+                        -15,
+                        32.99999999538342,
+                        191.99999999999974
+                      ],
+                      "diameter_mm": 5.5,
+                      "edge_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "edge",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t38"
+                        }
+                      ],
+                      "hole_id": "hole-t9",
+                      "inward_direction": [
+                        0,
+                        1,
+                        3.0776898269156824e-10
+                      ],
+                      "loop": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "loop",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t89"
+                      },
+                      "normal": [
+                        0,
+                        -1,
+                        -3.0776898269156824e-10
+                      ],
+                      "opening_index": 1,
+                      "source_refs": [
+                        {
+                          "definition_id": "accessoryBracket",
+                          "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                          "instance_path": [
+                            "accessory-bracket"
+                          ],
+                          "kind": "face",
+                          "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                          "topology_id": "t9"
+                        }
+                      ],
+                      "support_face": {
+                        "definition_id": "accessoryBracket",
+                        "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                        "instance_path": [
+                          "accessory-bracket"
+                        ],
+                        "kind": "face",
+                        "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                        "topology_id": "t6"
+                      },
+                      "termination": "through"
+                    }
+                  ],
+                  "normal": [
+                    0,
+                    -1,
+                    -3.0776898269156824e-10
+                  ],
+                  "orientation_unique": false,
+                  "pairwise_distances": [
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t11",
+                      "distance_mm": 42.42640687119285
+                    },
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t12",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t10",
+                      "b": "hole-t9",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t11",
+                      "b": "hole-t12",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t11",
+                      "b": "hole-t9",
+                      "distance_mm": 30
+                    },
+                    {
+                      "a": "hole-t12",
+                      "b": "hole-t9",
+                      "distance_mm": 42.42640687119285
+                    }
+                  ],
+                  "parameters": {
+                    "axes": [
+                      [
+                        0,
+                        3.0776898269156824e-10,
+                        -1
+                      ],
+                      [
+                        -1,
+                        0,
+                        0
+                      ]
+                    ],
+                    "count": [
+                      2,
+                      2
+                    ],
+                    "pitch_mm": [
+                      30,
+                      30
+                    ]
+                  },
+                  "pattern": "rectangular",
+                  "provenance": "recognized",
+                  "support_face": {
+                    "definition_id": "accessoryBracket",
+                    "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                    "instance_path": [
+                      "accessory-bracket"
+                    ],
+                    "kind": "face",
+                    "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                    "topology_id": "t6"
+                  },
+                  "symmetry": {
+                    "orientation_semantics": "requires_explicit_orientation_datum_for_fixed_attachment",
+                    "rotations_about_normal_rad": [
+                      0,
+                      1.5707963267948966,
+                      3.141592653589793,
+                      4.71238898038469
+                    ]
+                  }
+                },
+                "id": "mount",
+                "normal": [
+                  0,
+                  -1,
+                  -3.0776898269156824e-10
+                ],
+                "orientation": {
+                  "name": "designX",
+                  "source": "declared_numeric_direction",
+                  "x_axis": [
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                "orientation_datums": {
+                  "designX": {
+                    "name": "designX",
+                    "source": "declared_numeric_direction",
+                    "x_axis": [
+                      1,
+                      0,
+                      0
+                    ]
+                  }
+                },
+                "origin_mm": [
+                  0,
+                  32.99999999999996,
+                  176.99999999999974
+                ],
+                "origin_rule": {
+                  "kind": "hole_group_center"
+                },
+                "origin_trim_membership": "inside",
+                "profile": "planar_hole_mount/v1",
+                "provenance": "declared",
+                "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                "recognition_coverage": {
+                  "complete": true,
+                  "diagnostics": [],
+                  "scope": "declared_support_face"
+                },
+                "register": null,
+                "requirements": {
+                  "bore_diameter_mm": 5.5,
+                  "pattern": {
+                    "count": [
+                      2,
+                      2
+                    ],
+                    "kind": "rectangular",
+                    "pitch_mm": [
+                      30,
+                      30
+                    ]
+                  },
+                  "termination": "through",
+                  "verification_tolerance": {
+                    "angular_rad": 0.0001,
+                    "linear_mm": 0.01
+                  }
+                },
+                "support_face": {
+                  "definition_id": "accessoryBracket",
+                  "definition_sha256": "1ec3e73abc704f17e1def12fa5c9b2ab4fbc535fc8b3f3cc38c30b8b486b93ea",
+                  "instance_path": [
+                    "accessory-bracket"
+                  ],
+                  "kind": "face",
+                  "query_revision_id": "sha256:b0388cf05e4a36d77cf4cc0d92776cf0f8efcf631b34b0c2ad686bbf09e995dd",
+                  "topology_id": "t6"
+                }
+              }
+            ],
+            "next_cursor": null,
+            "op": "interfaces",
+            "returned_count": 1,
+            "status": "complete",
+            "total_count": 1
+          },
+          {
+            "coverage": {
+              "relationship_complete": true,
+              "scope": "explicit_whole_part_pair"
+            },
+            "diagnostics": [],
+            "id": "q-bracket-to-motor-support",
+            "items": [
+              {
+                "a": {
+                  "instance_path": [
+                    "accessory-bracket"
+                  ]
+                },
+                "a_volume_mm3": 25238.407165415945,
+                "b": {
+                  "instance_path": [
+                    "motor-bearing-support"
+                  ]
+                },
+                "b_volume_mm3": 90373.03581162762,
+                "boundary_distance_mm": 108.99999999753803,
+                "contained_side": null,
+                "distance_semantics": "unsigned_boundary_distance_not_penetration_depth",
+                "overlap_mm3": 0,
+                "predicate_tolerance": {
+                  "angular_rad": 0.0001,
+                  "linear_mm": 0.01
+                },
+                "relationship": "separated",
+                "space": "assembly",
+                "volume_uncertainty_mm3": 0.000009037303581162762,
+                "witness": {
+                  "a_point_mm": [
+                    -25,
+                    40.99999999230573,
+                    202.00000000246197
+                  ],
+                  "b_point_mm": [
+                    -25,
+                    40.99999999230573,
+                    311
+                  ],
+                  "status": "exact_boundary_solver",
+                  "support_ref_status": "not_retained_by_copying_solver_adapter",
+                  "support_refs": null
+                }
+              }
+            ],
+            "measurement": {
+              "a": {
+                "instance_path": [
+                  "accessory-bracket"
+                ]
+              },
+              "a_volume_mm3": 25238.407165415945,
+              "b": {
+                "instance_path": [
+                  "motor-bearing-support"
+                ]
+              },
+              "b_volume_mm3": 90373.03581162762,
+              "boundary_distance_mm": 108.99999999753803,
+              "contained_side": null,
+              "distance_semantics": "unsigned_boundary_distance_not_penetration_depth",
+              "overlap_mm3": 0,
+              "predicate_tolerance": {
+                "angular_rad": 0.0001,
+                "linear_mm": 0.01
+              },
+              "relationship": "separated",
+              "space": "assembly",
+              "volume_uncertainty_mm3": 0.000009037303581162762,
+              "witness": {
+                "a_point_mm": [
+                  -25,
+                  40.99999999230573,
+                  202.00000000246197
+                ],
+                "b_point_mm": [
+                  -25,
+                  40.99999999230573,
+                  311
+                ],
+                "status": "exact_boundary_solver",
+                "support_ref_status": "not_retained_by_copying_solver_adapter",
+                "support_refs": null
+              }
+            },
+            "next_cursor": null,
+            "op": "measure",
+            "returned_count": 1,
+            "status": "complete",
+            "total_count": 1
+          }
+        ],
+        "schema": "colocad.query/1",
+        "source_accuracy": "unknown",
+        "space": "assembly",
+        "target": {
+          "instance_path": [
+            "accessory-bracket"
+          ]
+        },
+        "timing_ms": {
+          "index": 0.018792,
+          "load": 4.749958,
+          "query": 108.63608299999999,
+          "total": 113.405041
+        },
+        "tolerance": {
+          "angular_rad": 0.0001,
+          "linear_mm": 0.01
+        },
+        "artifact_directory": "/evidence/session/artifacts/job-zZSxWl/revision",
+        "source_artifact_directory": "/evidence/session/artifacts/job-zZSxWl/revision",
+        "source_artifact_sha256": {
+          "geom-050e370d49ebd2d674c2558ef213b3650d48bb9054af293a7922d29a110372ce.smb": "8d54183ea80ebf64d65aa726aec1172deff14a387c377cff3780434d299a9136",
+          "geom-08232cca04617f4ea39ea0216af52679403298891d5b56373ea91b11466f3679.smb": "3253f92bbe4eb6fb2b5b19561e71246e6c3c4bba979d0f014fb17259fb588a19",
+          "geom-08ed639a741e25c1c297e0e45997bbb6c01c4a67a72d58b73d71c810025cf6ba.smb": "8ca8cd7bdbd37ffcea843afa9a99ded1e7cc5c254f1d9388643ff6b4f466adfd",
+          "geom-0d9437c365e46ba5b285063f64fe59b598f631cc73418543549134a592fdf465.smb": "637c04a9c1f0ad9a89d298cbac59e2d05afc5930e2ff1376a1a783d0f29d4669",
+          "geom-135bd6608343e23b98950fa3ce6034f48d5c944312507bd6f2750f67262daa9a.smb": "fc155b6547dcb033e164b931e1e15e462efdde22700a6f7720cfa4b9b810396b",
+          "geom-22a3c6bc93b381754ebe50a47a50195615d573b5cb8449299bceac5b334d1285.smb": "37b1f68f0f830851052d31d98357b6d9e2205ae5eaf061d0b9d4ccea3d86b34e",
+          "geom-24ece24b8348fd20d10f21f4eb9efa818b34ac0757199a1bd34b3677ee2d289d.smb": "92b1fac251493c716857423c9eb594474e475c7b54b0e0f16b80a2c953b8b546",
+          "geom-2520e9d6f78414a1e3c1578b7e9358850d9d40d2494d52e0775c417b8d1f44e2.smb": "818fdf1c4fb6eaa0b325b5dcf1426f2a73c7b9bdbe9af79453a804e08e1e6a06",
+          "geom-25fa12d2761726015d79876d050ef34b791b72b1a5bbc1beec554e952c908374.smb": "e26e9107d5b84003011c891fbdc19280bc3b2add59c734785ca6495be0e0d7b6",
+          "geom-28831634656387f49bdc7ac3aae47dacd948c49d24407bbeffce5cefea4750e9.smb": "7d42c85df92c1b4d9683c18a42bdaf50a187fe1ff6b68366e7c5e4f8f756c5c5",
+          "geom-28aad56b29eab83ba6a26ebd43147d2cfc9e516671a640e0be5a080627a64ece.smb": "632fcf9d69c3e1b8919bdbab4c98437815bcf39ef17f096c28c6b664e010d289",
+          "geom-28b2e292fafd1920555fa136413270b0ec5d1fb6fd743d8d527526065dca6ae2.smb": "2416ca6422c3ff7c04ecf19280a9ed98a7fb3345f4f73929592d42320c56f8df",
+          "geom-28b5841c2bcbc605f6c664deff9f716f12cf42680f51640670d5650e3e98c80a.smb": "fa5f8459627fca3a8bcda40c2071d5457ee7dce17f84b524e730c9f13eb507f8",
+          "geom-2ce1778d639476c8a9921dd696fb85172a9edd624d37515a513c1bf0d948090e.smb": "3d176599da530b182cc1587267218f1b902d65784ff3da23289f0fc6e078a96c",
+          "geom-3272c6168ce79b1d291f0e00b144046295da0dc99327d1c1c38ba2d5b7540b30.smb": "3151afb35ce0837c356c2908491e7d0b345fe7055bdb389df7d2c3d237b3ac3f",
+          "geom-39261bdbd70c20ad77d1ce5c57d7b86382c8aa439bf0f1e9524d79296cb04d1c.smb": "1ca4fac5c11eba96bd28f8fb4ce1977e7c1ccc6219dcabebb03e819bb2c79c46",
+          "geom-429c1093820c429c20c3aa2a6cc69bd70ffc86ed1d2ca64d6fe102811c85de86.smb": "67ac5143e02f5d33d40985aeae61be56bd89f7d8e9e02dadb0942ea0f22fa5e5",
+          "geom-4319433ac312e4c15561afa15a4417921b6f33c15db709769ee9d88f048c8908.smb": "a3ae467972cb159290a4310496bca42900c0c39a87941393f9dee853084ff37c",
+          "geom-466388ad0b30c92aec14a1674793b60bc51d540f8547e02d25da6e480fd76afc.smb": "e5d6e82613954ed48ebb32bb1a056e12f1f91a75c3324a0d69324bdb68f5e2b1",
+          "geom-597791bfca8c433b06971cbb0e1c67792cd07d6425c35c67da5deb666bdf5963.smb": "1eb0bcc067e3a0276be800338524a3c3bb650ab8dfcf09afde475553fef97c3b",
+          "geom-67b7ec8b2bc2c0108e914cdb6d73dea5d2c0b17d288802503dcbfc7e2759a112.smb": "e460624651535e3acee988575ce3252917c01d2eeb04cad0b047694cec8fc910",
+          "geom-6bbdb58effd04ce5b251bd288beec68a2a667fbbe9029e2628b8cd09464d7669.smb": "2878ec0d9d73bc31dd81f1d4a23f7973a50541f5d32052d2bfa7e103f561bf0e",
+          "geom-7074df86abb4449bbe37fdddaa9c2f00c314103de54325e93a162f0ee141913e.smb": "73357898fcd605cbab5ec795b462b35221abcfb68dad2aa301d50ace2e1bb376",
+          "geom-74976ad024e2ee07c590e116a46e029a411fa2400f8e905c8f767841f51592f1.smb": "a1aa84b3879fd27b94cc9b2a37402e26d943298dbbaa4ba67673a61ee8f1808e",
+          "geom-755cae3d010b9faaeee395dccc308cf8fe978ca0ef5443b8ad8e00c23c44855e.smb": "9adb38f9d7bbe5f95acbc963a8c96e8e1913c641f107201bf810ae231b514f3f",
+          "geom-7b8baf442b8c0654ba2a124abd63b1c32cfa04af05da423426095b1e08a7e113.smb": "1f1331185ca6af1bf3ad7680700648e8911afd0f9d8533b7032d25fa6745f55e",
+          "geom-7ca37070e664b46d22093547f1bd0aa88148c44c4ac62d303e8e3d3232949edd.smb": "7faa8bdbecadb1b171776dd2135c27ac414b8a483409f0b2d654b5bfd21b66dd",
+          "geom-7d75a2656b2689f22be080cae4e91d1b110e703a0cb2daa243eda015591630d9.smb": "7158eb9e442d1007ef6991bc64c210ce3ffef56ee66eb9514e6ba253b7bd2c4a",
+          "geom-80ccce2b0de4e80e6b764d6686a578e2ea290d6f9e6b0cc0f284e8fc6a0b6351.smb": "1d6dc98ba24edaef07e84c1e57ccd22ad9cb9c63b9c99b48b2a7d80f00da9fda",
+          "geom-844778418e972b35997f4585f22c12b3d866d67508e313f90d1d5f02aace5ddb.smb": "bf97f74877d9ca0789109488f57e7acd7fbeadf7ab9de459502a5c0334decca3",
+          "geom-8da007d457902942d716b5d684bf7335851d3ec7741c76cf67d731ca6c9d84e7.smb": "952ab5b81d166036fabe48f034c1c5588cceb2efde55943818bfb8134f88f0ea",
+          "geom-90aff14c2d8e54da82dcf44e1c25b8a846aecdd2f5aa0c0855dc014151e4aaf4.smb": "b3017f21c39b56595893f88685eca54efc63c8e6da91b966a66fd4f36edc651f",
+          "geom-93b07089d153b0387d1373030b1c8c0c073989b2a7c3d8f9ed898efc5b6224f3.smb": "d8c6a41b943ee5ff87b844db5f7565ffd69da51f80c8c861ed79b62e51504ad5",
+          "geom-94d6f532ccc0407c02c3d9d086efb402a1d1edd4f7216fa60ae3c2260abab1e2.smb": "89430ed02a78def3b30d574bf4b7ff967c32e74140f193a67d4a5e917828e32e",
+          "geom-98019c9344ca04020219256f636d444d84d787be7d85f742882c75a56feedae8.smb": "fe5edef91ab7bb118edc397c0ac91ba8a174b2190a3e6433414d2b87ac4e58b6",
+          "geom-a3b5ebf682c686112b104a6096b6eb159bc6cd4e701a4f046844493212275c0d.smb": "0fbd31369832b9e9b5351cd8d9d9189f1c0af39380650d2a8bcfcc5a2cb93b1c",
+          "geom-a6ccc26a2aa984e3faef41877582f973e0ab0f9e4951f35fb9262f014c0cc7ba.smb": "38b14bb6cd5085d30ff59d0bc85dff8c9e1baacf764426dd40434a9e116987b7",
+          "geom-a924d960aaf96c850e0249d8179bf2d3dd63a9052ba535c25fc6b47760aed40a.smb": "ceab50708fa3259070ad9eada5374c28a3b3a04f8551ee01cfe9edb1f3845a6e",
+          "geom-a9990f84192961ad881ba251449bd508632ba50a1eb0e682e7ec38716179c61a.smb": "4fa4ef52493d3ca213a70782bb9b5ef97b4ba2c6a13814cfe5b5b4f244a599ce",
+          "geom-a9f2ca103a77f4be730c357a6d24e421649fe1a5b720c1048da2bdfa2438b5b4.smb": "a80953828931c877c6d27026a63046f76d5499c99a19c26cba242491f1844c77",
+          "geom-b462d84b4a0fd9051b2515ec47f91506f0a82b4edcdd52ba64cb71c88087e17c.smb": "fb7e3d19591847656a31d0f9760ac00466de9a6a16c5dd41d2491b25c597b5fe",
+          "geom-b5158c7418d6e8466ba62d754f2a17148747a4ccc6ce957611bbb1f1cc4acb65.smb": "ba03b110c176a413575853b70e142beba9db04222b867780f5a98ba00405ea66",
+          "geom-bcef410542dd6198178f8158635f3dd9f85cebdc03eaf2246a96d13cca44383f.smb": "7a1facc4e551c139ba5d251a3794bf174ca2518524fc433318d4d62a7a96c984",
+          "geom-bd9bec3bc57fd4eb11b7d402208d32c193d2596d4a6d0150473190e13a804c5f.smb": "c8484fe710775b03b639a180804ab8a06bc8a2a85fb658f53b41d4242a2add53",
+          "geom-c16265148ce7448a00a49b5acade0cc0aa2423a616c66b0f7849a4d6dc3a72d7.smb": "0b20e64fcf362c4158c433f324dd25752af51ffccb131ca017d37b5a3f02e618",
+          "geom-d076aa12d415c6f652f271adad0442e236374125841f5f65cad05e79731ca65c.smb": "53da96adab390ae15c5e59e2277648a9c5d3b937076cad269904eb69f9b98b4a",
+          "geom-d12524e1d86179e72b0b45863a7ae7e0b00b1b363bc1230ea73272735a591060.smb": "ba995483677cd892c4bcc03741e26563eb4597318b5699ab0be66a4e4ae63ffb",
+          "geom-d50d30a08562bea58b104709a25afeb462c3652d1dfc4ca4d0269c673746d952.smb": "838a0f078179d914c8b832ac793d38c778b93d4252219c2cdecb954031894009",
+          "geom-e2e00e585bc066ed06c5fe370c693b6332a86553b782826e16202e09a8db98d0.smb": "78c77de9de57a49b790cee8c79907642f925b0fec71577b0fb23aa53967e83a2",
+          "geom-ec79e38036beb2f6e61c327bf19dd1ef75d813f28f91e21f5a8c8091dcb28ee8.smb": "88f5ebb847d395a18c880b110c61fca3619373463e39bb9dabb3378bf7f4d389",
+          "geom-f057f3be7ae80b70e31fc11c587cc5ffa9860694d71b092dd688d28086e97654.smb": "0809f2461a5327fd908b4eb8fc1955feaea3c94c8d955fa49f19ed0f40b4156a",
+          "geom-f325e5e53e970598328f200e282281c0569f674c0d5527e09602ab1bda883adf.smb": "b87a6c616a6ceecd19b9b0b739ad77fd6f69760caaf2b6d43d0e8bfc75fb1937",
+          "geom-fd6143afb6aa1a9f0c02b254427c5d3c60e23d1e53f9c4f5883f1b237ccfa7d5.smb": "952ab5b81d166036fabe48f034c1c5588cceb2efde55943818bfb8134f88f0ea",
+          "mesh-39261bdbd70c20ad77d1ce5c57d7b86382c8aa439bf0f1e9524d79296cb04d1c-3ff0000000000000.json": "80bfa6bbf057d9d7dede95137762256be30b4dd9d58190e552a94fa98cfaa667",
+          "mesh-466388ad0b30c92aec14a1674793b60bc51d540f8547e02d25da6e480fd76afc-3ff0000000000000.json": "2348bb970f083a2c55b615d36231ab3c19e086bb443265b4d45ddae8c316d6a9",
+          "mesh-7ca37070e664b46d22093547f1bd0aa88148c44c4ac62d303e8e3d3232949edd-3ff0000000000000.json": "4fc38fc249e5a711011ef704470497476974d17455ee377a8bc735d60a93fc5c",
+          "mesh-80ccce2b0de4e80e6b764d6686a578e2ea290d6f9e6b0cc0f284e8fc6a0b6351-3ff0000000000000.json": "2bcddee29ac6b5987a66e07060c968f97d5dbdb536b2a9417e1c445e2a482032",
+          "mesh-a924d960aaf96c850e0249d8179bf2d3dd63a9052ba535c25fc6b47760aed40a-3ff0000000000000.json": "6737971941cc6168cfff7cccb8a7076389b58a80c4ca3d951513de31600ea0e6",
+          "mesh-a9990f84192961ad881ba251449bd508632ba50a1eb0e682e7ec38716179c61a-3ff0000000000000.json": "a280e5377ca9eec84cd898c1f05813a49745e999efbf3946876249587b56fc6b",
+          "model.glb": "7acd04b560ee39141623236a315c37194d4c4047fe6db37976ffcc573a7b31af",
+          "model.step": "f300d2415caed6b2c6680403b186514397a133f157da6a8377cadf9d844bf110",
+          "model.stl": "7f5738955da33ba141acbb04d1f6039d6d4bf564fd0fd6b20065dce618289782",
+          "preview.mesh.json": "3e64d4340ae3507af277678ecb7fe44552f77f2c4150763f636ba8433b7a7028",
+          "preview.png": "79c5d1fd2d121eb218d434803e6650fc0fbaf81b3552b44de1558798ca54c0ab",
+          "query-definition-0.smb": "23bf8f203b7ca1fc88560f7e87f5a2b282b6b78120a59c2543c1dc19d99c4119",
+          "query-definition-1.smb": "267931e206a9bc344cc47ea05fe56014e4478bbcc94a43a2bc940850107ab891",
+          "query-definition-10.smb": "6ef2667e550007056ff37c7e6af26f7eb7e2769c830401f8a47391952f08c3df",
+          "query-definition-11.smb": "ed58713746dbf28cbb75ca04222e231bad3ee76af821ad03f91686ced2e63cb3",
+          "query-definition-12.smb": "a96a2caef3e7c57685f9506c6803eeefd54cf2fec68ffa5a2d9440bcb1d7422d",
+          "query-definition-13.smb": "f5ad5f1a048c9a528ce9ec03f2358b95f703f6568344850250def0c43987fe10",
+          "query-definition-14.smb": "9322e331d0bb7681dd55f6272cfad80289c9602b2a0d26de01e8b0c846d8bf39",
+          "query-definition-15.smb": "bb01cd9b2c9e2e1c15143f148820874ecdf6f40ef7a3aeaa97c9114546939389",
+          "query-definition-16.smb": "a3d39cc66993ef2f39ccc9dd6b5823d4d18030bf32d19f9a8f137936c28869c2",
+          "query-definition-17.smb": "bd74f1f85d048e35ddae5e18a6f657dec86d7fadc7d43ab9257cf99f5b21d983",
+          "query-definition-18.smb": "ea2eee3fd9b6af7067eaffcf18170dbca91aa16734a187eda76587a51bfb462a",
+          "query-definition-19.smb": "4e5977ecc6566254904c991af829f7be47eeaa70b82292ee01419f37a3637941",
+          "query-definition-2.smb": "e1143498b4a318f379b0a6a6935cefed40252209551921fed95f44a588352902",
+          "query-definition-3.smb": "30032a5249c821bf7fb35930df81465ed1908aa9d5df9322a7a5dca954681059",
+          "query-definition-4.smb": "d3f751f88e1d96505824293e52f908bbc5b113549c1dee027ccbae170c89e5de",
+          "query-definition-5.smb": "4d1adbee6c1594550a48d4f7b13f56ba83bf4e2941edf47adfed3c610683f574",
+          "query-definition-6.smb": "5185226350ae7dee9a69f84d8b348e3a6a03308eba7e3f328206455c39a6b89a",
+          "query-definition-7.smb": "9d17e8a2e589886b0ec6a4b943f65b8de349a8eafffa171b7c2813a8754d9180",
+          "query-definition-8.smb": "50556310a1030c9974488a81a1e97b70f284ca9964c7dd7d6527e57e9105ed24",
+          "query-definition-9.smb": "69e1910348ae93e7f060e73a0f0d8cfbc3eea1e27869bd01df3de42e5b74020e",
+          "query-display.json": "6b8e2db400d3f4f42ec99b8238f9df5fa7043b29a755e01669e72771370a4bf9",
+          "query-manifest.json": "347fdf45e502bd260e60c84262e64737501a9d4ad4e2cda69fe8f834a1366acd"
+        }
+      },
+      "ok": true,
+      "session_step": "s0004",
+      "receipt_file": "/evidence/session/steps/s0004/receipt.json"
+    },
+    "duration_ms": 129.2469579999888,
+    "resources": {
+      "label": "cad_query",
+      "cpu_max": "100000 100000",
+      "memory_max": 536870912,
+      "memory_swap_max": "0",
+      "memory_peak_bytes": 388571136,
+      "memory_current_bytes": 154042368,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "memory_stat": {
+        "anon": 36261888,
+        "file": 113848320,
+        "kernel": 3043328,
+        "kernel_stack": 180224,
+        "pagetables": 1261568,
+        "sec_pagetables": 0,
+        "percpu": 3360,
+        "sock": 0,
+        "vmalloc": 8192,
+        "shmem": 0,
+        "zswap": 0,
+        "zswapped": 0,
+        "file_mapped": 0,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "swapcached": 0,
+        "anon_thp": 0,
+        "file_thp": 0,
+        "shmem_thp": 0,
+        "inactive_anon": 0,
+        "active_anon": 36253696,
+        "inactive_file": 113840128,
+        "active_file": 0,
+        "unevictable": 0,
+        "slab_reclaimable": 1080768,
+        "slab_unreclaimable": 325664,
+        "slab": 1406432,
+        "workingset_refault_anon": 0,
+        "workingset_refault_file": 0,
+        "workingset_activate_anon": 0,
+        "workingset_activate_file": 0,
+        "workingset_restore_anon": 0,
+        "workingset_restore_file": 0,
+        "workingset_nodereclaim": 0,
+        "pgscan": 0,
+        "pgsteal": 0,
+        "pgscan_kswapd": 0,
+        "pgscan_direct": 0,
+        "pgscan_khugepaged": 0,
+        "pgsteal_kswapd": 0,
+        "pgsteal_direct": 0,
+        "pgsteal_khugepaged": 0,
+        "pgfault": 360567,
+        "pgmajfault": 0,
+        "pgrefill": 0,
+        "pgactivate": 0,
+        "pgdeactivate": 0,
+        "pglazyfree": 0,
+        "pglazyfreed": 0,
+        "zswpin": 0,
+        "zswpout": 0,
+        "zswpwb": 0,
+        "thp_fault_alloc": 0,
+        "thp_collapse_alloc": 0,
+        "thp_swpout": 0,
+        "thp_swpout_fallback": 0
+      },
+      "cpu_stat": {
+        "usage_usec": 92132039,
+        "user_usec": 91663329,
+        "system_usec": 468710,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 974,
+        "nr_throttled": 147,
+        "throttled_usec": 179980,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "processes": [
+        {
+          "pid": 1,
+          "name": "node",
+          "rss_kib": 85312
+        }
+      ],
+      "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+    }
+  }
+]

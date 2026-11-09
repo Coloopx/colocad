@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "mode": "product",
+  "verifier": "OCCT 7.9.3.1.1 independent STEP readback",
+  "rows": [
+    {
+      "step_id": "s0001",
+      "solids": 82,
+      "volume_mm3": 426562.9200774372,
+      "step_sha256": "6a5b3312f824baa04ca2b0a8ea9b680f560ed5bf7650fd4667b6b0730a39e030",
+      "valid": true,
+      "travel_mm": 0,
+      "pairs": [
+        {
+          "pair": [
+            "bracket",
+            "carriage"
+          ],
+          "distance_mm": 0.0,
+          "overlap_mm3": 0
+        },
+        {
+          "pair": [
+            "bracket",
+            "motor"
+          ],
+          "distance_mm": 128.99999999753808,
+          "overlap_mm3": 0
+        }
+      ]
+    },
+    {
+      "step_id": "s0003",
+      "solids": 82,
+      "volume_mm3": 426562.92007743893,
+      "step_sha256": "f300d2415caed6b2c6680403b186514397a133f157da6a8377cadf9d844bf110",
+      "valid": true,
+      "travel_mm": 20,
+      "pairs": [
+        {
+          "pair": [
+            "bracket",
+            "carriage"
+          ],
+          "distance_mm": 0.0,
+          "overlap_mm3": 0
+        },
+        {
+          "pair": [
+            "bracket",
+            "motor"
+          ],
+          "distance_mm": 108.99999999753811,
+          "overlap_mm3": 0
+        }
+      ]
+    }
+  ],
+  "scope": "Live text-to-parametric plate and live edit/query of a seeded sourced product; not image-to-CAD inference or OEM/continuous-motion certification."
+}

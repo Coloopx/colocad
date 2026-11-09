@@ -75,6 +75,7 @@ impl Checkpoints {
                 .collect::<Vec<_>>();
             let spec = json!([
                 EXECUTOR_VERSION,
+                EXECUTION_POLICY,
                 KERNEL_REV,
                 operation,
                 params,
@@ -88,7 +89,9 @@ impl Checkpoints {
     fn read(&self, name: &str) -> Option<Vec<u8>> {
         let (dir, report) = self.previous.as_ref()?;
         let expected = report["artifact_sha256"][name].as_str()?;
-        if report["executor_version"] != EXECUTOR_VERSION {
+        if report["executor_version"] != EXECUTOR_VERSION
+            || report["execution_policy"] != EXECUTION_POLICY
+        {
             return None;
         }
         let path = dir.join(name);

@@ -1,6 +1,6 @@
 # SDD 0005 — Four ordered goals for an independent agent CAD stack
 
-Status: accepted execution order; **G1/G2 accepted; G3 active**. Date: 2026-11-09. [中文](0005-capability-reliability-and-optimization.zh-CN.md).
+Status: **G1–G3 implemented and accepted within the declared domains/workloads; G4 not started**. Date: 2026-11-09. [中文](0005-capability-reliability-and-optimization.zh-CN.md).
 
 Colocad aims to independently support the specified modeling and assembly workloads through a local Rust kernel, TypeScript SDK, CLI and skill. This is not a claim of complete CadQuery/build123d equivalence. Agent, harness and the CAD package execute inside the same sandbox. SDD 0004 remains the detailed query/datum/interface contract; this document governs the order of the wider program.
 
@@ -56,4 +56,6 @@ The future runner must refuse G4 promotion when any G1–G3 gate is missing/stal
 
 ## 6. Current work
 
-G1 is accepted within the supported SDD 0004 domains, with 124 Rust, 36 Node, six scripted integration tests and independent foreign/whole-product STEP acceptance. G2 is accepted on the frozen 24-case corpus; G3 is active. [SDD 0004 experiment ledger](experiments/0004/README.md) records actual tests. G3–G4 are not yet accepted; documenting them is not passing them. Public capabilities and releases must reflect tested implementation, not this roadmap.
+G1 is accepted within the supported SDD 0004 domains; the [G1 ledger](experiments/0004/README.md) retains functional, foreign STEP and whole-product evidence. G2 passes all 24 required frozen cases, including 18 positive geometries and six correct rejections. G3 passes semantic lifecycle/replacement, real process recovery, cache-policy invalidation, bounded parser probes and two live Pi agent tasks. The final regression is 127 Rust, 41 Node tests on each of macOS and limited Linux, and six scripted integration tests. Linux-produced corpus and live-task STEP outputs pass independent OCCT readback. See the [G2/G3 acceptance record](experiments/0005/README.md).
+
+The agent, local harness, SDK and native execute together within Linux arm64 1 vCPU / 512 MiB; the 82-solid product task peaks at 370.57 MiB with no OOM. This is measured workload acceptance, not a universal input memory bound or complete industrial CAD equivalence. G4 has not started. Packaged npm alpha.6 does not yet include these development changes; source acceptance is separate from publication.

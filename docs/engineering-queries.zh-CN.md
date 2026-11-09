@@ -64,3 +64,5 @@ G1 新增的相对筛选、专用描述、孔/沉孔识别、孔组、安装接�
 - `colocad view SESSION` 的 Query 页可高亮 native ref 对应的面/边/环轮廓及基准/孔组。可查询 preview 在建模时保存有哈希绑定的 `query-display.json`，采样轮廓只作显示依据；查询不重建、不导出、不三角化。爆炸图跟随零件移动，不修改查询坐标。
 
 `datums` 或 `interfaces` 自动要求精确快照，显式禁用会报错。外部 STEP 示例包含底座、不同外形替换件、任意旋转来源及错误孔距/缺孔拒绝。完整 KK60 加附件例子保留 82 个实体和九项行程检查，见[复现实例](../examples/engineering-interfaces/README.md)。以上是明确范围内的功能证据，G2/G3 的可靠性、生命周期和沙箱资源验收另行记录。
+
+开发检查点新增 `execution_policy`，绑定 Rust 源码、依赖锁、编译器与目标平台；缺失或不匹配即重新计算，不能因为版本字符串相同就复用旧语义。[G3 证据](../specs/experiments/0005/README.md)覆盖真实进程中断、重新打开/迁移、语义面拆分/合并/删除、零件替换和 Linux 沙箱限额。

@@ -601,7 +601,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
     let mut result = Build {
         artifacts,
         report: json!({
-            "preview":preview_report,"model_hash":model_hash(model),"executor_version":EXECUTOR_VERSION, "kernel":kernel_policy(),
+            "preview":preview_report,"model_hash":model_hash(model),"executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY, "kernel":kernel_policy(),
             "validation":{"level":"kernel_level_1", "valid":true,"warnings":check.warnings().count(),"manifold":manifold},
             "geometry":{"kind":model.output_kind,"volume_mm3":volume,"bbox_mm":[[bb.min_at(0),bb.min_at(1),bb.min_at(2)],[bb.max_at(0),bb.max_at(1),bb.max_at(2)]],
                 "faces":body.face_list().len(),"edges":body.edge_list().len(),"solids":solid_count,"void_regions":void_count},

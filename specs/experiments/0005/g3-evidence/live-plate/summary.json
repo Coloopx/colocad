@@ -1,0 +1,808 @@
+{
+  "passed": true,
+  "mode": "plate",
+  "inference": "live_remote_model_no_scripted_responses",
+  "model": "deepseek-flash",
+  "api": "openai-completions",
+  "cost": "unknown; zero-valued SDK cost metadata is not a billing claim",
+  "usage": {
+    "input": 80098,
+    "output": 2407,
+    "cacheRead": 553472,
+    "cacheWrite": 0
+  },
+  "tool_calls": 7,
+  "tool_errors": 1,
+  "assistant_turns": 9,
+  "session_steps": [
+    {
+      "id": "s0001",
+      "operation": "build",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0002",
+      "operation": "query",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0003",
+      "operation": "edit",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0004",
+      "operation": "query",
+      "status": "succeeded"
+    }
+  ],
+  "measurements": {
+    "holes": [
+      {
+        "axis": {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "direction_semantics": "inward_from_first_reported_opening",
+          "point_mm": [
+            70,
+            40,
+            0
+          ]
+        },
+        "depth_mm": 6,
+        "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+        "evidence": {
+          "closed_planar_rims": true,
+          "connected_topology": true,
+          "full_angular_coverage": true,
+          "material_witnesses": true
+        },
+        "id": "hole-t10",
+        "matching_openings": [
+          0,
+          1
+        ],
+        "openings": [
+          {
+            "center_mm": [
+              70,
+              40,
+              0
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t32"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t66"
+            },
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t1"
+            }
+          },
+          {
+            "center_mm": [
+              70,
+              40,
+              6
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t33"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              -1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t67"
+            },
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t2"
+            }
+          }
+        ],
+        "provenance": "recognized",
+        "segments": [
+          {
+            "axial_interval_mm": [
+              0,
+              6
+            ],
+            "diameter_mm": 7,
+            "length_mm": 6,
+            "radius_mm": 3.5,
+            "source_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "face",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t10"
+              }
+            ]
+          }
+        ],
+        "source_refs": [
+          {
+            "definition_id": "part",
+            "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+            "kind": "face",
+            "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+            "topology_id": "t10"
+          }
+        ],
+        "termination": "through",
+        "thread": "unknown"
+      },
+      {
+        "axis": {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "direction_semantics": "inward_from_first_reported_opening",
+          "point_mm": [
+            10,
+            10,
+            0
+          ]
+        },
+        "depth_mm": 6,
+        "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+        "evidence": {
+          "closed_planar_rims": true,
+          "connected_topology": true,
+          "full_angular_coverage": true,
+          "material_witnesses": true
+        },
+        "id": "hole-t7",
+        "matching_openings": [
+          0,
+          1
+        ],
+        "openings": [
+          {
+            "center_mm": [
+              10,
+              10,
+              0
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t23"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t57"
+            },
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t1"
+            }
+          },
+          {
+            "center_mm": [
+              10,
+              10,
+              6
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t24"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              -1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t58"
+            },
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t2"
+            }
+          }
+        ],
+        "provenance": "recognized",
+        "segments": [
+          {
+            "axial_interval_mm": [
+              0,
+              6
+            ],
+            "diameter_mm": 7,
+            "length_mm": 6,
+            "radius_mm": 3.5,
+            "source_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "face",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t7"
+              }
+            ]
+          }
+        ],
+        "source_refs": [
+          {
+            "definition_id": "part",
+            "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+            "kind": "face",
+            "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+            "topology_id": "t7"
+          }
+        ],
+        "termination": "through",
+        "thread": "unknown"
+      },
+      {
+        "axis": {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "direction_semantics": "inward_from_first_reported_opening",
+          "point_mm": [
+            70,
+            10,
+            0
+          ]
+        },
+        "depth_mm": 6,
+        "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+        "evidence": {
+          "closed_planar_rims": true,
+          "connected_topology": true,
+          "full_angular_coverage": true,
+          "material_witnesses": true
+        },
+        "id": "hole-t8",
+        "matching_openings": [
+          0,
+          1
+        ],
+        "openings": [
+          {
+            "center_mm": [
+              70,
+              10,
+              0
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t26"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t60"
+            },
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t1"
+            }
+          },
+          {
+            "center_mm": [
+              70,
+              10,
+              6
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t27"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              -1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t61"
+            },
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t2"
+            }
+          }
+        ],
+        "provenance": "recognized",
+        "segments": [
+          {
+            "axial_interval_mm": [
+              0,
+              6
+            ],
+            "diameter_mm": 7,
+            "length_mm": 6,
+            "radius_mm": 3.5,
+            "source_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "face",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t8"
+              }
+            ]
+          }
+        ],
+        "source_refs": [
+          {
+            "definition_id": "part",
+            "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+            "kind": "face",
+            "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+            "topology_id": "t8"
+          }
+        ],
+        "termination": "through",
+        "thread": "unknown"
+      },
+      {
+        "axis": {
+          "direction": [
+            0,
+            0,
+            1
+          ],
+          "direction_semantics": "inward_from_first_reported_opening",
+          "point_mm": [
+            10,
+            40,
+            0
+          ]
+        },
+        "depth_mm": 6,
+        "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+        "evidence": {
+          "closed_planar_rims": true,
+          "connected_topology": true,
+          "full_angular_coverage": true,
+          "material_witnesses": true
+        },
+        "id": "hole-t9",
+        "matching_openings": [
+          0,
+          1
+        ],
+        "openings": [
+          {
+            "center_mm": [
+              10,
+              40,
+              0
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t29"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t63"
+            },
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t1"
+            }
+          },
+          {
+            "center_mm": [
+              10,
+              40,
+              6
+            ],
+            "diameter_mm": 7,
+            "edge_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "edge",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t30"
+              }
+            ],
+            "inward_direction": [
+              0,
+              0,
+              -1
+            ],
+            "loop": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "loop",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t64"
+            },
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "support_face": {
+              "definition_id": "part",
+              "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+              "kind": "face",
+              "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+              "topology_id": "t2"
+            }
+          }
+        ],
+        "provenance": "recognized",
+        "segments": [
+          {
+            "axial_interval_mm": [
+              0,
+              6
+            ],
+            "diameter_mm": 7,
+            "length_mm": 6,
+            "radius_mm": 3.5,
+            "source_refs": [
+              {
+                "definition_id": "part",
+                "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                "kind": "face",
+                "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                "topology_id": "t9"
+              }
+            ]
+          }
+        ],
+        "source_refs": [
+          {
+            "definition_id": "part",
+            "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+            "kind": "face",
+            "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+            "topology_id": "t9"
+          }
+        ],
+        "termination": "through",
+        "thread": "unknown"
+      }
+    ]
+  },
+  "start_resources": {
+    "label": "resident_pi_and_local_harness_start",
+    "cpu_max": "100000 100000",
+    "memory_max": 536870912,
+    "memory_swap_max": "0",
+    "memory_peak_bytes": 29814784,
+    "memory_current_bytes": 29646848,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory_stat": {
+      "anon": 26644480,
+      "file": 114688,
+      "kernel": 1970176,
+      "kernel_stack": 180224,
+      "pagetables": 999424,
+      "sec_pagetables": 0,
+      "percpu": 3360,
+      "sock": 0,
+      "vmalloc": 8192,
+      "shmem": 0,
+      "zswap": 0,
+      "zswapped": 0,
+      "file_mapped": 0,
+      "file_dirty": 0,
+      "file_writeback": 0,
+      "swapcached": 0,
+      "anon_thp": 0,
+      "file_thp": 0,
+      "shmem_thp": 0,
+      "inactive_anon": 0,
+      "active_anon": 26505216,
+      "inactive_file": 114688,
+      "active_file": 0,
+      "unevictable": 0,
+      "slab_reclaimable": 476720,
+      "slab_unreclaimable": 279528,
+      "slab": 756248,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0,
+      "workingset_nodereclaim": 0,
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pgscan_kswapd": 0,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgsteal_kswapd": 0,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgfault": 9060,
+      "pgmajfault": 0,
+      "pgrefill": 0,
+      "pgactivate": 0,
+      "pgdeactivate": 0,
+      "pglazyfree": 0,
+      "pglazyfreed": 0,
+      "zswpin": 0,
+      "zswpout": 0,
+      "zswpwb": 0,
+      "thp_fault_alloc": 0,
+      "thp_collapse_alloc": 0,
+      "thp_swpout": 0,
+      "thp_swpout_fallback": 0
+    },
+    "cpu_stat": {
+      "usage_usec": 159595,
+      "user_usec": 115706,
+      "system_usec": 43888,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 1,
+      "nr_throttled": 0,
+      "throttled_usec": 0,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "processes": [
+      {
+        "pid": 1,
+        "name": "node",
+        "rss_kib": 74064
+      }
+    ],
+    "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+  },
+  "final_resources": {
+    "label": "resident_pi_plus_local_harness_plus_native",
+    "cpu_max": "100000 100000",
+    "memory_max": 536870912,
+    "memory_swap_max": "0",
+    "memory_peak_bytes": 58384384,
+    "memory_current_bytes": 53788672,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory_stat": {
+      "anon": 48816128,
+      "file": 1921024,
+      "kernel": 2314240,
+      "kernel_stack": 180224,
+      "pagetables": 1224704,
+      "sec_pagetables": 0,
+      "percpu": 3360,
+      "sock": 0,
+      "vmalloc": 8192,
+      "shmem": 0,
+      "zswap": 0,
+      "zswapped": 0,
+      "file_mapped": 53248,
+      "file_dirty": 0,
+      "file_writeback": 0,
+      "swapcached": 0,
+      "anon_thp": 0,
+      "file_thp": 0,
+      "shmem_thp": 0,
+      "inactive_anon": 0,
+      "active_anon": 48754688,
+      "inactive_file": 1839104,
+      "active_file": 69632,
+      "unevictable": 0,
+      "slab_reclaimable": 557648,
+      "slab_unreclaimable": 305568,
+      "slab": 863216,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0,
+      "workingset_nodereclaim": 0,
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pgscan_kswapd": 0,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgsteal_kswapd": 0,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgfault": 40840,
+      "pgmajfault": 1,
+      "pgrefill": 0,
+      "pgactivate": 0,
+      "pgdeactivate": 0,
+      "pglazyfree": 0,
+      "pglazyfreed": 0,
+      "zswpin": 0,
+      "zswpout": 0,
+      "zswpwb": 0,
+      "thp_fault_alloc": 0,
+      "thp_collapse_alloc": 0,
+      "thp_swpout": 0,
+      "thp_swpout_fallback": 0
+    },
+    "cpu_stat": {
+      "usage_usec": 1678105,
+      "user_usec": 1488966,
+      "system_usec": 189139,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 134,
+      "nr_throttled": 2,
+      "throttled_usec": 74882,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "processes": [
+      {
+        "pid": 1,
+        "name": "node",
+        "rss_kib": 97564
+      }
+    ],
+    "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+  },
+  "skill_sha256": "463761280ec72421fec790d0254eacd6b4d6c01c8d0c264b971cb92973b00287",
+  "native_sha256": "cc7a2b5d68b71d3a787838c9b35d721febfaafcdb4d648dbe6b920f9a900c8fc",
+  "provider_errors": []
+}

@@ -1,0 +1,81 @@
+
+> @coloopx/colocad@0.1.0-alpha.6 test:integrations
+> npm test --prefix examples/integrations
+
+
+> test
+> node --test *.test.mjs
+
+TAP version 13
+# Subtest: published SDK: build, cached camera change, parameter edit, persisted source
+ok 1 - published SDK: build, cached camera change, parameter edit, persisted source
+  ---
+  duration_ms: 306.24275
+  type: 'test'
+  ...
+# Subtest: Pi adapter: complete schema, native preview image, failed receipt, pre-dispatch cancellation
+ok 2 - Pi adapter: complete schema, native preview image, failed receipt, pre-dispatch cancellation
+  ---
+  duration_ms: 174.575125
+  type: 'test'
+  ...
+# Subtest: Pi adapter exposes explicit degradation to the model
+not ok 3 - Pi adapter exposes explicit degradation to the model
+  ---
+  duration_ms: 20.295542
+  type: 'test'
+  location: '$REPO/examples/integrations/integration.test.mjs:55:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading '0')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file://$REPO/examples/integrations/integration.test.mjs:65:36)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: real Pi core loop: failed CAD call is delivered to model; correction creates STEP
+ok 4 - real Pi core loop: failed CAD call is delivered to model; correction creates STEP
+  ---
+  duration_ms: 195.537125
+  type: 'test'
+  ...
+# Subtest: Pi coding agent discovers full skill and loads the extension with five executable tools
+not ok 5 - Pi coding agent discovers full skill and loads the extension with five executable tools
+  ---
+  duration_ms: 39.813042
+  type: 'test'
+  location: '$REPO/examples/integrations/integration.test.mjs:109:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    6 !== 5
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 5
+  actual: 6
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://$REPO/examples/integrations/integration.test.mjs:121:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: H1: real Pi loop persists engine build, failed edit, correction and offline replay
+ok 6 - H1: real Pi loop persists engine build, failed edit, correction and offline replay
+  ---
+  duration_ms: 866.120584
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 4
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1506.770916

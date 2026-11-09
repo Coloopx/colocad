@@ -1,0 +1,55 @@
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 309B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:22-bookworm-slim
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/library/node:22-bookworm-slim@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c
+#4 resolve docker.io/library/node:22-bookworm-slim@sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c done
+#4 DONE 0.0s
+
+#5 [2/6] WORKDIR /opt/agent
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 37.43MB 0.2s done
+#6 DONE 0.2s
+
+#7 [3/6] COPY package.json package-lock.json ./
+#7 DONE 0.0s
+
+#8 [4/6] RUN npm ci --omit=optional --ignore-scripts --no-audit --no-fund
+#8 2.141 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+#8 6.404 
+#8 6.404 added 124 packages in 6s
+#8 6.406 npm notice
+#8 6.406 npm notice New major version of npm available! 10.9.9 -> 12.2.2
+#8 6.406 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+#8 6.406 npm notice To update run: npm install -g npm@12.2.2
+#8 6.406 npm notice
+#8 DONE 6.7s
+
+#9 [5/6] COPY agent-cad /usr/local/bin/agent-cad
+#9 DONE 0.1s
+
+#10 [6/6] WORKDIR /repo
+#10 DONE 0.0s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 5.7s done
+#11 exporting manifest sha256:5b3dcb304b4abda2c81ed2e722d74743eab2c7acde3c387d95d101da42a58390 done
+#11 exporting config sha256:b80ee1858dc65540cf2624f9d11e4621ab76f333f59cf5c9f3465036f9ab7b7e done
+#11 exporting attestation manifest sha256:e5d7f4428671268b72f1b4f87c80dc2eeeda6be5b318c497e35071163e0cbbfb done
+#11 exporting manifest list sha256:971b8f7746d660848e803d2b1758c9dd2640ecde892cb095220b57b295e373dd done
+#11 naming to docker.io/library/colocad-g123-runtime:local done
+#11 unpacking to docker.io/library/colocad-g123-runtime:local
+#11 unpacking to docker.io/library/colocad-g123-runtime:local 1.8s done
+#11 DONE 7.6s

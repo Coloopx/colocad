@@ -4,14 +4,22 @@ The adapter is tested with `@earendil-works/pi-agent-core@1.5.0` and `@earendil-
 
 ## Pi agent core: register local tools
 
-Clone the example project and install its lockfile:
+Clone the repository and build the matching development native/SDK before running the current query-enabled adapter tests (Node.js 22+ and Rust required):
 
 ```sh
 git clone https://github.com/Coloopx/colocad.git
-cd colocad/examples/integrations
+cd colocad
+node scripts/vendor.mjs
+cargo build --locked --release -p agent-cad
+export AGENT_CAD_BINARY="$PWD/target/release/agent-cad"
+npm ci --prefix kernel --ignore-scripts
+npm run build --prefix kernel
+cd examples/integrations
 npm ci --ignore-scripts
 npm test
 ```
+
+If `CARGO_TARGET_DIR` is configured, use its release executable in `AGENT_CAD_BINARY`. Published alpha.6 natives do not expose the new query contract. The separate legacy `sdk.mjs` example still pins alpha.3.
 
 [pi-tools.mjs](../../examples/integrations/pi-tools.mjs) adapts colocad's JSON Schemas and receipts to Pi `AgentTool`s. [pi-core.mjs](../../examples/integrations/pi-core.mjs) constructs an agent with these tools. Your harness supplies its existing model, stream function and authentication:
 
@@ -45,7 +53,7 @@ From the example project after `npm ci`:
 ./node_modules/.bin/pi --extension ./pi-extension.mjs
 ```
 
-The extension registers five `cad_*` tools. Output defaults to `./cad-output`; set `COLOCAD_OUTPUT_DIR` in the shell launching Pi to choose a trusted absolute destination. Start it from the intended project directory and restart/rebind when changing projects. Use Pi's existing model/auth configuration.
+The extension registers five core `cad_*` tools plus `cad_query` when the native capabilities advertise the exact query API. Output defaults to `./cad-output`; set `COLOCAD_OUTPUT_DIR` in the shell launching Pi to choose a trusted absolute destination. Start it from the intended project directory and restart/rebind when changing projects. Use Pi's existing model/auth configuration.
 
 For the modeling workflow as well, load the bundled skill:
 
@@ -68,6 +76,11 @@ test ! -e .agents/skills/colocad && \
 
 Start Pi in that project and invoke `/skill:colocad`. Keep the complete folder: its instructions reference scripts, assets and supporting guides. Review the project skill under Pi's normal project trust flow. No global install or permissions bypass is required.
 
-The example tests execute the actual Pi core loop with deterministic model responses, the actual extension loader, and the published Rust binary. They do not call a live model provider. See [verification scope](verification.md).
+The example tests execute the actual Pi core loop with deterministic model responses, the actual extension loader, and the configured Rust binary. These six deterministic tests do not call a live model provider. Separate [G3 acceptance](../../specs/experiments/0005/README.md) records actual Pi inference, local tools, session history and native CAD inside Linux arm64 1 vCPU / 512 MiB, including a text-built plate and a sourced 82-solid product edit. See [verification scope](verification.md).
 
 References checked 2026-11-07: [Pi core](https://github.com/earendil-works/pi/tree/main/packages/agent), [extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/extensions.md), [skills](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/skills.md). The installed 1.5.0 declarations and CLI help were also checked.
+
+
+For Pi AI 1.5, provider-specific streaming comes from `@earendil-works/pi-ai/api/openai-completions`, which exports `streamSimple`; it is not exported by the package root. Supply this through the harness's `streamFn` with its configured endpoint/model/auth. The [live acceptance runner](../../specs/experiments/0005/sandbox/live.mjs) is a complete example with an external read-only credential file, bounded turns/time, persisted tool/inference traces and resource accounting. Keep credentials out of model prompts and traces.
+
+Build/edit feedback retains the query revision and full receipts on disk. The adapter exposes structured query results and explicit degradation. The source adapter imports this checkout's SDK; its published alpha.3 dependency remains only for the separate legacy SDK compatibility example. For new query work compile the native and SDK from the same checkout as explained in the [query guide](../engineering-queries.md).

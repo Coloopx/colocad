@@ -29,3 +29,9 @@ test('guided workflow performs real calls, quantitative edits, failure recovery 
  const result=await runGuidedWorkflow(root);assert.equal(result.passed,true);assert.equal(result.steps,5);assert.equal(result.measurements.finalLengthMm,100);
  assert.equal(result.calls.filter(c=>!c.result.ok).length,1);assert.match(await readFile(result.html,'utf8'),/colocad-viewer/);
 });
+
+
+test('compact build retains query revision and execution policy needed by a subsequent geometry query',()=>{
+ const r=compactReceipt({ok:true,data:{features:[],artifact_directory:'/trusted/part',query_revision_id:'sha256:revision',execution_policy:'sha256:policy',geometry:{solids:1}}});
+ assert.equal(r.data.query_revision_id,'sha256:revision');assert.equal(r.data.execution_policy,'sha256:policy');
+});

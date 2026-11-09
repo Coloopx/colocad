@@ -1,6 +1,6 @@
 # SDD 0004 — Engineering queries and geometry-backed assembly interfaces
 
-**Status: Revised proposal (revision 2); staged implementation and acceptance in progress.**
+**Status: Revision 2 supported contracts implemented; G1–G3 accepted within the declared domains/workloads. Development source, not yet included in npm alpha.6.**
 
 Date: 2026-11-09. Baseline: npm alpha.6; source `3c93d2c`. This document defines the proposed contract, not the capabilities of the published package. Normative terms **MUST**, **MUST NOT** and **SHOULD** describe implementation requirements. [中文实施说明](0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
@@ -431,3 +431,7 @@ The public source implements the supported query/selection/datum/hole/group/inte
 Hole completeness is scoped to the requested support adjacency; uncertainty outside it remains in diagnostics. Full-body queries retain partial status. Linear requested-count subsets, extra holes and symmetry remain visible. Allowed-contact certification is initially supported for opposing planar faces on polyhedral closed solids only. Unsupported region-restricted or curved-contact required claims fail; whole-part distance/overlap measurements are separate. Measurement result status is complete/partial, with a standard paged-result envelope containing one item and an equivalent `measurement` alias.
 
 [Guide](../docs/engineering-queries.md), [foreign/whole-product examples](../examples/engineering-interfaces/README.md) and [ledger](experiments/0004/README.md) state exact acceptance evidence. Lifecycle/resource/parser stress belongs to G3; broad corpus reliability belongs to G2. Packaged alpha.6 binaries do not contain this development implementation.
+
+## Acceptance update — G2/G3, 2026-11-09
+
+The [G2/G3 record](experiments/0005/README.md) closes the declared reliability and engineering-usability gates: 24/24 frozen cases with independent OCCT readback, semantic reference lifecycle and source replacement, real interruption/recovery, execution-policy cache invalidation, bounded parser probes, and two live Pi tasks. The agent/harness/SDK/native run together within 1 vCPU / 512 MiB; the 82-solid product task peaks at 370.57 MiB without OOM. Final regression: 127 Rust, 41 Node on each tested platform and six scripted integration tests. Supported recognition/contact boundaries above remain explicit. G4 and npm publication have not been performed in this acceptance round.

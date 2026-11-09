@@ -4,6 +4,10 @@ Date: 2026-11-09. Specification: [English revision 2](../../0004-engineering-que
 
 The six review findings are incorporated in the normative spec. Work is local to Colocad. Runtime evidence below is independent of the existing harness CAD implementation. No npm release is implied by this ledger. [SDD 0005](../../0005-capability-reliability-and-optimization.md) governs the four ordered acceptance goals; G1 is accepted in iteration 3 below.
 
+**Current status:** G1–G3 are accepted within the declared domains/workloads. G2/G3 geometry, lifecycle, live-agent and limited Linux evidence is in the [subsequent acceptance record](../0005/README.md). G4 has not started. The initial experiment table and earlier iterations below are historical records; their pending items are resolved or explicitly scoped in later acceptance.
+
+## Initial experiment plan (historical)
+
 | Experiment | Hypothesis / gate | State |
 | --- | --- | --- |
 | E01 / D02 | Explicit mate direction and proper frame rotation support outward opposing surfaces without changing legacy defaults | Passed for explicit numeric attachments; implemented in Rust, schema and SDK types |

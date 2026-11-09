@@ -11,7 +11,7 @@ pub fn capabilities() -> Value {
         .flatten()
         .filter_map(|s| s["properties"]["op"]["const"].as_str())
         .collect::<Vec<_>>();
-    json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"kernel":kernel_policy(),"units":["mm"],
+    json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"units":["mm"],
         "operations":operations,
         "profiles":["rectangle","circle","ellipse","polygon","outline_lines_and_arcs","constrained_sketch"],
         "assembly":{"named_instances":true,"hierarchy":true,"shared_definitions":true,"construction_volumes":true,"representation_declarations":true,"poses":["normal","internal","exploded"],"checks":["collision","containment","opening","interface_compatibility","geometric_relationship"],"step":"native_product_instance_tree","mates":["fixed","coincident","concentric","plane","distance","revolute","prismatic"],"mate_direction":{"axis":["aligned","opposed","unoriented"],"frame":["aligned","opposed"],"frame_twist_deg":true,"default":"aligned","unoriented_branch":"initial_pose_fixed_during_local_solve"},"mate_physical_residual_units":["mm","rad"]},

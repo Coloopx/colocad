@@ -1,0 +1,83 @@
+{
+  "features": [
+    {
+      "id": "plate_stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        {
+          "param": "plateLength"
+        },
+        {
+          "param": "plateWidth"
+        },
+        {
+          "param": "plateThickness"
+        }
+      ]
+    },
+    {
+      "depth": 8,
+      "frame": {
+        "origin": [
+          0,
+          0,
+          -1
+        ],
+        "x_axis": [
+          1,
+          0,
+          0
+        ],
+        "y_axis": [
+          0,
+          1,
+          0
+        ]
+      },
+      "id": "part",
+      "input": "plate_stock",
+      "op": "holes",
+      "positions": [
+        [
+          10,
+          10
+        ],
+        [
+          70,
+          10
+        ],
+        [
+          10,
+          40
+        ],
+        [
+          70,
+          40
+        ]
+      ],
+      "radius": {
+        "param": "holeRadius"
+      }
+    }
+  ],
+  "output": "part",
+  "parameters": {
+    "holeRadius": 3.5,
+    "plateLength": 80,
+    "plateThickness": 6,
+    "plateWidth": 50
+  },
+  "preview": {
+    "view": "iso",
+    "chord_mm": 1,
+    "width": 320,
+    "height": 240
+  },
+  "units": "mm",
+  "version": 1
+}

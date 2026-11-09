@@ -1,0 +1,149 @@
+{
+  "format": "colocad/session/1",
+  "id": "f4292d5c-98c6-48ba-9e15-8082ff5ca73e",
+  "title": "Live Pi plate acceptance",
+  "createdAt": "2026-11-09T12:20:40.921Z",
+  "steps": [
+    {
+      "id": "s0001",
+      "label": "Agent build",
+      "kind": "geometry",
+      "operation": "build",
+      "status": "succeeded",
+      "startedAt": "2026-11-09T12:20:48.681Z",
+      "inputFile": "steps/s0001/input.json",
+      "inputSha256": "dbbbfb8b52f04abaa80682f341a0d359f12cd678bee97aeb29e4fa139110e28b",
+      "receiptFile": "steps/s0001/receipt.json",
+      "queryable": true,
+      "durationMs": 204.43966699999964,
+      "finishedAt": "2026-11-09T12:20:48.887Z",
+      "artifactDirectory": "artifacts/job-sAaqTD/revision",
+      "geometry": {
+        "bbox_mm": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            80,
+            50,
+            6
+          ]
+        ],
+        "edges": 24,
+        "faces": 10,
+        "kind": "solid",
+        "solids": 1,
+        "void_regions": 0,
+        "volume_mm3": 23321.415986779655
+      },
+      "nativeTimingMs": {
+        "datum_resolution": 0.0011250000000000001,
+        "export": 0.6702910000000001,
+        "geometry": 46.961666,
+        "query_snapshot": 0.720875,
+        "total": 192.950542,
+        "validation": 115.959083
+      },
+      "degradations": [],
+      "receiptSha256": "05facf04faa887a8350a2a7bfa376b75d75b629ca6adcd334ab35cb3aef581df"
+    },
+    {
+      "id": "s0002",
+      "label": "Agent geometry query",
+      "kind": "inspection",
+      "operation": "query",
+      "status": "succeeded",
+      "startedAt": "2026-11-09T12:20:52.185Z",
+      "inputFile": "steps/s0002/input.json",
+      "inputSha256": "dbbbfb8b52f04abaa80682f341a0d359f12cd678bee97aeb29e4fa139110e28b",
+      "receiptFile": "steps/s0002/receipt.json",
+      "queryRequestFile": "steps/s0002/query.json",
+      "queryRequestSha256": "d2d0ddb9111b480959c91157b50fc9c53f9c61c63ed2f791a1ec83124489ad41",
+      "queryable": true,
+      "durationMs": 44.20220799999879,
+      "finishedAt": "2026-11-09T12:20:52.232Z",
+      "artifactDirectory": "artifacts/job-sAaqTD/revision",
+      "nativeTimingMs": {
+        "index": 0.021790999999999998,
+        "load": 1.821125,
+        "query": 36.284084,
+        "total": 38.127333
+      },
+      "receiptSha256": "755fcf1bc2d31799dbd6a3a111d388dd78e5e0663a8622d73298862f80752ba0"
+    },
+    {
+      "id": "s0003",
+      "label": "Agent parameter edit",
+      "kind": "geometry",
+      "operation": "edit",
+      "status": "succeeded",
+      "startedAt": "2026-11-09T12:20:53.472Z",
+      "inputFile": "steps/s0003/input.json",
+      "inputSha256": "1b9cfe207a33734f74e7b5cfd2c7672fec7be89531827d1b2c31996762326d31",
+      "receiptFile": "steps/s0003/receipt.json",
+      "requestedParameters": {
+        "holeRadius": 3.5
+      },
+      "queryable": true,
+      "durationMs": 196.37220799999886,
+      "finishedAt": "2026-11-09T12:20:53.669Z",
+      "artifactDirectory": "artifacts/job-ztFr24/revision",
+      "geometry": {
+        "bbox_mm": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            80,
+            50,
+            6
+          ]
+        ],
+        "edges": 24,
+        "faces": 10,
+        "kind": "solid",
+        "solids": 1,
+        "void_regions": 0,
+        "volume_mm3": 23076.371759858266
+      },
+      "nativeTimingMs": {
+        "datum_resolution": 0.002875,
+        "export": 0.641042,
+        "geometry": 52.999375,
+        "query_snapshot": 0.780416,
+        "total": 184.659334,
+        "validation": 100.15350000000001
+      },
+      "degradations": [],
+      "receiptSha256": "19cc9fcce5b53780ab21ad21631ff0b99780b68133dcacb3084c4038a0593869"
+    },
+    {
+      "id": "s0004",
+      "label": "Agent geometry query",
+      "kind": "inspection",
+      "operation": "query",
+      "status": "succeeded",
+      "startedAt": "2026-11-09T12:20:55.344Z",
+      "inputFile": "steps/s0004/input.json",
+      "inputSha256": "1b9cfe207a33734f74e7b5cfd2c7672fec7be89531827d1b2c31996762326d31",
+      "receiptFile": "steps/s0004/receipt.json",
+      "queryRequestFile": "steps/s0004/query.json",
+      "queryRequestSha256": "33a7ae4a06b827c5a08d35598277b4b11994ac53cea07d8604ab808d5420f786",
+      "queryable": true,
+      "durationMs": 41.56891600000017,
+      "finishedAt": "2026-11-09T12:20:55.387Z",
+      "artifactDirectory": "artifacts/job-ztFr24/revision",
+      "nativeTimingMs": {
+        "index": 0.024125,
+        "load": 2.049792,
+        "query": 34.902208,
+        "total": 36.976584
+      },
+      "receiptSha256": "cec9b128d244fe5934022f64baca36497c904d064039d428b1dd812dd342a5a3"
+    }
+  ]
+}

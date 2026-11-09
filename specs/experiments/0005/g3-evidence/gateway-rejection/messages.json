@@ -1,0 +1,38 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Build an exact parametric 80 x 50 x 6 mm mounting plate, origin [0,0,0], with four through holes centered at [10,10], [70,10], [10,40], [70,40], diameter 6 mm. Declare numeric parameter holeRadius=3 and use that parameter in a holes feature. Final feature ID part. Use version:1 units:mm model, box plus holes, holes frame origin [0,0,-1], x_axis [1,0,0], y_axis [0,1,0], depth 8. Validate then build with options.queryable=true and preview width320 height240 chord_mm1. Query op holes to verify four actual through holes. Then edit holeRadius to 3.5, and query the NEW revision's holes to verify diameter7. Keep all four hole centers unchanged. Query tolerance linear_mm=1e-5 angular_rad=1e-7, target definition_id part, space definition. Return saved STEP path and measured results. No extra model changes."
+      }
+    ],
+    "timestamp": 1794226757067
+  },
+  {
+    "role": "assistant",
+    "content": [],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek/deepseek-flash",
+    "usage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    },
+    "stopReason": "error",
+    "timestamp": 1794226757086,
+    "errorMessage": "401: {\"code\":\"runner_unauthorized\",\"message\":\"runner credential missing, unknown or revoked\"}",
+    "durationMs": 19,
+    "thinkingLevel": "off"
+  }
+]

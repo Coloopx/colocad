@@ -61,12 +61,12 @@ def validate(case,result,directory):
 selected=[c for c in manifest['cases'] if split=='all' or (c['split']=='held_out')==(split=='held_out')]
 record={'schema':'colocad.g2-run/1','manifest_sha256':sha(corpus/'manifest.json'),'native_sha256':sha(binary),'split':split,'rows':rows,'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()}
 if prior:
- record.update(native_sha256=prior['native_sha256'],source_commit=prior['source_commit'],revalidated_artifacts_from=str(reuse))
+ record.update(native_sha256=prior['native_sha256'],source_commit=prior.get('source_commit','Linux runtime source fingerprint in receipt'),revalidated_artifacts_from=str(reuse))
 for case in selected:
  path=corpus/case['model'];assert sha(path)==case['model_sha256'];directory=(reuse or out)/case['id'];started=time.monotonic();row={'id':case['id'],'family':case['family'],'expect':case['expect'],'passed':False};rows.append(row)
  try:
   if reuse:
-   raw=(reuse/(case['id']+'-stdout.json')).read_bytes();stderr=(reuse/(case['id']+'-stderr.log')).read_bytes();process_exit=next(r['process_exit'] for r in prior['rows'] if r['id']==case['id'])
+   raw=(reuse/(case['id']+'-stdout.json')).read_bytes();stderr=(reuse/(case['id']+'-stderr.log')).read_bytes();process_exit=next(r.get('process_exit',r.get('exit',{}).get('code')) for r in prior['rows'] if r['id']==case['id'])
   else:
    p=subprocess.run([str(binary),'build','--out',str(directory),'--queryable'],input=path.read_bytes(),capture_output=True,timeout=manifest['execution']['per_case_wall_seconds']);raw=p.stdout;stderr=p.stderr;process_exit=p.returncode
   (out/(case['id']+'-stdout.json')).write_bytes(raw);(out/(case['id']+'-stderr.log')).write_bytes(stderr)

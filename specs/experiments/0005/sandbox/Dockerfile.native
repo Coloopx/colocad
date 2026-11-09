@@ -1,0 +1,11 @@
+FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS builder
+WORKDIR /src
+COPY third_party/solidcore-source.tar.gz /tmp/solidcore.tar.gz
+RUN echo "fd75dd9a3bbfe37e320a7d47f05a6a48566f8ffc93128eff92124b9259d812c0  /tmp/solidcore.tar.gz" | sha256sum -c - && mkdir -p vendor/solidcore && tar xzf /tmp/solidcore.tar.gz --strip-components=1 -C vendor/solidcore && rm /tmp/solidcore.tar.gz
+COPY Cargo.toml Cargo.lock ./
+COPY crates ./crates
+RUN --mount=type=cache,target=/usr/local/cargo/registry --mount=type=cache,target=/src/target cargo build --release --locked -p agent-cad && cp target/release/agent-cad /agent-cad
+RUN --mount=type=cache,target=/usr/local/cargo/registry --mount=type=cache,target=/src/target cargo test --release --locked -p agent-cad --test snapshot_adversarial --no-run && for file in /src/target/release/deps/snapshot_adversarial-*; do if [ -x "$file" ] && [ ! -d "$file" ]; then cp "$file" /snapshot-probe; fi; done
+FROM scratch
+COPY --from=builder /agent-cad /agent-cad
+COPY --from=builder /snapshot-probe /snapshot-probe

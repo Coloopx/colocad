@@ -1,0 +1,280 @@
+{
+  "passed": true,
+  "mode": "product",
+  "inference": "live_remote_model_no_scripted_responses",
+  "model": "deepseek-flash",
+  "api": "openai-completions",
+  "cost": "unknown; zero-valued SDK cost metadata is not a billing claim",
+  "usage": {
+    "input": 23341,
+    "output": 1479,
+    "cacheRead": 417920,
+    "cacheWrite": 0
+  },
+  "tool_calls": 4,
+  "tool_errors": 0,
+  "assistant_turns": 6,
+  "session_steps": [
+    {
+      "id": "s0001",
+      "operation": "build",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0002",
+      "operation": "query",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0003",
+      "operation": "edit",
+      "status": "succeeded"
+    },
+    {
+      "id": "s0004",
+      "operation": "query",
+      "status": "succeeded"
+    }
+  ],
+  "measurements": {
+    "before": [
+      0,
+      32.99999999999996,
+      156.99999999999977
+    ],
+    "after": [
+      0,
+      32.99999999999996,
+      176.99999999999974
+    ],
+    "relationship": {
+      "a": {
+        "instance_path": [
+          "accessory-bracket"
+        ]
+      },
+      "a_volume_mm3": 25238.407165415945,
+      "b": {
+        "instance_path": [
+          "motor-bearing-support"
+        ]
+      },
+      "b_volume_mm3": 90373.03581162762,
+      "boundary_distance_mm": 108.99999999753803,
+      "contained_side": null,
+      "distance_semantics": "unsigned_boundary_distance_not_penetration_depth",
+      "overlap_mm3": 0,
+      "predicate_tolerance": {
+        "angular_rad": 0.0001,
+        "linear_mm": 0.01
+      },
+      "relationship": "separated",
+      "space": "assembly",
+      "volume_uncertainty_mm3": 0.000009037303581162762,
+      "witness": {
+        "a_point_mm": [
+          -25,
+          40.99999999230573,
+          202.00000000246197
+        ],
+        "b_point_mm": [
+          -25,
+          40.99999999230573,
+          311
+        ],
+        "status": "exact_boundary_solver",
+        "support_ref_status": "not_retained_by_copying_solver_adapter",
+        "support_refs": null
+      }
+    }
+  },
+  "start_resources": {
+    "label": "resident_pi_and_local_harness_start",
+    "cpu_max": "100000 100000",
+    "memory_max": 536870912,
+    "memory_swap_max": "0",
+    "memory_peak_bytes": 365666304,
+    "memory_current_bytes": 86155264,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory_stat": {
+      "anon": 26468352,
+      "file": 56729600,
+      "kernel": 2281472,
+      "kernel_stack": 180224,
+      "pagetables": 987136,
+      "sec_pagetables": 0,
+      "percpu": 3360,
+      "sock": 0,
+      "vmalloc": 8192,
+      "shmem": 0,
+      "zswap": 0,
+      "zswapped": 0,
+      "file_mapped": 0,
+      "file_dirty": 0,
+      "file_writeback": 0,
+      "swapcached": 0,
+      "anon_thp": 0,
+      "file_thp": 0,
+      "shmem_thp": 0,
+      "inactive_anon": 0,
+      "active_anon": 26386432,
+      "inactive_file": 56725504,
+      "active_file": 0,
+      "unevictable": 0,
+      "slab_reclaimable": 771848,
+      "slab_unreclaimable": 297960,
+      "slab": 1069808,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0,
+      "workingset_nodereclaim": 0,
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pgscan_kswapd": 0,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgsteal_kswapd": 0,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgfault": 182527,
+      "pgmajfault": 0,
+      "pgrefill": 0,
+      "pgactivate": 0,
+      "pgdeactivate": 0,
+      "pglazyfree": 0,
+      "pglazyfreed": 0,
+      "zswpin": 0,
+      "zswpout": 0,
+      "zswpwb": 0,
+      "thp_fault_alloc": 0,
+      "thp_collapse_alloc": 0,
+      "thp_swpout": 0,
+      "thp_swpout_fallback": 0
+    },
+    "cpu_stat": {
+      "usage_usec": 42621287,
+      "user_usec": 42391431,
+      "system_usec": 229855,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 427,
+      "nr_throttled": 72,
+      "throttled_usec": 89249,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "processes": [
+      {
+        "pid": 1,
+        "name": "node",
+        "rss_kib": 74192
+      }
+    ],
+    "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+  },
+  "final_resources": {
+    "label": "resident_pi_plus_local_harness_plus_native",
+    "cpu_max": "100000 100000",
+    "memory_max": 536870912,
+    "memory_swap_max": "0",
+    "memory_peak_bytes": 388571136,
+    "memory_current_bytes": 157392896,
+    "memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory_stat": {
+      "anon": 39796736,
+      "file": 114032640,
+      "kernel": 2904064,
+      "kernel_stack": 180224,
+      "pagetables": 1290240,
+      "sec_pagetables": 0,
+      "percpu": 3360,
+      "sock": 0,
+      "vmalloc": 8192,
+      "shmem": 0,
+      "zswap": 0,
+      "zswapped": 0,
+      "file_mapped": 0,
+      "file_dirty": 0,
+      "file_writeback": 0,
+      "swapcached": 0,
+      "anon_thp": 0,
+      "file_thp": 0,
+      "shmem_thp": 0,
+      "inactive_anon": 0,
+      "active_anon": 39739392,
+      "inactive_file": 114020352,
+      "active_file": 0,
+      "unevictable": 0,
+      "slab_reclaimable": 1076056,
+      "slab_unreclaimable": 312872,
+      "slab": 1388928,
+      "workingset_refault_anon": 0,
+      "workingset_refault_file": 0,
+      "workingset_activate_anon": 0,
+      "workingset_activate_file": 0,
+      "workingset_restore_anon": 0,
+      "workingset_restore_file": 0,
+      "workingset_nodereclaim": 0,
+      "pgscan": 0,
+      "pgsteal": 0,
+      "pgscan_kswapd": 0,
+      "pgscan_direct": 0,
+      "pgscan_khugepaged": 0,
+      "pgsteal_kswapd": 0,
+      "pgsteal_direct": 0,
+      "pgsteal_khugepaged": 0,
+      "pgfault": 362296,
+      "pgmajfault": 0,
+      "pgrefill": 0,
+      "pgactivate": 0,
+      "pgdeactivate": 0,
+      "pglazyfree": 0,
+      "pglazyfreed": 0,
+      "zswpin": 0,
+      "zswpout": 0,
+      "zswpwb": 0,
+      "thp_fault_alloc": 0,
+      "thp_collapse_alloc": 0,
+      "thp_swpout": 0,
+      "thp_swpout_fallback": 0
+    },
+    "cpu_stat": {
+      "usage_usec": 92304074,
+      "user_usec": 91809369,
+      "system_usec": 494705,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 1018,
+      "nr_throttled": 147,
+      "throttled_usec": 179980,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "processes": [
+      {
+        "pid": 1,
+        "name": "node",
+        "rss_kib": 88764
+      }
+    ],
+    "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+  },
+  "skill_sha256": "463761280ec72421fec790d0254eacd6b4d6c01c8d0c264b971cb92973b00287",
+  "native_sha256": "cc7a2b5d68b71d3a787838c9b35d721febfaafcdb4d648dbe6b920f9a900c8fc",
+  "provider_errors": []
+}

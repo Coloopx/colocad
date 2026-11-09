@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+ok 1 - semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+  ---
+  duration_ms: 902.212916
+  type: 'test'
+  ...
+# Subtest: foreign assembly replacement and rejected replacement retain accepted session across relocation
+ok 2 - foreign assembly replacement and rejected replacement retain accepted session across relocation
+  ---
+  duration_ms: 2435.288292
+  type: 'test'
+  ...
+# Subtest: checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+ok 3 - checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+  ---
+  duration_ms: 19.69975
+  type: 'test'
+  ...
+# Subtest: real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+ok 4 - real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+  ---
+  duration_ms: 559.757625
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3998.041042

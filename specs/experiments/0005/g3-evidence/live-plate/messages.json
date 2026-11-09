@@ -1,0 +1,2561 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "text",
+        "text": "Build an exact parametric 80 x 50 x 6 mm mounting plate, origin [0,0,0], with four through holes centered at [10,10], [70,10], [10,40], [70,40], diameter 6 mm. Declare numeric parameter holeRadius=3 and use that parameter in a holes feature. Final feature ID part. Use version:1 units:mm model, box plus holes, holes frame origin [0,0,-1], x_axis [1,0,0], y_axis [0,1,0], depth 8. Validate then build with options.queryable=true and preview width320 height240 chord_mm1. Query op holes to verify four actual through holes. Then edit holeRadius to 3.5, and query the NEW revision's holes to verify diameter7. Keep all four hole centers unchanged. Query tolerance linear_mm=1e-5 angular_rad=1e-7, target definition_id part, space definition. Return saved STEP path and measured results. No extra model changes."
+      }
+    ],
+    "timestamp": 1794226840968
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "I'll start by checking capabilities, then validate the model before building."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_AguYx860hd1eAaoc0RPF3737",
+        "name": "cad_capabilities",
+        "arguments": {}
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 64974,
+      "output": 36,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 65010,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226840991,
+    "responseId": "aed320f2-78f7-45a0-8136-f5e060d826a8",
+    "rawStopReason": "tool_calls",
+    "durationMs": 2269,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_AguYx860hd1eAaoc0RPF3737",
+    "toolName": "cad_capabilities",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"data\":{\"assembly\":{\"checks\":[\"collision\",\"containment\",\"opening\",\"interface_compatibility\",\"geometric_relationship\"],\"construction_volumes\":true,\"hierarchy\":true,\"mate_direction\":{\"axis\":[\"aligned\",\"opposed\",\"unoriented\"],\"default\":\"aligned\",\"frame\":[\"aligned\",\"opposed\"],\"frame_twist_deg\":true,\"unoriented_branch\":\"initial_pose_fixed_during_local_solve\"},\"mate_physical_residual_units\":[\"mm\",\"rad\"],\"mates\":[\"fixed\",\"coincident\",\"concentric\",\"plane\",\"distance\",\"revolute\",\"prismatic\"],\"named_instances\":true,\"poses\":[\"normal\",\"internal\",\"exploded\"],\"representation_declarations\":true,\"shared_definitions\":true,\"step\":\"native_product_instance_tree\"},\"execution\":\"Agent, Harness and the CAD package run in the same sandbox; Harness invokes local module actions\",\"execution_policy\":\"sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9\",\"executor_version\":\"0.5.0\",\"exports\":[\"step_exact_solids\",\"step_exact_surfaces\",\"feature_ir\",\"png\",\"glb\",\"stl\"],\"incremental\":{\"dependency_keys\":true,\"exact_checkpoints\":true,\"replay_for_named_or_region_features\":true},\"inspection_regions\":{\"automatic_propagation\":true,\"computed_on_demand\":true,\"exact_required_option\":true},\"kernel\":{\"name\":\"solidcore\",\"revision\":\"bff1569a4c3347ed9af67faab71578cadf84fde2\",\"scoped_fixes\":{\"measurement\":[\"precise_properties_body_length_scale\",\"precise_properties_split_at_surface_knots\",\"precise_properties_span_end_from_below\",\"precise_properties_trim_base_v\",\"integrator_propagates_failure\"],\"thicken\":[\"shell_one_construction\"]},\"tolerances\":\"kernel_defaults\",\"upstream_fixes\":[\"transform_scales_each_tolerance\",\"transform_model_size_from_body_box\",\"fillet_chamfer_cone_on_arc\",\"shell_edges_on_analytics_exact\"],\"volume_integration_accuracy\":1e-8},\"limits\":{\"checked_pairs\":8128,\"cutters\":1024,\"features\":128,\"generated_step_entities_per_definition\":1000000,\"groups\":512,\"input_bytes\":33554432,\"instances\":128,\"preview_triangles\":200000,\"solver_variables\":128,\"step_asset_bytes\":25165824,\"step_entities\":100000},\"naming\":{\"ambiguity\":\"expected_count_required\",\"parameter_replay\":true,\"persistence\":\"feature_IR_names; not foreign STEP entity numbers\",\"source\":\"native_topology_notifications\",\"split_merge\":true},\"operations\":[\"draft_extrude\",\"name_topology\",\"surface_network\",\"surface_patch\",\"surface_bridge\",\"surface_edit\",\"thicken\",\"sew\",\"inspection_region\",\"hollow\",\"shell_body\",\"lid_for\",\"face_cutout\",\"face_hole_grid\",\"face_tool\",\"face_holes\",\"cutout\",\"holes\",\"split\",\"extrude\",\"revolve\",\"sweep\",\"curve_sweep\",\"pipe\",\"profile_loft\",\"place\",\"rotate\",\"mirror\",\"fillet\",\"chamfer\",\"shell\",\"boss\",\"pattern\",\"component_cad\",\"import_step\",\"loft\",\"box\",\"cone\",\"cylinder\",\"sphere\",\"cut\",\"union\",\"intersect\",\"translate\",\"hole_grid\"],\"preview\":{\"analytic_full_cylinder_and_cone\":true,\"halfspace_section\":true,\"instance_mesh_reuse\":true,\"revision_mesh_reuse\":true},\"profiles\":[\"rectangle\",\"circle\",\"ellipse\",\"polygon\",\"outline_lines_and_arcs\",\"constrained_sketch\"],\"protocol\":\"agent-cad/1\",\"query\":{\"contact_exception_domain\":\"certified_polyhedral_separating_plane\",\"datum_derivations\":[\"vertex_or_circle_point\",\"planar_face\",\"cylinder_or_circle_axis\",\"straight_edge_direction\",\"declared_design_point\",\"ordered_point_difference\",\"right_handed_frame\"],\"hole_domain\":\"connected_analytic_cylinders_planar_ends\",\"hole_patterns\":[\"linear\",\"rectangular\",\"circular\",\"unstructured\"],\"interface_profiles\":[\"planar_hole_mount/v1\"],\"limits\":{\"adjacency_visits\":200000,\"batch\":64,\"expression_depth\":8,\"expression_nodes\":128,\"page\":256,\"receipt_bytes\":8388608,\"request_bytes\":2097152,\"snapshot_bytes\":67108864},\"native_ref_display\":\"build_time_outline_artifact\",\"operations\":[\"faces\",\"edges\",\"vertices\",\"loops\",\"describe\",\"select\",\"datums\",\"named_datums\",\"evaluate_face\",\"holes\",\"hole_groups\",\"interfaces\",\"measure\"],\"persistent_datums\":true,\"relative_predicates\":[\"planar_normal_parallel_to\",\"planar_normal_aligned_with\",\"planar_coplanar_with\"],\"restrictions\":[\"bounds_are_transformed_definition_aabbs\",\"complex_bores_return_partial\",\"nonseparating_or_curved_contact_regions_unsupported\",\"source_accuracy_unknown\"],\"schema\":\"colocad.query/1\",\"selection\":[\"entities\",\"refs\",\"filter\",\"children\",\"ancestors\",\"siblings\",\"union\",\"intersection\",\"difference\",\"rank\",\"expect\"],\"snapshot\":\"colocad.query-manifest/1\"},\"restrictions\":{\"curve_sweep\":\"one line/arc/Bezier path; explicit profile at path start\",\"fillet_shell\":\"kernel failures surfaced; optional explicit on_fail record preserves the input with a degradation receipt\",\"large_grid\":\"1024 holes supported; may require host wallMs=120000\",\"offset_profile\":\"must retain one connected boundary\",\"profile_loft\":\"2..12 corresponding-curve sections; degree 1..3\",\"solvers\":\"local branch and local Jacobian rank; not a proof of global uniqueness\",\"step_import\":\"rigid product and mapped-item placements; shared definitions; mixed representation units and nonrigid mappings refused\",\"surface_bridge\":\"Bezier U-end to U-start; matching V degree; analytic C2 jets; no global Class-A certification\",\"sweep\":\"continuous planar path\"},\"sketch\":{\"constraint_residuals\":true,\"degrees_of_freedom\":true,\"solver\":\"bounded_local_levenberg_marquardt\"},\"surfaces\":{\"bezier_control_edit\":true,\"c2_boundary_jet_bridge\":true,\"class_a_certified\":false,\"gordon_network\":{\"bezier_degrees\":[1,7],\"curve_family_size\":[2,8],\"intersection_tolerance_mm\":1e-7},\"sew\":true,\"thicken\":true},\"units\":[\"mm\"],\"unsupported\":[\"general_class_a_certification\",\"arbitrary_multi_rail_surface_network\",\"commercial_native_feature_tree\"]},\"ok\":true}"
+      }
+    ],
+    "details": {
+      "data": {
+        "assembly": {
+          "checks": [
+            "collision",
+            "containment",
+            "opening",
+            "interface_compatibility",
+            "geometric_relationship"
+          ],
+          "construction_volumes": true,
+          "hierarchy": true,
+          "mate_direction": {
+            "axis": [
+              "aligned",
+              "opposed",
+              "unoriented"
+            ],
+            "default": "aligned",
+            "frame": [
+              "aligned",
+              "opposed"
+            ],
+            "frame_twist_deg": true,
+            "unoriented_branch": "initial_pose_fixed_during_local_solve"
+          },
+          "mate_physical_residual_units": [
+            "mm",
+            "rad"
+          ],
+          "mates": [
+            "fixed",
+            "coincident",
+            "concentric",
+            "plane",
+            "distance",
+            "revolute",
+            "prismatic"
+          ],
+          "named_instances": true,
+          "poses": [
+            "normal",
+            "internal",
+            "exploded"
+          ],
+          "representation_declarations": true,
+          "shared_definitions": true,
+          "step": "native_product_instance_tree"
+        },
+        "execution": "Agent, Harness and the CAD package run in the same sandbox; Harness invokes local module actions",
+        "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+        "executor_version": "0.5.0",
+        "exports": [
+          "step_exact_solids",
+          "step_exact_surfaces",
+          "feature_ir",
+          "png",
+          "glb",
+          "stl"
+        ],
+        "incremental": {
+          "dependency_keys": true,
+          "exact_checkpoints": true,
+          "replay_for_named_or_region_features": true
+        },
+        "inspection_regions": {
+          "automatic_propagation": true,
+          "computed_on_demand": true,
+          "exact_required_option": true
+        },
+        "kernel": {
+          "name": "solidcore",
+          "revision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+          "scoped_fixes": {
+            "measurement": [
+              "precise_properties_body_length_scale",
+              "precise_properties_split_at_surface_knots",
+              "precise_properties_span_end_from_below",
+              "precise_properties_trim_base_v",
+              "integrator_propagates_failure"
+            ],
+            "thicken": [
+              "shell_one_construction"
+            ]
+          },
+          "tolerances": "kernel_defaults",
+          "upstream_fixes": [
+            "transform_scales_each_tolerance",
+            "transform_model_size_from_body_box",
+            "fillet_chamfer_cone_on_arc",
+            "shell_edges_on_analytics_exact"
+          ],
+          "volume_integration_accuracy": 1e-8
+        },
+        "limits": {
+          "checked_pairs": 8128,
+          "cutters": 1024,
+          "features": 128,
+          "generated_step_entities_per_definition": 1000000,
+          "groups": 512,
+          "input_bytes": 33554432,
+          "instances": 128,
+          "preview_triangles": 200000,
+          "solver_variables": 128,
+          "step_asset_bytes": 25165824,
+          "step_entities": 100000
+        },
+        "naming": {
+          "ambiguity": "expected_count_required",
+          "parameter_replay": true,
+          "persistence": "feature_IR_names; not foreign STEP entity numbers",
+          "source": "native_topology_notifications",
+          "split_merge": true
+        },
+        "operations": [
+          "draft_extrude",
+          "name_topology",
+          "surface_network",
+          "surface_patch",
+          "surface_bridge",
+          "surface_edit",
+          "thicken",
+          "sew",
+          "inspection_region",
+          "hollow",
+          "shell_body",
+          "lid_for",
+          "face_cutout",
+          "face_hole_grid",
+          "face_tool",
+          "face_holes",
+          "cutout",
+          "holes",
+          "split",
+          "extrude",
+          "revolve",
+          "sweep",
+          "curve_sweep",
+          "pipe",
+          "profile_loft",
+          "place",
+          "rotate",
+          "mirror",
+          "fillet",
+          "chamfer",
+          "shell",
+          "boss",
+          "pattern",
+          "component_cad",
+          "import_step",
+          "loft",
+          "box",
+          "cone",
+          "cylinder",
+          "sphere",
+          "cut",
+          "union",
+          "intersect",
+          "translate",
+          "hole_grid"
+        ],
+        "preview": {
+          "analytic_full_cylinder_and_cone": true,
+          "halfspace_section": true,
+          "instance_mesh_reuse": true,
+          "revision_mesh_reuse": true
+        },
+        "profiles": [
+          "rectangle",
+          "circle",
+          "ellipse",
+          "polygon",
+          "outline_lines_and_arcs",
+          "constrained_sketch"
+        ],
+        "protocol": "agent-cad/1",
+        "query": {
+          "contact_exception_domain": "certified_polyhedral_separating_plane",
+          "datum_derivations": [
+            "vertex_or_circle_point",
+            "planar_face",
+            "cylinder_or_circle_axis",
+            "straight_edge_direction",
+            "declared_design_point",
+            "ordered_point_difference",
+            "right_handed_frame"
+          ],
+          "hole_domain": "connected_analytic_cylinders_planar_ends",
+          "hole_patterns": [
+            "linear",
+            "rectangular",
+            "circular",
+            "unstructured"
+          ],
+          "interface_profiles": [
+            "planar_hole_mount/v1"
+          ],
+          "limits": {
+            "adjacency_visits": 200000,
+            "batch": 64,
+            "expression_depth": 8,
+            "expression_nodes": 128,
+            "page": 256,
+            "receipt_bytes": 8388608,
+            "request_bytes": 2097152,
+            "snapshot_bytes": 67108864
+          },
+          "native_ref_display": "build_time_outline_artifact",
+          "operations": [
+            "faces",
+            "edges",
+            "vertices",
+            "loops",
+            "describe",
+            "select",
+            "datums",
+            "named_datums",
+            "evaluate_face",
+            "holes",
+            "hole_groups",
+            "interfaces",
+            "measure"
+          ],
+          "persistent_datums": true,
+          "relative_predicates": [
+            "planar_normal_parallel_to",
+            "planar_normal_aligned_with",
+            "planar_coplanar_with"
+          ],
+          "restrictions": [
+            "bounds_are_transformed_definition_aabbs",
+            "complex_bores_return_partial",
+            "nonseparating_or_curved_contact_regions_unsupported",
+            "source_accuracy_unknown"
+          ],
+          "schema": "colocad.query/1",
+          "selection": [
+            "entities",
+            "refs",
+            "filter",
+            "children",
+            "ancestors",
+            "siblings",
+            "union",
+            "intersection",
+            "difference",
+            "rank",
+            "expect"
+          ],
+          "snapshot": "colocad.query-manifest/1"
+        },
+        "restrictions": {
+          "curve_sweep": "one line/arc/Bezier path; explicit profile at path start",
+          "fillet_shell": "kernel failures surfaced; optional explicit on_fail record preserves the input with a degradation receipt",
+          "large_grid": "1024 holes supported; may require host wallMs=120000",
+          "offset_profile": "must retain one connected boundary",
+          "profile_loft": "2..12 corresponding-curve sections; degree 1..3",
+          "solvers": "local branch and local Jacobian rank; not a proof of global uniqueness",
+          "step_import": "rigid product and mapped-item placements; shared definitions; mixed representation units and nonrigid mappings refused",
+          "surface_bridge": "Bezier U-end to U-start; matching V degree; analytic C2 jets; no global Class-A certification",
+          "sweep": "continuous planar path"
+        },
+        "sketch": {
+          "constraint_residuals": true,
+          "degrees_of_freedom": true,
+          "solver": "bounded_local_levenberg_marquardt"
+        },
+        "surfaces": {
+          "bezier_control_edit": true,
+          "c2_boundary_jet_bridge": true,
+          "class_a_certified": false,
+          "gordon_network": {
+            "bezier_degrees": [
+              1,
+              7
+            ],
+            "curve_family_size": [
+              2,
+              8
+            ],
+            "intersection_tolerance_mm": 1e-7
+          },
+          "sew": true,
+          "thicken": true
+        },
+        "units": [
+          "mm"
+        ],
+        "unsupported": [
+          "general_class_a_certification",
+          "arbitrary_multi_rail_surface_network",
+          "commercial_native_feature_tree"
+        ]
+      },
+      "ok": true
+    },
+    "isError": false,
+    "durationMs": 10,
+    "timestamp": 1794226843272
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "toolCall",
+        "id": "call_00_GfkX6y6bmyOKvLaWg7TN8371",
+        "name": "cad_validate",
+        "arguments": {
+          "model": {
+            "version": 1,
+            "units": "mm",
+            "parameters": {
+              "holeRadius": 3,
+              "plateLength": 80,
+              "plateWidth": 50,
+              "plateThickness": 6
+            },
+            "features": [
+              {
+                "op": "box",
+                "id": "plate_stock",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  {
+                    "param": "plateLength"
+                  },
+                  {
+                    "param": "plateWidth"
+                  },
+                  {
+                    "param": "plateThickness"
+                  }
+                ]
+              },
+              {
+                "op": "holes",
+                "id": "mounting_holes",
+                "input": "plate_stock",
+                "frame": {
+                  "origin": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "x_axis": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "y_axis": [
+                    0,
+                    1,
+                    0
+                  ]
+                },
+                "positions": [
+                  [
+                    10,
+                    10
+                  ],
+                  [
+                    70,
+                    10
+                  ],
+                  [
+                    10,
+                    40
+                  ],
+                  [
+                    70,
+                    40
+                  ]
+                ],
+                "radius": {
+                  "param": "holeRadius"
+                },
+                "depth": 8
+              }
+            ],
+            "output": "part"
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 1674,
+      "output": 256,
+      "cacheRead": 64896,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 66826,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226843285,
+    "responseId": "2484a3a3-a66a-4682-ae4a-b486d7e22e33",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1613,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_GfkX6y6bmyOKvLaWg7TN8371",
+    "toolName": "cad_validate",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"error\":{\"code\":\"INVALID_REFERENCE\",\"feature_id\":null,\"message\":\"output does not exist\"},\"ok\":false}"
+      }
+    ],
+    "details": {
+      "error": {
+        "code": "INVALID_REFERENCE",
+        "feature_id": null,
+        "message": "output does not exist"
+      },
+      "ok": false
+    },
+    "isError": true,
+    "durationMs": 7,
+    "timestamp": 1794226844927
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "The `output` field must reference an existing feature ID, so I'll name the final holes feature `part`."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_thaiPHpwvN1Rtj2jSIxU0716",
+        "name": "cad_validate",
+        "arguments": {
+          "model": {
+            "features": [
+              {
+                "id": "plate_stock",
+                "op": "box",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  {
+                    "param": "plateLength"
+                  },
+                  {
+                    "param": "plateWidth"
+                  },
+                  {
+                    "param": "plateThickness"
+                  }
+                ]
+              },
+              {
+                "depth": 8,
+                "frame": {
+                  "origin": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "x_axis": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "y_axis": [
+                    0,
+                    1,
+                    0
+                  ]
+                },
+                "id": "part",
+                "input": "plate_stock",
+                "op": "holes",
+                "positions": [
+                  [
+                    10,
+                    10
+                  ],
+                  [
+                    70,
+                    10
+                  ],
+                  [
+                    10,
+                    40
+                  ],
+                  [
+                    70,
+                    40
+                  ]
+                ],
+                "radius": {
+                  "param": "holeRadius"
+                }
+              }
+            ],
+            "output": "part",
+            "parameters": {
+              "holeRadius": 3,
+              "plateLength": 80,
+              "plateThickness": 6,
+              "plateWidth": 50
+            },
+            "units": "mm",
+            "version": 1
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 177,
+      "output": 275,
+      "cacheRead": 66688,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 67140,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226844939,
+    "responseId": "b504d816-a36b-4f64-b001-eb97e3423cf3",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1812,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_thaiPHpwvN1Rtj2jSIxU0716",
+    "toolName": "cad_validate",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"data\":{\"model_hash\":\"73d55aea1799e05489481906f468891ea4567afcc4a54c6a5e03094fcd29b25d\",\"scope\":\"schema_and_dependencies_only\",\"valid\":true},\"ok\":true}"
+      }
+    ],
+    "details": {
+      "data": {
+        "model_hash": "73d55aea1799e05489481906f468891ea4567afcc4a54c6a5e03094fcd29b25d",
+        "scope": "schema_and_dependencies_only",
+        "valid": true
+      },
+      "ok": true
+    },
+    "isError": false,
+    "durationMs": 14,
+    "timestamp": 1794226846766
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Preflight passed. Building with `queryable=true` and the requested preview settings."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_I2pP2Tw4LBJAPdYHNbHV5173",
+        "name": "cad_build",
+        "arguments": {
+          "model": {
+            "features": [
+              {
+                "id": "plate_stock",
+                "op": "box",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  {
+                    "param": "plateLength"
+                  },
+                  {
+                    "param": "plateWidth"
+                  },
+                  {
+                    "param": "plateThickness"
+                  }
+                ]
+              },
+              {
+                "depth": 8,
+                "frame": {
+                  "origin": [
+                    0,
+                    0,
+                    -1
+                  ],
+                  "x_axis": [
+                    1,
+                    0,
+                    0
+                  ],
+                  "y_axis": [
+                    0,
+                    1,
+                    0
+                  ]
+                },
+                "id": "part",
+                "input": "plate_stock",
+                "op": "holes",
+                "positions": [
+                  [
+                    10,
+                    10
+                  ],
+                  [
+                    70,
+                    10
+                  ],
+                  [
+                    10,
+                    40
+                  ],
+                  [
+                    70,
+                    40
+                  ]
+                ],
+                "radius": {
+                  "param": "holeRadius"
+                }
+              }
+            ],
+            "output": "part",
+            "parameters": {
+              "holeRadius": 3,
+              "plateLength": 80,
+              "plateThickness": 6,
+              "plateWidth": 50
+            },
+            "preview": {
+              "chord_mm": 1,
+              "height": 240,
+              "width": 320
+            },
+            "units": "mm",
+            "version": 1
+          },
+          "options": {
+            "queryable": true
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 138,
+      "output": 314,
+      "cacheRead": 67072,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 67524,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226846780,
+    "responseId": "36d81165-ac06-44ef-b076-2d1e818341d5",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1887,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_I2pP2Tw4LBJAPdYHNbHV5173",
+    "toolName": "cad_build",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"ok\":true,\"session_step\":\"s0001\",\"data\":{\"artifact_directory\":\"/evidence/session/artifacts/job-sAaqTD/revision\",\"model_hash\":\"ca678f38164775d1d61cb9a204d1ad5169ac00b25895166834a86f685448fff9\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"execution_policy\":\"sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9\",\"geometry\":{\"bbox_mm\":[[0,0,0],[80,50,6]],\"edges\":24,\"faces\":10,\"kind\":\"solid\",\"solids\":1,\"void_regions\":0,\"volume_mm3\":23321.415986779655},\"timing_ms\":{\"datum_resolution\":0.0011250000000000001,\"export\":0.6702910000000001,\"geometry\":46.961666,\"query_snapshot\":0.720875,\"total\":192.950542,\"validation\":115.959083},\"validation\":{\"level\":\"kernel_level_1\",\"manifold\":true,\"valid\":true,\"warnings\":0},\"artifacts\":{\"model.glb\":{\"path\":\"/evidence/session/artifacts/job-sAaqTD/revision/model.glb\",\"sha256\":\"54a17395de784e4306166fd47fe5d1ff7148991b4170ee2201f559a1870dd694\"},\"model.step\":{\"path\":\"/evidence/session/artifacts/job-sAaqTD/revision/model.step\",\"sha256\":\"af7a350c98de0435d8db8d9ed70722f5ec7e6cdb28b58a10bf596886b873ada2\"},\"model.stl\":{\"path\":\"/evidence/session/artifacts/job-sAaqTD/revision/model.stl\",\"sha256\":\"830b551a58b5c1b728e46f656e4e4291dc2af9dbb53f999a1fd4d65f0224e4df\"},\"preview.mesh.json\":{\"path\":\"/evidence/session/artifacts/job-sAaqTD/revision/preview.mesh.json\",\"sha256\":\"bd958ec6243130286846e3a5b5501b9118979c28c3fc6a26e278e87eb16a37e7\"},\"preview.png\":{\"path\":\"/evidence/session/artifacts/job-sAaqTD/revision/preview.png\",\"sha256\":\"e1ba4ef6f1b14a1c0c90a1f24a4259b9ae6de77c0fd0ef93190e3c558ad642bf\"}},\"feature_summary\":{\"count\":2,\"reused\":0,\"slowest\":[{\"id\":\"part\",\"elapsed_ms\":44.494375000000005,\"cache_hit\":false},{\"id\":\"plate_stock\",\"elapsed_ms\":2.0205,\"cache_hit\":false}],\"degradations\":[]}},\"receipt_file\":\"/evidence/session/steps/s0001/receipt.json\"}"
+      }
+    ],
+    "details": {
+      "ok": true,
+      "session_step": "s0001",
+      "data": {
+        "artifact_directory": "/evidence/session/artifacts/job-sAaqTD/revision",
+        "model_hash": "ca678f38164775d1d61cb9a204d1ad5169ac00b25895166834a86f685448fff9",
+        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+        "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+        "geometry": {
+          "bbox_mm": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              80,
+              50,
+              6
+            ]
+          ],
+          "edges": 24,
+          "faces": 10,
+          "kind": "solid",
+          "solids": 1,
+          "void_regions": 0,
+          "volume_mm3": 23321.415986779655
+        },
+        "timing_ms": {
+          "datum_resolution": 0.0011250000000000001,
+          "export": 0.6702910000000001,
+          "geometry": 46.961666,
+          "query_snapshot": 0.720875,
+          "total": 192.950542,
+          "validation": 115.959083
+        },
+        "validation": {
+          "level": "kernel_level_1",
+          "manifold": true,
+          "valid": true,
+          "warnings": 0
+        },
+        "artifacts": {
+          "model.glb": {
+            "path": "/evidence/session/artifacts/job-sAaqTD/revision/model.glb",
+            "sha256": "54a17395de784e4306166fd47fe5d1ff7148991b4170ee2201f559a1870dd694"
+          },
+          "model.step": {
+            "path": "/evidence/session/artifacts/job-sAaqTD/revision/model.step",
+            "sha256": "af7a350c98de0435d8db8d9ed70722f5ec7e6cdb28b58a10bf596886b873ada2"
+          },
+          "model.stl": {
+            "path": "/evidence/session/artifacts/job-sAaqTD/revision/model.stl",
+            "sha256": "830b551a58b5c1b728e46f656e4e4291dc2af9dbb53f999a1fd4d65f0224e4df"
+          },
+          "preview.mesh.json": {
+            "path": "/evidence/session/artifacts/job-sAaqTD/revision/preview.mesh.json",
+            "sha256": "bd958ec6243130286846e3a5b5501b9118979c28c3fc6a26e278e87eb16a37e7"
+          },
+          "preview.png": {
+            "path": "/evidence/session/artifacts/job-sAaqTD/revision/preview.png",
+            "sha256": "e1ba4ef6f1b14a1c0c90a1f24a4259b9ae6de77c0fd0ef93190e3c558ad642bf"
+          }
+        },
+        "feature_summary": {
+          "count": 2,
+          "reused": 0,
+          "slowest": [
+            {
+              "id": "part",
+              "elapsed_ms": 44.494375000000005,
+              "cache_hit": false
+            },
+            {
+              "id": "plate_stock",
+              "elapsed_ms": 2.0205,
+              "cache_hit": false
+            }
+          ],
+          "degradations": []
+        }
+      },
+      "receipt_file": "/evidence/session/steps/s0001/receipt.json"
+    },
+    "isError": false,
+    "durationMs": 215,
+    "timestamp": 1794226848891
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Build succeeded with no degradations. The measured volume matches the analytic value (80·50·6 − 4·π·3²·6 = 23321.416 mm³). Now querying holes on revision 1."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_KXrQl5VGUPicTDzAbtO27762",
+        "name": "cad_query",
+        "arguments": {
+          "request": {
+            "queries": [
+              {
+                "op": "holes",
+                "where": {
+                  "termination": "through"
+                }
+              }
+            ],
+            "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+            "schema": "colocad.query/1",
+            "space": "definition",
+            "target": {
+              "definition_id": "part"
+            },
+            "tolerance": {
+              "linear_mm": 0.00001,
+              "angular_rad": 1e-7
+            }
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 838,
+      "output": 212,
+      "cacheRead": 67456,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 68506,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226848900,
+    "responseId": "113ffea8-5c73-4fe4-83c4-698b8e9b1629",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1696,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_KXrQl5VGUPicTDzAbtO27762",
+    "toolName": "cad_query",
+    "content": [
+      {
+        "type": "text",
+        "text": "Validation failed for tool \"cad_query\":\n  - request.queries.0.id: missing\n\nReceived arguments:\n{\n  \"request\": {\n    \"queries\": [\n      {\n        \"op\": \"holes\",\n        \"where\": {\n          \"termination\": \"through\"\n        }\n      }\n    ],\n    \"query_revision_id\": \"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\n    \"schema\": \"colocad.query/1\",\n    \"space\": \"definition\",\n    \"target\": {\n      \"definition_id\": \"part\"\n    },\n    \"tolerance\": {\n      \"linear_mm\": 0.00001,\n      \"angular_rad\": 1e-7\n    }\n  }\n}"
+      }
+    ],
+    "details": {},
+    "isError": true,
+    "timestamp": 1794226850600
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "The query requires an `id`; retrying with it."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_93A3dtl8vvkdhv3zIuzn8098",
+        "name": "cad_query",
+        "arguments": {
+          "request": {
+            "queries": [
+              {
+                "id": "holes_r1",
+                "op": "holes",
+                "where": {
+                  "termination": "through"
+                }
+              }
+            ],
+            "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+            "schema": "colocad.query/1",
+            "space": "definition",
+            "target": {
+              "definition_id": "part"
+            },
+            "tolerance": {
+              "angular_rad": 1e-7,
+              "linear_mm": 0.00001
+            }
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 224,
+      "output": 185,
+      "cacheRead": 68480,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 68889,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226850609,
+    "responseId": "9b19f814-71c5-40a8-8185-2fa2afad7d51",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1564,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_93A3dtl8vvkdhv3zIuzn8098",
+    "toolName": "cad_query",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"data\":{\"cache\":{\"descriptors\":\"request_local\",\"geometry\":\"exact_snapshot\"},\"degradations\":[],\"execution\":{\"definitions_loaded\":1,\"geometry_build_calls\":0,\"material_probes\":8,\"measurement_boolean_intersection_calls\":0,\"measurement_calls\":0,\"pattern_hypotheses\":0,\"step_export_calls\":0,\"tessellation_calls\":0},\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"results\":[{\"coverage\":{\"domain\":\"connected_analytic_cylinders_planar_ends\",\"excluded\":[],\"uncertain\":[]},\"diagnostics\":[],\"id\":\"holes_r1\",\"items\":[{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[70,40,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t10\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[70,40,0],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t32\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t66\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t1\"}},{\"center_mm\":[70,40,6],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t33\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t67\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":6,\"length_mm\":6,\"radius_mm\":3,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t10\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t10\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[10,10,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t7\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[10,10,0],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t23\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t57\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t1\"}},{\"center_mm\":[10,10,6],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t24\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t58\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":6,\"length_mm\":6,\"radius_mm\":3,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t7\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t7\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[70,10,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t8\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[70,10,0],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t26\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t60\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t1\"}},{\"center_mm\":[70,10,6],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t27\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t61\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":6,\"length_mm\":6,\"radius_mm\":3,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t8\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t8\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[10,40,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t9\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[10,40,0],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t29\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t63\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t1\"}},{\"center_mm\":[10,40,6],\"diameter_mm\":6,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t30\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t64\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":6,\"length_mm\":6,\"radius_mm\":3,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t9\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d\",\"topology_id\":\"t9\"}],\"termination\":\"through\",\"thread\":\"unknown\"}],\"next_cursor\":null,\"op\":\"holes\",\"returned_count\":4,\"status\":\"complete\",\"total_count\":4}],\"schema\":\"colocad.query/1\",\"source_accuracy\":\"unknown\",\"space\":\"definition\",\"target\":{\"definition_id\":\"part\"},\"timing_ms\":{\"index\":0.021790999999999998,\"load\":1.821125,\"query\":36.284084,\"total\":38.127333},\"tolerance\":{\"angular_rad\":1e-7,\"linear_mm\":0.00001},\"artifact_directory\":\"/evidence/session/artifacts/job-sAaqTD/revision\",\"source_artifact_directory\":\"/evidence/session/artifacts/job-sAaqTD/revision\",\"source_artifact_sha256\":{\"geom-429f7ff0d416474103e9f2631ac7d9d114640687919582155bc460688b9920f7.smb\":\"774c96e7e1c2c544ef4d79e823150064045dec981647aa828474af673e6cb99d\",\"geom-8cd235e040614efcde34bb18bf873ebaf1482d810828ce5d2cb4cd8f5225a34e.smb\":\"4584f86a933737bfdfc08710f7b620e0cc09cba78f35fefbec405fdf149b089c\",\"mesh-8cd235e040614efcde34bb18bf873ebaf1482d810828ce5d2cb4cd8f5225a34e-3ff0000000000000.json\":\"8dd13be0f10cf704415c01ac6796840e24004f0dd0567f6a198819c5abe86796\",\"model.glb\":\"54a17395de784e4306166fd47fe5d1ff7148991b4170ee2201f559a1870dd694\",\"model.step\":\"af7a350c98de0435d8db8d9ed70722f5ec7e6cdb28b58a10bf596886b873ada2\",\"model.stl\":\"830b551a58b5c1b728e46f656e4e4291dc2af9dbb53f999a1fd4d65f0224e4df\",\"preview.mesh.json\":\"bd958ec6243130286846e3a5b5501b9118979c28c3fc6a26e278e87eb16a37e7\",\"preview.png\":\"e1ba4ef6f1b14a1c0c90a1f24a4259b9ae6de77c0fd0ef93190e3c558ad642bf\",\"query-definition-0.smb\":\"21efebc26c3a262bbad789f4d6c359acf89f89ad638aaa043f92c73472834c3c\",\"query-display.json\":\"71d70567e6036a6a1ed3879a7aeaf92b84ae1394b4a95c18ee731421975aaa45\",\"query-manifest.json\":\"0c165915ab8df431a6cf80beef431b5fe0f36bb6d0404a9fcd3a17165aa519be\"}},\"ok\":true,\"session_step\":\"s0002\",\"receipt_file\":\"/evidence/session/steps/s0002/receipt.json\"}"
+      }
+    ],
+    "details": {
+      "data": {
+        "cache": {
+          "descriptors": "request_local",
+          "geometry": "exact_snapshot"
+        },
+        "degradations": [],
+        "execution": {
+          "definitions_loaded": 1,
+          "geometry_build_calls": 0,
+          "material_probes": 8,
+          "measurement_boolean_intersection_calls": 0,
+          "measurement_calls": 0,
+          "pattern_hypotheses": 0,
+          "step_export_calls": 0,
+          "tessellation_calls": 0
+        },
+        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+        "results": [
+          {
+            "coverage": {
+              "domain": "connected_analytic_cylinders_planar_ends",
+              "excluded": [],
+              "uncertain": []
+            },
+            "diagnostics": [],
+            "id": "holes_r1",
+            "items": [
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    70,
+                    40,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t10",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      70,
+                      40,
+                      0
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t32"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t66"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      70,
+                      40,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t33"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t67"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "length_mm": 6,
+                    "radius_mm": 3,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t10"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                    "topology_id": "t10"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    10,
+                    10,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t7",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      10,
+                      10,
+                      0
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t23"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t57"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      10,
+                      10,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t24"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t58"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "length_mm": 6,
+                    "radius_mm": 3,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t7"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                    "topology_id": "t7"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    70,
+                    10,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t8",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      70,
+                      10,
+                      0
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t26"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t60"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      70,
+                      10,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t27"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t61"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "length_mm": 6,
+                    "radius_mm": 3,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t8"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                    "topology_id": "t8"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    10,
+                    40,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t9",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      10,
+                      40,
+                      0
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t29"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t63"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      10,
+                      40,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t30"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t64"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 6,
+                    "length_mm": 6,
+                    "radius_mm": 3,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                        "topology_id": "t9"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "7068ef838b076cb09bdeaf229878dfb58c71608daf10673ea0d4d16c5c324e6b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:8c2d94c0a41ce7ff15b3920b9dc6ebe835cfc3be833e5d84b44c6ad5dbf1a95d",
+                    "topology_id": "t9"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              }
+            ],
+            "next_cursor": null,
+            "op": "holes",
+            "returned_count": 4,
+            "status": "complete",
+            "total_count": 4
+          }
+        ],
+        "schema": "colocad.query/1",
+        "source_accuracy": "unknown",
+        "space": "definition",
+        "target": {
+          "definition_id": "part"
+        },
+        "timing_ms": {
+          "index": 0.021790999999999998,
+          "load": 1.821125,
+          "query": 36.284084,
+          "total": 38.127333
+        },
+        "tolerance": {
+          "angular_rad": 1e-7,
+          "linear_mm": 0.00001
+        },
+        "artifact_directory": "/evidence/session/artifacts/job-sAaqTD/revision",
+        "source_artifact_directory": "/evidence/session/artifacts/job-sAaqTD/revision",
+        "source_artifact_sha256": {
+          "geom-429f7ff0d416474103e9f2631ac7d9d114640687919582155bc460688b9920f7.smb": "774c96e7e1c2c544ef4d79e823150064045dec981647aa828474af673e6cb99d",
+          "geom-8cd235e040614efcde34bb18bf873ebaf1482d810828ce5d2cb4cd8f5225a34e.smb": "4584f86a933737bfdfc08710f7b620e0cc09cba78f35fefbec405fdf149b089c",
+          "mesh-8cd235e040614efcde34bb18bf873ebaf1482d810828ce5d2cb4cd8f5225a34e-3ff0000000000000.json": "8dd13be0f10cf704415c01ac6796840e24004f0dd0567f6a198819c5abe86796",
+          "model.glb": "54a17395de784e4306166fd47fe5d1ff7148991b4170ee2201f559a1870dd694",
+          "model.step": "af7a350c98de0435d8db8d9ed70722f5ec7e6cdb28b58a10bf596886b873ada2",
+          "model.stl": "830b551a58b5c1b728e46f656e4e4291dc2af9dbb53f999a1fd4d65f0224e4df",
+          "preview.mesh.json": "bd958ec6243130286846e3a5b5501b9118979c28c3fc6a26e278e87eb16a37e7",
+          "preview.png": "e1ba4ef6f1b14a1c0c90a1f24a4259b9ae6de77c0fd0ef93190e3c558ad642bf",
+          "query-definition-0.smb": "21efebc26c3a262bbad789f4d6c359acf89f89ad638aaa043f92c73472834c3c",
+          "query-display.json": "71d70567e6036a6a1ed3879a7aeaf92b84ae1394b4a95c18ee731421975aaa45",
+          "query-manifest.json": "0c165915ab8df431a6cf80beef431b5fe0f36bb6d0404a9fcd3a17165aa519be"
+        }
+      },
+      "ok": true,
+      "session_step": "s0002",
+      "receipt_file": "/evidence/session/steps/s0002/receipt.json"
+    },
+    "isError": false,
+    "durationMs": 64,
+    "timestamp": 1794226852237
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Revision 1 confirms 4 through holes, Ø6, depth 6, at the specified centers. Now editing `holeRadius` to 3.5 (the only change)."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_bVmGcJxWaY0JKrLm5th16043",
+        "name": "cad_edit",
+        "arguments": {
+          "parameters": {
+            "holeRadius": 3.5
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 5640,
+      "output": 81,
+      "cacheRead": 68864,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 74585,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226852247,
+    "responseId": "067040b7-d088-445a-ba76-446e1584a862",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1216,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_bVmGcJxWaY0JKrLm5th16043",
+    "toolName": "cad_edit",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"ok\":true,\"session_step\":\"s0003\",\"data\":{\"artifact_directory\":\"/evidence/session/artifacts/job-ztFr24/revision\",\"model_hash\":\"6a5b691a0dfa738f6a196391f0bfdd6cadcefe5d8903352632238db2a1fe6ded\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"execution_policy\":\"sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9\",\"geometry\":{\"bbox_mm\":[[0,0,0],[80,50,6]],\"edges\":24,\"faces\":10,\"kind\":\"solid\",\"solids\":1,\"void_regions\":0,\"volume_mm3\":23076.371759858266},\"timing_ms\":{\"datum_resolution\":0.002875,\"export\":0.641042,\"geometry\":52.999375,\"query_snapshot\":0.780416,\"total\":184.659334,\"validation\":100.15350000000001},\"validation\":{\"level\":\"kernel_level_1\",\"manifold\":true,\"valid\":true,\"warnings\":0},\"artifacts\":{\"model.glb\":{\"path\":\"/evidence/session/artifacts/job-ztFr24/revision/model.glb\",\"sha256\":\"477bcdceac5df53b1412878dcebefce5fff162bb44b1d6983141f88b0563c1b0\"},\"model.step\":{\"path\":\"/evidence/session/artifacts/job-ztFr24/revision/model.step\",\"sha256\":\"a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3\"},\"model.stl\":{\"path\":\"/evidence/session/artifacts/job-ztFr24/revision/model.stl\",\"sha256\":\"d535d8e08d745aff2e2f9f8296f08434227e422ef640620e995d6a85d526ff1d\"},\"preview.mesh.json\":{\"path\":\"/evidence/session/artifacts/job-ztFr24/revision/preview.mesh.json\",\"sha256\":\"de4af9119ba7c7e3da370ebde36bcd77a8e7a680e8e3f0167578a363073d4618\"},\"preview.png\":{\"path\":\"/evidence/session/artifacts/job-ztFr24/revision/preview.png\",\"sha256\":\"4e98000098c62a4fd3750385e38081d7468dacb513db76d495e4ce0c7fa60aa2\"}},\"feature_summary\":{\"count\":2,\"reused\":1,\"slowest\":[{\"id\":\"part\",\"elapsed_ms\":49.863916,\"cache_hit\":false},{\"id\":\"plate_stock\",\"elapsed_ms\":2.9448339999999997,\"cache_hit\":true}],\"degradations\":[]}},\"receipt_file\":\"/evidence/session/steps/s0003/receipt.json\"}"
+      }
+    ],
+    "details": {
+      "ok": true,
+      "session_step": "s0003",
+      "data": {
+        "artifact_directory": "/evidence/session/artifacts/job-ztFr24/revision",
+        "model_hash": "6a5b691a0dfa738f6a196391f0bfdd6cadcefe5d8903352632238db2a1fe6ded",
+        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+        "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+        "geometry": {
+          "bbox_mm": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              80,
+              50,
+              6
+            ]
+          ],
+          "edges": 24,
+          "faces": 10,
+          "kind": "solid",
+          "solids": 1,
+          "void_regions": 0,
+          "volume_mm3": 23076.371759858266
+        },
+        "timing_ms": {
+          "datum_resolution": 0.002875,
+          "export": 0.641042,
+          "geometry": 52.999375,
+          "query_snapshot": 0.780416,
+          "total": 184.659334,
+          "validation": 100.15350000000001
+        },
+        "validation": {
+          "level": "kernel_level_1",
+          "manifold": true,
+          "valid": true,
+          "warnings": 0
+        },
+        "artifacts": {
+          "model.glb": {
+            "path": "/evidence/session/artifacts/job-ztFr24/revision/model.glb",
+            "sha256": "477bcdceac5df53b1412878dcebefce5fff162bb44b1d6983141f88b0563c1b0"
+          },
+          "model.step": {
+            "path": "/evidence/session/artifacts/job-ztFr24/revision/model.step",
+            "sha256": "a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3"
+          },
+          "model.stl": {
+            "path": "/evidence/session/artifacts/job-ztFr24/revision/model.stl",
+            "sha256": "d535d8e08d745aff2e2f9f8296f08434227e422ef640620e995d6a85d526ff1d"
+          },
+          "preview.mesh.json": {
+            "path": "/evidence/session/artifacts/job-ztFr24/revision/preview.mesh.json",
+            "sha256": "de4af9119ba7c7e3da370ebde36bcd77a8e7a680e8e3f0167578a363073d4618"
+          },
+          "preview.png": {
+            "path": "/evidence/session/artifacts/job-ztFr24/revision/preview.png",
+            "sha256": "4e98000098c62a4fd3750385e38081d7468dacb513db76d495e4ce0c7fa60aa2"
+          }
+        },
+        "feature_summary": {
+          "count": 2,
+          "reused": 1,
+          "slowest": [
+            {
+              "id": "part",
+              "elapsed_ms": 49.863916,
+              "cache_hit": false
+            },
+            {
+              "id": "plate_stock",
+              "elapsed_ms": 2.9448339999999997,
+              "cache_hit": true
+            }
+          ],
+          "degradations": []
+        }
+      },
+      "receipt_file": "/evidence/session/steps/s0003/receipt.json"
+    },
+    "isError": false,
+    "durationMs": 209,
+    "timestamp": 1794226853673
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Edit produced a new revision; volume matches 24000 − 4·π·3.5²·6 = 23076.372 mm³. Now querying the **new** revision's holes."
+      },
+      {
+        "type": "toolCall",
+        "id": "call_00_eKWVjZpfKi3HcSCxwtAu8832",
+        "name": "cad_query",
+        "arguments": {
+          "request": {
+            "queries": [
+              {
+                "id": "holes_r2",
+                "op": "holes",
+                "where": {
+                  "termination": "through"
+                }
+              }
+            ],
+            "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+            "schema": "colocad.query/1",
+            "space": "definition",
+            "target": {
+              "definition_id": "part"
+            },
+            "tolerance": {
+              "angular_rad": 1e-7,
+              "linear_mm": 0.00001
+            }
+          }
+        }
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 848,
+      "output": 213,
+      "cacheRead": 74496,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 75557,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "toolUse",
+    "timestamp": 1794226853681,
+    "responseId": "4eb7ebe4-4810-4e2a-a45f-3a9c7abb8231",
+    "rawStopReason": "tool_calls",
+    "durationMs": 1654,
+    "thinkingLevel": "off"
+  },
+  {
+    "role": "toolResult",
+    "toolCallId": "call_00_eKWVjZpfKi3HcSCxwtAu8832",
+    "toolName": "cad_query",
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"data\":{\"cache\":{\"descriptors\":\"request_local\",\"geometry\":\"exact_snapshot\"},\"degradations\":[],\"execution\":{\"definitions_loaded\":1,\"geometry_build_calls\":0,\"material_probes\":8,\"measurement_boolean_intersection_calls\":0,\"measurement_calls\":0,\"pattern_hypotheses\":0,\"step_export_calls\":0,\"tessellation_calls\":0},\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"results\":[{\"coverage\":{\"domain\":\"connected_analytic_cylinders_planar_ends\",\"excluded\":[],\"uncertain\":[]},\"diagnostics\":[],\"id\":\"holes_r2\",\"items\":[{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[70,40,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t10\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[70,40,0],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t32\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t66\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t1\"}},{\"center_mm\":[70,40,6],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t33\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t67\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":7,\"length_mm\":6,\"radius_mm\":3.5,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t10\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t10\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[10,10,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t7\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[10,10,0],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t23\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t57\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t1\"}},{\"center_mm\":[10,10,6],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t24\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t58\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":7,\"length_mm\":6,\"radius_mm\":3.5,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t7\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t7\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[70,10,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t8\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[70,10,0],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t26\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t60\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t1\"}},{\"center_mm\":[70,10,6],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t27\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t61\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":7,\"length_mm\":6,\"radius_mm\":3.5,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t8\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t8\"}],\"termination\":\"through\",\"thread\":\"unknown\"},{\"axis\":{\"direction\":[0,0,1],\"direction_semantics\":\"inward_from_first_reported_opening\",\"point_mm\":[10,40,0]},\"depth_mm\":6,\"depth_semantics\":\"first_opening_to_opposite_end_along_inward_axis\",\"evidence\":{\"closed_planar_rims\":true,\"connected_topology\":true,\"full_angular_coverage\":true,\"material_witnesses\":true},\"id\":\"hole-t9\",\"matching_openings\":[0,1],\"openings\":[{\"center_mm\":[10,40,0],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t29\"}],\"inward_direction\":[0,0,1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t63\"},\"normal\":[0,0,-1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t1\"}},{\"center_mm\":[10,40,6],\"diameter_mm\":7,\"edge_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"edge\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t30\"}],\"inward_direction\":[0,0,-1],\"loop\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"loop\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t64\"},\"normal\":[0,0,1],\"support_face\":{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t2\"}}],\"provenance\":\"recognized\",\"segments\":[{\"axial_interval_mm\":[0,6],\"diameter_mm\":7,\"length_mm\":6,\"radius_mm\":3.5,\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t9\"}]}],\"source_refs\":[{\"definition_id\":\"part\",\"definition_sha256\":\"0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b\",\"kind\":\"face\",\"query_revision_id\":\"sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e\",\"topology_id\":\"t9\"}],\"termination\":\"through\",\"thread\":\"unknown\"}],\"next_cursor\":null,\"op\":\"holes\",\"returned_count\":4,\"status\":\"complete\",\"total_count\":4}],\"schema\":\"colocad.query/1\",\"source_accuracy\":\"unknown\",\"space\":\"definition\",\"target\":{\"definition_id\":\"part\"},\"timing_ms\":{\"index\":0.024125,\"load\":2.049792,\"query\":34.902208,\"total\":36.976584},\"tolerance\":{\"angular_rad\":1e-7,\"linear_mm\":0.00001},\"artifact_directory\":\"/evidence/session/artifacts/job-ztFr24/revision\",\"source_artifact_directory\":\"/evidence/session/artifacts/job-ztFr24/revision\",\"source_artifact_sha256\":{\"geom-429f7ff0d416474103e9f2631ac7d9d114640687919582155bc460688b9920f7.smb\":\"774c96e7e1c2c544ef4d79e823150064045dec981647aa828474af673e6cb99d\",\"geom-e03850ddcdd931cae32d02191ae66dd67ec8af29f94dbf597966769e627ca2ca.smb\":\"054ba745fdb212e1961f1fd21d9f01d923f1f5307cc1311a67b81ad946bb53d1\",\"mesh-e03850ddcdd931cae32d02191ae66dd67ec8af29f94dbf597966769e627ca2ca-3ff0000000000000.json\":\"32be46bdb3fea02d00eaaf411e52b3a79b0a0ce32f441fb0944b2d4388322eba\",\"model.glb\":\"477bcdceac5df53b1412878dcebefce5fff162bb44b1d6983141f88b0563c1b0\",\"model.step\":\"a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3\",\"model.stl\":\"d535d8e08d745aff2e2f9f8296f08434227e422ef640620e995d6a85d526ff1d\",\"preview.mesh.json\":\"de4af9119ba7c7e3da370ebde36bcd77a8e7a680e8e3f0167578a363073d4618\",\"preview.png\":\"4e98000098c62a4fd3750385e38081d7468dacb513db76d495e4ce0c7fa60aa2\",\"query-definition-0.smb\":\"19a71950d78c218933581d47aca7d3b29dfa08fe0c341d4883284e5384bcd32e\",\"query-display.json\":\"384b75ad4e5c82710886abbb1c9c452bc5e9840e4993b7654c9c76f278ed4bcb\",\"query-manifest.json\":\"84a15137d4d1567fbf4eca2a3441639364b23c1bf3f36ddae580bcffb15bd94b\"}},\"ok\":true,\"session_step\":\"s0004\",\"receipt_file\":\"/evidence/session/steps/s0004/receipt.json\"}"
+      }
+    ],
+    "details": {
+      "data": {
+        "cache": {
+          "descriptors": "request_local",
+          "geometry": "exact_snapshot"
+        },
+        "degradations": [],
+        "execution": {
+          "definitions_loaded": 1,
+          "geometry_build_calls": 0,
+          "material_probes": 8,
+          "measurement_boolean_intersection_calls": 0,
+          "measurement_calls": 0,
+          "pattern_hypotheses": 0,
+          "step_export_calls": 0,
+          "tessellation_calls": 0
+        },
+        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+        "results": [
+          {
+            "coverage": {
+              "domain": "connected_analytic_cylinders_planar_ends",
+              "excluded": [],
+              "uncertain": []
+            },
+            "diagnostics": [],
+            "id": "holes_r2",
+            "items": [
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    70,
+                    40,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t10",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      70,
+                      40,
+                      0
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t32"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t66"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      70,
+                      40,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t33"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t67"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "length_mm": 6,
+                    "radius_mm": 3.5,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t10"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                    "topology_id": "t10"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    10,
+                    10,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t7",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      10,
+                      10,
+                      0
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t23"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t57"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      10,
+                      10,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t24"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t58"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "length_mm": 6,
+                    "radius_mm": 3.5,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t7"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                    "topology_id": "t7"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    70,
+                    10,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t8",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      70,
+                      10,
+                      0
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t26"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t60"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      70,
+                      10,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t27"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t61"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "length_mm": 6,
+                    "radius_mm": 3.5,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t8"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                    "topology_id": "t8"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              },
+              {
+                "axis": {
+                  "direction": [
+                    0,
+                    0,
+                    1
+                  ],
+                  "direction_semantics": "inward_from_first_reported_opening",
+                  "point_mm": [
+                    10,
+                    40,
+                    0
+                  ]
+                },
+                "depth_mm": 6,
+                "depth_semantics": "first_opening_to_opposite_end_along_inward_axis",
+                "evidence": {
+                  "closed_planar_rims": true,
+                  "connected_topology": true,
+                  "full_angular_coverage": true,
+                  "material_witnesses": true
+                },
+                "id": "hole-t9",
+                "matching_openings": [
+                  0,
+                  1
+                ],
+                "openings": [
+                  {
+                    "center_mm": [
+                      10,
+                      40,
+                      0
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t29"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t63"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t1"
+                    }
+                  },
+                  {
+                    "center_mm": [
+                      10,
+                      40,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "edge_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "edge",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t30"
+                      }
+                    ],
+                    "inward_direction": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "loop": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "loop",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t64"
+                    },
+                    "normal": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "support_face": {
+                      "definition_id": "part",
+                      "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                      "kind": "face",
+                      "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                      "topology_id": "t2"
+                    }
+                  }
+                ],
+                "provenance": "recognized",
+                "segments": [
+                  {
+                    "axial_interval_mm": [
+                      0,
+                      6
+                    ],
+                    "diameter_mm": 7,
+                    "length_mm": 6,
+                    "radius_mm": 3.5,
+                    "source_refs": [
+                      {
+                        "definition_id": "part",
+                        "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                        "kind": "face",
+                        "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                        "topology_id": "t9"
+                      }
+                    ]
+                  }
+                ],
+                "source_refs": [
+                  {
+                    "definition_id": "part",
+                    "definition_sha256": "0439c34879d3b8ce5601b14fa98dda39c677737835902c920bc9e22a96882c3b",
+                    "kind": "face",
+                    "query_revision_id": "sha256:779a0bbe6cef63acf8d946d65a2eea75d7572f4a29ee329c12d4d8f058cbe17e",
+                    "topology_id": "t9"
+                  }
+                ],
+                "termination": "through",
+                "thread": "unknown"
+              }
+            ],
+            "next_cursor": null,
+            "op": "holes",
+            "returned_count": 4,
+            "status": "complete",
+            "total_count": 4
+          }
+        ],
+        "schema": "colocad.query/1",
+        "source_accuracy": "unknown",
+        "space": "definition",
+        "target": {
+          "definition_id": "part"
+        },
+        "timing_ms": {
+          "index": 0.024125,
+          "load": 2.049792,
+          "query": 34.902208,
+          "total": 36.976584
+        },
+        "tolerance": {
+          "angular_rad": 1e-7,
+          "linear_mm": 0.00001
+        },
+        "artifact_directory": "/evidence/session/artifacts/job-ztFr24/revision",
+        "source_artifact_directory": "/evidence/session/artifacts/job-ztFr24/revision",
+        "source_artifact_sha256": {
+          "geom-429f7ff0d416474103e9f2631ac7d9d114640687919582155bc460688b9920f7.smb": "774c96e7e1c2c544ef4d79e823150064045dec981647aa828474af673e6cb99d",
+          "geom-e03850ddcdd931cae32d02191ae66dd67ec8af29f94dbf597966769e627ca2ca.smb": "054ba745fdb212e1961f1fd21d9f01d923f1f5307cc1311a67b81ad946bb53d1",
+          "mesh-e03850ddcdd931cae32d02191ae66dd67ec8af29f94dbf597966769e627ca2ca-3ff0000000000000.json": "32be46bdb3fea02d00eaaf411e52b3a79b0a0ce32f441fb0944b2d4388322eba",
+          "model.glb": "477bcdceac5df53b1412878dcebefce5fff162bb44b1d6983141f88b0563c1b0",
+          "model.step": "a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3",
+          "model.stl": "d535d8e08d745aff2e2f9f8296f08434227e422ef640620e995d6a85d526ff1d",
+          "preview.mesh.json": "de4af9119ba7c7e3da370ebde36bcd77a8e7a680e8e3f0167578a363073d4618",
+          "preview.png": "4e98000098c62a4fd3750385e38081d7468dacb513db76d495e4ce0c7fa60aa2",
+          "query-definition-0.smb": "19a71950d78c218933581d47aca7d3b29dfa08fe0c341d4883284e5384bcd32e",
+          "query-display.json": "384b75ad4e5c82710886abbb1c9c452bc5e9840e4993b7654c9c76f278ed4bcb",
+          "query-manifest.json": "84a15137d4d1567fbf4eca2a3441639364b23c1bf3f36ddae580bcffb15bd94b"
+        }
+      },
+      "ok": true,
+      "session_step": "s0004",
+      "receipt_file": "/evidence/session/steps/s0004/receipt.json"
+    },
+    "isError": false,
+    "durationMs": 58,
+    "timestamp": 1794226855393
+  },
+  {
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "Done. The plate was built, queried, edited and re-queried exactly as requested.\n\n## Deliverable (latest revision, holeRadius = 3.5)\n- **STEP:** `/evidence/session/artifacts/job-ztFr24/revision/model.step`\n  - sha256 `a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3`\n- Same directory also contains `model.stl`, `model.glb`, `preview.png` (320×240, chord 1.0 mm) and `preview.mesh.json`.\n- Revision 1 artifacts (Ø6, superseded): `/evidence/session/artifacts/job-sAaqTD/revision/model.step` (sha256 `af7a350c…`).\n\n## Model (exact, version:1, units:mm)\n| Feature ID | Op | Definition |\n|---|---|---|\n| `plate_stock` | box | origin [0,0,0], size [plateLength=80, plateWidth=50, plateThickness=6] |\n| `part` (final/output) | holes | input `plate_stock`, frame origin [0,0,-1], x_axis [1,0,0], y_axis [0,1,0], positions [10,10],[70,10],[10,40],[70,40], radius `holeRadius`, depth 8 |\n\n`holeRadius` is a declared numeric parameter used by the holes feature. The only model change after the first build was the parameter edit to 3.5; no geometry was added or removed.\n\n## Checks that ran\n1. `cad_validate` — schema/dependency preflight passed (`valid: true`). First attempt returned `INVALID_REFERENCE` because `output` must name an existing feature ID; fixed by naming the holes feature `part`.\n2. `cad_build` (queryable=true) — kernel_level_1 validation `valid: true`, manifold, 0 warnings, 0 degradations. Bbox exactly [[0,0,0],[80,50,6]], 1 solid, 10 faces, 24 edges.\n3. `cad_query` op `holes`, revision `sha256:8c2d94c0…`, tol 1e-5 / 1e-7 — **4 through holes, Ø6, depth 6**, centers (10,10), (70,10), (10,40), (70,40).\n4. `cad_edit` holeRadius 3→3.5 — new valid revision `sha256:779a0bbe…`, 0 degradations.\n5. `cad_query` op `holes` on the **new** revision `sha256:779a0bbe…` — **4 through holes, Ø7 (radius 3.5), depth 6**, centers unchanged: (10,10), (70,10), (10,40), (70,40).\n\n## Measured vs. analytic\n- Volume rev 1: **23321.416 mm³**; analytic 24000 − 4·π·3²·6 = 23321.416 ✓\n- Volume rev 2: **23076.372 mm³**; analytic 24000 − 4·π·3.5²·6 = 23076.372 ✓\n- Each hole: two matched planar rim openings (z=0 and z=6), full angular coverage, connected topology, `termination: through`, no diagnostics.\n\nBoth hole queries returned `status: complete`, returned_count 4 = total_count 4, with no degradation entries; `source_accuracy` is reported as `unknown` (kernel-side restriction, not a failure). No independent STEP re-import was run, so the STEP file's integrity rests on the build/export receipt rather than a separate reopen."
+      }
+    ],
+    "api": "openai-completions",
+    "provider": "acceptance-gateway",
+    "model": "deepseek-flash",
+    "usage": {
+      "input": 5585,
+      "output": 835,
+      "cacheRead": 75520,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 81940,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0,
+        "totalFromProvider": false
+      }
+    },
+    "stopReason": "stop",
+    "timestamp": 1794226855402,
+    "responseId": "6b5ecbca-4814-4074-ac0e-bdded38ba235",
+    "rawStopReason": "stop",
+    "durationMs": 4744,
+    "thinkingLevel": "off"
+  }
+]

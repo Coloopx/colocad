@@ -38,7 +38,7 @@ Use `cadquery-ocp-novtk==7.9.3.1.1`. `freeze.py` constructs the OCCT source/refe
 
 No case was removed, no oracle geometry simplified and no acceptance tolerance widened. The frozen held-out set has now been observed during acceptance; it must not be described as unseen in a future G4 optimization campaign.
 
-## G3 planned acceptance (after G2)
+## G3 acceptance requirements (fixed after G2)
 
 - Parameter edits and semantic named face split/merge/delete: new refs or explicit missing/ambiguity; old refs never rebound heuristically.
 - Independently authored source replacements, arbitrary rotation, wrong pitch/missing holes and symmetric orientation controls; failed attempts preserve the accepted model.
@@ -52,6 +52,50 @@ G4 benchmark/retrospective optimization is gated until G1–G3 have accepted evi
 
 **Accepted:** all **24/24** required cases pass (**18 positives, 6 correct rejections**), including all six originally held-out cases. [Final per-case and per-family evidence](g2-evidence/accepted.json), [source/native identities](g2-evidence/validation.json), [native regression](g2-evidence/native-final.log) and [Node regression](g2-evidence/node-final.log): **126 Rust and 36 Node tests pass**. Failed iterations and corrected verifier/fixture attempts remain in `g2-evidence/`. The numerical thresholds and geometric requirements are unchanged.
 
-The no-material cut and selection-tolerance fixes are general engine-wrapper changes. The product case and all positive STEP artifacts pass independent OCCT validation. This closes the declared G2 corpus; G3 is now active. No performance comparison or G4 promotion has run.
+The no-material cut and selection-tolerance fixes are general engine-wrapper changes. The product case and all positive STEP artifacts pass independent OCCT validation. This closed the declared G2 corpus before G3 began; completed G3 evidence follows below. No performance comparison or G4 promotion has run.
 
-**中文：**G2 冻结语料 24/24 通过，其中 18 个正例、6 个正确拒绝；原六个保留例也全部通过。126 项 Rust、36 项 Node 回归通过。保留失败和校正记录；容差与几何要求未放宽。此结论只覆盖公开语料，不代表所有工业 CAD 都可靠。继续 G3 生命周期与真实沙箱验收。
+**中文：**G2 冻结语料 24/24 通过，其中 18 个正例、6 个正确拒绝；原六个保留例也全部通过。该阶段 126 项 Rust、36 项 Node 回归通过。保留失败和校正记录；容差与几何要求未放宽。此结论只覆盖公开语料，不代表所有工业 CAD 都可靠。随后完成的 G3 生命周期与真实沙箱验收见下文。
+
+## G3 acceptance
+
+**Accepted for the declared workloads.** [Identity and validation record](g3-evidence/validation.json) · [container limits/state](g3-evidence/containers.json).
+
+| Acceptance | Result and evidence |
+| --- | --- |
+| Semantic lifecycle | Named face split → explicit multiplicity; fill/merge → new refs; deletion → zero matches; stale refs rejected. Geometry-backed replacement follows base/housing/arbitrary rotation, while wrong pitch/missing holes preserve accepted session state. [Lifecycle](g3-evidence/lifecycle-green.log) |
+| Recovery and cache | A real native build is terminated with its owning test process, then the dead lock and running step recover as interrupted; accepted source edits successfully. Checkpoint source/compiler/target fingerprints reject missing/old policies. [Linux lifecycle](g3-evidence/linux-lifecycle.log) |
+| Parser bounds | Fifteen truncated/invalid-header native payloads with recomputed hashes reach the parser and fail without panic; this bounded deterministic probe is not a comprehensive security fuzzing claim. [Linux probe](g3-evidence/linux-checks/native-parser-probes.log) |
+| Regression | **127 Rust, 41 Node on macOS, 41 Node inside limited Linux, six scripted Pi/integration tests**. [Rust](g3-evidence/native-final.log), [Linux Node](g3-evidence/linux-checks/node-regression.log), [integration](g3-evidence/integrations-final.log) |
+| Linux geometry | **24/24 required cases**, then all 24 independently revalidated by host OCCT from Linux-produced STEP. [Native cases](g3-evidence/linux-corpus/results.json), [independent readback](g3-evidence/linux-independent/results.json) |
+| Live plate | Actual model builds a four-hole plate, repairs one invalid parameter reference, queries its bores, edits radius 3→3.5 mm and queries the new revision. Seven tool calls. Both exact deliveries independently verified. [Trace](g3-evidence/live-plate/tool-calls.json), [readback](g3-evidence/live-plate/occt-readback.json) |
+| Live product | Actual model queries the seeded 82-solid KK60/accessory, edits travel 0→20 mm, re-queries interface and explicit pair clearance. Four calls; measured interface Z 157→177 mm, bracket/motor gap **109 mm**. Both deliveries independently verified. [Trace](g3-evidence/live-product/tool-calls.json), [readback](g3-evidence/live-product/occt-readback.json) |
+
+All resource runs use Linux arm64 cgroup v2, **1 vCPU / 512 MiB**, swap disabled. Limits are read back as `cpu.max=100000 100000`, `memory.max=536870912`, `memory.swap.max=0`; Docker's memory+swap limit equals the memory limit. Cgroup accounting includes all descendants and charged file/cache pages. End-of-run RSS lists are supplementary, not peak memory. Independent OCCT and the remote inference service are outside this budget; the agent, local harness, session, SDK and native CAD are inside it.
+
+| Workload | Cgroup peak | OOM kills |
+| --- | ---: | ---: |
+| 24-case native corpus + minimal Node supervisor | **256.29 MiB** | 0 |
+| Linux Node regression + native parser probe | **75.54 MiB** | 0 |
+| Resident Pi/harness + live plate build/edit/query/preview | **55.68 MiB** | 0 |
+| Resident Pi/harness + 82-solid product build/edit/query/preview | **370.57 MiB** | 0 |
+
+These are one acceptance run per workload, not medians, universal memory ceilings, or G4 speed/memory ratios. They include the actual cache/page charges of these containers; no global cache flush was performed. The 512 MiB claim applies to these workloads, not every input admitted by the API's size limits.
+
+The live model was the project's configured `deepseek-flash`. Complete prompts, assistant/tool messages, usage counters, source models and session ledgers are archived beside each summary. The provider's token counters are retained; monetary cost is unknown rather than inferred from zero-valued SDK cost metadata. Three zero-token startup attempts failed before valid inference: ESM package resolution, a Pi streaming import, then a rejected stale local gateway credential. Those failures are retained. The gateway credential was not refreshed; the successful runs used the separately configured direct project model API. The successful plate task also retains its real validation error and correction.
+
+The product task starts from an accepted, source-backed model and tests live editing/querying; it is not a claim that the model reconstructed the product from images. The plate is generated from text dimensions. Discrete pose deltas and measured pairs do not certify continuous motion, threads, loads, manufacturing tolerances or all-pairs collision freedom.
+
+### Reproduce the sandbox runs
+
+Use `sandbox/Dockerfile.native` with an isolated context containing `Cargo.toml`, `Cargo.lock`, `crates/` and the verified pinned `third_party/solidcore-source.tar.gz`. It exports `agent-cad` and `snapshot-probe`. Build `sandbox/Dockerfile.runtime` with that Linux binary and the example integration `package.json`/lockfile. Mount this checkout read-only at `/repo` and a fresh writable result directory at `/evidence`:
+
+```sh
+docker run --cpus=1 --memory=512m --memory-swap=512m --pids-limit=128 \
+  --mount type=bind,src="$PWD",dst=/repo,readonly \
+  --mount type=bind,src="$PWD/out/new-corpus",dst=/evidence \
+  colocad-g123-runtime:local /repo/specs/experiments/0005/sandbox/corpus.mjs /evidence
+```
+
+Create the output directory first. `checks.mjs` additionally mounts the exported parser test at `/snapshot-probe`; it runs the real Node test suite and parser probes. `live.mjs /evidence plate|product` requires a host-supplied read-only `/run/colocad-auth.json` containing `{api, baseUrl, apiKey, model}` for the harness's configured OpenAI-compatible provider. Credentials are not checked in or given to the model. Pi runs within the same container; the script bounds turns/time, persists actual inference/tool messages and measures cgroup memory. Independently validate each successful live run with `python specs/experiments/0005/verify-live.py OUTPUT_DIRECTORY`.
+
+**中文结论：**G1、G2、G3 已在明确范围内完成并验收。G3 包括语义引用生命周期、不同来源零件替换、真实中断恢复、执行指纹缓存失效、受限 Linux 回归，以及两条真实 Pi 推理任务。完整产品任务含驻留 agent/harness/SDK/native/预览的峰值为 370.57 MiB，无 OOM。失败尝试与修复过程均保留。当前代码是开发源，npm alpha.6 尚不含本轮新能力。**G4 未启动**；不得把这些验收读数包装成对 build123d 的新性能优势或全工业领域替代结论。

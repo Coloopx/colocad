@@ -40,6 +40,7 @@ use std::time::Instant;
 pub const KERNEL_REV: &str = "bff1569a4c3347ed9af67faab71578cadf84fde2";
 pub const MAX_INPUT_BYTES: usize = 32 * 1024 * 1024;
 pub const EXECUTOR_VERSION: &str = env!("CARGO_PKG_VERSION");
+pub const EXECUTION_POLICY: &str = env!("COLOCAD_EXECUTION_POLICY");
 pub const MAX_FEATURES: usize = 128;
 pub const MAX_CUTTERS: usize = 1024;
 const MAX_COORD: f64 = 100_000.;

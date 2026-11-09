@@ -106,7 +106,7 @@ test('real Pi core loop: failed CAD call is delivered to model; correction creat
   assert.match(await readFile(join(built.artifact_directory, 'model.step'), 'utf8'), /ISO-10303-21/);
 });
 
-test('Pi coding agent discovers full skill and loads the extension with five executable tools', async (t) => {
+test('Pi coding agent discovers full skill and loads the extension with capability-gated query and executable tools', async (t) => {
   const dir = await temp(t);
   const skillRoot = join(dir, '.agents/skills');
   await mkdir(skillRoot, { recursive: true });
@@ -118,7 +118,8 @@ test('Pi coding agent discovers full skill and loads the extension with five exe
   const loaded = await discoverAndLoadExtensions([join(here, 'pi-extension.mjs')], dir, join(dir, 'empty-agent-dir'));
   assert.deepEqual(loaded.errors, []);
   const extension = loaded.extensions.find((item) => item.resolvedPath === join(here, 'pi-extension.mjs'));
-  assert.equal(extension.tools.size, 5);
+  assert.equal(extension.tools.size, 6);
+  assert.ok(extension.tools.has('cad_query'));
   const result = await extension.tools.get('cad_capabilities').definition.execute('caps', {});
   assert.ok(result.content[0].text.length > 10);
 });
