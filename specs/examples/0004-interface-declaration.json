@@ -1,0 +1,17 @@
+{
+  "id": "mount",
+  "definition": "motorMachined",
+  "profile": "planar_hole_mount/v1",
+  "selectors": {
+    "plane": {"where": {"surface_type": "plane", "name": "motorDatums/flange"}, "cardinality": {"min": 1, "max": 1}},
+    "hole_group": {"opening_on": "plane", "where": {"pattern": "rectangular", "member_count": 4, "equal_diameter": true}, "cardinality": {"min": 1, "max": 1}}
+  },
+  "datum": {"origin": {"kind": "hole_group_center"}, "normal": "outward", "x_axis": {"kind": "orientation_datum", "name": "connector_up"}},
+  "orientation_datums": [{"name": "connector_up", "kind": "direction", "vector": [1, 0, 0]}],
+  "requirements": {
+    "verification_tolerance": {"linear_mm": 0.0001, "angular_rad": 0.000001},
+    "pattern": {"kind": "rectangular", "count": [2, 2], "pitch_mm": [{"param": "mountPitchX"}, {"param": "mountPitchY"}]},
+    "bore_diameter_mm": {"param": "mountBore"},
+    "termination": "through"
+  }
+}

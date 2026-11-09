@@ -1,0 +1,13 @@
+{
+  "kind": "interface_compatibility",
+  "a": {"instance": "motor", "interface": "mount"},
+  "b": {"instance": "support", "interface": "motor_mount"},
+  "plane_relation": "opposed",
+  "correspondence": {"kind": "pattern", "require_all": true, "symmetry": "require_unique"},
+  "tolerance": {"linear_mm": 0.0001, "angular_rad": 0.000001},
+  "requirements": {
+    "max_plane_gap_mm": 0.02,
+    "max_hole_axis_offset_mm": 0.05,
+    "hole_size": {"kind": "independent_ranges", "a_diameter_mm": {"min": 6.5, "max": 6.7}, "b_diameter_mm": {"min": 6.5, "max": 6.7}}
+  }
+}

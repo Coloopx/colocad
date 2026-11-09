@@ -85,3 +85,7 @@ test ! -e .agents/skills/colocad && \
 参数 JSON 可重建，STEP 是精确几何；二者不等于 SOLIDWORKS 原生特征树。Linux 通用可编辑 `.SLDPRT` 尚未完成，Windows author 尚缺授权软件内的完整回读重建验收。[接入验证范围](integrations/verification.md) · [几何与原生输出验证](validation.md)
 
 [性能证据与测量边界](performance.md) · [SOLIDWORKS 原生导出状态](native-solidworks.md)
+
+## 待实现的工程查询与装配接口
+
+[SDD 0004 中文实施说明](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)与[英文规范](../specs/0004-engineering-query-and-assembly-interfaces.md)定义面/孔/轴查询、稳定引用、安装接口、配合接入及 20 项验收；状态为 **Proposed**，这些新 API 尚未随 alpha.6 发布。贡献者可据此拆分 M0–M4 的 PR。
