@@ -1,6 +1,6 @@
 # 精确查询与几何基准装配
 
-**当前为开发源码能力，已发布的 alpha.6 原生包尚不包含本次变更。** 请使用同一份 checkout 编译的内核和 SDK。[English](engineering-queries.md) · [可运行例子](../examples/engineering-queries/README.md) · [详细规范](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)。
+**从 @coloopx/colocad 0.1.0-alpha.7 起提供，包含三平台预编译内核。** 源码开发仍需使用同一份 checkout 编译的内核和 SDK。[English](engineering-queries.md) · [可运行例子](../examples/engineering-queries/README.md) · [详细规范](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)。
 
 这层能力用于在装配前查询零件的安装几何。几何解释在本地 Rust 内核中完成，SDK、CLI 与 agent 工具共用实现；agent、harness 和可执行文件仍位于同一沙箱中。
 
@@ -66,3 +66,9 @@ G1 新增的相对筛选、专用描述、孔/沉孔识别、孔组、安装接�
 `datums` 或 `interfaces` 自动要求精确快照，显式禁用会报错。外部 STEP 示例包含底座、不同外形替换件、任意旋转来源及错误孔距/缺孔拒绝。完整 KK60 加附件例子保留 82 个实体和九项行程检查，见[复现实例](../examples/engineering-interfaces/README.md)。以上是明确范围内的功能证据，G2/G3 的可靠性、生命周期和沙箱资源验收另行记录。
 
 开发检查点新增 `execution_policy`，绑定 Rust 源码、依赖锁、编译器与目标平台；缺失或不匹配即重新计算，不能因为版本字符串相同就复用旧语义。[G3 证据](../specs/experiments/0005/README.md)覆盖真实进程中断、重新打开/迁移、语义面拆分/合并/删除、零件替换和 Linux 沙箱限额。
+
+## 可用性与 CadQuery 的关系
+
+这层能力已可用于声明支持的机械装配工作流：精确拓扑选择、基本基准、解析孔/孔组、平面安装接口、几何驱动替换及显式零件对测量。当前仍为 alpha；使用 Colocad 自己的 JSON/TypeScript 契约，不执行 CadQuery Python 程序，也不保证其选择器语法或全部特征等价。
+
+G1–G3 的冻结语料、生命周期与两条真实 agent 任务已验收；[alpha.7 安装包验证](evidence/release-alpha.7.json)进一步覆盖 macOS arm64、Linux arm64/x64 上包内 SDK/CLI/native 的实际调用，其中 x64 在 arm64 宿主模拟执行。锥形/相交/侧开孔识别可能为 partial；曲面接触认证与局部区域限定测量仍显式不支持。

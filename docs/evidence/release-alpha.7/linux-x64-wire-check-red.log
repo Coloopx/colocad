@@ -1,0 +1,904 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+... Skipped lines
+
+  [
+    {
+      coverage: {
+        recognition: 'not_requested',
+        selection: 'complete'
+...
+            direction: [
++             0,
++             0,
+-             -0,
+-             -0,
+              1
+            ],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [
+              10,
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+            direction: [
++             0,
++             0,
+-             -0,
+-             -0,
+              1
+            ],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [
+              -10,
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+            direction: [
++             0,
++             0,
+-             -0,
+-             -0,
+              1
+            ],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [
+              10,
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+            direction: [
++             0,
++             0,
+-             -0,
+-             -0,
+              1
+            ],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [
+              -10,
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+              inward_direction: [
++               0,
++               0,
+-               -0,
+-               -0,
+                -1
+              ],
+              loop: {
+                definition_id: 'part',
+                definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+                inward_direction: [
++                 0,
++                 0,
+-                 -0,
+-                 -0,
+                  -1
+                ],
+                loop: {
+                  definition_id: 'part',
+                  definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+                inward_direction: [
++                 0,
++                 0,
+-                 -0,
+-                 -0,
+                  -1
+                ],
+                loop: {
+                  definition_id: 'part',
+                  definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+                inward_direction: [
++                 0,
++                 0,
+-                 -0,
+-                 -0,
+                  -1
+                ],
+                loop: {
+                  definition_id: 'part',
+                  definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+...
+                inward_direction: [
++                 0,
++                 0,
+-                 -0,
+-                 -0,
+                  -1
+                ],
+                loop: {
+                  definition_id: 'part',
+                  definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+
+    at file:///repo/test/validation/query-packed.mjs:59:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    {
+      coverage: { recognition: 'not_requested', selection: 'complete' },
+      diagnostics: [],
+      id: 'top',
+      items: [
+        {
+          adjacent_faces: [
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object]
+          ],
+          area_mm2: 1149.7345175371588,
+          bbox_mm: [ [Array], [Array] ],
+          bounds_semantics: 'rigidly_transformed_definition_aabb',
+          center_mm: [ -9.294163805837388e-11, -5.836200685526705e-13, 8 ],
+          edges: [
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object]
+          ],
+          kernel_tolerance_mm: 0.00001,
+          kind: 'face',
+          loops: [ [Object], [Object], [Object], [Object], [Object] ],
+          names: [],
+          normal: [ 0, 0, 1 ],
+          orientation: 'material_outward',
+          parameterization: {
+            natural_uv_domain: [Array],
+            periodic: [Array],
+            periods: [Array],
+            singularities: [Object],
+            singularity_scope: 'natural_surface_boundary; evaluate_face also checks the requested UV'
+          },
+          plane_point_mm: [ -20, -15, 8 ],
+          ref: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          },
+          seam_edges: [],
+          surface_type: 'plane',
+          uv_domain: [ [Array], [Array] ]
+        }
+      ],
+      next_cursor: null,
+      op: 'faces',
+      returned_count: 1,
+      status: 'complete',
+      total_count: 1
+    },
+    {
+      coverage: {
+        domain: 'connected_analytic_cylinders_planar_ends',
+        excluded: [],
+        uncertain: []
+      },
+      diagnostics: [],
+      id: 'bores',
+      items: [
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t10',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t7',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t8',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t9',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        }
+      ],
+      next_cursor: null,
+      op: 'holes',
+      returned_count: 4,
+      status: 'complete',
+      total_count: 4
+    },
+    {
+      coverage: {
+        recognition_complete: true,
+        scope: 'supplied_support_faces_or_all_recognized_openings'
+      },
+      diagnostics: [],
+      id: 'pattern',
+      items: [
+        {
+          center_mm: [ 0, 0, 0 ],
+          continuous_freedoms: [],
+          equal_diameter: true,
+          excluded_members: [],
+          id: 'group-t1-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+          max_fit_residual_mm: 0,
+          members: [ [Object], [Object], [Object], [Object] ],
+          normal: [ 0, 0, -1 ],
+          orientation_unique: false,
+          pairwise_distances: [
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object]
+          ],
+          parameters: { axes: [Array], count: [Array], pitch_mm: [Array] },
+          pattern: 'rectangular',
+          provenance: 'recognized',
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't1'
+          },
+          symmetry: {
+            orientation_semantics: 'requires_explicit_orientation_datum_for_fixed_attachment',
+            rotations_about_normal_rad: [Array]
+          }
+        },
+        {
+          center_mm: [ 0, 0, 8 ],
+          continuous_freedoms: [],
+          equal_diameter: true,
+          excluded_members: [],
+          id: 'group-t2-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+          max_fit_residual_mm: 0,
+          members: [ [Object], [Object], [Object], [Object] ],
+          normal: [ 0, 0, 1 ],
+          orientation_unique: false,
+          pairwise_distances: [
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object]
+          ],
+          parameters: { axes: [Array], count: [Array], pitch_mm: [Array] },
+          pattern: 'rectangular',
+          provenance: 'recognized',
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          },
+          symmetry: {
+            orientation_semantics: 'requires_explicit_orientation_datum_for_fixed_attachment',
+            rotations_about_normal_rad: [Array]
+          }
+        }
+      ],
+      next_cursor: null,
+      op: 'hole_groups',
+      returned_count: 2,
+      status: 'complete',
+      total_count: 2
+    },
+    {
+      coverage: { recognition_complete: true, scope: 'named_declarations' },
+      diagnostics: [],
+      id: 'mount',
+      items: [
+        {
+          continuous_freedoms: [ 'rotation_about_normal' ],
+          definition_id: 'part',
+          engineering_fit: 'not_asserted',
+          group: {
+            center_mm: [Array],
+            continuous_freedoms: [],
+            equal_diameter: true,
+            excluded_members: [],
+            id: 'group-t2-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+            max_fit_residual_mm: 0,
+            members: [Array],
+            normal: [Array],
+            orientation_unique: false,
+            pairwise_distances: [Array],
+            parameters: [Object],
+            pattern: 'rectangular',
+            provenance: 'recognized',
+            support_face: [Object],
+            symmetry: [Object]
+          },
+          id: 'mount',
+          normal: [ 0, 0, 1 ],
+          orientation: null,
+          orientation_datums: {},
+          origin_mm: [ 0, 0, 8 ],
+          origin_rule: { kind: 'hole_group_center' },
+          origin_trim_membership: 'inside',
+          profile: 'planar_hole_mount/v1',
+          provenance: 'declared',
+          query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+          recognition_coverage: {
+            complete: true,
+            diagnostics: [],
+            scope: 'declared_support_face'
+          },
+          register: null,
+          requirements: {
+            bore_diameter_mm: 4,
+            pattern: [Object],
+            termination: 'through',
+            verification_tolerance: [Object]
+          },
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            instance_path: null,
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          }
+        }
+      ],
+      next_cursor: null,
+      op: 'interfaces',
+      returned_count: 1,
+      status: 'complete',
+      total_count: 1
+    }
+  ],
+  expected: [
+    {
+      coverage: { recognition: 'not_requested', selection: 'complete' },
+      diagnostics: [],
+      id: 'top',
+      items: [
+        {
+          adjacent_faces: [
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object]
+          ],
+          area_mm2: 1149.7345175371588,
+          bbox_mm: [ [Array], [Array] ],
+          bounds_semantics: 'rigidly_transformed_definition_aabb',
+          center_mm: [ -9.294163805837388e-11, -5.836200685526705e-13, 8 ],
+          edges: [
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object],
+            [Object], [Object]
+          ],
+          kernel_tolerance_mm: 0.00001,
+          kind: 'face',
+          loops: [ [Object], [Object], [Object], [Object], [Object] ],
+          names: [],
+          normal: [ 0, 0, 1 ],
+          orientation: 'material_outward',
+          parameterization: {
+            natural_uv_domain: [Array],
+            periodic: [Array],
+            periods: [Array],
+            singularities: [Object],
+            singularity_scope: 'natural_surface_boundary; evaluate_face also checks the requested UV'
+          },
+          plane_point_mm: [ -20, -15, 8 ],
+          ref: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          },
+          seam_edges: [],
+          surface_type: 'plane',
+          uv_domain: [ [Array], [Array] ]
+        }
+      ],
+      next_cursor: null,
+      op: 'faces',
+      returned_count: 1,
+      status: 'complete',
+      total_count: 1
+    },
+    {
+      coverage: {
+        domain: 'connected_analytic_cylinders_planar_ends',
+        excluded: [],
+        uncertain: []
+      },
+      diagnostics: [],
+      id: 'bores',
+      items: [
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t10',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t7',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t8',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        },
+        {
+          axis: {
+            direction: [Array],
+            direction_semantics: 'inward_from_first_reported_opening',
+            point_mm: [Array]
+          },
+          depth_mm: 8,
+          depth_semantics: 'first_opening_to_opposite_end_along_inward_axis',
+          evidence: {
+            closed_planar_rims: true,
+            connected_topology: true,
+            full_angular_coverage: true,
+            material_witnesses: true
+          },
+          id: 'hole-t9',
+          matching_openings: [ 0, 1 ],
+          openings: [ [Object], [Object] ],
+          provenance: 'recognized',
+          segments: [ [Object] ],
+          source_refs: [ [Object] ],
+          termination: 'through',
+          thread: 'unknown'
+        }
+      ],
+      next_cursor: null,
+      op: 'holes',
+      returned_count: 4,
+      status: 'complete',
+      total_count: 4
+    },
+    {
+      coverage: {
+        recognition_complete: true,
+        scope: 'supplied_support_faces_or_all_recognized_openings'
+      },
+      diagnostics: [],
+      id: 'pattern',
+      items: [
+        {
+          center_mm: [ 0, 0, 0 ],
+          continuous_freedoms: [],
+          equal_diameter: true,
+          excluded_members: [],
+          id: 'group-t1-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+          max_fit_residual_mm: 0,
+          members: [ [Object], [Object], [Object], [Object] ],
+          normal: [ 0, 0, -1 ],
+          orientation_unique: false,
+          pairwise_distances: [
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object]
+          ],
+          parameters: { axes: [Array], count: [Array], pitch_mm: [Array] },
+          pattern: 'rectangular',
+          provenance: 'recognized',
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't1'
+          },
+          symmetry: {
+            orientation_semantics: 'requires_explicit_orientation_datum_for_fixed_attachment',
+            rotations_about_normal_rad: [Array]
+          }
+        },
+        {
+          center_mm: [ 0, 0, 8 ],
+          continuous_freedoms: [],
+          equal_diameter: true,
+          excluded_members: [],
+          id: 'group-t2-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+          max_fit_residual_mm: 0,
+          members: [ [Object], [Object], [Object], [Object] ],
+          normal: [ 0, 0, 1 ],
+          orientation_unique: false,
+          pairwise_distances: [
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object],
+            [Object]
+          ],
+          parameters: { axes: [Array], count: [Array], pitch_mm: [Array] },
+          pattern: 'rectangular',
+          provenance: 'recognized',
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          },
+          symmetry: {
+            orientation_semantics: 'requires_explicit_orientation_datum_for_fixed_attachment',
+            rotations_about_normal_rad: [Array]
+          }
+        }
+      ],
+      next_cursor: null,
+      op: 'hole_groups',
+      returned_count: 2,
+      status: 'complete',
+      total_count: 2
+    },
+    {
+      coverage: { recognition_complete: true, scope: 'named_declarations' },
+      diagnostics: [],
+      id: 'mount',
+      items: [
+        {
+          continuous_freedoms: [ 'rotation_about_normal' ],
+          definition_id: 'part',
+          engineering_fit: 'not_asserted',
+          group: {
+            center_mm: [Array],
+            continuous_freedoms: [],
+            equal_diameter: true,
+            excluded_members: [],
+            id: 'group-t2-rectangular-hole-t10-hole-t7-hole-t8-hole-t9',
+            max_fit_residual_mm: 0,
+            members: [Array],
+            normal: [Array],
+            orientation_unique: false,
+            pairwise_distances: [Array],
+            parameters: [Object],
+            pattern: 'rectangular',
+            provenance: 'recognized',
+            support_face: [Object],
+            symmetry: [Object]
+          },
+          id: 'mount',
+          normal: [ 0, 0, 1 ],
+          orientation: null,
+          orientation_datums: {},
+          origin_mm: [ 0, 0, 8 ],
+          origin_rule: { kind: 'hole_group_center' },
+          origin_trim_membership: 'inside',
+          profile: 'planar_hole_mount/v1',
+          provenance: 'declared',
+          query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+          recognition_coverage: {
+            complete: true,
+            diagnostics: [],
+            scope: 'declared_support_face'
+          },
+          register: null,
+          requirements: {
+            bore_diameter_mm: 4,
+            pattern: [Object],
+            termination: 'through',
+            verification_tolerance: [Object]
+          },
+          support_face: {
+            definition_id: 'part',
+            definition_sha256: 'bba3ad4c1826a9d3d0df982d29ce3274ca535f748f141d4ae489fc6c97e832d0',
+            instance_path: null,
+            kind: 'face',
+            query_revision_id: 'sha256:a231f5f9103b0b780be0a296b113af26b30e90dd21755c7f1e71723e0891a568',
+            topology_id: 't2'
+          }
+        }
+      ],
+      next_cursor: null,
+      op: 'interfaces',
+      returned_count: 1,
+      status: 'complete',
+      total_count: 1
+    }
+  ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

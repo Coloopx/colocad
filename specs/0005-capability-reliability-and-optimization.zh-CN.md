@@ -47,3 +47,7 @@
 G1 支持域已验收，功能、外部 STEP 与完整产品证据保留在 [G1 台账](experiments/0004/README.md)。G2 冻结语料 24/24 通过（18 个正例、6 个正确拒绝）。G3 完成语义引用生命周期、替换、真实进程中断恢复、执行指纹缓存失效、有界解析器探测和两条真实 Pi 推理任务。最终回归为 127 项 Rust、macOS 与受限 Linux 各 41 项 Node、6 项脚本集成测试；Linux 语料与真实任务交付均通过独立 OCCT 回读。详见 [G2/G3 验收记录](experiments/0005/README.md)。
 
 Agent、harness、SDK 和 native 同处 Linux arm64 1 vCPU / 512 MiB 沙箱；82 实体产品任务峰值 370.57 MiB，无 OOM。这是指定负载的实测验收，不是任意输入内存上限或全工业 CAD 等价声明。G4 未启动；npm alpha.6 尚不包含本轮开发变更，源码验收与发版分开记录。
+
+## 发布状态更新：alpha.7
+
+上述已验收支持域现纳入 alpha.7 的 SDK、CLI 与三平台原生包。历史验收记录保持原样；[发布记录](../CHANGELOG.md)与[安装包验证](../docs/evidence/release-alpha.7.json)区分源码验收和实际交付。G4 未启动。

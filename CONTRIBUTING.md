@@ -42,7 +42,7 @@ npm ci --prefix examples/integrations --ignore-scripts
 npm test --prefix examples/integrations
 ```
 
-Those examples deliberately test the pinned **published** package. Use the root/Rust tests for unreleased engine changes; do not assume a passing example test exercised your local engine edits.
+The standalone SDK example pins published alpha.3 for compatibility. Current Pi/session adapters import this checkout; query-enabled tests need its matching native. Set `AGENT_CAD_BINARY` to the development executable, or stage it in `kernel/native` with `build:kernel`. Root/Rust tests cover the engine; deterministic integration tests cover the adapter.
 
 ## Geometry and performance changes
 

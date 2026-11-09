@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "verifier": "independent OCCT",
+  "linear_tolerance_mm": 1e-05,
+  "volume_tolerance_mm3": 1e-05,
+  "rows": [
+    {
+      "id": "built",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 9197.876140340506,
+      "bounds_mm": [
+        -20.0,
+        -15.0,
+        0.0,
+        20.0,
+        15.0,
+        8.0
+      ],
+      "top_hole_centers_mm": [
+        [
+          -10.0,
+          -6.0,
+          8.0
+        ],
+        [
+          10.0,
+          -6.0,
+          8.0
+        ],
+        [
+          -10.0,
+          6.0,
+          8.0
+        ],
+        [
+          10.0,
+          6.0,
+          8.0
+        ]
+      ],
+      "step_sha256": "f0e29370a8832fc310f595c1b3ee31a502a079f93417e475ad137ecfc027db62"
+    },
+    {
+      "id": "initial",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 9197.876140340506,
+      "bounds_mm": [
+        -20.0,
+        -15.0,
+        0.0,
+        20.0,
+        15.0,
+        8.0
+      ],
+      "top_hole_centers_mm": [
+        [
+          -10.0,
+          -6.0,
+          8.0
+        ],
+        [
+          10.0,
+          -6.0,
+          8.0
+        ],
+        [
+          -10.0,
+          6.0,
+          8.0
+        ],
+        [
+          10.0,
+          6.0,
+          8.0
+        ]
+      ],
+      "step_sha256": "f0e29370a8832fc310f595c1b3ee31a502a079f93417e475ad137ecfc027db62"
+    },
+    {
+      "id": "edited",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 11497.345175425635,
+      "bounds_mm": [
+        -20.0,
+        -15.0,
+        0.0,
+        20.0,
+        15.0,
+        10.0
+      ],
+      "top_hole_centers_mm": [
+        [
+          -10.0,
+          -6.0,
+          10.0
+        ],
+        [
+          10.0,
+          -6.0,
+          10.0
+        ],
+        [
+          -10.0,
+          6.0,
+          10.0
+        ],
+        [
+          10.0,
+          6.0,
+          10.0
+        ]
+      ],
+      "step_sha256": "246bb93ab9e3f64b6fbf54e00d007b8aadfbcef40e02ba1bef5949633752c8a9"
+    }
+  ]
+}

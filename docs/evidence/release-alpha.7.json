@@ -1,0 +1,162 @@
+{
+  "version": "0.1.0-alpha.7",
+  "source_baseline": "45ac08305b835b6ec700b9b19154c661c3ad45c3",
+  "testedArchive": {
+    "filename": "coloopx-colocad-0.1.0-alpha.7.tgz",
+    "size": 45828305,
+    "shasum": "382c34b1cacd2ed7e3194cc683080823a7da04de",
+    "integrity": "sha512-MEEsJO5meRyro4pgkr8KoJBzRfrha01po27I8wM5m8ly4CaZQP1HADXElteY5GKo1983W6fyDL8uJBaNd4Sg3Q==",
+    "entryCount": 242
+  },
+  "regression": {
+    "node": {
+      "passed": 41,
+      "native": "packaged darwin-arm64; no override"
+    },
+    "integrations": {
+      "passed": 6,
+      "mode": "deterministic Pi stream; development native override equals packaged darwin hash"
+    },
+    "offlineViewer": {
+      "passed": true,
+      "queryHighlights": true,
+      "remoteRequests": 0
+    },
+    "schema": "passed",
+    "skillStructure": "passed",
+    "rust": {
+      "passed": 127,
+      "run": "G3; native Rust sources unchanged",
+      "evidence": "../../specs/experiments/0005/g3-evidence/native-final.log"
+    }
+  },
+  "installedArchiveSmoke": [
+    {
+      "platform": "darwin-arm64",
+      "passed": true,
+      "native_sha256": "5e58552f359106ab8f9368b259dd9af514f77cfe493993002d815635ec8b75b4",
+      "execution_policy": "sha256:f17427185c0ae37330297cfef35bb44f36930ccdf4ba44caa8e9f1836de3909a",
+      "override": false,
+      "query_checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection"
+      ],
+      "independent_occt": {
+        "plates": 3,
+        "foreign_assemblies": 3,
+        "expected_rejections": 2
+      }
+    },
+    {
+      "platform": "linux-arm64",
+      "passed": true,
+      "native_sha256": "cc7a2b5d68b71d3a787838c9b35d721febfaafcdb4d648dbe6b920f9a900c8fc",
+      "execution_policy": "sha256:cf544f9e2c406e38642dfb83d6e6a3d3efceceeaa6d7cd3dd380dc6cabb02fe9",
+      "override": false,
+      "query_checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection"
+      ],
+      "independent_occt": {
+        "plates": 3,
+        "foreign_assemblies": 3,
+        "expected_rejections": 2
+      },
+      "cgroup_peak_bytes": 434860032,
+      "oom_kill": 0,
+      "network": "none",
+      "x64_emulated": false
+    },
+    {
+      "platform": "linux-x64",
+      "passed": true,
+      "native_sha256": "be4bbfff19711b59afcdf4c6c9257f16e31a9c6e0504f4c877fe16e567739c7f",
+      "execution_policy": "sha256:7374c302bdf03b437ffe29a0d7faae2331faffcb71ac550771371c3955958264",
+      "override": false,
+      "query_checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection"
+      ],
+      "independent_occt": {
+        "plates": 3,
+        "foreign_assemblies": 3,
+        "expected_rejections": 2
+      },
+      "cgroup_peak_bytes": 536727552,
+      "oom_kill": 0,
+      "network": "none",
+      "x64_emulated": true
+    }
+  ],
+  "linuxLimits": {
+    "cpus": 1,
+    "memoryMiB": 512,
+    "swapMiB": 0,
+    "network": "none",
+    "accounting": "Full fresh offline npm installation plus Node supervisor, SDK, native children and charged page/cache files; not comparable to G3 CAD-only or resident-agent readings"
+  },
+  "frozenGeometryCorpus": {
+    "passed": 24,
+    "run": "G2/G3; packaged macOS/Linux arm64 hashes equal accepted natives; not rerun for this release",
+    "evidence": "../../specs/experiments/0005/g3-evidence/validation.json"
+  },
+  "liveAgentTasks": {
+    "passed": 2,
+    "run": "G3 source acceptance, not repeated for archive smoke",
+    "scope": "text-built plate and seeded 82-solid product edit/query"
+  },
+  "preservedFindings": [
+    {
+      "kind": "test_infrastructure",
+      "failure": "Interruption test required AGENT_CAD_BINARY despite packaged native availability",
+      "fix": "Use the shared executable resolver; full 41-test suite passed without override"
+    },
+    {
+      "kind": "test_oracle",
+      "failure": "CLI wire comparison distinguished numeric negative zero from zero",
+      "fix": "Compare exact JSON wire representation; no tolerance, topology ref or geometry requirement changed",
+      "kernel_changed": false
+    }
+  ],
+  "verifiers": {
+    "occt": "cadquery-ocp-novtk 7.9.3.1.1",
+    "queries": "test/validation/query-packed.mjs",
+    "plate": "test/validation/query-geometry.py",
+    "foreign": "examples/engineering-interfaces/verify.py"
+  },
+  "scope": "Alpha readiness for documented exact queries, datums, analytic holes/groups, planar mounting interfaces and measured assembly replacement; not CadQuery Python/API compatibility, arbitrary industrial geometry parity, new build123d performance ratios, or native editable SOLIDWORKS certification.",
+  "validation_source_sha256": {
+    "test/validation/query-packed.mjs": "ca79b56104aab1f660c437780055e20ad787940a64a718540a03ba6b665e0182",
+    "test/validation/query-geometry.py": "19f6b6bf02a7e9bed7cff377d54ba98f23aafc0378acca8010091661ed056bd3",
+    "examples/engineering-interfaces/verify.py": "3336c9e7b31b83f2e6bd9aa19172dc09a95cf924255a637c0bede74df7f4be5a",
+    "test/lifecycle.test.mjs": "188f39bd41221caad32c139ef8c1e1afa51ba0ef0eac7b502d6e9505f684b6dc",
+    "Cargo.lock": "f765dc7fd4d5da82835cd83e91262a483e12081b0fe551fc7dba76275ed4a965",
+    "crates/agent-cad/build.rs": "f8d3ece16a7d20b276e448c49114895ef7a0f0aad6c7ba242476a58643fe9f73",
+    "skills/colocad/SKILL.md": "463761280ec72421fec790d0254eacd6b4d6c01c8d0c264b971cb92973b00287",
+    "skills/colocad/references/tool-contracts.md": "f767f0af98060aee6e99241754f9a2838ac9632b61489be2a8e1d90e4d3421b2"
+  }
+}

@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile,writeFile,cp,rename,chmod} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join,resolve} from 'node:path';
+import {join} from 'node:path';
 import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import {CadClient} from '../kernel/dist/index.js';
+import {resolveBinary} from '../kernel/dist/binary.js';
 import {ModelingSession} from '../src/session.mjs';
 import {model as installation} from '../examples/engineering-interfaces/model.mjs';
 const tolerance={linear_mm:1e-5,angular_rad:1e-7};
@@ -53,7 +54,7 @@ test('real terminated build leaves interrupted history, releases dead lock and r
  const marker=join(root,'started'),wrapper=join(root,'native-probe.sh');await writeFile(wrapper,'#!/bin/sh\nprintf started > "$COLOCAD_PROBE_MARKER"\nexec "$COLOCAD_PROBE_NATIVE" "$@"\n');await chmod(wrapper,0o700);
  const module=new URL('../src/session.mjs',import.meta.url).href,model=new URL('../specs/experiments/0005/corpus-v1/product-kk60-accessory.json',import.meta.url).href;
  const program=`import {readFile} from 'node:fs/promises';import {ModelingSession} from ${JSON.stringify(module)};const s=await ModelingSession.open(process.env.COLOCAD_PROBE_SESSION,{binary:process.env.COLOCAD_PROBE_WRAPPER,wallMs:120000});const m=JSON.parse(await readFile(new URL(${JSON.stringify(model)}),'utf8'));m.preview={width:160,height:120,chord_mm:1};await s.build(m);`;
- const child=spawn(process.execPath,['--input-type=module','-e',program],{detached:true,stdio:['ignore','ignore','pipe'],env:{...process.env,COLOCAD_PROBE_SESSION:s.root,COLOCAD_PROBE_WRAPPER:wrapper,COLOCAD_PROBE_MARKER:marker,COLOCAD_PROBE_NATIVE:resolve(process.env.AGENT_CAD_BINARY)}});let errors='';child.stderr.on('data',b=>errors+=b);
+ const child=spawn(process.execPath,['--input-type=module','-e',program],{detached:true,stdio:['ignore','ignore','pipe'],env:{...process.env,COLOCAD_PROBE_SESSION:s.root,COLOCAD_PROBE_WRAPPER:wrapper,COLOCAD_PROBE_MARKER:marker,COLOCAD_PROBE_NATIVE:resolveBinary()}});let errors='';child.stderr.on('data',b=>errors+=b);
  t.after(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}});const exited=once(child,'exit');const deadline=Date.now()+10000;
  for(;;){try{await readFile(marker);break;}catch{}assert.equal(child.exitCode,null,errors);assert.ok(Date.now()<deadline,'native did not start');await new Promise(r=>setTimeout(r,20));}
  await new Promise(r=>setTimeout(r,100));assert.equal((await s.read()).steps.at(-1).status,'running');process.kill(-child.pid,'SIGKILL');await exited;

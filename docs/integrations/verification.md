@@ -1,6 +1,6 @@
 # Integration verification
 
-Verified on **2026-11-07**, Node.js **22.23.3**, **macOS arm64**, using the public npm package **@coloopx/colocad@0.1.0-alpha.3** and its bundled Rust binary. Pi core, Pi AI and Pi coding agent are pinned to **1.5.0** in the example lockfile.
+Historical baseline verified on **2026-11-07**, Node.js **22.23.3**, **macOS arm64**, using the public npm package **@coloopx/colocad@0.1.0-alpha.3** and its bundled Rust binary. Pi core, Pi AI and Pi coding agent are pinned to **1.5.0** in the example lockfile.
 
 | Check | Result | What it establishes |
 | --- | --- | --- |
@@ -28,3 +28,9 @@ The five integration tests run native CAD operations and actual Pi library code.
 Codex skill paths/invocation and Claude Code skill paths/invocation were checked against their official documentation. The bundled helper was run from both `.agents/skills/colocad` and `.claude/skills/colocad`. No Claude Code live session was run, and this test run did not evaluate a live Codex model reconstructing a drawing. The Pi live-provider schema negotiation remains dependent on the provider you configure.
 
 This verification adds no new performance claims. Cross-platform npm release checks are recorded separately in [release-alpha.3.json](../evidence/release-alpha.3.json); the new adapter regression itself was run on macOS arm64. Native SOLIDWORKS acceptance remains subject to the [existing limitations](../validation.md).
+
+## Engineering-query and release verification (2026-11-09)
+
+Current source passes six deterministic Pi/integration tests, including capability-gated `cad_query`, revision-aware feedback and recorded errors. Two additional [G3 live Pi tasks](../../specs/experiments/0005/README.md) use real remote inference while the agent/harness/SDK/native execute in one limited Linux sandbox. They cover a text-built plate and an edit/query of a seeded 82-solid product; they do not measure unseen-image reconstruction.
+
+The [alpha.7 archive record](../evidence/release-alpha.7.json) adds fresh-package SDK/CLI/query/foreign-replacement checks on macOS arm64 and Linux arm64/x64, independent OCCT readback and offline browser verification. Historical alpha.3 verification above remains scoped to that release.

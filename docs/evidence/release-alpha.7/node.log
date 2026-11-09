@@ -1,0 +1,256 @@
+TAP version 13
+# Subtest: K1/K2: catalog actuator is a complete product with named native parts
+ok 1 - K1/K2: catalog actuator is a complete product with named native parts
+  ---
+  duration_ms: 1471.956875
+  type: 'test'
+  ...
+# Subtest: K4: stroke endpoints remain editable and within the catalog guide envelope
+ok 2 - K4: stroke endpoints remain editable and within the catalog guide envelope
+  ---
+  duration_ms: 2400.105959
+  type: 'test'
+  ...
+# Subtest: semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+ok 3 - semantic named-face lifecycle: split, merge, deletion and old-ref rejection
+  ---
+  duration_ms: 313.80825
+  type: 'test'
+  ...
+# Subtest: foreign assembly replacement and rejected replacement retain accepted session across relocation
+ok 4 - foreign assembly replacement and rejected replacement retain accepted session across relocation
+  ---
+  duration_ms: 4162.577583
+  type: 'test'
+  ...
+# Subtest: checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+ok 5 - checkpoint execution policy rejects an old or missing policy instead of reusing old feature semantics
+  ---
+  duration_ms: 50.86525
+  type: 'test'
+  ...
+# Subtest: real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+ok 6 - real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+  ---
+  duration_ms: 3590.419875
+  type: 'test'
+  ...
+# Subtest: SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+ok 7 - SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+  ---
+  duration_ms: 445.92675
+  type: 'test'
+  ...
+# Subtest: release preflight isolates npm config and does not persist the credential
+ok 8 - release preflight isolates npm config and does not persist the credential
+  ---
+  duration_ms: 71.658291
+  type: 'test'
+  ...
+# Subtest: wrong identity or a different immutable archive prevents publishing and tag updates
+ok 9 - wrong identity or a different immutable archive prevents publishing and tag updates
+  ---
+  duration_ms: 62.213458
+  type: 'test'
+  ...
+# Subtest: a transient post-publish 404 retries the read, not publication
+ok 10 - a transient post-publish 404 retries the read, not publication
+  ---
+  duration_ms: 97.019958
+  type: 'test'
+  ...
+# Subtest: resume never uploads an accepted version and reports a bounded pending state
+ok 11 - resume never uploads an accepted version and reports a bounded pending state
+  ---
+  duration_ms: 93.190209
+  type: 'test'
+  ...
+# Subtest: a staged conflict waits for integrity and rejects another archive before changing tags
+ok 12 - a staged conflict waits for integrity and rejects another archive before changing tags
+  ---
+  duration_ms: 100.704958
+  type: 'test'
+  ...
+# Subtest: tag visibility is verified without repeating tag writes
+ok 13 - tag visibility is verified without repeating tag writes
+  ---
+  duration_ms: 103.527625
+  type: 'test'
+  ...
+# Subtest: independent OCCT STEP preserves analytic top face and five inner-circle centers
+ok 14 - independent OCCT STEP preserves analytic top face and five inner-circle centers
+  ---
+  duration_ms: 346.460708
+  type: 'test'
+  ...
+# Subtest: SDK reopens exact snapshot, exposes schema/tool, preserves refs and confines host paths
+ok 15 - SDK reopens exact snapshot, exposes schema/tool, preserves refs and confines host paths
+  ---
+  duration_ms: 247.354542
+  type: 'test'
+  ...
+# Subtest: query receipts persist without replacing accepted source and edits retain queryability
+ok 16 - query receipts persist without replacing accepted source and edits retain queryability
+  ---
+  duration_ms: 746.653459
+  type: 'test'
+  ...
+# Subtest: CLI query emits a receipt, refuses overwrite and leaves source artifacts unchanged
+ok 17 - CLI query emits a receipt, refuses overwrite and leaves source artifacts unchanged
+  ---
+  duration_ms: 522.618084
+  type: 'test'
+  ...
+# Subtest: named datums auto-enable exact artifacts, survive reopen and transform per occurrence
+ok 18 - named datums auto-enable exact artifacts, survive reopen and transform per occurrence
+  ---
+  duration_ms: 192.124958
+  type: 'test'
+  ...
+# Subtest: interface-only source enables query artifacts and exposes holes/groups/profile through SDK tools and session
+ok 19 - interface-only source enables query artifacts and exposes holes/groups/profile through SDK tools and session
+  ---
+  duration_ms: 1444.96725
+  type: 'test'
+  ...
+# Subtest: native declarations and foreign STEP recognition agree on measured mounting facts
+ok 20 - native declarations and foreign STEP recognition agree on measured mounting facts
+  ---
+  duration_ms: 929.106167
+  type: 'test'
+  ...
+# Subtest: H2: codex skill layout records local commands and exports offline history
+ok 21 - H2: codex skill layout records local commands and exports offline history
+  ---
+  duration_ms: 1837.675125
+  type: 'test'
+  ...
+# Subtest: H2: claude-code skill layout records local commands and exports offline history
+ok 22 - H2: claude-code skill layout records local commands and exports offline history
+  ---
+  duration_ms: 1825.7435
+  type: 'test'
+  ...
+# Subtest: R1/R2: deterministic film timing is separate from recorded build times
+ok 23 - R1/R2: deterministic film timing is separate from recorded build times
+  ---
+  duration_ms: 0.786458
+  type: 'test'
+  ...
+# Subtest: R3: invalid movie options fail before rendering
+ok 24 - R3: invalid movie options fail before rendering
+  ---
+  duration_ms: 0.139125
+  type: 'test'
+  ...
+# Subtest: S1: immutable native history survives reopening and relocation
+ok 25 - S1: immutable native history survives reopening and relocation
+  ---
+  duration_ms: 374.858833
+  type: 'test'
+  ...
+# Subtest: S2: failed attempt persists and edits start from last successful source
+ok 26 - S2: failed attempt persists and edits start from last successful source
+  ---
+  duration_ms: 330.984583
+  type: 'test'
+  ...
+# Subtest: S3: concurrent writer refused; crashed attempt preserved as interrupted
+ok 27 - S3: concurrent writer refused; crashed attempt preserved as interrupted
+  ---
+  duration_ms: 272.920291
+  type: 'test'
+  ...
+# Subtest: S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+ok 28 - S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+  ---
+  duration_ms: 198.77975
+  type: 'test'
+  ...
+# Subtest: compact tools keep executable schemas, exact measurements and recovery state
+ok 29 - compact tools keep executable schemas, exact measurements and recovery state
+  ---
+  duration_ms: 310.92075
+  type: 'test'
+  ...
+# Subtest: response compaction never erases degradation, errors or capability limits
+ok 30 - response compaction never erases degradation, errors or capability limits
+  ---
+  duration_ms: 1.926625
+  type: 'test'
+  ...
+# Subtest: guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+ok 31 - guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+  ---
+  duration_ms: 1525.134375
+  type: 'test'
+  ...
+# Subtest: compact build retains query revision and execution policy needed by a subsequent geometry query
+ok 32 - compact build retains query revision and execution policy needed by a subsequent geometry query
+  ---
+  duration_ms: 0.226416
+  type: 'test'
+  ...
+# Subtest: one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+ok 33 - one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+  ---
+  duration_ms: 13.006375
+  type: 'test'
+  ...
+# Subtest: invalid operations, stale references and resource limits fail before geometry
+ok 34 - invalid operations, stale references and resource limits fail before geometry
+  ---
+  duration_ms: 3.565458
+  type: 'test'
+  ...
+# Subtest: manifold edits rebuild material; two independent builds never overwrite the same destination
+ok 35 - manifold edits rebuild material; two independent builds never overwrite the same destination
+  ---
+  duration_ms: 1437.478375
+  type: 'test'
+  ...
+# Subtest: Y-direction rectangular slots rebuild through the same compiler
+ok 36 - Y-direction rectangular slots rebuild through the same compiler
+  ---
+  duration_ms: 281.286916
+  type: 'test'
+  ...
+# Subtest: headless host returns an explicit native error and never emits a mislabeled file
+ok 37 - headless host returns an explicit native error and never emits a mislabeled file
+  ---
+  duration_ms: 3.330875
+  type: 'test'
+  ...
+# Subtest: E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+ok 38 - E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+  ---
+  duration_ms: 201.447166
+  type: 'test'
+  ...
+# Subtest: E3: editable tip radius changes exact engine bounds
+ok 39 - E3: editable tip radius changes exact engine bounds
+  ---
+  duration_ms: 1114.734792
+  type: 'test'
+  ...
+# Subtest: CLI launches local viewer and exports the same offline history
+ok 40 - CLI launches local viewer and exports the same offline history
+  ---
+  duration_ms: 508.849666
+  type: 'test'
+  ...
+# Subtest: CLI refuses an invalid viewer port
+ok 41 - CLI refuses an invalid viewer port
+  ---
+  duration_ms: 182.474916
+  type: 'test'
+  ...
+1..41
+# tests 41
+# suites 0
+# pass 41
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8277.802208

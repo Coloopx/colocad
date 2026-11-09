@@ -1,0 +1,26 @@
+TAP version 13
+# Subtest: real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+not ok 1 - real terminated build leaves interrupted history, releases dead lock and resumes accepted geometry
+  ---
+  duration_ms: 304.063917
+  type: 'test'
+  location: '<workspace>/outputs/colocad/test/lifecycle.test.mjs:51:1'
+  failureType: 'testCodeFailure'
+  error: 'The "paths[0]" argument must be of type string. Received undefined'
+  code: 'ERR_INVALID_ARG_TYPE'
+  name: 'TypeError'
+  stack: |-
+    resolve (node:path:1272:7)
+    TestContext.<anonymous> (file://<workspace>/outputs/colocad/test/lifecycle.test.mjs:56:250)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 403.019667

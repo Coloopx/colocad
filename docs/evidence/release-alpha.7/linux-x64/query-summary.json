@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.7",
+  "platform": "linux-x64",
+  "native_sha256": "be4bbfff19711b59afcdf4c6c9257f16e31a9c6e0504f4c877fe16e567739c7f",
+  "execution_policy": "sha256:7374c302bdf03b437ffe29a0d7faae2331faffcb71ac550771371c3955958264",
+  "override": false,
+  "checks": [
+    "installed_sdk_and_query_tool",
+    "cli_query",
+    "exact_snapshot_relocation",
+    "four_bores_and_two_plane_scoped_groups",
+    "declared_interface",
+    "edit_and_stale_ref_rejection",
+    "failed_edit_preserves_source",
+    "offline_history_export",
+    "three_foreign_replacements_two_rejections",
+    "ineffective_cut_rejection"
+  ],
+  "foreign_positives": 3,
+  "foreign_rejections": 2,
+  "scope": "Installed archive correctness, not a performance comparison or live inference study"
+}

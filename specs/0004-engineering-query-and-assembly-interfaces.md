@@ -435,3 +435,7 @@ Hole completeness is scoped to the requested support adjacency; uncertainty outs
 ## Acceptance update — G2/G3, 2026-11-09
 
 The [G2/G3 record](experiments/0005/README.md) closes the declared reliability and engineering-usability gates: 24/24 frozen cases with independent OCCT readback, semantic reference lifecycle and source replacement, real interruption/recovery, execution-policy cache invalidation, bounded parser probes, and two live Pi tasks. The agent/harness/SDK/native run together within 1 vCPU / 512 MiB; the 82-solid product task peaks at 370.57 MiB without OOM. Final regression: 127 Rust, 41 Node on each tested platform and six scripted integration tests. Supported recognition/contact boundaries above remain explicit. G4 and npm publication have not been performed in this acceptance round.
+
+## Publication update: alpha.7
+
+The accepted supported domains now ship in the alpha.7 SDK, CLI and three native bundles. Historical acceptance records remain unchanged; see the [changelog](../CHANGELOG.md) and [installed-archive evidence](../docs/evidence/release-alpha.7.json). G4 has not started.

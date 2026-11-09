@@ -1,0 +1,5 @@
+
+> @coloopx/colocad@0.1.0-alpha.7 schema:check
+> node scripts/schema.mjs --check
+
+schema and TS contract verified for native 0.5.0

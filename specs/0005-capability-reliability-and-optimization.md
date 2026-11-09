@@ -59,3 +59,7 @@ The future runner must refuse G4 promotion when any G1–G3 gate is missing/stal
 G1 is accepted within the supported SDD 0004 domains; the [G1 ledger](experiments/0004/README.md) retains functional, foreign STEP and whole-product evidence. G2 passes all 24 required frozen cases, including 18 positive geometries and six correct rejections. G3 passes semantic lifecycle/replacement, real process recovery, cache-policy invalidation, bounded parser probes and two live Pi agent tasks. The final regression is 127 Rust, 41 Node tests on each of macOS and limited Linux, and six scripted integration tests. Linux-produced corpus and live-task STEP outputs pass independent OCCT readback. See the [G2/G3 acceptance record](experiments/0005/README.md).
 
 The agent, local harness, SDK and native execute together within Linux arm64 1 vCPU / 512 MiB; the 82-solid product task peaks at 370.57 MiB with no OOM. This is measured workload acceptance, not a universal input memory bound or complete industrial CAD equivalence. G4 has not started. Packaged npm alpha.6 does not yet include these development changes; source acceptance is separate from publication.
+
+## Publication update: alpha.7
+
+The accepted supported domains now ship in the alpha.7 SDK, CLI and three native bundles. Historical acceptance records remain unchanged; see the [changelog](../CHANGELOG.md) and [installed-archive evidence](../docs/evidence/release-alpha.7.json). G4 has not started.

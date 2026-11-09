@@ -17,7 +17,7 @@ The executable Pi adapter exposes five core tools and capability-gates `cad_quer
 | `cad_solve_sketch` | Local sketch constraints/residuals/DOF | Local solution/rank is not proof of global uniqueness |
 | `cad_inspect_step` | Inspect a registered STEP asset and its instances | Import budgets and supported representations apply |
 
-The current API does not provide `image_to_cad`, an automatic drawing-dimension extractor, or universal geometry recognition. Use the harness's file/image tools for evidence and an appropriate independent geometry verifier for checks. The SDK's `inspect` reads a report; `query` is the capability-gated exact-geometry API. Published alpha.6 predates it: inspect installed capabilities before using development APIs.
+The current API does not provide `image_to_cad`, an automatic drawing-dimension extractor, or universal geometry recognition. Use the harness's file/image tools for evidence and an appropriate independent geometry verifier for checks. The SDK's `inspect` reads a report; `query` is the capability-gated exact-geometry API. It ships in alpha.7; alpha.6 predates it. Inspect installed capabilities before selecting tools.
 
 ## Keep feedback focused and inspectable
 

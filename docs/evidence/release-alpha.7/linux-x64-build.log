@@ -1,0 +1,144 @@
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 762B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157
+#2 DONE 2.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [builder 1/7] FROM docker.io/library/rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157
+#4 resolve docker.io/library/rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 51.39MB 0.2s done
+#5 DONE 0.2s
+
+#4 [builder 1/7] FROM docker.io/library/rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 0B / 28.23MB 0.2s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 0B / 284.64MB 0.2s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 2.10MB / 28.23MB 2.4s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 15.73MB / 284.64MB 2.6s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 5.24MB / 28.23MB 2.6s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 7.34MB / 28.23MB 2.7s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 10.49MB / 28.23MB 2.9s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 13.63MB / 28.23MB 3.0s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 17.83MB / 28.23MB 3.2s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 31.46MB / 284.64MB 3.5s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 23.07MB / 28.23MB 3.5s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 26.21MB / 28.23MB 3.6s
+#4 sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 28.23MB / 28.23MB 3.8s done
+#4 extracting sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 46.14MB / 284.64MB 4.4s
+#4 extracting sha256:a8ac7f6c67abc236e4c745052c404112b8fab6fe8ac3a329d1ef3b867ad67c71 0.5s done
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 62.91MB / 284.64MB 5.1s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 77.59MB / 284.64MB 5.9s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 93.32MB / 284.64MB 6.6s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 108.00MB / 284.64MB 7.4s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 124.78MB / 284.64MB 8.4s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 141.56MB / 284.64MB 9.3s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 158.33MB / 284.64MB 10.2s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 175.11MB / 284.64MB 11.0s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 192.94MB / 284.64MB 12.3s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 208.67MB / 284.64MB 13.2s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 225.26MB / 284.64MB 14.0s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 240.12MB / 284.64MB 14.9s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 257.95MB / 284.64MB 15.8s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 275.78MB / 284.64MB 16.7s
+#4 sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 284.64MB / 284.64MB 17.4s done
+#4 extracting sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5
+#4 extracting sha256:461f979ecc97ce337360c049e1e1799765eb0347185264d85d14d7a7d87b4aa5 3.2s done
+#4 DONE 20.7s
+
+#6 [builder 2/7] WORKDIR /src
+#6 DONE 0.6s
+
+#7 [builder 3/7] COPY third_party/solidcore-source.tar.gz /tmp/solidcore.tar.gz
+#7 DONE 0.1s
+
+#8 [builder 4/7] RUN echo "fd75dd9a3bbfe37e320a7d47f05a6a48566f8ffc93128eff92124b9259d812c0  /tmp/solidcore.tar.gz" | sha256sum -c - && mkdir -p vendor/solidcore && tar xzf /tmp/solidcore.tar.gz --strip-components=1 -C vendor/solidcore && rm /tmp/solidcore.tar.gz
+#8 0.433 /tmp/solidcore.tar.gz: OK
+#8 DONE 4.2s
+
+#9 [builder 5/7] COPY Cargo.toml Cargo.lock ./
+#9 DONE 0.1s
+
+#10 [builder 6/7] COPY crates ./crates
+#10 DONE 0.0s
+
+#11 [builder 7/7] RUN --mount=type=cache,target=/usr/local/cargo/registry --mount=type=cache,target=/src/target cargo build --release --locked -p agent-cad && cp target/release/agent-cad /agent-cad
+#11 0.875    Compiling proc-macro2 v1.0.107
+#11 0.875    Compiling unicode-ident v1.0.27
+#11 0.876    Compiling quote v1.0.47
+#11 0.876    Compiling version_check v0.9.5
+#11 0.876    Compiling serde_core v1.0.229
+#11 0.876    Compiling serde v1.0.229
+#11 0.876    Compiling typenum v1.20.1
+#11 0.877    Compiling zmij v1.0.23
+#11 1.646    Compiling thiserror v2.0.21
+#11 2.173    Compiling crossbeam-utils v0.8.23
+#11 2.380    Compiling crossbeam-epoch v0.9.21
+#11 2.458    Compiling serde_json v1.0.154
+#11 2.464    Compiling generic-array v0.14.7
+#11 3.975    Compiling simd-adler32 v0.3.10
+#11 4.048    Compiling memchr v2.8.3
+#11 4.263    Compiling autocfg v1.5.1
+#11 5.219    Compiling crossbeam-deque v0.8.8
+#11 5.426    Compiling itoa v1.0.18
+#11 6.066    Compiling num-traits v0.2.19
+#11 6.922    Compiling syn v3.0.9
+#11 7.190    Compiling crypto-common v0.1.7
+#11 7.190    Compiling block-buffer v0.10.4
+#11 7.250    Compiling adler2 v2.0.1
+#11 7.639    Compiling rayon-core v1.13.0
+#11 7.965    Compiling crc32fast v1.5.4
+#11 8.093    Compiling cfg-if v1.0.5
+#11 8.447    Compiling digest v0.10.7
+#11 8.813    Compiling ref-cast v1.0.27
+#11 9.277    Compiling equivalent v1.0.3
+#11 9.377    Compiling allocator-api2 v0.2.21
+#11 9.601    Compiling foldhash v0.2.0
+#11 9.651    Compiling cpufeatures v0.2.17
+#11 9.970    Compiling sha2 v0.10.9
+#11 9.998    Compiling serde_derive_internals v0.30.0
+#11 10.48    Compiling serde_derive v1.0.229
+#11 11.19    Compiling thiserror-impl v2.0.21
+#11 11.19    Compiling hashbrown v0.16.1
+#11 11.34    Compiling ref-cast-impl v1.0.27
+#11 13.20    Compiling miniz_oxide v0.9.1
+#11 13.29    Compiling smallvec v1.16.4
+#11 13.60    Compiling step-import v0.1.0 (/src/vendor/solidcore/crates/step-import)
+#11 13.75    Compiling robust v1.2.0
+#11 13.93    Compiling either v1.19.0
+#11 14.85    Compiling spade v2.15.1
+#11 15.00    Compiling rayon v1.12.0
+#11 15.01    Compiling flate2 v1.1.10
+#11 15.39    Compiling schemars_derive v1.2.3
+#11 16.02    Compiling solidcore v1.0.1 (/src/vendor/solidcore/crates/solidcore)
+#11 16.64    Compiling solidcore-record v0.1.0 (/src/vendor/solidcore/crates/solidcore-record)
+#11 17.19    Compiling agent-cad v0.5.0 (/src/crates/agent-cad)
+#11 17.58    Compiling miniz_oxide v0.8.9
+#11 18.47    Compiling fdeflate v0.3.7
+#11 18.77    Compiling dyn-clone v1.0.20
+#11 18.81    Compiling bitflags v1.3.2
+#11 20.11    Compiling png v0.17.16
+#11 20.19    Compiling schemars v1.2.3
+#11 22.08    Compiling step-export v0.1.0 (/src/vendor/solidcore/crates/step-export)
+#11 123.5    Compiling solidcore-convert v0.1.0 (/src/vendor/solidcore/crates/solidcore-convert)
+#11 123.5    Compiling step-brep v0.1.0 (/src/vendor/solidcore/crates/step-brep)
+#11 124.4    Compiling solidcore-tess v0.1.0 (/src/vendor/solidcore/crates/solidcore-tess)
+#11 280.4     Finished `release` profile [optimized] target(s) in 4m 40s
+#11 DONE 280.6s
+
+#12 [stage-1 1/1] COPY --from=builder /agent-cad /agent-cad
+#12 DONE 0.0s
+
+#13 exporting to client directory
+#13 copying files 25.76MB 0.1s
+#13 copying files 48.55MB 0.2s done
+#13 DONE 0.2s

@@ -4,7 +4,7 @@
 
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
-These guides target **@coloopx/colocad 0.1.0-alpha.6**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+These guides target **@coloopx/colocad 0.1.0-alpha.7**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
 
 [中文开发指南](README.zh-CN.md)
 
@@ -27,9 +27,9 @@ These guides target **@coloopx/colocad 0.1.0-alpha.6**, Node.js 22+, Linux x64/a
 | Check G1–G3 acceptance, Linux limits and live-agent traces | [Frozen corpus, lifecycle and sandbox evidence](../specs/experiments/0005/README.md) |
 | Contribute geometry queries and assembly interfaces | [SDD 0004 revision 2 — contract and 28 acceptance cases](../specs/0004-engineering-query-and-assembly-interfaces.md), [implementation evidence](../specs/experiments/0004/README.md) |
 
-Runnable adapters and their regression tests live in [examples/integrations](../examples/integrations/README.md). They install the published npm release. The complete Pi example project is in GitHub. Alpha.5 also packages the compact adapter and guided workflow example. The skill, assets and its helper scripts **are** included.
+Runnable adapters and their regression tests live in [examples/integrations](../examples/integrations/README.md). The standalone SDK example pins the published alpha.3 compatibility baseline; current Pi/session adapters use this checkout and the matching native. The complete Pi example project is in GitHub. Alpha.5 also packages the compact adapter and guided workflow example. The skill, assets and its helper scripts **are** included.
 
 Performance depends on workload and execution mode. See the [README measurements](../README.md#performance), with their startup, geometry and memory accounting, before choosing a budget. A 512 MiB CAD benchmark is not a 512 MiB guarantee for a resident LLM harness plus CAD.
 
-- [Exact geometry queries and datum-driven assembly (development)](engineering-queries.md)
+- [Exact geometry queries and datum-driven assembly (alpha.7)](engineering-queries.md)
 - [Four ordered goals and benchmark/retrospective optimization](../specs/0005-capability-reliability-and-optimization.md)

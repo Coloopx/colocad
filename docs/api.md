@@ -1,6 +1,6 @@
 # SDK, CLI and tool reference
 
-Targets `@coloopx/colocad@0.1.0-alpha.6`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
+Targets `@coloopx/colocad@0.1.0-alpha.7`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
 
 ## Feature-tree SDK and CLI
 
@@ -39,7 +39,9 @@ The host chooses `outputRoot`, a local directory for generated revisions, and op
 | `capabilities()` | Native version, supported operations, budgets and declared limitations |
 | `schema()` | Complete kernel model JSON Schema |
 | `validate(model)` | Cheap input/dependency/budget preflight; no geometric validity guarantee |
-| `build(model, previousRevision?)` | Build/check exact geometry and export a new revision; optional checkpoint source |
+| `build(model, optionsOrRevision?)` | Build/check exact geometry; options include `queryable` and `previousRevision`; a legacy revision string remains supported |
+| `querySchema()` | Exact-query JSON Schema from the installed native |
+| `query(artifactDirectory, request)` | Read an exact snapshot using its `query_revision_id`, within host-configured `queryRoots` |
 | `edit(model, parameters)` | Change existing numeric parameters, then build; input remains unchanged |
 | `preview(model, options?)` | Build or reuse a matching display mesh and render it |
 | `observeArtifact(directory, options?)` | Render from a trusted saved mesh with integrity checks |
@@ -59,7 +61,7 @@ Build receipts include `artifact_directory`, `geometry`, `validation`, feature r
 
 Preview options include `view: "iso" | "top" | "bottom" | "front" | "back" | "left" | "right"`, image size, `chord_mm` and section settings. Use the schema for exact fields and limits. A different camera can reuse geometry; changing mesh precision or geometry can require new work.
 
-The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.6: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
+The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.7: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
 
 ## Agent tools
 
@@ -69,15 +71,16 @@ The kernel SDK limits serialized input to 32 MiB. Query capabilities for native 
 | --- | --- |
 | `cad_capabilities` | `{}` |
 | `cad_validate` | `{ model }` |
-| `cad_build` | `{ model }` |
+| `cad_build` | `{ model, options?: { queryable?: boolean } }` |
 | `cad_preview` | `{ model, options? }` |
 | `cad_edit` | `{ model, parameters }` |
 | `cad_solve_sketch` | `{ sketch, parameters? }` |
 | `cad_inspect_step` | `{ model, asset }` |
+| `cad_query` | `{ artifact_directory, request }`; session-bound form takes `{ request }` against the accepted artifact |
 
 Preserve the complete `inputSchema`, including root `$defs`. Do not wrap it without rewriting `$ref` locations. These definitions are transport-neutral; the package does not launch an MCP server. If a provider rejects the union-heavy schema, use the skill with shell tools or build a provider-specific schema adapter and test its validation behavior.
 
-The Pi example exposes the first five tools for a smaller modeling surface. It converts failed receipts into failed tool results and includes PNG bytes in image content when a preview is at most 4 MiB. The full model/source is in the artifact directory, not in a fabricated project ID.
+The Pi example exposes the first five tools plus capability-gated `cad_query`. It converts failed receipts into failed tool results and includes PNG bytes in image content when a preview is at most 4 MiB. Build/edit feedback retains the query revision. See the [query guide](engineering-queries.md) for selection, datums, holes/groups, interfaces and supported geometric relationships.
 
 For STEP imports, use `attachStep(model, assetId, stepText)` from `@coloopx/colocad/kernel`. The host registers text under an opaque ID; the model need not choose arbitrary filesystem paths. The returned model is a copy. [Integration policy and lifecycle](integrations/overview.md).
 

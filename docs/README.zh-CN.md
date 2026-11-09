@@ -4,7 +4,7 @@
 
 colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导建模流程**。Agent、harness 和 Rust CAD 进程都在同一个沙箱内，共享项目目录。现有 harness 负责模型推理、权限、会话和产物保存，不需要额外部署 CAD 服务。
 
-本文对应 `@coloopx/colocad@0.1.0-alpha.6`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
+本文对应 `@coloopx/colocad@0.1.0-alpha.7`，要求 Node.js 22+；预编译内核支持 Linux x64/arm64、macOS arm64。工程仍处于 alpha 阶段。
 
 ## 从材料到交付的完整指南
 
@@ -15,7 +15,7 @@ colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导�
 在已有 Node 项目根目录执行；没有 `package.json` 时先运行 `npm init -y`：
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.6
+npm install --save-exact @coloopx/colocad@0.1.0-alpha.7
 ./node_modules/.bin/colocad build \
   node_modules/@coloopx/colocad/examples/manifold.json ./manifold-v1 --preview
 ```
@@ -86,9 +86,9 @@ test ! -e .agents/skills/colocad && \
 
 [性能证据与测量边界](performance.md) · [SOLIDWORKS 原生导出状态](native-solidworks.md)
 
-## 待实现的工程查询与装配接口
+## 工程查询与装配接口（alpha.7）
 
-[SDD 0004 中文实施说明](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)与[英文规范](../specs/0004-engineering-query-and-assembly-interfaces.md)第 2 版已纳入 CadQuery 对照评审，定义可组合选择、几何基准、面/孔/轴查询、稳定引用、安装接口与 28 项验收。阶段为 **实施中**；[实验台账](../specs/experiments/0004/README.md)区分源代码已实现、实验通过和待完成项目。这些新能力尚未随 alpha.6 发布。
+[SDD 0004 中文实施说明](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)与[英文规范](../specs/0004-engineering-query-and-assembly-interfaces.md)第 2 版已纳入 CadQuery 对照评审，定义可组合选择、几何基准、面/孔/轴查询、稳定引用、安装接口与 28 项验收。支持域内的 G1–G3 已通过验收，alpha.7 包含 SDK、CLI 与三平台原生实现。[实验台账](../specs/experiments/0004/README.md)保留迭代过程；[安装包验证](evidence/release-alpha.7.json)检查实际交付。
 
-- [精确查询与几何基准装配（开发中）](engineering-queries.zh-CN.md)
+- [精确查询与几何基准装配（alpha.7）](engineering-queries.zh-CN.md)
 - [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)

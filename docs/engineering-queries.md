@@ -1,8 +1,14 @@
 # Exact queries and geometry-backed assembly
 
-**Development source capability; not included in the published alpha.6 native bundles.** Build the native executable and SDK from the same checkout. [中文](engineering-queries.zh-CN.md) · [Runnable example](../examples/engineering-queries/README.md) · [Detailed contract](../specs/0004-engineering-query-and-assembly-interfaces.md).
+**Available in @coloopx/colocad 0.1.0-alpha.7**, including all three packaged native targets. For source development, build the native executable and SDK from the same checkout. [中文](engineering-queries.zh-CN.md) · [Runnable example](../examples/engineering-queries/README.md) · [Detailed contract](../specs/0004-engineering-query-and-assembly-interfaces.md).
 
 Use this layer when a part's installation geometry must be measured or selected before assembly. The local Rust executable evaluates exact B-rep geometry; the SDK, CLI and agent tools share that implementation. No Python geometry workflow or separate service is required. Agent, harness and executable run in the same sandbox.
+
+## Readiness and compatibility
+
+This layer is ready for the declared mechanical assembly workflows: exact topology selection, primitive datums, analytic bores/groups, planar mounting interfaces, geometry-driven replacement and explicit pair measurements. The release is alpha. Colocad uses its own JSON/TypeScript contracts; it does not run CadQuery Python programs or promise identical selector syntax or feature coverage.
+
+G1–G3 acceptance covers the frozen 24-case corpus, lifecycle tests and two live agent tasks. [Release archive checks](evidence/release-alpha.7.json) verify the installed SDK/CLI/native together on macOS arm64 and Linux arm64/x64; x64 is emulated on an arm64 host. Unsupported recognition/contact domains are listed below and remain explicit partial/error results.
 
 ## Build once, query the accepted revision
 
