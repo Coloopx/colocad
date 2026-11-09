@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "platform": "linux-x64",
+  "checks": [
+    "bundled_grid_queryable_preview",
+    "four_hole_centers_diameters",
+    "six_hole_parameter_edit",
+    "stale_revision_rejection",
+    "relocation_preserves_refs",
+    "query_no_build_export_tessellation",
+    "cli_html_replay"
+  ],
+  "revision": "sha256:6af3a4ce08691d10d805a1e629464ecd466d478f38413a335853fc95ff0d8348",
+  "html_bytes": 1182211
+}

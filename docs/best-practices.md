@@ -1,6 +1,6 @@
 # Modeling and integration best practices
 
-Applies to the supported Colocad alpha.7 APIs. [中文](best-practices.zh-CN.md) · [Complete agent handbook](agent-modeling-handbook.md) · [Query contract and limits](engineering-queries.md).
+Applies to the supported Colocad alpha.8 APIs. [中文](best-practices.zh-CN.md) · [Complete agent handbook](agent-modeling-handbook.md) · [Query contract and limits](engineering-queries.md).
 
 
 ## Start from the structure that controls the part
@@ -45,9 +45,9 @@ Use a bounded correction loop: locate the failed feature, inspect its inputs and
 
 ### Run the edit/query loop against the installed package
 
-Install `@coloopx/colocad@0.1.0-alpha.7` in a new project. Save this as `query-workflow.mjs`; keep `query-session` and `query-review.html` unused before the first run:
+Install `@coloopx/colocad@0.1.0-alpha.8` in a new project. Save this as `query-workflow.mjs`; keep `query-session` and `query-review.html` unused before the first run:
 
-**Alpha.7 known issue:** the bundled `plate-grid.json` uses `face_hole_grid`, which fails when building exact query artifacts on the tested macOS arm64 native (`BSplineCurve::make_nurb`, status 1001). Ordinary build/preview pass. This example expresses the same four-hole plate with `holes`; it does not claim the grid snapshot defect is fixed. [Reproducer and checks](evidence/alpha.7-query-guidance.json).
+**Version note:** alpha.8 fixes grid exact snapshot creation. The example now uses `face_hole_grid` directly. Upgrade SDK and native together; preview precision was not the cause in alpha.7. [Original failure](evidence/alpha.7-query-guidance.json) / [Repair regression](evidence/release-alpha.8.json).
 
 ```js
 import assert from 'node:assert/strict';
@@ -57,10 +57,9 @@ const model = {
   version:1, units:'mm', parameters:{holeDiameter:6},
   features:[
     {id:'plate', op:'box', origin:[0,0,0], size:[80,50,6]},
-    {id:'mounts', op:'holes', input:'plate',
-      frame:{origin:[0,0,-1], x_axis:[1,0,0], y_axis:[0,1,0]},
-      positions:[[15,10],[65,10],[15,40],[65,40]],
-      radius:{op:'div', a:{param:'holeDiameter'}, b:2}, depth:8}
+    {id:'mounts', op:'face_hole_grid', input:'plate', face:'pos_z',
+      center:[40,25], count:[2,2], spacing:[50,30],
+      radius:{op:'div', a:{param:'holeDiameter'}, b:2}, depth:6}
   ],
   output:'mounts', preview:{width:320, height:240, chord_mm:1}
 };

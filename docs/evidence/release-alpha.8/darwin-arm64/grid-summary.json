@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "platform": "darwin-arm64",
+  "checks": [
+    "bundled_grid_queryable_preview",
+    "four_hole_centers_diameters",
+    "six_hole_parameter_edit",
+    "stale_revision_rejection",
+    "relocation_preserves_refs",
+    "query_no_build_export_tessellation",
+    "cli_html_replay"
+  ],
+  "revision": "sha256:3cbf8ed98b77594fccb0328c6b7dbba797d79521c983fb35d43d259b623ec5f2",
+  "html_bytes": 1181968
+}

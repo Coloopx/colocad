@@ -4,7 +4,7 @@
 
 这层能力用于在装配前查询零件的安装几何。几何解释在本地 Rust 内核中完成，SDK、CLI 与 agent 工具共用实现；agent、harness 和可执行文件仍位于同一沙箱中。
 
-发布后的文档实测新增一个 alpha.7 已知缺陷：包内 `face_hole_grid` 四孔板在 macOS arm64 创建精确查询快照时失败，普通构建/预览通过。此组合不在此前冻结验收案例内；暂用已验证的普通 `holes` 等价板件路径，缺陷仍未修复。见[复现与最佳实践](best-practices.zh-CN.md#可以直接执行的改参示例)。历史通过记录只对应其已测试案例。
+alpha.8 修复 alpha.7 的孔阵列快照问题：在序列化副本上精确补齐圆柱接缝内部 UV 直线数据，不使用三角化、STEP 重导入或几何修补代替快照。见[修复与安装包证据](evidence/release-alpha.8.json)；[原始失败](evidence/alpha.7-query-guidance.json)保持留档。
 
 ## 构建一次，查询已接受版本
 

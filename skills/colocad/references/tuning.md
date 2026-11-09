@@ -19,7 +19,7 @@ Change one cause at a time and retain the original acceptance target. These are 
 
 Keep source interpretation/inference, CAD startup, geometry, validation, STEP export, tessellation, view rendering and video encoding separate. Time-to-STEP and time-to-preview answer different questions. A cached view cannot be compared with another tool's fresh geometry build as if they were the same task.
 
-For a fair build123d comparison, use the same dimensions, features, instances, precision and required artifacts. Verify both geometries independently, pin environments and define cold/warm behavior. Report repeat counts, median/tails, failures and the accounting boundary. For memory, state sampled RSS/process sum/cgroup, sampling interval and whether the plot is instantaneous or the peak-so-far; retaining a peak is a presentation choice, not the original trace.
+For a fair CadQuery or build123d comparison, use the same dimensions, features, instances, precision and required artifacts. Verify both geometries independently, pin environments and define cold/warm behavior. Report repeat counts, median/tails, failures and the accounting boundary. For memory, state sampled RSS/process sum/cgroup, sampling interval and whether the plot is instantaneous or the peak-so-far; retaining a peak is a presentation choice, not the original trace.
 
 A 1 vCPU / 512 MiB CAD run establishes only that scoped run. It does not establish the memory budget of the resident agent/harness, an in-process LLM, Chromium or FFmpeg. Do not extrapolate a plate's speedup to a threaded multi-part product.
 
@@ -28,3 +28,7 @@ A 1 vCPU / 512 MiB CAD run establishes only that scoped run. It does not establi
 Hold product tasks, source packs, model/provider version, tools and budget fixed. Compare the existing skill with one changed instruction/tool response policy. Include a dimensioned part, a part needing section interpretation, an editable assembly and an ambiguous source case. Keep some tasks unseen during tuning. Measure required dimensions/features, edit preservation, fit checks, unsupported claims, correction count, inference cost and end-to-end duration.
 
 Use numerical checks and inspectable artifacts for acceptance. Scripted tool tests establish transport and geometry contracts; they do not establish that a model understood an unseen drawing. Report failed tasks and unknown evidence, and do not describe an unrun prompt ablation as an improvement result.
+
+## Preserve an improvement experiment
+
+For an explicit optimization task, freeze the baseline, task split, required geometry, tolerances, verifier and resource budget before changing code or guidance. Retain the original failure and a small reproducer. Change one hypothesis, pass affected-family and frozen regressions, then challenge held-out product families. Include failures in the denominator and preserve rejected or inconclusive candidates. Do not change the evaluator/reference to make a candidate pass. A performance gain needs repeat measurements beyond noise; a skill gain needs live-agent evidence, not only scripted tests. Stop at the authorized iteration/cost budget and keep the last accepted state. Publishing is a separate authorized action, not a tool-score side effect.

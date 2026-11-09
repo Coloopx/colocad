@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "version": "0.1.0-alpha.8",
+  "platform": "darwin-arm64",
+  "native_sha256": "cf358a37f19ed8dcd9b2607584152ad3a627c7e175faa631e2086ed1c5cc255a",
+  "execution_policy": "sha256:557376d4ce772ef32b1e758f4ec4cb0c22204f96f9a6b9addd74fb90c740a1ae",
+  "override": false,
+  "checks": [
+    "installed_sdk_and_query_tool",
+    "cli_query",
+    "exact_snapshot_relocation",
+    "four_bores_and_two_plane_scoped_groups",
+    "declared_interface",
+    "edit_and_stale_ref_rejection",
+    "failed_edit_preserves_source",
+    "offline_history_export",
+    "three_foreign_replacements_two_rejections",
+    "ineffective_cut_rejection"
+  ],
+  "foreign_positives": 3,
+  "foreign_rejections": 2,
+  "scope": "Installed archive correctness, not a performance comparison or live inference study"
+}

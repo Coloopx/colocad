@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: bundled face grid survives SDK query, dimension/count edits, relocation and CLI replay
+ok 1 - bundled face grid survives SDK query, dimension/count edits, relocation and CLI replay
+  ---
+  duration_ms: 879.400458
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 972.705667

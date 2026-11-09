@@ -2,12 +2,25 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
-## Unreleased documentation and skill guidance
+## [0.1.0-alpha.8](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.8) - 2026-11-10
 
-- Expand English/Chinese best practices with the query → semantic datum/interface → assembly → edit/replacement verification workflow and an executable example using published alpha.7.
-- Update the handbook, harness lifecycle, troubleshooting and skill prompts for query revisions, coverage/ambiguity, stale refs, required fit checks and targeted recovery.
-- Document a newly reproduced alpha.7 defect: the bundled `face_hole_grid` plate fails exact query snapshot creation on macOS arm64. Plain build/preview pass; the ordinary `holes` equivalent is used and checked in the guide. The grid defect remains open and was outside the original frozen acceptance corpus.
-- These additions are on the repository's main branch. The published alpha.7 package and release tag remain immutable; the expanded skill guidance is not retroactively included in that archive.
+### Fixed
+
+- Exact query snapshots for direct `face_hole_grid` / `hole_grid` stock. Cylinder seam edges contain nested lazy UV lines that the native writer did not materialize. Prepare their exact backing data on the serialization copy, preserving topology identity and support geometry; no mesh/STEP fallback or geometry healing.
+- Linux release builds now isolate and lock architecture-specific Cargo caches, preventing concurrent registry extraction races.
+
+### Added and updated
+
+- Publish the expanded English/Chinese modeling best practices, handbook, harness lifecycle, troubleshooting and skill guidance introduced after alpha.7. The executable query/edit example now uses `face_hole_grid` directly.
+- Add [CadQuery coverage and design comparison](docs/cadquery-comparison.md), [Chinese report](docs/cadquery-comparison.zh-CN.md) and a machine-readable mapping of all 150 API-index entries. This is a bounded source/contract audit, not full API parity or a new performance result.
+- Add [ROADMAP](ROADMAP.md) / [Chinese roadmap](ROADMAP.zh-CN.md): architecture and implementation state, capability gaps, deterministic and live-agent benchmark tracks, and the planned RSI code/tool/skill improvement cycle. G4 runner implementation and campaign acceptance remain pending.
+- Rust executor is now 0.5.1. SDK/query schemas are unchanged; updated execution fingerprints invalidate older checkpoints.
+
+### Validation
+
+- 129 Rust tests, 42 Node tests, six deterministic integration tests, schema verification and offline viewer checks.
+- Grid regression covers the bundled plate, all six face directions, global grid, seam/loop descriptors, snapshot relocation, parameter/count edits, stale references and CLI replay.
+- [Release evidence](docs/evidence/release-alpha.8.json) records the exact three-platform package checks, independent OCCT readback and retained red cases. Historical alpha.7 archives, tag and failure records remain unchanged.
 
 ## [0.1.0-alpha.7](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.7) — 2026-11-09
 

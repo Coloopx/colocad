@@ -1,6 +1,6 @@
 # 建模、查询与装配最佳实践
 
-适用于 Colocad alpha.7 已支持的 API。[English](best-practices.md) · [完整建模手册](agent-modeling-handbook.zh-CN.md) · [查询契约与边界](engineering-queries.zh-CN.md)。
+适用于 Colocad alpha.8 已支持的 API。[English](best-practices.md) · [完整建模手册](agent-modeling-handbook.zh-CN.md) · [查询契约与边界](engineering-queries.zh-CN.md)。
 
 ## 从资料与控制结构开始
 
@@ -34,7 +34,7 @@
 
 ## 可以直接执行的改参示例
 
-在新项目安装 `@coloopx/colocad@0.1.0-alpha.7`，将[英文页的完整脚本](best-practices.md#run-the-editquery-loop-against-the-installed-package)保存为 `query-workflow.mjs`，执行：
+在新项目安装 `@coloopx/colocad@0.1.0-alpha.8`，将[英文页的完整脚本](best-practices.md#run-the-editquery-loop-against-the-installed-package)保存为 `query-workflow.mjs`，执行：
 
 ```sh
 node query-workflow.mjs
@@ -42,9 +42,9 @@ node query-workflow.mjs
 ./node_modules/.bin/colocad view ./query-session
 ```
 
-脚本用 `box` 和普通 `holes` 构造 80×50×6 mm 四孔板及精确快照，查询四个 Ø6 通孔，将孔径改为 Ø8，确认旧版本请求被拒绝，再检查新孔径、孔中心保持和解析体积。预期的旧引用错误保留在会话中。首次运行时 `query-session` 和 `query-review.html` 应尚不存在。
+脚本用 `box` 和 `face_hole_grid` 构造 80×50×6 mm 四孔板及精确快照，查询四个 Ø6 通孔，将孔径改为 Ø8，确认旧版本请求被拒绝，再检查新孔径、孔中心保持和解析体积。预期的旧引用错误保留在会话中。首次运行时 `query-session` 和 `query-review.html` 应尚不存在。
 
-**alpha.7 已知问题：**包内 `plate-grid.json` 使用 `face_hole_grid`，在本次 macOS arm64 实测中启用 `queryable` 会报 `BSplineCurve::make_nurb` status 1001；普通构建和预览正常。示例用普通 `holes` 表达等价几何，此路径可用不代表该快照缺陷已修复。[复现与验证](evidence/alpha.7-query-guidance.json)。
+**版本说明：**alpha.8 已修复孔阵列精确快照，示例直接使用 `face_hole_grid`。升级 SDK 和配套 native；调预览精度不能修复 alpha.7 的问题。[原始失败](evidence/alpha.7-query-guidance.json) · [修复回归](evidence/release-alpha.8.json)。
 
 它验证的是尺寸件的实际 SDK/CLI 闭环，不是未知图纸重建成功率。
 

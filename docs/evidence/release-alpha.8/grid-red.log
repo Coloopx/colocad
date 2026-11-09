@@ -1,0 +1,81 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling version_check v0.9.5
+   Compiling serde_core v1.0.229
+   Compiling libc v0.2.191
+   Compiling serde v1.0.229
+   Compiling typenum v1.20.1
+   Compiling thiserror v2.0.21
+   Compiling crossbeam-utils v0.8.23
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.154
+   Compiling crossbeam-epoch v0.9.21
+   Compiling crossbeam-deque v0.8.8
+   Compiling autocfg v1.5.1
+   Compiling generic-array v0.14.7
+   Compiling memchr v2.8.3
+   Compiling simd-adler32 v0.3.10
+   Compiling itoa v1.0.18
+   Compiling num-traits v0.2.19
+   Compiling cfg-if v1.0.5
+   Compiling crc32fast v1.5.4
+   Compiling rayon-core v1.13.0
+   Compiling adler2 v2.0.1
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling ref-cast v1.0.27
+   Compiling digest v0.10.7
+   Compiling foldhash v0.2.0
+   Compiling allocator-api2 v0.2.21
+   Compiling equivalent v1.0.3
+   Compiling hashbrown v0.16.1
+   Compiling miniz_oxide v0.9.1
+   Compiling robust v1.2.0
+   Compiling syn v3.0.9
+   Compiling step-import v0.1.0 (<repo>/vendor/solidcore/crates/step-import)
+   Compiling either v1.19.0
+   Compiling cpufeatures v0.2.17
+   Compiling smallvec v1.16.4
+   Compiling sha2 v0.10.9
+   Compiling miniz_oxide v0.8.9
+   Compiling fdeflate v0.3.7
+   Compiling dyn-clone v1.0.20
+   Compiling bitflags v1.3.2
+   Compiling agent-cad v0.5.0 (<repo>/crates/agent-cad)
+   Compiling rayon v1.12.0
+   Compiling step-export v0.1.0 (<repo>/vendor/solidcore/crates/step-export)
+   Compiling serde_derive_internals v0.30.0
+   Compiling flate2 v1.1.10
+   Compiling spade v2.15.1
+   Compiling serde_derive v1.0.229
+   Compiling thiserror-impl v2.0.21
+   Compiling ref-cast-impl v1.0.27
+   Compiling png v0.17.16
+   Compiling schemars_derive v1.2.3
+   Compiling solidcore v1.0.1 (<repo>/vendor/solidcore/crates/solidcore)
+   Compiling solidcore-record v0.1.0 (<repo>/vendor/solidcore/crates/solidcore-record)
+   Compiling schemars v1.2.3
+   Compiling solidcore-convert v0.1.0 (<repo>/vendor/solidcore/crates/solidcore-convert)
+   Compiling step-brep v0.1.0 (<repo>/vendor/solidcore/crates/step-brep)
+   Compiling solidcore-tess v0.1.0 (<repo>/vendor/solidcore/crates/solidcore-tess)
+    Finished `release` profile [optimized] target(s) in 2m 31s
+     Running tests/query_artifacts.rs (target/release/deps/query_artifacts-6034ada97ee28396)
+
+running 1 test
+
+thread 'bundled_face_grid_has_queryable_exact_snapshot' (13741077) panicked at crates/agent-cad/tests/query_artifacts.rs:64:5:
+assertion `left == right` failed: {"error":{"code":"KERNEL_ERROR","feature_id":null,"message":"nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001"},"ok":false}
+  left: Bool(false)
+ right: true
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test bundled_face_grid_has_queryable_exact_snapshot ... FAILED
+
+failures:
+
+failures:
+    bundled_face_grid_has_queryable_exact_snapshot
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.68s
+
+error: test failed, to rerun pass `-p agent-cad --test query_artifacts`

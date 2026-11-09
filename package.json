@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.7",
+  "version": "0.1.0-alpha.8",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -67,7 +67,10 @@
     "examples/integrations/guided-workflow.mjs",
     "docs/*.md",
     "docs/integrations/*.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "ROADMAP.zh-CN.md",
+    "docs/cadquery-coverage.json"
   ],
   "scripts": {
     "schema": "node scripts/schema.mjs",

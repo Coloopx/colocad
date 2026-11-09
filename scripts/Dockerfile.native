@@ -1,0 +1,13 @@
+# Use a minimal context containing Cargo.toml, Cargo.lock, crates/ and third_party/.
+FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS builder
+ARG TARGETARCH
+WORKDIR /src
+COPY third_party/solidcore-source.tar.gz /tmp/solidcore.tar.gz
+RUN echo "fd75dd9a3bbfe37e320a7d47f05a6a48566f8ffc93128eff92124b9259d812c0  /tmp/solidcore.tar.gz" | sha256sum -c - && mkdir -p vendor/solidcore && tar xzf /tmp/solidcore.tar.gz --strip-components=1 -C vendor/solidcore && rm /tmp/solidcore.tar.gz
+COPY Cargo.toml Cargo.lock ./
+COPY crates ./crates
+# Separate target caches and lock registry extraction: concurrent platform builds
+# must not unpack or overwrite the same Cargo cache entries.
+RUN --mount=type=cache,id=colocad-registry-${TARGETARCH},target=/usr/local/cargo/registry,sharing=locked --mount=type=cache,id=colocad-target-${TARGETARCH},target=/src/target,sharing=locked cargo build --release --locked -p agent-cad && cp target/release/agent-cad /agent-cad
+FROM scratch
+COPY --from=builder /agent-cad /agent-cad

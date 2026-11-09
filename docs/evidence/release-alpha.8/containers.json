@@ -1,0 +1,74 @@
+[
+  {
+    "name": "colocad-alpha8-arm64",
+    "image_id": "sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-09T23:24:37.481802971Z",
+      "FinishedAt": "2026-11-09T23:24:50.370361852Z"
+    },
+    "limits": {
+      "NanoCpus": 1000000000,
+      "Memory": 536870912,
+      "MemorySwap": 536870912,
+      "PidsLimit": 128,
+      "NetworkMode": "none"
+    }
+  },
+  {
+    "name": "colocad-alpha8-amd64",
+    "image_id": "sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-09T23:24:37.732934263Z",
+      "FinishedAt": "2026-11-09T23:25:09.742251653Z"
+    },
+    "limits": {
+      "NanoCpus": 1000000000,
+      "Memory": 536870912,
+      "MemorySwap": 536870912,
+      "PidsLimit": 128,
+      "NetworkMode": "none"
+    }
+  },
+  {
+    "name": "colocad-alpha8-g2",
+    "image_id": "sha256:43ac6c60b8f89723f746e8a92ce91abd5017e627ce1ddfe4238355d3a30b772c",
+    "state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-09T23:25:23.950827785Z",
+      "FinishedAt": "2026-11-09T23:26:09.291981557Z"
+    },
+    "limits": {
+      "NanoCpus": 1000000000,
+      "Memory": 536870912,
+      "MemorySwap": 536870912,
+      "PidsLimit": 128,
+      "NetworkMode": "none"
+    }
+  }
+]

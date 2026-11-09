@@ -54,6 +54,124 @@ fn request(rev: &str) -> Value {
     json!({"schema":"colocad.query/1","query_revision_id":rev,"target":{"definition_id":"stock"},"space":"definition","tolerance":{"linear_mm":1e-5,"angular_rad":1e-7},"queries":[{"id":"planes","op":"faces","where":{"surface_type":"plane"},"limit":64}]})
 }
 #[test]
+fn bundled_face_grid_has_queryable_exact_snapshot() {
+    let temp = Temp::new();
+    let path = temp.0.join("grid");
+    let m: Value = serde_json::from_str(include_str!(
+        "../../../skills/colocad/assets/plate-grid.json"
+    ))
+    .unwrap();
+    let built = call(
+        &["build", "--out", path.to_str().unwrap(), "--queryable"],
+        &m,
+    );
+    assert_eq!(built["ok"], true, "{built}");
+    let req = json!({"schema":"colocad.query/1",
+        "query_revision_id":built["data"]["query_revision_id"],
+        "target":{"definition_id":"mounts"},"space":"definition",
+        "tolerance":{"linear_mm":1e-5,"angular_rad":1e-7},
+        "queries":[{"id":"bores","op":"holes","where":{"termination":"through"}}]});
+    let found = call(&["query", "--snapshot", path.to_str().unwrap()], &req);
+    assert_eq!(found["ok"], true, "{found}");
+    let result = &found["data"]["results"][0];
+    assert_eq!(result["status"], "complete", "{found}");
+    assert_eq!(result["items"].as_array().unwrap().len(), 4);
+    for hole in result["items"].as_array().unwrap() {
+        let segments = hole["segments"].as_array().unwrap();
+        assert!(!segments.is_empty());
+        for s in segments {
+            assert!((s["diameter_mm"].as_f64().unwrap() - 6.).abs() < 1e-5);
+        }
+    }
+    assert_eq!(found["data"]["execution"]["geometry_build_calls"], 0);
+}
+#[test]
+fn direct_grids_on_all_faces_preserve_seams_and_queries_after_relocation() {
+    let temp = Temp::new();
+    for (i, face) in [
+        "pos_x", "neg_x", "pos_y", "neg_y", "pos_z", "neg_z", "global",
+    ]
+    .iter()
+    .enumerate()
+    {
+        let axis = if i < 6 { i / 2 } else { 2 };
+        let center = match axis {
+            0 => [41., 43.],
+            1 => [37., 43.],
+            _ => [37., 41.],
+        };
+        let feature = if *face == "global" {
+            json!({"id":"mounts","op":"hole_grid","input":"stock","origin":[23,32,12],"count":[3,2],"spacing":[14,18],"radius":2,"depth":62})
+        } else {
+            json!({"id":"mounts","op":"face_hole_grid","input":"stock","face":face,"center":center,"count":[3,2],"spacing":[14,18],"radius":2,"depth":60})
+        };
+        let mut m = json!({"version":1,"units":"mm","parameters":{},"features":[
+            {"id":"stock","op":"box","origin":[7,11,13],"size":[60,60,60]},feature
+        ],"output":"mounts"});
+        if i % 2 == 0 {
+            m["preview"] = json!({"width":160,"height":120,"chord_mm":1});
+        }
+        let path = temp.0.join(format!("grid-{i}"));
+        let b = call(
+            &["build", "--out", path.to_str().unwrap(), "--queryable"],
+            &m,
+        );
+        assert_eq!(b["ok"], true, "{face}: {b}");
+        let expected = 60_f64.powi(3) - 6. * std::f64::consts::PI * 4. * 60.;
+        assert!((b["data"]["geometry"]["volume_mm3"].as_f64().unwrap() - expected).abs() < 1e-5);
+        let q = json!({"schema":"colocad.query/1","query_revision_id":b["data"]["query_revision_id"],
+        "target":{"definition_id":"mounts"},"space":"definition",
+        "tolerance":{"linear_mm":1e-5,"angular_rad":1e-7},"queries":[
+            {"id":"bores","op":"holes","where":{"termination":"through"}},
+            {"id":"walls","op":"faces","where":{"surface_type":"cylinder"}},
+            {"id":"edges","op":"edges"}, {"id":"loops","op":"loops"}
+        ]});
+        let r = call(&["query", "--snapshot", path.to_str().unwrap()], &q);
+        assert_eq!(r["ok"], true, "{face}: {r}");
+        let results = r["data"]["results"].as_array().unwrap();
+        assert_eq!(results[0]["status"], "complete", "{face}: {r}");
+        assert_eq!(results[0]["items"].as_array().unwrap().len(), 6);
+        for h in results[0]["items"].as_array().unwrap() {
+            for s in h["segments"].as_array().unwrap() {
+                assert!((s["diameter_mm"].as_f64().unwrap() - 4.).abs() < 1e-5);
+            }
+        }
+        let walls = results[1]["items"].as_array().unwrap();
+        assert_eq!(walls.len(), 6);
+        for wall in walls {
+            assert_eq!(wall["material_side"], "internal");
+            assert!(
+                (wall["angular_coverage_rad"].as_f64().unwrap() - std::f64::consts::TAU).abs()
+                    < 1e-7
+            );
+            let a = wall["axial_interval_mm"].as_array().unwrap();
+            assert!((a[1].as_f64().unwrap() - a[0].as_f64().unwrap() - 60.).abs() < 1e-5);
+        }
+        let edges = results[2]["items"].as_array().unwrap();
+        assert_eq!(edges.iter().filter(|e| e["seam"] == true).count(), 6);
+        assert_eq!(
+            edges.iter().filter(|e| e["curve_type"] == "circle").count(),
+            12
+        );
+        for l in results[3]["items"].as_array().unwrap() {
+            for u in l["edge_uses"].as_array().unwrap() {
+                assert!(u["uv_bounds"].is_array());
+            }
+        }
+        let moved = temp.0.join(format!("moved-{i}"));
+        fs::rename(path, &moved).unwrap();
+        let reopened = call(&["query", "--snapshot", moved.to_str().unwrap()], &q);
+        assert_eq!(r["data"]["results"], reopened["data"]["results"]);
+        for key in [
+            "geometry_build_calls",
+            "step_export_calls",
+            "tessellation_calls",
+        ] {
+            assert_eq!(reopened["data"]["execution"][key], 0);
+        }
+    }
+}
+#[test]
 fn queryable_build_reopens_after_relocation_and_preserves_reference_identity() {
     let temp = Temp::new();
     let path = temp.0.join("original");

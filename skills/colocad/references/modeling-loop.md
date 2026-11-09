@@ -17,7 +17,7 @@ This is an adaptive loop, not a mandatory approval gate between every feature. U
 
 Use this path when installation geometry must be measured or a part replaced. Check installed capabilities; alpha.7 provides `cad_query`.
 
-Known alpha.7 defect: the bundled `face_hole_grid` plate fails with `queryable` on the tested macOS arm64 native, even without preview. For a queryable plate, ordinary `holes` can express the same bores; preserve the actual centers, diameters and through-depth, then verify the result. Ordinary grid build/preview remains usable. Changing display precision does not repair this snapshot failure.
+Exact grid snapshots require alpha.8 or later: alpha.7 had a nested seam UV-line serialization defect. Upgrade the package and matching native if `BSplineCurve::make_nurb` status 1001 appears on this path; changing preview precision does not repair it. Use the normal grid/query workflow after upgrading.
 
 - Build exact query artifacts with `queryable`, or declare `Model.datums`/`Model.interfaces`, which enable them. Keep the accepted `query_revision_id`, target definition/occurrence, coordinate space and tolerance with the observation.
 - Narrow the mounting plane before its openings and group. Inspect complete/partial coverage, cardinality and symmetric alternatives. A normal-only selection can include a blind-hole bottom; a position-sensitive recipe can use an earlier named plane with `planar_coplanar_with`.

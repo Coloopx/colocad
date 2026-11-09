@@ -1,0 +1,132 @@
+{
+  "passed": true,
+  "verifier": "OCCT via OCP",
+  "binding_version": "7.9.3.1",
+  "linear_tolerance_mm": 1e-05,
+  "volume_tolerance_mm3": 1e-05,
+  "symmetric_difference_tolerance_mm3": 1e-06,
+  "rows": [
+    {
+      "id": "plain",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 23321.4159868246,
+      "bounds_mm": [
+        0.0,
+        0.0,
+        -1e-07,
+        80.0,
+        50.0,
+        6.0000001
+      ],
+      "cylinder_axes_xy": [
+        [
+          65.0,
+          10.0
+        ],
+        [
+          15.0,
+          10.0
+        ],
+        [
+          65.0,
+          40.0
+        ],
+        [
+          15.0,
+          40.0
+        ]
+      ],
+      "material_air_probes": 24,
+      "step_sha256": "2269f1b8e8630aaf787588656735809a180c242923974fef81699ed2ac6a6ded"
+    },
+    {
+      "id": "queryable",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 23321.4159868246,
+      "bounds_mm": [
+        0.0,
+        0.0,
+        -1e-07,
+        80.0,
+        50.0,
+        6.0000001
+      ],
+      "cylinder_axes_xy": [
+        [
+          65.0,
+          10.0
+        ],
+        [
+          15.0,
+          10.0
+        ],
+        [
+          65.0,
+          40.0
+        ],
+        [
+          15.0,
+          40.0
+        ]
+      ],
+      "material_air_probes": 24,
+      "step_sha256": "2269f1b8e8630aaf787588656735809a180c242923974fef81699ed2ac6a6ded"
+    },
+    {
+      "id": "edited",
+      "valid": true,
+      "solids": 1,
+      "volume_mm3": 28190.442631532285,
+      "bounds_mm": [
+        0.0,
+        0.0,
+        -1e-07,
+        100.0,
+        50.0,
+        6.0000001
+      ],
+      "cylinder_axes_xy": [
+        [
+          82.0,
+          10.0
+        ],
+        [
+          50.0,
+          10.0
+        ],
+        [
+          18.0,
+          10.0
+        ],
+        [
+          82.0,
+          40.0
+        ],
+        [
+          50.0,
+          40.0
+        ],
+        [
+          18.0,
+          40.0
+        ]
+      ],
+      "material_air_probes": 36,
+      "step_sha256": "ae89b2993542dda6fdf9990aa29a0061d7c3dca057d20c5962bdd7a0cc70a048"
+    }
+  ],
+  "differences": [
+    {
+      "a": "plain",
+      "b": "queryable",
+      "material_difference_mm3": 0.0
+    },
+    {
+      "a": "queryable",
+      "b": "plain",
+      "material_difference_mm3": 0.0
+    }
+  ]
+}

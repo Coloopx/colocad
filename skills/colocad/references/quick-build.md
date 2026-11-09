@@ -10,7 +10,7 @@ node "$skill/scripts/build.mjs" "$skill/assets/plate-grid.json" ./plate-v1 \
 
 Each invocation takes a new output directory. Edit the saved `model.json` to add features or pass it back to the helper with another `--set` to change an existing dimension. Overrides are saved in the built model. Only request a preview when you need to inspect it.
 
-Alpha.7 caveat: this grid builds and previews, but the bundled four-hole plate fails exact snapshot creation with `queryable:true` on tested macOS arm64 (`BSplineCurve::make_nurb`, status 1001). For querying that plate, use ordinary `holes` with the same centers/radius/depth and verify the result. The grid snapshot defect remains open. See [query workflow guidance](modeling-loop.md#geometry-driven-assembly-with-exact-queries).
+Exact grid snapshots require alpha.8 or later: alpha.7 had a nested seam UV-line serialization defect. Upgrade the package and matching native if `BSplineCurve::make_nurb` status 1001 appears on this path; changing preview precision does not repair it. Use the normal grid/query workflow after upgrading.
 
 | Shape or structure | Shortest construction in this skill | Datum and acceptance check |
 |---|---|---|

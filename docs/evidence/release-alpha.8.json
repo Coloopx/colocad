@@ -1,0 +1,442 @@
+{
+  "version": "0.1.0-alpha.8",
+  "date": "2026-11-10",
+  "source_baseline": "f69d8528dccb6fac8ceda95a27767c9d41e41ba9",
+  "source_files_sha256": {
+    "crates/agent-cad/src/query/snapshot.rs": "9ccbb6c0bcd13d861e57eef668be55be16c3ddec5911d2644aaa981f2b4e7a90",
+    "crates/agent-cad/tests/query_artifacts.rs": "c9bf0a996ad7f18a2afa67c7026f3a44526d70c94c25f3310ea0886111c5858f",
+    "test/query-grid.test.mjs": "ce34989be8fe084cc178ab3fd1bf3c11b060696328aad959ac6393a0dbad8a46",
+    "test/validation/grid-query.mjs": "d3053a98f41e8d48260017af09af56fc226e77d7c8318ee3524f4e8eb0528000",
+    "test/validation/grid-geometry.py": "17654888ec763504f963697f4f5cdb267e1684fe6fe71c82186c191a253d94ad",
+    "test/validation/documentation-packed.mjs": "ae57fb2ba76723db77200b344f119876cdcbcdf91107c4464247aa55fa6fa415",
+    "Cargo.lock": "8ed7aa7c2959a76b6929e318bfec8bd0dfb4d3910a5eaba040316c4d2b4b35c5",
+    "crates/agent-cad/Cargo.toml": "472e85f08ca3291eb4cb45ab42c68ec40f5b3ce5c3ca88bd48ea54bad107677b"
+  },
+  "testedArchive": {
+    "filename": "coloopx-colocad-0.1.0-alpha.8.tgz",
+    "size": 45868117,
+    "shasum": "7df1a813a2b53e03b81837f59581e49448df2a81",
+    "integrity": "sha512-yq06vv8+ZyW8ZElauAb5OHAh+7jJsHlyCSZ2wN/UnTBWVexvSx30fSkzQ+1fPEBzCPdQG2+1ArBKcWOXS4DCZA==",
+    "entryCount": 248
+  },
+  "native_bundles": {
+    "version": "0.1.0-alpha.8",
+    "sha256": {
+      "darwin-arm64": "cf358a37f19ed8dcd9b2607584152ad3a627c7e175faa631e2086ed1c5cc255a",
+      "linux-arm64": "7250739a28794f67d9a6b004e31f24a2f04fb6c4b39f7c29b84eea14a379a0d3",
+      "linux-x64": "5f685e3a268aa43c1a9670902c6fb57eeee5bda56b85620f6af4edf9abe33d01"
+    }
+  },
+  "regression": {
+    "rust": {
+      "passed": 129,
+      "fresh": true,
+      "platform": "darwin-arm64",
+      "log": "release-alpha.8/rust.log"
+    },
+    "node": {
+      "passed": 42,
+      "native": "packaged darwin-arm64; no override"
+    },
+    "integrations": {
+      "passed": 6,
+      "mode": "deterministic; not a new live inference study"
+    },
+    "schema": "passed",
+    "offline_viewer": {
+      "passed": true,
+      "query_history": true,
+      "remote_requests": 0
+    },
+    "skill_structure": "passed"
+  },
+  "defect": {
+    "fixed": true,
+    "original_failure": "alpha.7-query-guidance.json",
+    "red_test": "release-alpha.8/grid-red.log",
+    "diagnosis": "Cylinder seam edges use CrvOnSurf; their nested lazy UV Line is absent from the top-level uv_curves preparation loop. Native serialization attempts to write its absent NURB backing data.",
+    "repair": "Materialize that exact line on the disposable serialization copy; retain seam/support/parameterization/identity. No template dispatch, fallback STEP import, tessellation or healing.",
+    "native_regression_cases": [
+      "bundled four-hole plate",
+      "six face directions on translated stock, alternating preview",
+      "global hole_grid",
+      "analytic bore diameters/depths and material side",
+      "seam count, circular edges, loop UV descriptors",
+      "reopen after relocation with identical results and zero rebuild/export/tessellation"
+    ]
+  },
+  "installedArchiveSmoke": [
+    {
+      "platform": "darwin-arm64",
+      "passed": true,
+      "native_sha256": "cf358a37f19ed8dcd9b2607584152ad3a627c7e175faa631e2086ed1c5cc255a",
+      "execution_policy": "sha256:557376d4ce772ef32b1e758f4ec4cb0c22204f96f9a6b9addd74fb90c740a1ae",
+      "override": false,
+      "checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection",
+        "bundled_grid_queryable_preview",
+        "four_hole_centers_diameters",
+        "six_hole_parameter_edit",
+        "stale_revision_rejection",
+        "relocation_preserves_refs",
+        "query_no_build_export_tessellation",
+        "cli_html_replay"
+      ],
+      "packaged_documentation_files": 15,
+      "documentation_script_sha256": "ca40dbbcdd8ac14c8ded70865ead223b44791fab1b4d6cf172dde79719e0a1ce",
+      "independent_step_deliveries": {
+        "grids": 3,
+        "plates": 3,
+        "foreign_assemblies": 3
+      }
+    },
+    {
+      "platform": "linux-arm64",
+      "passed": true,
+      "native_sha256": "7250739a28794f67d9a6b004e31f24a2f04fb6c4b39f7c29b84eea14a379a0d3",
+      "execution_policy": "sha256:1adb3c39b1501226669a61007b172f7f3e190232fc33eac711b629c1d8db1a1a",
+      "override": false,
+      "checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection",
+        "bundled_grid_queryable_preview",
+        "four_hole_centers_diameters",
+        "six_hole_parameter_edit",
+        "stale_revision_rejection",
+        "relocation_preserves_refs",
+        "query_no_build_export_tessellation",
+        "cli_html_replay"
+      ],
+      "packaged_documentation_files": 15,
+      "documentation_script_sha256": "ca40dbbcdd8ac14c8ded70865ead223b44791fab1b4d6cf172dde79719e0a1ce",
+      "independent_step_deliveries": {
+        "grids": 3,
+        "plates": 3,
+        "foreign_assemblies": 3
+      },
+      "limited_installation": {
+        "passed": true,
+        "platform": "linux-arm64",
+        "network": "none",
+        "results": [
+          {
+            "id": "install",
+            "passed": true,
+            "elapsed_ms": 5378.699211
+          },
+          {
+            "id": "legacy",
+            "passed": true,
+            "elapsed_ms": 908.5020000000004
+          },
+          {
+            "id": "query",
+            "passed": true,
+            "elapsed_ms": 4548.584585
+          },
+          {
+            "id": "grid",
+            "passed": true,
+            "elapsed_ms": 1025.3944169999995
+          },
+          {
+            "id": "docs",
+            "passed": true,
+            "elapsed_ms": 660.8417919999993
+          }
+        ],
+        "resources": {
+          "label": "fresh_offline_package_install_and_sdk_cli_checks",
+          "cpu_max": "100000 100000",
+          "memory_max": 536870912,
+          "memory_swap_max": "0",
+          "memory_peak_bytes": 520531968,
+          "memory_current_bytes": 256692224,
+          "memory_events": {
+            "low": 0,
+            "high": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_kill": 0,
+            "oom_group_kill": 0
+          },
+          "memory_stat": {
+            "anon": 8462336,
+            "file": 240316416,
+            "kernel": 7147520,
+            "kernel_stack": 180224,
+            "pagetables": 561152,
+            "sec_pagetables": 0,
+            "percpu": 160,
+            "sock": 0,
+            "vmalloc": 8192,
+            "shmem": 0,
+            "zswap": 0,
+            "zswapped": 0,
+            "file_mapped": 37617664,
+            "file_dirty": 2887680,
+            "file_writeback": 0,
+            "swapcached": 0,
+            "anon_thp": 0,
+            "file_thp": 0,
+            "shmem_thp": 0,
+            "inactive_anon": 0,
+            "active_anon": 8380416,
+            "inactive_file": 157298688,
+            "active_file": 83017728,
+            "unevictable": 0,
+            "slab_reclaimable": 5383888,
+            "slab_unreclaimable": 413472,
+            "slab": 5797360,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 0,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 0,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 0,
+            "workingset_nodereclaim": 0,
+            "pgscan": 0,
+            "pgsteal": 0,
+            "pgscan_kswapd": 0,
+            "pgscan_direct": 0,
+            "pgscan_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_direct": 0,
+            "pgsteal_khugepaged": 0,
+            "pgfault": 221962,
+            "pgmajfault": 7380,
+            "pgrefill": 0,
+            "pgactivate": 0,
+            "pgdeactivate": 0,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "zswpin": 0,
+            "zswpout": 0,
+            "zswpwb": 0,
+            "thp_fault_alloc": 0,
+            "thp_collapse_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0
+          },
+          "cpu_stat": {
+            "usage_usec": 10591321,
+            "user_usec": 7957093,
+            "system_usec": 2634228,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 129,
+            "nr_throttled": 22,
+            "throttled_usec": 770399,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "processes": [
+            {
+              "pid": 1,
+              "name": "node",
+              "rss_kib": 44408
+            }
+          ],
+          "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+        }
+      },
+      "emulated_on_arm64": false
+    },
+    {
+      "platform": "linux-x64",
+      "passed": true,
+      "native_sha256": "5f685e3a268aa43c1a9670902c6fb57eeee5bda56b85620f6af4edf9abe33d01",
+      "execution_policy": "sha256:158c31b924556698a58fd41619bf53baeecb08084ed636e8790f7295d3cf9aec",
+      "override": false,
+      "checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection",
+        "bundled_grid_queryable_preview",
+        "four_hole_centers_diameters",
+        "six_hole_parameter_edit",
+        "stale_revision_rejection",
+        "relocation_preserves_refs",
+        "query_no_build_export_tessellation",
+        "cli_html_replay"
+      ],
+      "packaged_documentation_files": 15,
+      "documentation_script_sha256": "ca40dbbcdd8ac14c8ded70865ead223b44791fab1b4d6cf172dde79719e0a1ce",
+      "independent_step_deliveries": {
+        "grids": 3,
+        "plates": 3,
+        "foreign_assemblies": 3
+      },
+      "limited_installation": {
+        "passed": true,
+        "platform": "linux-x64",
+        "network": "none",
+        "results": [
+          {
+            "id": "install",
+            "passed": true,
+            "elapsed_ms": 7376.540419999999
+          },
+          {
+            "id": "legacy",
+            "passed": true,
+            "elapsed_ms": 3657.135168
+          },
+          {
+            "id": "query",
+            "passed": true,
+            "elapsed_ms": 13114.546590000002
+          },
+          {
+            "id": "grid",
+            "passed": true,
+            "elapsed_ms": 3867.565085000002
+          },
+          {
+            "id": "docs",
+            "passed": true,
+            "elapsed_ms": 3245.946542999998
+          }
+        ],
+        "resources": {
+          "label": "fresh_offline_package_install_and_sdk_cli_checks",
+          "cpu_max": "100000 100000",
+          "memory_max": 536870912,
+          "memory_swap_max": "0",
+          "memory_peak_bytes": 536870912,
+          "memory_current_bytes": 273772544,
+          "memory_events": {
+            "low": 0,
+            "high": 0,
+            "max": 279,
+            "oom": 0,
+            "oom_kill": 0,
+            "oom_group_kill": 0
+          },
+          "memory_stat": {
+            "anon": 24047616,
+            "file": 244973568,
+            "kernel": 5525504,
+            "kernel_stack": 180224,
+            "pagetables": 671744,
+            "sec_pagetables": 0,
+            "percpu": 3560,
+            "sock": 0,
+            "vmalloc": 8192,
+            "shmem": 0,
+            "zswap": 0,
+            "zswapped": 0,
+            "file_mapped": 39555072,
+            "file_dirty": 0,
+            "file_writeback": 0,
+            "swapcached": 0,
+            "anon_thp": 0,
+            "file_thp": 0,
+            "shmem_thp": 0,
+            "inactive_anon": 0,
+            "active_anon": 24043520,
+            "inactive_file": 152440832,
+            "active_file": 92532736,
+            "unevictable": 0,
+            "slab_reclaimable": 4251888,
+            "slab_unreclaimable": 314144,
+            "slab": 4566032,
+            "workingset_refault_anon": 0,
+            "workingset_refault_file": 8235,
+            "workingset_activate_anon": 0,
+            "workingset_activate_file": 8235,
+            "workingset_restore_anon": 0,
+            "workingset_restore_file": 4,
+            "workingset_nodereclaim": 0,
+            "pgscan": 17856,
+            "pgsteal": 17835,
+            "pgscan_kswapd": 0,
+            "pgscan_direct": 17856,
+            "pgscan_khugepaged": 0,
+            "pgsteal_kswapd": 0,
+            "pgsteal_direct": 17835,
+            "pgsteal_khugepaged": 0,
+            "pgfault": 524174,
+            "pgmajfault": 9842,
+            "pgrefill": 53,
+            "pgactivate": 12,
+            "pgdeactivate": 0,
+            "pglazyfree": 0,
+            "pglazyfreed": 0,
+            "zswpin": 0,
+            "zswpout": 0,
+            "zswpwb": 0,
+            "thp_fault_alloc": 0,
+            "thp_collapse_alloc": 0,
+            "thp_swpout": 0,
+            "thp_swpout_fallback": 0
+          },
+          "cpu_stat": {
+            "usage_usec": 30122162,
+            "user_usec": 25464731,
+            "system_usec": 4657430,
+            "core_sched.force_idle_usec": 0,
+            "nr_periods": 319,
+            "nr_throttled": 95,
+            "throttled_usec": 2626624,
+            "nr_bursts": 0,
+            "burst_usec": 0
+          },
+          "processes": [
+            {
+              "pid": 1,
+              "name": "node",
+              "rss_kib": 60636
+            }
+          ],
+          "accounting": "Unified cgroup v2 includes every descendant and charged anonymous/file/cache pages. Process RSS is supplementary. External inference provider/gateway and independent OCCT verification excluded."
+        }
+      },
+      "emulated_on_arm64": true
+    }
+  ],
+  "independent_verification": {
+    "verifier": "OCCT via OCP 7.9.3.1",
+    "installed_archive_step_files": 27,
+    "frozen_g2_cases": 24,
+    "frozen_g2_positive": 18,
+    "frozen_g2_required_rejections": 6,
+    "g2_runtime": "Linux arm64, 1 vCPU / 512 MiB, network none; actual alpha.8 bundled native",
+    "g2_evidence": "release-alpha.8/g2-occt/results.json"
+  },
+  "coverage_audit": {
+    "api_entries": 150,
+    "source_commit": "b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb",
+    "data": "../cadquery-coverage.json",
+    "classification_only": true,
+    "new_cadquery_runtime_or_performance_comparison": false
+  },
+  "resource_limitations": [
+    "Archive runs include offline npm installation and all sequential checks, descendants and charged file/cache pages; they are not CAD-only memory measurements.",
+    "Linux x64 is emulated on arm64. Its peak reached the 512 MiB cap with 279 memory.max events, zero OOM/oom_kill; this pass has no measured headroom and is not a native x64 performance claim.",
+    "No new live-agent/skill success-rate experiment. G4 runner and RSI campaign remain planned."
+  ]
+}

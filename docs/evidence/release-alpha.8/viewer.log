@@ -1,0 +1,5 @@
+
+> @coloopx/colocad@0.1.0-alpha.8 test:viewer
+> node test/viewer.browser.mjs
+
+{"passed":true,"offline":true,"queryHistory":true,"controls":true,"failedStep":true,"download":true,"mobile":true,"errors":[],"remoteRequests":0}

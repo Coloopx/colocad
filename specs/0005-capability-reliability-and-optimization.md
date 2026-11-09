@@ -63,3 +63,7 @@ The agent, local harness, SDK and native execute together within Linux arm64 1 v
 ## Publication update: alpha.7
 
 The accepted supported domains now ship in the alpha.7 SDK, CLI and three native bundles. Historical acceptance records remain unchanged; see the [changelog](../CHANGELOG.md) and [installed-archive evidence](../docs/evidence/release-alpha.7.json). G4 has not started.
+
+## Roadmap update: 2026-11-10
+
+[ROADMAP](../ROADMAP.md) makes the G4 protocol concrete: deterministic Colocad/CadQuery/build123d tracks, engineering lifecycle, live drawing/product tasks and skill/tool ablations, with independent frozen evaluation and held-out product families. [The coverage audit](../docs/cadquery-comparison.md) does not expand G1-G3 acceptance to full CadQuery parity. G4 runner implementation and execution remain pending. Alpha.8 adds a grid snapshot regression missed by the original corpus; historical results remain scoped and unchanged.

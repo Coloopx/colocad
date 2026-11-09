@@ -1,0 +1,762 @@
+{
+  "schema": "colocad.cadquery-coverage/1",
+  "date": "2026-11-10",
+  "colocad_version": "0.1.0-alpha.8",
+  "upstream": {
+    "repository": "https://github.com/CadQuery/cadquery",
+    "commit": "b3f9afd4f39cbd856d0c46aa30aa37b714b8f6cb",
+    "path": "doc/apireference.rst",
+    "sha256": "b49b4c21dc36f38405db557b87c4aaa2d43774dd98bcb9d86c7a96dd1925742e",
+    "official_api_url": "https://cadquery.readthedocs.io/en/latest/apireference.html",
+    "retrieved_date": "2026-11-10"
+  },
+  "scope": "All 150 unique entries in the cited API index, plus narrative review of lower-level APIs. This is a source/contract mapping, not a 150-case differential test or full CadQuery coverage percentage. Latest docs are mutable and may differ from the pinned source.",
+  "python_api_compatible": false,
+  "statuses": {
+    "supported_domain": "Native analogous operation exists within its stated contract; not identical signature or complete behavioral equivalence.",
+    "partial": "Relevant native capability exists, with material semantic/domain gaps.",
+    "recipe": "Caller may compose existing primitives; a dedicated equivalent is absent and not generally verified.",
+    "unsupported": "No corresponding public contract currently offered.",
+    "different_abstraction": "A deliberate graph/session/typed-JSON alternative; no API substitution."
+  },
+  "api_count": 150,
+  "counts_by_status": {
+    "different_abstraction": 26,
+    "unsupported": 29,
+    "supported_domain": 36,
+    "recipe": 29,
+    "partial": 30
+  },
+  "groups": [
+    {
+      "id": "sketch-context",
+      "status": "different_abstraction",
+      "apis": [
+        "Sketch",
+        "Workplane.sketch",
+        "Sketch.finalize",
+        "Sketch.copy",
+        "Sketch.located",
+        "Sketch.moved",
+        "Workplane",
+        "Workplane.center",
+        "Workplane.moveTo",
+        "Workplane.move",
+        "Workplane.placeSketch"
+      ],
+      "colocad": "Explicit Profile/Sketch values and orthogonal Frame; caller owns source copies and frames.",
+      "boundary": "No mutable Workplane/Sketch chain or stack context compatibility.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs",
+        "crates/agent-cad/src/sketch.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs",
+        "crates/agent-cad/tests/sketch.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "sketch-state",
+      "status": "different_abstraction",
+      "apis": [
+        "Sketch.tag",
+        "Sketch.select",
+        "Sketch.reset",
+        "Sketch.delete",
+        "Sketch.push"
+      ],
+      "colocad": "Named sketch points/circles/constraints and explicit source edits.",
+      "boundary": "Not tag-based selection of arbitrary sketch faces or mutable selection state.",
+      "implementation": [
+        "crates/agent-cad/src/sketch.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "sketch-topology",
+      "status": "unsupported",
+      "apis": [
+        "Sketch.faces",
+        "Sketch.edges",
+        "Sketch.vertices",
+        "Sketch.face",
+        "Sketch.edge",
+        "Sketch.assemble"
+      ],
+      "colocad": "No general sketch topology editing API.",
+      "boundary": "Solid snapshot queries do not supply an equivalent 2D face/edge editor.",
+      "implementation": [
+        "crates/agent-cad/src/sketch.rs",
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "basic-profiles",
+      "status": "supported_domain",
+      "apis": [
+        "Sketch.rect",
+        "Sketch.circle",
+        "Sketch.ellipse",
+        "Sketch.polygon",
+        "Workplane.rect",
+        "Workplane.circle",
+        "Workplane.ellipse",
+        "Workplane.polyline"
+      ],
+      "colocad": "rectangle/circle/ellipse/polygon profiles.",
+      "boundary": "Closed profile construction; not every CadQuery mode, construction geometry or stack overload.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "profile-recipes",
+      "status": "recipe",
+      "apis": [
+        "Sketch.trapezoid",
+        "Sketch.slot",
+        "Sketch.regularPolygon",
+        "Workplane.slot2D"
+      ],
+      "colocad": "Generate polygon or line/arc outline coordinates.",
+      "boundary": "Caller must compute the profile; no dedicated constructors or equality claim for every corner case.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "lines-arcs",
+      "status": "supported_domain",
+      "apis": [
+        "Sketch.segment",
+        "Sketch.arc",
+        "Sketch.close",
+        "Workplane.lineTo",
+        "Workplane.threePointArc",
+        "Workplane.close"
+      ],
+      "colocad": "Outline line/three-point arc segments, or constrained sketch boundaries.",
+      "boundary": "Explicit end/via points and closed profiles; no fluent pending-edge behavior.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs",
+        "crates/agent-cad/src/sketch.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs",
+        "crates/agent-cad/tests/sketch.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "relative-lines",
+      "status": "recipe",
+      "apis": [
+        "Workplane.line",
+        "Workplane.vLine",
+        "Workplane.vLineTo",
+        "Workplane.hLine",
+        "Workplane.hLineTo",
+        "Workplane.polarLine",
+        "Workplane.polarLineTo",
+        "Workplane.sagittaArc",
+        "Workplane.radiusArc",
+        "Workplane.tangentArcPoint"
+      ],
+      "colocad": "Compute endpoints/via points in the SDK caller and emit outline segments.",
+      "boundary": "Geometric branch and tangency decisions are caller responsibilities.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "profile-arrays",
+      "status": "recipe",
+      "apis": [
+        "Sketch.rarray",
+        "Sketch.parray",
+        "Sketch.each",
+        "Sketch.distribute",
+        "Workplane.rarray",
+        "Workplane.polarArray",
+        "Workplane.each",
+        "Workplane.eachpoint"
+      ],
+      "colocad": "Caller generates locations/source features; native pattern and shared occurrences cover repeated solids.",
+      "boundary": "No callback execution or edge-distribution/stack placement API in the native protocol.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/placement.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "sketch-advanced-edit",
+      "status": "unsupported",
+      "apis": [
+        "Sketch.hull",
+        "Sketch.offset",
+        "Sketch.fillet",
+        "Sketch.chamfer",
+        "Sketch.clean",
+        "Workplane.offset2D"
+      ],
+      "colocad": "No public general 2D wire/face offset, hull, cleanup or selection-based corner editor.",
+      "boundary": "Internal profile offsets used by selected solid operations are not a general sketch API.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "general-splines",
+      "status": "unsupported",
+      "apis": [
+        "Sketch.spline",
+        "Workplane.spline",
+        "Workplane.parametricCurve",
+        "Workplane.parametricSurface",
+        "Workplane.ellipseArc",
+        "Workplane.twistExtrude",
+        "Workplane.text"
+      ],
+      "colocad": "No equivalent arbitrary interpolating spline, function-sampling curve/surface, elliptical arc, twist-extrusion or text API.",
+      "boundary": "Bezier path/control surfaces are different bounded capabilities.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "sketch-constraints",
+      "status": "partial",
+      "apis": [
+        "Sketch.constrain",
+        "Sketch.solve"
+      ],
+      "colocad": "Named geometric constraints, local numerical solver, residual and DOF diagnostics.",
+      "boundary": "Finite variable/equation budgets and selected point/line/circle constraints; no blanket nonlinear solver equivalence.",
+      "implementation": [
+        "crates/agent-cad/src/sketch.rs",
+        "crates/agent-cad/src/solve.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/sketch.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "sketch-mirror-wire",
+      "status": "recipe",
+      "apis": [
+        "Workplane.mirrorX",
+        "Workplane.mirrorY",
+        "Workplane.wire"
+      ],
+      "colocad": "Reflect profile coordinates and emit a closed outline/polygon.",
+      "boundary": "No pending-wire graph or automatic multi-wire assembly semantics.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "basic-solids",
+      "status": "supported_domain",
+      "apis": [
+        "Workplane.box",
+        "Workplane.sphere",
+        "Workplane.cylinder"
+      ],
+      "colocad": "Native box/sphere/cylinder.",
+      "boundary": "Explicit placement and mm units; sphere angular truncation/stack overloads are not claimed.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/geometry.rs",
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "wedge",
+      "status": "recipe",
+      "apis": [
+        "Workplane.wedge"
+      ],
+      "colocad": "Extrude an explicit polygon or use a specified loft.",
+      "boundary": "No direct wedge signature.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "booleans",
+      "status": "supported_domain",
+      "apis": [
+        "Workplane.cut",
+        "Workplane.union",
+        "Workplane.intersect"
+      ],
+      "colocad": "Native exact cut/union/intersect on feature IDs.",
+      "boundary": "Different kernel; no OCCT glue/tolerance compatibility or universal success-rate guarantee.",
+      "implementation": [
+        "crates/agent-cad/src/executor.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/geometry.rs",
+        "specs/experiments/0005/README.md"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "stack-combine",
+      "status": "recipe",
+      "apis": [
+        "Workplane.combine"
+      ],
+      "colocad": "Explicit union graph, or separate named assembly instances.",
+      "boundary": "Fusion and assembly are distinct operations; no implicit stack combination.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/assembly.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "extrusions",
+      "status": "partial",
+      "apis": [
+        "Workplane.extrude",
+        "Workplane.cutBlind",
+        "Workplane.cutThruAll"
+      ],
+      "colocad": "extrude/draft_extrude/cutout with explicit frame and extent.",
+      "boundary": "Up-to-selected-face and automatic through-all semantics require explicit extent derivation; taper/offset restrictions differ.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "holes",
+      "status": "partial",
+      "apis": [
+        "Workplane.hole",
+        "Workplane.cboreHole"
+      ],
+      "colocad": "holes/face_holes/hole_grid/face_hole_grid and counterbore options.",
+      "boundary": "Explicit radius, depth and frame; not every Workplane context/automatic depth overload.",
+      "implementation": [
+        "crates/agent-cad/src/engineering.rs",
+        "crates/agent-cad/src/grid.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs",
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "countersink",
+      "status": "recipe",
+      "apis": [
+        "Workplane.cskHole"
+      ],
+      "colocad": "Subtract explicit cone/cylinder cutters.",
+      "boundary": "No dedicated countersink operation or complete countersink recognition contract.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "loft-sweep",
+      "status": "partial",
+      "apis": [
+        "Workplane.loft",
+        "Workplane.sweep",
+        "Workplane.revolve"
+      ],
+      "colocad": "profile_loft/loft/sweep/curve_sweep/pipe/revolve.",
+      "boundary": "Bounded corresponding sections; planar sweep or one line/arc/Bezier path; no general multi-rail/Frenet/twisted sweep parity.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/capabilities.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "finish-features",
+      "status": "partial",
+      "apis": [
+        "Workplane.shell",
+        "Workplane.fillet",
+        "Workplane.chamfer",
+        "Workplane.split"
+      ],
+      "colocad": "Semantic edge selectors, native blends/shells and explicit split tools.",
+      "boundary": "Selector families and algorithm success domains differ; unequal-length chamfer and all CadQuery overloads are not established.",
+      "implementation": [
+        "crates/agent-cad/src/operations.rs",
+        "crates/agent-cad/src/model.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs",
+        "specs/experiments/0005/README.md"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "transforms",
+      "status": "supported_domain",
+      "apis": [
+        "Workplane.rotate",
+        "Workplane.translate",
+        "Workplane.mirror"
+      ],
+      "colocad": "Explicit rigid placement/rotation/translation/mirror.",
+      "boundary": "No stack semantics; mirror may produce a new feature or occurrence as specified.",
+      "implementation": [
+        "crates/agent-cad/src/placement.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/parity.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "center-rotation",
+      "status": "recipe",
+      "apis": [
+        "Workplane.rotateAboutCenter"
+      ],
+      "colocad": "Compute/select the intended center and pass an explicit rotation origin.",
+      "boundary": "Bounding-box center and mass center must not be conflated.",
+      "implementation": [
+        "crates/agent-cad/src/placement.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "dxf-svg",
+      "status": "unsupported",
+      "apis": [
+        "Sketch.importDXF",
+        "Workplane.toSvg",
+        "Workplane.exportSvg",
+        "importers.importDXF",
+        "occ_impl.exporters.dxf.DxfDocument"
+      ],
+      "colocad": "No public DXF import/export or SVG projection API.",
+      "boundary": "PNG/HTML review is not vector drawing interchange.",
+      "implementation": [
+        "crates/agent-cad/src/capabilities.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "step-import",
+      "status": "partial",
+      "apis": [
+        "importers.importStep"
+      ],
+      "colocad": "Registered STEP assets, inspectStep/attachStep/import_step and native product hierarchy.",
+      "boundary": "Rigid placements and supported representations only; mixed units/nonrigid mappings and unsupported entities can be rejected.",
+      "implementation": [
+        "crates/agent-cad/src/step_assembly.rs",
+        "crates/agent-cad/src/capabilities.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/assembly_tree.rs",
+        "crates/agent-cad/tests/foreign_queries.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "export",
+      "status": "partial",
+      "apis": [
+        "exporters.export",
+        "Assembly.save"
+      ],
+      "colocad": "Exact STEP solids/surfaces and assembly trees; STL/GLB/PNG plus feature source/session HTML.",
+      "boundary": "No equivalent full CadQuery exporter format matrix; STEP does not export editable native feature history.",
+      "implementation": [
+        "crates/agent-cad/src/exchange.rs",
+        "crates/agent-cad/src/step_assembly.rs",
+        "src/session.mjs"
+      ],
+      "evidence": [
+        "test/validation/packed.mjs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "stack",
+      "status": "different_abstraction",
+      "apis": [
+        "Workplane.all",
+        "Workplane.size",
+        "Workplane.vals",
+        "Workplane.add",
+        "Workplane.val",
+        "Workplane.first",
+        "Workplane.item",
+        "Workplane.last",
+        "Workplane.end"
+      ],
+      "colocad": "Explicit feature graph, IDs, session accepted source and query result arrays.",
+      "boundary": "No Workplane object stack/parent chain compatibility; host array access is not a modeling feature.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "src/session.mjs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "solid-topology",
+      "status": "supported_domain",
+      "apis": [
+        "Workplane.vertices",
+        "Workplane.faces",
+        "Workplane.edges"
+      ],
+      "colocad": "Revision-bound typed entities and composable query selections.",
+      "boundary": "Observed refs are invalidated by edits; query selectors are not automatically accepted by every modeling operation.",
+      "implementation": [
+        "crates/agent-cad/src/query/selection.rs",
+        "crates/agent-cad/src/query/engine.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "wire-topology",
+      "status": "partial",
+      "apis": [
+        "Workplane.wires"
+      ],
+      "colocad": "Ordered face loops and edge uses.",
+      "boundary": "Loops on a solid are not standalone arbitrary wires.",
+      "implementation": [
+        "crates/agent-cad/src/query/descriptors.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "body-topology",
+      "status": "unsupported",
+      "apis": [
+        "Workplane.solids",
+        "Workplane.shells",
+        "Workplane.compounds"
+      ],
+      "colocad": "Definitions/instances expose part results, not these generic topology selections.",
+      "boundary": "No public solid/shell/compound entity selector.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "spatial-selector",
+      "status": "unsupported",
+      "apis": [
+        "NearestToPointSelector",
+        "BoxSelector"
+      ],
+      "colocad": "No direct general nearest-object or bounding-box selector in query expressions.",
+      "boundary": "A modeling Near selector and exported AABBs are not equivalent to these selectors.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs",
+        "crates/agent-cad/src/operations.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "direction-selectors",
+      "status": "partial",
+      "apis": [
+        "BaseDirSelector",
+        "ParallelDirSelector",
+        "DirectionSelector",
+        "DirectionNthSelector",
+        "PerpendicularDirSelector",
+        "DirectionMinMaxSelector",
+        "CenterNthSelector"
+      ],
+      "colocad": "Planar-normal predicates, typed rank with projection/datum direction and explicit cardinality.",
+      "boundary": "Planar normal support does not cover arbitrary curve tangents; ties retained; semantics differ from CadQuery selectors.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs",
+        "crates/agent-cad/src/query/selection.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "metric-selectors",
+      "status": "supported_domain",
+      "apis": [
+        "LengthNthSelector",
+        "AreaNthSelector",
+        "TypeSelector"
+      ],
+      "colocad": "Typed class/range filters and rank by metric.",
+      "boundary": "Finite result budgets; tied rank is not silently reduced to one entity.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs",
+        "crates/agent-cad/src/query/selection.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "radius-rank",
+      "status": "partial",
+      "apis": [
+        "RadiusNthSelector"
+      ],
+      "colocad": "Radius filters/descriptors are available; nth-radius ordering must be implemented by the caller.",
+      "boundary": "No native radius rank property.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "logical-selectors",
+      "status": "supported_domain",
+      "apis": [
+        "BinarySelector",
+        "AndSelector",
+        "SumSelector",
+        "SubtractSelector",
+        "InverseSelector"
+      ],
+      "colocad": "Typed union/intersection/difference and bounded all/any/not predicates.",
+      "boundary": "Set/target scope is explicit; no Python selector object compatibility.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs",
+        "crates/agent-cad/src/query/selection.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/query_artifacts.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "selector-dsl",
+      "status": "different_abstraction",
+      "apis": [
+        "StringSyntaxSelector"
+      ],
+      "colocad": "JSON selection algebra.",
+      "boundary": "CadQuery selector strings are not parsed or accepted.",
+      "implementation": [
+        "crates/agent-cad/src/query/contract.rs"
+      ],
+      "evidence": [],
+      "verification": "Schema/source audit; no dedicated equivalence test claimed"
+    },
+    {
+      "id": "assembly-tree",
+      "status": "supported_domain",
+      "apis": [
+        "Assembly",
+        "Assembly.add"
+      ],
+      "colocad": "Named hierarchical instances, shared definitions, rigid placements and STEP product tree.",
+      "boundary": "Different construction API and bounded instance/group counts.",
+      "implementation": [
+        "crates/agent-cad/src/assembly.rs",
+        "crates/agent-cad/src/step_assembly.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/assembly_tree.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "assembly-constraints",
+      "status": "partial",
+      "apis": [
+        "Assembly.constrain",
+        "Assembly.solve",
+        "Constraint"
+      ],
+      "colocad": "Named attachments/datums and fixed/coincident/concentric/plane/distance/revolute/prismatic mates.",
+      "boundary": "Local solver and explicit direction/residual rules; CadQuery Axis/Plane names do not have identical semantics.",
+      "implementation": [
+        "crates/agent-cad/src/mates.rs",
+        "crates/agent-cad/src/solve.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/mates.rs",
+        "crates/agent-cad/tests/mates_alignment.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    },
+    {
+      "id": "appearance",
+      "status": "partial",
+      "apis": [
+        "Color"
+      ],
+      "colocad": "Instance colors in Colocad preview/assembly metadata.",
+      "boundary": "No OCCT color class or full material/export appearance parity.",
+      "implementation": [
+        "crates/agent-cad/src/model.rs",
+        "crates/agent-cad/src/preview/mod.rs"
+      ],
+      "evidence": [
+        "crates/agent-cad/tests/preview.rs"
+      ],
+      "verification": "Representative Colocad contract tests; not CadQuery differential conformance"
+    }
+  ]
+}

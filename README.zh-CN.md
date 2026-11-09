@@ -32,7 +32,7 @@ flowchart LR
 需要 **Node.js 22+**，支持 **Linux x64、Linux arm64、macOS arm64**。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.7
+npm install @coloopx/colocad@0.1.0-alpha.8
 ```
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
@@ -171,7 +171,11 @@ npx colocad render ./actuator/session ./modeling.mp4
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。
 - CAD 的 512 MiB 测试不代表常驻 agent、浏览器和视频编码器的整体内存预算。
-- alpha.7 发布后发现：包内 `face_hole_grid` 四孔板在 macOS arm64 启用精确查询时失败，普通构建/预览通过。[查询与改参实践](docs/best-practices.zh-CN.md#可以直接执行的改参示例)使用经独立核对的普通 `holes` 等价路径；原快照缺陷仍未修复。
+- alpha.8 修复 `face_hole_grid` 与 `hole_grid` 接缝曲线的精确查询快照。[回归与安装包证据](docs/evidence/release-alpha.8.json)。
+
+## 能力覆盖与路线图
+
+[CadQuery 设计与 API 覆盖报告](docs/cadquery-comparison.zh-CN.md)逐项映射其 API 索引的 150 个入口，列出缺口和证据。[ROADMAP](ROADMAP.zh-CN.md)总结架构、G1–G3 验收范围以及后续 benchmark/RSI 路线；G4 自动执行器尚未实现。
 
 ## 文档与帮助
 

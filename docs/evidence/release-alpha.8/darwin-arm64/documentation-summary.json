@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "platform": "darwin-arm64",
+  "files": {
+    "README.md": "6ee9223c620c7a6177ac3617596f1919234f83f6a6e211272bf699266caaae0d",
+    "README.zh-CN.md": "a0e90856cb190a7672f183ef05592c6f1b04e2dc9b2690bad4a202dd584f2199",
+    "ROADMAP.md": "7210ebbe253843e3d284951842b79a2ab04f564578ddce04f7f8807057ea67b4",
+    "ROADMAP.zh-CN.md": "d72e6328e7fbd021fd1c235564961a31ee4406653c51c1286f196868ed4550d9",
+    "docs/cadquery-comparison.md": "62d795e18c6ca174e2cd9110f16d0cca63e4fbe76419b47902f8c9de4605e72f",
+    "docs/cadquery-comparison.zh-CN.md": "f9b75f431d0336d24ebfce50ee42327f2756b9292893030c135c0a9a2246446c",
+    "docs/cadquery-coverage.json": "f78ec1adad467d094fb6b8abf4d95b5c215987b01121f624ccbc3851329fc847",
+    "docs/best-practices.md": "633c02828d262e96d4a4fc899e48054ab4bb8940a559c16bef40070061cb2661",
+    "docs/best-practices.zh-CN.md": "1bfb66f52032d3f980e8777fc1d9db8267879773c764b5fd922c61a139573abc",
+    "docs/agent-modeling-handbook.md": "c4bc9cc5e3d9ed365785612c2634d18d72aa973aa17f986da8e811a2205be48d",
+    "docs/agent-modeling-handbook.zh-CN.md": "fa35b4f24f44d20fc5ee73696a3e6a1167daeb2dbd1e3ab580aa467ab44d42ec",
+    "skills/colocad/SKILL.md": "e7d68ec661a9439565532a961862c7987a73d43469f1fa098a431ec4cecdad7e",
+    "skills/colocad/references/tuning.md": "1d165f195b35c9a87af1d7b4d892d545fb3999252d036237d7fb263aef6029e0",
+    "skills/colocad/references/modeling-loop.md": "51e68899c085a6fdc5be5fc04ffd28278e53dc329a5e0ea28371ad3f6b8b59c0",
+    "skills/colocad/references/prompt-patterns.md": "72134527cfaf06005125a27148bb89f4e7730f5193be1bd001a654535a09d514"
+  },
+  "script_sha256": "ca40dbbcdd8ac14c8ded70865ead223b44791fab1b4d6cf172dde79719e0a1ce",
+  "replay": {
+    "steps": 5,
+    "meshDefinitions": 2,
+    "bytes": 1072376
+  }
+}

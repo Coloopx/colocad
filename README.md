@@ -33,7 +33,7 @@ flowchart LR
 Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.7
+npm install @coloopx/colocad@0.1.0-alpha.8
 ```
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
@@ -167,12 +167,16 @@ For unchanged geometry, saved-mesh observation was 5.6×–16.8× faster than Co
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.7.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.8.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).
 - A 512 MiB CAD test is not a memory guarantee for an entire resident agent, browser or video encoder.
-- Post-release alpha.7 issue: the bundled `face_hole_grid` plate fails with exact queries on tested macOS arm64; plain build/preview pass. The [query/edit walkthrough](docs/best-practices.md#run-the-editquery-loop-against-the-installed-package) uses an independently checked ordinary-`holes` equivalent. The grid snapshot defect remains open.
+- Alpha.8 fixes exact query snapshots for `face_hole_grid` and `hole_grid` seam curves. [Regression and installed-package evidence](docs/evidence/release-alpha.8.json).
+
+## Coverage and roadmap
+
+[CadQuery design and API coverage](docs/cadquery-comparison.md) maps all 150 entries in its API index, with explicit gaps and evidence. [ROADMAP](ROADMAP.md) records the current architecture, scoped G1-G3 acceptance and planned benchmark/RSI cycle. The G4 runner is not yet implemented.
 
 ## Documentation and help
 

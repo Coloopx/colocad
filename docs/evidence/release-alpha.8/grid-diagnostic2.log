@@ -1,0 +1,25 @@
+   Compiling agent-cad v0.5.0 (<repo>/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 32.44s
+     Running tests/query_artifacts.rs (target/release/deps/query_artifacts-6034ada97ee28396)
+
+running 1 test
+snapshot 3d 20 Discriminant(8): nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001
+snapshot 3d 21 Discriminant(8): nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001
+snapshot 3d 22 Discriminant(8): nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001
+snapshot 3d 23 Discriminant(8): nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001
+
+thread 'bundled_face_grid_has_queryable_exact_snapshot' (13755392) panicked at crates/agent-cad/tests/query_artifacts.rs:64:5:
+assertion `left == right` failed: {"error":{"code":"KERNEL_ERROR","feature_id":null,"message":"nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001"},"ok":false}
+  left: Bool(false)
+ right: true
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test bundled_face_grid_has_queryable_exact_snapshot ... FAILED
+
+failures:
+
+failures:
+    bundled_face_grid_has_queryable_exact_snapshot
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.89s
+
+error: test failed, to rerun pass `-p agent-cad --test query_artifacts`

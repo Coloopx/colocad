@@ -4,7 +4,7 @@
 
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
-These guides target **@coloopx/colocad 0.1.0-alpha.7**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+These guides target **@coloopx/colocad 0.1.0-alpha.8**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
 
 [中文开发指南](README.zh-CN.md)
 
@@ -34,3 +34,8 @@ Performance depends on workload and execution mode. See the [README measurements
 
 - [Exact geometry queries and datum-driven assembly (alpha.7)](engineering-queries.md)
 - [Four ordered goals and benchmark/retrospective optimization](../specs/0005-capability-reliability-and-optimization.md)
+
+## Coverage and roadmap
+
+- [CadQuery coverage and design comparison](cadquery-comparison.md), including the 150-entry mapping.
+- [ROADMAP](../ROADMAP.md): architecture, accepted scope, planned benchmarks and RSI promotion rules.

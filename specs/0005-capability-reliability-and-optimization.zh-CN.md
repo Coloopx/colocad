@@ -51,3 +51,7 @@ Agent、harness、SDK 和 native 同处 Linux arm64 1 vCPU / 512 MiB 沙箱；82
 ## 发布状态更新：alpha.7
 
 上述已验收支持域现纳入 alpha.7 的 SDK、CLI 与三平台原生包。历史验收记录保持原样；[发布记录](../CHANGELOG.md)与[安装包验证](../docs/evidence/release-alpha.7.json)区分源码验收和实际交付。G4 未启动。
+
+## 路线图更新：2026-11-10
+
+[ROADMAP](../ROADMAP.zh-CN.md)进一步明确 G4：Colocad/CadQuery/build123d 确定性对照、工程生命周期、真实读图/整机及 skill/tool 消融，使用独立冻结验证器与未见产品族。[覆盖核对](../docs/cadquery-comparison.zh-CN.md)不把 G1–G3 扩大解释成全面对齐 CadQuery。G4 执行器仍待实现和运行；alpha.8 新增原冻结集未覆盖的孔阵列快照回归，历史结果保留其原有范围。

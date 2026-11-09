@@ -101,6 +101,27 @@ impl DefinitionSnapshot {
                     solidcore::curve::curve::Curve::from(line.base_with_nurb()?.into_owned());
             }
         }
+        // Direct/imported periodic faces may own seam edges represented as a
+        // curve-on-surface. Its nested UV line is not in data.uv_curves, and the
+        // native writer does not materialize that line's lazy NURB. Prepare the
+        // exact line on this disposable serialization copy. Keep the seam,
+        // support surface, parameter interval and topology identity intact.
+        for curve in &mut data.curves_3d {
+            if let solidcore::curve::curve::p2::CurveKind::CrvOnSurf(on_surface) =
+                curve.object.kind_mut()
+            {
+                if let solidcore::curve::curve::p2::CurveKind::Line(line) =
+                    on_surface.uv_curve().kind()
+                {
+                    if line.base().gw_nurb().is_none() {
+                        let uv = solidcore::curve::curve::Curve::from(
+                            line.base_with_nurb()?.into_owned(),
+                        );
+                        on_surface.set_uv_curve(uv)?;
+                    }
+                }
+            }
+        }
         let geometry = data.write_to_file_with_nurbs(k, FileType::Binary)?;
         if geometry.len() > MAX_PAYLOAD {
             return Err(CadError::new("QUERY_LIMIT", "exact payload exceeds 64 MiB"));
