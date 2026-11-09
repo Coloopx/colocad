@@ -113,3 +113,21 @@ fn datum_recipe_rejects_forward_dependencies_and_explicit_snapshot_disable() {
         "QUERY_SNAPSHOT_REQUIRED"
     );
 }
+
+#[test]
+fn relative_datum_selection_follows_rotated_geometry_and_rejects_forward_reference() {
+    let tol = json!({"linear_mm":1e-5,"angular_rad":1e-7});
+    for angle in [0_f64, 37., 90.] {
+        let mut v = json!({"version":1,"units":"mm","parameters":{},"features":[{"id":"raw","op":"cylinder","origin":[0,0,0],"radius":3,"height":12},{"id":"part","op":"rotate","input":"raw","origin":[0,0,0],"axis":[0,1,0],"angle_deg":angle}],"output":"part","datums":[
+        selected("axis","part","axis",json!({"kind":"filter","input":{"kind":"entities","entity":"face"},"where":{"surface_type":"cylinder"}})),
+        {"id":"end","definition":"part","tolerance":tol,"derive":{"kind":"selected","derive":{"kind":"plane"},"selection":{"kind":"rank","input":{"kind":"filter","input":{"kind":"entities","entity":"face"},"where":{"planar_normal_parallel_to":{"datum":"axis"}}},"by":{"property":"center_projection","direction":{"datum":"axis"}},"descending":true,"rank":0,"tie_tolerance":1e-6}}}]});
+        let m: Model = serde_json::from_value(v.clone()).unwrap();
+        let b = build(&m).unwrap();
+        let n = &b.report["datums"]["part"]["end"]["geometry"]["normal"];
+        assert!((n[0].as_f64().unwrap() - angle.to_radians().sin()).abs() < 1e-7);
+        assert!((n[2].as_f64().unwrap() - angle.to_radians().cos()).abs() < 1e-7);
+        v["datums"].as_array_mut().unwrap().swap(0, 1);
+        let m: Model = serde_json::from_value(v).unwrap();
+        assert_eq!(build(&m).err().unwrap().code, "DATUM_REFERENCE");
+    }
+}

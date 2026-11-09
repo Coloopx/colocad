@@ -87,3 +87,36 @@ test('named datums auto-enable exact artifacts, survive reopen and transform per
  const session=await ModelingSession.create(join(root,'session'));const initial=await session.build(m);assert.equal(initial.ok,true);assert.equal((await session.read()).steps[0].queryable,true);
  const edited=await session.edit({height:40});assert.equal(edited.ok,true);assert.notEqual(initial.data.query_revision_id,edited.data.query_revision_id);
 });
+
+test('interface-only source enables query artifacts and exposes holes/groups/profile through SDK tools and session',async t=>{
+ const root=await setup(t),cad=new CadClient({outputRoot:root});
+ const m={version:1,units:'mm',parameters:{height:8},features:[{id:'raw',op:'box',origin:[-20,-15,0],size:[40,30,{param:'height'}]},{id:'part',op:'holes',input:'raw',frame:{origin:[0,0,-1],x_axis:[1,0,0],y_axis:[0,1,0]},positions:[[-10,-6],[10,-6],[-10,6],[10,6]],radius:2,depth:{op:'add',a:{param:'height'},b:2}}],output:'part',interfaces:[{id:'mount',definition:'part',profile:'planar_hole_mount/v1',selectors:{plane:{where:{planar_normal_aligned_with:[0,0,1]},cardinality:{min:1,max:1}},hole_group:{opening_on:'plane',where:{pattern:'rectangular',member_count:4,equal_diameter:true},cardinality:{min:1,max:1}}},datum:{origin:{kind:'hole_group_center'},normal:'outward'},requirements:{verification_tolerance:{linear_mm:1e-5,angular_rad:1e-7},pattern:{kind:'rectangular',count:[2,2],pitch_mm:[20,12]},bore_diameter_mm:4,termination:'through'}}]};
+ const disabled=await cad.build(m,{queryable:false});assert.equal(disabled.error.code,'QUERY_SNAPSHOT_REQUIRED');
+ const b=await cad.build(m);assert.equal(b.ok,true,JSON.stringify(b));assert.ok(b.data.query_revision_id);
+ const tools=await createCadTools(cad),tool=tools.find(t=>t.name==='cad_query');assert.ok(tool);
+ const q={...request(b.data.query_revision_id),target:{definition_id:'part'},queries:[{id:'bores',op:'holes',where:{termination:'through'}},{id:'patterns',op:'hole_groups',where:{pattern:'rectangular',member_count:4}},{id:'declared',op:'interfaces',ids:['mount']},{id:'recognized',op:'interfaces',profile:'planar_hole_mount/v1',where:{pattern:'rectangular',member_count:4}}]};
+ const r=await tool.execute({artifact_directory:b.data.artifact_directory,request:q});assert.equal(r.ok,true,JSON.stringify(r));assert.equal(r.data.results[0].items.length,4);assert.equal(r.data.results[1].items.length,2);assert.equal(r.data.results[2].items[0].provenance,'declared');assert.equal(r.data.results[3].items[0].provenance,'recognized');assert.equal(r.data.execution.tessellation_calls,0);
+ const session=await ModelingSession.create(join(root,'session'));const s=await session.build(m);assert.equal(s.ok,true,JSON.stringify(s));assert.equal((await session.read()).steps[0].queryable,true);q.query_revision_id=s.data.query_revision_id;assert.equal((await session.query(q)).ok,true);
+ const bundle=await readSessionBundle(session.root);assert.equal(bundle.steps[1].queryDisplay.query_revision_id,s.data.query_revision_id);
+ const edited=await session.edit({height:10});assert.equal(edited.ok,true);assert.notEqual(edited.data.query_revision_id,s.data.query_revision_id);const stale=await session.query(q);assert.equal(stale.error.code,'QUERY_REVISION_MISMATCH');assert.equal((await session.source()).parameters.height,10);
+});
+
+test('native declarations and foreign STEP recognition agree on measured mounting facts',async t=>{
+ const {installationIntent}=await import('../examples/engineering-interfaces/model.mjs');
+ const root=await setup(t),cad=new CadClient({outputRoot:root}),intent=installationIntent('part',4);
+ const base={version:1,units:'mm',parameters:{},datums:intent.datums,interfaces:[intent.interface],output:'part'};
+ const native={...base,features:[{id:'raw',op:'box',origin:[-20,-18,0],size:[40,36,8]},{id:'bores',op:'holes',input:'raw',frame:{origin:[0,0,-1],x_axis:[1,0,0],y_axis:[0,1,0]},positions:[[-12,-10],[12,-10],[-12,10],[12,10]],radius:2,depth:10},{id:'register',op:'holes',input:'bores',frame:{origin:[0,0,-1],x_axis:[1,0,0],y_axis:[0,1,0]},positions:[[0,0]],radius:5,depth:10},{id:'part',op:'holes',input:'register',frame:{origin:[0,0,8],x_axis:[1,0,0],y_axis:[0,-1,0]},positions:[[16,0]],radius:1.2,depth:2}]};
+ const step=await readFile(new URL('../specs/experiments/0004/fixtures/engineering/motor.step',import.meta.url),'utf8');
+ const foreign=attachStep({...base,features:[{id:'part',op:'import_step',asset:'external',body_index:0}]},'external',step);
+ const observations=[];
+ for(const source of [native,foreign]){
+  const b=await cad.build(source);assert.equal(b.ok,true,JSON.stringify(b));
+  const q={...request(b.data.query_revision_id),target:{definition_id:'part'},queries:[{id:'declared',op:'interfaces',ids:['mount']},{id:'recognized',op:'interfaces',profile:'planar_hole_mount/v1',where:{pattern:'rectangular',member_count:4,equal_diameter:true}}]};const r=await cad.query(b.data.artifact_directory,q);assert.equal(r.ok,true,JSON.stringify(r));
+  const declared=r.data.results[0].items[0],recognized=r.data.results[1].items.find(i=>i.normal[2]>.99);assert.equal(declared.provenance,'declared');assert.equal(recognized.provenance,'recognized');
+  const facts=i=>({origin:i.origin_mm,pitch:i.group.parameters.pitch_mm.toSorted((a,b)=>a-b),members:i.group.members.map(m=>[...m.center_mm,m.diameter_mm]).toSorted((a,b)=>a[0]-b[0]||a[1]-b[1])});
+  const compare=(a,b)=>assert.ok(Math.max(...a.map((n,i)=>Math.abs(n-b[i])))<1e-5,JSON.stringify([a,b]));
+  const a=facts(declared),c=facts(recognized);compare(a.origin,c.origin);compare(a.pitch,c.pitch);a.members.forEach((m,i)=>compare(m,c.members[i]));observations.push({...a,volume:b.data.geometry.volume_mm3});
+ }
+ assert.ok(Math.abs(observations[0].volume-observations[1].volume)<1e-5);
+ observations[0].members.forEach((m,i)=>m.forEach((n,j)=>assert.ok(Math.abs(n-observations[1].members[i][j])<1e-5)));
+});

@@ -1,0 +1,291 @@
+{
+  "schema": "colocad.engineering-fixtures/1",
+  "license": "MIT",
+  "source": "independently authored OCCT geometry, generic mechanical interface cases",
+  "generator": "../generate-engineering-parts.py",
+  "ocp_version": "7.9.3.1.1",
+  "tolerance": {
+    "linear_mm": 1e-05,
+    "angular_rad": 1e-07,
+    "relative_volume": 1e-06
+  },
+  "cases": [
+    {
+      "id": "motor",
+      "file": "motor.step",
+      "sha256": "6c43981dfa3d061b0c471ee2cb2caef6af0d75dd1fcd37babfffc9e41ad7c28b",
+      "volume_mm3": 10480.50982278021,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 10480.50982278021,
+      "default_integration_volume_mm3": 10480.50982278021,
+      "adaptive_relative_error": 4.417437057588224e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 7,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 6
+      },
+      "expected": {
+        "pitch_mm": [
+          24,
+          20
+        ],
+        "bore_diameter_mm": 4,
+        "key": [
+          16,
+          0,
+          8
+        ],
+        "mount_z_mm": 8,
+        "positive": true
+      }
+    },
+    {
+      "id": "support",
+      "file": "support.step",
+      "sha256": "21b3bc7861ad336e7672e413ce2bc971f31b48363f52528af8671b19f627545f",
+      "volume_mm3": 12997.341712025229,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 12997.341712025229,
+      "default_integration_volume_mm3": 12997.341712025229,
+      "adaptive_relative_error": 3.504743450648505e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 7,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 6
+      },
+      "expected": {
+        "pitch_mm": [
+          24,
+          20
+        ],
+        "bore_diameter_mm": 4.4,
+        "mount_z_mm": 10,
+        "positive": true
+      }
+    },
+    {
+      "id": "motor-housing",
+      "file": "motor-housing.step",
+      "sha256": "e1444b2ac9a1016bf09d718e56367bb357ff15bdba637356b0d4f8742006dc65",
+      "volume_mm3": 30086.793249242222,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 30086.793249242222,
+      "default_integration_volume_mm3": 30086.793249242215,
+      "adaptive_relative_error": 4.240739575284694e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 12,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 6
+      },
+      "expected": {
+        "pitch_mm": [
+          24,
+          20
+        ],
+        "bore_diameter_mm": 4,
+        "mount_z_mm": 8,
+        "positive": true
+      }
+    },
+    {
+      "id": "motor-rotated",
+      "file": "motor-rotated.step",
+      "sha256": "356b45dc32de3bf7b3344d160a081a202af7860478c9c41d01f5990003462466",
+      "volume_mm3": 10480.509822780214,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 10480.509822780214,
+      "default_integration_volume_mm3": 10480.50982278021,
+      "adaptive_relative_error": 4.240739575284696e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 7,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 6
+      },
+      "expected": {
+        "pitch_mm": [
+          24,
+          20
+        ],
+        "bore_diameter_mm": 4,
+        "positive": true,
+        "source_transform": [
+          [
+            0.532912813476703,
+            -0.041294614369986576,
+            0.8451619300798983,
+            50.0
+          ],
+          [
+            0.4114391772752407,
+            0.8854314448150403,
+            -0.21616882276550237,
+            -30.0
+          ],
+          [
+            -0.7394063406783971,
+            0.46293186470233855,
+            0.4888479845594109,
+            20.0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "motor-wrong-pitch",
+      "file": "motor-wrong-pitch.step",
+      "sha256": "49d00a69abf873fbc13aabe659537f2ffa0e7e3b17b9c6f34703dadadc5b64fd",
+      "volume_mm3": 10480.50982278021,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 10480.50982278021,
+      "default_integration_volume_mm3": 10480.50982278021,
+      "adaptive_relative_error": 6.361109362927025e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 7,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 6
+      },
+      "expected": {
+        "pitch_mm": [
+          25,
+          20
+        ],
+        "bore_diameter_mm": 4,
+        "positive": false,
+        "reject": "INTERFACE_INCOMPATIBLE"
+      }
+    },
+    {
+      "id": "motor-missing-hole",
+      "file": "motor-missing-hole.step",
+      "sha256": "258ed038ba3932e4ca3d18d0d21b55330c1ce58eb2d11dfe2494d5600d66c9cf",
+      "volume_mm3": 10581.040787695083,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 10581.040787695083,
+      "default_integration_volume_mm3": 10581.040787695083,
+      "adaptive_relative_error": 2.7140733281822017e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 7,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 5
+      },
+      "expected": {
+        "positive": false,
+        "reject": "INTERFACE_NOT_FOUND"
+      }
+    },
+    {
+      "id": "split-axial-bore",
+      "file": "split-axial-bore.step",
+      "sha256": "9296746e0548dc64face2a8a752647127e363c3d35d116765833cebdd6a2b055",
+      "volume_mm3": 4460.707993412302,
+      "analytic_volume_mm3": 4460.707993412302,
+      "adaptive_volume_mm3": 4460.707993412302,
+      "default_integration_volume_mm3": 4460.707993412302,
+      "adaptive_relative_error": 1.884773144570973e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 6,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 2
+      },
+      "expected": {
+        "holes": 1,
+        "depth_mm": 12,
+        "diameter_mm": 6,
+        "positive": true
+      }
+    },
+    {
+      "id": "split-angular-bore",
+      "file": "split-angular-bore.step",
+      "sha256": "d47ad01a86eec0f6814de524aba2c853ecb03ac6f7efdd0df46e2296d06fce19",
+      "volume_mm3": 4460.707993412302,
+      "analytic_volume_mm3": 4460.707993412302,
+      "adaptive_volume_mm3": 4460.707993412302,
+      "default_integration_volume_mm3": 4460.707993412301,
+      "adaptive_relative_error": 3.0025312242211144e-17,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 6,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 2
+      },
+      "expected": {
+        "holes": 1,
+        "depth_mm": 12,
+        "diameter_mm": 6,
+        "positive": true
+      }
+    },
+    {
+      "id": "spline-bore",
+      "file": "spline-bore.step",
+      "sha256": "0317c9bf5e5b7268ec20af565e5c68d3cdc4622331b129c199777349f77c9346",
+      "volume_mm3": 4460.707993412302,
+      "analytic_volume_mm3": 4460.707993412302,
+      "adaptive_volume_mm3": 4460.707989937566,
+      "default_integration_volume_mm3": 4458.864682364515,
+      "adaptive_relative_error": 2.99559337540568e-11,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_BSplineSurface": 7
+      },
+      "expected": {
+        "query_status": "partial",
+        "reason": "unsupported_spline_equivalent",
+        "positive": false
+      }
+    },
+    {
+      "id": "conical-tip",
+      "file": "conical-tip.step",
+      "sha256": "7e035df0718ef38738e10ed08306461b132c475f1d00563247361cdad5313219",
+      "volume_mm3": 4602.079662823843,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 4602.079662823843,
+      "default_integration_volume_mm3": 4602.079662823843,
+      "adaptive_relative_error": 5.94328158923056e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 6,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 1,
+        "GeomAbs_SurfaceType.GeomAbs_Cone": 1
+      },
+      "expected": {
+        "query_status": "partial",
+        "positive": false
+      }
+    },
+    {
+      "id": "intersecting-bores",
+      "file": "intersecting-bores.step",
+      "sha256": "dcf69150e94bdc114a159a05f17d5c3cdab0a4a33658296aefaabbb97c83da82",
+      "volume_mm3": 4280.3166908470575,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 4280.3166908470575,
+      "default_integration_volume_mm3": 4280.313660948715,
+      "adaptive_relative_error": 2.4038732392682793e-14,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 6,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 3
+      },
+      "expected": {
+        "query_status": "partial",
+        "positive": false
+      }
+    },
+    {
+      "id": "kk60-accessory-bracket",
+      "file": "kk60-accessory-bracket.step",
+      "sha256": "ad516936f8ec31127ddba0057af55a94e4722632e591e4ea11b1fb3da5ee4eae",
+      "volume_mm3": 25238.407165544086,
+      "analytic_volume_mm3": null,
+      "adaptive_volume_mm3": 25238.407165544086,
+      "default_integration_volume_mm3": 25238.407165544086,
+      "adaptive_relative_error": 3.3645537126225633e-16,
+      "surface_counts": {
+        "GeomAbs_SurfaceType.GeomAbs_Plane": 11,
+        "GeomAbs_SurfaceType.GeomAbs_Cylinder": 5
+      },
+      "expected": {
+        "pitch_mm": [
+          30,
+          30
+        ],
+        "bore_diameter_mm": 5.5,
+        "termination": "through",
+        "mount_z_mm": 0,
+        "positive": true,
+        "purpose": "independent accessory example, not a manufacturer bracket SKU"
+      }
+    }
+  ]
+}

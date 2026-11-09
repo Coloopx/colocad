@@ -48,6 +48,26 @@ pub struct Instance {
 #[derive(Clone, Debug, Deserialize, Serialize, JsonSchema)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
 pub enum AssemblyCheck {
+    InterfaceCompatibility {
+        a: query::compatibility::Attachment,
+        b: query::compatibility::Attachment,
+        plane_relation: query::compatibility::PlaneRelation,
+        correspondence: query::compatibility::Correspondence,
+        tolerance: query::contract::Tolerance,
+        requirements: query::compatibility::Requirements,
+    },
+    GeometricRelationship {
+        a: relationships::Target,
+        b: relationships::Target,
+        tolerance: query::contract::Tolerance,
+        max_overlap_mm3: Scalar,
+        #[serde(default)]
+        min_clearance_mm: Option<Scalar>,
+        #[serde(default)]
+        allowed_contacts: Vec<relationships::ContactPair>,
+        #[serde(default)]
+        pose_samples: Vec<relationships::PoseSample>,
+    },
     Collision {
         parts: Vec<String>,
         #[serde(default)]
@@ -146,6 +166,43 @@ pub(crate) fn validate(m: &Model, features: &BTreeSet<String>) -> Result<()> {
     let mut pairs = 0;
     for check in &m.checks {
         let (refs, threshold) = match check {
+            AssemblyCheck::InterfaceCompatibility {
+                a,
+                b,
+                correspondence,
+                tolerance,
+                requirements,
+                ..
+            } => {
+                query::compatibility::validate(m, a, b, correspondence, *tolerance, requirements)?;
+                pairs += 1;
+                (
+                    vec![&a.instance, &b.instance],
+                    &requirements.max_plane_gap_mm,
+                )
+            }
+            AssemblyCheck::GeometricRelationship {
+                a,
+                b,
+                tolerance,
+                max_overlap_mm3,
+                min_clearance_mm,
+                allowed_contacts,
+                pose_samples,
+            } => {
+                relationships::validate(
+                    m,
+                    a,
+                    b,
+                    *tolerance,
+                    max_overlap_mm3,
+                    min_clearance_mm,
+                    allowed_contacts,
+                    pose_samples,
+                )?;
+                pairs += pose_samples.len().max(1);
+                (vec![&a.instance, &b.instance], max_overlap_mm3)
+            }
             AssemblyCheck::Collision {
                 parts,
                 allowed_pairs,
@@ -310,6 +367,7 @@ pub(crate) fn finish(
     geometry_ms: f64,
     cache: &mut incremental::Checkpoints,
     datums: &query::datums::Definitions,
+    interfaces: &query::interfaces::Definitions,
 ) -> Result<Build> {
     let tick = Instant::now();
     let group_poses = placement::groups(m)?;
@@ -323,7 +381,7 @@ pub(crate) fn finish(
             ))
         })
         .collect::<Result<BTreeMap<_, _>>>()?;
-    let (solved, mate_report) = mates::solve(m, initial, datums)?;
+    let (solved, mate_report) = mates::solve(m, initial, datums, interfaces)?;
     let mut definitions = BTreeMap::new();
     // Retain one local-space definition for every displayed source.
     if m.preview.is_some() {
@@ -425,6 +483,59 @@ pub(crate) fn finish(
     let mut findings = vec![];
     for check in &m.checks {
         match check {
+            AssemblyCheck::InterfaceCompatibility {
+                a,
+                b,
+                plane_relation,
+                correspondence,
+                tolerance,
+                requirements,
+            } => {
+                for target in [a, b] {
+                    let i = m.assembly.iter().find(|i| i.id == target.instance).unwrap();
+                    if !matches!(i.representation, Representation::Exact) {
+                        return Err(CadError::new(
+                            "QUERY_UNCERTAIN",
+                            "fit cannot be certified from reduced geometry",
+                        ));
+                    }
+                    relationships::require_exact(m, &i.input, &trace)?;
+                }
+                findings.push(query::compatibility::check(
+                    m,
+                    a,
+                    b,
+                    *plane_relation,
+                    correspondence,
+                    *tolerance,
+                    requirements,
+                    interfaces,
+                    &solved,
+                )?);
+            }
+            AssemblyCheck::GeometricRelationship {
+                a,
+                b,
+                tolerance,
+                max_overlap_mm3,
+                min_clearance_mm,
+                allowed_contacts,
+                pose_samples,
+            } => {
+                findings.push(relationships::check(
+                    m,
+                    k,
+                    &parts,
+                    &trace,
+                    a,
+                    b,
+                    *tolerance,
+                    max_overlap_mm3,
+                    min_clearance_mm,
+                    allowed_contacts,
+                    pose_samples,
+                )?);
+            }
             AssemblyCheck::Collision {
                 parts: ids,
                 allowed_pairs,

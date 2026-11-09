@@ -1,0 +1,5 @@
+{"id":"motor","passed":true,"relationship":"touching","artifact":"$REPO/out/engineering-interfaces-final/builds/job-Rogmtc/revision"}
+{"id":"motor-housing","passed":true,"relationship":"touching","artifact":"$REPO/out/engineering-interfaces-final/builds/job-zG5d6d/revision"}
+{"id":"motor-rotated","passed":true,"relationship":"touching","artifact":"$REPO/out/engineering-interfaces-final/builds/job-AbJZqW/revision"}
+{"id":"motor-wrong-pitch","expectedRejection":"INTERFACE_INCOMPATIBLE"}
+{"id":"motor-missing-hole","expectedRejection":"INTERFACE_NOT_FOUND"}

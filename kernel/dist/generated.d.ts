@@ -1,5 +1,22 @@
 export type Arithmetic = "add" | "sub" | "mul" | "div";
 export type AssemblyCheck = ({
+    "a": Attachment2;
+    "b": Attachment2;
+    "correspondence": Correspondence;
+    "kind": "interface_compatibility";
+    "plane_relation": PlaneRelation;
+    "requirements": InterfaceFitRequirements;
+    "tolerance": Tolerance;
+}) | ({
+    "a": RelationshipTarget;
+    "allowed_contacts"?: Array<ContactPair>;
+    "b": RelationshipTarget;
+    "kind": "geometric_relationship";
+    "max_overlap_mm3": Scalar;
+    "min_clearance_mm"?: (Scalar) | (null);
+    "pose_samples"?: Array<PoseSample>;
+    "tolerance": Tolerance;
+}) | ({
     "allowed_pairs"?: Array<[string, string]>;
     "kind": "collision";
     "max_overlap_mm3": Scalar;
@@ -20,7 +37,17 @@ export type Attachment = {
     "datum"?: string | null;
     "frame"?: (Frame) | (null);
     "instance": string;
+    "interface"?: string | null;
+    "orientation"?: (AttachmentOrientation) | (null);
 };
+export type Attachment2 = {
+    "instance": string;
+    "interface": string;
+};
+export type AttachmentOrientation = ({
+    "kind": "datum";
+    "name": string;
+});
 export type Axis = "x" | "y" | "z";
 export type AxisAlignment = "aligned" | "opposed" | "unoriented";
 export type Boundary = ({
@@ -35,6 +62,10 @@ export type Boundary = ({
     "kind": "circle";
 });
 export type BoxFace = "pos_x" | "neg_x" | "pos_y" | "neg_y" | "pos_z" | "neg_z";
+export type Cardinality = {
+    "max": number;
+    "min": number;
+};
 export type Circle = {
     "center": string;
     "radius": Scalar;
@@ -141,21 +172,47 @@ export type Constraint = ({
     "id": string;
     "kind": "symmetric";
 });
+export type ContactPair = {
+    "a": FaceSelector2;
+    "b": FaceSelector2;
+};
 export type ControlEdit = {
     "point": [Scalar, Scalar, Scalar];
     "u": number;
     "v": number;
 };
+export type Correspondence = ({
+    "kind": "pattern";
+    "require_all": boolean;
+    "symmetry": Symmetry;
+});
 export type Counterbore = {
     "depth": Scalar;
     "radius": Scalar;
 };
 export type CurveClass = "line" | "circle" | "ellipse" | "nurbs" | "other";
+export type DatumInput = {
+    "datum": string;
+};
+export type DatumRules = {
+    "normal": string;
+    "origin": Origin;
+    "x_axis"?: (OrientationName) | (null);
+};
 export type Declaration = {
     "definition": string;
     "derive": Recipe;
     "id": string;
     "tolerance": Tolerance;
+};
+export type Declaration2 = {
+    "datum": DatumRules;
+    "definition": string;
+    "id": string;
+    "orientation_datums"?: Array<OrientationDatum>;
+    "profile": string;
+    "requirements": Requirements;
+    "selectors": Selectors;
 };
 export type Derive = ({
     "kind": "point";
@@ -170,6 +227,9 @@ export type Directed = {
     "datum": string;
     "sense": Sense;
 };
+export type DirectionInput = ([number, number, number]) | ({
+    "datum": string;
+});
 export type EdgeSelector = ({
     "expected_count": number;
     "kind": "named";
@@ -201,7 +261,11 @@ export type Expression = {
     "b": Scalar;
     "op": Arithmetic;
 };
-export type FaceSelector = ({
+export type FaceSelector = {
+    "cardinality": Cardinality;
+    "where": Filter;
+};
+export type FaceSelector2 = ({
     "expected_count": number;
     "name": string;
 }) | ({
@@ -222,7 +286,7 @@ export type Feature = ({
         [key: string]: EdgeSelector;
     };
     "faces"?: {
-        [key: string]: FaceSelector;
+        [key: string]: FaceSelector2;
     };
     "id": string;
     "input": string;
@@ -426,7 +490,7 @@ export type Feature = ({
     "id": string;
     "input": string;
     "op": "shell";
-    "open_faces"?: Array<FaceSelector>;
+    "open_faces"?: Array<FaceSelector2>;
     "thickness": Scalar;
 }) | ({
     "height": Scalar;
@@ -521,8 +585,9 @@ export type Filter = {
     "loop_role"?: (LoopRole) | (null);
     "name"?: string | null;
     "not"?: (Filter) | (null);
-    "planar_normal_aligned_with"?: [number, number, number] | null;
-    "planar_normal_parallel_to"?: [number, number, number] | null;
+    "planar_coplanar_with"?: (DatumInput) | (null);
+    "planar_normal_aligned_with"?: (DirectionInput) | (null);
+    "planar_normal_parallel_to"?: (DirectionInput) | (null);
     "radius_mm"?: (Range) | (null);
     "surface_type"?: (SurfaceClass) | (null);
 };
@@ -537,6 +602,22 @@ export type Group = {
     "parent"?: string | null;
     "pose"?: Pose;
 };
+export type GroupSelector = {
+    "cardinality": Cardinality;
+    "opening_on": string;
+    "where": HoleGroupFilter;
+};
+export type HoleGroupFilter = {
+    "equal_diameter"?: boolean;
+    "member_count"?: number | null;
+    "pattern"?: (HolePattern) | (null);
+};
+export type HolePattern = "linear" | "rectangular" | "circular" | "unstructured";
+export type HoleSize = ({
+    "a_diameter_mm": Range;
+    "b_diameter_mm": Range;
+    "kind": "independent_ranges";
+});
 export type Instance = {
     "export"?: boolean;
     "id": string;
@@ -551,6 +632,28 @@ export type Instance = {
     "rotation_order"?: RotationOrder;
     "translation"?: [Scalar, Scalar, Scalar];
 };
+export type InterfaceFitRequirements = {
+    "hole_size": HoleSize;
+    "max_hole_axis_offset_mm": Scalar;
+    "max_plane_gap_mm": Scalar;
+    "register"?: (RegisterFit) | (null);
+};
+export type InterfacePatternRequirement = ({
+    "count": [Scalar, Scalar];
+    "kind": "rectangular";
+    "pitch_mm": [Scalar, Scalar];
+}) | ({
+    "count": Scalar;
+    "kind": "circular";
+    "pcd_mm": Scalar;
+}) | ({
+    "count": Scalar;
+    "kind": "linear";
+    "pitch_mm": Scalar;
+}) | ({
+    "count": Scalar;
+    "kind": "unstructured";
+});
 export type Kind = "face" | "edge" | "vertex" | "loop";
 export type LoftSection = {
     "center": [Scalar, Scalar, Scalar];
@@ -607,6 +710,7 @@ export type MateSystem = {
     "constraints": Array<Mate>;
     "expected_degrees_of_freedom"?: number;
 };
+export type MaterialSide = "internal" | "external";
 export type OnFailure = ({
     "kind": "raise";
 }) | ({
@@ -616,6 +720,28 @@ export type OnFailure = ({
     "reason": string;
 });
 export type OpenFace = "top" | "bottom";
+export type OrientationDatum = ({
+    "kind": "direction";
+    "name": string;
+    "vector": [Scalar, Scalar, Scalar];
+}) | ({
+    "datum": string;
+    "kind": "geometric_datum";
+    "name": string;
+});
+export type OrientationName = ({
+    "kind": "orientation_datum";
+    "name": string;
+});
+export type Origin = ({
+    "kind": "hole_group_center";
+}) | ({
+    "axis_slot": string;
+    "kind": "axis_plane_intersection";
+}) | ({
+    "kind": "declared_point";
+    "point": [Scalar, Scalar, Scalar];
+});
 export type OuterEdges = "vertical" | "top" | "bottom";
 export type OutputKind = "solid" | "surface";
 export type ParamRef = {
@@ -634,6 +760,7 @@ export type PathCurve = ({
     "control_points": Array<[Scalar, Scalar, Scalar]>;
     "kind": "bezier";
 });
+export type PlaneRelation = "aligned" | "opposed";
 export type Pose = {
     "frame"?: (Frame) | (null);
     "rotation_deg"?: [Scalar, Scalar, Scalar];
@@ -642,6 +769,11 @@ export type Pose = {
     "visible"?: boolean;
 };
 export type PoseMode = "normal" | "internal" | "exploded";
+export type PoseSample = {
+    "a"?: Pose;
+    "b"?: Pose;
+    "id": string;
+};
 export type Poses = {
     "exploded": Pose;
     "internal": Pose;
@@ -690,7 +822,7 @@ export type RankBy = ({
 }) | ({
     "property": "length_mm";
 }) | ({
-    "direction": [number, number, number];
+    "direction": DirectionInput;
     "property": "center_projection";
 });
 export type Recipe = ({
@@ -711,6 +843,19 @@ export type Recipe = ({
     "z": Directed;
 });
 export type RegionKind = "outer" | "cavity" | "opening";
+export type RegisterFit = {
+    "max_axis_offset_mm": Scalar;
+    "radial_clearance_mm": Range;
+};
+export type RegisterSelector = {
+    "cardinality": Cardinality;
+    "material_side": MaterialSide;
+    "where": Filter;
+};
+export type RelationshipTarget = {
+    "instance": string;
+    "region"?: (FaceSelector2) | (null);
+};
 export type Representation = ({
     "kind": "exact";
 }) | ({
@@ -722,6 +867,12 @@ export type Representation = ({
     "omitted": Array<string>;
     "reason": string;
 });
+export type Requirements = {
+    "bore_diameter_mm": Scalar;
+    "pattern": InterfacePatternRequirement;
+    "termination": Termination;
+    "verification_tolerance": Tolerance;
+};
 export type RotationOrder = "xyz" | "zyx";
 export type Scalar = (number) | (ParamRef) | (Expression);
 export type SectionPlane = {
@@ -781,6 +932,11 @@ export type Selection = ({
     "input": Selection;
     "kind": "expect";
 });
+export type Selectors = {
+    "hole_group": GroupSelector;
+    "plane": FaceSelector;
+    "register"?: (RegisterSelector) | (null);
+};
 export type Sense = "positive" | "negative";
 export type Sketch = {
     "allow_underconstrained"?: boolean;
@@ -807,6 +963,8 @@ export type StepAsset = {
 };
 export type Strategy = "offset" | "scaled" | "offset_then_scaled";
 export type SurfaceClass = "plane" | "cylinder" | "cone" | "sphere" | "torus" | "nurbs" | "other";
+export type Symmetry = "require_unique" | "allow_equivalent";
+export type Termination = "through" | "blind" | "unknown";
 export type Tolerance = {
     "angular_rad": number;
     "linear_mm": number;
@@ -829,6 +987,7 @@ export type Model = {
     "datums"?: Array<Declaration>;
     "features": Array<Feature>;
     "groups"?: Array<Group>;
+    "interfaces"?: Array<Declaration2>;
     "mates"?: (MateSystem) | (null);
     "output"?: string;
     "output_kind"?: OutputKind;

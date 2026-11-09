@@ -1,0 +1,24 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 2.52s
+     Running tests/query_artifacts.rs (../../work/colocad-build/target/release/deps/query_artifacts-134ce419ec7a04ce)
+
+running 1 test
+test groups_report_rectangular_circular_linear_patterns_and_excluded_extra_holes ... FAILED
+
+failures:
+
+---- groups_report_rectangular_circular_linear_patterns_and_excluded_extra_holes stdout ----
+
+thread 'groups_report_rectangular_circular_linear_patterns_and_excluded_extra_holes' (11583897) panicked at crates/agent-cad/tests/query_artifacts.rs:528:9:
+assertion `left == right` failed: {"coverage":{"recognition_complete":true,"scope":"supplied_support_faces_or_all_recognized_openings"},"diagnostics":[],"id":"groups","items":[],"next_cursor":null,"op":"hole_groups","returned_count":0,"status":"complete","total_count":0}
+  left: 0
+ right: 2
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    groups_report_rectangular_circular_linear_patterns_and_excluded_extra_holes
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 18 filtered out; finished in 1.68s
+
+error: test failed, to rerun pass `-p agent-cad --test query_artifacts`

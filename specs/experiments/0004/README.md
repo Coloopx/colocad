@@ -119,3 +119,34 @@ python examples/engineering-queries/verify.py out/engineering-queries/run.json
 G1 still requires named-datum-relative predicates, the full specialized descriptor/trim contract, hole/counterbore recognition, planar hole groups, installation interfaces and contact/clearance semantics. Broader parser/resource/reference replacement evidence remains open. G2 then establishes a frozen difficult/foreign industrial corpus; G3 accepts engineering lifecycle and Linux 1 vCPU / 512 MiB limits; G4 begins the specified benchmark/trace-back/minimize/fix/regress/held-out/accept-or-reject loop only after their evidence passes. No speed or memory ratio is claimed from these macOS correctness tests.
 
 **中文状态：**第二轮完成了可查询精确快照、核心通用选择、持久化几何基准与配合、SDK/CLI/session 接入，并用独立 OCCT STEP 完成最小装配闭环。105 项 Rust、34 项 Node、6 项集成测试和离线浏览器验收通过；独立回读确认 0.2 mm 间隙。G1 尚未整体完成，G2–G4 继续受顺序闸门约束。
+
+## Iteration 3 — G1 accepted within the supported contract
+
+**G1 functional coverage is accepted. G2 and G3 remain separate gates.** This acceptance covers the explicitly supported SDD 0004 domains and exact failure outcomes, not complete CadQuery/build123d parity. [Validation and source/native hashes](iteration-3/validation.json) bind the tested development tree; published alpha.6 bundles are unchanged.
+
+| Acceptance rows | Evidence and outcome |
+| --- | --- |
+| Q01–Q03 / Q06–Q07 | Exact descriptors, seams/pcurves, orientation, through/blind/counterbore recognition, split axial/angular foreign bores; shafts excluded, side-open/intersecting/conical/NURBS recognition partial. Rust `query_kernel_probe`, `query_artifacts`, `foreign_queries`. |
+| Q04 / Q09 / S01 | Snapshot identity, relocated artifacts, corruption/stale refs, tied cardinality, stable pagination and composable topology traversal pass. Edit/split/replacement sequences are extended under G3. |
+| Q08 / Q10 | Rectangular/circular/linear groups, extra holes, requested-size linear subsets, symmetry, native declarations vs foreign recognition. Native and imported descriptor facts agree in SDK tests. |
+| S02 / D01–D04 | Relative datum predicates, coplanar selection, geometry-derived keyed orientation after arbitrary import rotation, typed mates, proper opposed frames, missing/ambiguous/degenerate controls and remaining DOF. |
+| A01–A05 | Same geometry-backed recipe accepts base/housing/rotated foreign sources; wrong pitch, missing holes, incorrect normal/register and unspecified symmetric full-frame orientation are rejected. All-hole physical correspondence and exact pair checks retained. |
+| A06 / C01–C02 | Complete KK60 + external bracket: 82 solids, three pairs at three travel positions independently verified. Separated/contact/overlap/containment controls and supported planar contact proof pass; collision elsewhere is never exempted. |
+| I01–I02 / P01 baseline | SDK/CLI/tool/session entry points, generated schemas/types, immutable query history, actual native-ref overlays, offline browser pass. Queries report zero feature rebuild/export/tessellation. Linux admission/resource acceptance remains G3. |
+| R01 | **124 Rust, 36 Node, 6 scripted integration tests**, offline browser and generated-contract checks pass. [Rust](iteration-3/native-tests.log), [Node](iteration-3/node-tests.log), [integrations](iteration-3/integrations.log), [viewer](iteration-3/viewer.log). |
+
+The [external run](iteration-3/external-runs.json) has three positives and two expected rejections, independently checked by [OCCT](iteration-3/external-occt-readback.json). The [whole-product run](iteration-3/kk60-run.json) and [OCCT readback](iteration-3/kk60-occt-readback.json) retain nine actual geometry samples. These are correctness runs on macOS, with no new speed/memory claim and no live-agent success-rate claim.
+
+### Failures retained and general repairs
+
+- [Linear subset red](iteration-3/linear-subset-red.log): a five-hole line returned no four-hole candidate. The recognizer now enumerates bounded requested-length windows, preserving excluded holes and symmetry.
+- [Plane-scope red](iteration-3/scoped-recognition-red.log): unrelated lower recesses incorrectly blocked a valid top installation group. Coverage now follows requested support adjacency; a recess reaching that support still prevents complete recognition. Diagnostics outside the support remain visible.
+- [Coplanar red](iteration-3/coplanar-red.log): same-normal support and blind-hole bottom were ambiguous. A named-plane coplanarity predicate checks both position and angle; no first-face fallback was added.
+- [Contact](iteration-3/contact-red.log), [display](iteration-3/display-red.log) and [viewer](iteration-3/viewer-red.log) failures precede the corresponding implementations. Contact certification requires a complete polyhedral support proof; guides are sampled display data bound to native tokens and hashes, not geometric authority.
+- The initial foreign NURBS volume oracle used OCCT default quadrature, which differed from the known analytic cylinder volume. The verifier now explicitly calls adaptive integration with keyword `Eps=1e-10` and checks the analytic oracle. The frozen relative-volume tolerance **1e-6** and existing STEP hashes were not relaxed. This is an oracle correction, not a kernel accuracy improvement.
+
+Unsupported required claims fail: curved contact-region certification, region-restricted relationships, composite mounting planes, unsupported hole geometries or precision below the published numerical floor. Definition AABBs transformed into assembly space are explicitly conservative. No thread/load/OEM or continuous-motion certification follows from these fixtures.
+
+Reproduce the full suite with the development native override as above, then follow [the external/KK60 example](../../../examples/engineering-interfaces/README.md). G2 now freezes a broader geometry corpus and independent acceptance targets before executing it. G3 follows with lifecycle, malformed input, real inference/tool traces and actual Linux cgroup accounting.
+
+**中文验收：**G1 在明确的支持域内完成并通过：124 项 Rust、36 项 Node、6 项脚本集成测试及离线浏览器；外部 STEP 三个成功/两个正确拒绝；完整 KK60 加附件 82 实体、九项接触/间隙独立回读通过。G2/G3 不能由这些结果代替，仍按顺序推进。

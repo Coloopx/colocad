@@ -1,0 +1,22 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 13.17s
+     Running tests/relationships.rs ($WORKSPACE/work/colocad-build/target/release/deps/relationships-f3414b378895f9ba)
+
+running 1 test
+test allowed_planar_contact_does_not_exempt_interference_elsewhere_on_the_pair ... FAILED
+
+failures:
+
+---- allowed_planar_contact_does_not_exempt_interference_elsewhere_on_the_pair stdout ----
+
+thread 'allowed_planar_contact_does_not_exempt_interference_elsewhere_on_the_pair' (11272969) panicked at crates/agent-cad/tests/relationships.rs:65:73:
+called `Result::unwrap()` on an `Err` value: CadError { code: "QUERY_UNSUPPORTED", message: "region-restricted contact certification not available for this region", feature_id: None, query_id: None, details: None }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    allowed_planar_contact_does_not_exempt_interference_elsewhere_on_the_pair
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p agent-cad --test relationships`

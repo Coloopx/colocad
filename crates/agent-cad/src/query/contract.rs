@@ -40,7 +40,7 @@ pub enum Space {
     Definition,
     Assembly,
 }
-#[derive(Clone, Copy, Debug, Deserialize, Serialize, JsonSchema)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize, JsonSchema, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct Tolerance {
     pub linear_mm: f64,
@@ -79,6 +79,17 @@ pub enum LoopRole {
     Inner,
     Unknown,
 }
+#[derive(Clone, Debug, Deserialize, Serialize, JsonSchema)]
+#[serde(untagged, deny_unknown_fields)]
+pub enum DirectionInput {
+    Vector([f64; 3]),
+    Datum { datum: String },
+}
+#[derive(Clone, Debug, Deserialize, Serialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct DatumInput {
+    pub datum: String,
+}
 #[derive(Clone, Debug, Default, Deserialize, Serialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct Filter {
@@ -88,8 +99,9 @@ pub struct Filter {
     pub area_mm2: Option<Range>,
     pub length_mm: Option<Range>,
     pub radius_mm: Option<Range>,
-    pub planar_normal_parallel_to: Option<[f64; 3]>,
-    pub planar_normal_aligned_with: Option<[f64; 3]>,
+    pub planar_normal_parallel_to: Option<DirectionInput>,
+    pub planar_normal_aligned_with: Option<DirectionInput>,
+    pub planar_coplanar_with: Option<DatumInput>,
     pub loop_role: Option<LoopRole>,
     #[serde(default)]
     pub all: Vec<Filter>,
@@ -102,7 +114,7 @@ pub struct Filter {
 pub enum RankBy {
     AreaMm2,
     LengthMm,
-    CenterProjection { direction: [f64; 3] },
+    CenterProjection { direction: DirectionInput },
 }
 #[derive(Clone, Debug, Deserialize, Serialize, JsonSchema)]
 #[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
@@ -164,6 +176,10 @@ pub enum Derive {
 #[derive(Clone, Debug, Deserialize, Serialize, JsonSchema)]
 #[serde(tag = "op", rename_all = "snake_case", deny_unknown_fields)]
 pub enum Operation {
+    Measure {
+        a: Target,
+        b: Target,
+    },
     Faces {
         #[serde(default)]
         r#where: Filter,
@@ -190,6 +206,24 @@ pub enum Operation {
         selection: Selection,
         derive: Derive,
     },
+    Interfaces {
+        ids: Option<Vec<String>>,
+        profile: Option<String>,
+        #[serde(default)]
+        support_faces: Vec<TopologyRef>,
+        #[serde(default)]
+        r#where: super::groups::Filter,
+    },
+    HoleGroups {
+        #[serde(default)]
+        support_faces: Vec<TopologyRef>,
+        #[serde(default)]
+        r#where: super::groups::Filter,
+    },
+    Holes {
+        #[serde(default)]
+        r#where: super::holes::Filter,
+    },
     NamedDatums {
         ids: Vec<String>,
     },
@@ -202,6 +236,7 @@ impl Operation {
     pub fn name(&self) -> &'static str {
         match self {
             Self::Faces { .. } => "faces",
+            Self::Measure { .. } => "measure",
             Self::Edges { .. } => "edges",
             Self::Vertices { .. } => "vertices",
             Self::Loops { .. } => "loops",
@@ -210,6 +245,9 @@ impl Operation {
             Self::Datums { .. } => "datums",
             Self::EvaluateFace { .. } => "evaluate_face",
             Self::NamedDatums { .. } => "named_datums",
+            Self::Holes { .. } => "holes",
+            Self::HoleGroups { .. } => "hole_groups",
+            Self::Interfaces { .. } => "interfaces",
         }
     }
 }

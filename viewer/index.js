@@ -9,7 +9,7 @@ function color(id){if(/end-cap|seal/.test(id))return '#344958';if(/ballscrew|bea
 function download(name,bytes,type='application/json'){const url=URL.createObjectURL(new Blob([bytes],{type})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);}
 
 export class ColocadViewer extends HTMLElement{
- constructor(){super();this.attachShadow({mode:'open'});this.index=0;this.parts=[];this.geometries=new Map();this.exploded=0;this.cutaway=false;this.sectionAxis='y';this.view='iso';this.playing=false;this.tab='parts';this.selectedId=null;}
+ constructor(){super();this.attachShadow({mode:'open'});this.index=0;this.parts=[];this.geometries=new Map();this.exploded=0;this.cutaway=false;this.sectionAxis='y';this.view='iso';this.playing=false;this.tab='parts';this.selectedId=null;this.queryObjects=[];this.querySelection=null;}
  connectedCallback(){if(!this.initialized)this.init();}
  disconnectedCallback(){this.pause();cancelAnimationFrame(this.frame);this.resizeObserver?.disconnect();this.controls?.dispose();this.clearParts();for(const g of this.geometries.values())g.dispose();this.geometries.clear();this.renderer?.dispose();this.initialized=false;}
  set session(data){if(data?.format!=='colocad/viewer/1'||!Array.isArray(data.steps))throw Error('Unsupported viewer session');this.data=data;if(this.isConnected){if(!this.initialized)this.init();this.load();}}
@@ -23,7 +23,7 @@ export class ColocadViewer extends HTMLElement{
   this.q('.json').onclick=()=>{const step=this.data.steps[this.index];download(step.id+'-model.json',JSON.stringify(step.model,null,2));};
   this.q('.step-download').onclick=()=>{const s=this.data.steps.findLast(s=>s.stepFile);if(s)download('final-model.step',Uint8Array.from(atob(s.stepFile),c=>c.charCodeAt(0)),'application/step');};
   for(const view of ['iso','front','side','top']){const b=el('button',view[0].toUpperCase()+view.slice(1));b.onclick=()=>this.setView(view);b.dataset.view=view;this.q('.viewbar').append(b);}
-  for(const tab of ['parts','features','source','receipt']){const b=el('button',tab[0].toUpperCase()+tab.slice(1));b.onclick=()=>{this.tab=tab;this.inspect();};b.dataset.tab=tab;this.q('.tabs').append(b);}
+  for(const tab of ['parts','query','features','source','receipt']){const b=el('button',tab[0].toUpperCase()+tab.slice(1));b.onclick=()=>{this.tab=tab;this.inspect();};b.dataset.tab=tab;this.q('.tabs').append(b);}
   try{
     this.renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));this.renderer.localClippingEnabled=true;this.renderer.outputColorSpace=THREE.SRGBColorSpace;
     this.q('.viewport').prepend(this.renderer.domElement);this.scene=new THREE.Scene();this.camera=new THREE.PerspectiveCamera(36,1,.1,100000);this.camera.up.set(0,1,0);
@@ -43,7 +43,7 @@ export class ColocadViewer extends HTMLElement{
   const total=this.data.steps.reduce((n,s)=>n+(s.durationMs??0),0);nav.append(el('div','Recorded calls: '+(total/1000).toFixed(2)+' s\nPlayback is a review, not a benchmark.','total'));
   this.q('.step-download').disabled=!this.data.steps.some(s=>s.stepFile);this.setStep(Math.max(0,this.data.steps.findLastIndex(s=>s.status==='succeeded')));
  }
- clearParts(){for(const p of this.parts)p.material.dispose();this.group?.clear();this.parts=[];}
+ clearParts(){this.clearQuery();for(const p of this.parts)p.material.dispose();this.group?.clear();this.parts=[];}
  setStep(index){
   if(!this.data?.steps.length)return;this.index=Math.max(0,Math.min(index,this.data.steps.length-1));const step=this.data.steps[this.index];this.clearParts();this.selectedId=null;
   this.q('h1').textContent=step.label;this.q('.metrics').replaceChildren();
@@ -55,11 +55,13 @@ export class ColocadViewer extends HTMLElement{
   if(this.renderer&&step.scene){for(const instance of step.scene.instances){
     const key=step.scene.definitions[instance.definition],mesh=this.data.meshes[key];let geometry=this.geometries.get(key);
     if(!geometry){geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(mesh.positions.flat(),3));geometry.setIndex(mesh.triangles.flat());if(mesh.normals?.length===mesh.positions.length)geometry.setAttribute('normal',new THREE.Float32BufferAttribute(mesh.normals.flat(),3));else geometry.computeVertexNormals();geometry.computeBoundingBox();this.geometries.set(key,geometry);}
-    const material=new THREE.MeshStandardMaterial({color:color(instance.id),metalness:.42,roughness:.48,side:THREE.DoubleSide});const part=new THREE.Mesh(geometry,material);part.name=instance.id;
+    const material=new THREE.MeshStandardMaterial({color:color(instance.id),metalness:.42,roughness:.48,side:THREE.DoubleSide});const part=new THREE.Mesh(geometry,material);part.name=instance.id;part.userData.definition=instance.definition;
     const [x,y,z]=instance.axes,origin=instance.origin;const matrix=new THREE.Matrix4().set(x[0],y[0],z[0],origin[0],x[1],y[1],z[1],origin[1],x[2],y[2],z[2],origin[2],0,0,0,1);matrix.decompose(part.position,part.quaternion,part.scale);
-    part.userData.origin=part.position.clone();part.userData.center=geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(matrix);this.group.add(part);this.parts.push(part);
+    part.userData.sourceMatrix=matrix.clone();part.userData.origin=part.position.clone();part.userData.center=geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(matrix);this.group.add(part);this.parts.push(part);
   }
   this.bounds=new THREE.Box3().setFromObject(this.group);this.center=this.bounds.getCenter(new THREE.Vector3());this.size=this.bounds.getSize(new THREE.Vector3()).length()||10;this.applyDisplay();this.setView(this.view);}
+  if(step.operation==='query'&&step.receipt?.ok){this.tab='query';this.highlightQuery(0,0);}
+  else if(this.tab==='query')this.tab='parts';
   this.inspect();this.dispatchEvent(new CustomEvent('stepchange',{detail:{index:this.index,id:step.id,status:step.status},bubbles:true}));
  }
  resize(){if(!this.renderer)return;const box=this.q('.viewport').getBoundingClientRect();this.renderer.setSize(box.width,box.height,false);this.camera.aspect=box.width/Math.max(box.height,1);if(this.camera.isOrthographicCamera)this.fitOrthographic();this.camera.updateProjectionMatrix();}
@@ -90,14 +92,55 @@ export class ColocadViewer extends HTMLElement{
     out.append(el('p',this.parts.length+' named occurrences · click to highlight','subtle'));
     for(const part of this.parts){const row=el('div',undefined,'part'+(part.name===this.selectedId?' selected':'')),label=el('label'),check=el('input');check.type='checkbox';check.checked=part.visible;check.setAttribute('aria-label','Show '+part.name);check.onchange=()=>{part.visible=check.checked;};const dot=el('span',undefined,'swatch');dot.style.background=color(part.name);label.append(check,dot,document.createTextNode(part.name));const focus=el('button','↗');focus.setAttribute('aria-label','Select '+part.name);focus.onclick=()=>this.select(part.name);row.append(label,focus);out.append(row);}
     if(step.degradations?.length)out.append(el('pre',JSON.stringify(step.degradations,null,2)));
+  }else if(this.tab==='query'){
+    if(step.operation!=='query')out.append(el('p','Record a query to inspect native references.','subtle'));
+    else{
+      out.append(el('p','Native-bound outlines and datum guides. Display controls do not change query coordinates.','subtle'));
+      for(const [qi,result]of(step.receipt?.data?.results??[]).entries()){
+        out.append(el('p',result.id+' · '+result.op+' · '+result.status));
+        for(const [ii,item]of(result.items??[]).entries()){
+          const b=el('button',item.id??item.ref?.topology_id??item.kind??'Result '+(ii+1));b.onclick=()=>this.highlightQuery(qi,ii);b.setAttribute('aria-label','Highlight '+result.id+' '+(ii+1));out.append(b);
+        }
+        if(result.measurement)out.append(el('pre',JSON.stringify(result.measurement,null,2)));
+      }
+      if(this.querySelection)out.append(el('pre',JSON.stringify(this.querySelection,null,2)));
+      if(this.queryWarning)out.append(el('p',this.queryWarning,'subtle'));
+    }
   }else if(this.tab==='features'){
     for(const f of step.model?.features??[]){const item=el('div',undefined,'feature');const trace=step.receipt?.data?.features?.find(x=>x.id===f.id);item.append(el('b',f.id),el('small',f.op+(trace?' · '+Number(trace.elapsed_ms??0).toFixed(2)+' ms'+(trace.cache_hit?' · reused':''):'')));out.append(item);}
   }else out.append(el('pre',JSON.stringify(this.tab==='source'?step.model:step.receipt??step.error,null,2)));
  }
+ clearQuery(){for(const o of this.queryObjects??[]){o.removeFromParent();o.geometry?.dispose();if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material?.dispose();}this.queryObjects=[];this.querySelection=null;this.queryWarning=null;}
+ highlightQuery(queryIndex,itemIndex){
+  this.clearQuery();const step=this.data?.steps[this.index],receipt=step?.receipt?.data,item=receipt?.results?.[queryIndex]?.items?.[itemIndex],guide=step?.queryDisplay;
+  if(!this.renderer||!item)return;
+  if(!guide||guide.query_revision_id!==receipt.query_revision_id){this.queryWarning='No matching native display references for this revision.';this.inspect();return;}
+  const refs=[];const walk=v=>{if(!v||typeof v!=='object')return;if(v.topology_id&&v.query_revision_id){refs.push(v);return;}if(Array.isArray(v)){v.forEach(walk);return;}for(const [k,x]of Object.entries(v))if(!['excluded_members','adjacent_faces','incident_faces','incident_face_uses','requirements','symmetry'].includes(k))walk(x);};walk(item);
+  const unique=[...new Map(refs.map(r=>[JSON.stringify(r),r])).values()];this.querySelection=item.ref??unique[0]??null;
+  const line=(part,points,color=0xffad33)=>{if(points.length<2)return;const geometry=new THREE.BufferGeometry().setFromPoints(points.map(p=>new THREE.Vector3(...p))),material=new THREE.LineBasicMaterial({color,depthTest:false,transparent:true,opacity:.95});const o=new THREE.Line(geometry,material);o.renderOrder=20;part.add(o);this.queryObjects.push(o);};
+  const dot=(part,point)=>{const geometry=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(...point)]),material=new THREE.PointsMaterial({color:0xffad33,size:7,sizeAttenuation:false,depthTest:false});const o=new THREE.Points(geometry,material);o.renderOrder=21;part.add(o);this.queryObjects.push(o);};
+  const eligible=(part,ref)=>part.userData.definition===ref.definition_id&&(!ref.instance_path||JSON.stringify(guide.occurrences?.[part.name]?.instance_path)===JSON.stringify(ref.instance_path));
+  for(const part of this.parts){const drawn=new Set();for(const ref of unique){
+    if(ref.query_revision_id!==guide.query_revision_id||ref.definition_sha256!==guide.definition_digests[ref.definition_id]||!eligible(part,ref))continue;
+    const definition=guide.definitions[ref.definition_id];if(!definition)continue;
+    const edges=ref.kind==='edge'?[ref.topology_id]:ref.kind==='face'?definition.faces[ref.topology_id]?.edges:ref.kind==='loop'?definition.loops[ref.topology_id]?.edges:[];
+    for(const id of edges??[]){if(!drawn.has(id)&&definition.edges[id]){drawn.add(id);line(part,definition.edges[id].points_mm);}}
+    if(ref.kind==='vertex'&&definition.vertices[ref.topology_id])dot(part,definition.vertices[ref.topology_id].point_mm);
+  }
+  if(unique.some(r=>eligible(part,r))){
+    const inv=part.userData.sourceMatrix.clone().invert(),convert=p=>receipt.space==='assembly'?new THREE.Vector3(...p).applyMatrix4(inv).toArray():p;
+    const axis=item.kind==='axis'?item.geometry:item.axis;
+    if(axis?.point_mm&&axis.direction){const o=axis.point_mm,d=axis.direction,L=Math.max(this.size*.15,2);line(part,[convert(o.map((v,i)=>v-d[i]*L)),convert(o.map((v,i)=>v+d[i]*L))],0xff54c7);}
+    const group=item.group??(item.members?item:null);if(group){for(const member of group.members??[])if(member.center_mm)dot(part,convert(member.center_mm));}
+    const p=item.geometry?.point_mm??item.origin_mm??item.center_mm;if(p)dot(part,convert(p));
+  }}
+  if(!this.queryObjects.length)this.queryWarning='This result has no drawable native topology references.';
+  this.inspect();this.dispatchEvent(new CustomEvent('queryselect',{detail:{queryIndex,itemIndex,ref:this.querySelection},bubbles:true}));
+ }
  select(id){this.selectedId=id;for(const part of this.parts)part.material.emissive.set(part.name===id?0x294c66:0x000000);this.inspect();this.dispatchEvent(new CustomEvent('partselect',{detail:{id},bubbles:true}));}
- pick(event){const box=this.renderer.domElement.getBoundingClientRect(),pointer=new THREE.Vector2((event.clientX-box.left)/box.width*2-1,-(event.clientY-box.top)/box.height*2+1),ray=new THREE.Raycaster();ray.setFromCamera(pointer,this.camera);const hits=ray.intersectObjects(this.parts.filter(p=>p.visible)).filter(h=>!this.cutaway||h.point[this.sectionAxis]<=this.center[this.sectionAxis]);if(hits.length)this.select(hits[0].object.name);}
+ pick(event){const box=this.renderer.domElement.getBoundingClientRect(),pointer=new THREE.Vector2((event.clientX-box.left)/box.width*2-1,-(event.clientY-box.top)/box.height*2+1),ray=new THREE.Raycaster();ray.setFromCamera(pointer,this.camera);const hits=ray.intersectObjects(this.parts.filter(p=>p.visible)).filter(h=>this.parts.includes(h.object)&&(!this.cutaway||h.point[this.sectionAxis]<=this.center[this.sectionAxis]));if(hits.length)this.select(hits[0].object.name);}
  play(){this.playing=true;this.q('.play').textContent='Pause';if(this.index===this.data.steps.length-1)this.setStep(0);const advance=()=>{if(!this.playing)return;if(this.index>=this.data.steps.length-1){this.pause();return;}this.setStep(this.index+1);this.timer=setTimeout(advance,1500/+this.q('select').value);};this.timer=setTimeout(advance,1500/+this.q('select').value);}
  pause(){this.playing=false;clearTimeout(this.timer);if(this.q)this.q('.play').textContent='Play';}
- getState(){return {stepIndex:this.index,status:this.data?.steps[this.index]?.status,parts:this.parts.length,visibleParts:this.parts.filter(p=>p.visible).length,view:this.view,exploded:this.exploded,cutaway:this.cutaway,playing:this.playing,selectedId:this.selectedId,webgl:!!this.renderer};}
+ getState(){return {stepIndex:this.index,status:this.data?.steps[this.index]?.status,parts:this.parts.length,visibleParts:this.parts.filter(p=>p.visible).length,view:this.view,exploded:this.exploded,cutaway:this.cutaway,playing:this.playing,selectedId:this.selectedId,webgl:!!this.renderer,queryHighlights:this.queryObjects?.length??0,querySelection:this.querySelection};}
 }
 if(!customElements.get('colocad-viewer'))customElements.define('colocad-viewer',ColocadViewer);

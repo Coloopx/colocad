@@ -70,8 +70,8 @@ export class CadClient {
   }
   async build(model: Model, optionsOrRevision?: BuildOptions | string): Promise<Receipt> {
     const options=typeof optionsOrRevision==='string'?{previousRevision:optionsOrRevision}:optionsOrRevision??{};
-    if(options.queryable===false&&model.datums?.length)return error('QUERY_SNAPSHOT_REQUIRED','Datum declarations require queryable artifacts');
-    const queryable=options.queryable??!!model.datums?.length;
+    if(options.queryable===false&&(model.datums?.length||model.interfaces?.length))return error('QUERY_SNAPSHOT_REQUIRED','Datum/interface declarations require queryable artifacts');
+    const queryable=options.queryable??!!(model.datums?.length||model.interfaces?.length);
     const previousRevision=options.previousRevision??this.previousRevision;
     const checkpoints = previousRevision ? ['--reuse', previousRevision] : ['--checkpoints'];
     const result = await artifactJob(this.config, 'job-', (_job, destination) => this.invoke(['build', '--out', destination, ...checkpoints,...(queryable?['--queryable']:[])], model));

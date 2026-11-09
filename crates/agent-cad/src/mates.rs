@@ -18,6 +18,10 @@ pub struct Attachment {
     pub frame: Option<Frame>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub datum: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub interface: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub orientation: Option<query::interfaces::AttachmentOrientation>,
 }
 /// Surface normals remain outward; a mate separately chooses the axis relation.
 #[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, JsonSchema, PartialEq)]
@@ -283,6 +287,7 @@ pub(crate) fn solve(
     m: &Model,
     initial: BTreeMap<String, Rigid>,
     datums: &query::datums::Definitions,
+    interfaces: &query::interfaces::Definitions,
 ) -> Result<(BTreeMap<String, Rigid>, Value)> {
     let Some(system) = &m.mates else {
         return Ok((initial, Value::Null));
@@ -317,6 +322,20 @@ pub(crate) fn solve(
             | Mate::Distance { a, b, .. } => (a, b),
         };
         for attachment in [a, b] {
+            if let Some(id) = &attachment.interface {
+                let instance = m
+                    .assembly
+                    .iter()
+                    .find(|i| i.id == attachment.instance)
+                    .ok_or_else(|| CadError::new("MATE_REFERENCE", &attachment.instance))?;
+                let d = interfaces
+                    .get(&instance.input)
+                    .and_then(|ds| ds.get(id))
+                    .ok_or_else(|| CadError::new("INTERFACE_NOT_FOUND", id))?;
+                attachment.frame = Some(d.attachment(&attachment.orientation, allowed)?);
+                attachment.interface = None;
+                attachment.orientation = None;
+            }
             if let Some(id) = &attachment.datum {
                 let instance = m
                     .assembly

@@ -23,7 +23,7 @@ export async function createCadTools(client) {
         if (!schema.ok)
             throw Error(schema.error.message);
         const { $defs: queryDefs, $schema: querySchema, ...request } = schema.data;
-        return [...tools, { name: 'cad_query', description: '查询已保存的精确几何：有界选择、拓扑与基准推导。必须提供预期 query_revision_id；不重建、不改模型。路径受宿主允许的工件目录约束。', inputSchema: { type: 'object', properties: { artifact_directory: { type: 'string' }, request }, required: ['artifact_directory', 'request'], additionalProperties: false, $defs: queryDefs }, execute: (a) => client.query(a.artifact_directory, a.request) }];
+        return [...tools, { name: 'cad_query', description: '查询已保存的精确几何：有界选择、拓扑/基准、孔组/安装接口与整零件关系测量；保留歧义和 partial 诊断。必须提供预期 query_revision_id；不重建、不改模型。路径受宿主允许的工件目录约束。', inputSchema: { type: 'object', properties: { artifact_directory: { type: 'string' }, request }, required: ['artifact_directory', 'request'], additionalProperties: false, $defs: queryDefs }, execute: (a) => client.query(a.artifact_directory, a.request) }];
     }
     return tools;
 }

@@ -13,6 +13,7 @@ pub mod placement;
 pub mod preview;
 pub mod query;
 pub mod regions;
+pub mod relationships;
 pub mod sketch;
 mod solve;
 pub mod step_assembly;

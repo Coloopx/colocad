@@ -70,6 +70,8 @@ pub struct ManifestBody {
     pub degradations: Vec<Value>,
     #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
     pub datums: super::datums::Definitions,
+    #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+    pub interfaces: super::interfaces::Definitions,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -220,6 +222,8 @@ pub(crate) struct Capture {
     definitions: BTreeMap<String, Definition>,
     files: BTreeMap<String, Vec<u8>>,
     pub(crate) datums: super::datums::Definitions,
+    pub(crate) interfaces: super::interfaces::Definitions,
+    display: BTreeMap<String, Value>,
 }
 impl Capture {
     pub(crate) fn new(k: &Kernel, m: &Model, bodies: &BTreeMap<String, Brep>) -> Result<Self> {
@@ -231,6 +235,8 @@ impl Capture {
         let mut definitions = BTreeMap::new();
         let mut files = BTreeMap::new();
         let mut bytes = 0;
+        let mut display = BTreeMap::new();
+        let mut display_budget = 200_000;
         for (index, id) in ids.into_iter().enumerate() {
             let b = bodies
                 .get(&id)
@@ -242,6 +248,19 @@ impl Capture {
                     "QUERY_LIMIT",
                     "total query geometry exceeds 64 MiB",
                 ));
+            }
+            if let Some(preview) = &m.preview {
+                let mut kernel = Kernel::default();
+                let loaded = s.load(&mut kernel, &s.digest())?;
+                display.insert(
+                    id.clone(),
+                    super::display::definition(
+                        &kernel,
+                        &loaded,
+                        preview.chord_mm,
+                        &mut display_budget,
+                    )?,
+                );
             }
             let path = format!("query-definition-{index}.smb");
             let d = Definition {
@@ -258,7 +277,9 @@ impl Capture {
         Ok(Self {
             definitions,
             files,
+            display,
             datums: BTreeMap::new(),
+            interfaces: BTreeMap::new(),
         })
     }
     pub(crate) fn resolve_datums(&mut self, m: &Model) -> Result<()> {
@@ -268,7 +289,12 @@ impl Capture {
                 .iter()
                 .filter(|d| &d.definition == id)
                 .collect::<Vec<_>>();
-            if declarations.is_empty() {
+            let interfaces = m
+                .interfaces
+                .iter()
+                .filter(|d| &d.definition == id)
+                .collect::<Vec<_>>();
+            if declarations.is_empty() && interfaces.is_empty() {
                 continue;
             }
             let body = ManifestBody {
@@ -280,6 +306,7 @@ impl Capture {
                 occurrences: BTreeMap::new(),
                 degradations: vec![],
                 datums: BTreeMap::new(),
+                interfaces: BTreeMap::new(),
             };
             let manifest = Manifest {
                 query_revision_id: Manifest::revision(&body)?,
@@ -308,14 +335,22 @@ impl Capture {
                 definition: id.clone(),
                 occurrence: None,
                 pose: Default::default(),
-                tolerance: declarations[0].tolerance,
+                tolerance: declarations
+                    .first()
+                    .map(|d| d.tolerance)
+                    .unwrap_or_else(|| interfaces[0].requirements.verification_tolerance),
                 cache: BTreeMap::new(),
                 visited: 0,
                 reverse,
                 solid,
+                probes: 0,
+                hypotheses: 0,
+                holes: None,
+                incidents: None,
             };
             let mut resolved = BTreeMap::new();
             for declaration in declarations {
+                c.manifest.body.datums.insert(id.clone(), resolved.clone());
                 let datum = super::datums::resolve(&mut c, declaration, &resolved, &m.parameters)
                     .map_err(|mut e| {
                     e.details = Some(json!({"definition_id":id,"datum_id":declaration.id}));
@@ -323,7 +358,20 @@ impl Capture {
                 })?;
                 resolved.insert(declaration.id.clone(), datum);
             }
+            c.manifest.body.datums.insert(id.clone(), resolved.clone());
             self.datums.insert(id.clone(), resolved);
+            let mut resolved = BTreeMap::new();
+            for declaration in interfaces {
+                let interface = super::interfaces::resolve(&mut c, declaration, &m.parameters)
+                    .map_err(|mut e| {
+                        e.details = Some(json!({"definition_id":id,"interface_id":declaration.id}));
+                        e
+                    })?;
+                resolved.insert(declaration.id.clone(), interface);
+            }
+            if !resolved.is_empty() {
+                self.interfaces.insert(id.clone(), resolved);
+            }
         }
         Ok(())
     }
@@ -378,6 +426,7 @@ impl Capture {
             occurrences,
             degradations,
             datums: self.datums,
+            interfaces: self.interfaces,
         };
         let query_revision_id = Manifest::revision(&body)?;
         let manifest = Manifest {
@@ -399,6 +448,52 @@ impl Capture {
                 observations.insert(definition.clone(), values);
             }
             result.report["datums"] = json!(observations);
+        }
+        if !manifest.body.interfaces.is_empty() {
+            let mut observations = BTreeMap::new();
+            for (definition, interfaces) in &manifest.body.interfaces {
+                let values = interfaces
+                    .iter()
+                    .map(|(id, d)| {
+                        Ok((
+                            id.clone(),
+                            d.observation(definition, &manifest, Default::default(), None)?,
+                        ))
+                    })
+                    .collect::<Result<BTreeMap<_, _>>>()?;
+                observations.insert(definition.clone(), values);
+            }
+            result.report["interfaces"] = json!(observations);
+        }
+        if let Some(checks) = result.report["assembly"]["checks"].as_array_mut() {
+            for check in checks
+                .iter_mut()
+                .filter(|c| c["kind"] == "interface_compatibility")
+            {
+                check["query_revision_id"] = json!(manifest.query_revision_id);
+                for side in ["a", "b"] {
+                    let instance = check[side]["instance"].as_str().unwrap();
+                    let name = check[side]["interface"].as_str().unwrap();
+                    let o = &manifest.body.occurrences[instance];
+                    let d = &manifest.body.interfaces[&o.definition_id][name];
+                    let observation = d.observation(
+                        &o.definition_id,
+                        &manifest,
+                        o.placement()?,
+                        Some(o.instance_path.clone()),
+                    )?;
+                    check[format!("{side}_interface_evidence")] = observation;
+                }
+            }
+        }
+        if !self.display.is_empty() {
+            let display = json!({"schema":"colocad.query-display/1","query_revision_id":manifest.query_revision_id,"definitions":self.display,"definition_digests":manifest.body.definitions.iter().map(|(id,d)|(id,&d.definition_sha256)).collect::<BTreeMap<_,_>>(),"occurrences":manifest.body.occurrences,"space":"definition","display_only":true,"approximation":"adaptive_midpoint_curve_samples_not_measurement_geometry","chord_mm":m.preview.as_ref().unwrap().chord_mm});
+            let bytes = serde_json::to_vec(&display)
+                .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?;
+            if bytes.len() > 16 * 1024 * 1024 {
+                return Err(CadError::new("QUERY_LIMIT", "query display exceeds 16 MiB"));
+            }
+            self.files.insert("query-display.json".into(), bytes);
         }
         let data = serde_json::to_vec(&manifest)
             .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?;

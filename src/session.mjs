@@ -69,7 +69,7 @@ export class ModelingSession {
     const start=performance.now();let result;
     try{
       const previous=ledger.steps.slice(0,-1).findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
-      step.queryable=queryable??(model.datums?.length?true:previous?.queryable??false);
+      step.queryable=queryable??((model.datums?.length||model.interfaces?.length)?true:previous?.queryable??false);
       const accepted=operation==='query'?JSON.parse(await checked(this.root,previous.receiptFile,previous.receiptSha256)):undefined;
       if(accepted&&queryRequest.query_revision_id!==accepted.data.query_revision_id)preset={ok:false,error:{code:'QUERY_REVISION_MISMATCH',message:'Query must target the accepted geometry revision'}};
       result=preset??await (operation==='query'
@@ -131,6 +131,8 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso'}={})
       // Observation results keep their original exact-geometry source for later lookup.
       const source=data.source_artifact_directory??artifact;
       const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:await load(inside(root,source+'/report.json'));
+      const guideHash=sourceReport.artifact_sha256?.['query-display.json'];
+      if(guideHash)step.queryDisplay=JSON.parse(await checked(root,source+'/query-display.json',guideHash));
       const hash=sourceReport.artifact_sha256?.['preview.mesh.json'];
       if(!hash)throw Error('SESSION_INTEGRITY: missing native preview mesh hash');
       const scene=JSON.parse(await checked(root,source+'/preview.mesh.json',hash));

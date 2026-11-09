@@ -372,3 +372,268 @@ fn versioned_manifest_canonical_bytes_match_independent_sha_vector() {
         include_str!("../../../specs/experiments/0004/fixtures/manifest-vector.sha256").trim()
     );
 }
+
+#[test]
+fn cylinder_descriptors_expose_trim_period_seam_adjacency_and_material_side() {
+    let t = Temp::new();
+    let p = t.0.join("cylinder");
+    let m = json!({"version":1,"units":"mm","parameters":{},"features":[{"id":"stock","op":"cylinder","origin":[0,0,0],"radius":3,"height":12}],"output":"stock"});
+    let b = call(&["build", "--out", p.to_str().unwrap(), "--queryable"], &m);
+    assert_eq!(b["ok"], true, "{b}");
+    let mut q = request(b["data"]["query_revision_id"].as_str().unwrap());
+    q["queries"] = json!([{ "id":"cylinder","op":"faces","where":{"surface_type":"cylinder"}},{"id":"edges","op":"edges"},{"id":"vertices","op":"vertices"},{"id":"loops","op":"loops"}]);
+    let r = call(&["query", "--snapshot", p.to_str().unwrap()], &q);
+    assert_eq!(r["ok"], true, "{r}");
+    let f = &r["data"]["results"][0]["items"][0];
+    assert_eq!(f["material_side"], "external");
+    assert_eq!(f["trim_coverage_status"], "rectangular");
+    assert_eq!(f["parameterization"]["periodic"][0], true);
+    assert!((f["angular_coverage_rad"].as_f64().unwrap() - std::f64::consts::TAU).abs() < 1e-7);
+    let a = f["axial_interval_mm"].as_array().unwrap();
+    assert!((a[1].as_f64().unwrap() - a[0].as_f64().unwrap() - 12.).abs() < 1e-7);
+    assert_eq!(f["adjacent_faces"].as_array().unwrap().len(), 2);
+    let edges = r["data"]["results"][1]["items"].as_array().unwrap();
+    assert_eq!(edges.iter().filter(|e| e["seam"] == true).count(), 1);
+    for e in edges.iter().filter(|e| e["curve_type"] == "circle") {
+        assert!((e["arc_coverage_rad"].as_f64().unwrap() - std::f64::consts::TAU).abs() < 1e-7);
+    }
+    for l in r["data"]["results"][3]["items"].as_array().unwrap() {
+        for u in l["edge_uses"].as_array().unwrap() {
+            assert!(u["uv_bounds"].is_array(), "{u}");
+        }
+    }
+}
+fn hole_plate() -> Value {
+    let mut features =
+        vec![json!({"id":"stock0","op":"box","origin":[-50,-30,0],"size":[100,60,12]})];
+    let mut prior = "stock0".to_string();
+    for (i, (x, y, z, r, h)) in [
+        (-30., -20., -1., 3., 14.),
+        (30., -20., 4., 5., 9.),
+        (0., 15., -1., 3., 14.),
+        (0., 15., 9., 5., 4.),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let id = format!("hole{i}");
+        features.push(json!({"id":id,"op":"holes","input":prior,"frame":{"origin":[x,y,z],"x_axis":[1,0,0],"y_axis":[0,1,0]},"positions":[[0,0]],"radius":r,"depth":h}));
+        prior = id;
+    }
+    features.push(json!({"id":"stock","op":"translate","input":prior,"offset":[0,0,0]}));
+    json!({"version":1,"units":"mm","parameters":{},"features":features,"output":"stock"})
+}
+#[test]
+fn recognizes_through_blind_and_counterbore_with_exact_depths_and_no_duplicate_entries() {
+    let t = Temp::new();
+    let p = t.0.join("holes");
+    let b = call(
+        &["build", "--out", p.to_str().unwrap(), "--queryable"],
+        &hole_plate(),
+    );
+    assert_eq!(b["ok"], true, "{b}");
+    let mut q = request(b["data"]["query_revision_id"].as_str().unwrap());
+    q["queries"] = json!([{"id":"holes","op":"holes"}]);
+    let r = call(&["query", "--snapshot", p.to_str().unwrap()], &q);
+    assert_eq!(r["ok"], true, "{r}");
+    let found = &r["data"]["results"][0];
+    assert_eq!(found["status"], "complete", "{found}");
+    let items = found["items"].as_array().unwrap();
+    assert_eq!(items.len(), 3, "{found}");
+    let blind = items.iter().find(|h| h["termination"] == "blind").unwrap();
+    assert!((blind["depth_mm"].as_f64().unwrap() - 8.).abs() < 1e-5);
+    assert_eq!(blind["openings"].as_array().unwrap().len(), 1);
+    let stepped = items
+        .iter()
+        .find(|h| h["segments"].as_array().unwrap().len() == 2)
+        .unwrap();
+    assert_eq!(stepped["termination"], "through");
+    assert_eq!(stepped["openings"].as_array().unwrap().len(), 2);
+    let mut depths = stepped["segments"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|s| s["length_mm"].as_f64().unwrap())
+        .collect::<Vec<_>>();
+    depths.sort_by(f64::total_cmp);
+    assert!((depths[0] - 3.).abs() < 1e-5);
+    assert!((depths[1] - 9.).abs() < 1e-5);
+    assert!(r["data"]["execution"]["material_probes"].as_u64().unwrap() > 0);
+}
+#[test]
+fn hole_recognition_excludes_external_shaft_and_marks_side_open_recess_partial() {
+    for side_open in [false, true] {
+        let t = Temp::new();
+        let p = t.0.join("part");
+        let m = if side_open {
+            json!({"version":1,"units":"mm","parameters":{},"features":[{"id":"raw","op":"box","origin":[0,0,0],"size":[20,20,10]},{"id":"stock","op":"holes","input":"raw","frame":{"origin":[0,10,-1],"x_axis":[1,0,0],"y_axis":[0,1,0]},"positions":[[0,0]],"radius":3,"depth":12}],"output":"stock"})
+        } else {
+            json!({"version":1,"units":"mm","parameters":{},"features":[{"id":"stock","op":"cylinder","origin":[0,0,0],"radius":3,"height":12}],"output":"stock"})
+        };
+        let b = call(&["build", "--out", p.to_str().unwrap(), "--queryable"], &m);
+        assert_eq!(b["ok"], true, "{b}");
+        let mut q = request(b["data"]["query_revision_id"].as_str().unwrap());
+        q["queries"] = json!([{"id":"holes","op":"holes"}]);
+        let r = call(&["query", "--snapshot", p.to_str().unwrap()], &q);
+        assert_eq!(r["ok"], true, "{r}");
+        let h = &r["data"]["results"][0];
+        assert_eq!(h["items"].as_array().unwrap().len(), 0, "{h}");
+        assert_eq!(
+            h["status"],
+            if side_open { "partial" } else { "complete" },
+            "{h}"
+        );
+    }
+}
+#[test]
+fn groups_report_rectangular_circular_linear_patterns_and_excluded_extra_holes() {
+    for (pattern, points, count) in [
+        (
+            "rectangular",
+            vec![[-10., -6.], [10., -6.], [-10., 6.], [10., 6.], [22., 18.]],
+            4,
+        ),
+        (
+            "circular",
+            (0..6)
+                .map(|i| {
+                    let a = i as f64 * std::f64::consts::TAU / 6.;
+                    [12. * a.cos(), 12. * a.sin()]
+                })
+                .collect::<Vec<_>>(),
+            6,
+        ),
+        (
+            "linear",
+            vec![[-20., 0.], [-10., 0.], [0., 0.], [10., 0.], [20., 0.]],
+            4,
+        ),
+    ] {
+        let t = Temp::new();
+        let p = t.0.join("pattern");
+        let m = json!({"version":1,"units":"mm","parameters":{},"features":[{"id":"base","op":"box","origin":[-30,-25,0],"size":[60,50,8]},{"id":"stock","op":"holes","input":"base","frame":{"origin":[0,0,-1],"x_axis":[1,0,0],"y_axis":[0,1,0]},"positions":points,"radius":2,"depth":10}],"output":"stock"});
+        let b = call(&["build", "--out", p.to_str().unwrap(), "--queryable"], &m);
+        assert_eq!(b["ok"], true, "{b}");
+        let mut q = request(b["data"]["query_revision_id"].as_str().unwrap());
+        q["queries"] =
+            json!([{"id":"top","op":"faces","where":{"planar_normal_aligned_with":[0,0,1]}}]);
+        let top = call(&["query", "--snapshot", p.to_str().unwrap()], &q);
+        assert_eq!(top["ok"], true, "{top}");
+        q["queries"] = json!([{"id":"groups","op":"hole_groups","support_faces":[top["data"]["results"][0]["items"][0]["ref"]],"where":{"pattern":pattern,"member_count":count,"equal_diameter":true}}]);
+        let r = call(&["query", "--snapshot", p.to_str().unwrap()], &q);
+        assert_eq!(r["ok"], true, "{r}");
+        let result = &r["data"]["results"][0];
+        assert_eq!(result["status"], "complete", "{result}");
+        let groups = result["items"].as_array().unwrap();
+        assert_eq!(
+            groups.len(),
+            if pattern == "linear" { 2 } else { 1 },
+            "{result}"
+        );
+        if pattern == "linear" {
+            for group in groups {
+                assert_eq!(group["excluded_members"].as_array().unwrap().len(), 1);
+            }
+        }
+        let g = &groups[0];
+        assert_eq!(g["members"].as_array().unwrap().len(), count);
+        assert_eq!(g["orientation_unique"], false);
+        if pattern == "rectangular" {
+            assert_eq!(g["excluded_members"].as_array().unwrap().len(), 1);
+            let mut pitches = g["parameters"]["pitch_mm"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_f64().unwrap())
+                .collect::<Vec<_>>();
+            pitches.sort_by(f64::total_cmp);
+            assert!((pitches[0] - 12.).abs() < 1e-5);
+            assert!((pitches[1] - 20.).abs() < 1e-5);
+        }
+        if pattern == "circular" {
+            assert!((g["parameters"]["radius_mm"].as_f64().unwrap() - 12.).abs() < 1e-5);
+        }
+        if pattern == "linear" {
+            assert!((g["parameters"]["pitch_mm"].as_f64().unwrap() - 10.).abs() < 1e-5);
+        }
+    }
+}
+#[test]
+fn exact_two_occurrence_measurement_loads_each_definition_once_without_rebuild() {
+    let temp = Temp::new();
+    let path = temp.0.join("assembly");
+    let mut m = model(10.);
+    m.as_object_mut().unwrap().remove("output");
+    m["assembly"] =
+        json!([{"id":"a","input":"stock"},{"id":"b","input":"stock","translation":[10.2,0,0]}]);
+    let built = call(
+        &["build", "--out", path.to_str().unwrap(), "--queryable"],
+        &m,
+    );
+    assert_eq!(built["ok"], true, "{built}");
+    let mut req = request(built["data"]["query_revision_id"].as_str().unwrap());
+    req["target"] = json!({"instance_path":["a"]});
+    req["space"] = json!("assembly");
+    req["queries"] = json!([{"id":"gap","op":"measure","a":{"instance_path":["a"]},"b":{"instance_path":["b"]}},{"id":"again","op":"measure","a":{"instance_path":["b"]},"b":{"instance_path":["a"]}}]);
+    let r = call(&["query", "--snapshot", path.to_str().unwrap()], &req);
+    assert_eq!(r["ok"], true, "{r}");
+    let data = &r["data"];
+    assert_eq!(data["execution"]["definitions_loaded"], 1);
+    assert_eq!(data["execution"]["geometry_build_calls"], 0);
+    assert_eq!(data["execution"]["step_export_calls"], 0);
+    for r in data["results"].as_array().unwrap() {
+        assert_eq!(r["status"], "complete");
+        assert_eq!(r["returned_count"], 1);
+        assert_eq!(r["items"][0], r["measurement"]);
+        assert_eq!(r["measurement"]["relationship"], "separated");
+        assert!((r["measurement"]["boundary_distance_mm"].as_f64().unwrap() - 0.2).abs() < 1e-5);
+    }
+    req["queries"][0]["b"] = json!({"instance_path":["missing"]});
+    let r = call(&["query", "--snapshot", path.to_str().unwrap()], &req);
+    assert_eq!(r["error"]["code"], "TOPOLOGY_REF_INVALID");
+}
+#[test]
+fn queryable_preview_persists_native_ref_bound_face_outlines() {
+    let temp = Temp::new();
+    let path = temp.0.join("display");
+    let mut m = model(10.);
+    m["preview"] = json!({"chord_mm":0.2});
+    let b = call(
+        &["build", "--out", path.to_str().unwrap(), "--queryable"],
+        &m,
+    );
+    assert_eq!(b["ok"], true, "{b}");
+    let guide: Value =
+        serde_json::from_slice(&fs::read(path.join("query-display.json")).unwrap()).unwrap();
+    assert_eq!(guide["query_revision_id"], b["data"]["query_revision_id"]);
+    let r = call(
+        &["query", "--snapshot", path.to_str().unwrap()],
+        &request(b["data"]["query_revision_id"].as_str().unwrap()),
+    );
+    assert_eq!(r["ok"], true, "{r}");
+    for face in r["data"]["results"][0]["items"].as_array().unwrap() {
+        let token = face["ref"]["topology_id"].as_str().unwrap();
+        let ids = guide["definitions"]["stock"]["faces"][token]["edges"]
+            .as_array()
+            .unwrap();
+        assert_eq!(ids.len(), 4);
+        for edge in ids {
+            let line = guide["definitions"]["stock"]["edges"][edge.as_str().unwrap()]["points_mm"]
+                .as_array()
+                .unwrap();
+            assert!(line.len() >= 2);
+            for p in line {
+                let point: Vec<f64> = serde_json::from_value(p.clone()).unwrap();
+                let normal: Vec<f64> = serde_json::from_value(face["normal"].clone()).unwrap();
+                let o: Vec<f64> = serde_json::from_value(face["plane_point_mm"].clone()).unwrap();
+                assert!(
+                    (0..3)
+                        .map(|i| (point[i] - o[i]) * normal[i])
+                        .sum::<f64>()
+                        .abs()
+                        < 1e-6
+                );
+            }
+        }
+    }
+}

@@ -106,13 +106,13 @@ pub fn build_revision_with_options(
     cache: &mut incremental::Checkpoints,
     queryable: Option<bool>,
 ) -> Result<Build> {
-    if queryable == Some(false) && !model.datums.is_empty() {
+    if queryable == Some(false) && (!model.datums.is_empty() || !model.interfaces.is_empty()) {
         return Err(CadError::new(
             "QUERY_SNAPSHOT_REQUIRED",
-            "datum declarations require queryable artifacts",
+            "datum/interface declarations require queryable artifacts",
         ));
     }
-    let queryable = queryable.unwrap_or(!model.datums.is_empty());
+    let queryable = queryable.unwrap_or(!model.datums.is_empty() || !model.interfaces.is_empty());
     let mut result = execute(model, cache, queryable)?;
     result.artifacts.append(&mut cache.files);
     Ok(result)
@@ -493,6 +493,14 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
     let snapshot_ms = snapshot_start.elapsed().as_secs_f64() * 1000.;
     let datum_start = Instant::now();
     if let Some(snapshot) = &mut snapshot {
+        for definition in model
+            .interfaces
+            .iter()
+            .map(|d| &d.definition)
+            .collect::<BTreeSet<_>>()
+        {
+            relationships::require_exact(model, definition, &trace)?;
+        }
         snapshot.resolve_datums(model)?;
     }
     let datum_ms = datum_start.elapsed().as_secs_f64() * 1000.;
@@ -510,6 +518,11 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
             &snapshot
                 .as_ref()
                 .map(|s| &s.datums)
+                .cloned()
+                .unwrap_or_default(),
+            &snapshot
+                .as_ref()
+                .map(|s| &s.interfaces)
                 .cloned()
                 .unwrap_or_default(),
         )?;

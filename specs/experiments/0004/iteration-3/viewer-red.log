@@ -1,0 +1,19 @@
+
+> @coloopx/colocad@0.1.0-alpha.6 test:viewer
+> node test/viewer.browser.mjs
+
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: native face query must show bound outlines
+    at file://$REPO/test/viewer.browser.mjs:51:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

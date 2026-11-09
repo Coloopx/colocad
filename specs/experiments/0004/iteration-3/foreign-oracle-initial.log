@@ -1,0 +1,32 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+warning: unused import: `build`
+ --> crates/agent-cad/tests/foreign_queries.rs:1:17
+  |
+1 | use agent_cad::{build,Model,query::{engine::execute,contract::Request}};
+  |                 ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `agent-cad` (test "foreign_queries") generated 1 warning (run `cargo fix --test "foreign_queries" -p agent-cad` to apply 1 suggestion)
+    Finished `release` profile [optimized] target(s) in 16.50s
+     Running tests/foreign_queries.rs ($WORKSPACE/work/colocad-build/target/release/deps/foreign_queries-8826524b80f6a087)
+
+running 2 tests
+test imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition ... FAILED
+test imported_axial_and_angular_cylinder_splits_form_one_physical_bore ... ok
+
+failures:
+
+---- imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition stdout ----
+
+thread 'imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition' (11338285) panicked at crates/agent-cad/tests/foreign_queries.rs:10:95:
+spline-bore
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+error: test failed, to rerun pass `-p agent-cad --test foreign_queries`

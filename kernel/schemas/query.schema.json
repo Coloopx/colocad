@@ -10,6 +10,18 @@
       ],
       "type": "string"
     },
+    "DatumInput": {
+      "additionalProperties": false,
+      "properties": {
+        "datum": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "datum"
+      ],
+      "type": "object"
+    },
     "Derive": {
       "oneOf": [
         {
@@ -61,6 +73,31 @@
           },
           "required": [
             "kind"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "DirectionInput": {
+      "anyOf": [
+        {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "datum": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "datum"
           ],
           "type": "object"
         }
@@ -139,28 +176,34 @@
             }
           ]
         },
+        "planar_coplanar_with": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatumInput"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "planar_normal_aligned_with": {
-          "items": {
-            "format": "double",
-            "type": "number"
-          },
-          "maxItems": 3,
-          "minItems": 3,
-          "type": [
-            "array",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DirectionInput"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "planar_normal_parallel_to": {
-          "items": {
-            "format": "double",
-            "type": "number"
-          },
-          "maxItems": 3,
-          "minItems": 3,
-          "type": [
-            "array",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DirectionInput"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "radius_mm": {
@@ -186,6 +229,86 @@
       },
       "type": "object"
     },
+    "HoleFilter": {
+      "additionalProperties": false,
+      "properties": {
+        "axis_parallel_to": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DirectionInput"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "diameter_mm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "opening_on": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/TopologyRef"
+          },
+          "type": "array"
+        },
+        "termination": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Termination"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "HoleGroupFilter": {
+      "additionalProperties": false,
+      "properties": {
+        "equal_diameter": {
+          "default": false,
+          "type": "boolean"
+        },
+        "member_count": {
+          "format": "uint",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pattern": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HolePattern"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "HolePattern": {
+      "enum": [
+        "linear",
+        "rectangular",
+        "circular",
+        "unstructured"
+      ],
+      "type": "string"
+    },
     "Kind": {
       "enum": [
         "face",
@@ -207,6 +330,26 @@
       "oneOf": [
         {
           "properties": {
+            "a": {
+              "$ref": "#/$defs/Target"
+            },
+            "b": {
+              "$ref": "#/$defs/Target"
+            },
+            "op": {
+              "const": "measure",
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "a",
+            "b"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
             "op": {
               "const": "faces",
               "type": "string"
@@ -222,6 +365,7 @@
                 "loop_role": null,
                 "name": null,
                 "not": null,
+                "planar_coplanar_with": null,
                 "planar_normal_aligned_with": null,
                 "planar_normal_parallel_to": null,
                 "radius_mm": null,
@@ -251,6 +395,7 @@
                 "loop_role": null,
                 "name": null,
                 "not": null,
+                "planar_coplanar_with": null,
                 "planar_normal_aligned_with": null,
                 "planar_normal_parallel_to": null,
                 "radius_mm": null,
@@ -280,6 +425,7 @@
                 "loop_role": null,
                 "name": null,
                 "not": null,
+                "planar_coplanar_with": null,
                 "planar_normal_aligned_with": null,
                 "planar_normal_parallel_to": null,
                 "radius_mm": null,
@@ -309,6 +455,7 @@
                 "loop_role": null,
                 "name": null,
                 "not": null,
+                "planar_coplanar_with": null,
                 "planar_normal_aligned_with": null,
                 "planar_normal_parallel_to": null,
                 "radius_mm": null,
@@ -373,6 +520,96 @@
             "op",
             "selection",
             "derive"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "ids": {
+              "items": {
+                "type": "string"
+              },
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "op": {
+              "const": "interfaces",
+              "type": "string"
+            },
+            "profile": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "support_faces": {
+              "default": [],
+              "items": {
+                "$ref": "#/$defs/TopologyRef"
+              },
+              "type": "array"
+            },
+            "where": {
+              "$ref": "#/$defs/HoleGroupFilter",
+              "default": {
+                "equal_diameter": false,
+                "member_count": null,
+                "pattern": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "hole_groups",
+              "type": "string"
+            },
+            "support_faces": {
+              "default": [],
+              "items": {
+                "$ref": "#/$defs/TopologyRef"
+              },
+              "type": "array"
+            },
+            "where": {
+              "$ref": "#/$defs/HoleGroupFilter",
+              "default": {
+                "equal_diameter": false,
+                "member_count": null,
+                "pattern": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "holes",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/HoleFilter",
+              "default": {
+                "axis_parallel_to": null,
+                "diameter_mm": null,
+                "opening_on": [],
+                "termination": null
+              }
+            }
+          },
+          "required": [
+            "op"
           ],
           "type": "object"
         },
@@ -497,13 +734,7 @@
           "additionalProperties": false,
           "properties": {
             "direction": {
-              "items": {
-                "format": "double",
-                "type": "number"
-              },
-              "maxItems": 3,
-              "minItems": 3,
-              "type": "array"
+              "$ref": "#/$defs/DirectionInput"
             },
             "property": {
               "const": "center_projection",
@@ -816,6 +1047,14 @@
           "type": "object"
         }
       ]
+    },
+    "Termination": {
+      "enum": [
+        "through",
+        "blind",
+        "unknown"
+      ],
+      "type": "string"
     },
     "Tolerance": {
       "additionalProperties": false,

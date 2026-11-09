@@ -11,7 +11,7 @@ use std::path::Path;
 pub(crate) fn vec(v: [f64; 3]) -> Vec3 {
     Vec3::new(v[0], v[1], v[2])
 }
-fn arr(v: Vec3) -> [f64; 3] {
+pub(crate) fn arr(v: Vec3) -> [f64; 3] {
     [v.x, v.y, v.z]
 }
 pub(crate) fn unit(v: [f64; 3]) -> Result<Vec3> {
@@ -48,6 +48,11 @@ pub(crate) struct Context {
     pub visited: usize,
     pub reverse: BTreeMap<EntityRef, u64>,
     pub solid: bool,
+    pub probes: usize,
+    pub hypotheses: usize,
+    pub holes: Option<(Tolerance, super::holes::Recognition)>,
+    pub incidents:
+        Option<BTreeMap<solidcore::EdgeId, Vec<(solidcore::FaceId, solidcore::LoopId, bool)>>>,
 }
 impl Context {
     pub fn kind(&self, token: u64) -> Kind {
@@ -170,7 +175,7 @@ impl Context {
             .collect::<Result<BTreeSet<_>>>()
             .map(|s| s.into_iter().collect())
     }
-    fn oriented_sign(&self, id: solidcore::FaceId) -> Result<Option<f64>> {
+    pub(crate) fn oriented_sign(&self, id: solidcore::FaceId) -> Result<Option<f64>> {
         let b = &self.loaded.body;
         if !self.solid {
             return Ok(None);
@@ -400,6 +405,7 @@ impl Context {
             }
             _ => unreachable!(),
         }
+        self.enrich(e, &mut v)?;
         self.cache.insert(t, v.clone());
         Ok(v)
     }
@@ -493,10 +499,17 @@ pub fn execute(root: &Path, request: Request) -> Result<Value> {
         visited: 0,
         reverse,
         solid,
+        probes: 0,
+        hypotheses: 0,
+        holes: None,
+        incidents: None,
     };
     let index_ms = indexing.elapsed().as_secs_f64() * 1000.;
     let mut ids = BTreeSet::new();
     let mut results = Vec::new();
+    let mut extra_definitions = BTreeMap::new();
+    let mut measurement_calls = 0;
+    let mut result_bytes = 0usize;
     for q in &request.queries {
         if !valid_id(&q.id) || !ids.insert(&q.id) || q.limit == 0 || q.limit > 256 {
             return Err(CadError::new(
@@ -504,16 +517,43 @@ pub fn execute(root: &Path, request: Request) -> Result<Value> {
                 "query IDs must be unique and limit must be 1..256",
             ));
         }
-        match super::selection::run(&mut c, &request, q) {
-            Ok(result) => results.push(result),
+        let operation = if let Operation::Measure { a, b } = &q.operation {
+            if q.cursor.is_some() {
+                return Err(CadError::new("QUERY_ARGUMENT", "measure does not paginate"));
+            }
+            measurement_calls += 1;
+            super::measure::run(&mut c, root, &mut extra_definitions, request.space, a, b).map(|r| {
+                let complete = r["relationship"] != "indeterminate";
+                json!({"id":q.id,"op":"measure","status":if complete{"complete"}else{"partial"},
+                    "items":[r],"returned_count":1,"total_count":1,"next_cursor":null,
+                    "coverage":{"relationship_complete":complete,"scope":"explicit_whole_part_pair"},
+                    "diagnostics":if complete{json!([])}else{json!([{"code":"QUERY_UNCERTAIN","message":"relationship is numerically indeterminate"}])},
+                    "measurement":r})
+            })
+        } else {
+            super::selection::run(&mut c, &request, q)
+        };
+        match operation {
+            Ok(result) => {
+                result_bytes += serde_json::to_vec(&result)
+                    .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?
+                    .len();
+                if result_bytes > 8 * 1024 * 1024 {
+                    return Err(CadError::new(
+                        "QUERY_LIMIT",
+                        "query receipt exceeds 8 MiB; request smaller pages",
+                    ));
+                }
+                results.push(result)
+            }
             Err(mut error) => {
                 error.query_id = Some(q.id.clone());
-                error.details = Some(json!({"completed_results":results}));
+                error.details = Some(json!({"cause":error.details,"completed_results":results}));
                 return Err(error);
             }
         }
     }
-    let receipt = json!({"schema":request.schema,"query_revision_id":request.query_revision_id,"target":request.target,"space":request.space,"tolerance":request.tolerance,"source_accuracy":"unknown","results":results,"degradations":c.manifest.body.degradations,"cache":{"geometry":"exact_snapshot","descriptors":"request_local"},"execution":{"geometry_build_calls":0,"step_export_calls":0,"tessellation_calls":0,"definitions_loaded":1},"timing_ms":{"load":load_ms,"index":index_ms,"query":start.elapsed().as_secs_f64()*1000.-load_ms-index_ms,"total":start.elapsed().as_secs_f64()*1000.}});
+    let receipt = json!({"schema":request.schema,"query_revision_id":request.query_revision_id,"target":request.target,"space":request.space,"tolerance":request.tolerance,"source_accuracy":"unknown","results":results,"degradations":c.manifest.body.degradations,"cache":{"geometry":"exact_snapshot","descriptors":"request_local"},"execution":{"geometry_build_calls":0,"step_export_calls":0,"tessellation_calls":0,"definitions_loaded":1+extra_definitions.len(),"measurement_calls":measurement_calls,"measurement_boolean_intersection_calls":measurement_calls,"material_probes":c.probes,"pattern_hypotheses":c.hypotheses},"timing_ms":{"load":load_ms,"index":index_ms,"query":start.elapsed().as_secs_f64()*1000.-load_ms-index_ms,"total":start.elapsed().as_secs_f64()*1000.}});
     if serde_json::to_vec(&receipt)
         .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?
         .len()

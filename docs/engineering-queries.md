@@ -26,7 +26,7 @@ const request = {
 const result = await cad.query(built.data.artifact_directory, request);
 ```
 
-A queryable build saves `query-manifest.json` plus exact `query-definition-*.smb` payloads. Reopen them in a fresh process or move the entire artifact directory: references retain identity. Queries do not replay features, read STEP, export STEP, heal geometry or generate preview meshes. The receipt reports definition loading, indexing and query time separately. Ordinary builds remain opt-in; a model declaring `datums` automatically requires these artifacts. Explicitly disabling them with such a declaration fails.
+A queryable build saves `query-manifest.json` plus exact `query-definition-*.smb` payloads. Reopen them in a fresh process or move the entire artifact directory: references retain identity. Queries do not replay features, read STEP, export STEP, heal geometry or generate preview meshes. The receipt reports definition loading, indexing and query time separately. Ordinary builds remain opt-in; a model declaring `datums` or `interfaces` automatically requires these artifacts. Explicitly disabling them with such a declaration fails.
 
 Use `target: {instance_path: ['subassembly', 'instance']}` with `space: 'assembly'` for world-space measurements. Positions include the solved rigid translation; directions do not. Queries use normal solved placements, independently of exploded previews. Lengths and areas are invariant. The SDK confines paths to host-configured `queryRoots` (default `outputRoot`); agents cannot change that configuration through query JSON.
 
@@ -39,7 +39,7 @@ colocad query ARTIFACT_DIRECTORY request.json --out receipt.json
 colocad view session
 ```
 
-`--out` creates a new file and refuses to overwrite one. For a `colocad/1` tree, `colocad build tree.json NEW_DIR --queryable` also enables queries. `ModelingSession.query(request)` records the observation and source revision without changing accepted geometry. A query failure is retained in history. In `createSessionTools`, `cad_query` is bound to the latest accepted artifact; raw `createCadTools` takes an allowed artifact directory explicitly. Query history is inspectable; topology highlight overlays are not implemented yet.
+`--out` creates a new file and refuses to overwrite one. For a `colocad/1` tree, `colocad build tree.json NEW_DIR --queryable` also enables queries. `ModelingSession.query(request)` records the observation and source revision without changing accepted geometry. A query failure is retained in history. In `createSessionTools`, `cad_query` is bound to the latest accepted artifact; raw `createCadTools` takes an allowed artifact directory explicitly. With a queryable preview, the Query tab highlights native face/edge/loop outlines and datum/group markers. The build saves hash-bound `query-display.json`; these sampled outlines are display aids, never measurement authority. Exploding the viewer moves overlays with their parts without changing query coordinates.
 
 ## Select intent, preserve ambiguity
 
@@ -80,8 +80,35 @@ An internal basis completes a plane/axis only for numerical evaluation. It adds 
 
 Read accepted named datums using `{id:'mount', op:'named_datums', ids:['seat']}`. Their source refs bind to the final query revision and transform with the chosen occurrence. Rebuilding after parameter edits reruns recipes. Missing, ambiguous, degenerate and incompatible datum kinds fail with structured errors; they do not silently select the first candidate.
 
-## Evidence and remaining boundaries
+## Holes, groups and installation interfaces
 
-The example imports an independently generated OCCT flange, derives its bore axis and bottom plane, mates a shaft, exports STEP, and rejects an oversized shaft by exact collision checking. Independent OCCT readback validates both solids, analytic volumes and a 0.2 mm minimum gap. This is a generic analytic fixture, not a reconstructed commercial product or an industrial success-rate corpus.
+`holes` recognizes connected analytic cylindrical bores with planar entrances/ends in consistently oriented closed solids. It distinguishes through, blind and counterbored holes, joins supported axial/angular split patches, and excludes external shafts. A counterbore is one physical hole with multiple segments. Conical tips, intersecting bores, side-open recesses and spline cylinders return partial coverage with source references; they are not silently called complete holes.
 
-Still pending: named-datum-relative filter predicates; all specialized periodic/singular descriptors; hole/counterbore recognition, hole grouping and engineering interfaces; general replacement acceptance; broad difficult-model reliability; and target Linux sandbox resource acceptance. Bounding boxes are rigidly transformed definition AABBs and can be conservative after rotation. Query results do not certify machining tolerances, threads, load capacity or global uniqueness of a local mate solution. [Ordered goals and the future optimization loop](../specs/0005-capability-reliability-and-optimization.md).
+`hole_groups` accepts optional `support_faces` refs and `where: {pattern, member_count, equal_diameter}`. Patterns are linear, rectangular, circular or unstructured. It returns physical centers, axes, dimensions, residuals, competing subsets, excluded openings and symmetry. Plane-scoped coverage excludes uncertainty away from that support's topology, but retains its diagnostic. Recognition is bounded to 64 openings per support and 10,000 hypotheses; large searches fail `QUERY_LIMIT`.
+
+`interfaces` observes named declarations (`ids`) or recognizes candidates (`profile: 'planar_hole_mount/v1'`, optional `support_faces` and group filter). Candidates do not acquire a unique engineering orientation from symmetric holes. Put persistent intent in `Model.interfaces`: uniquely select a plane and hole group, optionally a coaxial register, specify the group-center/axis-intersection/design-point origin, verification tolerance, pattern dimensions, bore sizes and termination. Add an explicit design direction or geometry-backed orientation datum when an oriented mate needs one. The declaration is reevaluated against the built geometry; unsupported, missing, multiple or incompatible results fail.
+
+Use `{instance, interface, orientation?}` in a mate. Full-frame mates require an orientation; lower-dimensional mates retain unresolved freedoms. `interface_compatibility` checks all-hole correspondence, plane relation/gap, axis offsets, each side's diameter range and optional register radial clearance. It records ambiguity and actual paired refs. Independent diameter ranges do not prove bolt or thread fit.
+
+The [complete external assembly example](../examples/engineering-interfaces/README.md) shows the actual typed declaration, replacement and error workflow. Relative filters accept `planar_normal_aligned_with: {datum}`, `planar_normal_parallel_to: {datum}`, and `planar_coplanar_with: {datum}`. The last requires a plane and uses both normal and offset, avoiding a blind-hole bottom with the same normal. Projection ranks also accept a named datum direction. Dependencies must be earlier in the definition; ordered circle-center differences follow a rigidly rotated source instead of relying on its global axes.
+
+## Exact relationships and acceptance checks
+
+A read-only query can request:
+
+```js
+{ id: 'gap', op: 'measure',
+  a: { instance_path: ['shaft'] }, b: { instance_path: ['support'] } }
+```
+
+The snapshot target and both measurement targets remain explicit. Definition space measures local shapes; assembly space uses solved occurrence poses. The result distinguishes separated, touching, overlapping, contained and indeterminate, with unsigned boundary distance, overlap volume, witness points and numerical tolerances. Containment can have a positive boundary gap; distance is not penetration depth. `items[0]` is also exposed as `measurement`. Indeterminate is a partial result; required assembly checks fail. Witness topology refs are marked unavailable where the copy-based solver cannot preserve their mapping.
+
+`checks: [{kind:'geometric_relationship', a:{instance}, b:{instance}, tolerance, max_overlap_mm3, min_clearance_mm?, allowed_contacts?, pose_samples?}]` makes a required claim. Minimum clearance requires separation. Explicit pose deltas (at most 32) are evaluated individually and retained even on failure; this does not establish continuous-motion clearance. Required exact checks reject degraded feature ancestry and reduced representations.
+
+Allowed contacts currently certify selected opposing planar faces on polyhedral solids by checking both complete solids against their support half-spaces. A single closest witness is insufficient. Other overlap is never exempted. Curved contact certification and region-restricted measurements fail explicitly as unsupported. Ordinary whole-part measurements support curved solids.
+
+## Evidence and boundaries
+
+The foreign flange workflow passes base, different-housing and arbitrarily rotated replacement inputs while rejecting wrong pitch and missing holes. The complete KK60 reconstruction with an independently authored bracket passes 82-solid OCCT readback and nine explicit contact/gap samples. These cases, tolerances and provenance are retained in the [experiment ledger](../specs/experiments/0004/README.md); they are not a general industrial success rate.
+
+Descriptors include native UV/periodicity, ordered pcurves, seam uses, adjacency and tolerances. Trimmed definition bounds are transformed AABBs and may be conservative after rotation; `bounds_semantics` identifies this. Query results do not certify machining tolerances, threads, load capacity or global uniqueness of a local mate solution. Broader reliability and target sandbox acceptance are governed by [the ordered goals](../specs/0005-capability-reliability-and-optimization.md).

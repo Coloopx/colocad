@@ -11,3 +11,7 @@ const invalidClass:QueryRequest={...base,queries:[{id:'bad',op:'faces',where:{su
 const missingSharedKind:Selection={kind:'siblings',input:selection,entity:'face'};
 const datums:Model['datums']=[{id:'origin',definition:'part',tolerance:base.tolerance,derive:{kind:'design_point',point:[0,0,0]}}];
 void [good,missingId,invalidClass,missingSharedKind,datums];
+const recognition:QueryRequest={...base,queries:[{id:'holes',op:'holes',where:{opening_on:[],axis_parallel_to:{datum:'axis'}}},{id:'groups',op:'hole_groups',where:{pattern:'rectangular',member_count:4}},{id:'mount',op:'interfaces',ids:['mount']},{id:'distance',op:'measure',a:{instance_path:['a']},b:{instance_path:['b']}},{id:'plane',op:'faces',where:{planar_coplanar_with:{datum:'mountPlane'}}}]};
+// @ts-expect-error A plane-relative predicate needs a named geometric plane, not a bare direction.
+const wrongPlane:QueryRequest={...base,queries:[{id:'bad',op:'faces',where:{planar_coplanar_with:[0,0,1]}}]};
+void [recognition,wrongPlane];

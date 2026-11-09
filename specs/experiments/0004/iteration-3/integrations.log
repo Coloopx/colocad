@@ -1,0 +1,54 @@
+
+> @coloopx/colocad@0.1.0-alpha.6 test:integrations
+> npm test --prefix examples/integrations
+
+
+> test
+> node --test *.test.mjs
+
+TAP version 13
+# Subtest: published SDK: build, cached camera change, parameter edit, persisted source
+ok 1 - published SDK: build, cached camera change, parameter edit, persisted source
+  ---
+  duration_ms: 322.002083
+  type: 'test'
+  ...
+# Subtest: Pi adapter: complete schema, native preview image, failed receipt, pre-dispatch cancellation
+ok 2 - Pi adapter: complete schema, native preview image, failed receipt, pre-dispatch cancellation
+  ---
+  duration_ms: 174.452625
+  type: 'test'
+  ...
+# Subtest: Pi adapter exposes explicit degradation to the model
+ok 3 - Pi adapter exposes explicit degradation to the model
+  ---
+  duration_ms: 16.587709
+  type: 'test'
+  ...
+# Subtest: real Pi core loop: failed CAD call is delivered to model; correction creates STEP
+ok 4 - real Pi core loop: failed CAD call is delivered to model; correction creates STEP
+  ---
+  duration_ms: 209.772167
+  type: 'test'
+  ...
+# Subtest: Pi coding agent discovers full skill and loads the extension with five executable tools
+ok 5 - Pi coding agent discovers full skill and loads the extension with five executable tools
+  ---
+  duration_ms: 43.794666
+  type: 'test'
+  ...
+# Subtest: H1: real Pi loop persists engine build, failed edit, correction and offline replay
+ok 6 - H1: real Pi loop persists engine build, failed edit, correction and offline replay
+  ---
+  duration_ms: 1273.701833
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2153.848209

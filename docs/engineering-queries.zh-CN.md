@@ -17,7 +17,7 @@ colocad query ARTIFACT_DIRECTORY request.json --out receipt.json
 colocad view session
 ```
 
-CLI 的 `--out` 拒绝覆盖已有文件。`colocad/1` 特征树也可使用 `colocad build tree.json NEW_DIR --queryable`。`ModelingSession.query(request)` 保存查询输入、回执和源版本，不替换已接受几何，失败查询同样留档。session 工具自动绑定最后接受的几何工件；原始 SDK 工具显式接收受宿主限制的工件路径。目前可检查历史记录，尚无查询拓扑高亮叠层。
+CLI 的 `--out` 拒绝覆盖已有文件。`colocad/1` 特征树也可使用 `colocad build tree.json NEW_DIR --queryable`。`ModelingSession.query(request)` 保存查询输入、回执和源版本，不替换已接受几何，失败查询同样留档。session 工具自动绑定最后接受的几何工件；原始 SDK 工具显式接收受宿主限制的工件路径。Query 页支持 native ref 绑定的拓扑轮廓高亮，见下文。
 
 定义坐标使用 `target:{definition_id:'part'}`；装配坐标使用 `target:{instance_path:['group','part_occurrence']}` 与 `space:'assembly'`。位置包含平移，方向不包含平移。查询采用求解后的正常装配位置，不随爆炸预览姿态变化。
 
@@ -47,4 +47,20 @@ CLI 的 `--out` 拒绝覆盖已有文件。`colocad/1` 特征树也可使用 `co
 
 例子将 OCCT 独立生成的法兰 STEP 导入，选择孔轴和底面，用几何基准装配轴，导出 STEP；过粗的轴被精确碰撞检查拒绝。独立 OCCT 回读检查两个实体、解析体积及 0.2 mm 最小间隙。这是通用解析验证件，不是商业产品复原，也不是工业模型成功率语料。
 
-尚未完成：引用命名基准的相对筛选、全部周期/奇异点专用描述、孔和沉孔识别、孔组与安装接口、通用零件替换验收、困难模型可靠性语料和 Linux 资源验收。装配包围盒由定义 AABB 刚性变换得到，旋转后可能偏宽。查询结果不证明加工精度、螺纹、承载能力或局部求解的全局唯一性。[四阶段目标与后续自优化循环](../specs/0005-capability-reliability-and-optimization.zh-CN.md)。
+G1 新增的相对筛选、专用描述、孔/沉孔识别、孔组、安装接口和测量见下文；更广泛的 G2/G3 验收由实验账本记录。装配包围盒由定义 AABB 刚性变换得到，旋转后可能偏宽。查询结果不证明加工精度、螺纹、承载能力或局部求解的全局唯一性。[四阶段目标与后续自优化循环](../specs/0005-capability-reliability-and-optimization.zh-CN.md)。
+
+
+## G1 扩展：孔、接口、测量与显示
+
+以[英文 API 指南](engineering-queries.md)和 Rust 生成的 schema 为字段依据。开发源代码新增：
+
+- `holes`：封闭定向实体中的解析圆柱通孔、平底盲孔和沉孔；支持受限的轴向/角向分片合并，轴外表面不作为孔。锥底、相交孔、侧开口、样条圆柱明确返回 partial 和来源诊断。
+- `hole_groups`：指定安装面或枚举支持面，识别直线、矩形、圆形和无结构孔组；保留子集、额外孔、尺寸、残差与对称性。每面最多 64 个开口、10,000 个候选假设。面范围内的完整性单独判断，远离该面的不支持几何仍保留诊断。
+- `interfaces` / `Model.interfaces`：`planar_hole_mount/v1` 声明重建后重新验证几何，支持安装面、孔组、可选定位圆柱、原点、方向和尺寸要求。不能从对称孔组猜出工程方向。完整坐标系配合必须提供方向；缺失、歧义、尺寸不匹配会失败。
+- 相对选择支持 `planar_normal_aligned_with: {datum}`、`planar_normal_parallel_to: {datum}`、`planar_coplanar_with: {datum}`。共面测试同时检查法向和位置，防止误选同法向的盲孔底。基准只能引用同一零件中更早的声明。
+- `interface_compatibility`：验证所有孔的对应、平面方向/间距、孔轴偏移、双方直径范围与可选定位间隙；独立直径范围不代表已经验证螺纹或螺栓配合。
+- `measure`：显式两个目标，返回分离/接触/重叠/包含/不确定、边界距离、重叠体积和见证点。正距离不排除实体包含。结果在 `items[0]` 和 `measurement` 中；不确定为 partial，必需的装配检查不通过。复制求解器无法可靠恢复的见证拓扑 refs 明确不可用。
+- `geometric_relationship`：必需的整零件关系检查和最多 32 个显式姿态样本；不等同连续运动认证。允许接触目前仅支持多面体中可通过完整半空间证明的相对平面，其他碰撞不豁免；曲面接触认证、局部区域限定测量明确不支持。
+- `colocad view SESSION` 的 Query 页可高亮 native ref 对应的面/边/环轮廓及基准/孔组。可查询 preview 在建模时保存有哈希绑定的 `query-display.json`，采样轮廓只作显示依据；查询不重建、不导出、不三角化。爆炸图跟随零件移动，不修改查询坐标。
+
+`datums` 或 `interfaces` 自动要求精确快照，显式禁用会报错。外部 STEP 示例包含底座、不同外形替换件、任意旋转来源及错误孔距/缺孔拒绝。完整 KK60 加附件例子保留 82 个实体和九项行程检查，见[复现实例](../examples/engineering-interfaces/README.md)。以上是明确范围内的功能证据，G2/G3 的可靠性、生命周期和沙箱资源验收另行记录。

@@ -1,4 +1,7 @@
 export type CurveClass = "line" | "circle" | "ellipse" | "nurbs" | "other";
+export type DatumInput = {
+    "datum": string;
+};
 export type Derive = ({
     "kind": "point";
 }) | ({
@@ -7,6 +10,9 @@ export type Derive = ({
     "kind": "axis";
 }) | ({
     "kind": "direction";
+});
+export type DirectionInput = ([number, number, number]) | ({
+    "datum": string;
 });
 export type Filter = {
     "all"?: Array<Filter>;
@@ -17,11 +23,24 @@ export type Filter = {
     "loop_role"?: (LoopRole) | (null);
     "name"?: string | null;
     "not"?: (Filter) | (null);
-    "planar_normal_aligned_with"?: [number, number, number] | null;
-    "planar_normal_parallel_to"?: [number, number, number] | null;
+    "planar_coplanar_with"?: (DatumInput) | (null);
+    "planar_normal_aligned_with"?: (DirectionInput) | (null);
+    "planar_normal_parallel_to"?: (DirectionInput) | (null);
     "radius_mm"?: (Range) | (null);
     "surface_type"?: (SurfaceClass) | (null);
 };
+export type HoleFilter = {
+    "axis_parallel_to"?: (DirectionInput) | (null);
+    "diameter_mm"?: (Range) | (null);
+    "opening_on"?: Array<TopologyRef>;
+    "termination"?: (Termination) | (null);
+};
+export type HoleGroupFilter = {
+    "equal_diameter"?: boolean;
+    "member_count"?: number | null;
+    "pattern"?: (HolePattern) | (null);
+};
+export type HolePattern = "linear" | "rectangular" | "circular" | "unstructured";
 export type Kind = "face" | "edge" | "vertex" | "loop";
 export type LoopRole = "outer" | "inner" | "unknown";
 export type Query = ({
@@ -29,6 +48,10 @@ export type Query = ({
     "id": string;
     "limit"?: number;
 }) & (({
+    "a": Target;
+    "b": Target;
+    "op": "measure";
+}) | ({
     "op": "faces";
     "where"?: Filter;
 }) | ({
@@ -51,6 +74,19 @@ export type Query = ({
     "op": "datums";
     "selection": Selection;
 }) | ({
+    "ids"?: Array<string> | null;
+    "op": "interfaces";
+    "profile"?: string | null;
+    "support_faces"?: Array<TopologyRef>;
+    "where"?: HoleGroupFilter;
+}) | ({
+    "op": "hole_groups";
+    "support_faces"?: Array<TopologyRef>;
+    "where"?: HoleGroupFilter;
+}) | ({
+    "op": "holes";
+    "where"?: HoleFilter;
+}) | ({
     "ids": Array<string>;
     "op": "named_datums";
 }) | ({
@@ -67,7 +103,7 @@ export type RankBy = ({
 }) | ({
     "property": "length_mm";
 }) | ({
-    "direction": [number, number, number];
+    "direction": DirectionInput;
     "property": "center_projection";
 });
 export type Selection = ({
@@ -122,6 +158,7 @@ export type Target = ({
 }) | ({
     "instance_path": Array<string>;
 });
+export type Termination = "through" | "blind" | "unknown";
 export type Tolerance = {
     "angular_rad": number;
     "linear_mm": number;

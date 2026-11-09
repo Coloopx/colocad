@@ -48,6 +48,13 @@ try{
  assert.equal(queried.ok,true,JSON.stringify(queried));await exportSessionHtml(session.root,html);await page.reload();
  await page.waitForFunction(()=>document.querySelector('colocad-viewer')?.getState().stepIndex===3);
  assert.equal((await state()).parts,2);assert.equal((await state()).status,'succeeded');
+ assert.ok((await state()).queryHighlights>0,'native face query must show bound outlines');
+ const ref=queried.data.results[0].items[0].ref;
+ assert.equal((await state()).querySelection.topology_id,ref.topology_id);
+ const unchanged=JSON.stringify(queried.data);await page.getByLabel('Exploded display').fill('65');assert.ok((await state()).queryHighlights>0);assert.equal(JSON.stringify(queried.data),unchanged);
+ await page.locator('colocad-viewer').evaluate(v=>v.highlightQuery(0,1));assert.equal((await state()).querySelection.topology_id,queried.data.results[0].items[1].ref.topology_id);
+ await page.screenshot({path:'/tmp/colocad-g1-query-viewer.png'});
+
  await page.getByRole('button',{name:/Accepted change/}).click();assert.equal((await state()).stepIndex,2);
  assert.deepEqual(errors,[]);assert.deepEqual(remote,[]);
  console.log(JSON.stringify({passed:true,offline:true,queryHistory:true,controls:true,failedStep:true,download:true,mobile:true,errors,remoteRequests:remote.length}));

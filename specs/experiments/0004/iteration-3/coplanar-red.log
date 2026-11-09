@@ -1,0 +1,18 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"error":{"code":"SCHEMA_ERROR","feature_id":null,"message":"unknown field `planar_coplanar_with`, expected one of `name`, `surface_type`, `curve_type`, `area_mm2`, `length_mm`, `radius_mm`, `planar_normal_parallel_to`, `planar_normal_aligned_with`, `loop_role`, `all`, `any`, `not` at line 1 column 1210"},"ok":false}
+
+false !== true
+
+    at file://$REPO/examples/engineering-interfaces/run.mjs:17:9 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3

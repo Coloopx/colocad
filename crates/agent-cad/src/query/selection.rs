@@ -4,7 +4,7 @@ use super::{
     engine::{unit, Context},
 };
 use crate::*;
-fn check_range(r: &Range) -> Result<()> {
+pub(crate) fn check_range(r: &Range) -> Result<()> {
     if r.min.is_none() && r.max.is_none()
         || r.min.into_iter().chain(r.max).any(|n| !n.is_finite())
         || r.min.zip(r.max).is_some_and(|(a, b)| a > b)
@@ -16,7 +16,7 @@ fn check_range(r: &Range) -> Result<()> {
     }
     Ok(())
 }
-fn filter_budget(f: &Filter, depth: usize, nodes: &mut usize) -> Result<()> {
+pub(crate) fn filter_budget(f: &Filter, depth: usize, nodes: &mut usize) -> Result<()> {
     *nodes += 1;
     if depth > 8 || *nodes > 128 {
         return Err(CadError::new(
@@ -30,18 +30,26 @@ fn filter_budget(f: &Filter, depth: usize, nodes: &mut usize) -> Result<()> {
     {
         check_range(r)?;
     }
-    for v in [f.planar_normal_parallel_to, f.planar_normal_aligned_with]
+    for v in [&f.planar_normal_parallel_to, &f.planar_normal_aligned_with]
         .into_iter()
         .flatten()
     {
-        unit(v)?;
+        validate_direction(v)?;
+    }
+    if let Some(d) = &f.planar_coplanar_with {
+        if !valid_id(&d.datum) {
+            return Err(CadError::new(
+                "DATUM_REFERENCE",
+                "invalid coplanar datum name",
+            ));
+        }
     }
     for child in f.all.iter().chain(&f.any).chain(f.not.iter().map(|v| &**v)) {
         filter_budget(child, depth + 1, nodes)?;
     }
     Ok(())
 }
-fn matches(f: &Filter, v: &Value, tol: Tolerance) -> Result<bool> {
+pub(crate) fn matches(c: &Context, f: &Filter, v: &Value) -> Result<bool> {
     if f.name.as_ref().is_some_and(|name| {
         !v["names"]
             .as_array()
@@ -73,8 +81,8 @@ fn matches(f: &Filter, v: &Value, tol: Tolerance) -> Result<bool> {
         }
     }
     for (direction, parallel) in [
-        (f.planar_normal_parallel_to, true),
-        (f.planar_normal_aligned_with, false),
+        (&f.planar_normal_parallel_to, true),
+        (&f.planar_normal_aligned_with, false),
     ] {
         if let Some(direction) = direction {
             let Some(a) = v["normal"].as_array() else {
@@ -85,30 +93,63 @@ fn matches(f: &Filter, v: &Value, tol: Tolerance) -> Result<bool> {
                 a[1].as_f64().unwrap(),
                 a[2].as_f64().unwrap(),
             ])?;
-            let axis = unit(direction)?;
+            let axis = direction_vector(c, direction)?;
             let dot = n.dot(axis);
             let dot = if parallel { dot.abs() } else { dot };
-            if n.cross(axis).length().atan2(dot) > tol.angular_rad {
+            if n.cross(axis).length().atan2(dot) > c.tolerance.angular_rad {
                 return Ok(false);
             }
         }
     }
+    if let Some(input) = &f.planar_coplanar_with {
+        let datum = c
+            .manifest
+            .body
+            .datums
+            .get(&c.definition)
+            .and_then(|ds| ds.get(&input.datum))
+            .ok_or_else(|| CadError::new("DATUM_REFERENCE", &input.datum))?;
+        if datum.kind != "plane" {
+            return Err(CadError::new(
+                "DATUM_KIND_MISMATCH",
+                "coplanar predicate requires a plane datum",
+            ));
+        }
+        if v["surface_type"] != "plane" || v["normal"].is_null() {
+            return Ok(false);
+        }
+        let vector = |v: &Value| -> Result<Vec3> {
+            Ok(super::engine::vec(
+                serde_json::from_value(v.clone())
+                    .map_err(|_| CadError::new("DATUM_GEOMETRY", "invalid plane vector"))?,
+            ))
+        };
+        let n = c.pose.vector(vector(&datum.geometry["normal"])?);
+        let o = c.pose.point(vector(&datum.geometry["point_mm"])?);
+        let normal = vector(&v["normal"])?;
+        let point = vector(&v["plane_point_mm"])?;
+        if n.cross(normal).length().atan2(n.dot(normal).abs()) > c.tolerance.angular_rad
+            || (point - o).dot(n).abs() > c.tolerance.linear_mm
+        {
+            return Ok(false);
+        }
+    }
     for child in &f.all {
-        if !matches(child, v, tol)? {
+        if !matches(c, child, v)? {
             return Ok(false);
         }
     }
     if !f.any.is_empty() {
         let mut any = false;
         for child in &f.any {
-            any |= matches(child, v, tol)?;
+            any |= matches(c, child, v)?;
         }
         if !any {
             return Ok(false);
         }
     }
     if let Some(child) = &f.not {
-        if matches(child, v, tol)? {
+        if matches(c, child, v)? {
             return Ok(false);
         }
     }
@@ -153,7 +194,7 @@ pub(crate) fn selection_budget(s: &Selection, depth: usize, nodes: &mut usize) -
                 ));
             }
             if let RankBy::CenterProjection { direction } = by {
-                unit(*direction)?;
+                validate_direction(direction)?;
             }
             selection_budget(input, depth + 1, nodes)?;
         }
@@ -186,7 +227,7 @@ pub(crate) fn select(c: &mut Context, s: &Selection) -> Result<BTreeSet<u64>> {
             let mut result = BTreeSet::new();
             for t in select(c, input)? {
                 let v = c.describe(t)?;
-                if matches(r#where, &v, c.tolerance)? {
+                if matches(c, r#where, &v)? {
                     result.insert(t);
                 }
             }
@@ -279,13 +320,16 @@ pub(crate) fn select(c: &mut Context, s: &Selection) -> Result<BTreeSet<u64>> {
                 let n = match by {
                     RankBy::AreaMm2 => v["area_mm2"].as_f64(),
                     RankBy::LengthMm => v["length_mm"].as_f64(),
-                    RankBy::CenterProjection { direction } => v["center_mm"].as_array().map(|a| {
-                        unit(*direction).unwrap().dot(super::engine::vec([
-                            a[0].as_f64().unwrap(),
-                            a[1].as_f64().unwrap(),
-                            a[2].as_f64().unwrap(),
-                        ]))
-                    }),
+                    RankBy::CenterProjection { direction } => {
+                        let axis = direction_vector(c, direction)?;
+                        v["center_mm"].as_array().map(|a| {
+                            axis.dot(super::engine::vec([
+                                a[0].as_f64().unwrap(),
+                                a[1].as_f64().unwrap(),
+                                a[2].as_f64().unwrap(),
+                            ]))
+                        })
+                    }
                 }
                 .ok_or_else(|| {
                     CadError::new(
@@ -404,6 +448,41 @@ pub(crate) fn datum(c: &mut Context, t: u64, derive: &Derive) -> Result<Value> {
     )
 }
 pub(crate) fn run(c: &mut Context, request: &Request, q: &Query) -> Result<Value> {
+    if let Operation::Interfaces {
+        ids,
+        profile,
+        support_faces,
+        r#where,
+    } = &q.operation
+    {
+        let (items, partial, diagnostics) =
+            super::interfaces::query(c, ids, profile, support_faces, r#where)?;
+        let (offset, key) = page(request, q, items.len())?;
+        let end = (offset + q.limit).min(items.len());
+        return Ok(
+            json!({"id":q.id,"op":"interfaces","status":if partial{"partial"}else{"complete"},"coverage":{"recognition_complete":!partial,"scope":if ids.is_none(){"supplied_support_faces_or_all_recognized_openings"}else{"named_declarations"}},"items":&items[offset..end],"total_count":items.len(),"returned_count":end-offset,"next_cursor":(end<items.len()).then(||format!("{key}:{end}")),"diagnostics":diagnostics}),
+        );
+    }
+    if let Operation::HoleGroups {
+        support_faces,
+        r#where,
+    } = &q.operation
+    {
+        let r = super::groups::query(c, support_faces, r#where)?;
+        let (offset, key) = page(request, q, r.groups.len())?;
+        let end = (offset + q.limit).min(r.groups.len());
+        return Ok(
+            json!({"id":q.id,"op":"hole_groups","status":if r.partial{"partial"}else{"complete"},"items":&r.groups[offset..end],"total_count":r.groups.len(),"returned_count":end-offset,"next_cursor":(end<r.groups.len()).then(||format!("{key}:{end}")),"coverage":{"recognition_complete":!r.partial,"scope":"supplied_support_faces_or_all_recognized_openings"},"diagnostics":r.diagnostics}),
+        );
+    }
+    if let Operation::Holes { r#where } = &q.operation {
+        let recognized = super::holes::query(c, r#where)?;
+        let (offset, key) = page(request, q, recognized.holes.len())?;
+        let end = (offset + q.limit).min(recognized.holes.len());
+        return Ok(
+            json!({"id":q.id,"op":"holes","status":if recognized.uncertain.is_empty(){"complete"}else{"partial"},"items":&recognized.holes[offset..end],"returned_count":end-offset,"total_count":recognized.holes.len(),"next_cursor":(end<recognized.holes.len()).then(||format!("{key}:{end}")),"coverage":{"domain":"connected_analytic_cylinders_planar_ends","uncertain":recognized.uncertain,"excluded":recognized.excluded},"diagnostics":[]}),
+        );
+    }
     if let Operation::NamedDatums { ids } = &q.operation {
         let unique: BTreeSet<_> = ids.iter().collect();
         if unique.is_empty() || unique.len() != ids.len() || ids.len() > 128 {
@@ -462,7 +541,12 @@ pub(crate) fn run(c: &mut Context, request: &Request, q: &Query) -> Result<Value
         },
         Operation::Select { selection } | Operation::Datums { selection, .. } => selection.clone(),
         Operation::Describe { refs } => Selection::Refs { refs: refs.clone() },
-        Operation::EvaluateFace { .. } | Operation::NamedDatums { .. } => unreachable!(),
+        Operation::EvaluateFace { .. }
+        | Operation::NamedDatums { .. }
+        | Operation::Holes { .. }
+        | Operation::HoleGroups { .. }
+        | Operation::Interfaces { .. }
+        | Operation::Measure { .. } => unreachable!(),
     };
     selection_budget(&selection, 1, &mut nodes)?;
     let selected = select(c, &selection)?;
@@ -521,4 +605,103 @@ fn page(request: &Request, q: &Query, total: usize) -> Result<(usize, String)> {
         ));
     }
     Ok((offset, key))
+}
+
+pub(crate) fn validate_direction(d: &DirectionInput) -> Result<()> {
+    match d {
+        DirectionInput::Vector(v) => {
+            unit(*v)?;
+        }
+        DirectionInput::Datum { datum } => {
+            if !valid_id(datum) {
+                return Err(CadError::new(
+                    "DATUM_REFERENCE",
+                    "invalid direction datum name",
+                ));
+            }
+        }
+    }
+    Ok(())
+}
+pub(crate) fn direction_vector(c: &Context, d: &DirectionInput) -> Result<Vec3> {
+    match d {
+        DirectionInput::Vector(v) => unit(*v),
+        DirectionInput::Datum { datum } => {
+            let d = c
+                .manifest
+                .body
+                .datums
+                .get(&c.definition)
+                .and_then(|ds| ds.get(datum))
+                .ok_or_else(|| CadError::new("DATUM_REFERENCE", datum))?;
+            let v = match d.kind.as_str() {
+                "axis" | "direction" => &d.geometry["direction"],
+                "plane" => &d.geometry["normal"],
+                "frame" => &d.geometry["axes"][2],
+                _ => {
+                    return Err(CadError::new(
+                        "DATUM_KIND_MISMATCH",
+                        "direction predicate requires an axis, direction, plane or frame",
+                    ))
+                }
+            };
+            let v: [f64; 3] = serde_json::from_value(v.clone())
+                .map_err(|_| CadError::new("DATUM_GEOMETRY", "invalid stored direction"))?;
+            Ok(c.pose.vector(unit(v)?))
+        }
+    }
+}
+pub(crate) fn direction_dependencies(s: &Selection) -> Vec<&str> {
+    fn dir<'a>(d: &'a DirectionInput, out: &mut Vec<&'a str>) {
+        if let DirectionInput::Datum { datum } = d {
+            out.push(datum);
+        }
+    }
+    fn filter<'a>(f: &'a Filter, out: &mut Vec<&'a str>) {
+        if let Some(d) = &f.planar_coplanar_with {
+            out.push(&d.datum);
+        }
+        for d in [&f.planar_normal_parallel_to, &f.planar_normal_aligned_with]
+            .into_iter()
+            .flatten()
+        {
+            dir(d, out);
+        }
+        for f in f.all.iter().chain(&f.any).chain(f.not.iter().map(|x| &**x)) {
+            filter(f, out);
+        }
+    }
+    fn visit<'a>(s: &'a Selection, out: &mut Vec<&'a str>) {
+        match s {
+            Selection::Entities { .. } | Selection::Refs { .. } => {}
+            Selection::Filter { input, r#where } => {
+                visit(input, out);
+                filter(r#where, out);
+            }
+            Selection::Rank { input, by, .. } => {
+                visit(input, out);
+                if let RankBy::CenterProjection { direction } = by {
+                    dir(direction, out);
+                }
+            }
+            Selection::Children { input, .. }
+            | Selection::Ancestors { input, .. }
+            | Selection::Siblings { input, .. }
+            | Selection::Expect { input, .. } => visit(input, out),
+            Selection::Union { inputs } | Selection::Intersection { inputs } => {
+                for s in inputs {
+                    visit(s, out);
+                }
+            }
+            Selection::Difference { left, right } => {
+                visit(left, out);
+                visit(right, out);
+            }
+        }
+    }
+    let mut out = vec![];
+    visit(s, &mut out);
+    out.sort();
+    out.dedup();
+    out
 }

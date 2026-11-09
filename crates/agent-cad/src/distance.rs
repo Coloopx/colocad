@@ -145,7 +145,14 @@ impl TopologyObjects<SideObject> for Pair<'_> {
         self.objects(o.0).object_zone_tol_3d(k, o.1)
     }
 }
+pub(crate) struct Measurement {
+    pub distance: f64,
+    pub witness: serde_json::Value,
+}
 pub(crate) fn boundary_distance(k: &mut Kernel, a: &Brep, b: &Brep) -> Result<f64> {
+    Ok(boundary_measurement(k, a, b)?.distance)
+}
+pub(crate) fn boundary_measurement(k: &mut Kernel, a: &Brep, b: &Brep) -> Result<Measurement> {
     let mut prepared_a = solidcore::topology::brep::p3::brep_copy(k, a)?;
     let mut prepared_b = solidcore::topology::brep::p3::brep_copy(k, b)?;
     for body in [&mut prepared_a, &mut prepared_b] {
@@ -188,12 +195,56 @@ pub(crate) fn boundary_distance(k: &mut Kernel, a: &Brep, b: &Brep) -> Result<f6
         cache,
         services,
     };
-    Ok(solidcore::query::api_queries::brep_relationship_solve(
+    let solution = solidcore::query::api_queries::brep_relationship_solve(
         k,
         &pair,
         SideObject(0, CacheObject::Brep),
         SideObject(1, CacheObject::Brep),
-    )?
-    .start
-    .solution_value)
+    )?;
+    let mut points = [None, None];
+    let mut parameter = 0;
+    for object in solution.objects.iter().take(solution.num_objects).flatten() {
+        let (point, advance) = match object.1 {
+            CacheObject::Vertex(id) => (Some(pair.b[object.0].vertex(id)?.point), 0),
+            CacheObject::Edge(id) | CacheObject::Curve(id) => (
+                Some(
+                    pair.b[object.0]
+                        .edge(id)?
+                        .curve
+                        .as_ref()
+                        .ok_or(solidcore::SolidError::null_pointer("distance witness"))?
+                        .evaluate_point(k, solution.start.param(parameter)?)?,
+                ),
+                1,
+            ),
+            CacheObject::Face(id) | CacheObject::Surface(id) => (
+                Some(
+                    pair.b[object.0]
+                        .face(id)?
+                        .surface
+                        .as_ref()
+                        .ok_or(solidcore::SolidError::null_pointer("distance witness"))?
+                        .evaluate_point(
+                            k,
+                            solidcore::Point2::new(
+                                solution.start.param(parameter)?,
+                                solution.start.param(parameter + 1)?,
+                            ),
+                        )?,
+                ),
+                2,
+            ),
+            _ => (None, 0),
+        };
+        parameter += advance;
+        if let Some(p) = point {
+            if [p.x, p.y, p.z].into_iter().all(f64::is_finite) {
+                points[object.0] = Some([p.x, p.y, p.z]);
+            }
+        }
+    }
+    Ok(Measurement {
+        distance: solution.start.solution_value,
+        witness: serde_json::json!({"a_point_mm":points[0],"b_point_mm":points[1],"status":if points.iter().all(Option::is_some){"exact_boundary_solver"}else{"witness_unavailable"},"support_refs":null,"support_ref_status":"not_retained_by_copying_solver_adapter"}),
+    })
 }

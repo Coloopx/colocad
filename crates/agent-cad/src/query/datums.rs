@@ -86,7 +86,8 @@ fn semantic(s: &Selection) -> bool {
 impl Recipe {
     fn dependencies(&self) -> Vec<&str> {
         match self {
-            Self::Selected { .. } | Self::DesignPoint { .. } => vec![],
+            Self::Selected { selection, .. } => selection::direction_dependencies(selection),
+            Self::DesignPoint { .. } => vec![],
             Self::PointDifference { from, to } => vec![from, to],
             Self::Frame { origin, x, z } => vec![origin, &x.datum, &z.datum],
         }
