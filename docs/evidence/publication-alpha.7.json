@@ -1,0 +1,91 @@
+{
+  "version": "0.1.0-alpha.7",
+  "verified_at_utc": "2026-11-09T14:48:41.943887+00:00",
+  "release_commit": "77491b4c69f08320fbfa65674483b637f5aefb3c",
+  "github": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/727828867",
+        "contentType": "application/x-gtar",
+        "createdAt": "2026-11-09T14:43:27Z",
+        "digest": "sha256:8ff945e11d4eaae77ad64f787050ed56730d15acaae29ddfa3ee29f1c44c2f30",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4rYcmD",
+        "label": "",
+        "name": "coloopx-colocad-0.1.0-alpha.7.tgz",
+        "size": 45828305,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T14:45:55Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.7/coloopx-colocad-0.1.0-alpha.7.tgz"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/727828871",
+        "contentType": "application/json",
+        "createdAt": "2026-11-09T14:43:27Z",
+        "digest": "sha256:c688642d14a19f6e173ebacd2312e5e0d41adf1079e06a0a21aacca6a122fc27",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4rYcmH",
+        "label": "",
+        "name": "release-alpha.7.json",
+        "size": 6372,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T14:43:28Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.7/release-alpha.7.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/727828869",
+        "contentType": "text/plain; charset=utf-8",
+        "createdAt": "2026-11-09T14:43:27Z",
+        "digest": "sha256:a158b184f9e0d78c2fad01760892b290277deae10eb96aa785b6a6529ff7e7a0",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4rYcmF",
+        "label": "",
+        "name": "SHA256SUMS.txt",
+        "size": 405,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T14:43:28Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.7/SHA256SUMS.txt"
+      }
+    ],
+    "isDraft": false,
+    "isPrerelease": true,
+    "tagName": "v0.1.0-alpha.7",
+    "url": "https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.7"
+  },
+  "npm": {
+    "version": "0.1.0-alpha.7",
+    "dist-tags": {
+      "latest": "0.1.0-alpha.7",
+      "alpha": "0.1.0-alpha.7"
+    },
+    "dist.integrity": "sha512-MEEsJO5meRyro4pgkr8KoJBzRfrha01po27I8wM5m8ly4CaZQP1HADXElteY5GKo1983W6fyDL8uJBaNd4Sg3Q=="
+  },
+  "public_installation": {
+    "source": "Public npm registry; empty consumer and fresh cache; no native override",
+    "installed_integrity": "sha512-MEEsJO5meRyro4pgkr8KoJBzRfrha01po27I8wM5m8ly4CaZQP1HADXElteY5GKo1983W6fyDL8uJBaNd4Sg3Q==",
+    "query_acceptance": {
+      "passed": true,
+      "version": "0.1.0-alpha.7",
+      "platform": "darwin-arm64",
+      "native_sha256": "5e58552f359106ab8f9368b259dd9af514f77cfe493993002d815635ec8b75b4",
+      "execution_policy": "sha256:f17427185c0ae37330297cfef35bb44f36930ccdf4ba44caa8e9f1836de3909a",
+      "override": false,
+      "checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection"
+      ],
+      "foreign_positives": 3,
+      "foreign_rejections": 2,
+      "scope": "Installed archive correctness, not a performance comparison or live inference study"
+    }
+  },
+  "tested_archive_integrity": "sha512-MEEsJO5meRyro4pgkr8KoJBzRfrha01po27I8wM5m8ly4CaZQP1HADXElteY5GKo1983W6fyDL8uJBaNd4Sg3Q=="
+}
