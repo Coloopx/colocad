@@ -171,6 +171,7 @@ npx colocad render ./actuator/session ./modeling.mp4
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。
 - CAD 的 512 MiB 测试不代表常驻 agent、浏览器和视频编码器的整体内存预算。
+- alpha.7 发布后发现：包内 `face_hole_grid` 四孔板在 macOS arm64 启用精确查询时失败，普通构建/预览通过。[查询与改参实践](docs/best-practices.zh-CN.md#可以直接执行的改参示例)使用经独立核对的普通 `holes` 等价路径；原快照缺陷仍未修复。
 
 ## 文档与帮助
 

@@ -76,7 +76,7 @@ test ! -e .agents/skills/colocad && \
 - 失败要报告具体特征。不要为了生成图片静默跳过切孔或圆角；显式降级也应保留在交付说明中。
 - 性能分别测冷启动到 STEP、连续改参、缓存预览、包含推理的完整 agent 周期。CAD 的 512 MiB 基准不等于整个 agent/harness 也只需 512 MiB。
 
-[详细最佳实践](best-practices.md) · [常见故障](troubleshooting.md) · [贡献与回归](../CONTRIBUTING.md)
+[建模、查询、接口装配与改参复验最佳实践](best-practices.zh-CN.md) · [常见故障](troubleshooting.md) · [贡献与回归](../CONTRIBUTING.md)
 
 ## 当前验证边界
 

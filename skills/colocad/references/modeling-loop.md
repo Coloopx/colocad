@@ -13,6 +13,20 @@ Read for assemblies, drawing reconstruction or edits whose dependencies matter.
 
 This is an adaptive loop, not a mandatory approval gate between every feature. Use fewer milestones for a simple part. For a long product, keep checkpoints that explain both shape construction and assembly.
 
+## Geometry-driven assembly with exact queries
+
+Use this path when installation geometry must be measured or a part replaced. Check installed capabilities; alpha.7 provides `cad_query`.
+
+Known alpha.7 defect: the bundled `face_hole_grid` plate fails with `queryable` on the tested macOS arm64 native, even without preview. For a queryable plate, ordinary `holes` can express the same bores; preserve the actual centers, diameters and through-depth, then verify the result. Ordinary grid build/preview remains usable. Changing display precision does not repair this snapshot failure.
+
+- Build exact query artifacts with `queryable`, or declare `Model.datums`/`Model.interfaces`, which enable them. Keep the accepted `query_revision_id`, target definition/occurrence, coordinate space and tolerance with the observation.
+- Narrow the mounting plane before its openings and group. Inspect complete/partial coverage, cardinality and symmetric alternatives. A normal-only selection can include a blind-hole bottom; a position-sensitive recipe can use an earlier named plane with `planar_coplanar_with`.
+- Persist supported semantic recipes in datums/interfaces, not snapshot refs or face indices. A symmetric group needs design intent or a measured orientation datum for an oriented mate. Let named attachments drive the existing mate solver.
+- Require all-hole compatibility and relevant exact pair checks. Boundary distance is unsigned; inspect relationship and overlap before calling it clearance. Unsupported/partial evidence cannot certify fit or absence.
+- After an edit/replacement, re-query the new revision and rerun required checks. Missing, ambiguous or incompatible geometry is a retained failure. Never rewrite an old ref's revision to make it appear current. Resume from accepted source after failure/interruption.
+
+For a replacement workflow, challenge the same recipe with compatible and incompatible sources. Do not add a new part template or hardcoded face mapping for each input. Use only the pose/pair checks required by the task; report their discrete scope.
+
 ## Match evidence to the claim
 
 | Claim | A useful check |
@@ -28,6 +42,6 @@ Negative material checks matter: verify that a supposed opening is empty and adj
 
 ## State that survives a long session
 
-Keep source IDs and coordinate conventions, accepted model path/hash, exposed parameters, interface checks, latest receipt, unresolved assumptions, and the next targeted test. Reload the current accepted source after a failure or context reset. In `ModelingSession`, recorded `cad_edit` takes only `{parameters}` and uses that accepted source.
+Keep source IDs and coordinate conventions, accepted model path/hash, exposed parameters, semantic datum/interface recipes, latest receipt and `query_revision_id`, target/space/tolerance, coverage/ambiguity, passed checks, unresolved assumptions, and the next targeted test. Reload the current accepted source after a failure or context reset. In `ModelingSession`, recorded `cad_edit` takes only `{parameters}` and uses that accepted source.
 
 The KK60 example illustrates this process. Enlarging the manufacturer's section corrected the screw axis to 23 mm; the real helical B-rep exposed an internal STEP budget defect; independent material probes and rail/carriage checks established specific geometry claims. Its undisclosed nut recirculation remains unmodeled. Do not reuse its assumed internal dimensions as a universal actuator design.

@@ -36,9 +36,11 @@ With typed tools, allocate one `CadClient` for each sequential modeling session.
 
 With shell tools, use argument arrays in a process API rather than interpolating model text into shell commands. Store JSON in a file. Agent-controlled dimensions belong in model input; executable paths, output roots and credentials belong to harness configuration. Keep normal harness permissions in force.
 
+For exact queries, enable `queryable` when needed (datum/interface declarations enable it automatically). Register `cad_query` only when native capabilities advertise it. Raw `createCadTools` takes `{artifact_directory, request}`; session-bound tools take `{request}` and bind the accepted artifact. The host owns `queryRoots`; the agent chooses a target/space/tolerance within that boundary. Preserve `query_revision_id` in compact build/edit feedback and re-query after edits. Stale refs, partial coverage and ambiguity remain visible. [Query/edit walkthrough](../best-practices.md#query-declare-intent-assemble-then-challenge-the-edit).
+
 ## Results and failures
 
-A useful tool result includes the artifact directory, counts/bounds/volume, validation summary and timings. Keep detailed feature diagnostics in the full receipt and attach a PNG for visual inspection. A path in text is not itself an image input to a remote vision model. The [Pi adapter](../../examples/integrations/pi-tools.mjs) shows text/image content and full `details` together.
+A useful tool result includes the artifact directory, revision, relevant measurements, coverage/ambiguity, counts/bounds/volume, validation and timings. Keep detailed feature/query diagnostics in the full receipt and attach a PNG for visual inspection. A path in text is not itself an image input to a remote vision model. The [Pi adapter](../../examples/integrations/pi-tools.mjs) shows text/image content and full `details` together.
 
 `cad_validate` success is only preflight. A nonzero child exit, a failed receipt or an explicit degraded feature must remain visible. Do not turn a failed build into a success containing an empty output path. Do not retry the same invalid geometry indefinitely; change the failing feature or report the unresolved constraint.
 

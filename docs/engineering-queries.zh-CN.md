@@ -4,11 +4,13 @@
 
 这层能力用于在装配前查询零件的安装几何。几何解释在本地 Rust 内核中完成，SDK、CLI 与 agent 工具共用实现；agent、harness 和可执行文件仍位于同一沙箱中。
 
+发布后的文档实测新增一个 alpha.7 已知缺陷：包内 `face_hole_grid` 四孔板在 macOS arm64 创建精确查询快照时失败，普通构建/预览通过。此组合不在此前冻结验收案例内；暂用已验证的普通 `holes` 等价板件路径，缺陷仍未修复。见[复现与最佳实践](best-practices.zh-CN.md#可以直接执行的改参示例)。历史通过记录只对应其已测试案例。
+
 ## 构建一次，查询已接受版本
 
 `cad.build(model, {queryable:true})` 返回 `artifact_directory` 和 `query_revision_id`，并保存 `query-manifest.json` 与精确 `query-definition-*.smb`。将带预期版本号、目标、坐标系、容差和查询列表的请求交给 `cad.query(directory, request)`。完整 SDK 代码见英文页。
 
-查询不重放建模特征、不读 STEP、不导出 STEP、不修补几何、不生成网格。整个工件目录迁移或换进程重开后，快照引用保持一致。普通模型按需启用；声明 `Model.datums` 的模型自动启用，显式关闭会报错。SDK 的 `queryRoots` 由宿主配置，默认只允许 `outputRoot` 下的工件。
+查询不重放建模特征、不读 STEP、不导出 STEP、不修补几何、不生成网格。整个工件目录迁移或换进程重开后，快照引用保持一致。普通模型按需启用；声明 `Model.datums` 或 `Model.interfaces` 的模型自动启用，显式关闭会报错。SDK 的 `queryRoots` 由宿主配置，默认只允许 `outputRoot` 下的工件。
 
 ```sh
 colocad record model.json session --queryable --label '可查询零件'

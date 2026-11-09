@@ -10,6 +10,8 @@ node "$skill/scripts/build.mjs" "$skill/assets/plate-grid.json" ./plate-v1 \
 
 Each invocation takes a new output directory. Edit the saved `model.json` to add features or pass it back to the helper with another `--set` to change an existing dimension. Overrides are saved in the built model. Only request a preview when you need to inspect it.
 
+Alpha.7 caveat: this grid builds and previews, but the bundled four-hole plate fails exact snapshot creation with `queryable:true` on tested macOS arm64 (`BSplineCurve::make_nurb`, status 1001). For querying that plate, use ordinary `holes` with the same centers/radius/depth and verify the result. The grid snapshot defect remains open. See [query workflow guidance](modeling-loop.md#geometry-driven-assembly-with-exact-queries).
+
 | Shape or structure | Shortest construction in this skill | Datum and acceptance check |
 |---|---|---|
 | Block, pin, ball or taper | Use one feature from [block](../assets/block.json), [pin](../assets/pin.json), [ball](../assets/ball.json) or [taper](../assets/taper.json). For example, pass `pin.json` with `--set diameter=8 --set length=40` for a Ø8 × 40 mm pin. | Box origin is the lower corner. A cylinder or cone starts at its base center and grows along +Z. Check the outer envelope. |

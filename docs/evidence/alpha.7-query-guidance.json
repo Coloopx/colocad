@@ -1,0 +1,218 @@
+{
+  "version": "0.1.0-alpha.7",
+  "verified_at_utc": "2026-11-09T15:08:22.371142+00:00",
+  "scope": "Post-release documentation example and targeted defect reproduction on macOS arm64; not a performance study or an expansion of the frozen G1-G3 acceptance corpus.",
+  "package": {
+    "source": "Previously verified public npm installation, no native override",
+    "platform": "darwin-arm64",
+    "integrity": "sha512-MEEsJO5meRyro4pgkr8KoJBzRfrha01po27I8wM5m8ly4CaZQP1HADXElteY5GKo1983W6fyDL8uJBaNd4Sg3Q==",
+    "native_sha256": "5e58552f359106ab8f9368b259dd9af514f77cfe493993002d815635ec8b75b4",
+    "publication_record": "publication-alpha.7.json"
+  },
+  "open_defect": {
+    "status": "open",
+    "feature": "face_hole_grid",
+    "input_asset": "@coloopx/colocad/skills/colocad/assets/plate-grid.json",
+    "asset_sha256": "232c8051d01634a5d74444a70f0447f6367bcd92649a17fcc9b3870e4a843b54",
+    "symptom": "Exact query snapshot creation fails for the bundled four-hole plate. Ordinary build and preview succeed. Root cause and fix are not established.",
+    "other_platforms": "Not tested in this post-release reproduction.",
+    "reproducer": "alpha.7-query-guidance/probe.mjs",
+    "cases": [
+      {
+        "id": "plain",
+        "queryable": false,
+        "preview": null,
+        "ok": true,
+        "step_sha256": "2269f1b8e8630aaf787588656735809a180c242923974fef81699ed2ac6a6ded",
+        "execution_policy": "sha256:f17427185c0ae37330297cfef35bb44f36930ccdf4ba44caa8e9f1836de3909a"
+      },
+      {
+        "id": "query",
+        "queryable": true,
+        "preview": null,
+        "ok": false,
+        "error": {
+          "code": "KERNEL_ERROR",
+          "feature_id": null,
+          "message": "nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001"
+        }
+      },
+      {
+        "id": "preview",
+        "queryable": false,
+        "preview": {
+          "width": 320,
+          "height": 240,
+          "chord_mm": 1
+        },
+        "ok": true,
+        "step_sha256": "2269f1b8e8630aaf787588656735809a180c242923974fef81699ed2ac6a6ded",
+        "execution_policy": "sha256:f17427185c0ae37330297cfef35bb44f36930ccdf4ba44caa8e9f1836de3909a"
+      },
+      {
+        "id": "query-preview",
+        "queryable": true,
+        "preview": {
+          "width": 320,
+          "height": 240,
+          "chord_mm": 1
+        },
+        "ok": false,
+        "error": {
+          "code": "KERNEL_ERROR",
+          "feature_id": null,
+          "message": "nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001"
+        }
+      },
+      {
+        "id": "query-fine",
+        "queryable": true,
+        "preview": {
+          "width": 320,
+          "height": 240,
+          "chord_mm": 0.3
+        },
+        "ok": false,
+        "error": {
+          "code": "KERNEL_ERROR",
+          "feature_id": null,
+          "message": "nurbs::b_spline_curve::p1::BSplineCurve::make_nurb: upstream status 1001"
+        }
+      }
+    ]
+  },
+  "documentation_example": {
+    "passed": true,
+    "source": "../best-practices.md#run-the-editquery-loop-against-the-installed-package",
+    "script_sha256": "5c16607a8b504948df86e38e296b11683100ac7d294199a2b33fc7c641076b47",
+    "model": "80 x 50 x 6 mm plate, ordinary holes operation, four through bores edited from diameter 6 to 8 mm",
+    "assertions": [
+      "complete query coverage",
+      "four through holes at both revisions",
+      "all segment diameters within 1e-5 mm",
+      "zero geometry_build_calls for query",
+      "old revision rejected with QUERY_REVISION_MISMATCH",
+      "hole XY centers preserved within 1e-5 mm",
+      "edited analytic volume within 1e-5 mm3"
+    ],
+    "session_steps": [
+      {
+        "id": "s0001",
+        "operation": "build",
+        "status": "succeeded",
+        "inputSha256": "6258d75779b6d9a677d6a19b4d59bcd8f2e272070d750ae4de1778a78dc274d7"
+      },
+      {
+        "id": "s0002",
+        "operation": "query",
+        "status": "succeeded",
+        "inputSha256": "6258d75779b6d9a677d6a19b4d59bcd8f2e272070d750ae4de1778a78dc274d7"
+      },
+      {
+        "id": "s0003",
+        "operation": "edit",
+        "status": "succeeded",
+        "inputSha256": "cf0041747376aa89da6d8ac3d3b68dc18bd2bdf7fa7723b77e06f2ada747a0ce"
+      },
+      {
+        "id": "s0004",
+        "operation": "query",
+        "status": "failed",
+        "inputSha256": "cf0041747376aa89da6d8ac3d3b68dc18bd2bdf7fa7723b77e06f2ada747a0ce",
+        "error": {
+          "code": "QUERY_REVISION_MISMATCH",
+          "message": "Query must target the accepted geometry revision"
+        }
+      },
+      {
+        "id": "s0005",
+        "operation": "query",
+        "status": "succeeded",
+        "inputSha256": "cf0041747376aa89da6d8ac3d3b68dc18bd2bdf7fa7723b77e06f2ada747a0ce"
+      }
+    ],
+    "cli_replay": {
+      "passed": true,
+      "steps": 5,
+      "mesh_definitions": 2,
+      "bytes": 1051487,
+      "html_sha256": "e8b4d03fdbfbdb64b2ad0e79bcf18871fda0273aada7b452f9676c77050d5a5e"
+    },
+    "limitations": "The ordinary-holes path is a verified alternative for this plate. It does not fix face_hole_grid snapshots or establish general equivalence for all grid models."
+  },
+  "independent_geometry_verification": {
+    "record": "alpha.7-query-guidance/occt-guidance.json",
+    "script": "alpha.7-query-guidance/verify.py",
+    "passed": true,
+    "verifier": {
+      "engine": "OCCT via OCP",
+      "binding_version": "7.9.3.1",
+      "distribution": "cadquery-ocp-novtk",
+      "distribution_version": "7.9.3.1.1"
+    },
+    "linear_tolerance_mm": 1e-05,
+    "volume_tolerance_mm3": 1e-05,
+    "symmetric_difference_tolerance_mm3": 1e-06,
+    "rows": [
+      {
+        "id": "grid",
+        "valid": true,
+        "solids": 1,
+        "volume_mm3": 23321.4159868246,
+        "bounds_mm": [
+          0.0,
+          0.0,
+          -1e-07,
+          80.0,
+          50.0,
+          6.0000001
+        ],
+        "step_sha256": "2269f1b8e8630aaf787588656735809a180c242923974fef81699ed2ac6a6ded"
+      },
+      {
+        "id": "holes",
+        "valid": true,
+        "solids": 1,
+        "volume_mm3": 23321.4159868246,
+        "bounds_mm": [
+          0.0,
+          0.0,
+          0.0,
+          80.0,
+          50.0,
+          6.0
+        ],
+        "step_sha256": "a3fc50aaf63af83643a699985206cc802590e03184502fc12a25d92f8ce291d1"
+      },
+      {
+        "id": "edited",
+        "valid": true,
+        "solids": 1,
+        "volume_mm3": 22793.62842102152,
+        "bounds_mm": [
+          0.0,
+          0.0,
+          0.0,
+          80.0,
+          50.0,
+          6.0
+        ],
+        "step_sha256": "e5e56758b81f71313371ed17683a58c297055f49e45baa25046e02f5f22d8c31"
+      }
+    ],
+    "differences": [
+      {
+        "a": "grid",
+        "b": "holes",
+        "material_difference_mm3": 0.0
+      },
+      {
+        "a": "holes",
+        "b": "grid",
+        "material_difference_mm3": 0.0
+      }
+    ]
+  },
+  "reproduction_instructions": "alpha.7-query-guidance/README.md",
+  "publication_scope": "Repository documentation and skill guidance are unreleased changes. The alpha.7 npm archive, tag and original acceptance evidence remain unchanged."
+}

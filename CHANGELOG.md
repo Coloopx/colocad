@@ -2,6 +2,13 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
+## Unreleased documentation and skill guidance
+
+- Expand English/Chinese best practices with the query → semantic datum/interface → assembly → edit/replacement verification workflow and an executable example using published alpha.7.
+- Update the handbook, harness lifecycle, troubleshooting and skill prompts for query revisions, coverage/ambiguity, stale refs, required fit checks and targeted recovery.
+- Document a newly reproduced alpha.7 defect: the bundled `face_hole_grid` plate fails exact query snapshot creation on macOS arm64. Plain build/preview pass; the ordinary `holes` equivalent is used and checked in the guide. The grid defect remains open and was outside the original frozen acceptance corpus.
+- These additions are on the repository's main branch. The published alpha.7 package and release tag remain immutable; the expanded skill guidance is not retroactively included in that archive.
+
 ## [0.1.0-alpha.7](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.7) — 2026-11-09
 
 ### Added

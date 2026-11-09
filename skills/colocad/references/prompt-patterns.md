@@ -58,12 +58,38 @@ read back STEP when available. Distinguish untested pairs and unknown internals
 from passed checks; do not use appearance alone as evidence of fit.
 ```
 
+## Replace a component using measured installation geometry
+
+```text
+Use the installed exact-query API to fit this replacement STEP to the accepted assembly.
+The task supplies required mounting geometry, tolerances and pairs/poses to check.
+Query the accepted revision in the stated coordinate space. Select the support plane
+before its openings/groups; report partial coverage, extra holes and ambiguity.
+Preserve geometric selection recipes as named datums/interfaces, then solve mates
+and check all required hole correspondences plus exact pair relationships/clearance.
+Rebuild after replacement and query the NEW revision. Retain incompatible attempts;
+do not patch face numbers or invent orientation to force success. Return editable
+source, measured deviations, accepted STEP and session, with CLI review artifacts.
+```
+
+## Repair a stale or incomplete observation
+
+```text
+The supplied receipt identifies a stale revision, ambiguous selection or partial query.
+Reload the latest accepted source/artifact and read its current query_revision_id.
+For stale observations, rerun the semantic query; never relabel an old topology ref.
+For ambiguity, inspect candidates and refine the geometric criterion or orientation
+using available design evidence. For partial coverage, identify unsupported geometry
+and which required claim remains unverified. Keep errors and accepted state intact.
+```
+
 ## Handoff after a long run
 
 ```text
 Persist: product/configuration; source identifiers; units and datums; accepted
 model path/hash; session path/latest step; parameters and dependency decisions;
-passed checks with values; failed attempts; unresolved assumptions; next targeted
+semantic datum/interface recipes; current query revision and target/space/tolerance;
+coverage/ambiguity; passed checks with values; failed attempts; unresolved assumptions; next targeted
 check. Keep large meshes and receipts as file references rather than inline text.
 ```
 

@@ -19,6 +19,7 @@ These guides target **@coloopx/colocad 0.1.0-alpha.7**, Node.js 22+, Linux x64/a
 | Use Claude Code | [Claude Code integration](integrations/claude-code.md) |
 | Use Codex | [Codex integration](integrations/codex.md) |
 | Model efficiently from dimensions or views | [Best practices](best-practices.md) |
+| Query, declare installation intent, replace a part and verify edits | [Practical workflow and runnable example](best-practices.md#query-declare-intent-assemble-then-challenge-the-edit), [query API](engineering-queries.md) |
 | Diagnose a failed call or installation | [Troubleshooting](troubleshooting.md) |
 | Run examples and contribute a change | [Contributing](../CONTRIBUTING.md) |
 | Compare execution performance and limits | [Performance evidence](performance.md) |

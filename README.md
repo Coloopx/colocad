@@ -172,6 +172,7 @@ For unchanged geometry, saved-mesh observation was 5.6×–16.8× faster than Co
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).
 - A 512 MiB CAD test is not a memory guarantee for an entire resident agent, browser or video encoder.
+- Post-release alpha.7 issue: the bundled `face_hole_grid` plate fails with exact queries on tested macOS arm64; plain build/preview pass. The [query/edit walkthrough](docs/best-practices.md#run-the-editquery-loop-against-the-installed-package) uses an independently checked ordinary-`holes` equivalent. The grid snapshot defect remains open.
 
 ## Documentation and help
 

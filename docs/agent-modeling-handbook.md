@@ -20,9 +20,9 @@ Colocad does not currently expose an automatic image-to-CAD endpoint. The KK60 c
 
 ## Keep the tools understandable
 
-Register the existing capabilities, validation, build, preview and edit tools first; enable sketch solving or STEP inspection when needed. Preserve schemas and `$defs`. `cad_validate` is input preflight, not a shape check. Plain `cad_edit` takes `{model, parameters}`; recorded editing takes `{parameters}` and uses the accepted source. The harness owns paths, budgets, permissions and artifact retention inside the same sandbox.
+Register the existing capabilities, validation, build, preview and edit tools first; enable capability-gated `cad_query` for measured geometry/assembly work, and sketch solving or STEP inspection when needed. Preserve schemas and `$defs`. `cad_validate` is input preflight, not a shape check. Plain `cad_edit` takes `{model, parameters}`; recorded editing takes `{parameters}` and uses the accepted source. The harness owns paths, budgets, permissions and artifact retention inside the same sandbox.
 
-Return the failing feature/code, revision paths/hashes, relevant geometry and timing, cache information and **all** degradations. Keep complete traces and large meshes on disk. The [compact adapter](../examples/integrations/compact-tools.mjs) implements this without changing execution semantics. The [guided workflow](../examples/integrations/guided-workflow.mjs) performs actual builds, quantitative edits, failure recovery, observation and CLI HTML export:
+Return the failing feature/query ID and code, `query_revision_id`, revision paths/hashes, relevant geometry and timing, coverage/ambiguity, cache information and **all** degradations. Keep complete traces and large meshes on disk. The [compact adapter](../examples/integrations/compact-tools.mjs) implements this without changing execution semantics. The [guided workflow](../examples/integrations/guided-workflow.mjs) performs actual builds, quantitative edits, failure recovery, observation and CLI HTML export:
 
 ```sh
 node examples/integrations/guided-workflow.mjs ./out/guided-workflow
@@ -47,6 +47,14 @@ For each meaningful change: validate, build, inspect its receipt and a relevant 
 
 A display explosion is not motion verification. One matching total volume cannot locate a misplaced hole. [Modeling-loop reference](../skills/colocad/references/modeling-loop.md).
 
+## Use exact queries to preserve assembly intent
+
+Enable exact query artifacts on the accepted build, then observe a specific definition or occurrence in an explicit coordinate space and tolerance. Narrow the support plane before its openings/groups, inspect coverage and cardinality, and retain ambiguity. Persist a supported semantic recipe in `Model.datums`/`Model.interfaces`, not an observed topology ref or incidental face index. Named interface attachments then drive mates and required compatibility/relationship checks.
+
+After an edit or source replacement, obtain the new revision, re-evaluate recipes and check required fit/clearance. Stale refs, missing faces and incompatible patterns are actionable failures, not a reason to bind a convenient candidate. A positive unsigned boundary distance does not alone establish clearance; inspect relationship and overlap. Unsupported/partial evidence cannot certify absence or fit.
+
+The [best-practice walkthrough](best-practices.md#query-declare-intent-assemble-then-challenge-the-edit) includes a runnable alpha.7 query/edit/rejection example. The [external installation example](../examples/engineering-interfaces/README.md) extends it to three compatible and two incompatible sources using the same geometric recipe and independent STEP validation. [Exact supported domains](engineering-queries.md).
+
 ## Guide the agent without overloading it
 
 The skill entry point routes to materials, modeling loop, tool contracts, prompts, tuning and history. Load only what the current task needs. Give the model a concise task contract and the relevant source views, accepted state and checks. Ask for inspectable dimensions, decisions and artifacts rather than a hidden chain of thought.
@@ -57,7 +65,7 @@ The skill entry point routes to materials, modeling loop, tool contracts, prompt
 
 Separate interpretation quality from geometry correctness and execution performance. For wrong dimensions, improve source/frame interpretation first. For broken edits, fix dependencies. For tool confusion/context cost, reduce overlap and return focused evidence. For execution time, inspect feature, validation, export and preview timings before optimizing. Reuse clients/checkpoints and shared definitions; reuse a checked mesh for camera-only changes.
 
-Comparisons with build123d need the same verified geometry, output requirements, precision, cold/warm policy and hardware limits. Report repeat counts, distributions, failures and memory accounting. An edited film duration is not a benchmark; cached observation is not equivalent to a fresh build. A 512 MiB CAD run does not cover a resident LLM harness or video encoder.
+Comparisons with build123d need the same verified geometry, output requirements, precision, cold/warm policy and hardware limits. Report repeat counts, distributions, failures and memory accounting. An edited film duration is not a benchmark; cached observation is not equivalent to a fresh build. Separate snapshot creation/load/query time from modeling, export and preview. CAD-only resource figures cannot be reused as a resident-agent or video-encoder budget. [G3](../specs/experiments/0005/README.md) records specific resident Pi workloads; [archive acceptance](evidence/release-alpha.7.json) additionally includes installation. G4 has not started.
 
 To evaluate skill changes, hold source packs, tasks, model/provider versions, tools and budget fixed, change one factor, and retain unseen tasks. Measure dimensions/features, edit preservation, fit claims, unsupported claims, correction count, inference cost and end-to-end time. Scripted regressions prove implementation contracts; they do not prove a prompt's success rate on unseen drawings. [Tuning reference](../skills/colocad/references/tuning.md).
 

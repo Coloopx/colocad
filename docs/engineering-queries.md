@@ -10,6 +10,8 @@ This layer is ready for the declared mechanical assembly workflows: exact topolo
 
 G1–G3 acceptance covers the frozen 24-case corpus, lifecycle tests and two live agent tasks. [Release archive checks](evidence/release-alpha.7.json) verify the installed SDK/CLI/native together on macOS arm64 and Linux arm64/x64; x64 is emulated on an arm64 host. Unsupported recognition/contact domains are listed below and remain explicit partial/error results.
 
+Post-release documentation testing found an additional alpha.7 defect: the bundled `face_hole_grid` plate fails exact snapshot creation on macOS arm64, although plain build/preview pass. This combination was not covered by the frozen acceptance cases. Use the verified ordinary-`holes` plate example while that defect remains open; see [reproduction and practical guidance](best-practices.md#run-the-editquery-loop-against-the-installed-package). The historical passing results remain scoped to their tested cases.
+
 ## Build once, query the accepted revision
 
 ```js

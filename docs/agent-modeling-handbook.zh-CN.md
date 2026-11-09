@@ -91,16 +91,17 @@ modeling.mp4          可选；CLI 导出的实际阶段回放
 | `cad_build` | 一个有意义的特征/接口阶段 | `ok`、几何、失败特征、时间、产物及降级 |
 | `cad_preview` | 观察新的几何或换相关视角 | 实际图像；是否复用网格、源几何目录 |
 | `cad_edit` | 修改已有命名参数 | 新版本尺寸、依赖是否跟随、接受的源 |
+| `cad_query` | 对接受版本测量/选择精确几何与安装接口 | `query_revision_id`、目标/坐标系、实际测量、coverage、歧义与来源引用 |
 | `cad_solve_sketch` | 确实需要草图约束时 | 局部 DOF、约束残差与冲突 |
 | `cad_inspect_step` | 需要检查/复用已登记 STEP 时 | 产品树、共享定义和变换、导入限制 |
 
-默认可先注册前五项，按任务加入后两项。`CadClient.inspect` 读取保存的报告，不是任意几何查询器；当前工具集也没有自动图纸尺寸识别工具。材料阅读使用现有 harness 的文件/图像工具，独立精确检查使用明确的几何验证程序。
+默认可先注册前五项；测量与装配工作加入 capability-gated `cad_query`，按任务启用草图求解和 STEP 检查。`CadClient.inspect` 读取保存的报告，`CadClient.query` 才是精确几何查询入口；当前工具集没有自动图纸尺寸识别工具。材料阅读使用现有 harness 的文件/图像工具，重要交付仍用独立几何验证程序回读。
 
 直接 `createCadTools(client)` 的 `cad_edit` 参数是 `{model, parameters}`；`createSessionTools(session)` 的参数是 `{parameters}`，由会话读取最后成功的源。接入时保留这个区别，避免失败后从错误或过时的模型开始改参。
 
 ### 3.1 工具返回摘要，不丢失证据
 
-模型通常需要：错误码/feature ID、版本与产物路径、实体数、尺寸/体积、当前相关测量、时间、缓存命中和全部降级项。完整 feature trace、模型和网格保存在文件里，必要时按引用读取。不要每轮把 STEP 文本、大网格和全部历史图片塞回上下文。
+模型通常需要：错误码/feature 或 query ID、`query_revision_id`、产物路径、实体数、相关测量、coverage/歧义、时间、缓存命中和全部降级项。成功调用中的 partial 不能变成完整工程结论。完整 feature trace、模型和网格保存在文件里，必要时按引用读取。不要每轮把 STEP 文本、大网格和全部历史图片塞回上下文。
 
 [compact-tools.mjs](../examples/integrations/compact-tools.mjs) 是实际可运行的无传输层适配器：保持工具 schema/执行语义，压缩成功回执，保留失败/降级与完整回执路径。宿主负责把 `ok:false` 映射为其工具错误格式，并按需要附上 PNG。它是示例适配器，不是额外的 CAD 后台服务。
 
@@ -144,6 +145,16 @@ node node_modules/@coloopx/colocad/examples/integrations/guided-workflow.mjs ./g
 
 KK60 的真实螺旋槽让总装触发内部 STEP 实体数限制，最终修复的是内部序列化预算，同时维持外部导入限制；没有减少 56 圈螺纹来绕过问题。四视图镜头裁切则通过正交取景和包络测试修复，没有缩短精确模型。
 
+### 4.3 精确查询与几何驱动装配（alpha.7）
+
+构建时按需启用 `queryable`；声明 `Model.datums` 或 `Model.interfaces` 时自动需要精确快照。保存当前接受版本、工件路径和查询目标。定义局部测量用 `definition_id`，实例测量用 `instance_path` 与装配坐标，容差明确写入请求。
+
+先选安装平面，再检查它的孔/孔组；只看法向可能选中同向盲孔底面，位置有关时用命名基准与 `planar_coplanar_with`。检查数量、额外孔、coverage 和对称歧义。将可重算的选择/推导规则放入命名基准或接口声明，再让附件驱动配合。快照 ref 是当前版本的观察，不能当永久面 ID。
+
+装配后运行完整孔对应和相关零件对的必需检查。边界距离是无符号量，包含关系也可能有正距离，所以净空判断还要检查关系和重叠。改参或换 STEP 后取得新 `query_revision_id`，重算规则并复验；缺失、歧义、不兼容保留为失败，不靠手工换面编号通过。
+
+[最佳实践](best-practices.zh-CN.md)提供查询→改参→拒绝旧引用→重查→CLI 审阅的可执行例子。[外部安装接口例子](../examples/engineering-interfaces/README.md)使用同一规则处理三种兼容来源和两种不兼容来源，并有独立回读。识别范围、曲面接触和离散姿态的边界见[查询指南](engineering-queries.zh-CN.md)。
+
 ## 5. 提示词和 skill 怎么组织
 
 `SKILL.md` 保留能力范围、入口选择和关键判断；材料处理、完整产品循环、工具契约、提示词、调优、可视化分别在按需读取的 references 中。基础形状和产品 brief 放 assets，确定性执行放 scripts/examples。不要把整份工程手册和所有例外都常驻系统提示。这与 [Anthropic 的 skill 编写建议](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)关于简洁、按需披露和按任务脆弱程度约束行为的原则一致。
@@ -179,6 +190,8 @@ KK60 的真实螺旋槽让总装触发内部 STEP 实体数限制，最终修复
 
 本仓库的实证是：KK60 16 个阶段独立 STEP 回读、64 个材料探针、三个位置的特定导轨/滑块检查，以及工具/查看器/CLI 集成回归。未公开回珠通道、全部零件对干涉、载荷/寿命和制造公差仍不在通过项中。
 
+后续 [G1–G3 验收](../specs/experiments/0005/README.md)增加冻结的 24 个案例、语义引用/替换/恢复序列与两条真实 Pi 推理任务；[alpha.7 安装包验收](evidence/release-alpha.7.json)进一步验证三平台实际包。真实产品任务是在已接受的来源模型上改参/查询，不是从陌生图像自动重建整机，也不是 skill 改动的对照成功率实验。
+
 ## 7. 调优：对准测量到的瓶颈
 
 ### 7.1 理解与建模质量
@@ -194,11 +207,15 @@ KK60 的真实螺旋槽让总装触发内部 STEP 实体数限制，最终修复
 
 分开计时：资料读取/推理、进程启动、几何、校验、STEP、三角化、视图渲染、视频编码。先看 per-feature/native timings，再决定优化算法、共享定义、参数重算、缓存或显示精度。
 
+查询还应单列快照创建、加载和操作耗时。对已接受几何只做测量时，不重建或重新导出 STEP；先缩小目标、选择范围和结果页，再考虑增大预算。
+
 同一任务顺序复用 client/session。重复零件复用定义；只换镜头时复用已校验网格。预览可选择适合观察的精度，但比较时要固定参数。影片编码另外需要浏览器与 FFmpeg，不包含在纯几何运行的资源结论中。
 
 与 build123d 比较时固定输入几何、实例、精度、交付工件、环境和冷/热启动模式；先验证两边几何等价。报告重复次数、分布、失败和测量范围。内存明确 RSS/进程和/cgroup、采样频率、瞬时值还是截至当前峰值。保留原始采样；用峰值曲线展示时不能称为瞬时内存。
 
 本次 KK60 单次 Linux arm64、1 vCPU/512 MiB、禁网、含预览的原生总耗时为 24.192 秒；未测该次内存峰值，也未做同模型 build123d 对照。这个结果不能推导整个 resident agent/harness 或 Chromium 也只需要 512 MiB。[证据](../showcase/hiwin-kk60/evidence.json)。
+
+后续 G3 单独记录了包含驻留 Pi/harness 的指定负载；alpha.7 安装包检查还包含 npm 安装与缓存页。各自按对应记录解释，不能混合成同一内存指标。G4 benchmark/回溯优化尚未启动。
 
 ### 7.3 如何证明 skill/提示词真的更好
 
