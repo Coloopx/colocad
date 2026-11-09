@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        80,
+        50,
+        24
+      ]
+    },
+    {
+      "id": "result",
+      "op": "shell",
+      "input": "stock",
+      "thickness": 0.25
+    }
+  ],
+  "output": "result"
+}

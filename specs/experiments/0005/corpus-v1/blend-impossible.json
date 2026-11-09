@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "id": "round",
+      "op": "fillet",
+      "input": "stock",
+      "radius": 50,
+      "select": {
+        "kind": "all"
+      }
+    }
+  ],
+  "output": "round"
+}

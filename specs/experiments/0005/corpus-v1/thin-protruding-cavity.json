@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "extrude",
+      "profile": {
+        "kind": "polygon",
+        "points": [
+          [
+            0,
+            0
+          ],
+          [
+            30,
+            0
+          ],
+          [
+            30,
+            10
+          ],
+          [
+            10,
+            10
+          ],
+          [
+            10,
+            30
+          ],
+          [
+            0,
+            30
+          ]
+        ]
+      },
+      "height": 20
+    },
+    {
+      "id": "result",
+      "op": "hollow",
+      "input": "stock",
+      "wall": 2,
+      "cavity_strategy": "scaled"
+    }
+  ],
+  "output": "result"
+}

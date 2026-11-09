@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        50,
+        34,
+        16
+      ]
+    },
+    {
+      "id": "round",
+      "op": "fillet",
+      "input": "stock",
+      "radius": 1.2,
+      "select": {
+        "kind": "all"
+      }
+    },
+    {
+      "id": "result",
+      "op": "holes",
+      "input": "round",
+      "frame": {
+        "origin": [
+          0,
+          0,
+          -1
+        ],
+        "x_axis": [
+          1,
+          0,
+          0
+        ],
+        "y_axis": [
+          0,
+          1,
+          0
+        ]
+      },
+      "positions": [
+        [
+          8,
+          8
+        ],
+        [
+          42,
+          8
+        ],
+        [
+          8,
+          26
+        ],
+        [
+          42,
+          26
+        ]
+      ],
+      "radius": 2.2,
+      "depth": 18
+    }
+  ],
+  "output": "result"
+}

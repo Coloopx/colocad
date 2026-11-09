@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        -30,
+        -20,
+        0
+      ],
+      "size": [
+        60,
+        40,
+        24
+      ]
+    },
+    {
+      "id": "z",
+      "op": "holes",
+      "input": "stock",
+      "frame": {
+        "origin": [
+          0,
+          0,
+          -1
+        ],
+        "x_axis": [
+          1,
+          0,
+          0
+        ],
+        "y_axis": [
+          0,
+          1,
+          0
+        ]
+      },
+      "positions": [
+        [
+          0,
+          0
+        ]
+      ],
+      "radius": 4,
+      "depth": 26
+    },
+    {
+      "id": "x",
+      "op": "holes",
+      "input": "z",
+      "frame": {
+        "origin": [
+          -31,
+          0,
+          12
+        ],
+        "x_axis": [
+          0,
+          1,
+          0
+        ],
+        "y_axis": [
+          0,
+          0,
+          1
+        ]
+      },
+      "positions": [
+        [
+          0,
+          0
+        ]
+      ],
+      "radius": 3,
+      "depth": 62
+    },
+    {
+      "id": "y",
+      "op": "holes",
+      "input": "x",
+      "frame": {
+        "origin": [
+          12,
+          -21,
+          12
+        ],
+        "x_axis": [
+          0,
+          0,
+          1
+        ],
+        "y_axis": [
+          1,
+          0,
+          0
+        ]
+      },
+      "positions": [
+        [
+          0,
+          0
+        ]
+      ],
+      "radius": 2.5,
+      "depth": 42
+    },
+    {
+      "id": "pocket",
+      "op": "box",
+      "origin": [
+        -18,
+        -12,
+        18
+      ],
+      "size": [
+        36,
+        24,
+        8
+      ]
+    },
+    {
+      "id": "result",
+      "op": "cut",
+      "left": "y",
+      "right": "pocket"
+    }
+  ],
+  "output": "result"
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "tool",
+      "op": "box",
+      "origin": [
+        50,
+        0,
+        0
+      ],
+      "size": [
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "id": "result",
+      "op": "cut",
+      "left": "stock",
+      "right": "tool"
+    }
+  ],
+  "output": "result"
+}

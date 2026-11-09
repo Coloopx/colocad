@@ -1,0 +1,1616 @@
+{
+  "schema": "colocad.g2-corpus/1",
+  "frozen_before_native_execution": true,
+  "created": "2026-11-09",
+  "policy": "All required cases must pass. Never delete failures or loosen tolerances; preserve failed iterations. Held-out cases execute only after regression passes.",
+  "source_commit": "4e479f61a797a4fdd277649463139ba69f4278fe",
+  "verifier": {
+    "name": "independent OCCT exact STEP readback",
+    "ocp_version": "7.9.3.1.1"
+  },
+  "tolerance": {
+    "linear_mm": 1e-05,
+    "angular_rad": 1e-07,
+    "relative_volume": 1e-06,
+    "absolute_volume_mm3": 1e-06,
+    "relative_area": 1e-06,
+    "surface_sample_mm": 1e-05
+  },
+  "representation": "exact B-rep solids or explicit B-spline sheets, no required degradation",
+  "execution": {
+    "per_case_wall_seconds": 180,
+    "native_stdout_limit_mb": 16,
+    "queryable": true,
+    "preview": false
+  },
+  "cases": [
+    {
+      "id": "boolean-development",
+      "family": "boolean",
+      "split": "development",
+      "required": true,
+      "model": "boolean-development.json",
+      "model_sha256": "8129ad5bd51fe6566813c15cae68a6049fbb82de45d598785f0a10925f0c77f0",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "boolean-development-reference.step",
+        "sha256": "aaff98f3c8eed0810f2077b44ec13545d971dd869045dc4be240fa4015b6f994",
+        "volume_mm3": 49344.67508551359,
+        "area_mm2": 12028.15302932733,
+        "bbox_mm": [
+          -30.0000001,
+          -20.0000001,
+          -1e-07,
+          30.0000001,
+          20.0000001,
+          24.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      }
+    },
+    {
+      "id": "boolean-regression",
+      "family": "boolean",
+      "split": "regression",
+      "required": true,
+      "model": "boolean-regression.json",
+      "model_sha256": "0721d425bd8dfcd375d01892a83aded6ceab57cddea3146620fbb7996a1a7d47",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "boolean-regression-reference.step",
+        "sha256": "74a804c00122f07b3da9fc0cec273231ee6aca35762ede169591e2fb54ba0f5a",
+        "volume_mm3": 19195.917467789328,
+        "area_mm2": 6409.802749275681,
+        "bbox_mm": [
+          -21.9000001,
+          -14.600000099999999,
+          -1e-07,
+          21.900000100000003,
+          14.600000099999999,
+          17.52
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      }
+    },
+    {
+      "id": "boolean-held_out",
+      "family": "boolean",
+      "split": "held_out",
+      "required": true,
+      "model": "boolean-held_out.json",
+      "model_sha256": "8571a3f20a5637cb6f025be57d80b78c930137a3dad4380a41779822440d0876",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "boolean-held_out-reference.step",
+        "sha256": "c9c2fdc134526cb7f3fb5af9e06669a8916e363d7f98bf56fec05a2db539880e",
+        "volume_mm3": 110931.3199577145,
+        "area_mm2": 20641.513413581917,
+        "bbox_mm": [
+          -39.300000100000005,
+          -26.200000100000004,
+          -1e-07,
+          39.3000001,
+          26.200000100000008,
+          31.44
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      }
+    },
+    {
+      "id": "boolean-empty-cut",
+      "family": "boolean",
+      "split": "regression",
+      "required": true,
+      "model": "boolean-empty-cut.json",
+      "model_sha256": "299ab4aeefa6bfca0c3e66e91b43de83ecd6e4606c727ad453acabe11cf3b4d5",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "NO_MATERIAL_REMOVED"
+        ],
+        "feature_id": "result"
+      }
+    },
+    {
+      "id": "blend-regression",
+      "family": "blend",
+      "split": "regression",
+      "required": true,
+      "model": "blend-regression.json",
+      "model_sha256": "e3c27065558ab7dce6fa03c6c1044691a37df0613275652c10b107b5d687d78b",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "blend-regression-reference.step",
+        "sha256": "a3e5aaf8531201fcd4dfbf3f01bcc0a2b9a3d29f955d6d078eec0a215d04cd47",
+        "volume_mm3": 26105.563798582403,
+        "area_mm2": 6643.381113196083,
+        "bbox_mm": [
+          -2.220446049250313e-16,
+          -2.220446049250313e-16,
+          -2.220446049250313e-16,
+          50.0,
+          34.0,
+          16.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      }
+    },
+    {
+      "id": "blend-held_out",
+      "family": "blend",
+      "split": "held_out",
+      "required": true,
+      "model": "blend-held_out.json",
+      "model_sha256": "a03020aaf5c3fd1e71062c91b3d78836a01d976f22dc93cdbf539522adaa98d0",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "blend-held_out-reference.step",
+        "sha256": "7f1d9f319d1c42611961b8a3a0061506915c062e4f665c247f26e39eea827b16",
+        "volume_mm3": 45081.744462882714,
+        "area_mm2": 9277.668113549109,
+        "bbox_mm": [
+          -4.440892098500626e-16,
+          -4.440892098500626e-16,
+          -4.440892098500626e-16,
+          63.0,
+          39.0,
+          19.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      }
+    },
+    {
+      "id": "blend-impossible",
+      "family": "blend",
+      "split": "regression",
+      "required": true,
+      "model": "blend-impossible.json",
+      "model_sha256": "272a96e41528b49cc85650f4ae97003a5c2108315d22689798bcd0d06ae36a64",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "KERNEL_ERROR",
+          "FILLET_FAILED"
+        ],
+        "feature_id": "round"
+      }
+    },
+    {
+      "id": "thin-regression",
+      "family": "thin_wall",
+      "split": "regression",
+      "required": true,
+      "model": "thin-regression.json",
+      "model_sha256": "0b2a4de0af6028cd827afd0a25c87cf43e2fb687b506d18e1f35e17dddc611cc",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "thin-regression-reference.step",
+        "sha256": "efc488a43920f0bae92df76d2d82677b03775ed8a8bf7fdc5e3f17f57bb1cbb2",
+        "volume_mm3": 3521.6249999999927,
+        "area_mm2": 28173.5,
+        "bbox_mm": [
+          0.0,
+          0.0,
+          0.0,
+          80.0,
+          50.0,
+          24.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "minimum_wall_mm": 0.25
+    },
+    {
+      "id": "thin-held_out",
+      "family": "thin_wall",
+      "split": "held_out",
+      "required": true,
+      "model": "thin-held_out.json",
+      "model_sha256": "3e2ed204b3d949158135748358a8bb30236b7116782ac0b3cb8a65e1e1c9d54b",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "thin-held_out-reference.step",
+        "sha256": "fb63c18bcd07daebb0ff17438322e8960ea166968c36913ab2d9b4ae6a576e1c",
+        "volume_mm3": 6326.415999999997,
+        "area_mm2": 31768.079999999998,
+        "bbox_mm": [
+          0.0,
+          0.0,
+          0.0,
+          127.0,
+          43.0,
+          31.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "minimum_wall_mm": 0.4
+    },
+    {
+      "id": "thin-protruding-cavity",
+      "family": "thin_wall",
+      "split": "regression",
+      "required": true,
+      "model": "thin-protruding-cavity.json",
+      "model_sha256": "e276048963d89c09388246d1191717034de491d45dbafbcd186e8d21670ab454",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "HOLLOW_OUTSIDE"
+        ],
+        "feature_id": "result"
+      }
+    },
+    {
+      "id": "surface-regression",
+      "family": "surface",
+      "split": "regression",
+      "required": true,
+      "model": "surface-regression.json",
+      "model_sha256": "8d0d241954ec98e7f726ae07f0a44b5a870110bae7d76589e4077c5d45ff492a",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "surface-regression-reference.step",
+        "sha256": "7fea3ebc5ee7fa0781d987af68ac3f524a68651110deaae0ed767920a2e6cc78",
+        "volume_mm3": 0,
+        "area_mm2": 386.5881618164749,
+        "bbox_mm": [
+          -1e-07,
+          -1e-07,
+          -1e-07,
+          24.0000001,
+          16.0000001,
+          1.2500001
+        ],
+        "solids": 0,
+        "comparison": "bezier_samples"
+      },
+      "surface_samples_mm": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.21875
+        ],
+        [
+          0.0,
+          4.0,
+          0.375
+        ],
+        [
+          0.0,
+          6.0,
+          0.46875
+        ],
+        [
+          0.0,
+          8.0,
+          0.5
+        ],
+        [
+          0.0,
+          10.0,
+          0.46875
+        ],
+        [
+          0.0,
+          12.0,
+          0.375
+        ],
+        [
+          0.0,
+          14.0,
+          0.21875
+        ],
+        [
+          0.0,
+          16.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          0.21875
+        ],
+        [
+          3.0,
+          2.0,
+          0.4853515625
+        ],
+        [
+          3.0,
+          4.0,
+          0.67578125
+        ],
+        [
+          3.0,
+          6.0,
+          0.7900390625
+        ],
+        [
+          3.0,
+          8.0,
+          0.828125
+        ],
+        [
+          3.0,
+          10.0,
+          0.7900390625
+        ],
+        [
+          3.0,
+          12.0,
+          0.67578125
+        ],
+        [
+          3.0,
+          14.0,
+          0.4853515625
+        ],
+        [
+          3.0,
+          16.0,
+          0.21875
+        ],
+        [
+          6.0,
+          0.0,
+          0.375
+        ],
+        [
+          6.0,
+          2.0,
+          0.67578125
+        ],
+        [
+          6.0,
+          4.0,
+          0.890625
+        ],
+        [
+          6.0,
+          6.0,
+          1.01953125
+        ],
+        [
+          6.0,
+          8.0,
+          1.0625
+        ],
+        [
+          6.0,
+          10.0,
+          1.01953125
+        ],
+        [
+          6.0,
+          12.0,
+          0.890625
+        ],
+        [
+          6.0,
+          14.0,
+          0.67578125
+        ],
+        [
+          6.0,
+          16.0,
+          0.375
+        ],
+        [
+          9.0,
+          0.0,
+          0.46875
+        ],
+        [
+          9.0,
+          2.0,
+          0.7900390625
+        ],
+        [
+          9.0,
+          4.0,
+          1.01953125
+        ],
+        [
+          9.0,
+          6.0,
+          1.1572265625
+        ],
+        [
+          9.0,
+          8.0,
+          1.203125
+        ],
+        [
+          9.0,
+          10.0,
+          1.1572265625
+        ],
+        [
+          9.0,
+          12.0,
+          1.01953125
+        ],
+        [
+          9.0,
+          14.0,
+          0.7900390625
+        ],
+        [
+          9.0,
+          16.0,
+          0.46875
+        ],
+        [
+          12.0,
+          0.0,
+          0.5
+        ],
+        [
+          12.0,
+          2.0,
+          0.828125
+        ],
+        [
+          12.0,
+          4.0,
+          1.0625
+        ],
+        [
+          12.0,
+          6.0,
+          1.203125
+        ],
+        [
+          12.0,
+          8.0,
+          1.25
+        ],
+        [
+          12.0,
+          10.0,
+          1.203125
+        ],
+        [
+          12.0,
+          12.0,
+          1.0625
+        ],
+        [
+          12.0,
+          14.0,
+          0.828125
+        ],
+        [
+          12.0,
+          16.0,
+          0.5
+        ],
+        [
+          15.0,
+          0.0,
+          0.46875
+        ],
+        [
+          15.0,
+          2.0,
+          0.7900390625
+        ],
+        [
+          15.0,
+          4.0,
+          1.01953125
+        ],
+        [
+          15.0,
+          6.0,
+          1.1572265625
+        ],
+        [
+          15.0,
+          8.0,
+          1.203125
+        ],
+        [
+          15.0,
+          10.0,
+          1.1572265625
+        ],
+        [
+          15.0,
+          12.0,
+          1.01953125
+        ],
+        [
+          15.0,
+          14.0,
+          0.7900390625
+        ],
+        [
+          15.0,
+          16.0,
+          0.46875
+        ],
+        [
+          18.0,
+          0.0,
+          0.375
+        ],
+        [
+          18.0,
+          2.0,
+          0.67578125
+        ],
+        [
+          18.0,
+          4.0,
+          0.890625
+        ],
+        [
+          18.0,
+          6.0,
+          1.01953125
+        ],
+        [
+          18.0,
+          8.0,
+          1.0625
+        ],
+        [
+          18.0,
+          10.0,
+          1.01953125
+        ],
+        [
+          18.0,
+          12.0,
+          0.890625
+        ],
+        [
+          18.0,
+          14.0,
+          0.67578125
+        ],
+        [
+          18.0,
+          16.0,
+          0.375
+        ],
+        [
+          21.0,
+          0.0,
+          0.21875
+        ],
+        [
+          21.0,
+          2.0,
+          0.4853515625
+        ],
+        [
+          21.0,
+          4.0,
+          0.67578125
+        ],
+        [
+          21.0,
+          6.0,
+          0.7900390625
+        ],
+        [
+          21.0,
+          8.0,
+          0.828125
+        ],
+        [
+          21.0,
+          10.0,
+          0.7900390625
+        ],
+        [
+          21.0,
+          12.0,
+          0.67578125
+        ],
+        [
+          21.0,
+          14.0,
+          0.4853515625
+        ],
+        [
+          21.0,
+          16.0,
+          0.21875
+        ],
+        [
+          24.0,
+          0.0,
+          0.0
+        ],
+        [
+          24.0,
+          2.0,
+          0.21875
+        ],
+        [
+          24.0,
+          4.0,
+          0.375
+        ],
+        [
+          24.0,
+          6.0,
+          0.46875
+        ],
+        [
+          24.0,
+          8.0,
+          0.5
+        ],
+        [
+          24.0,
+          10.0,
+          0.46875
+        ],
+        [
+          24.0,
+          12.0,
+          0.375
+        ],
+        [
+          24.0,
+          14.0,
+          0.21875
+        ],
+        [
+          24.0,
+          16.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "id": "surface-held_out",
+      "family": "surface",
+      "split": "held_out",
+      "required": true,
+      "model": "surface-held_out.json",
+      "model_sha256": "3e8420f23659f6ff788ceb1299c0b644f203478cba4d9012e1d6851b8927d734",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "surface-held_out-reference.step",
+        "sha256": "2d18ff6f2bc5b46c5a45ac2c28952feb1059dc05f9975cf05bfc6f0734a76551",
+        "volume_mm3": 0,
+        "area_mm2": 395.1392290669255,
+        "bbox_mm": [
+          -1e-07,
+          -1e-07,
+          -1e-07,
+          24.0000001,
+          16.0000001,
+          2.2750000999999997
+        ],
+        "solids": 0,
+        "comparison": "bezier_samples"
+      },
+      "surface_samples_mm": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.21875
+        ],
+        [
+          0.0,
+          4.0,
+          0.375
+        ],
+        [
+          0.0,
+          6.0,
+          0.46875
+        ],
+        [
+          0.0,
+          8.0,
+          0.5
+        ],
+        [
+          0.0,
+          10.0,
+          0.46875
+        ],
+        [
+          0.0,
+          12.0,
+          0.375
+        ],
+        [
+          0.0,
+          14.0,
+          0.21875
+        ],
+        [
+          0.0,
+          16.0,
+          0.0
+        ],
+        [
+          3.0,
+          0.0,
+          0.21875
+        ],
+        [
+          3.0,
+          2.0,
+          0.68154296875
+        ],
+        [
+          3.0,
+          4.0,
+          1.012109375
+        ],
+        [
+          3.0,
+          6.0,
+          1.21044921875
+        ],
+        [
+          3.0,
+          8.0,
+          1.2765625
+        ],
+        [
+          3.0,
+          10.0,
+          1.21044921875
+        ],
+        [
+          3.0,
+          12.0,
+          1.012109375
+        ],
+        [
+          3.0,
+          14.0,
+          0.68154296875
+        ],
+        [
+          3.0,
+          16.0,
+          0.21875
+        ],
+        [
+          6.0,
+          0.0,
+          0.375
+        ],
+        [
+          6.0,
+          2.0,
+          1.0121093749999999
+        ],
+        [
+          6.0,
+          4.0,
+          1.4671874999999999
+        ],
+        [
+          6.0,
+          6.0,
+          1.740234375
+        ],
+        [
+          6.0,
+          8.0,
+          1.8312499999999998
+        ],
+        [
+          6.0,
+          10.0,
+          1.740234375
+        ],
+        [
+          6.0,
+          12.0,
+          1.4671874999999999
+        ],
+        [
+          6.0,
+          14.0,
+          1.0121093749999999
+        ],
+        [
+          6.0,
+          16.0,
+          0.375
+        ],
+        [
+          9.0,
+          0.0,
+          0.46875
+        ],
+        [
+          9.0,
+          2.0,
+          1.21044921875
+        ],
+        [
+          9.0,
+          4.0,
+          1.740234375
+        ],
+        [
+          9.0,
+          6.0,
+          2.05810546875
+        ],
+        [
+          9.0,
+          8.0,
+          2.1640625
+        ],
+        [
+          9.0,
+          10.0,
+          2.05810546875
+        ],
+        [
+          9.0,
+          12.0,
+          1.740234375
+        ],
+        [
+          9.0,
+          14.0,
+          1.21044921875
+        ],
+        [
+          9.0,
+          16.0,
+          0.46875
+        ],
+        [
+          12.0,
+          0.0,
+          0.5
+        ],
+        [
+          12.0,
+          2.0,
+          1.2765625
+        ],
+        [
+          12.0,
+          4.0,
+          1.8312499999999998
+        ],
+        [
+          12.0,
+          6.0,
+          2.1640625
+        ],
+        [
+          12.0,
+          8.0,
+          2.275
+        ],
+        [
+          12.0,
+          10.0,
+          2.1640625
+        ],
+        [
+          12.0,
+          12.0,
+          1.8312499999999998
+        ],
+        [
+          12.0,
+          14.0,
+          1.2765625
+        ],
+        [
+          12.0,
+          16.0,
+          0.5
+        ],
+        [
+          15.0,
+          0.0,
+          0.46875
+        ],
+        [
+          15.0,
+          2.0,
+          1.21044921875
+        ],
+        [
+          15.0,
+          4.0,
+          1.740234375
+        ],
+        [
+          15.0,
+          6.0,
+          2.05810546875
+        ],
+        [
+          15.0,
+          8.0,
+          2.1640625
+        ],
+        [
+          15.0,
+          10.0,
+          2.05810546875
+        ],
+        [
+          15.0,
+          12.0,
+          1.740234375
+        ],
+        [
+          15.0,
+          14.0,
+          1.21044921875
+        ],
+        [
+          15.0,
+          16.0,
+          0.46875
+        ],
+        [
+          18.0,
+          0.0,
+          0.375
+        ],
+        [
+          18.0,
+          2.0,
+          1.0121093749999999
+        ],
+        [
+          18.0,
+          4.0,
+          1.4671874999999999
+        ],
+        [
+          18.0,
+          6.0,
+          1.740234375
+        ],
+        [
+          18.0,
+          8.0,
+          1.8312499999999998
+        ],
+        [
+          18.0,
+          10.0,
+          1.740234375
+        ],
+        [
+          18.0,
+          12.0,
+          1.4671874999999999
+        ],
+        [
+          18.0,
+          14.0,
+          1.0121093749999999
+        ],
+        [
+          18.0,
+          16.0,
+          0.375
+        ],
+        [
+          21.0,
+          0.0,
+          0.21875
+        ],
+        [
+          21.0,
+          2.0,
+          0.68154296875
+        ],
+        [
+          21.0,
+          4.0,
+          1.012109375
+        ],
+        [
+          21.0,
+          6.0,
+          1.21044921875
+        ],
+        [
+          21.0,
+          8.0,
+          1.2765625
+        ],
+        [
+          21.0,
+          10.0,
+          1.21044921875
+        ],
+        [
+          21.0,
+          12.0,
+          1.012109375
+        ],
+        [
+          21.0,
+          14.0,
+          0.68154296875
+        ],
+        [
+          21.0,
+          16.0,
+          0.21875
+        ],
+        [
+          24.0,
+          0.0,
+          0.0
+        ],
+        [
+          24.0,
+          2.0,
+          0.21875
+        ],
+        [
+          24.0,
+          4.0,
+          0.375
+        ],
+        [
+          24.0,
+          6.0,
+          0.46875
+        ],
+        [
+          24.0,
+          8.0,
+          0.5
+        ],
+        [
+          24.0,
+          10.0,
+          0.46875
+        ],
+        [
+          24.0,
+          12.0,
+          0.375
+        ],
+        [
+          24.0,
+          14.0,
+          0.21875
+        ],
+        [
+          24.0,
+          16.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "id": "surface-ragged",
+      "family": "surface",
+      "split": "regression",
+      "required": true,
+      "model": "surface-ragged.json",
+      "model_sha256": "e511f682f11bbcf2b7b6ce06ffac3f099b9fdec729232f0121e7f7a6f5c0242c",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "INVALID_SURFACE"
+        ],
+        "feature_id": null
+      }
+    },
+    {
+      "id": "surface-crossing-mismatch",
+      "family": "surface",
+      "split": "regression",
+      "required": true,
+      "model": "surface-crossing-mismatch.json",
+      "model_sha256": "2252e504c3621594680412dcede426f6ca3bc6b136695d89e9803694eb12a7ff",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "NETWORK_MISMATCH"
+        ],
+        "feature_id": null
+      }
+    },
+    {
+      "id": "foreign-motor-housing",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-motor-housing.json",
+      "model_sha256": "bcdb2b31fec2fc1533bfa94a6c213e00ea64fedfee3cc3cd7f8b3126763e51f5",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-motor-housing-reference.step",
+        "sha256": "c6f2bd58c7f572046b6805ef385ef1997329d81fcc9850ebedb6618e9f49e36b",
+        "volume_mm3": 30086.793249242222,
+        "area_mm2": 9119.911316942906,
+        "bbox_mm": [
+          -20.0,
+          -18.0,
+          -22.0,
+          20.0,
+          18.0,
+          8.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/motor-housing.step",
+      "upstream_sha256": "e1444b2ac9a1016bf09d718e56367bb357ff15bdba637356b0d4f8742006dc65"
+    },
+    {
+      "id": "foreign-motor-rotated",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-motor-rotated.json",
+      "model_sha256": "1df1bd4644cd2d400f768a61dafb615c7926806e0c5c89ddefc163f5e033720f",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-motor-rotated-reference.step",
+        "sha256": "68b1694dc99c283920e4981f281ee45f4d3525dbc8930ba3061d9cc7c94852ab",
+        "volume_mm3": 10480.509822781121,
+        "area_mm2": 4506.920319089466,
+        "bbox_mm": [
+          38.598440671806,
+          -55.8959001343,
+          -3.12090037821,
+          68.1628547688501,
+          -5.8334504478182,
+          47.031684254685
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/motor-rotated.step",
+      "upstream_sha256": "356b45dc32de3bf7b3344d160a081a202af7860478c9c41d01f5990003462466"
+    },
+    {
+      "id": "foreign-split-axial-bore",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-split-axial-bore.json",
+      "model_sha256": "e1c83016aa723f2dfdc1dd7d9616eb537e1a7d262b2bdb974500500b5be5af66",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-split-axial-bore-reference.step",
+        "sha256": "622a0a4ec45e76f921075518b6552cc9f1b348ed01d846210b00979ae461d061",
+        "volume_mm3": 4460.707993412302,
+        "area_mm2": 1929.6460032938492,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/split-axial-bore.step",
+      "upstream_sha256": "9296746e0548dc64face2a8a752647127e363c3d35d116765833cebdd6a2b055"
+    },
+    {
+      "id": "foreign-split-angular-bore",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-split-angular-bore.json",
+      "model_sha256": "756e6d9f4252abe809bc019f124ecdaed952476d02394ae38f49ca68c7fb1376",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-split-angular-bore-reference.step",
+        "sha256": "5c07b1c4374d4a1f89cf9d608638289154f29061f1fb52251359d08917ebe9a8",
+        "volume_mm3": 4460.707993412288,
+        "area_mm2": 1929.6460032938635,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/split-angular-bore.step",
+      "upstream_sha256": "d47ad01a86eec0f6814de524aba2c853ecb03ac6f7efdd0df46e2296d06fce19"
+    },
+    {
+      "id": "foreign-spline-bore",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-spline-bore.json",
+      "model_sha256": "65cc781c9d3c05934e57ab735b17f26854d6f80a123a41ac8a8e7fc7aaa2e5f6",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-spline-bore-reference.step",
+        "sha256": "427712d4f19c9b476378c050685732e896d9139193ee395c421bda788121eaa4",
+        "volume_mm3": 4460.707989937582,
+        "area_mm2": 1929.6460067685814,
+        "bbox_mm": [
+          -10.0000001,
+          -10.0000001,
+          -1e-07,
+          10.0000001,
+          10.0000001,
+          12.000000100000003
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/spline-bore.step",
+      "upstream_sha256": "0317c9bf5e5b7268ec20af565e5c68d3cdc4622331b129c199777349f77c9346"
+    },
+    {
+      "id": "foreign-conical-tip",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-conical-tip.json",
+      "model_sha256": "77ecfaf0a029d113c957a7f6b4f572b2a501400c5327e30a3e08dcf6156ac93b",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-conical-tip-reference.step",
+        "sha256": "61328878da4ba4f5cd7e9072b44ce0433645ed95060f6c2cc2091ae503e10eb8",
+        "volume_mm3": 4602.079662823871,
+        "area_mm2": 1884.808948090332,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/conical-tip.step",
+      "upstream_sha256": "7e035df0718ef38738e10ed08306461b132c475f1d00563247361cdad5313219"
+    },
+    {
+      "id": "foreign-intersecting-bores",
+      "family": "foreign_step",
+      "split": "held_out",
+      "required": true,
+      "model": "foreign-intersecting-bores.json",
+      "model_sha256": "85a22c99a9b8ca4fbcc75afcb17db5e1bd946c84721e92ce16ddd20911d72988",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-intersecting-bores-reference.step",
+        "sha256": "c9180183b11557b7fb2abd158c3608bfe709cc09c01f22f727ceae5a6229b479",
+        "volume_mm3": 4280.316690847059,
+        "area_mm2": 2062.8549016251013,
+        "bbox_mm": [
+          -10.0000001,
+          -10.0,
+          -1e-07,
+          10.0000001,
+          10.0,
+          12.0000001
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/intersecting-bores.step",
+      "upstream_sha256": "dcf69150e94bdc114a159a05f17d5c3cdab0a4a33658296aefaabbb97c83da82"
+    },
+    {
+      "id": "foreign-kk60-accessory-bracket",
+      "family": "foreign_step",
+      "split": "held_out",
+      "required": true,
+      "model": "foreign-kk60-accessory-bracket.json",
+      "model_sha256": "41d715f114337f0661f4552e59dd004f63b992506e6c914821bcf75255aa8d18",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "oracle": {
+        "file": "foreign-kk60-accessory-bracket-reference.step",
+        "sha256": "fd6df37d2577cf9f8fbe335f79a97b7897f0369f31679bb228c654da70f4d70a",
+        "volume_mm3": 25238.407165544086,
+        "area_mm2": 9737.98669271834,
+        "bbox_mm": [
+          -25.0,
+          -25.0,
+          0.0,
+          25.0,
+          25.0,
+          33.0
+        ],
+        "solids": 1,
+        "comparison": "symmetric_difference_volume"
+      },
+      "upstream_source": "specs/experiments/0004/fixtures/engineering/kk60-accessory-bracket.step",
+      "upstream_sha256": "ad516936f8ec31127ddba0057af55a94e4722632e591e4ea11b1fb3da5ee4eae"
+    },
+    {
+      "id": "foreign-digest-mismatch",
+      "family": "foreign_step",
+      "split": "regression",
+      "required": true,
+      "model": "foreign-digest-mismatch.json",
+      "model_sha256": "eae04c11d73cba42dd791acb65258c95e941b9a0dfb8d1cfc7c41e8565836da1",
+      "expect": "reject",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "independently_authored_analytic_or_OCCT_fixture",
+        "license": "MIT",
+        "source": "freeze.py",
+        "generator_sha256": "87162f3fef544b0328018c38faeb99e5838631d651a71a7f9f5f83bac4c76663"
+      },
+      "error": {
+        "codes": [
+          "ASSET_DIGEST_MISMATCH"
+        ],
+        "feature_id": null
+      }
+    },
+    {
+      "id": "product-kk60-accessory",
+      "family": "whole_product",
+      "split": "regression",
+      "required": true,
+      "model": "product-kk60-accessory.json",
+      "model_sha256": "e829f76367ff5208146b5120318ae1eb67abf00c1ca77317e77757a5e3d7999a",
+      "expect": "success",
+      "accepted_degradations": [],
+      "units": "mm",
+      "provenance": {
+        "kind": "catalog_backed_reconstruction_with_independent_accessory",
+        "sources": "examples/hiwin-kk60/sources.json",
+        "source_sha256": "85ad95c5994360c546f57768f5009d7db4d40e8655fdd2b639896f13142b9a98",
+        "scope": "catalog reconstruction; not OEM manufacturing geometry"
+      },
+      "oracle": {
+        "verifier": "../../../examples/engineering-interfaces/verify-kk60.py",
+        "expected_solids": 82,
+        "expected_pairs": 3,
+        "expected_samples": 9
+      },
+      "tolerance_override": {
+        "linear_mm": 0.01,
+        "angular_rad": 0.0001
+      },
+      "bracket_source": {
+        "id": "kk60-accessory-bracket",
+        "file": "kk60-accessory-bracket.step",
+        "sha256": "ad516936f8ec31127ddba0057af55a94e4722632e591e4ea11b1fb3da5ee4eae",
+        "volume_mm3": 25238.407165544086,
+        "analytic_volume_mm3": null,
+        "adaptive_volume_mm3": 25238.407165544086,
+        "default_integration_volume_mm3": 25238.407165544086,
+        "adaptive_relative_error": 3.3645537126225633e-16,
+        "surface_counts": {
+          "GeomAbs_SurfaceType.GeomAbs_Plane": 11,
+          "GeomAbs_SurfaceType.GeomAbs_Cylinder": 5
+        },
+        "expected": {
+          "pitch_mm": [
+            30,
+            30
+          ],
+          "bore_diameter_mm": 5.5,
+          "termination": "through",
+          "mount_z_mm": 0,
+          "positive": true,
+          "purpose": "independent accessory example, not a manufacturer bracket SKU"
+        }
+      }
+    }
+  ],
+  "preexecution_correction": {
+    "before_sha256": "06e5f73584c0b076170bd82568a8e31601ce91758ae1d7de767b3674eadb7dba",
+    "reason": "Source contract inspection: validation.rs uses ASSET_DIGEST_MISMATCH; no native corpus execution has occurred. Geometry, required cases and tolerances unchanged."
+  }
+}
