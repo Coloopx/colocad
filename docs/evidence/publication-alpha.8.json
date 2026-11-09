@@ -1,0 +1,135 @@
+{
+  "version": "0.1.0-alpha.8",
+  "verified_at_utc": "2026-11-09T23:49:32.998557+00:00",
+  "release_commit": "702ae1894b5c6c215d12a72f77077bc835e835b5",
+  "github": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/729378650",
+        "contentType": "application/x-gtar",
+        "createdAt": "2026-11-09T23:31:41Z",
+        "digest": "sha256:0d0a82427f55b4f6b4e456ce8fbeb3e1a813faf061fd7b6ea859f1de8deaabb5",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4reW9a",
+        "label": "",
+        "name": "coloopx-colocad-0.1.0-alpha.8.tgz",
+        "size": 45868117,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T23:34:28Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.8/coloopx-colocad-0.1.0-alpha.8.tgz"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/729378658",
+        "contentType": "application/json",
+        "createdAt": "2026-11-09T23:31:41Z",
+        "digest": "sha256:1ed18b73c8acffe7a8fefd14a660bef1364bb0cf5f2b1c6fecd9b97b09220440",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4reW9i",
+        "label": "",
+        "name": "release-alpha.8.json",
+        "size": 15670,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T23:31:41Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.8/release-alpha.8.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Coloopx/colocad/releases/assets/729378651",
+        "contentType": "text/plain; charset=utf-8",
+        "createdAt": "2026-11-09T23:31:41Z",
+        "digest": "sha256:c4768ca30d2e857db78df7336f693f3a4578dc08d8b19050b2d4577693be55d1",
+        "downloadCount": 0,
+        "id": "RA_kwDOVjxpOc4reW9b",
+        "label": "",
+        "name": "SHA256SUMS.txt",
+        "size": 405,
+        "state": "uploaded",
+        "updatedAt": "2026-11-09T23:31:41Z",
+        "url": "https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.8/SHA256SUMS.txt"
+      }
+    ],
+    "isDraft": false,
+    "isPrerelease": true,
+    "publishedAt": "2026-11-09T23:49:29Z",
+    "tagName": "v0.1.0-alpha.8",
+    "url": "https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.8"
+  },
+  "npm": {
+    "version": "0.1.0-alpha.8",
+    "dist-tags": {
+      "latest": "0.1.0-alpha.8",
+      "alpha": "0.1.0-alpha.8"
+    },
+    "dist.integrity": "sha512-yq06vv8+ZyW8ZElauAb5OHAh+7jJsHlyCSZ2wN/UnTBWVexvSx30fSkzQ+1fPEBzCPdQG2+1ArBKcWOXS4DCZA=="
+  },
+  "public_installation": {
+    "source": "Public npm registry; empty consumer and fresh cache; no native override",
+    "installed_integrity": "sha512-yq06vv8+ZyW8ZElauAb5OHAh+7jJsHlyCSZ2wN/UnTBWVexvSx30fSkzQ+1fPEBzCPdQG2+1ArBKcWOXS4DCZA==",
+    "query_acceptance": {
+      "passed": true,
+      "version": "0.1.0-alpha.8",
+      "platform": "darwin-arm64",
+      "native_sha256": "cf358a37f19ed8dcd9b2607584152ad3a627c7e175faa631e2086ed1c5cc255a",
+      "execution_policy": "sha256:557376d4ce772ef32b1e758f4ec4cb0c22204f96f9a6b9addd74fb90c740a1ae",
+      "override": false,
+      "checks": [
+        "installed_sdk_and_query_tool",
+        "cli_query",
+        "exact_snapshot_relocation",
+        "four_bores_and_two_plane_scoped_groups",
+        "declared_interface",
+        "edit_and_stale_ref_rejection",
+        "failed_edit_preserves_source",
+        "offline_history_export",
+        "three_foreign_replacements_two_rejections",
+        "ineffective_cut_rejection"
+      ],
+      "foreign_positives": 3,
+      "foreign_rejections": 2,
+      "scope": "Installed archive correctness, not a performance comparison or live inference study"
+    },
+    "grid_acceptance": {
+      "passed": true,
+      "platform": "darwin-arm64",
+      "checks": [
+        "bundled_grid_queryable_preview",
+        "four_hole_centers_diameters",
+        "six_hole_parameter_edit",
+        "stale_revision_rejection",
+        "relocation_preserves_refs",
+        "query_no_build_export_tessellation",
+        "cli_html_replay"
+      ],
+      "revision": "sha256:3cbf8ed98b77594fccb0328c6b7dbba797d79521c983fb35d43d259b623ec5f2",
+      "html_bytes": 1181895
+    },
+    "packaged_documentation": {
+      "passed": true,
+      "platform": "darwin-arm64",
+      "files": {
+        "README.md": "6ee9223c620c7a6177ac3617596f1919234f83f6a6e211272bf699266caaae0d",
+        "README.zh-CN.md": "a0e90856cb190a7672f183ef05592c6f1b04e2dc9b2690bad4a202dd584f2199",
+        "ROADMAP.md": "7210ebbe253843e3d284951842b79a2ab04f564578ddce04f7f8807057ea67b4",
+        "ROADMAP.zh-CN.md": "d72e6328e7fbd021fd1c235564961a31ee4406653c51c1286f196868ed4550d9",
+        "docs/cadquery-comparison.md": "62d795e18c6ca174e2cd9110f16d0cca63e4fbe76419b47902f8c9de4605e72f",
+        "docs/cadquery-comparison.zh-CN.md": "f9b75f431d0336d24ebfce50ee42327f2756b9292893030c135c0a9a2246446c",
+        "docs/cadquery-coverage.json": "f78ec1adad467d094fb6b8abf4d95b5c215987b01121f624ccbc3851329fc847",
+        "docs/best-practices.md": "633c02828d262e96d4a4fc899e48054ab4bb8940a559c16bef40070061cb2661",
+        "docs/best-practices.zh-CN.md": "1bfb66f52032d3f980e8777fc1d9db8267879773c764b5fd922c61a139573abc",
+        "docs/agent-modeling-handbook.md": "c4bc9cc5e3d9ed365785612c2634d18d72aa973aa17f986da8e811a2205be48d",
+        "docs/agent-modeling-handbook.zh-CN.md": "fa35b4f24f44d20fc5ee73696a3e6a1167daeb2dbd1e3ab580aa467ab44d42ec",
+        "skills/colocad/SKILL.md": "e7d68ec661a9439565532a961862c7987a73d43469f1fa098a431ec4cecdad7e",
+        "skills/colocad/references/tuning.md": "1d165f195b35c9a87af1d7b4d892d545fb3999252d036237d7fb263aef6029e0",
+        "skills/colocad/references/modeling-loop.md": "51e68899c085a6fdc5be5fc04ffd28278e53dc329a5e0ea28371ad3f6b8b59c0",
+        "skills/colocad/references/prompt-patterns.md": "72134527cfaf06005125a27148bb89f4e7730f5193be1bd001a654535a09d514"
+      },
+      "script_sha256": "ca40dbbcdd8ac14c8ded70865ead223b44791fab1b4d6cf172dde79719e0a1ce",
+      "replay": {
+        "steps": 5,
+        "meshDefinitions": 2,
+        "bytes": 1072432
+      }
+    }
+  },
+  "tested_archive_integrity": "sha512-yq06vv8+ZyW8ZElauAb5OHAh+7jJsHlyCSZ2wN/UnTBWVexvSx30fSkzQ+1fPEBzCPdQG2+1ArBKcWOXS4DCZA==",
+  "scope": "Publication verification of the exact tested archive; G4 remains planned. The release tag and archive are immutable."
+}
