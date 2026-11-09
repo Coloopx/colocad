@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "stock",
+      "op": "box",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        127,
+        43,
+        31
+      ]
+    },
+    {
+      "id": "result",
+      "op": "shell",
+      "input": "stock",
+      "thickness": 0.4,
+      "open_faces": [
+        {
+          "kind": "on_plane",
+          "axis": "z",
+          "value": 31,
+          "expected_count": 1
+        }
+      ]
+    }
+  ],
+  "output": "result"
+}

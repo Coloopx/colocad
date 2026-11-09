@@ -2,7 +2,7 @@
 
 Date: 2026-11-09. Specification: [English revision 2](../../0004-engineering-query-and-assembly-interfaces.md), [中文](../../0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
-The six review findings are incorporated in the normative spec. Work is local to Colocad. Runtime evidence below is independent of the existing harness CAD implementation. No npm release is implied by this ledger. [SDD 0005](../../0005-capability-reliability-and-optimization.md) governs the four ordered acceptance goals; G1 remains active.
+The six review findings are incorporated in the normative spec. Work is local to Colocad. Runtime evidence below is independent of the existing harness CAD implementation. No npm release is implied by this ledger. [SDD 0005](../../0005-capability-reliability-and-optimization.md) governs the four ordered acceptance goals; G1 is accepted in iteration 3 below.
 
 | Experiment | Hypothesis / gate | State |
 | --- | --- | --- |

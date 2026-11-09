@@ -24,10 +24,10 @@
       "thickness": 0.4,
       "open_faces": [
         {
-          "kind": "on_plane",
           "axis": "z",
           "value": 31,
-          "expected_count": 1
+          "expected_count": 1,
+          "tolerance": 1e-05
         }
       ]
     }

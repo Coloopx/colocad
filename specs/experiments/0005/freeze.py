@@ -68,7 +68,7 @@ for size,t,opened,split in [([80,50,24],.25,False,'regression'),([127,43,31],.4,
  origin=[t]*3;inner=[v-2*t for v in size];inner[2]=size[2] if opened else inner[2]
  body=cut(box([0,0,0],size),box(origin,inner))
  fs=[bfeat('stock',[0,0,0],size),{'id':'result','op':'shell','input':'stock','thickness':t}]
- if opened:fs[-1]['open_faces']=[{'kind':'on_plane','axis':'z','value':size[2],'expected_count':1}]
+ if opened:fs[-1]['open_faces']=[{'axis':'z','value':size[2],'tolerance':1e-5,'expected_count':1}]
  save('thin-'+split,'thin_wall',split,mdl(fs),body,extra={'minimum_wall_mm':t})
 fs=[{'id':'stock','op':'extrude','profile':{'kind':'polygon','points':[[0,0],[30,0],[30,10],[10,10],[10,30],[0,30]]},'height':20},{'id':'result','op':'hollow','input':'stock','wall':2,'cavity_strategy':'scaled'}]
 save('thin-protruding-cavity','thin_wall','regression',mdl(fs),expected_error=['HOLLOW_OUTSIDE'],feature='result')
@@ -92,7 +92,7 @@ for i,id in enumerate(['motor-housing','motor-rotated','split-axial-bore','split
  model=mdl([{'id':'result','op':'import_step','asset':'source','body_index':0}],assets={'source':{'step':step,'sha256':sha(path)}})
  save('foreign-'+id,'foreign_step','held_out' if i>=6 else 'regression',model,reader.OneShape(),extra={'upstream_source':str(path.relative_to(repo)),'upstream_sha256':sha(path)})
 bad=copy.deepcopy(model);bad['assets']['source']['sha256']='0'*64
-save('foreign-digest-mismatch','foreign_step','regression',bad,expected_error=['ASSET_INTEGRITY'],feature=None)
+save('foreign-digest-mismatch','foreign_step','regression',bad,expected_error=['ASSET_DIGEST_MISMATCH'],feature=None)
 # Sourced whole-product model with 82 occurrences; reused correctness target, not claimed held out.
 model=json.loads((repo/'out/kk60-interfaces-final/model.json').read_text())
 save('product-kk60-accessory','whole_product','regression',model,extra={'oracle':{'verifier':'../../../examples/engineering-interfaces/verify-kk60.py','expected_solids':82,'expected_pairs':3,'expected_samples':9},'provenance':{'kind':'catalog_backed_reconstruction_with_independent_accessory','sources':'examples/hiwin-kk60/sources.json','source_sha256':sha(repo/'examples/hiwin-kk60/sources.json'),'scope':'catalog reconstruction; not OEM manufacturing geometry'},'tolerance_override':{'linear_mm':.01,'angular_rad':1e-4},'bracket_source':next(c for c in fm['cases'] if c['id']=='kk60-accessory-bracket')})

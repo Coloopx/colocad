@@ -401,7 +401,7 @@ pub(crate) fn select_edges(
             tolerance,
             expected_count,
         } => {
-            let tol = positive(tolerance.resolve(p)?)?;
+            let tol = selection_tolerance(tolerance.resolve(p)?)?;
             let bb = brep_bounding_box(k, b, true)?;
             for &e in all {
                 let eb = edge_bounding_box(k, b, e, true)?;
@@ -435,7 +435,7 @@ pub(crate) fn select_edges(
         }
         EdgeSelector::All => selected = all.to_vec(),
         EdgeSelector::Near { points, tolerance } => {
-            let tol = positive(tolerance.resolve(p)?)?;
+            let tol = selection_tolerance(tolerance.resolve(p)?)?;
             if points.is_empty() || points.len() > 64 {
                 return Err(CadError::new(
                     "RESOURCE_LIMIT",
@@ -469,7 +469,7 @@ pub(crate) fn select_edges(
             expected_count,
         } => {
             let value = value.resolve(p)?;
-            let tol = positive(tolerance.resolve(p)?)?;
+            let tol = selection_tolerance(tolerance.resolve(p)?)?;
             let i = axis.index();
             for &e in all {
                 let bb = edge_bounding_box(k, b, e, true)?;
@@ -513,6 +513,16 @@ pub(crate) fn select_edges(
     }
     Ok(selected)
 }
+// Numerical predicate precision is not a minimum manufacturable feature size.
+pub(crate) fn selection_tolerance(value: f64) -> Result<f64> {
+    if !value.is_finite() || value < 1e-8 || value > MAX_COORD {
+        return Err(CadError::new(
+            "INVALID_TOLERANCE",
+            "selection tolerance must be finite and within 1e-8..100000 mm",
+        ));
+    }
+    Ok(value)
+}
 fn expected(actual: usize, want: usize) -> Result<()> {
     if want == 0 || actual != want {
         return Err(CadError::new(
@@ -551,7 +561,7 @@ pub(crate) fn select_faces(
                 expected_count,
             } => {
                 let v = value.resolve(p)?;
-                let tol = positive(tolerance.resolve(p)?)?;
+                let tol = selection_tolerance(tolerance.resolve(p)?)?;
                 let i = axis.index();
                 let mut matches = vec![];
                 for &f in b.face_list() {
@@ -630,7 +640,7 @@ pub(crate) fn validate_selector(s: &EdgeSelector, p: &BTreeMap<String, f64>) -> 
             expected_count,
             ..
         } => {
-            positive(tolerance.resolve(p)?)?;
+            selection_tolerance(tolerance.resolve(p)?)?;
             if *expected_count == 0 || *expected_count > 20_000 {
                 return Err(CadError::new("INVALID_SELECTOR", "expected count 1..20000"));
             }
@@ -655,7 +665,7 @@ pub(crate) fn validate_selector(s: &EdgeSelector, p: &BTreeMap<String, f64>) -> 
             ..
         } => {
             value.resolve(p)?;
-            positive(tolerance.resolve(p)?)?;
+            selection_tolerance(tolerance.resolve(p)?)?;
             if *expected_count == 0 || *expected_count > 20_000 {
                 return Err(CadError::new(
                     "INVALID_SELECTOR",
@@ -664,7 +674,7 @@ pub(crate) fn validate_selector(s: &EdgeSelector, p: &BTreeMap<String, f64>) -> 
             }
         }
         EdgeSelector::Near { points, tolerance } => {
-            positive(tolerance.resolve(p)?)?;
+            selection_tolerance(tolerance.resolve(p)?)?;
             if points.is_empty() || points.len() > 64 {
                 return Err(CadError::new(
                     "RESOURCE_LIMIT",

@@ -316,7 +316,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
                     let a = take_body(&mut k, left, &mut bodies, &mut uses)?;
                     let b = take_body(&mut k, right, &mut bodies, &mut uses)?;
                     match f {
-                        Feature::Cut { .. } => boolean_difference(&mut k, a, b)?,
+                        Feature::Cut { .. } => operations::cut_checked(&mut k, a, b)?,
                         Feature::Union { .. } => boolean_union(&mut k, a, b)?,
                         _ => boolean_intersection(&mut k, a, b)?,
                     }

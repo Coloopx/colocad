@@ -84,3 +84,35 @@ fn curved_loft_exports_exact_surfaces() {
     assert!(!b.step.contains("FACETED_BREP"));
     assert!(b.report["geometry"]["volume_mm3"].as_f64().unwrap() > 1000.);
 }
+
+#[test]
+fn required_boolean_cut_rejects_disjoint_and_touching_tools() {
+    for x in [20., 50.] {
+        let m = model(json!({"version":1,"units":"mm","parameters":{},"features":[
+            {"id":"stock","op":"box","origin":[0,0,0],"size":[20,20,20]},
+            {"id":"tool","op":"box","origin":[x,0,0],"size":[5,5,5]},
+            {"id":"cut","op":"cut","left":"stock","right":"tool"}],"output":"cut"}));
+        let error = build(&m).err().expect("a required no-op cut must fail");
+        assert_eq!(error.code, "NO_MATERIAL_REMOVED");
+        assert_eq!(error.feature_id.as_deref(), Some("cut"));
+    }
+}
+
+#[test]
+fn selection_precision_is_independent_of_minimum_feature_size() {
+    let mut source = json!({"version":1,"units":"mm","parameters":{},"features":[
+        {"id":"stock","op":"box","origin":[0,0,0],"size":[127,43,31]},
+        {"id":"shell","op":"shell","input":"stock","thickness":0.4,"open_faces":[{"axis":"z","value":31,"tolerance":0.00001,"expected_count":1}]}],"output":"shell"});
+    let b = build(&model(source.clone())).unwrap();
+    close(
+        b.report["geometry"]["volume_mm3"].as_f64().unwrap(),
+        127. * 43. * 31. - 126.2 * 42.2 * 30.6,
+    );
+    for tolerance in [0., 1e-10, -0.01] {
+        source["features"][1]["open_faces"][0]["tolerance"] = json!(tolerance);
+        assert_eq!(
+            validate(&model(source.clone())).err().unwrap().code,
+            "INVALID_TOLERANCE"
+        );
+    }
+}

@@ -1,0 +1,16 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 34.64s
+     Running tests/geometry.rs (../../work/colocad-build/target/release/deps/geometry-ab4d72f2333c60e6)
+
+running 8 tests
+test references_unknown_fields_and_budgets_fail_before_geometry ... ok
+test missing_holes_are_not_silent_success ... ok
+test required_boolean_cut_rejects_disjoint_and_touching_tools ... ok
+test branches_and_intersection_preserve_operands ... ok
+test enclosure_derived_dimensions_follow_wall ... ok
+test curved_loft_exports_exact_surfaces ... ok
+test holes_and_parameter_replay_preserve_design ... ok
+test replay_is_deterministic ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+

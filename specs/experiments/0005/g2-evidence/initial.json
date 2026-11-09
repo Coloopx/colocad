@@ -1,0 +1,256 @@
+{
+  "schema": "colocad.g2-run/1",
+  "manifest_sha256": "5e5cfcbfa88893210a61d27b989fc80688d3826f095745683915c9d089b8d144",
+  "native_sha256": "92b3c500884b6a3c282baeb6c2d6f36942581a8b6173abf82c2f23504f9d8c3d",
+  "split": "regression",
+  "rows": [
+    {
+      "id": "boolean-development",
+      "family": "boolean",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.3164084999880288
+    },
+    {
+      "id": "boolean-regression",
+      "family": "boolean",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.2934245840006042
+    },
+    {
+      "id": "boolean-empty-cut",
+      "family": "boolean",
+      "expect": "reject",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "{'data': {'artifact_sha256': {'model.step': '18dbd11b43fd4cabf478f638aad2146f579d7226e13f785b58d8d0f97bf46a2a', 'query-definition-0.smb': 'e616d8eefac3ddf2f6b93b1e100073b40bb42de548b6730e3e9d285938b13410', 'query-manifest.json': 'e3225e92cc65fdf2657856addefa448b3c891214a30d3a99ffc8f5feb861b1d8'}, 'assembly': {'checks': None}, 'editability': {'native_commercial_feature_tree': False, 'parameter_replay': True, 'source': 'model.json'}, 'executor_version': '0.5.0', 'features': [{'cache_hit': False, 'degradation': None, 'elapsed_ms': 1.176042, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'stock', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.565375, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'tool', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.303666, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'result', 'inspection_regions': None, 'surface': None, 'topology_names': {}}], 'geometry': {'bbox_mm': [[0.0, 0.0, 0.0], [20.0, 20.0, 20.0]], 'edges': 12, 'faces': 6, 'kind': 'solid', 'solids': 1, 'void_regions': 0, 'volume_mm3': 8000.0}, 'kernel': {'name': 'solidcore', 'revision': 'bff1569a4c3347ed9af67faab71578cadf84fde2', 'scoped_fixes': {'measurement': ['precise_properties_body_length_scale', 'precise_properties_split_at_surface_knots', 'precise_properties_span_end_from_below', 'precise_properties_trim_base_v', 'integrator_propagates_failure'], 'thicken': ['shell_one_construction']}, 'tolerances': 'kernel_defaults', 'upstream_fixes': ['transform_scales_each_tolerance', 'transform_model_size_from_body_box', 'fillet_chamfer_cone_on_arc', 'shell_edges_on_analytics_exact'], 'volume_integration_accuracy': 1e-08}, 'model_hash': 'd47ccee445c00d6964631782c54f5c2ce65014ffb17385f519d975baaf649224', 'peak_live_feature_bodies': 2, 'preview': None, 'query_manifest': 'query-manifest.json', 'query_revision_id': 'sha256:2689420413376910b84f1612c2ef4093a90ae802fbfee7736f59aa5a8c9e374c', 'step_bytes': 5561, 'timing_ms': {'datum_resolution': 0.001833, 'export': 0.10562500000000001, 'geometry': 2.0604579999999997, 'query_snapshot': 0.14729099999999998, 'total': 4.506208, 'validation': 2.162167}, 'validation': {'level': 'kernel_level_1', 'manifold': True, 'valid': True, 'warnings': 0}}, 'ok': True}",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 67, in <module>\n    assert result['ok'] is False,result;error=result['error'];assert error['code'] in case['error']['codes'],error\n           ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'data': {'artifact_sha256': {'model.step': '18dbd11b43fd4cabf478f638aad2146f579d7226e13f785b58d8d0f97bf46a2a', 'query-definition-0.smb': 'e616d8eefac3ddf2f6b93b1e100073b40bb42de548b6730e3e9d285938b13410', 'query-manifest.json': 'e3225e92cc65fdf2657856addefa448b3c891214a30d3a99ffc8f5feb861b1d8'}, 'assembly': {'checks': None}, 'editability': {'native_commercial_feature_tree': False, 'parameter_replay': True, 'source': 'model.json'}, 'executor_version': '0.5.0', 'features': [{'cache_hit': False, 'degradation': None, 'elapsed_ms': 1.176042, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'stock', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.565375, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'tool', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.303666, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'result', 'inspection_regions': None, 'surface': None, 'topology_names': {}}], 'geometry': {'bbox_mm': [[0.0, 0.0, 0.0], [20.0, 20.0, 20.0]], 'edges': 12, 'faces': 6, 'kind': 'solid', 'solids': 1, 'void_regions': 0, 'volume_mm3': 8000.0}, 'kernel': {'name': 'solidcore', 'revision': 'bff1569a4c3347ed9af67faab71578cadf84fde2', 'scoped_fixes': {'measurement': ['precise_properties_body_length_scale', 'precise_properties_split_at_surface_knots', 'precise_properties_span_end_from_below', 'precise_properties_trim_base_v', 'integrator_propagates_failure'], 'thicken': ['shell_one_construction']}, 'tolerances': 'kernel_defaults', 'upstream_fixes': ['transform_scales_each_tolerance', 'transform_model_size_from_body_box', 'fillet_chamfer_cone_on_arc', 'shell_edges_on_analytics_exact'], 'volume_integration_accuracy': 1e-08}, 'model_hash': 'd47ccee445c00d6964631782c54f5c2ce65014ffb17385f519d975baaf649224', 'peak_live_feature_bodies': 2, 'preview': None, 'query_manifest': 'query-manifest.json', 'query_revision_id': 'sha256:2689420413376910b84f1612c2ef4093a90ae802fbfee7736f59aa5a8c9e374c', 'step_bytes': 5561, 'timing_ms': {'datum_resolution': 0.001833, 'export': 0.10562500000000001, 'geometry': 2.0604579999999997, 'query_snapshot': 0.14729099999999998, 'total': 4.506208, 'validation': 2.162167}, 'validation': {'level': 'kernel_level_1', 'manifold': True, 'valid': True, 'warnings': 0}}, 'ok': True}\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.013944500009529293
+    },
+    {
+      "id": "blend-regression",
+      "family": "blend",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.4610640839964617
+    },
+    {
+      "id": "blend-impossible",
+      "family": "blend",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "KERNEL_ERROR",
+        "feature_id": "round",
+        "message": "blend::fillet_executive::session::finish: upstream status 1001"
+      },
+      "wall_seconds": 0.00894691699068062
+    },
+    {
+      "id": "thin-regression",
+      "family": "thin_wall",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.025093290983932093
+    },
+    {
+      "id": "thin-protruding-cavity",
+      "family": "thin_wall",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "HOLLOW_OUTSIDE",
+        "feature_id": "result",
+        "message": "scaled cavity protrudes outside the source"
+      },
+      "wall_seconds": 0.021307999995769933
+    },
+    {
+      "id": "surface-regression",
+      "family": "surface",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.012040333007462323
+    },
+    {
+      "id": "surface-ragged",
+      "family": "surface",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "INVALID_SURFACE",
+        "feature_id": null,
+        "message": "rectangular 2..8 by 2..8 control net required"
+      },
+      "wall_seconds": 0.008460165990982205
+    },
+    {
+      "id": "surface-crossing-mismatch",
+      "family": "surface",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "NETWORK_MISMATCH",
+        "feature_id": null,
+        "message": "guides 1/1 do not intersect at declared parameters"
+      },
+      "wall_seconds": 0.00705400001606904
+    },
+    {
+      "id": "foreign-motor-housing",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.17710341600468382
+    },
+    {
+      "id": "foreign-motor-rotated",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.1647746249800548
+    },
+    {
+      "id": "foreign-split-axial-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.04932266700780019
+    },
+    {
+      "id": "foreign-split-angular-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.04041641700314358
+    },
+    {
+      "id": "foreign-spline-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.05379579198779538
+    },
+    {
+      "id": "foreign-conical-tip",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.04906808299710974
+    },
+    {
+      "id": "foreign-digest-mismatch",
+      "family": "foreign_step",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "ASSET_DIGEST_MISMATCH",
+        "feature_id": null,
+        "message": "source"
+      },
+      "wall_seconds": 0.007528541987994686
+    },
+    {
+      "id": "product-kk60-accessory",
+      "family": "whole_product",
+      "expect": "success",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "required feature degraded",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 70, in <module>\n    else:row['verification']=validate(case,result,directory)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"$REPO/specs/experiments/0005/run.py\", line 39, in validate\n    d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'\n                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: required feature degraded\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 30.291896542010363
+    }
+  ],
+  "source_commit": "3d0221f9cc5c45a987e5a6381e4c75479c3ebe66",
+  "families": {
+    "blend": {
+      "required": 2,
+      "passed": 1,
+      "positive": 1,
+      "expected_rejections": 1
+    },
+    "boolean": {
+      "required": 3,
+      "passed": 0,
+      "positive": 2,
+      "expected_rejections": 1
+    },
+    "foreign_step": {
+      "required": 7,
+      "passed": 1,
+      "positive": 6,
+      "expected_rejections": 1
+    },
+    "surface": {
+      "required": 3,
+      "passed": 2,
+      "positive": 1,
+      "expected_rejections": 2
+    },
+    "thin_wall": {
+      "required": 2,
+      "passed": 1,
+      "positive": 1,
+      "expected_rejections": 1
+    },
+    "whole_product": {
+      "required": 1,
+      "passed": 0,
+      "positive": 1,
+      "expected_rejections": 0
+    }
+  },
+  "passed": false
+}

@@ -276,7 +276,7 @@
       "split": "held_out",
       "required": true,
       "model": "thin-held_out.json",
-      "model_sha256": "3e2ed204b3d949158135748358a8bb30236b7116782ac0b3cb8a65e1e1c9d54b",
+      "model_sha256": "86bd8b2fea6918529eb83604b048b143f02c48a8452a2fe4c48ea75d20890ecd",
       "expect": "success",
       "accepted_degradations": [],
       "units": "mm",
@@ -1612,5 +1612,10 @@
   "preexecution_correction": {
     "before_sha256": "06e5f73584c0b076170bd82568a8e31601ce91758ae1d7de767b3674eadb7dba",
     "reason": "Source contract inspection: validation.rs uses ASSET_DIGEST_MISMATCH; no native corpus execution has occurred. Geometry, required cases and tolerances unchanged."
+  },
+  "fixture_schema_correction": {
+    "before_sha256": "5e5cfcbfa88893210a61d27b989fc80688d3826f095745683915c9d089b8d144",
+    "reason": "Held-out open-face fixture used EdgeSelector syntax and omitted required tolerance. Use actual legacy FaceSelector fields and the already-frozen 1e-5 mm tolerance. Geometry, oracle, required feature, family, and thresholds unchanged. Original failed artifact and manifest retained; all affected evidence rerun.",
+    "corrected_case": "thin-held_out"
   }
 }

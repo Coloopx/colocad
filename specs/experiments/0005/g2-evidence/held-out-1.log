@@ -1,0 +1,7 @@
+{"id": "boolean-held_out", "family": "boolean", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 3.9430419169948436}
+{"id": "blend-held_out", "family": "blend", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 2.2445855420082808}
+{"id": "thin-held_out", "family": "thin_wall", "expect": "success", "passed": false, "process_exit": 1, "failure": "{'code': 'SCHEMA_ERROR', 'feature_id': None, 'message': 'data did not match any variant of untagged enum FaceSelector at line 34 column 3'}", "outcome": "verification_or_build_failure", "wall_seconds": 0.009332707995781675}
+{"id": "surface-held_out", "family": "surface", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.14936591699370183}
+{"id": "foreign-intersecting-bores", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.9573034169734456}
+{"id": "foreign-kk60-accessory-bracket", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.30316695800866}
+{"passed": false, "cases": 6, "families": {"blend": {"required": 1, "passed": 1, "positive": 1, "expected_rejections": 0}, "boolean": {"required": 1, "passed": 1, "positive": 1, "expected_rejections": 0}, "foreign_step": {"required": 2, "passed": 2, "positive": 2, "expected_rejections": 0}, "surface": {"required": 1, "passed": 1, "positive": 1, "expected_rejections": 0}, "thin_wall": {"required": 1, "passed": 0, "positive": 1, "expected_rejections": 0}}}

@@ -1,0 +1,519 @@
+{
+  "schema": "colocad.g2-run/1",
+  "manifest_sha256": "5e5cfcbfa88893210a61d27b989fc80688d3826f095745683915c9d089b8d144",
+  "native_sha256": "92b3c500884b6a3c282baeb6c2d6f36942581a8b6173abf82c2f23504f9d8c3d",
+  "split": "regression",
+  "rows": [
+    {
+      "id": "boolean-development",
+      "family": "boolean",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 16,
+        "volume_mm3": 49344.675020150215,
+        "area_mm2": 12028.15308840883,
+        "bbox_mm": [
+          -30.0000001,
+          -20.0000001,
+          -1e-07,
+          30.0000001,
+          20.0000001,
+          24.000000000000004
+        ],
+        "step_sha256": "90f0b5f7f3f968bbacc02cb3644f7e7357987d97bd0d5ecdb22e0c6a24c387e0",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 3.592545624997001
+    },
+    {
+      "id": "boolean-regression",
+      "family": "boolean",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 16,
+        "volume_mm3": 19195.917434505092,
+        "area_mm2": 6409.802790637995,
+        "bbox_mm": [
+          -21.9000001,
+          -14.600000099999999,
+          -1.000000001110223e-07,
+          21.900000100000003,
+          14.600000099999999,
+          17.520000000000003
+        ],
+        "step_sha256": "49cb454e0e1f98c306ac8c1a683dcf33f4e93cc1a010fd600546da7a519899c5",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 3.236780292005278
+    },
+    {
+      "id": "boolean-empty-cut",
+      "family": "boolean",
+      "expect": "reject",
+      "passed": false,
+      "process_exit": 0,
+      "failure": "{'data': {'artifact_sha256': {'model.step': '18dbd11b43fd4cabf478f638aad2146f579d7226e13f785b58d8d0f97bf46a2a', 'query-definition-0.smb': 'e616d8eefac3ddf2f6b93b1e100073b40bb42de548b6730e3e9d285938b13410', 'query-manifest.json': 'e3225e92cc65fdf2657856addefa448b3c891214a30d3a99ffc8f5feb861b1d8'}, 'assembly': {'checks': None}, 'editability': {'native_commercial_feature_tree': False, 'parameter_replay': True, 'source': 'model.json'}, 'executor_version': '0.5.0', 'features': [{'cache_hit': False, 'degradation': None, 'elapsed_ms': 1.176042, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'stock', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.565375, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'tool', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.303666, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'result', 'inspection_regions': None, 'surface': None, 'topology_names': {}}], 'geometry': {'bbox_mm': [[0.0, 0.0, 0.0], [20.0, 20.0, 20.0]], 'edges': 12, 'faces': 6, 'kind': 'solid', 'solids': 1, 'void_regions': 0, 'volume_mm3': 8000.0}, 'kernel': {'name': 'solidcore', 'revision': 'bff1569a4c3347ed9af67faab71578cadf84fde2', 'scoped_fixes': {'measurement': ['precise_properties_body_length_scale', 'precise_properties_split_at_surface_knots', 'precise_properties_span_end_from_below', 'precise_properties_trim_base_v', 'integrator_propagates_failure'], 'thicken': ['shell_one_construction']}, 'tolerances': 'kernel_defaults', 'upstream_fixes': ['transform_scales_each_tolerance', 'transform_model_size_from_body_box', 'fillet_chamfer_cone_on_arc', 'shell_edges_on_analytics_exact'], 'volume_integration_accuracy': 1e-08}, 'model_hash': 'd47ccee445c00d6964631782c54f5c2ce65014ffb17385f519d975baaf649224', 'peak_live_feature_bodies': 2, 'preview': None, 'query_manifest': 'query-manifest.json', 'query_revision_id': 'sha256:2689420413376910b84f1612c2ef4093a90ae802fbfee7736f59aa5a8c9e374c', 'step_bytes': 5561, 'timing_ms': {'datum_resolution': 0.001833, 'export': 0.10562500000000001, 'geometry': 2.0604579999999997, 'query_snapshot': 0.14729099999999998, 'total': 4.506208, 'validation': 2.162167}, 'validation': {'level': 'kernel_level_1', 'manifold': True, 'valid': True, 'warnings': 0}}, 'ok': True}",
+      "traceback": "Traceback (most recent call last):\n  File \"$REPO/specs/experiments/0005/run.py\", line 75, in <module>\n    assert result['ok'] is False,result;error=result['error'];assert error['code'] in case['error']['codes'],error\n           ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'data': {'artifact_sha256': {'model.step': '18dbd11b43fd4cabf478f638aad2146f579d7226e13f785b58d8d0f97bf46a2a', 'query-definition-0.smb': 'e616d8eefac3ddf2f6b93b1e100073b40bb42de548b6730e3e9d285938b13410', 'query-manifest.json': 'e3225e92cc65fdf2657856addefa448b3c891214a30d3a99ffc8f5feb861b1d8'}, 'assembly': {'checks': None}, 'editability': {'native_commercial_feature_tree': False, 'parameter_replay': True, 'source': 'model.json'}, 'executor_version': '0.5.0', 'features': [{'cache_hit': False, 'degradation': None, 'elapsed_ms': 1.176042, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'stock', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.565375, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'tool', 'inspection_regions': None, 'surface': None, 'topology_names': {}}, {'cache_hit': False, 'degradation': None, 'elapsed_ms': 0.303666, 'faces': 6, 'grid_boolean_ms': 0.0, 'grid_measure_ms': 0.0, 'grid_validation': 'not_applicable', 'hollow': None, 'id': 'result', 'inspection_regions': None, 'surface': None, 'topology_names': {}}], 'geometry': {'bbox_mm': [[0.0, 0.0, 0.0], [20.0, 20.0, 20.0]], 'edges': 12, 'faces': 6, 'kind': 'solid', 'solids': 1, 'void_regions': 0, 'volume_mm3': 8000.0}, 'kernel': {'name': 'solidcore', 'revision': 'bff1569a4c3347ed9af67faab71578cadf84fde2', 'scoped_fixes': {'measurement': ['precise_properties_body_length_scale', 'precise_properties_split_at_surface_knots', 'precise_properties_span_end_from_below', 'precise_properties_trim_base_v', 'integrator_propagates_failure'], 'thicken': ['shell_one_construction']}, 'tolerances': 'kernel_defaults', 'upstream_fixes': ['transform_scales_each_tolerance', 'transform_model_size_from_body_box', 'fillet_chamfer_cone_on_arc', 'shell_edges_on_analytics_exact'], 'volume_integration_accuracy': 1e-08}, 'model_hash': 'd47ccee445c00d6964631782c54f5c2ce65014ffb17385f519d975baaf649224', 'peak_live_feature_bodies': 2, 'preview': None, 'query_manifest': 'query-manifest.json', 'query_revision_id': 'sha256:2689420413376910b84f1612c2ef4093a90ae802fbfee7736f59aa5a8c9e374c', 'step_bytes': 5561, 'timing_ms': {'datum_resolution': 0.001833, 'export': 0.10562500000000001, 'geometry': 2.0604579999999997, 'query_snapshot': 0.14729099999999998, 'total': 4.506208, 'validation': 2.162167}, 'validation': {'level': 'kernel_level_1', 'manifold': True, 'valid': True, 'warnings': 0}}, 'ok': True}\n",
+      "outcome": "verification_or_build_failure",
+      "wall_seconds": 0.0037005000049248338
+    },
+    {
+      "id": "blend-regression",
+      "family": "blend",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 30,
+        "volume_mm3": 26105.563798582403,
+        "area_mm2": 6643.381113196088,
+        "bbox_mm": [
+          -4.440892098500626e-16,
+          -4.440892098500626e-15,
+          -3.5511774790418626e-32,
+          50.000000000000014,
+          34.00000000000001,
+          16.0
+        ],
+        "step_sha256": "92dc7d2a02196f9a910986ac78d9d4a8714e6bd2fff1042755e66bc5ebba79cc",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 1.44958124999539
+    },
+    {
+      "id": "blend-impossible",
+      "family": "blend",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "KERNEL_ERROR",
+        "feature_id": "round",
+        "message": "blend::fillet_executive::session::finish: upstream status 1001"
+      },
+      "wall_seconds": 0.0006521659961435944
+    },
+    {
+      "id": "thin-regression",
+      "family": "thin_wall",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 12,
+        "volume_mm3": 3521.6249999999964,
+        "area_mm2": 28173.5,
+        "bbox_mm": [
+          0.0,
+          0.0,
+          0.0,
+          80.0,
+          50.0,
+          24.0
+        ],
+        "step_sha256": "30a7ac98293fd5f1b4dbcdfb862917bb68a48110ecf0b17c6371e9a37ae29a34",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.01783704201807268
+    },
+    {
+      "id": "thin-protruding-cavity",
+      "family": "thin_wall",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "HOLLOW_OUTSIDE",
+        "feature_id": "result",
+        "message": "scaled cavity protrudes outside the source"
+      },
+      "wall_seconds": 0.0006540000031236559
+    },
+    {
+      "id": "surface-regression",
+      "family": "surface",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 0,
+        "faces": 1,
+        "volume_mm3": 0,
+        "area_mm2": 386.58816181607654,
+        "bbox_mm": [
+          -1e-07,
+          -1e-07,
+          -1e-07,
+          24.0000001,
+          16.0000001,
+          1.2500001
+        ],
+        "step_sha256": "e497b5eaa088574246860332b4c9661ba133213867edf6add6b5ac0f4b178eea",
+        "surface_samples": 81,
+        "max_surface_error_mm": 3.5596458096434965e-15
+      },
+      "wall_seconds": 0.14801991599961184
+    },
+    {
+      "id": "surface-ragged",
+      "family": "surface",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "INVALID_SURFACE",
+        "feature_id": null,
+        "message": "rectangular 2..8 by 2..8 control net required"
+      },
+      "wall_seconds": 0.0007068749982863665
+    },
+    {
+      "id": "surface-crossing-mismatch",
+      "family": "surface",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "NETWORK_MISMATCH",
+        "feature_id": null,
+        "message": "guides 1/1 do not intersect at declared parameters"
+      },
+      "wall_seconds": 0.00034829098149202764
+    },
+    {
+      "id": "foreign-motor-housing",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 18,
+        "volume_mm3": 30086.793249242222,
+        "area_mm2": 9119.911316942906,
+        "bbox_mm": [
+          -20.0,
+          -18.0,
+          -22.0,
+          20.0,
+          18.0,
+          8.0
+        ],
+        "step_sha256": "de841f2f14a6ea8e5d202c6beb98831315c3b5c764ed058d3b899f4b9a25f1b7",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.19038250000448897
+    },
+    {
+      "id": "foreign-motor-rotated",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 13,
+        "volume_mm3": 10480.509822781112,
+        "area_mm2": 4506.920319089457,
+        "bbox_mm": [
+          38.598440671806,
+          -55.8959001343,
+          -3.12090037821,
+          68.1628547688501,
+          -5.8334504478182,
+          47.031684254685
+        ],
+        "step_sha256": "70dbcc760ac9bf6d243708488cdc02fa16dff1b08f84604a2325c3e5650057a5",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.172181083005853
+    },
+    {
+      "id": "foreign-split-axial-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 8,
+        "volume_mm3": 4460.707993412302,
+        "area_mm2": 1929.6460032938492,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "step_sha256": "60fae5a40c8074f98c454e524f697b982362ea1d94cba9f1f84b77e0609fec92",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.05928808302269317
+    },
+    {
+      "id": "foreign-split-angular-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 8,
+        "volume_mm3": 4460.707993412302,
+        "area_mm2": 1929.646003293849,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "step_sha256": "de4d663d0ea66f5c8feaafeb7c6be5fb899b4c74f4cd0d5da1b56d662d010ade",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.10097862500697374
+    },
+    {
+      "id": "foreign-spline-bore",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 7,
+        "volume_mm3": 4460.707260300967,
+        "area_mm2": 1929.6456419502738,
+        "bbox_mm": [
+          -10.0000001,
+          -10.0000001,
+          -1e-07,
+          10.0000001,
+          10.0000001,
+          12.000000100000003
+        ],
+        "step_sha256": "74d49ee265087fbd9708e32c4b82f5d5aa460bf128bcc65a82433c489678b487",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 2.189019459008705
+    },
+    {
+      "id": "foreign-conical-tip",
+      "family": "foreign_step",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "valid": true,
+        "solids": 1,
+        "faces": 8,
+        "volume_mm3": 4602.079662823871,
+        "area_mm2": 1884.808948090332,
+        "bbox_mm": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ],
+        "step_sha256": "a0bc3284c2024b042fbf28a71096543f58fc695e355fc6062cf8ee2301b9c1b4",
+        "symmetric_difference_mm3": 0
+      },
+      "wall_seconds": 0.041448500007390976
+    },
+    {
+      "id": "foreign-digest-mismatch",
+      "family": "foreign_step",
+      "expect": "reject",
+      "passed": true,
+      "process_exit": 1,
+      "rejection": {
+        "code": "ASSET_DIGEST_MISMATCH",
+        "feature_id": null,
+        "message": "source"
+      },
+      "wall_seconds": 0.0005190840165596455
+    },
+    {
+      "id": "product-kk60-accessory",
+      "family": "whole_product",
+      "expect": "success",
+      "passed": true,
+      "process_exit": 0,
+      "verification": {
+        "passed": true,
+        "verifier": "OCCT STEP independent geometry, no native face indices",
+        "source_step_sha256": "2249b188795e59a1f2d733e903f2900afbe074df3a0b4cb9a38467e1edccb43f",
+        "solids": 82,
+        "bbox_mm": [
+          -30.0000001,
+          -1e-07,
+          -1.0000000061316145e-07,
+          30.0000001,
+          66.0000000076942,
+          370.0000001
+        ],
+        "mount_hole_centers_verified": true,
+        "checked_pairs": 3,
+        "pose_samples_per_pair": 3,
+        "samples": [
+          {
+            "pair": [
+              "bracket",
+              "carriage"
+            ],
+            "travel_mm": -105,
+            "distance_mm": 0.0,
+            "expected_distance_mm": 0,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "rail"
+            ],
+            "travel_mm": -105,
+            "distance_mm": 10.999999992305732,
+            "expected_distance_mm": 11,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "motor_support"
+            ],
+            "travel_mm": -105,
+            "distance_mm": 233.99999999753808,
+            "expected_distance_mm": 234,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "carriage"
+            ],
+            "travel_mm": 0,
+            "distance_mm": 0.0,
+            "expected_distance_mm": 0,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "rail"
+            ],
+            "travel_mm": 0,
+            "distance_mm": 10.999999992305732,
+            "expected_distance_mm": 11,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "motor_support"
+            ],
+            "travel_mm": 0,
+            "distance_mm": 128.99999999753808,
+            "expected_distance_mm": 129,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "carriage"
+            ],
+            "travel_mm": 105,
+            "distance_mm": 0.0,
+            "expected_distance_mm": 0,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "rail"
+            ],
+            "travel_mm": 105,
+            "distance_mm": 10.999999992305732,
+            "expected_distance_mm": 11,
+            "overlap_mm3": 0
+          },
+          {
+            "pair": [
+              "bracket",
+              "motor_support"
+            ],
+            "travel_mm": 105,
+            "distance_mm": 23.99999999753811,
+            "expected_distance_mm": 24,
+            "overlap_mm3": 0
+          }
+        ],
+        "scope": "Only listed pairs and discrete poses; other product pairs, continuous motion, threads, load ratings and OEM accuracy are not certified."
+      },
+      "wall_seconds": 23.441993582993746
+    }
+  ],
+  "source_commit": "3d0221f9cc5c45a987e5a6381e4c75479c3ebe66",
+  "revalidated_artifacts_from": "$REPO/out/g2-iteration-1",
+  "families": {
+    "blend": {
+      "required": 2,
+      "passed": 2,
+      "positive": 1,
+      "expected_rejections": 1
+    },
+    "boolean": {
+      "required": 3,
+      "passed": 2,
+      "positive": 2,
+      "expected_rejections": 1
+    },
+    "foreign_step": {
+      "required": 7,
+      "passed": 7,
+      "positive": 6,
+      "expected_rejections": 1
+    },
+    "surface": {
+      "required": 3,
+      "passed": 3,
+      "positive": 1,
+      "expected_rejections": 2
+    },
+    "thin_wall": {
+      "required": 2,
+      "passed": 2,
+      "positive": 1,
+      "expected_rejections": 1
+    },
+    "whole_product": {
+      "required": 1,
+      "passed": 1,
+      "positive": 1,
+      "expected_rejections": 0
+    }
+  },
+  "passed": false
+}

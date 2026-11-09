@@ -19,6 +19,9 @@ root=Path(__file__).resolve().parent;repo=root.parents[2];corpus=root/'corpus-v1
 assert sha(corpus/'manifest.json')==(corpus/'manifest.sha256').read_text().strip()
 binary=Path(os.environ['AGENT_CAD_BINARY']).resolve();out=Path(sys.argv[1]).resolve();out.mkdir(parents=True,exist_ok=False);split=sys.argv[2] if len(sys.argv)>2 else 'regression';tol=manifest['tolerance'];rows=[]
 assert split in ['regression','held_out','all']
+reuse=Path(sys.argv[3]).resolve() if len(sys.argv)>3 else None
+prior=json.loads((reuse/'results.json').read_text()) if reuse else None
+if prior:assert prior['manifest_sha256']==sha(corpus/'manifest.json')
 def read(path):
  r=STEPControl_Reader();assert int(r.ReadFile(str(path)))==1;r.TransferRoots();return r.OneShape()
 def entities(s,kind):
@@ -36,10 +39,10 @@ def difference_volume(a,b):
 def near(got,want,limit,name):assert abs(got-want)<=limit,(name,got,want,limit)
 def validate(case,result,directory):
  assert result['ok'],result.get('error')
- d=result['data'];assert not any('degradation' in f for f in d['features']),'required feature degraded'
+ d=result['data'];assert not any(f.get('degradation') is not None for f in d['features']),'required feature degraded'
  step=directory/'model.step';assert sha(step)==d['artifact_sha256']['model.step'];shape=read(step);assert BRepCheck_Analyzer(shape).IsValid(),'OCCT invalid B-rep'
  if case['family']=='whole_product':
-  run={'source':case['bracket_source'],'built':result};(directory/'run.json').write_text(json.dumps(run));cmd=[sys.executable,str(repo/'examples/engineering-interfaces/verify-kk60.py'),str(directory/'run.json')];p=subprocess.run(cmd,capture_output=True,text=True,timeout=120);(directory/'independent.log').write_text(p.stdout+p.stderr);assert p.returncode==0,p.stderr
+  run={'source':case['bracket_source'],'built':{'ok':True,'data':{**d,'artifact_directory':str(directory)}}};(directory/'run.json').write_text(json.dumps(run));cmd=[sys.executable,str(repo/'examples/engineering-interfaces/verify-kk60.py'),str(directory/'run.json')];p=subprocess.run(cmd,capture_output=True,text=True,timeout=120);(directory/'independent.log').write_text(p.stdout+p.stderr);assert p.returncode==0,p.stderr
   return json.loads((directory/'occt-readback.json').read_text())
  oracle=case['oracle'];assert sha(corpus/oracle['file'])==oracle['sha256'];reference=read(corpus/oracle['file']);ss=entities(shape,TopAbs_SOLID);assert len(ss)==oracle['solids'],('solid_count',len(ss),oracle['solids']);v=sum(volume(s) for s in ss);a=area(shape);bb=bounds(shape)
  vtol=max(tol['absolute_volume_mm3'],abs(oracle['volume_mm3'])*tol['relative_volume']);near(v,oracle['volume_mm3'],vtol,'volume');near(a,oracle['area_mm2'],max(1e-6,oracle['area_mm2']*tol['relative_area']),'area')
@@ -57,12 +60,17 @@ def validate(case,result,directory):
  return evidence
 selected=[c for c in manifest['cases'] if split=='all' or (c['split']=='held_out')==(split=='held_out')]
 record={'schema':'colocad.g2-run/1','manifest_sha256':sha(corpus/'manifest.json'),'native_sha256':sha(binary),'split':split,'rows':rows,'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()}
+if prior:
+ record.update(native_sha256=prior['native_sha256'],source_commit=prior['source_commit'],revalidated_artifacts_from=str(reuse))
 for case in selected:
- path=corpus/case['model'];assert sha(path)==case['model_sha256'];directory=out/case['id'];started=time.monotonic();row={'id':case['id'],'family':case['family'],'expect':case['expect'],'passed':False};rows.append(row)
+ path=corpus/case['model'];assert sha(path)==case['model_sha256'];directory=(reuse or out)/case['id'];started=time.monotonic();row={'id':case['id'],'family':case['family'],'expect':case['expect'],'passed':False};rows.append(row)
  try:
-  p=subprocess.run([str(binary),'build','--out',str(directory),'--queryable'],input=path.read_bytes(),capture_output=True,timeout=manifest['execution']['per_case_wall_seconds'])
-  (out/(case['id']+'-stdout.json')).write_bytes(p.stdout);(out/(case['id']+'-stderr.log')).write_bytes(p.stderr)
-  assert len(p.stdout)<16*1024*1024,'stdout budget';result=json.loads(p.stdout);row['process_exit']=p.returncode
+  if reuse:
+   raw=(reuse/(case['id']+'-stdout.json')).read_bytes();stderr=(reuse/(case['id']+'-stderr.log')).read_bytes();process_exit=next(r['process_exit'] for r in prior['rows'] if r['id']==case['id'])
+  else:
+   p=subprocess.run([str(binary),'build','--out',str(directory),'--queryable'],input=path.read_bytes(),capture_output=True,timeout=manifest['execution']['per_case_wall_seconds']);raw=p.stdout;stderr=p.stderr;process_exit=p.returncode
+  (out/(case['id']+'-stdout.json')).write_bytes(raw);(out/(case['id']+'-stderr.log')).write_bytes(stderr)
+  assert len(raw)<16*1024*1024,'stdout budget';result=json.loads(raw);row['process_exit']=process_exit
   if case['expect']=='reject':
    assert result['ok'] is False,result;error=result['error'];assert error['code'] in case['error']['codes'],error
    if case['error']['feature_id']:assert error['feature_id']==case['error']['feature_id'],error

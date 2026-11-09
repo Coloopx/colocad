@@ -1,0 +1,19 @@
+{"id": "boolean-development", "family": "boolean", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 4.600266083987663}
+{"id": "boolean-regression", "family": "boolean", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 3.608549917000346}
+{"id": "boolean-empty-cut", "family": "boolean", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "NO_MATERIAL_REMOVED", "feature_id": "result", "message": "cut did not remove material"}, "wall_seconds": 0.011379541014321148}
+{"id": "blend-regression", "family": "blend", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 1.916198874998372}
+{"id": "blend-impossible", "family": "blend", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "KERNEL_ERROR", "feature_id": "round", "message": "blend::fillet_executive::session::finish: upstream status 1001"}, "wall_seconds": 0.012201624980662018}
+{"id": "thin-regression", "family": "thin_wall", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.04847383301239461}
+{"id": "thin-protruding-cavity", "family": "thin_wall", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "HOLLOW_OUTSIDE", "feature_id": "result", "message": "scaled cavity protrudes outside the source"}, "wall_seconds": 0.021684249979443848}
+{"id": "surface-regression", "family": "surface", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.15599491700413637}
+{"id": "surface-ragged", "family": "surface", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "INVALID_SURFACE", "feature_id": null, "message": "rectangular 2..8 by 2..8 control net required"}, "wall_seconds": 0.007246458000736311}
+{"id": "surface-crossing-mismatch", "family": "surface", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "NETWORK_MISMATCH", "feature_id": null, "message": "guides 1/1 do not intersect at declared parameters"}, "wall_seconds": 0.006982624996453524}
+{"id": "foreign-motor-housing", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.3689160420035478}
+{"id": "foreign-motor-rotated", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.3369885829742998}
+{"id": "foreign-split-axial-bore", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.10837079200427979}
+{"id": "foreign-split-angular-bore", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.13037445899681188}
+{"id": "foreign-spline-bore", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 2.304860792006366}
+{"id": "foreign-conical-tip", "family": "foreign_step", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 0.08780229100375436}
+{"id": "foreign-digest-mismatch", "family": "foreign_step", "expect": "reject", "passed": true, "process_exit": 1, "rejection": {"code": "ASSET_DIGEST_MISMATCH", "feature_id": null, "message": "source"}, "wall_seconds": 0.0068258329993113875}
+{"id": "product-kk60-accessory", "family": "whole_product", "expect": "success", "passed": true, "process_exit": 0, "wall_seconds": 57.82231391602545}
+{"passed": true, "cases": 18, "families": {"blend": {"required": 2, "passed": 2, "positive": 1, "expected_rejections": 1}, "boolean": {"required": 3, "passed": 3, "positive": 2, "expected_rejections": 1}, "foreign_step": {"required": 7, "passed": 7, "positive": 6, "expected_rejections": 1}, "surface": {"required": 3, "passed": 3, "positive": 1, "expected_rejections": 2}, "thin_wall": {"required": 2, "passed": 2, "positive": 1, "expected_rejections": 1}, "whole_product": {"required": 1, "passed": 1, "positive": 1, "expected_rejections": 0}}}
