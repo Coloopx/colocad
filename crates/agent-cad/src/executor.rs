@@ -99,11 +99,25 @@ pub fn build(model: &Model) -> Result<Build> {
     build_revision(model, &mut incremental::Checkpoints::default())
 }
 pub fn build_revision(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build> {
-    let mut result = execute(model, cache)?;
+    build_revision_with_options(model, cache, None)
+}
+pub fn build_revision_with_options(
+    model: &Model,
+    cache: &mut incremental::Checkpoints,
+    queryable: Option<bool>,
+) -> Result<Build> {
+    if queryable == Some(false) && !model.datums.is_empty() {
+        return Err(CadError::new(
+            "QUERY_SNAPSHOT_REQUIRED",
+            "datum declarations require queryable artifacts",
+        ));
+    }
+    let queryable = queryable.unwrap_or(!model.datums.is_empty());
+    let mut result = execute(model, cache, queryable)?;
     result.artifacts.append(&mut cache.files);
     Ok(result)
 }
-fn execute(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build> {
+fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool) -> Result<Build> {
     let start = Instant::now();
     validate(model)?;
     cache.prepare(model);
@@ -470,8 +484,20 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build>
         region_map.retain(|id, _| uses.get(id).copied().unwrap_or(0) > 0);
     }
     let geometry_ms = start.elapsed().as_secs_f64() * 1000.;
+    let snapshot_start = Instant::now();
+    let mut snapshot = if queryable {
+        Some(query::artifact::Capture::new(&k, model, &bodies)?)
+    } else {
+        None
+    };
+    let snapshot_ms = snapshot_start.elapsed().as_secs_f64() * 1000.;
+    let datum_start = Instant::now();
+    if let Some(snapshot) = &mut snapshot {
+        snapshot.resolve_datums(model)?;
+    }
+    let datum_ms = datum_start.elapsed().as_secs_f64() * 1000.;
     if !model.assembly.is_empty() {
-        return assembly::finish(
+        let mut result = assembly::finish(
             &mut k,
             model,
             &mut bodies,
@@ -481,7 +507,21 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build>
             start,
             geometry_ms,
             cache,
-        );
+            &snapshot
+                .as_ref()
+                .map(|s| &s.datums)
+                .cloned()
+                .unwrap_or_default(),
+        )?;
+        if let Some(snapshot) = snapshot {
+            let t = Instant::now();
+            snapshot.finish(model, &mut result)?;
+            result.report["timing_ms"]["datum_resolution"] = json!(datum_ms);
+            result.report["timing_ms"]["query_snapshot"] =
+                json!(snapshot_ms + t.elapsed().as_secs_f64() * 1000.);
+            result.report["timing_ms"]["total"] = json!(start.elapsed().as_secs_f64() * 1000.);
+        }
+        return Ok(result);
     }
     let mut body = take_body(&mut k, &model.output, &mut bodies, &mut uses)?;
     let tick = Instant::now();
@@ -545,7 +585,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build>
         }],
         cache,
     )?;
-    Ok(Build {
+    let mut result = Build {
         artifacts,
         report: json!({
             "preview":preview_report,"model_hash":model_hash(model),"executor_version":EXECUTOR_VERSION, "kernel":kernel_policy(),
@@ -557,5 +597,14 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints) -> Result<Build>
             "editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}
         }),
         step,
-    })
+    };
+    if let Some(snapshot) = snapshot {
+        let t = Instant::now();
+        snapshot.finish(model, &mut result)?;
+        result.report["timing_ms"]["datum_resolution"] = json!(datum_ms);
+        result.report["timing_ms"]["query_snapshot"] =
+            json!(snapshot_ms + t.elapsed().as_secs_f64() * 1000.);
+        result.report["timing_ms"]["total"] = json!(start.elapsed().as_secs_f64() * 1000.);
+    }
+    Ok(result)
 }

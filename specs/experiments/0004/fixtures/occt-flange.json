@@ -1,0 +1,45 @@
+{
+  "id": "occt-analytic-flange-v1",
+  "license": "MIT",
+  "source": "independently authored analytic fixture; not a commercial product reconstruction",
+  "generator": "generate-occt-flange.py",
+  "ocp_version": "7.9.3.1.1",
+  "sha256": "215ceafa2c5d565e1e4a44b28b61767d8c471c4940b206f8b6a799f982ef04c4",
+  "units": "mm",
+  "stock": [
+    40,
+    40,
+    8
+  ],
+  "holes_xy_radius": [
+    [
+      -12,
+      -12,
+      2
+    ],
+    [
+      12,
+      -12,
+      2
+    ],
+    [
+      -12,
+      12,
+      2
+    ],
+    [
+      12,
+      12,
+      2
+    ],
+    [
+      0,
+      0,
+      5
+    ]
+  ],
+  "expected_volume_mm3": 11769.557609622549,
+  "verified_volume_mm3": 11769.557609622547,
+  "expected_top_area_mm2": 1471.1947012028186,
+  "acceptance_tolerance_mm": 1e-05
+}

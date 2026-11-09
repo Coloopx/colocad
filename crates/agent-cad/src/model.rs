@@ -79,6 +79,8 @@ pub struct Model {
     pub version: u32,
     pub units: String,
     pub parameters: BTreeMap<String, f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub datums: Vec<query::datums::Declaration>,
     pub features: Vec<Feature>,
     #[serde(default)]
     pub output: String,

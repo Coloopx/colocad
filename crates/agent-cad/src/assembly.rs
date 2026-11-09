@@ -309,6 +309,7 @@ pub(crate) fn finish(
     start: Instant,
     geometry_ms: f64,
     cache: &mut incremental::Checkpoints,
+    datums: &query::datums::Definitions,
 ) -> Result<Build> {
     let tick = Instant::now();
     let group_poses = placement::groups(m)?;
@@ -322,7 +323,7 @@ pub(crate) fn finish(
             ))
         })
         .collect::<Result<BTreeMap<_, _>>>()?;
-    let (solved, mate_report) = mates::solve(m, initial)?;
+    let (solved, mate_report) = mates::solve(m, initial, datums)?;
     let mut definitions = BTreeMap::new();
     // Retain one local-space definition for every displayed source.
     if m.preview.is_some() {

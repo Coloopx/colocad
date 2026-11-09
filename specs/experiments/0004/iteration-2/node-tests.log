@@ -1,0 +1,218 @@
+
+> @coloopx/colocad@0.1.0-alpha.6 test
+> node --test test/*.test.mjs
+
+TAP version 13
+# Subtest: K1/K2: catalog actuator is a complete product with named native parts
+ok 1 - K1/K2: catalog actuator is a complete product with named native parts
+  ---
+  duration_ms: 997.799917
+  type: 'test'
+  ...
+# Subtest: K4: stroke endpoints remain editable and within the catalog guide envelope
+ok 2 - K4: stroke endpoints remain editable and within the catalog guide envelope
+  ---
+  duration_ms: 1630.201083
+  type: 'test'
+  ...
+# Subtest: SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+ok 3 - SDK solves opposed shaft/support mates, retains rotation and rejects overlap
+  ---
+  duration_ms: 253.334792
+  type: 'test'
+  ...
+# Subtest: release preflight isolates npm config and does not persist the credential
+ok 4 - release preflight isolates npm config and does not persist the credential
+  ---
+  duration_ms: 56.968542
+  type: 'test'
+  ...
+# Subtest: wrong identity or a different immutable archive prevents publishing and tag updates
+ok 5 - wrong identity or a different immutable archive prevents publishing and tag updates
+  ---
+  duration_ms: 53.816125
+  type: 'test'
+  ...
+# Subtest: a transient post-publish 404 retries the read, not publication
+ok 6 - a transient post-publish 404 retries the read, not publication
+  ---
+  duration_ms: 64.084791
+  type: 'test'
+  ...
+# Subtest: resume never uploads an accepted version and reports a bounded pending state
+ok 7 - resume never uploads an accepted version and reports a bounded pending state
+  ---
+  duration_ms: 61.154875
+  type: 'test'
+  ...
+# Subtest: a staged conflict waits for integrity and rejects another archive before changing tags
+ok 8 - a staged conflict waits for integrity and rejects another archive before changing tags
+  ---
+  duration_ms: 55.379042
+  type: 'test'
+  ...
+# Subtest: tag visibility is verified without repeating tag writes
+ok 9 - tag visibility is verified without repeating tag writes
+  ---
+  duration_ms: 64.019833
+  type: 'test'
+  ...
+# Subtest: independent OCCT STEP preserves analytic top face and five inner-circle centers
+ok 10 - independent OCCT STEP preserves analytic top face and five inner-circle centers
+  ---
+  duration_ms: 255.941959
+  type: 'test'
+  ...
+# Subtest: SDK reopens exact snapshot, exposes schema/tool, preserves refs and confines host paths
+ok 11 - SDK reopens exact snapshot, exposes schema/tool, preserves refs and confines host paths
+  ---
+  duration_ms: 108.727083
+  type: 'test'
+  ...
+# Subtest: query receipts persist without replacing accepted source and edits retain queryability
+ok 12 - query receipts persist without replacing accepted source and edits retain queryability
+  ---
+  duration_ms: 101.02375
+  type: 'test'
+  ...
+# Subtest: CLI query emits a receipt, refuses overwrite and leaves source artifacts unchanged
+ok 13 - CLI query emits a receipt, refuses overwrite and leaves source artifacts unchanged
+  ---
+  duration_ms: 198.945208
+  type: 'test'
+  ...
+# Subtest: named datums auto-enable exact artifacts, survive reopen and transform per occurrence
+ok 14 - named datums auto-enable exact artifacts, survive reopen and transform per occurrence
+  ---
+  duration_ms: 59.943208
+  type: 'test'
+  ...
+# Subtest: H2: codex skill layout records local commands and exports offline history
+ok 15 - H2: codex skill layout records local commands and exports offline history
+  ---
+  duration_ms: 1019.886167
+  type: 'test'
+  ...
+# Subtest: H2: claude-code skill layout records local commands and exports offline history
+ok 16 - H2: claude-code skill layout records local commands and exports offline history
+  ---
+  duration_ms: 870.080459
+  type: 'test'
+  ...
+# Subtest: R1/R2: deterministic film timing is separate from recorded build times
+ok 17 - R1/R2: deterministic film timing is separate from recorded build times
+  ---
+  duration_ms: 0.799208
+  type: 'test'
+  ...
+# Subtest: R3: invalid movie options fail before rendering
+ok 18 - R3: invalid movie options fail before rendering
+  ---
+  duration_ms: 0.12975
+  type: 'test'
+  ...
+# Subtest: S1: immutable native history survives reopening and relocation
+ok 19 - S1: immutable native history survives reopening and relocation
+  ---
+  duration_ms: 213.7585
+  type: 'test'
+  ...
+# Subtest: S2: failed attempt persists and edits start from last successful source
+ok 20 - S2: failed attempt persists and edits start from last successful source
+  ---
+  duration_ms: 126.778292
+  type: 'test'
+  ...
+# Subtest: S3: concurrent writer refused; crashed attempt preserved as interrupted
+ok 21 - S3: concurrent writer refused; crashed attempt preserved as interrupted
+  ---
+  duration_ms: 33.726375
+  type: 'test'
+  ...
+# Subtest: S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+ok 22 - S4/S5: portable HTML contains actual meshes, escaped input, and rejects tampering
+  ---
+  duration_ms: 38.050917
+  type: 'test'
+  ...
+# Subtest: compact tools keep executable schemas, exact measurements and recovery state
+ok 23 - compact tools keep executable schemas, exact measurements and recovery state
+  ---
+  duration_ms: 138.551458
+  type: 'test'
+  ...
+# Subtest: response compaction never erases degradation, errors or capability limits
+ok 24 - response compaction never erases degradation, errors or capability limits
+  ---
+  duration_ms: 0.850459
+  type: 'test'
+  ...
+# Subtest: guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+ok 25 - guided workflow performs real calls, quantitative edits, failure recovery and CLI export
+  ---
+  duration_ms: 722.957583
+  type: 'test'
+  ...
+# Subtest: one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+ok 26 - one feature compiler accepts two distinct histories and preserves the nonadjacent cut seed
+  ---
+  duration_ms: 16.418834
+  type: 'test'
+  ...
+# Subtest: invalid operations, stale references and resource limits fail before geometry
+ok 27 - invalid operations, stale references and resource limits fail before geometry
+  ---
+  duration_ms: 2.771833
+  type: 'test'
+  ...
+# Subtest: manifold edits rebuild material; two independent builds never overwrite the same destination
+ok 28 - manifold edits rebuild material; two independent builds never overwrite the same destination
+  ---
+  duration_ms: 641.253583
+  type: 'test'
+  ...
+# Subtest: Y-direction rectangular slots rebuild through the same compiler
+ok 29 - Y-direction rectangular slots rebuild through the same compiler
+  ---
+  duration_ms: 102.608834
+  type: 'test'
+  ...
+# Subtest: headless host returns an explicit native error and never emits a mislabeled file
+ok 30 - headless host returns an explicit native error and never emits a mislabeled file
+  ---
+  duration_ms: 1.043875
+  type: 'test'
+  ...
+# Subtest: E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+ok 31 - E1/E2: real geometry milestones lead to a shared-definition turbofan assembly
+  ---
+  duration_ms: 121.171166
+  type: 'test'
+  ...
+# Subtest: E3: editable tip radius changes exact engine bounds
+ok 32 - E3: editable tip radius changes exact engine bounds
+  ---
+  duration_ms: 699.372833
+  type: 'test'
+  ...
+# Subtest: CLI launches local viewer and exports the same offline history
+ok 33 - CLI launches local viewer and exports the same offline history
+  ---
+  duration_ms: 296.052375
+  type: 'test'
+  ...
+# Subtest: CLI refuses an invalid viewer port
+ok 34 - CLI refuses an invalid viewer port
+  ---
+  duration_ms: 103.903125
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2741.999792

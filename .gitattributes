@@ -1,2 +1,4 @@
 # Bundled runtime includes upstream multiline GLSL strings; review viewer/index.js.
 viewer/dist/*.js linguist-generated=true -diff
+# Preserve independently generated STEP fixtures byte-for-byte, including OCCT whitespace.
+specs/experiments/0004/fixtures/*.step -whitespace

@@ -20,6 +20,20 @@ export declare function createCadTools(client: CadClient): Promise<({
     };
     execute: (a: {
         model: Model;
+        options?: import("./types.js").BuildOptions;
+    }) => Promise<Receipt>;
+} | {
+    name: string;
+    description: string;
+    inputSchema: {
+        type: string;
+        properties: Record<string, unknown>;
+        required: string[];
+        additionalProperties: boolean;
+        $defs: unknown;
+    };
+    execute: (a: {
+        model: Model;
         options?: import("./types.js").PreviewOptions;
     }) => Promise<Receipt>;
 } | {
@@ -63,5 +77,26 @@ export declare function createCadTools(client: CadClient): Promise<({
     execute: (a: {
         model: Model;
         parameters: Record<string, number>;
+    }) => Promise<Receipt>;
+} | {
+    name: string;
+    description: string;
+    inputSchema: {
+        type: string;
+        properties: {
+            artifact_directory: {
+                type: string;
+            };
+            request: {
+                [x: string]: unknown;
+            };
+        };
+        required: string[];
+        additionalProperties: boolean;
+        $defs: unknown;
+    };
+    execute: (a: {
+        artifact_directory: string;
+        request: import("./types.js").QueryRequest;
     }) => Promise<Receipt>;
 })[]>;

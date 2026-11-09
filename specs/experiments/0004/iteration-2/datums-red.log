@@ -1,0 +1,36 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 12.01s
+     Running tests/datums.rs ($CARGO_TARGET_DIR/release/deps/datums-3449bd72c4bf5336)
+
+running 3 tests
+test ambiguous_datum_does_not_pick_first_face ... FAILED
+test derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit ... FAILED
+test incomplete_axis_cannot_be_used_as_fixed_frame_and_frame_datum_is_mutually_exclusive ... FAILED
+
+failures:
+
+---- ambiguous_datum_does_not_pick_first_face stdout ----
+
+thread 'ambiguous_datum_does_not_pick_first_face' (10892730) panicked at crates/agent-cad/tests/datums.rs:37:43:
+called `Result::unwrap()` on an `Err` value: Error("unknown field `datums`, expected one of `preview`, `version`, `units`, `parameters`, `features`, `output`, `output_kind`, `assets`, `assembly`, `groups`, `mates`, `checks`", line: 0, column: 0)
+
+---- derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit stdout ----
+
+thread 'derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit' (10892731) panicked at crates/agent-cad/tests/datums.rs:24:47:
+called `Result::unwrap()` on an `Err` value: Error("unknown field `datums`, expected one of `preview`, `version`, `units`, `parameters`, `features`, `output`, `output_kind`, `assets`, `assembly`, `groups`, `mates`, `checks`", line: 0, column: 0)
+
+---- incomplete_axis_cannot_be_used_as_fixed_frame_and_frame_datum_is_mutually_exclusive stdout ----
+
+thread 'incomplete_axis_cannot_be_used_as_fixed_frame_and_frame_datum_is_mutually_exclusive' (10892732) panicked at crates/agent-cad/tests/datums.rs:43:51:
+called `Result::unwrap()` on an `Err` value: Error("unknown field `datums`, expected one of `preview`, `version`, `units`, `parameters`, `features`, `output`, `output_kind`, `assets`, `assembly`, `groups`, `mates`, `checks`", line: 0, column: 0)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    ambiguous_datum_does_not_pick_first_face
+    derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit
+    incomplete_axis_cannot_be_used_as_fixed_frame_and_frame_datum_is_mutually_exclusive
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p agent-cad --test datums`

@@ -4,7 +4,7 @@
 
 Date: 2026-11-09. Baseline: npm alpha.6; source `3c93d2c`. This document defines the proposed contract, not the capabilities of the published package. Normative terms **MUST**, **MUST NOT** and **SHOULD** describe implementation requirements. [中文实施说明](0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
-The [2026-11-09 CadQuery review](reviews/0004-cadquery-2026-11-09.md) is incorporated here: F01 in §7.2, F02 in §5.6, F03 in §5.5, F04 in §4.2/5.4, F05 in §7.3, and F06 in §10–11. Schemas freeze per implemented layer, not all at M0. [Experiment and implementation ledger](experiments/0004/README.md) is the authority for actual evidence; this specification alone is not an implementation claim.
+The [2026-11-09 CadQuery review](reviews/0004-cadquery-2026-11-09.md) is incorporated here: F01 in §7.2, F02 in §5.6, F03 in §5.5, F04 in §4.2/5.4, F05 in §7.3, and F06 in §10–11. Schemas freeze per implemented layer, not all at M0. [SDD 0005](0005-capability-reliability-and-optimization.md) governs G1 → G2 → G3 → G4 acceptance order. [Experiment and implementation ledger](experiments/0004/README.md) is the authority for actual evidence; this specification alone is not an implementation claim.
 
 ## 1. Problem and outcome
 
@@ -139,7 +139,7 @@ Operations are delivered by milestone, and only implemented operations are adver
 | `edges` | `where` filters, `limit`, optional `cursor` | Edge descriptors and references |
 | `vertices`, `loops` | Selection/filters, `limit`, optional `cursor` | Vertex and ordered loop descriptors (M1) |
 | `select` | A bounded `selection` expression | Typed topology set with explicit cardinality (M1) |
-| `datums` | Named datum IDs or a supported derivation | Point/plane/axis/direction/frame with evidence and unresolved freedoms (M1) |
+| `datums`, `named_datums` | A supported selection/derivation, or explicit named datum IDs | Point/plane/axis/direction/frame with evidence and unresolved freedoms (M1) |
 | `describe` | `refs` (1–256) | Detailed descriptors for explicitly referenced entities |
 | `evaluate_face` | Face `ref` and native surface `uv` pair | Position, oriented normal and trim-membership result |
 | `holes` | Typed recognition filters, `limit`, optional `cursor` | Recognized holes, uncertain candidates and coverage diagnostics |
@@ -191,7 +191,7 @@ Loop edge uses are not unique global edges: a periodic seam may use the same edg
 
 ### 5.5 Composable selection (M1)
 
-One typed expression supports entity enumeration, child topology, ancestors, siblings, typed filtering, union/intersection/difference, geometric ranking, and cardinality assertions. Predicates support bounded `all`/`any`/`not`; property names and compatible entity kinds are enumerated in the Rust-generated schema. No executable code, arbitrary property lookup or general task DAG is accepted.
+One typed expression supports entity enumeration, child topology, ancestors, siblings through an explicit shared child type (`via`), typed filtering, union/intersection/difference, geometric ranking, and cardinality assertions. Predicates support bounded `all`/`any`/`not`; property names and compatible entity kinds are enumerated in the Rust-generated schema. No executable code, arbitrary property lookup or general task DAG is accepted.
 
 Initial expression ceilings are depth 8 and 128 nodes, in addition to §8 traversal/output budgets. Deduplicate entity sets by exact identity; preserve repeated uses inside ordered loops. Ranking declares the measured property (e.g. area or center projection), direction, rank and tie tolerance. A tied rank returns the whole tied set, and a later `expect` requiring one entity fails. Pagination never changes cardinality. Definition-space predicates may refer to an earlier named datum in the same definition; the bounded datum dependency graph must be acyclic.
 
@@ -199,7 +199,7 @@ Persistent declarations and read-only queries share selection semantics. Model r
 
 ### 5.6 Geometric datums (M1/M2)
 
-Add `Model.datums: DatumDeclaration[]` independently of engineering interfaces. A declaration identifies `id`, final part `definition`, output `kind`, bounded geometry `selection`, a supported `derive` rule and verification tolerance. Names are unique within their definition. Source geometry must exist and meet cardinality; declarations do not bypass degraded features.
+Add `Model.datums: DatumDeclaration[]` independently of engineering interfaces. A declaration identifies `id`, final part `definition`, verification `tolerance` and a typed `derive` recipe. The output kind follows the recipe (not a separately contradictory field); `selected` contains the bounded geometry `selection` and primitive derivation. Names are unique within their definition. Source geometry must exist and meet cardinality; declarations do not bypass degraded features.
 
 | Kind | Supported foundation and output |
 | --- | --- |
@@ -422,3 +422,14 @@ All matrix rows must have executable evidence or a reviewed explicit scope revis
 **Current implementation evidence:** see the [experiment ledger](experiments/0004/README.md). This revision incorporates all six review findings and defines 28 acceptance rows. Passing one native experiment does not complete a milestone; imported-interface acceptance and performance results require their own recorded evidence.
 
 Primary references: [SolidCore](https://github.com/tangency-labs/solidcore), [USD BRep](https://github.com/NVIDIA-Omniverse/usd-brep), [CadQuery selectors](https://cadquery.readthedocs.io/en/latest/selectors.html), [CadQuery assemblies](https://cadquery.readthedocs.io/en/latest/assy.html). These inform the design; the pinned dependency and passing local tests determine actual capabilities.
+
+
+## Implementation note — G1 iteration 2, 2026-11-09
+
+Public source now implements queryable artifacts, bounded selection, primitive derivation, typed persistent recipes, named-datum queries and datum attachments. [API guide](../docs/engineering-queries.md), [runnable external STEP example](../examples/engineering-queries/README.md), and [evidence ledger](experiments/0004/README.md) define the tested slice; M1/M2 and G1 are not yet fully accepted.
+
+The source contract uses `selected`, `design_point`, `point_difference` and `frame` recipes. Dependencies precede consumers within one definition; snapshot refs are rejected as persistent selection recipes. Named observations use `named_datums`; ad hoc derivations use `datums`. A frame requires explicit x/z senses and checks orthogonality/handedness. Revolute requires an axial origin as well as an axis, so this slice accepts a full frame for revolute; the axis-plus-plane construction remains available through two constraints.
+
+Manifest v1 canonical bytes are compact UTF-8 `serde_json` serialization in the declared Rust field order, with sorted `BTreeMap` keys and versioned omission of empty `datums`; this is not RFC 8785. The locked serializer and [cross-language SHA vector](experiments/0004/fixtures/manifest-vector.json) freeze that encoding. Geometry/semantic bindings and solved placements are included; observed datum source tokens are bound in the manifest and expanded into revision-local refs only after computing its digest. The vector tests encoding only, not validity of an empty runtime snapshot.
+
+Still open within G1: named-datum-relative predicates, the full specialized descriptor/trim coverage contract, hole/group/interface recognition and required contact/clearance semantics. Source snapshot/receipt integrity tests and a small foreign STEP acceptance fixture do not replace hostile-parser fuzzing, the broader G2 corpus or G3 resource/replacement gates. No new npm release or benchmark advantage is claimed.

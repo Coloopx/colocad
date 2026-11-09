@@ -174,6 +174,9 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 文档与帮助
 
+开发进展：[精确查询与几何基准装配](docs/engineering-queries.zh-CN.md)，以及[可运行的外部 STEP 例子](examples/engineering-queries/README.md)。[四阶段目标](specs/0005-capability-reliability-and-optimization.zh-CN.md)依次为功能覆盖、几何可靠性、工程可用性、benchmark 驱动优化。本次查询 API 尚未进入已发布的 alpha.6 包。
+
+
 [入门](docs/getting-started.md) · [API](docs/api.md) · [完整建模指南](docs/agent-modeling-handbook.zh-CN.md) · [Skill](skills/colocad/SKILL.md) · [故障排查](docs/troubleshooting.md) · [全部文档](docs/README.zh-CN.md)
 
 问题和功能建议请[提交 issue](https://github.com/Coloopx/colocad/issues)，附上版本、平台、最小模型和相关回执，并移除凭证及私密资料。

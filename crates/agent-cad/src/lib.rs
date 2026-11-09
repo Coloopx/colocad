@@ -53,7 +53,7 @@ mod validation;
 pub use capabilities::capabilities;
 pub(crate) use capabilities::kernel_policy;
 pub use error::CadError;
-pub use executor::{build, build_revision, Build};
+pub use executor::{build, build_revision, build_revision_with_options, Build};
 pub(crate) use executor::{measured_volume, take_body};
 pub use model::*;
 pub use validation::validate;

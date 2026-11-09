@@ -14,7 +14,7 @@ export function error(code: string, message: string): Receipt {
 }
 
 // Command arguments and input are separate; agent data never enters a shell string.
-export function execute(file: string, args: string[], input: CadInput = '', wallMs = 30_000): Promise<ProcessResult> {
+export function execute(file: string, args: string[], input: CadInput = '', wallMs = 30_000, maxOutputBytes = 2_097_152): Promise<ProcessResult> {
   return new Promise((done, reject) => {
     const child = spawn(file, args, { stdio: ['pipe', 'pipe', 'pipe'] });
     let stdout = '', stderr = '', timedOut = false, overflow = false;
@@ -22,7 +22,7 @@ export function execute(file: string, args: string[], input: CadInput = '', wall
     child.on('error', e => { clearTimeout(timer); reject(e); });
     child.stdout.on('data', b => {
       stdout += b;
-      if (Buffer.byteLength(stdout) > 2_097_152) { overflow = true; child.kill('SIGKILL'); }
+      if (Buffer.byteLength(stdout) > maxOutputBytes) { overflow = true; child.kill('SIGKILL'); }
     });
     child.stderr.on('data', b => { stderr = (stderr + b).slice(-8192); });
     child.stdin.on('error', () => {});
@@ -33,7 +33,7 @@ export function execute(file: string, args: string[], input: CadInput = '', wall
 
 export function receipt(result: ProcessResult): Receipt {
   if (result.timedOut) return error('TIMEOUT', 'CAD command exceeded wall-clock budget');
-  if (result.overflow) return error('OUTPUT_LIMIT', 'CAD response exceeded 2 MiB');
+  if (result.overflow) return error('OUTPUT_LIMIT', 'CAD response exceeded the command output budget');
   try {
     const value = JSON.parse(result.stdout) as Receipt;
     if (typeof value?.ok !== 'boolean'

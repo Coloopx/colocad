@@ -3,7 +3,7 @@ export function error(code, message) {
     return { ok: false, error: { code, message } };
 }
 // Command arguments and input are separate; agent data never enters a shell string.
-export function execute(file, args, input = '', wallMs = 30_000) {
+export function execute(file, args, input = '', wallMs = 30_000, maxOutputBytes = 2_097_152) {
     return new Promise((done, reject) => {
         const child = spawn(file, args, { stdio: ['pipe', 'pipe', 'pipe'] });
         let stdout = '', stderr = '', timedOut = false, overflow = false;
@@ -11,7 +11,7 @@ export function execute(file, args, input = '', wallMs = 30_000) {
         child.on('error', e => { clearTimeout(timer); reject(e); });
         child.stdout.on('data', b => {
             stdout += b;
-            if (Buffer.byteLength(stdout) > 2_097_152) {
+            if (Buffer.byteLength(stdout) > maxOutputBytes) {
                 overflow = true;
                 child.kill('SIGKILL');
             }
@@ -26,7 +26,7 @@ export function receipt(result) {
     if (result.timedOut)
         return error('TIMEOUT', 'CAD command exceeded wall-clock budget');
     if (result.overflow)
-        return error('OUTPUT_LIMIT', 'CAD response exceeded 2 MiB');
+        return error('OUTPUT_LIMIT', 'CAD response exceeded the command output budget');
     try {
         const value = JSON.parse(result.stdout);
         if (typeof value?.ok !== 'boolean'

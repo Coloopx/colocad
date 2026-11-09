@@ -89,3 +89,6 @@ test ! -e .agents/skills/colocad && \
 ## 待实现的工程查询与装配接口
 
 [SDD 0004 中文实施说明](../specs/0004-engineering-query-and-assembly-interfaces.zh-CN.md)与[英文规范](../specs/0004-engineering-query-and-assembly-interfaces.md)第 2 版已纳入 CadQuery 对照评审，定义可组合选择、几何基准、面/孔/轴查询、稳定引用、安装接口与 28 项验收。阶段为 **实施中**；[实验台账](../specs/experiments/0004/README.md)区分源代码已实现、实验通过和待完成项目。这些新能力尚未随 alpha.6 发布。
+
+- [精确查询与几何基准装配（开发中）](engineering-queries.zh-CN.md)
+- [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)

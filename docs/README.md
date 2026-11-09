@@ -29,3 +29,6 @@ These guides target **@coloopx/colocad 0.1.0-alpha.6**, Node.js 22+, Linux x64/a
 Runnable adapters and their regression tests live in [examples/integrations](../examples/integrations/README.md). They install the published npm release. The complete Pi example project is in GitHub. Alpha.5 also packages the compact adapter and guided workflow example. The skill, assets and its helper scripts **are** included.
 
 Performance depends on workload and execution mode. See the [README measurements](../README.md#performance), with their startup, geometry and memory accounting, before choosing a budget. A 512 MiB CAD benchmark is not a 512 MiB guarantee for a resident LLM harness plus CAD.
+
+- [Exact geometry queries and datum-driven assembly (development)](engineering-queries.md)
+- [Four ordered goals and benchmark/retrospective optimization](../specs/0005-capability-reliability-and-optimization.md)

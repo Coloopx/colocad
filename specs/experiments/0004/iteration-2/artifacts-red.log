@@ -1,0 +1,51 @@
+   Compiling agent-cad v0.5.0 ($REPO/crates/agent-cad)
+    Finished `release` profile [optimized] target(s) in 1.33s
+     Running tests/query_artifacts.rs ($CARGO_TARGET_DIR/release/deps/query_artifacts-134ce419ec7a04ce)
+
+running 4 tests
+test corrupted_geometry_is_rejected_before_evaluation ... FAILED
+test edited_snapshot_rejects_stale_request ... FAILED
+test queryable_build_reopens_after_relocation_and_preserves_reference_identity ... FAILED
+test legacy_build_has_no_snapshot_and_query_never_rebuilds ... FAILED
+
+failures:
+
+---- corrupted_geometry_is_rejected_before_evaluation stdout ----
+
+thread 'corrupted_geometry_is_rejected_before_evaluation' (10740688) panicked at crates/agent-cad/tests/query_artifacts.rs:9:129:
+assertion `left == right` failed: {"error":{"code":"USAGE","feature_id":null,"message":"agent-cad capabilities | schema | validate < model.json | solve-sketch < request.json | inspect-step < asset.json | build --out NEW_DIR < model.json | observe --out NEW_DIR < mesh-request.json"},"ok":false}
+  left: Bool(false)
+ right: true
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- edited_snapshot_rejects_stale_request stdout ----
+
+thread 'edited_snapshot_rejects_stale_request' (10740689) panicked at crates/agent-cad/tests/query_artifacts.rs:9:129:
+assertion `left == right` failed: {"error":{"code":"USAGE","feature_id":null,"message":"agent-cad capabilities | schema | validate < model.json | solve-sketch < request.json | inspect-step < asset.json | build --out NEW_DIR < model.json | observe --out NEW_DIR < mesh-request.json"},"ok":false}
+  left: Bool(false)
+ right: true
+
+---- queryable_build_reopens_after_relocation_and_preserves_reference_identity stdout ----
+
+thread 'queryable_build_reopens_after_relocation_and_preserves_reference_identity' (10740691) panicked at crates/agent-cad/tests/query_artifacts.rs:9:129:
+assertion `left == right` failed: {"error":{"code":"USAGE","feature_id":null,"message":"agent-cad capabilities | schema | validate < model.json | solve-sketch < request.json | inspect-step < asset.json | build --out NEW_DIR < model.json | observe --out NEW_DIR < mesh-request.json"},"ok":false}
+  left: Bool(false)
+ right: true
+
+---- legacy_build_has_no_snapshot_and_query_never_rebuilds stdout ----
+
+thread 'legacy_build_has_no_snapshot_and_query_never_rebuilds' (10740690) panicked at crates/agent-cad/tests/query_artifacts.rs:14:344:
+assertion `left == right` failed
+  left: String("USAGE")
+ right: "QUERY_SNAPSHOT_REQUIRED"
+
+
+failures:
+    corrupted_geometry_is_rejected_before_evaluation
+    edited_snapshot_rejects_stale_request
+    legacy_build_has_no_snapshot_and_query_never_rebuilds
+    queryable_build_reopens_after_relocation_and_preserves_reference_identity
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.63s
+
+error: test failed, to rerun pass `-p agent-cad --test query_artifacts`

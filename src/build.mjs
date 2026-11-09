@@ -15,7 +15,7 @@ import { CadClient } from "../kernel/dist/index.js";
 export async function build(
   tree,
   destination,
-  { preview = false, binary } = {},
+  { preview = false, queryable = false, binary } = {},
 ) {
   const plan = compileTree(tree);
   const model = kernelModel(tree);
@@ -26,7 +26,7 @@ export async function build(
   let owned = false;
   try {
     const client = new CadClient({ outputRoot: stage, binary, wallMs: 120000 });
-    const result = await client.build(model);
+    const result = await client.build(model,{queryable});
     if (!result.ok)
       throw Error(result.error.code + ": " + result.error.message);
     const folder = result.data.artifact_directory;
@@ -59,6 +59,7 @@ export async function build(
       step: join(out, "part", "model.step"),
       nativeJob: join(out, "part", "native-job.json"),
       geometry: receipt.geometry,
+      ...(receipt.query_revision_id?{query_revision_id:receipt.query_revision_id}:{}),
     };
   } catch (error) {
     if (owned) await rm(out, { recursive: true, force: true });

@@ -1,0 +1,642 @@
+{
+  "schema": "colocad.query-example/1",
+  "sourceSha256": "215ceafa2c5d565e1e4a44b28b61767d8c471c4940b206f8b6a799f982ef04c4",
+  "artifactDirectory": "builds/job-t47mKG/revision",
+  "stepSha256": "fdf6ed6fa2769809427c9730448816f6f4eb9020c84f4ce521eb14a3eb6fd251",
+  "expectedVolumesMm3": [
+    11769.557609622549,
+    1447.6458947741767
+  ],
+  "expectedMinimumDistanceMm": 0.2,
+  "built": {
+    "ok": true,
+    "data": {
+      "artifact_sha256": {
+        "geom-dbb5248236b73c5f208ca123996a0c8e640f96292a8b13a4ff13755a5056c1dc.smb": "c513fc98c1e6b435dad9a287a81b46987581f2bf553ebaf980dfd257de5b0675",
+        "geom-f5950c5710d9f515e50db3a68cbceac9c9745ae20c2bdf1511a9706b89223295.smb": "bf2c6e86225fa08de11c491895785958783c9de77e326e0ab771a6f05c74bbd0",
+        "model.step": "fdf6ed6fa2769809427c9730448816f6f4eb9020c84f4ce521eb14a3eb6fd251",
+        "query-definition-0.smb": "1a89b8b005dfa53875769a2786e642507a8c1e9c22856993656c25fd9d81f179",
+        "query-definition-1.smb": "fa479ae65df9f05add333a8324754f435719a3b2cda747e336de14f44d15e9d1",
+        "query-manifest.json": "8db0aa28e0f76b7ebb299d46ba9bad231591fedbaa9f4225cfe135a4d2b1ca4e"
+      },
+      "assembly": {
+        "checks": [
+          {
+            "allowed": false,
+            "kind": "collision",
+            "overlap_mm3": 0,
+            "parts": [
+              "base",
+              "moving"
+            ],
+            "threshold_mm3": 1e-7
+          }
+        ],
+        "groups": [],
+        "instances": [
+          {
+            "bbox_mm": [
+              [
+                3.676257740880795,
+                -7.843728972729412,
+                -6.452365234813989
+              ],
+              [
+                49.653324184933474,
+                38.430824100729716,
+                17.70282753110719
+              ]
+            ],
+            "exported": true,
+            "id": "base",
+            "metadata": {},
+            "parent": null,
+            "poses": null,
+            "representation": {
+              "kind": "exact"
+            },
+            "rotation_deg": [
+              0,
+              25,
+              10
+            ],
+            "solids": 1,
+            "source_feature": "flange",
+            "translation_mm": [
+              25,
+              15,
+              2
+            ],
+            "volume_mm3": 11769.557609652631,
+            "world_placement": {
+              "axes": [
+                [
+                  0.8925389352890299,
+                  0.15737869562426265,
+                  -0.42261826174069944
+                ],
+                [
+                  -0.17364817766693033,
+                  0.984807753012208,
+                  0
+                ],
+                [
+                  0.4161977407267834,
+                  0.07338689100003824,
+                  0.9063077870366499
+                ]
+              ],
+              "origin_mm": [
+                25,
+                15,
+                2
+              ]
+            }
+          },
+          {
+            "bbox_mm": [
+              [
+                20.635484168827155,
+                10.212942974055377,
+                -0.028567673887968655
+              ],
+              [
+                37.68847059155049,
+                21.25479485175456,
+                22.154723379153353
+              ]
+            ],
+            "exported": true,
+            "id": "moving",
+            "metadata": {},
+            "parent": null,
+            "poses": null,
+            "representation": {
+              "kind": "exact"
+            },
+            "rotation_deg": [
+              0,
+              20,
+              15
+            ],
+            "solids": 1,
+            "source_feature": "shaft",
+            "translation_mm": [
+              26,
+              14,
+              4
+            ],
+            "volume_mm3": 1447.6458947689416,
+            "world_placement": {
+              "axes": [
+                [
+                  0.8913678208261309,
+                  0.1639056674836249,
+                  -0.4226089683885355
+                ],
+                [
+                  -0.17956294139962503,
+                  0.9837424949261945,
+                  0.0028024546920677844
+                ],
+                [
+                  0.41619773914761915,
+                  0.07338689149387417,
+                  0.9063077877218516
+                ]
+              ],
+              "origin_mm": [
+                24.99999998871263,
+                14.999999997966228,
+                1.999999975414175
+              ]
+            }
+          }
+        ],
+        "mate_solution": {
+          "constraints": [
+            {
+              "id": "center",
+              "physical_residual": {
+                "angular_rad": 0,
+                "linear_mm": 4.303728311969181e-11
+              },
+              "residuals": [
+                -1.579164243814546e-9,
+                4.938359304818007e-10,
+                6.852016731784261e-10,
+                -3.894709554863596e-11,
+                -2.7340907315931418e-12,
+                1.8106800780959276e-11
+              ],
+              "unoriented_branch": "aligned"
+            },
+            {
+              "id": "seat",
+              "physical_residual": {
+                "angular_rad": 0,
+                "linear_mm": 9.301535541794692e-9
+              },
+              "residuals": [
+                1.579164243814546e-8,
+                -4.9383593048180074e-9,
+                -6.852016731784261e-9,
+                9.301535541794692e-9
+              ],
+              "unoriented_branch": null
+            }
+          ],
+          "converged": true,
+          "degrees_of_freedom": 1,
+          "expected_degrees_of_freedom": 1,
+          "iterations": 3,
+          "local_solution": true,
+          "max_residual": 1.579164243814546e-8,
+          "placements": {
+            "base": {
+              "axes": [
+                [
+                  0.8925389352890299,
+                  0.15737869562426265,
+                  -0.42261826174069944
+                ],
+                [
+                  -0.17364817766693033,
+                  0.984807753012208,
+                  0
+                ],
+                [
+                  0.4161977407267834,
+                  0.07338689100003824,
+                  0.9063077870366499
+                ]
+              ],
+              "origin_mm": [
+                25,
+                15,
+                2
+              ]
+            },
+            "moving": {
+              "axes": [
+                [
+                  0.8913678208261309,
+                  0.1639056674836249,
+                  -0.4226089683885355
+                ],
+                [
+                  -0.17956294139962503,
+                  0.9837424949261945,
+                  0.0028024546920677844
+                ],
+                [
+                  0.41619773914761915,
+                  0.07338689149387417,
+                  0.9063077877218516
+                ]
+              ],
+              "origin_mm": [
+                24.99999998871263,
+                14.999999997966228,
+                1.999999975414175
+              ]
+            }
+          },
+          "rank": 5,
+          "redundant_equations": 5
+        },
+        "native_step_instance_tree": true,
+        "step_representation": "native_product_instance_tree"
+      },
+      "datums": {
+        "flange": {
+          "bore": {
+            "definition_id": "flange",
+            "engineering_fit": "not_asserted",
+            "geometry": {
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "direction_semantics": "unoriented_definition_canonical",
+              "point_mm": [
+                0,
+                0,
+                -1
+              ]
+            },
+            "id": "bore",
+            "kind": "axis",
+            "provenance": "derived",
+            "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+            "remaining_rigid_freedoms": [
+              "translation_along_axis",
+              "rotation_about_axis"
+            ],
+            "source_refs": [
+              {
+                "definition_id": "flange",
+                "definition_sha256": "13c5d9b9f26500d2ca0fcd70d880984a357668ce0184f3c9362c5ade7ac96c78",
+                "instance_path": null,
+                "kind": "face",
+                "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                "topology_id": "t10"
+              }
+            ],
+            "space": "definition"
+          },
+          "bottom": {
+            "definition_id": "flange",
+            "engineering_fit": "not_asserted",
+            "geometry": {
+              "normal": [
+                0,
+                0,
+                -1
+              ],
+              "point_mm": [
+                -20,
+                -20,
+                0
+              ]
+            },
+            "id": "bottom",
+            "kind": "plane",
+            "provenance": "derived",
+            "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+            "remaining_rigid_freedoms": [
+              "in_plane_translation_1",
+              "in_plane_translation_2",
+              "rotation_about_normal"
+            ],
+            "source_refs": [
+              {
+                "definition_id": "flange",
+                "definition_sha256": "13c5d9b9f26500d2ca0fcd70d880984a357668ce0184f3c9362c5ade7ac96c78",
+                "instance_path": null,
+                "kind": "face",
+                "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                "topology_id": "t5"
+              }
+            ],
+            "space": "definition"
+          }
+        },
+        "shaft": {
+          "axis": {
+            "definition_id": "shaft",
+            "engineering_fit": "not_asserted",
+            "geometry": {
+              "direction": [
+                0,
+                0,
+                1
+              ],
+              "direction_semantics": "unoriented_definition_canonical",
+              "point_mm": [
+                0,
+                0,
+                0
+              ]
+            },
+            "id": "axis",
+            "kind": "axis",
+            "provenance": "derived",
+            "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+            "remaining_rigid_freedoms": [
+              "translation_along_axis",
+              "rotation_about_axis"
+            ],
+            "source_refs": [
+              {
+                "definition_id": "shaft",
+                "definition_sha256": "d2ec0cc72fc09e49e230a32448f3b80a2f69289c849e33d6ee186617ac82c3cf",
+                "instance_path": null,
+                "kind": "face",
+                "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                "topology_id": "t1"
+              }
+            ],
+            "space": "definition"
+          },
+          "bottom": {
+            "definition_id": "shaft",
+            "engineering_fit": "not_asserted",
+            "geometry": {
+              "normal": [
+                0,
+                0,
+                -1
+              ],
+              "point_mm": [
+                7.467047609329943,
+                -7.467047609329943,
+                0
+              ]
+            },
+            "id": "bottom",
+            "kind": "plane",
+            "provenance": "derived",
+            "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+            "remaining_rigid_freedoms": [
+              "in_plane_translation_1",
+              "in_plane_translation_2",
+              "rotation_about_normal"
+            ],
+            "source_refs": [
+              {
+                "definition_id": "shaft",
+                "definition_sha256": "d2ec0cc72fc09e49e230a32448f3b80a2f69289c849e33d6ee186617ac82c3cf",
+                "instance_path": null,
+                "kind": "face",
+                "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                "topology_id": "t2"
+              }
+            ],
+            "space": "definition"
+          }
+        }
+      },
+      "editability": {
+        "native_commercial_feature_tree": false,
+        "parameter_replay": true,
+        "source": "model.json"
+      },
+      "executor_version": "0.5.0",
+      "features": [
+        {
+          "cache_hit": false,
+          "checkpoint": "dbb5248236b73c5f208ca123996a0c8e640f96292a8b13a4ff13755a5056c1dc",
+          "degradation": null,
+          "elapsed_ms": 76.534209,
+          "faces": 11,
+          "grid_boolean_ms": 0,
+          "grid_measure_ms": 0,
+          "grid_validation": "not_applicable",
+          "hollow": null,
+          "id": "flange",
+          "inspection_regions": null,
+          "surface": null,
+          "topology_names": {}
+        },
+        {
+          "cache_hit": false,
+          "checkpoint": "f5950c5710d9f515e50db3a68cbceac9c9745ae20c2bdf1511a9706b89223295",
+          "degradation": null,
+          "elapsed_ms": 19.654709,
+          "faces": 3,
+          "grid_boolean_ms": 0,
+          "grid_measure_ms": 0,
+          "grid_validation": "not_applicable",
+          "hollow": null,
+          "id": "shaft",
+          "inspection_regions": null,
+          "surface": null,
+          "topology_names": {}
+        }
+      ],
+      "geometry": {
+        "bbox_mm": [
+          [
+            3.676257740880795,
+            -7.843728972729412,
+            -6.452365234813989
+          ],
+          [
+            49.653324184933474,
+            38.430824100729716,
+            22.154723379153353
+          ]
+        ],
+        "edges": 30,
+        "faces": 14,
+        "solids": 2,
+        "volume_mm3": 13217.203504421574,
+        "volume_semantics": "sum_of_exported_instances"
+      },
+      "kernel": {
+        "name": "solidcore",
+        "revision": "bff1569a4c3347ed9af67faab71578cadf84fde2",
+        "scoped_fixes": {
+          "measurement": [
+            "precise_properties_body_length_scale",
+            "precise_properties_split_at_surface_knots",
+            "precise_properties_span_end_from_below",
+            "precise_properties_trim_base_v",
+            "integrator_propagates_failure"
+          ],
+          "thicken": [
+            "shell_one_construction"
+          ]
+        },
+        "tolerances": "kernel_defaults",
+        "upstream_fixes": [
+          "transform_scales_each_tolerance",
+          "transform_model_size_from_body_box",
+          "fillet_chamfer_cone_on_arc",
+          "shell_edges_on_analytics_exact"
+        ],
+        "volume_integration_accuracy": 1e-8
+      },
+      "model_hash": "12708bd41147f4df74cecdd9ce68f18966e8551a7c161479dda34dd59e46f47a",
+      "peak_live_feature_bodies": 2,
+      "preview": null,
+      "query_manifest": "query-manifest.json",
+      "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+      "step_bytes": 188967,
+      "timing_ms": {
+        "datum_resolution": 45.745625,
+        "export": 7.314375,
+        "geometry": 100.29083299999999,
+        "query_snapshot": 1.769251,
+        "total": 356.85475,
+        "validation": 201.20433300000002
+      },
+      "validation": {
+        "level": "kernel_level_1_per_instance",
+        "manifold": true,
+        "measured_instances": 2,
+        "translated_instance_reuses": 0,
+        "valid": true,
+        "warnings": 0
+      },
+      "artifact_directory": "$REPO/out/engineering-queries-final/builds/job-t47mKG/revision"
+    }
+  },
+  "negative": {
+    "error": {
+      "code": "ASSEMBLY_COLLISION",
+      "feature_id": null,
+      "message": "base and moving overlap 51.270792118677264 mm3 (limit 0.0000001)"
+    },
+    "ok": false
+  },
+  "query": {
+    "data": {
+      "cache": {
+        "descriptors": "request_local",
+        "geometry": "exact_snapshot"
+      },
+      "degradations": [],
+      "execution": {
+        "definitions_loaded": 1,
+        "geometry_build_calls": 0,
+        "step_export_calls": 0,
+        "tessellation_calls": 0
+      },
+      "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+      "results": [
+        {
+          "coverage": {
+            "declarations": "requested_ids"
+          },
+          "diagnostics": [],
+          "id": "mount_geometry",
+          "items": [
+            {
+              "definition_id": "flange",
+              "engineering_fit": "not_asserted",
+              "geometry": {
+                "direction": [
+                  0.4161977407267834,
+                  0.07338689100003824,
+                  0.9063077870366499
+                ],
+                "direction_semantics": "unoriented_definition_canonical",
+                "point_mm": [
+                  24.583802259273217,
+                  14.926613108999963,
+                  1.09369221296335
+                ]
+              },
+              "id": "bore",
+              "kind": "axis",
+              "provenance": "derived",
+              "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+              "remaining_rigid_freedoms": [
+                "translation_along_axis",
+                "rotation_about_axis"
+              ],
+              "source_refs": [
+                {
+                  "definition_id": "flange",
+                  "definition_sha256": "13c5d9b9f26500d2ca0fcd70d880984a357668ce0184f3c9362c5ade7ac96c78",
+                  "instance_path": [
+                    "base"
+                  ],
+                  "kind": "face",
+                  "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                  "topology_id": "t10"
+                }
+              ],
+              "space": "assembly"
+            },
+            {
+              "definition_id": "flange",
+              "engineering_fit": "not_asserted",
+              "geometry": {
+                "normal": [
+                  -0.4161977407267834,
+                  -0.07338689100003824,
+                  -0.9063077870366499
+                ],
+                "point_mm": [
+                  10.622184847558009,
+                  -7.843728972729412,
+                  10.452365234813989
+                ]
+              },
+              "id": "bottom",
+              "kind": "plane",
+              "provenance": "derived",
+              "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+              "remaining_rigid_freedoms": [
+                "in_plane_translation_1",
+                "in_plane_translation_2",
+                "rotation_about_normal"
+              ],
+              "source_refs": [
+                {
+                  "definition_id": "flange",
+                  "definition_sha256": "13c5d9b9f26500d2ca0fcd70d880984a357668ce0184f3c9362c5ade7ac96c78",
+                  "instance_path": [
+                    "base"
+                  ],
+                  "kind": "face",
+                  "query_revision_id": "sha256:ae7eeea8715044535c46b571e845d39e15e8ecd635b9dcad59e9eb44cd6026d1",
+                  "topology_id": "t5"
+                }
+              ],
+              "space": "assembly"
+            }
+          ],
+          "next_cursor": null,
+          "op": "named_datums",
+          "returned_count": 2,
+          "status": "complete",
+          "total_count": 2
+        }
+      ],
+      "schema": "colocad.query/1",
+      "source_accuracy": "unknown",
+      "space": "assembly",
+      "target": {
+        "instance_path": [
+          "base"
+        ]
+      },
+      "timing_ms": {
+        "index": 0.014208,
+        "load": 1.113208,
+        "query": 0.04887600000000014,
+        "total": 1.176375
+      },
+      "tolerance": {
+        "angular_rad": 1e-7,
+        "linear_mm": 0.00001
+      }
+    },
+    "ok": true
+  }
+}

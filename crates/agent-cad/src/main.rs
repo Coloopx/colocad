@@ -1,4 +1,6 @@
-use agent_cad::{build_revision, capabilities, validate, CadError, Model, MAX_INPUT_BYTES};
+use agent_cad::{
+    build_revision_with_options, capabilities, validate, CadError, Model, MAX_INPUT_BYTES,
+};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::io::{self, Read};
@@ -10,7 +12,7 @@ fn main() {
     let result = std::panic::catch_unwind(run).unwrap_or_else(|_| {
         Err(CadError::new(
             "KERNEL_PANIC",
-            "worker aborted; previous artifacts remain unchanged",
+            "local CAD process aborted; previous artifacts remain unchanged",
         ))
     });
     match result {
@@ -22,12 +24,22 @@ fn main() {
     }
 }
 fn run() -> Result<Value, CadError> {
-    let args: Vec<String> = std::env::args().skip(1).collect();
+    let mut args: Vec<String> = std::env::args().skip(1).collect();
     if args == ["capabilities"] {
         return Ok(capabilities());
     }
     if args == ["schema"] {
         return serde_json::to_value(schemars::schema_for!(Model)).map_err(fail);
+    }
+    if args == ["query-schema"] {
+        return serde_json::to_value(schemars::schema_for!(agent_cad::query::contract::Request))
+            .map_err(fail);
+    }
+    let queryable =
+        args.first().is_some_and(|a| a == "build") && args.iter().any(|a| a == "--queryable");
+    if queryable {
+        let at = args.iter().position(|a| a == "--queryable").unwrap();
+        args.remove(at);
     }
     let command = args.first().map(String::as_str).unwrap_or("");
     let incremental = command == "build"
@@ -38,6 +50,7 @@ fn run() -> Result<Value, CadError> {
         && !(args == ["solve-sketch"]
             || args == ["inspect-step"]
             || args == ["validate"]
+            || (command == "query" && args.len() == 3 && args[1] == "--snapshot")
             || (matches!(command, "build" | "observe") && args.len() == 3 && args[1] == "--out"))
         && !(command == "observe"
             && args.len() == 5
@@ -49,13 +62,26 @@ fn run() -> Result<Value, CadError> {
             "agent-cad capabilities | schema | validate < model.json | solve-sketch < request.json | inspect-step < asset.json | build --out NEW_DIR < model.json | observe --out NEW_DIR < mesh-request.json",
         ));
     }
+    let input_limit = if command == "query" {
+        2 * 1024 * 1024
+    } else {
+        MAX_INPUT_BYTES
+    };
     let mut bytes = vec![];
     io::stdin()
-        .take((MAX_INPUT_BYTES + 1) as u64)
+        .take((input_limit + 1) as u64)
         .read_to_end(&mut bytes)
         .map_err(fail)?;
-    if bytes.len() > MAX_INPUT_BYTES {
-        return Err(CadError::new("RESOURCE_LIMIT", "input exceeds 32 MiB"));
+    if bytes.len() > input_limit {
+        return Err(CadError::new(
+            "RESOURCE_LIMIT",
+            "input exceeds command byte budget",
+        ));
+    }
+    if command == "query" {
+        let request = serde_json::from_slice(&bytes)
+            .map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
+        return agent_cad::query::engine::execute(Path::new(&args[2]), request);
     }
     if command == "solve-sketch" {
         #[derive(serde::Deserialize)]
@@ -125,7 +151,7 @@ fn run() -> Result<Value, CadError> {
     } else {
         Default::default()
     };
-    let mut result = build_revision(&model, &mut cache)?;
+    let mut result = build_revision_with_options(&model, &mut cache, queryable.then_some(true))?;
     result.report["artifact_sha256"] =
         json!({"model.step":format!("{:x}",Sha256::digest(result.step.as_bytes()))});
     for (name, bytes) in &result.artifacts {

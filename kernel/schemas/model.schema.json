@@ -109,25 +109,21 @@
     "Attachment": {
       "additionalProperties": false,
       "properties": {
+        "datum": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "frame": {
-          "$ref": "#/$defs/Frame",
-          "default": {
-            "origin": [
-              0,
-              0,
-              0
-            ],
-            "x_axis": [
-              1,
-              0,
-              0
-            ],
-            "y_axis": [
-              0,
-              1,
-              0
-            ]
-          }
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Frame"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "instance": {
           "type": "string"
@@ -857,6 +853,112 @@
       "required": [
         "radius",
         "depth"
+      ],
+      "type": "object"
+    },
+    "CurveClass": {
+      "enum": [
+        "line",
+        "circle",
+        "ellipse",
+        "nurbs",
+        "other"
+      ],
+      "type": "string"
+    },
+    "Declaration": {
+      "additionalProperties": false,
+      "properties": {
+        "definition": {
+          "type": "string"
+        },
+        "derive": {
+          "$ref": "#/$defs/Recipe"
+        },
+        "id": {
+          "type": "string"
+        },
+        "tolerance": {
+          "$ref": "#/$defs/Tolerance"
+        }
+      },
+      "required": [
+        "id",
+        "definition",
+        "tolerance",
+        "derive"
+      ],
+      "type": "object"
+    },
+    "Derive": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "point",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "plane",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "axis",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "direction",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Directed": {
+      "additionalProperties": false,
+      "properties": {
+        "datum": {
+          "type": "string"
+        },
+        "sense": {
+          "$ref": "#/$defs/Sense"
+        }
+      },
+      "required": [
+        "datum",
+        "sense"
       ],
       "type": "object"
     },
@@ -2834,6 +2936,126 @@
         }
       ]
     },
+    "Filter": {
+      "additionalProperties": false,
+      "properties": {
+        "all": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "type": "array"
+        },
+        "any": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "type": "array"
+        },
+        "area_mm2": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "curve_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CurveClass"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "length_mm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "loop_role": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LoopRole"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Filter"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planar_normal_aligned_with": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "planar_normal_parallel_to": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "radius_mm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "surface_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SurfaceClass"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
     "Frame": {
       "additionalProperties": false,
       "properties": {
@@ -2993,6 +3215,15 @@
       ],
       "type": "object"
     },
+    "Kind": {
+      "enum": [
+        "face",
+        "edge",
+        "vertex",
+        "loop"
+      ],
+      "type": "string"
+    },
     "LoftSection": {
       "additionalProperties": false,
       "properties": {
@@ -3018,6 +3249,14 @@
         "radii"
       ],
       "type": "object"
+    },
+    "LoopRole": {
+      "enum": [
+        "outer",
+        "inner",
+        "unknown"
+      ],
+      "type": "string"
     },
     "Mate": {
       "oneOf": [
@@ -3729,6 +3968,172 @@
       ],
       "type": "object"
     },
+    "Range": {
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "min": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "RankBy": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "property": {
+              "const": "area_mm2",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "property": {
+              "const": "length_mm",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "direction": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "property": {
+              "const": "center_projection",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property",
+            "direction"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Recipe": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "derive": {
+              "$ref": "#/$defs/Derive"
+            },
+            "kind": {
+              "const": "selected",
+              "type": "string"
+            },
+            "selection": {
+              "$ref": "#/$defs/Selection"
+            }
+          },
+          "required": [
+            "kind",
+            "selection",
+            "derive"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "design_point",
+              "type": "string"
+            },
+            "point": {
+              "items": {
+                "$ref": "#/$defs/Scalar"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "point"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "type": "string"
+            },
+            "kind": {
+              "const": "point_difference",
+              "type": "string"
+            },
+            "to": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "from",
+            "to"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "frame",
+              "type": "string"
+            },
+            "origin": {
+              "type": "string"
+            },
+            "x": {
+              "$ref": "#/$defs/Directed"
+            },
+            "z": {
+              "$ref": "#/$defs/Directed"
+            }
+          },
+          "required": [
+            "kind",
+            "origin",
+            "x",
+            "z"
+          ],
+          "type": "object"
+        }
+      ]
+    },
     "RegionKind": {
       "enum": [
         "outer",
@@ -3905,6 +4310,262 @@
         }
       ]
     },
+    "Selection": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "kind": {
+              "const": "entities",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "refs",
+              "type": "string"
+            },
+            "refs": {
+              "items": {
+                "$ref": "#/$defs/TopologyRef"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "refs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "filter",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "where"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "children",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "ancestors",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "siblings",
+              "type": "string"
+            },
+            "via": {
+              "$ref": "#/$defs/Kind"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity",
+            "via"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inputs": {
+              "items": {
+                "$ref": "#/$defs/Selection"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "union",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "inputs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inputs": {
+              "items": {
+                "$ref": "#/$defs/Selection"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "intersection",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "inputs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "difference",
+              "type": "string"
+            },
+            "left": {
+              "$ref": "#/$defs/Selection"
+            },
+            "right": {
+              "$ref": "#/$defs/Selection"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "by": {
+              "$ref": "#/$defs/RankBy"
+            },
+            "descending": {
+              "default": false,
+              "type": "boolean"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "rank",
+              "type": "string"
+            },
+            "rank": {
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tie_tolerance": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "by",
+            "rank",
+            "tie_tolerance"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "expect",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "count"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Sense": {
+      "enum": [
+        "positive",
+        "negative"
+      ],
+      "type": "string"
+    },
     "Sketch": {
       "additionalProperties": false,
       "properties": {
@@ -4013,6 +4674,73 @@
       ],
       "type": "string"
     },
+    "SurfaceClass": {
+      "enum": [
+        "plane",
+        "cylinder",
+        "cone",
+        "sphere",
+        "torus",
+        "nurbs",
+        "other"
+      ],
+      "type": "string"
+    },
+    "Tolerance": {
+      "additionalProperties": false,
+      "properties": {
+        "angular_rad": {
+          "format": "double",
+          "type": "number"
+        },
+        "linear_mm": {
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "linear_mm",
+        "angular_rad"
+      ],
+      "type": "object"
+    },
+    "TopologyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_sha256": {
+          "type": "string"
+        },
+        "instance_path": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "kind": {
+          "$ref": "#/$defs/Kind"
+        },
+        "query_revision_id": {
+          "type": "string"
+        },
+        "topology_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_revision_id",
+        "definition_id",
+        "definition_sha256",
+        "kind",
+        "topology_id"
+      ],
+      "type": "object"
+    },
     "View": {
       "enum": [
         "iso",
@@ -4044,6 +4772,12 @@
     "checks": {
       "items": {
         "$ref": "#/$defs/AssemblyCheck"
+      },
+      "type": "array"
+    },
+    "datums": {
+      "items": {
+        "$ref": "#/$defs/Declaration"
       },
       "type": "array"
     },

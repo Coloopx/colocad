@@ -40,8 +40,8 @@ export class ModelingSession {
     try{await writeFile(file,json({pid:process.pid}),{flag:'wx'});}catch(e){if(e.code==='EEXIST')throw Error('SESSION_BUSY: another local writer owns this session');throw e;}
     try{return await fn();}finally{await rm(file,{force:true});}
   }
-  async source(){const l=await this.read(),s=l.steps.findLast(x=>x.status==='succeeded'&&x.operation!=='observe');if(!s)throw Error('SESSION_EMPTY: build a model first');return JSON.parse(await checked(this.root,s.inputFile,s.inputSha256));}
-  async latestGeometry(){return (await this.read()).steps.findLast(x=>x.status==='succeeded'&&x.operation!=='observe');}
+  async source(){const l=await this.read(),s=l.steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));if(!s)throw Error('SESSION_EMPTY: build a model first');return JSON.parse(await checked(this.root,s.inputFile,s.inputSha256));}
+  async latestGeometry(){return (await this.read()).steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));}
   async build(model,metadata={}){const input=structuredClone(model);return this.lock(()=>this.run(input,'build',metadata));}
   async edit(parameters,metadata={}){return this.lock(async()=>{
     const model=await this.source();
@@ -56,20 +56,28 @@ export class ModelingSession {
     }return this.run(next,'build',metadata);
   });}
   async observe(options={},metadata={}){return this.lock(async()=>{const model=await this.source();model.preview={...model.preview,...options};return this.run(model,'observe',metadata);});}
-  async run(model,operation,{label=operation,kind=operation==='observe'?'inspection':'geometry'}={},preset,requestedParameters){
+  async query(request,metadata={}){const input=structuredClone(request);return this.lock(async()=>this.run(await this.source(),'query',metadata,undefined,undefined,input));}
+  async run(model,operation,{label=operation,kind=['observe','query'].includes(operation)?'inspection':'geometry',queryable}={},preset,requestedParameters,queryRequest){
     const ledger=await this.read(),id='s'+String(ledger.steps.length+1).padStart(4,'0'),dir=join('steps',id);
     await mkdir(join(this.root,dir),{recursive:true});
-    if(operation!=='observe')model.preview={view:'iso',chord_mm:.6,width:960,height:640,...model.preview};
+    if(!['observe','query'].includes(operation))model.preview={view:'iso',chord_mm:.6,width:960,height:640,...model.preview};
     const bytes=json(model);await writeFile(join(this.root,dir,'input.json'),bytes);
     const step={id,label:String(label),kind:String(kind),operation,status:'running',startedAt:new Date().toISOString(),inputFile:dir+'/input.json',inputSha256:sha(bytes),receiptFile:dir+'/receipt.json'};
     if(requestedParameters)step.requestedParameters=requestedParameters;
+    if(queryRequest){const requestBytes=json(queryRequest);step.queryRequestFile=dir+'/query.json';step.queryRequestSha256=sha(requestBytes);await writeFile(join(this.root,step.queryRequestFile),requestBytes);}
     ledger.steps.push(step);await atomic(join(this.root,'session.json'),ledger);
     const start=performance.now();let result;
     try{
-      const previous=ledger.steps.slice(0,-1).findLast(x=>x.status==='succeeded'&&x.operation!=='observe');
-      result=preset??await (operation==='observe'
+      const previous=ledger.steps.slice(0,-1).findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
+      step.queryable=queryable??(model.datums?.length?true:previous?.queryable??false);
+      const accepted=operation==='query'?JSON.parse(await checked(this.root,previous.receiptFile,previous.receiptSha256)):undefined;
+      if(accepted&&queryRequest.query_revision_id!==accepted.data.query_revision_id)preset={ok:false,error:{code:'QUERY_REVISION_MISMATCH',message:'Query must target the accepted geometry revision'}};
+      result=preset??await (operation==='query'
+        ?this.cad.query(inside(this.root,previous.artifactDirectory),queryRequest)
+        :operation==='observe'
         ?this.cad.observeArtifact(inside(this.root,previous.artifactDirectory),model.preview)
-        :this.cad.build(model,previous?inside(this.root,previous.artifactDirectory):undefined));
+        :this.cad.build(model,{previousRevision:previous?inside(this.root,previous.artifactDirectory):undefined,queryable:step.queryable}));
+      if(operation==='query'&&result.ok){result.data.artifact_directory=inside(this.root,previous.artifactDirectory);result.data.source_artifact_directory=result.data.artifact_directory;result.data.source_artifact_sha256=accepted.data.artifact_sha256;}
     }catch(e){result={ok:false,error:{code:'SESSION_EXECUTION_FAILED',message:String(e.message)}};}
     step.durationMs=performance.now()-start;step.finishedAt=new Date().toISOString();step.status=result.ok?'succeeded':'failed';
     const saved=structuredClone(result);
@@ -91,7 +99,12 @@ export class ModelingSession {
 export async function createSessionTools(session) {
   const tools=await createCadTools(session.cad);
   for(const tool of tools){
-    if(tool.name==='cad_build')tool.execute=({model})=>session.build(model,{label:'Agent build'});
+    if(tool.name==='cad_build')tool.execute=({model,options})=>session.build(model,{label:'Agent build',queryable:options?.queryable});
+    if(tool.name==='cad_query'){
+      delete tool.inputSchema.properties.artifact_directory;tool.inputSchema.required=['request'];
+      tool.description='Query the latest accepted exact snapshot, persist request/result, and reject stale revisions without changing accepted source.';
+      tool.execute=({request})=>session.query(request,{label:'Agent geometry query'});
+    }
     if(tool.name==='cad_preview')tool.execute=({model,options})=>session.preview(model,options,{label:'Agent preview'});
     if(tool.name==='cad_edit'){
       delete tool.inputSchema.properties.model;
@@ -107,16 +120,17 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso'}={})
   const root=resolve(directory),ledger=await load(join(root,'session.json'));
   if(ledger.format!==format)throw Error('SESSION_FORMAT');
   const bundle={format:'colocad/viewer/1',title:ledger.title,id:ledger.id,createdAt:ledger.createdAt,display:{cutaway,view},steps:[],meshes:{}};
-  const last=ledger.steps.findLast(x=>x.status==='succeeded'&&x.operation!=='observe');
+  const last=ledger.steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
   for(const entry of ledger.steps){
     const step={...entry};
     if(entry.inputFile)step.model=JSON.parse(await checked(root,entry.inputFile,entry.inputSha256));
     if(entry.receiptFile&&entry.receiptSha256)step.receipt=JSON.parse(await checked(root,entry.receiptFile,entry.receiptSha256));
+    if(entry.queryRequestFile)step.queryRequest=JSON.parse(await checked(root,entry.queryRequestFile,entry.queryRequestSha256));
     if(entry.status==='succeeded'){
       const data=step.receipt.data,artifact=entry.artifactDirectory;inside(root,artifact);
       // Observation results keep their original exact-geometry source for later lookup.
       const source=data.source_artifact_directory??artifact;
-      const sourceReport=source===artifact?data:await load(inside(root,source+'/report.json'));
+      const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:await load(inside(root,source+'/report.json'));
       const hash=sourceReport.artifact_sha256?.['preview.mesh.json'];
       if(!hash)throw Error('SESSION_INTEGRITY: missing native preview mesh hash');
       const scene=JSON.parse(await checked(root,source+'/preview.mesh.json',hash));

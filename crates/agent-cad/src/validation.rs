@@ -241,6 +241,7 @@ pub fn validate(model: &Model) -> Result<()> {
         }
     }
     assembly::validate(model, &seen)?;
+    query::datums::validate(model)?;
     if model.assembly.is_empty() && !seen.contains(&model.output) {
         return Err(CadError::new("INVALID_REFERENCE", "output does not exist"));
     }

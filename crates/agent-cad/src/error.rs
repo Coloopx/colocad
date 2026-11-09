@@ -4,6 +4,10 @@ pub struct CadError {
     pub code: &'static str,
     pub message: String,
     pub feature_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub query_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub details: Option<serde_json::Value>,
 }
 impl CadError {
     pub fn new(code: &'static str, message: impl Into<String>) -> Self {
@@ -11,6 +15,8 @@ impl CadError {
             code,
             message: message.into(),
             feature_id: None,
+            query_id: None,
+            details: None,
         }
     }
 }

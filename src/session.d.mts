@@ -1,13 +1,14 @@
-import type { Config, Model, Receipt, PreviewOptions, Sketch } from '../kernel/dist/types.js';
-export interface StepMetadata { label?: string; kind?: string; }
+import type { Config, Model, Receipt, PreviewOptions, Sketch, QueryRequest } from '../kernel/dist/types.js';
+export interface StepMetadata { label?: string; kind?: string; queryable?: boolean; }
 export interface SessionStep {
-  id: string; label: string; kind: string; operation: 'build'|'edit'|'observe';
+  id: string; label: string; kind: string; operation: 'build'|'edit'|'observe'|'query';
   status: 'running'|'succeeded'|'failed'|'interrupted'; startedAt: string;
   finishedAt?: string; durationMs?: number; inputFile: string; inputSha256: string;
   receiptFile?: string; receiptSha256?: string; artifactDirectory?: string;
   geometry?: Record<string, unknown>; error?: { code: string; message: string };
   nativeTimingMs?: Record<string, unknown>; degradations?: Record<string, unknown>[];
   requestedParameters?: Record<string, number>;
+  queryable?: boolean; queryRequestFile?: string; queryRequestSha256?: string;
 }
 export interface SessionLedger { format: 'colocad/session/1'; id: string; title: string; createdAt: string; steps: SessionStep[]; }
 export type SessionConfig = Omit<Config, 'outputRoot'>;
@@ -22,6 +23,7 @@ export class ModelingSession {
   edit(parameters: Record<string, number>, metadata?: StepMetadata): Promise<RecordedReceipt>;
   preview(model: Model, options?: Partial<PreviewOptions>, metadata?: StepMetadata): Promise<RecordedReceipt>;
   observe(options?: Partial<PreviewOptions>, metadata?: StepMetadata): Promise<RecordedReceipt>;
+  query(request: QueryRequest, metadata?: StepMetadata): Promise<RecordedReceipt>;
   capabilities(): Promise<Receipt>; schema(): Promise<Receipt>; validate(model: Model): Promise<Receipt>;
   solveSketch(sketch: Sketch, parameters?: Record<string,number>): Promise<Receipt>;
   inspectStep(model: Model, asset: string): Promise<Receipt>;

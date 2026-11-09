@@ -8,5 +8,5 @@ export interface ProcessResult {
     overflow: boolean;
 }
 export declare function error(code: string, message: string): Receipt;
-export declare function execute(file: string, args: string[], input?: CadInput, wallMs?: number): Promise<ProcessResult>;
+export declare function execute(file: string, args: string[], input?: CadInput, wallMs?: number, maxOutputBytes?: number): Promise<ProcessResult>;
 export declare function receipt(result: ProcessResult): Receipt;

@@ -17,7 +17,8 @@ export type AssemblyCheck = ({
     "targets": Array<string>;
 });
 export type Attachment = {
-    "frame"?: Frame;
+    "datum"?: string | null;
+    "frame"?: (Frame) | (null);
     "instance": string;
 };
 export type Axis = "x" | "y" | "z";
@@ -148,6 +149,26 @@ export type ControlEdit = {
 export type Counterbore = {
     "depth": Scalar;
     "radius": Scalar;
+};
+export type CurveClass = "line" | "circle" | "ellipse" | "nurbs" | "other";
+export type Declaration = {
+    "definition": string;
+    "derive": Recipe;
+    "id": string;
+    "tolerance": Tolerance;
+};
+export type Derive = ({
+    "kind": "point";
+}) | ({
+    "kind": "plane";
+}) | ({
+    "kind": "axis";
+}) | ({
+    "kind": "direction";
+});
+export type Directed = {
+    "datum": string;
+    "sense": Sense;
 };
 export type EdgeSelector = ({
     "expected_count": number;
@@ -491,6 +512,20 @@ export type Feature = ({
     "radius": Scalar;
     "spacing": [Scalar, Scalar];
 });
+export type Filter = {
+    "all"?: Array<Filter>;
+    "any"?: Array<Filter>;
+    "area_mm2"?: (Range) | (null);
+    "curve_type"?: (CurveClass) | (null);
+    "length_mm"?: (Range) | (null);
+    "loop_role"?: (LoopRole) | (null);
+    "name"?: string | null;
+    "not"?: (Filter) | (null);
+    "planar_normal_aligned_with"?: [number, number, number] | null;
+    "planar_normal_parallel_to"?: [number, number, number] | null;
+    "radius_mm"?: (Range) | (null);
+    "surface_type"?: (SurfaceClass) | (null);
+};
 export type Frame = {
     "origin": [Scalar, Scalar, Scalar];
     "x_axis": [Scalar, Scalar, Scalar];
@@ -516,10 +551,12 @@ export type Instance = {
     "rotation_order"?: RotationOrder;
     "translation"?: [Scalar, Scalar, Scalar];
 };
+export type Kind = "face" | "edge" | "vertex" | "loop";
 export type LoftSection = {
     "center": [Scalar, Scalar, Scalar];
     "radii": [Scalar, Scalar];
 };
+export type LoopRole = "outer" | "inner" | "unknown";
 export type Mate = ({
     "a": Attachment;
     "alignment"?: FrameAlignment;
@@ -644,6 +681,35 @@ export type ProfileSection = {
     "frame"?: Frame;
     "profile": Profile;
 };
+export type Range = {
+    "max"?: number | null;
+    "min"?: number | null;
+};
+export type RankBy = ({
+    "property": "area_mm2";
+}) | ({
+    "property": "length_mm";
+}) | ({
+    "direction": [number, number, number];
+    "property": "center_projection";
+});
+export type Recipe = ({
+    "derive": Derive;
+    "kind": "selected";
+    "selection": Selection;
+}) | ({
+    "kind": "design_point";
+    "point": [Scalar, Scalar, Scalar];
+}) | ({
+    "from": string;
+    "kind": "point_difference";
+    "to": string;
+}) | ({
+    "kind": "frame";
+    "origin": string;
+    "x": Directed;
+    "z": Directed;
+});
 export type RegionKind = "outer" | "cavity" | "opening";
 export type Representation = ({
     "kind": "exact";
@@ -670,6 +736,52 @@ export type Segment = ({
     "to": [Scalar, Scalar];
     "via": [Scalar, Scalar];
 });
+export type Selection = ({
+    "entity": Kind;
+    "kind": "entities";
+}) | ({
+    "kind": "refs";
+    "refs": Array<TopologyRef>;
+}) | ({
+    "input": Selection;
+    "kind": "filter";
+    "where": Filter;
+}) | ({
+    "entity": Kind;
+    "input": Selection;
+    "kind": "children";
+}) | ({
+    "entity": Kind;
+    "input": Selection;
+    "kind": "ancestors";
+}) | ({
+    "entity": Kind;
+    "input": Selection;
+    "kind": "siblings";
+    "via": Kind;
+}) | ({
+    "inputs": Array<Selection>;
+    "kind": "union";
+}) | ({
+    "inputs": Array<Selection>;
+    "kind": "intersection";
+}) | ({
+    "kind": "difference";
+    "left": Selection;
+    "right": Selection;
+}) | ({
+    "by": RankBy;
+    "descending"?: boolean;
+    "input": Selection;
+    "kind": "rank";
+    "rank": number;
+    "tie_tolerance": number;
+}) | ({
+    "count": number;
+    "input": Selection;
+    "kind": "expect";
+});
+export type Sense = "positive" | "negative";
 export type Sketch = {
     "allow_underconstrained"?: boolean;
     "boundary": Boundary;
@@ -694,6 +806,19 @@ export type StepAsset = {
     "step": string;
 };
 export type Strategy = "offset" | "scaled" | "offset_then_scaled";
+export type SurfaceClass = "plane" | "cylinder" | "cone" | "sphere" | "torus" | "nurbs" | "other";
+export type Tolerance = {
+    "angular_rad": number;
+    "linear_mm": number;
+};
+export type TopologyRef = {
+    "definition_id": string;
+    "definition_sha256": string;
+    "instance_path"?: Array<string> | null;
+    "kind": Kind;
+    "query_revision_id": string;
+    "topology_id": string;
+};
 export type View = "iso" | "front" | "back" | "left" | "right" | "top" | "bottom";
 export type Model = {
     "assembly"?: Array<Instance>;
@@ -701,6 +826,7 @@ export type Model = {
         [key: string]: StepAsset;
     };
     "checks"?: Array<AssemblyCheck>;
+    "datums"?: Array<Declaration>;
     "features": Array<Feature>;
     "groups"?: Array<Group>;
     "mates"?: (MateSystem) | (null);

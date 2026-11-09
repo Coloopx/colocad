@@ -14,8 +14,10 @@ pub struct MateSystem {
 #[serde(deny_unknown_fields)]
 pub struct Attachment {
     pub instance: String,
-    #[serde(default)]
-    pub frame: Frame,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub frame: Option<Frame>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub datum: Option<String>,
 }
 /// Surface normals remain outward; a mate separately chooses the axis relation.
 #[derive(Clone, Copy, Debug, Default, Deserialize, Serialize, JsonSchema, PartialEq)]
@@ -112,7 +114,7 @@ pub enum Mate {
     },
 }
 impl Mate {
-    fn fields(&self) -> (&str, &Attachment, &Attachment) {
+    pub(crate) fn fields(&self) -> (&str, &Attachment, &Attachment) {
         match self {
             Self::Fixed { id, a, b, .. }
             | Self::Coincident { id, a, b }
@@ -142,7 +144,7 @@ fn frame(
     let pose = poses
         .get(&a.instance)
         .ok_or_else(|| CadError::new("MATE_REFERENCE", &a.instance))?;
-    let (o, x, y) = a.frame.resolve(p)?;
+    let (o, x, y) = a.frame.as_ref().unwrap_or(&Frame::default()).resolve(p)?;
     Ok(pose.compose(Rigid {
         origin: o,
         axes: [x, y, x.cross(y)],
@@ -280,6 +282,7 @@ fn physical_residual(
 pub(crate) fn solve(
     m: &Model,
     initial: BTreeMap<String, Rigid>,
+    datums: &query::datums::Definitions,
 ) -> Result<(BTreeMap<String, Rigid>, Value)> {
     let Some(system) = &m.mates else {
         return Ok((initial, Value::Null));
@@ -297,6 +300,44 @@ pub(crate) fn solve(
         }
     }
     let mut constraints = system.constraints.clone();
+    for mate in &mut constraints {
+        let allowed: &[&str] = match mate {
+            Mate::Fixed { .. } | Mate::Prismatic { .. } | Mate::Revolute { .. } => &["frame"],
+            Mate::Concentric { .. } => &["axis", "frame"],
+            Mate::Plane { .. } => &["plane", "frame"],
+            Mate::Coincident { .. } | Mate::Distance { .. } => &["point", "frame"],
+        };
+        let (a, b) = match mate {
+            Mate::Fixed { a, b, .. }
+            | Mate::Prismatic { a, b, .. }
+            | Mate::Revolute { a, b, .. }
+            | Mate::Concentric { a, b, .. }
+            | Mate::Plane { a, b, .. }
+            | Mate::Coincident { a, b, .. }
+            | Mate::Distance { a, b, .. } => (a, b),
+        };
+        for attachment in [a, b] {
+            if let Some(id) = &attachment.datum {
+                let instance = m
+                    .assembly
+                    .iter()
+                    .find(|i| i.id == attachment.instance)
+                    .ok_or_else(|| CadError::new("MATE_REFERENCE", &attachment.instance))?;
+                let d = datums
+                    .get(&instance.input)
+                    .and_then(|ds| ds.get(id))
+                    .ok_or_else(|| CadError::new("DATUM_REFERENCE", id))?;
+                if !allowed.contains(&d.kind.as_str()) {
+                    return Err(CadError::new(
+                        "DATUM_KIND_MISMATCH",
+                        format!("{id}: {} cannot supply {:?}", d.kind, allowed),
+                    ));
+                }
+                attachment.frame = Some(d.numerical_frame()?);
+                attachment.datum = None;
+            }
+        }
+    }
     let mut branches = BTreeMap::new();
     for mate in &mut constraints {
         if let Mate::Concentric {

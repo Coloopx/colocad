@@ -179,3 +179,16 @@ Q01 已固定为带通孔、平底盲孔和沉孔的 `100 × 60 × 12 mm` 板，
 第 2 版已将六项评审反馈回归到正式设计、阶段和验收契约，并开始独立实验/TDD。实际通过与未通过的项目记录在[实验台账](experiments/0004/README.md)。**不能把单项实验通过写成所有 query、安装接口或性能验收通过；本次不因修改规范自动发布 npm。**
 
 贡献者按修订的 M0–M4 拆 PR。M1 只宣称其已验证的查询/基准能力；M2 证明基础配合闭环；M3 通过接口与替换验收后，才有证据扩大产品装配能力的表述。
+
+
+## 实施回归：G1 第二轮（2026-11-09）
+
+[SDD 0005](0005-capability-reliability-and-optimization.zh-CN.md) 规定 G1 功能覆盖 → G2 几何可靠性 → G3 工程可用性 → G4 benchmark / 回溯优化的严格验收顺序。实现中的 TDD 和独立几何检查持续执行，不等于提前开展 G4 性能优化。
+
+当前开发源码已接入精确查询工件、有界通用选择、基本几何推导、持久化命名基准、基准附件配合和 SDK/CLI/session 记录。[使用指南](../docs/engineering-queries.zh-CN.md)、[外部 STEP 闭环例子](../examples/engineering-queries/README.md)和[实验账本](experiments/0004/README.md)明确已测范围；M1/M2 和整个 G1 尚未全部验收。
+
+声明字段为 `id/definition/tolerance/derive`，输出类型由规则确定，不再重复声明可能矛盾的 kind。规则包括 `selected`、`design_point`、`point_difference`、`frame`；依赖必须在同一定义内较早声明，持久化选择拒绝快照引用。临时推导使用 `datums`，读取命名结果使用 `named_datums`。相邻拓扑 `siblings` 显式指定共享子拓扑 `via`。完整 frame 要求显式 x/z 正负方向并检查正交与右手系；圆柱轴线本身没有转动关节的轴向原点，因此转动关节要求完整 frame，或另行组合轴线和平面约束。
+
+Manifest v1 的规范字节为 Rust 声明字段顺序、BTreeMap 排序键、紧凑 UTF-8 serde_json 序列化，空 `datums` 按版本规则省略；它不是 RFC 8785。锁定序列化版本与[跨语言 SHA 测试向量](experiments/0004/fixtures/manifest-vector.json)共同冻结编码。基准源 token 纳入摘要，最终版本号计算后再展开成引用，避免循环摘要。空向量用于编码验收，不是可用的运行时快照。
+
+G1 仍缺命名基准相对筛选、完整专用描述/裁剪覆盖、孔/孔组/安装接口识别和规范要求的接触/间隙语义。本轮的完整性检查与外部 STEP 小样本不替代解析器模糊测试、G2 真实模型语料或 G3 替换/资源验收。本次不宣称新性能倍数，也未发 npm。

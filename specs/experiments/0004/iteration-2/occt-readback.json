@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "ocp_version": "7.9.3.1.1",
+  "step_sha256": "fdf6ed6fa2769809427c9730448816f6f4eb9020c84f4ce521eb14a3eb6fd251",
+  "valid_solids": 2,
+  "volumes_mm3": [
+    1447.645894774169,
+    11769.557609622552
+  ],
+  "minimum_distance_mm": 0.2000000000040704,
+  "expected_minimum_distance_mm": 0.2,
+  "scope": "foreign analytic STEP, geometry-derived datum mates and exact readback; not general interface/replacement or industrial corpus acceptance"
+}

@@ -2,15 +2,15 @@
 
 Date: 2026-11-09. Specification: [English revision 2](../../0004-engineering-query-and-assembly-interfaces.md), [中文](../../0004-engineering-query-and-assembly-interfaces.zh-CN.md).
 
-The six review findings are incorporated in the normative spec. Work is local to Colocad. Runtime evidence below is independent of the existing harness CAD implementation. No npm release is implied by this ledger.
+The six review findings are incorporated in the normative spec. Work is local to Colocad. Runtime evidence below is independent of the existing harness CAD implementation. No npm release is implied by this ledger. [SDD 0005](../../0005-capability-reliability-and-optimization.md) governs the four ordered acceptance goals; G1 remains active.
 
 | Experiment | Hypothesis / gate | State |
 | --- | --- | --- |
 | E01 / D02 | Explicit mate direction and proper frame rotation support outward opposing surfaces without changing legacy defaults | Passed for explicit numeric attachments; implemented in Rust, schema and SDK types |
-| E02 / Q04 | Exact native serialization preserves assigned topology identity and semantic names without using reloaded arena positions as identity | Definition-level feasibility passed; complete query manifest/reference acceptance pending |
-| E03 / Q01/Q03 | Pinned kernel provides exact analytic descriptors and trim-aware evaluation | Planar area, trim, cylinder seam and reload probes passed; public descriptor/evaluation API pending |
-| E04 / S01/D01 | A bounded selection can derive primitive datums without hole recognition | Pending |
-| E05 / D03/C01 | Datum mates and measured checks establish basic assembly/clearance | Pending |
+| E02 / Q04 | Exact native serialization preserves assigned topology identity and semantic names without using reloaded arena positions as identity | Definition-level feasibility and public manifest/reopen tests passed; broader parser/resource acceptance pending |
+| E03 / Q01/Q03 | Pinned kernel provides exact analytic descriptors and trim-aware evaluation | Probes plus public descriptor/evaluation subset passed; specialized coverage remains incomplete |
+| E04 / S01/D01 | A bounded selection can derive primitive datums without hole recognition | Core slice implemented; relative datum filters and remaining descriptor contract pending |
+| E05 / D03/C01 | Datum mates and measured checks establish basic assembly/clearance | Datum-driven foreign STEP fixture and OCCT 0.2 mm readback passed; full contact/clearance API acceptance pending |
 | E06 / A01–A06 | Independently authored replacement and KK60 assembly fixtures | Pending; requires preceding gates |
 
 For each experiment retain the failing command/result, repair, passing command/result, source/native identity and scope. Use analytic assertions for geometry and independent OCCT readback for significant STEP deliveries. Deterministic tests are not live-agent success rates. No latency/memory advantage is claimed before Linux sandbox measurements.
@@ -64,7 +64,7 @@ python specs/experiments/0004/verify-step.py out/experiments/0004/run.json
 
 `run.json` contains an output-relative artifact path for that run. The archived [sdk-run.json](evidence/sdk-run.json) preserves the historical receipt; regenerate outputs to reproduce the STEP rather than interpreting its path relative to the evidence directory. `verify-step.py` checks the STEP digest before geometry. Red logs capture actual initial failures; their stub line numbers are historical.
 
-## Next iteration and gates
+## Iteration 1 handoff (historical)
 
 M0 is **partially complete**. Do not mark the whole milestone accepted before testing payload/traversal budgets and the Linux 1 vCPU / 512 MiB resource envelope. No new performance ratio is established by this iteration.
 
@@ -74,3 +74,48 @@ M0 is **partially complete**. Do not mark the whole milestone accepted before te
 4. E06/M3: independently authored flange/support STEP variants and KK60 mounting fixtures, with incompatible and symmetric controls. Source/license/hash and physical acceptance thresholds precede implementation or timing.
 
 **中文结论：**六项评审意见已回归双语 spec；第一轮已实现配合方向修复，并验证精确快照和裁剪查询的基础路径。87 项 Rust、29 项 Node、6 项集成例子通过，独立 OCCT 回读确认 0.2 mm 间隙。通用选择、几何基准驱动装配、孔/接口识别、完整查询入口及 Linux 资源验收仍待后续迭代，SDD 0004 未整体完成，本次未发 npm。
+
+
+## Iteration 2 — query artifacts, selection and persistent datums
+
+G1 is **in progress**; this is a tested implementation slice, not full M1/M2 or G1 acceptance. [Source/native hashes and environment](iteration-2/validation.json) identify the tested working tree based on `b67d4ba`. Packaged native binaries and npm alpha.6 are unchanged. Logs normalize local path prefixes only.
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Rust regression | 105 passed, 0 failed, 0 ignored (18 new tests) | [Native log](iteration-2/native-tests.log) |
+| Root Node regression | 34 passed, 0 failed (5 new tests) | [Node log](iteration-2/node-tests.log) |
+| Agent harness examples | 6 passed; pinned published example SDK with development native override | [Integration log](iteration-2/integrations.log) |
+| Offline browser | Query step retains scene; geometry step remains reachable; controls, downloads, mobile layout and no remote requests pass | [Browser log](iteration-2/viewer.log) |
+| Generated contracts | Rust schemas, SDK compilation, positive/negative TypeScript query fixture and `schema:check` pass | [Validation](iteration-2/validation.json) |
+| Independent OCCT | 2 valid exported solids, analytic volumes, minimum gap **0.2000000000040704 mm** | [Readback](iteration-2/occt-readback.json) |
+
+**Queryable artifact authority.** A requested snapshot is part of atomic build output. The versioned manifest binds exact native payloads, topology/name bindings, final definition ownership, solved occurrence placements, model identity and declared datum results. Fresh process and relocated-directory queries preserve refs; changed geometry rejects old refs; corrupt payloads, escaping paths and symlinks fail. A [fixed encoding/SHA vector](fixtures/manifest-vector.json) tests compact serializer bytes. Legacy artifacts require explicit queryable rebuild. [Initial red tests](iteration-2/artifacts-red.log) failed because the CLI did not expose snapshot/query entry points.
+
+**Selection and evaluation.** The public API supports face/edge/vertex/loop descriptors, bounded set expressions and typed filters, shared-child adjacency, tied ranks, explicit cardinality and cursor identity. `plane → inner loops → circles → centers` excludes the opposite face. Tests exposed an adapter bug: native face-use normals point into their owning region, so the material-side sign must be inverted for engineering outward normals. The [red selection log](iteration-2/selection-red.log) and top-plane/foreign-STEP regressions retain that finding. `evaluate_face` distinguishes trimmed material, hole interior and outside parameter domain, and avoids fabricated zero-tangent normals.
+
+**Persistent datum intent.** [Initial tests](iteration-2/datums-red.log) rejected `Model.datums`; the source now accepts bounded `selected`, explicit `design_point`, `point_difference` and right-handed `frame` recipes. Earlier named dependencies are required, revision-local refs are prohibited in persistent recipes, and primitive cardinality is exactly one. Attachments consume datum kinds appropriate to the mate. The shaft/support fixture follows a height edit and retains one rotational DOF; fixed frame tests constrain all six DOF and reject degeneracy. Wrong kind, ambiguity, missing dependencies, mutually exclusive frame/datum and explicitly disabled snapshots fail clearly.
+
+**Foreign STEP closure.** The [runnable example](../../../examples/engineering-queries/README.md) uses the [independently authored OCCT flange](fixtures/occt-flange.json), not a Colocad-exported input. Bore and plane recipes drive the shaft placement from perturbed seed poses. An oversized shaft fails `ASSEMBLY_COLLISION`. The [run receipt](iteration-2/run.json) and independent OCCT readback validate the resulting exact geometry. The read-only named query has zero geometry build/export/tessellation calls. This small analytic fixture does not establish general hole/interface recognition or an industrial success rate.
+
+**SDK, CLI and session.** `CadClient.query`, generated query schema, capability-gated `cad_query`, queryable build/record CLI and immutable receipt output are available in development source. Sessions retain query input/receipt hashes, pin accepted source artifact hashes, preserve queryability through edits and keep failed queries separate from accepted source. [Guide](../../../docs/engineering-queries.md) / [中文](../../../docs/engineering-queries.zh-CN.md).
+
+### Reproduce iteration 2
+
+After the development build/schema/SDK preparation above:
+
+```sh
+cargo test --locked --release -p agent-cad
+npm test
+npm run test:integrations
+npm run test:viewer
+node examples/engineering-queries/run.mjs out/engineering-queries
+python examples/engineering-queries/verify.py out/engineering-queries/run.json
+```
+
+`AGENT_CAD_BINARY` must identify this checkout's freshly built native binary for all Node/browser/example commands. Run the last command in the independent OCCT environment. Archived paths in `iteration-2/run.json` are historical; rerun the example to produce artifacts to inspect. Type-contract check: `tsc --noEmit --module NodeNext --target ES2022 --skipLibCheck test/types/query.mts` with Node types installed.
+
+### Remaining ordered work
+
+G1 still requires named-datum-relative predicates, the full specialized descriptor/trim contract, hole/counterbore recognition, planar hole groups, installation interfaces and contact/clearance semantics. Broader parser/resource/reference replacement evidence remains open. G2 then establishes a frozen difficult/foreign industrial corpus; G3 accepts engineering lifecycle and Linux 1 vCPU / 512 MiB limits; G4 begins the specified benchmark/trace-back/minimize/fix/regress/held-out/accept-or-reject loop only after their evidence passes. No speed or memory ratio is claimed from these macOS correctness tests.
+
+**中文状态：**第二轮完成了可查询精确快照、核心通用选择、持久化几何基准与配合、SDK/CLI/session 接入，并用独立 OCCT STEP 完成最小装配闭环。105 项 Rust、34 项 Node、6 项集成测试和离线浏览器验收通过；独立回读确认 0.2 mm 间隙。G1 尚未整体完成，G2–G4 继续受顺序闸门约束。

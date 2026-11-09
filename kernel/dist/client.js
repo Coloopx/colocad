@@ -1,5 +1,5 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, realpath } from 'node:fs/promises';
+import { join, relative, isAbsolute, sep } from 'node:path';
 import { artifactJob } from './artifacts.js';
 import { resolveBinary } from './binary.js';
 import { execute, receipt, error } from './process.js';
@@ -9,6 +9,7 @@ export { attachStep } from './assets.js';
 export class CadClient {
     config;
     previousRevision;
+    previousQueryable = false;
     previewCache = new Map();
     constructor(config) {
         this.config = config;
@@ -20,6 +21,26 @@ export class CadClient {
     }
     async capabilities() { return this.invoke(['capabilities']); }
     async schema() { return this.invoke(['schema']); }
+    async querySchema() { return this.invoke(['query-schema']); }
+    async query(directory, request) {
+        try {
+            const actual = await realpath(directory);
+            let allowed = false;
+            for (const root of this.config.queryRoots ?? [this.config.outputRoot]) {
+                const base = await realpath(root), path = relative(base, actual);
+                if (path === '' || (!isAbsolute(path) && path !== '..' && !path.startsWith('..' + sep)))
+                    allowed = true;
+            }
+            if (!allowed)
+                return error('QUERY_ARTIFACT_OUTSIDE_ROOT', 'Artifact is outside the host-configured query roots');
+            if (Buffer.byteLength(JSON.stringify(request)) > 2 * 1024 * 1024)
+                return error('QUERY_LIMIT', 'Query request exceeds 2 MiB');
+            return this.invoke(['query', '--snapshot', actual], request);
+        }
+        catch (cause) {
+            return error('QUERY_ARTIFACT_READ_FAILED', String(cause));
+        }
+    }
     async validate(model) { return this.invoke(['validate'], model); }
     async solveSketch(sketch, parameters = {}) {
         return this.invoke(['solve-sketch'], { sketch, parameters });
@@ -60,11 +81,18 @@ export class CadClient {
             return error(cause instanceof CacheError ? cause.code : 'PREVIEW_CACHE_READ_FAILED', String(cause));
         }
     }
-    async build(model, previousRevision = this.previousRevision) {
+    async build(model, optionsOrRevision) {
+        const options = typeof optionsOrRevision === 'string' ? { previousRevision: optionsOrRevision } : optionsOrRevision ?? {};
+        if (options.queryable === false && model.datums?.length)
+            return error('QUERY_SNAPSHOT_REQUIRED', 'Datum declarations require queryable artifacts');
+        const queryable = options.queryable ?? !!model.datums?.length;
+        const previousRevision = options.previousRevision ?? this.previousRevision;
         const checkpoints = previousRevision ? ['--reuse', previousRevision] : ['--checkpoints'];
-        const result = await artifactJob(this.config, 'job-', (_job, destination) => this.invoke(['build', '--out', destination, ...checkpoints], model));
-        if (result.ok)
+        const result = await artifactJob(this.config, 'job-', (_job, destination) => this.invoke(['build', '--out', destination, ...checkpoints, ...(queryable ? ['--queryable'] : [])], model));
+        if (result.ok) {
             this.previousRevision = result.data.artifact_directory;
+            this.previousQueryable = queryable;
+        }
         if (result.ok && model.preview && result.data.artifact_sha256?.['preview.mesh.json']) {
             this.previewCache.set(previewKey(model), result.data.artifact_directory);
             if (this.previewCache.size > 16)
@@ -79,7 +107,7 @@ export class CadClient {
             if (!Number.isFinite(value))
                 return error('INVALID_PARAMETER', key);
         }
-        return this.build({ ...structuredClone(model), parameters: { ...model.parameters, ...parameters } });
+        return this.build({ ...structuredClone(model), parameters: { ...model.parameters, ...parameters } }, { queryable: this.previousQueryable });
     }
     async inspect(artifactDirectory) {
         return JSON.parse(await readFile(join(artifactDirectory, 'report.json'), 'utf8'));
@@ -90,7 +118,7 @@ export class CadClient {
             return error('RESOURCE_LIMIT', 'input exceeds 32 MiB');
         try {
             const binary = resolveBinary(this.config.binary ?? this.config.runner?.binary);
-            return receipt(await execute(binary, args, input, this.config.wallMs ?? 30_000));
+            return receipt(await execute(binary, args, input, this.config.wallMs ?? 30_000, args[0] === 'query' ? 8 * 1024 * 1024 : 2 * 1024 * 1024));
         }
         catch (cause) {
             return error('LOCAL_EXECUTION_FAILED', String(cause));

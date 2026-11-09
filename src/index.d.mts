@@ -42,11 +42,12 @@ export function kernelModel(
 export function build(
   tree: FeatureTree,
   destination: string,
-  options?: { preview?: boolean; binary?: string },
+  options?: { preview?: boolean; queryable?: boolean; binary?: string },
 ): Promise<{
   directory: string;
   step: string;
   nativeJob: string;
+  query_revision_id?: string;
   geometry: Geometry;
 }>;
 export function writeSolidWorks(

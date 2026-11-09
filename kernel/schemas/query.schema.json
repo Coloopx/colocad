@@ -1,0 +1,911 @@
+{
+  "$defs": {
+    "CurveClass": {
+      "enum": [
+        "line",
+        "circle",
+        "ellipse",
+        "nurbs",
+        "other"
+      ],
+      "type": "string"
+    },
+    "Derive": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "point",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "plane",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "axis",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "direction",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Filter": {
+      "additionalProperties": false,
+      "properties": {
+        "all": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "type": "array"
+        },
+        "any": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Filter"
+          },
+          "type": "array"
+        },
+        "area_mm2": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "curve_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CurveClass"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "length_mm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "loop_role": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LoopRole"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "not": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Filter"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planar_normal_aligned_with": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "planar_normal_parallel_to": {
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "radius_mm": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Range"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "surface_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SurfaceClass"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Kind": {
+      "enum": [
+        "face",
+        "edge",
+        "vertex",
+        "loop"
+      ],
+      "type": "string"
+    },
+    "LoopRole": {
+      "enum": [
+        "outer",
+        "inner",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "Query": {
+      "oneOf": [
+        {
+          "properties": {
+            "op": {
+              "const": "faces",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter",
+              "default": {
+                "all": [],
+                "any": [],
+                "area_mm2": null,
+                "curve_type": null,
+                "length_mm": null,
+                "loop_role": null,
+                "name": null,
+                "not": null,
+                "planar_normal_aligned_with": null,
+                "planar_normal_parallel_to": null,
+                "radius_mm": null,
+                "surface_type": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "edges",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter",
+              "default": {
+                "all": [],
+                "any": [],
+                "area_mm2": null,
+                "curve_type": null,
+                "length_mm": null,
+                "loop_role": null,
+                "name": null,
+                "not": null,
+                "planar_normal_aligned_with": null,
+                "planar_normal_parallel_to": null,
+                "radius_mm": null,
+                "surface_type": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "vertices",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter",
+              "default": {
+                "all": [],
+                "any": [],
+                "area_mm2": null,
+                "curve_type": null,
+                "length_mm": null,
+                "loop_role": null,
+                "name": null,
+                "not": null,
+                "planar_normal_aligned_with": null,
+                "planar_normal_parallel_to": null,
+                "radius_mm": null,
+                "surface_type": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "loops",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter",
+              "default": {
+                "all": [],
+                "any": [],
+                "area_mm2": null,
+                "curve_type": null,
+                "length_mm": null,
+                "loop_role": null,
+                "name": null,
+                "not": null,
+                "planar_normal_aligned_with": null,
+                "planar_normal_parallel_to": null,
+                "radius_mm": null,
+                "surface_type": null
+              }
+            }
+          },
+          "required": [
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "select",
+              "type": "string"
+            },
+            "selection": {
+              "$ref": "#/$defs/Selection"
+            }
+          },
+          "required": [
+            "op",
+            "selection"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "describe",
+              "type": "string"
+            },
+            "refs": {
+              "items": {
+                "$ref": "#/$defs/TopologyRef"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "op",
+            "refs"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "derive": {
+              "$ref": "#/$defs/Derive"
+            },
+            "op": {
+              "const": "datums",
+              "type": "string"
+            },
+            "selection": {
+              "$ref": "#/$defs/Selection"
+            }
+          },
+          "required": [
+            "op",
+            "selection",
+            "derive"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "ids": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "op": {
+              "const": "named_datums",
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "ids"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "op": {
+              "const": "evaluate_face",
+              "type": "string"
+            },
+            "ref": {
+              "$ref": "#/$defs/TopologyRef"
+            },
+            "uv": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            }
+          },
+          "required": [
+            "op",
+            "ref",
+            "uv"
+          ],
+          "type": "object"
+        }
+      ],
+      "properties": {
+        "cursor": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "limit": {
+          "default": 64,
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "Range": {
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "min": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "RankBy": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "property": {
+              "const": "area_mm2",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "property": {
+              "const": "length_mm",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "direction": {
+              "items": {
+                "format": "double",
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "property": {
+              "const": "center_projection",
+              "type": "string"
+            }
+          },
+          "required": [
+            "property",
+            "direction"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Selection": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "kind": {
+              "const": "entities",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "refs",
+              "type": "string"
+            },
+            "refs": {
+              "items": {
+                "$ref": "#/$defs/TopologyRef"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "refs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "filter",
+              "type": "string"
+            },
+            "where": {
+              "$ref": "#/$defs/Filter"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "where"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "children",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "ancestors",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entity": {
+              "$ref": "#/$defs/Kind"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "siblings",
+              "type": "string"
+            },
+            "via": {
+              "$ref": "#/$defs/Kind"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "entity",
+            "via"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inputs": {
+              "items": {
+                "$ref": "#/$defs/Selection"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "union",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "inputs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "inputs": {
+              "items": {
+                "$ref": "#/$defs/Selection"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "intersection",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "inputs"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "difference",
+              "type": "string"
+            },
+            "left": {
+              "$ref": "#/$defs/Selection"
+            },
+            "right": {
+              "$ref": "#/$defs/Selection"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "by": {
+              "$ref": "#/$defs/RankBy"
+            },
+            "descending": {
+              "default": false,
+              "type": "boolean"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "rank",
+              "type": "string"
+            },
+            "rank": {
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "tie_tolerance": {
+              "format": "double",
+              "type": "number"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "by",
+            "rank",
+            "tie_tolerance"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "input": {
+              "$ref": "#/$defs/Selection"
+            },
+            "kind": {
+              "const": "expect",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "count"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Space": {
+      "enum": [
+        "definition",
+        "assembly"
+      ],
+      "type": "string"
+    },
+    "SurfaceClass": {
+      "enum": [
+        "plane",
+        "cylinder",
+        "cone",
+        "sphere",
+        "torus",
+        "nurbs",
+        "other"
+      ],
+      "type": "string"
+    },
+    "Target": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "definition_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "definition_id"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "instance_path": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "instance_path"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Tolerance": {
+      "additionalProperties": false,
+      "properties": {
+        "angular_rad": {
+          "format": "double",
+          "type": "number"
+        },
+        "linear_mm": {
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "linear_mm",
+        "angular_rad"
+      ],
+      "type": "object"
+    },
+    "TopologyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "definition_id": {
+          "type": "string"
+        },
+        "definition_sha256": {
+          "type": "string"
+        },
+        "instance_path": {
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "kind": {
+          "$ref": "#/$defs/Kind"
+        },
+        "query_revision_id": {
+          "type": "string"
+        },
+        "topology_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "query_revision_id",
+        "definition_id",
+        "definition_sha256",
+        "kind",
+        "topology_id"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "queries": {
+      "items": {
+        "$ref": "#/$defs/Query"
+      },
+      "type": "array"
+    },
+    "query_revision_id": {
+      "type": "string"
+    },
+    "schema": {
+      "type": "string"
+    },
+    "space": {
+      "$ref": "#/$defs/Space"
+    },
+    "target": {
+      "$ref": "#/$defs/Target"
+    },
+    "tolerance": {
+      "$ref": "#/$defs/Tolerance"
+    }
+  },
+  "required": [
+    "schema",
+    "query_revision_id",
+    "target",
+    "space",
+    "tolerance",
+    "queries"
+  ],
+  "title": "Request",
+  "type": "object"
+}
