@@ -1,0 +1,152 @@
+[
+  {
+    "id": "colocad-sharded-32-r0",
+    "passed": true,
+    "parts": 32,
+    "chunks": 4,
+    "step_bytes": 15825576,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "cadquery-sharded-32-r0",
+    "passed": true,
+    "parts": 32,
+    "chunks": 4,
+    "step_bytes": 2499765,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "build123d-sharded-32-r0",
+    "passed": true,
+    "parts": 32,
+    "chunks": 4,
+    "step_bytes": 2499653,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "colocad-sharded-128-r0",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 63302536,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "cadquery-sharded-128-r0",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 10000084,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "build123d-sharded-128-r0",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 9999636,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "colocad-sharded-128-r1",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 63302536,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "cadquery-sharded-128-r1",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 10000084,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "build123d-sharded-128-r1",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 9999636,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "colocad-sharded-128-r2",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 63302536,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "cadquery-sharded-128-r2",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 10000084,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "build123d-sharded-128-r2",
+    "passed": true,
+    "parts": 128,
+    "chunks": 16,
+    "step_bytes": 9999636,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "colocad-sharded-512-r0",
+    "passed": true,
+    "parts": 512,
+    "chunks": 64,
+    "step_bytes": 253211464,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "cadquery-sharded-512-r0",
+    "passed": true,
+    "parts": 512,
+    "chunks": 64,
+    "step_bytes": 40002264,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  },
+  {
+    "id": "build123d-sharded-512-r0",
+    "passed": true,
+    "parts": 512,
+    "chunks": 64,
+    "step_bytes": 40000472,
+    "all_chunk_hashes_verified": true,
+    "contiguous_coverage": true,
+    "sqlite_integrity": "ok"
+  }
+]

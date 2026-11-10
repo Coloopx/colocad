@@ -1,10 +1,14 @@
 # Colocad roadmap
 
-Updated **2026-11-10**. [中文](ROADMAP.zh-CN.md) · [CadQuery coverage](docs/cadquery-comparison.md) · [Ordered acceptance spec](specs/0005-capability-reliability-and-optimization.md).
+Updated **2026-11-11**. [中文](ROADMAP.zh-CN.md) · [CadQuery coverage](docs/cadquery-comparison.md) · [Ordered acceptance spec](specs/0005-capability-reliability-and-optimization.md).
 
 This roadmap separates shipped architecture, scoped acceptance and planned experiments. Colocad targets a practical independent modeling/assembly stack for agents; it does not claim full CadQuery/build123d equivalence. **G4's automated benchmark/optimization runner is planned, not shipped or accepted.**
 
 ## Current design
+
+The alpha.9 memory work is tracked in [issue #1](https://github.com/Coloopx/colocad/issues/1) and its [milestone](https://github.com/Coloopx/colocad/milestone/1): M0 investigation complete; production M1–M5 pending.
+
+**Next-version priority: bounded-memory persistence.** [SDD 0006](specs/0006-bounded-memory-persistence.md) scopes alpha.9 around indexed history, a byte-budgeted active geometry set, streamed artifacts and large-project/viewer pagination. The [memory study](docs/memory-persistence-report.md) retains Colocad/CadQuery/build123d baselines, failures and experimental controls. Prototype working-set plateaus do not constitute a shipped catalog migration or single-STEP streaming implementation; these have separate acceptance gates. This directed experiment also supplies a concrete G4 development case.
 
 ```mermaid
 flowchart TD

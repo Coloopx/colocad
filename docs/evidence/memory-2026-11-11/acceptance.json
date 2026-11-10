@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-11",
+  "independent_step_deliveries_passed": 36,
+  "catalogs_all_chunk_hashes_passed": 15,
+  "prototype_catalog_unit_tests": 3,
+  "python_syntax": "passed",
+  "node_syntax": "passed",
+  "local_markdown_links": "passed",
+  "archive_hashes": "passed",
+  "credential_and_host_path_scan": "passed",
+  "published_runtime_source_and_linux_arm64_binary": "unchanged from alpha.8",
+  "browser": {
+    "engine": "Chromium via Playwright CLI",
+    "scheduled_table_rows": 200,
+    "embedded_svg_figures": 3,
+    "external_asset_urls": 0,
+    "resource_requests_after_load": 0,
+    "filter_runtime_oom_visible_rows": 3,
+    "horizontal_document_overflow": false,
+    "visual_review": "passed"
+  },
+  "production_regression_suite": "not rerun: no production source or binary changed; experiment and independent readback checks executed instead"
+}

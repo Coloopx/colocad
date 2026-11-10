@@ -2,6 +2,8 @@
 
 These measurements apply to the stated workloads and historical binaries. They are not a claim of universal superiority or a fresh benchmark of every release.
 
+The [2026-11-11 memory and persistence study](memory-persistence-report.md) compares alpha.8 with CadQuery and build123d at larger scales, reproduces 2 GiB OOM, and measures indexed/chunked prototypes. Colocad's advantage depends on the workload: shared instances fare well; distinct parts and a large perforated solid expose current scaling limits. See the [alpha.9 bounded-memory specification](../specs/0006-bounded-memory-persistence.md) for the planned response.
+
 ## How many tendon hands can an agent deliver in 100 seconds?
 
 **colocad delivered 44 complete revisions to build123d’s 33 (+33.3%), with 57.1% lower peak sampled sandbox memory.** Both tools rebuilt and assembled the same 43-solid hand at each revision. Each tick marks a complete STEP handed off to storage.

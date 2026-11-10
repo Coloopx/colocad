@@ -1,0 +1,167 @@
+[
+  {
+    "id": "colocad-sharded-32-r0",
+    "backend": "colocad",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 32,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "cadquery-sharded-32-r0",
+    "backend": "cadquery",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 32,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "build123d-sharded-32-r0",
+    "backend": "build123d",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 32,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "colocad-sharded-128-r0",
+    "backend": "colocad",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "cadquery-sharded-128-r0",
+    "backend": "cadquery",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "build123d-sharded-128-r0",
+    "backend": "build123d",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "colocad-sharded-128-r1",
+    "backend": "colocad",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 1,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "cadquery-sharded-128-r1",
+    "backend": "cadquery",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 1,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "build123d-sharded-128-r1",
+    "backend": "build123d",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 1,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "colocad-sharded-128-r2",
+    "backend": "colocad",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 2,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "cadquery-sharded-128-r2",
+    "backend": "cadquery",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 2,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "build123d-sharded-128-r2",
+    "backend": "build123d",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 128,
+    "batch": 8,
+    "rep": 2,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "colocad-sharded-512-r0",
+    "backend": "colocad",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 512,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "cadquery-sharded-512-r0",
+    "backend": "cadquery",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 512,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  },
+  {
+    "id": "build123d-sharded-512-r0",
+    "backend": "build123d",
+    "family": "unique",
+    "mode": "sharded",
+    "n": 512,
+    "batch": 8,
+    "rep": 0,
+    "memory_mib": 512,
+    "timeout_s": 600
+  }
+]

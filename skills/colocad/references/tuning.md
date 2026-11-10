@@ -17,6 +17,10 @@ Change one cause at a time and retain the original acceptance target. These are 
 
 ## Measure separate stages
 
+For large assemblies, split geometry residency, validity checks, mass/count queries, export buffers, history metadata and display bundles. A shared definition does not guarantee every downstream verifier/exporter shares its temporary state. Prefer reusable definition-level checks when rigid-placement invariants justify them, and independently check the complete delivered geometry. Do not simply remove verification.
+
+The alpha.8 feature/instance/cutter limits are policy boundaries, not evidence of logarithmic memory. A chunked project can bound active geometry by persisting completed parts and loading only the needed chunk; it is a different delivery contract from one assembly STEP. The memory-study prototypes are not installed SDK commands. Preserve units, placements, parameter source, hashes and all required geometry. Keep history and observations out of growing in-memory arrays; paged persistence is an alpha.9 project, not an existing promise.
+
 Keep source interpretation/inference, CAD startup, geometry, validation, STEP export, tessellation, view rendering and video encoding separate. Time-to-STEP and time-to-preview answer different questions. A cached view cannot be compared with another tool's fresh geometry build as if they were the same task.
 
 For a fair CadQuery or build123d comparison, use the same dimensions, features, instances, precision and required artifacts. Verify both geometries independently, pin environments and define cold/warm behavior. Report repeat counts, median/tails, failures and the accounting boundary. For memory, state sampled RSS/process sum/cgroup, sampling interval and whether the plot is instantaneous or the peak-so-far; retaining a peak is a presentation choice, not the original trace.

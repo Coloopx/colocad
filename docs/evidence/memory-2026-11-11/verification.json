@@ -1,0 +1,614 @@
+[
+  {
+    "id": "main/cadquery-chain-64-r0",
+    "passed": true,
+    "sha256": "96b6a1549ed4c43a684d73525b94504da399464c9df21fc09e49b6b71ec1cd6d",
+    "step_bytes": 256315,
+    "solids": 1,
+    "bores": 64,
+    "volume_mm3": 6569.628421021505,
+    "expected_volume_mm3": 6569.62842102152,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/cadquery-part-1024-r0",
+    "passed": true,
+    "sha256": "1a7ff5eb21df18d8a46d0532256581581db222448fc89a96c5537c6bf9335a1e",
+    "step_bytes": 4073444,
+    "solids": 1,
+    "bores": 1024,
+    "volume_mm3": 85242.05473634481,
+    "expected_volume_mm3": 85242.05473634432,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/build123d-chain-64-r0",
+    "passed": true,
+    "sha256": "14fb293a18afcf88a80a60dd31b5eef1da93adbbd69dde78442473f5a6b9965a",
+    "step_bytes": 256261,
+    "solids": 1,
+    "bores": 64,
+    "volume_mm3": 6569.628421021505,
+    "expected_volume_mm3": 6569.62842102152,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/build123d-part-1024-r0",
+    "passed": true,
+    "sha256": "7641661630093ca7d95282475f7a2bf4f961d2bbc61c3db1d00c803d4856a8fa",
+    "step_bytes": 4073376,
+    "solids": 1,
+    "bores": 1024,
+    "volume_mm3": 85242.05473634481,
+    "expected_volume_mm3": 85242.05473634432,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/colocad-chain-64-r0",
+    "passed": true,
+    "sha256": "ec80a85384d05f609ac015bc95843f37960e6b7af39b376ef1d26dcfe08fd3b1",
+    "step_bytes": 1196798,
+    "solids": 1,
+    "bores": 64,
+    "volume_mm3": 6569.628421021511,
+    "expected_volume_mm3": 6569.62842102152,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/colocad-repeated-128-r0",
+    "passed": true,
+    "sha256": "524ba0edb07ecd5b3b8c55addbc130abd0dfdee6e80cf077d34086b449eccd32",
+    "step_bytes": 573822,
+    "solids": 128,
+    "bores": 2048,
+    "volume_mm3": 268596.10947268875,
+    "expected_volume_mm3": 268596.10947268846,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/colocad-part-1024-r0",
+    "passed": true,
+    "sha256": "ff83d6ec2b5e5034372458e3b3728bbc4d1b47bdb6197d43dd03d6d04366703e",
+    "step_bytes": 19801883,
+    "solids": 1,
+    "bores": 1024,
+    "volume_mm3": 85242.0547363472,
+    "expected_volume_mm3": 85242.05473634432,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/colocad-unique-64-r0",
+    "passed": true,
+    "sha256": "553d9847526ffdb3e5b910b007998ef9ee85fe4045ed3d4e21b575facc59789d",
+    "step_bytes": 32282790,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.2467363444,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/cadquery-repeated-128-r0",
+    "passed": true,
+    "sha256": "fed429ceb29874d1119ecbd763729df1ddcade9ae3b557d1d0b4bc7db5ff6506",
+    "step_bytes": 149726,
+    "solids": 128,
+    "bores": 2048,
+    "volume_mm3": 268596.1094726883,
+    "expected_volume_mm3": 268596.10947268846,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/build123d-repeated-128-r0",
+    "passed": true,
+    "sha256": "94265736d6f0872326eb71d8f7936695ac0905977d135d1dd1e1783b79d464fb",
+    "step_bytes": 149702,
+    "solids": 128,
+    "bores": 2048,
+    "volume_mm3": 268596.1094726883,
+    "expected_volume_mm3": 268596.10947268846,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/build123d-unique-64-r0",
+    "passed": true,
+    "sha256": "bcb710ace1eb4002262d24199245333592499616e46c594248c6577bdeeaa12e",
+    "step_bytes": 5174316,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.24673634415,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "main/cadquery-unique-64-r0",
+    "passed": true,
+    "sha256": "ff7302b6acdb00c23cd8258c9e93883dbd9ead54c7ad953bcf65166afef34aab",
+    "step_bytes": 5174344,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.24673634415,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "boundary/cadquery-unique-2048-cap4096",
+    "passed": true,
+    "sha256": "0e165b92c4d36c097001ca8eb45946c4803b7dd9a49f7a1a88957b765cc229fe",
+    "step_bytes": 178329654,
+    "solids": 2048,
+    "bores": 32768,
+    "volume_mm3": 4322691.287563014,
+    "expected_volume_mm3": 4322691.287563018,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "boundary/build123d-unique-2048-cap4096",
+    "passed": true,
+    "sha256": "6245617456c0e01a6fa30d968a376fe768e173a71e2e33fcb807a4b51c10d605",
+    "step_bytes": 178329626,
+    "solids": 2048,
+    "bores": 32768,
+    "volume_mm3": 4322691.287563014,
+    "expected_volume_mm3": 4322691.287563018,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "compositional/cadquery-repeated-4096-compositional",
+    "passed": true,
+    "sha256": "8d9898eb619842e11b8ac9acf7cadd876e08f013bb1d7752826fac7d91f91e20",
+    "step_bytes": 2542895,
+    "solids": 4096,
+    "bores": 65536,
+    "volume_mm3": 8595075.503126027,
+    "expected_volume_mm3": 8595075.503125256,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "compositional/build123d-repeated-4096-compositional",
+    "passed": true,
+    "sha256": "12c45d967809b0dda3bb7875ee6aa82a1af094a8c28fcfd0bc3cfac2635fa3d3",
+    "step_bytes": 2542873,
+    "solids": 4096,
+    "bores": 65536,
+    "volume_mm3": 8595075.503126027,
+    "expected_volume_mm3": 8595075.503125256,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "native-control/colocad-unique64-plain",
+    "passed": true,
+    "sha256": "553d9847526ffdb3e5b910b007998ef9ee85fe4045ed3d4e21b575facc59789d",
+    "step_bytes": 32282790,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.2467363444,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "native-control/colocad-unique64-checkpoints",
+    "passed": true,
+    "sha256": "553d9847526ffdb3e5b910b007998ef9ee85fe4045ed3d4e21b575facc59789d",
+    "step_bytes": 32282790,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.2467363444,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "native-control/colocad-unique64-queryable",
+    "passed": true,
+    "sha256": "553d9847526ffdb3e5b910b007998ef9ee85fe4045ed3d4e21b575facc59789d",
+    "step_bytes": 32282790,
+    "solids": 64,
+    "bores": 1024,
+    "volume_mm3": 134322.2467363444,
+    "expected_volume_mm3": 134322.24673634427,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/cadquery-part-4096-extreme",
+    "passed": true,
+    "sha256": "4d863ac2e6433922f65e949108c0a779fa0d79e6c5ad6bfc28a78bc0e493ba60",
+    "step_bytes": 16858761,
+    "solids": 1,
+    "bores": 4096,
+    "volume_mm3": 328392.21894536377,
+    "expected_volume_mm3": 328392.2189453773,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/cadquery-unique-1024-extreme",
+    "passed": true,
+    "sha256": "877c87ec28aacdfd60c4667446afe5eebc56bdd0b141a45adbd7c329b7c776c2",
+    "step_bytes": 87962697,
+    "solids": 1024,
+    "bores": 16384,
+    "volume_mm3": 2155054.187781506,
+    "expected_volume_mm3": 2155054.1877815085,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/cadquery-repeated-1024-extreme",
+    "passed": true,
+    "sha256": "35710cdbeda8155c83288984f7a54cd1803d6b3d1266f8e0fc849f18b5edee33",
+    "step_bytes": 674769,
+    "solids": 1024,
+    "bores": 16384,
+    "volume_mm3": 2148768.8757815063,
+    "expected_volume_mm3": 2148768.8757815324,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/cadquery-chain-256-extreme",
+    "passed": true,
+    "sha256": "34842106775117907f9fd8b428b30a0e6e9d86449d967c8b031114dbf1719af3",
+    "step_bytes": 1008585,
+    "solids": 1,
+    "bores": 256,
+    "volume_mm3": 22918.51368408594,
+    "expected_volume_mm3": 22918.51368408608,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/build123d-part-4096-extreme",
+    "passed": true,
+    "sha256": "fa328b25a6ce934c0027e675a14fad8bcb98347a75fbc24475a2fde2726cee82",
+    "step_bytes": 16858693,
+    "solids": 1,
+    "bores": 4096,
+    "volume_mm3": 328392.21894536377,
+    "expected_volume_mm3": 328392.2189453773,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/build123d-unique-1024-extreme",
+    "passed": true,
+    "sha256": "7c871f376c20fd1b743a6503c7a677c3a14a102786463b927c9bcda3f60f6175",
+    "step_bytes": 87962669,
+    "solids": 1024,
+    "bores": 16384,
+    "volume_mm3": 2155054.187781506,
+    "expected_volume_mm3": 2155054.1877815085,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/build123d-repeated-1024-extreme",
+    "passed": true,
+    "sha256": "f55e44283845251ab6e7cb9fd33df4853d9b5a908692345a33e071a15625e454",
+    "step_bytes": 674747,
+    "solids": 1024,
+    "bores": 16384,
+    "volume_mm3": 2148768.8757815063,
+    "expected_volume_mm3": 2148768.8757815324,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "extreme/build123d-chain-256-extreme",
+    "passed": true,
+    "sha256": "59f1cb4940c7417363ebdb6d6480db640e466f0fe8c1d5b807734ee2b5f43174",
+    "step_bytes": 1008531,
+    "solids": 1,
+    "bores": 256,
+    "volume_mm3": 22918.51368408594,
+    "expected_volume_mm3": 22918.51368408608,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/colocad-sharded-512-r0/chunk-0",
+    "passed": true,
+    "sha256": "23b6d27ec18df4fceb8382f3ef96f73b330c7982ee7f1d22099faa89a1375397",
+    "step_bytes": 3956372,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16787.592842043057,
+    "expected_volume_mm3": 16787.592842043035,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/colocad-sharded-512-r0/chunk-256",
+    "passed": true,
+    "sha256": "ad0a7ea635068fe0eb9f61c493a752b7362697653f04be8f7528c5079b1bd61c",
+    "step_bytes": 3956436,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16812.16884204306,
+    "expected_volume_mm3": 16812.168842043036,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/colocad-sharded-512-r0/chunk-504",
+    "passed": true,
+    "sha256": "6a2e3814d5fd867b9c21245db07fbd533e19c860bab70a2c73c076c15e0ce1a6",
+    "step_bytes": 3956436,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16835.976842043026,
+    "expected_volume_mm3": 16835.976842043037,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/cadquery-sharded-512-r0/chunk-0",
+    "passed": true,
+    "sha256": "2c45ecc761db707795dd158e03d406457c313da91d14685bfece6a073a8baf12",
+    "step_bytes": 624774,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16787.592842043014,
+    "expected_volume_mm3": 16787.592842043035,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/cadquery-sharded-512-r0/chunk-256",
+    "passed": true,
+    "sha256": "e791579153065fecf7f22c5b675c7fcdb11328d1ffc804e957c90e6085e1703a",
+    "step_bytes": 625006,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16812.168842043015,
+    "expected_volume_mm3": 16812.168842043036,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/cadquery-sharded-512-r0/chunk-504",
+    "passed": true,
+    "sha256": "ea600498ae2f5eb1f92f06d3f7dff4cc7e833fea273130292798f8b7d5d33d5a",
+    "step_bytes": 625087,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16835.976842043,
+    "expected_volume_mm3": 16835.976842043037,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/build123d-sharded-512-r0/chunk-0",
+    "passed": true,
+    "sha256": "578a949bbf93d9cea9d27d81ad21061bd77c6b8126011b866cdfa635781aa244",
+    "step_bytes": 624746,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16787.592842043014,
+    "expected_volume_mm3": 16787.592842043035,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/build123d-sharded-512-r0/chunk-256",
+    "passed": true,
+    "sha256": "7123c1b9bed5368b2800a77eebf1a9cdcceda142537c941ce28deb261b30195f",
+    "step_bytes": 624978,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16812.168842043015,
+    "expected_volume_mm3": 16812.168842043036,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  },
+  {
+    "id": "sharded/build123d-sharded-512-r0/chunk-504",
+    "passed": true,
+    "sha256": "7e5034b0bbbe6e2d57a067d39c6db4fee9c938b44a2ec5189a0ba891a7754588",
+    "step_bytes": 625059,
+    "solids": 8,
+    "bores": 128,
+    "volume_mm3": 16835.976842043,
+    "expected_volume_mm3": 16835.976842043037,
+    "checks": [
+      "every_solid_valid",
+      "every_solid_bounds_and_placement",
+      "solid_count",
+      "analytic_volume",
+      "every_bore_radius_axis_center"
+    ]
+  }
+]

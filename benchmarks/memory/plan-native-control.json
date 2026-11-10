@@ -1,0 +1,32 @@
+[
+  {
+    "id": "colocad-unique64-plain",
+    "backend": "colocad",
+    "family": "unique",
+    "n": 64,
+    "mode": "native-control",
+    "variant": "plain",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "colocad-unique64-checkpoints",
+    "backend": "colocad",
+    "family": "unique",
+    "n": 64,
+    "mode": "native-control",
+    "variant": "checkpoints",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "colocad-unique64-queryable",
+    "backend": "colocad",
+    "family": "unique",
+    "n": 64,
+    "mode": "native-control",
+    "variant": "queryable",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  }
+]

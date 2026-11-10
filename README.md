@@ -139,6 +139,8 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ## Performance
 
+**Memory scaling (alpha.8):** the [three-backend stress study](docs/memory-persistence-report.md) measures large solids, independent/shared assemblies and long history, including 2 GiB failures. Colocad's memory advantage is workload-dependent; independent definitions and the current history ledger still grow. The next-version work is scoped in [SDD 0006](specs/0006-bounded-memory-persistence.md).
+
 Performance depends on geometry and execution mode. In a measured 100-second queue of the same **43-solid tendon hand**, Colocad delivered **44 complete STEP revisions versus build123d's 33**, with **57.1% lower highest sampled sandbox memory**.
 
 ![10× replay: STEP deliveries and peak-so-far sampled sandbox memory](showcase/tendon-hand/window/hand-window-peak-en.gif)

@@ -1,0 +1,7 @@
+{
+  "phase": "postprocessing",
+  "failure": "Manifest initially expected model.step at run root for direct native CLI, which writes native/model.step.",
+  "resolution": "Use the explicit native output directory for native-control cases.",
+  "cad_measurements_changed": false,
+  "second_diagnostic": "Host read-only WAL open failed for closed Linux-produced catalogs. Verification now asserts no pending WAL and opens the immutable snapshot; live readers still use normal SQLite locking."
+}

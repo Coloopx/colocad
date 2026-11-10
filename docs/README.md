@@ -23,6 +23,7 @@ These guides target **@coloopx/colocad 0.1.0-alpha.8**, Node.js 22+, Linux x64/a
 | Diagnose a failed call or installation | [Troubleshooting](troubleshooting.md) |
 | Run examples and contribute a change | [Contributing](../CONTRIBUTING.md) |
 | Compare execution performance and limits | [Performance evidence](performance.md) |
+| Control memory as parts/history grow | [Three-backend memory study](memory-persistence-report.md), [alpha.9 persistence project](../specs/0006-bounded-memory-persistence.md) |
 | Check native SOLIDWORKS export status | [Native author](native-solidworks.md) |
 | Understand what has actually been tested | [Integration verification](integrations/verification.md), [geometry validation](validation.md) |
 | Check G1–G3 acceptance, Linux limits and live-agent traces | [Frozen corpus, lifecycle and sandbox evidence](../specs/experiments/0005/README.md) |

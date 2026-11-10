@@ -1,0 +1,56 @@
+[
+  {
+    "id": "cadquery-unique-2048-compositional",
+    "backend": "cadquery",
+    "family": "unique",
+    "n": 2048,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "cadquery-unique-4096-compositional",
+    "backend": "cadquery",
+    "family": "unique",
+    "n": 4096,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "cadquery-repeated-4096-compositional",
+    "backend": "cadquery",
+    "family": "repeated",
+    "n": 4096,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "build123d-unique-2048-compositional",
+    "backend": "build123d",
+    "family": "unique",
+    "n": 2048,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "build123d-unique-4096-compositional",
+    "backend": "build123d",
+    "family": "unique",
+    "n": 4096,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  },
+  {
+    "id": "build123d-repeated-4096-compositional",
+    "backend": "build123d",
+    "family": "repeated",
+    "n": 4096,
+    "mode": "compositional",
+    "memory_mib": 2048,
+    "timeout_s": 180
+  }
+]

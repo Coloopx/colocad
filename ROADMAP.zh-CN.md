@@ -1,10 +1,14 @@
 # Colocad 路线图
 
-更新：**2026-11-10**。[English](ROADMAP.md) · [CadQuery 覆盖报告](docs/cadquery-comparison.zh-CN.md) · [四阶段规范](specs/0005-capability-reliability-and-optimization.zh-CN.md)。
+更新：**2026-11-11**。[English](ROADMAP.md) · [CadQuery 覆盖报告](docs/cadquery-comparison.zh-CN.md) · [四阶段规范](specs/0005-capability-reliability-and-optimization.zh-CN.md)。
 
 目标是形成可供 agent 实用的独立机械建模与装配系统。**G1–G3 已在声明范围内验收；G4 的自动 benchmark／回溯优化执行器仍是规划，尚未交付或验收。** 不把已有局部成绩解释成完整取代 CadQuery/build123d。
 
 ## 当前设计和实现
+
+alpha.9 内存优化已在 [issue #1](https://github.com/Coloopx/colocad/issues/1) 和 [milestone](https://github.com/Coloopx/colocad/milestone/1) 立项：M0 调研实验完成，M1–M5 生产实现与验收待完成。
+
+**下版本优先级：有界内存持久化。** [SDD 0006](specs/0006-bounded-memory-persistence.zh-CN.md)将 alpha.9 聚焦于历史索引、按字节预算控制活动几何、流式产物和大项目/查看器分页。[三后端报告](docs/memory-persistence-report.zh-CN.md)保留基线、失败和控制实验；原型的内存平台期不等于正式 catalog 迁移或单 STEP 流式导出已交付，后者有独立验收。这也是 G4 的一个定向开发实验。
 
 运行链是：同一沙箱内的 agent/harness → SDK、CLI 或能力门控工具 → 显式参数/特征/装配图 → 本地 Rust executor 与固定 SolidCore → 精确 STEP、查询快照、回执和 session。查询、测量与相关图片返回 agent；CLI 启动人类查看器、离线 HTML 或动画导出。独立验证器可在另一验证环境运行，参考几何不进入读图 agent 的输入。
 

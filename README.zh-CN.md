@@ -138,6 +138,8 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 性能
 
+**alpha.8 内存扩展性：**[三后端压力测试](docs/memory-persistence-report.zh-CN.md)覆盖大型实体、独立/共享装配和长历史，并保留 2 GiB 失败记录。Colocad 的内存优势取决于负载，独立定义和当前历史账本仍会增长；下版本定向优化见 [SDD 0006](specs/0006-bounded-memory-persistence.zh-CN.md)。
+
 性能取决于几何和执行方式。在同一个 **43 实体绳驱灵巧手**的 100 秒版本队列实测中，Colocad 完成交付 **44 份 STEP，build123d 为 33 份**，最高采样沙箱内存低 **57.1%**。
 
 ![10 倍速回放：STEP 交付数和截至当前的最高采样沙箱内存](showcase/tendon-hand/window/hand-window-peak-en.gif)

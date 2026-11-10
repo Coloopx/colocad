@@ -2,6 +2,12 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
+## Unreleased — alpha.9 investigation
+
+- Add reproducible three-backend memory scaling and extreme-limit experiments, raw OOM/timeout/policy outcomes, indexed-history and chunked-project prototypes, and validation/persistence controls. [Report](docs/memory-persistence-report.md) / [中文](docs/memory-persistence-report.zh-CN.md).
+- Scope bounded-memory persistence in bilingual [SDD 0006](specs/0006-bounded-memory-persistence.md), update ROADMAP and tuning guidance, and distinguish resident working sets from total geometry/disk complexity.
+- These are experimental scripts and next-version acceptance criteria. The published SDK/native remains alpha.8; catalog migration, paged large-model APIs and single-STEP streaming are not yet production features.
+
 ## [0.1.0-alpha.8](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.8) - 2026-11-10
 
 ### Fixed

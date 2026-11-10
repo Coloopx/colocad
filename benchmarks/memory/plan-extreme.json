@@ -1,0 +1,254 @@
+[
+  {
+    "id": "cadquery-part-4096-extreme",
+    "backend": "cadquery",
+    "family": "part",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-part-16384-extreme",
+    "backend": "cadquery",
+    "family": "part",
+    "n": 16384,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-part-65536-extreme",
+    "backend": "cadquery",
+    "family": "part",
+    "n": 65536,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-unique-256-extreme",
+    "backend": "cadquery",
+    "family": "unique",
+    "n": 256,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-unique-1024-extreme",
+    "backend": "cadquery",
+    "family": "unique",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-unique-4096-extreme",
+    "backend": "cadquery",
+    "family": "unique",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-repeated-1024-extreme",
+    "backend": "cadquery",
+    "family": "repeated",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-repeated-4096-extreme",
+    "backend": "cadquery",
+    "family": "repeated",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-repeated-16384-extreme",
+    "backend": "cadquery",
+    "family": "repeated",
+    "n": 16384,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-chain-256-extreme",
+    "backend": "cadquery",
+    "family": "chain",
+    "n": 256,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-chain-1024-extreme",
+    "backend": "cadquery",
+    "family": "chain",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "cadquery-chain-4096-extreme",
+    "backend": "cadquery",
+    "family": "chain",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-part-4096-extreme",
+    "backend": "build123d",
+    "family": "part",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-part-16384-extreme",
+    "backend": "build123d",
+    "family": "part",
+    "n": 16384,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-part-65536-extreme",
+    "backend": "build123d",
+    "family": "part",
+    "n": 65536,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-unique-256-extreme",
+    "backend": "build123d",
+    "family": "unique",
+    "n": 256,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-unique-1024-extreme",
+    "backend": "build123d",
+    "family": "unique",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-unique-4096-extreme",
+    "backend": "build123d",
+    "family": "unique",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-repeated-1024-extreme",
+    "backend": "build123d",
+    "family": "repeated",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-repeated-4096-extreme",
+    "backend": "build123d",
+    "family": "repeated",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-repeated-16384-extreme",
+    "backend": "build123d",
+    "family": "repeated",
+    "n": 16384,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-chain-256-extreme",
+    "backend": "build123d",
+    "family": "chain",
+    "n": 256,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-chain-1024-extreme",
+    "backend": "build123d",
+    "family": "chain",
+    "n": 1024,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "build123d-chain-4096-extreme",
+    "backend": "build123d",
+    "family": "chain",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "colocad-part-4096-extreme",
+    "backend": "colocad",
+    "family": "part",
+    "n": 4096,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "colocad-unique-128-extreme",
+    "backend": "colocad",
+    "family": "unique",
+    "n": 128,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "colocad-repeated-256-extreme",
+    "backend": "colocad",
+    "family": "repeated",
+    "n": 256,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  },
+  {
+    "id": "colocad-chain-128-extreme",
+    "backend": "colocad",
+    "family": "chain",
+    "n": 128,
+    "memory_mib": 2048,
+    "timeout_s": 120,
+    "stop_after_failure": true
+  }
+]
