@@ -6,7 +6,7 @@
 
 ## 当前设计和实现
 
-alpha.9 内存优化已在 [issue #1](https://github.com/Coloopx/colocad/issues/1) 和 [milestone](https://github.com/Coloopx/colocad/milestone/1) 立项：M0 调研已完成。M1 开发实现支持 Rust 会话索引、历史分页和旧项目迁移，[验收记录](benchmarks/session-catalog/README.md)包含软件回归与资源测量。M2–M5 待实施。
+alpha.9 内存优化已在 [issue #1](https://github.com/Coloopx/colocad/issues/1) 和 [milestone](https://github.com/Coloopx/colocad/milestone/1) 立项：M0 调研已完成。M1 开发实现支持 Rust 会话索引、历史分页和旧项目迁移，[验收记录](benchmarks/session-catalog/README.md) · [50 万条迁移内存验收](benchmarks/session-catalog/migration-memory.md)包含软件回归与资源测量。M2–M5 待实施。
 
 **下版本优先级：有界内存持久化。** [SDD 0006](specs/0006-bounded-memory-persistence.zh-CN.md)将 alpha.9 聚焦于历史索引、按字节预算控制活动几何、流式产物和大项目/查看器分页。[三后端报告](docs/memory-persistence-report.zh-CN.md)保留基线、失败和控制实验；原型的内存平台期不等于正式 catalog 迁移或单 STEP 流式导出已交付，后者有独立验收。这也是 G4 的一个定向开发实验。
 

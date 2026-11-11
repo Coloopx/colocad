@@ -4,7 +4,7 @@ use rusqlite::{params, Connection, OpenFlags, OptionalExtension};
 use serde_json::{json, Value};
 use std::error::Error;
 use std::fs::{self, File, OpenOptions};
-use std::io::{self, BufRead, BufReader, Write};
+use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
@@ -79,10 +79,12 @@ fn initialize(root: &Path, name: &str, mode: &str, input: Value) -> Result<Value
         let mut db = open_db(&stage, true)?;
         let tx = db.transaction()?;
         tx.execute_batch(SCHEMA)?;
-        let header = if mode == "import" {
-            migration::import(BufReader::new(File::open(&manifest)?), &tx)?
+        let (tx, header) = if mode == "import" {
+            tx.commit()?;
+            let header = migration::import(File::open(&manifest)?, File::open(&stage)?, &db)?;
+            (db.transaction()?, header)
         } else {
-            input
+            (tx, input)
         };
         if header["format"] != "colocad/session/1" {
             return Err("SESSION_FORMAT".into());

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, writeFile, rm, rename, stat, open } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile, rm, rename, stat, open, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { once } from 'node:events';
@@ -65,6 +65,38 @@ test('a malformed legacy tail cannot publish a partial catalog and a corrected r
   assert.equal(await new ModelingSession(root).latestGeometry(),undefined);
 });
 
+test('private committed batches never publish on a late duplicate, bad header or trailing bytes',async t=>{
+  const root=await directory(t), manifest=join(root,'session.json');
+  const steps=Array.from({length:9650},(_,i)=>({
+    id:'part-'+i, status:'succeeded', operation:'edit', settings:{z:i+0.125},
+  }));
+  const json=(rows,format='colocad/session/1')=>JSON.stringify({steps:rows,format,title:'late header'});
+  for (const damaged of [json([...steps, steps[0]]),json(steps,'unknown'),json(steps)+' extra']) {
+    await writeFile(manifest,damaged);
+    await assert.rejects(ModelingSession.migrate(root));
+    assert.equal(await readFile(manifest,'utf8'),damaged);
+    assert.deepEqual((await readdir(root)).filter(p=>/\.sqlite|colocad-import/.test(p)),[]);
+  }
+  const valid=json(steps);
+  await writeFile(manifest,valid);
+  const receipt=await ModelingSession.migrate(root);
+  assert.equal(receipt.steps,steps.length);
+  const session=new ModelingSession(root);
+  assert.deepEqual(await session.read(),JSON.parse(valid));
+  assert.equal(await readFile(join(root,receipt.backup),'utf8'),valid);
+});
+
+test('an entry larger than an import batch remains one intact history step',async t=>{
+  const root=await directory(t);
+  const entry={id:'part-1',status:'succeeded',operation:'edit',notes:'x'.repeat(5*1024*1024)};
+  const last={id:'part-2',status:'succeeded',operation:'edit'};
+  await writeFile(join(root,'session.json'),JSON.stringify({format:'colocad/session/1',steps:[entry,last]}));
+  assert.equal((await ModelingSession.migrate(root)).steps,2);
+  const session=new ModelingSession(root), page=await session.history();
+  assert.deepEqual(page.steps,[entry]);
+  assert.deepEqual((await session.history({after:page.nextCursor})).steps,[last]);
+});
+
 test('indexed writer excludes a second writer while readers can inspect the running step',async t=>{
   const root=await directory(t),session=await ModelingSession.create(root);
   let release, started;
@@ -103,7 +135,16 @@ test('killing a streaming migration preserves v1 and retry discards the partial 
     const deadline=Date.now()+10000;
     for(;;) {
       const stage=await stat(join(root,'.colocad-import.tmp')).catch(()=>null);
-      if(stage && stage.size>0) break;
+      // A fresh schema is tiny. Wait for committed data pages in the
+      // on-disk SQLite header so this also exercises recovery between batches.
+      if(stage && stage.size>262144) {
+        const f=await open(join(root,'.colocad-import.tmp'),'r');
+        try {
+          const header=Buffer.alloc(32);
+          await f.read(header,0,32,0);
+          if(header.readUInt32BE(28)*header.readUInt16BE(16)>262144) break;
+        } finally {await f.close();}
+      }
       assert.ok(Date.now()<deadline && child.exitCode===null,'migration should be writing its private database');
       await new Promise(r=>setTimeout(r,2));
     }
