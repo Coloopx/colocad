@@ -2,3 +2,6 @@
 viewer/dist/*.js linguist-generated=true -diff
 # Preserve independently generated STEP fixtures byte-for-byte, including OCCT whitespace.
 specs/experiments/0004/fixtures/*.step -whitespace
+
+# A blank context line in a unified source patch consists of a single space.
+third_party/patches/*.patch whitespace=-blank-at-eol

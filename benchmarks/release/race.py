@@ -5,13 +5,13 @@ import numpy as np,build123d as b
 from PIL import Image,ImageDraw
 repo=Path(__file__).resolve().parents[2];sys.path.insert(0,str(repo/'showcase/tendon-hand/tools'))
 from projection import CAMERAS,render,font
-out=Path(sys.argv[1]);dest=Path(sys.argv[2]);w=json.loads((dest/'observations.json').read_text())['windows'];bs=['colocad','cadquery','build123d'];names=['Colocad','CadQuery','build123d'];colors=['#006a66','#98601a','#564d98']
+out=Path(sys.argv[1]);dest=Path(sys.argv[2]);data=json.loads((dest/'observations.json').read_text());w=data['windows'];bs=['colocad','cadquery','build123d'];names=['Colocad','CadQuery','build123d'];colors=['#006a66','#98601a','#564d98']
 parts=b.import_step(out/'windows/colocad/000.step').solids();meshes=[]
 for i,p in enumerate(parts):
  v,idx=p.tessellate(.20,.14);meshes.append((np.array([tuple(pt) for pt in v]),np.array(idx),[64,150,146] if i%4 else [173,153,103]))
 bg='#f5f6f2';base=Image.new('RGB',(1000,530),bg);dr=ImageDraw.Draw(base)
 def txt(draw,x,y,msg,size=16,bold=False,col='#1a343b'):draw.text((x,y),msg,font=font(size,bold),fill=col)
-txt(dr,22,16,'COLOCAD   /   RELEASE 0.1.0-alpha.9',14,True,'#006a66');txt(dr,22,40,'How many complete hand revisions fit in 100 seconds?',29,True)
+txt(dr,22,16,'Colocad '+data['version']+'   /   1 vCPU, 512 MiB',14,True,'#006a66');txt(dr,22,40,'How many complete hand revisions fit in 100 seconds?',29,True)
 txt(dr,22,85,'43-solid tendon hand  /  first delivered STEP',16,True)
 for j,(cam,vec) in enumerate(CAMERAS.items()):
  x=19+j%2*193;y=113+j//2*168

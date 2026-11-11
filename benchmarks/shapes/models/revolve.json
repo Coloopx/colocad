@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "op": "revolve",
+      "id": "out",
+      "profile": {
+        "kind": "polygon",
+        "points": [
+          [
+            5,
+            0
+          ],
+          [
+            10,
+            0
+          ],
+          [
+            12,
+            8
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            5,
+            12
+          ]
+        ]
+      },
+      "frame": {
+        "origin": [
+          0,
+          0,
+          0
+        ],
+        "x_axis": [
+          1,
+          0,
+          0
+        ],
+        "y_axis": [
+          0,
+          0,
+          1
+        ]
+      },
+      "axis_origin": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "angle_deg": 270
+    }
+  ],
+  "output": "out"
+}

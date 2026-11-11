@@ -1,0 +1,207 @@
+{
+  "commit": "b3e6000b31a8bfe05920b39aa6786ccbdd128d0a",
+  "tests": {
+    "rust": 132,
+    "node": 50,
+    "harness": 6,
+    "frozen_geometry": 24
+  },
+  "kk60_stages": 16,
+  "turbofan_stages": 16,
+  "external_step": true,
+  "replacement_check": {
+    "verifier": "independent OCCT adaptive integration and boundary/boolean checks",
+    "tolerance": {
+      "linear_mm": 1e-05,
+      "angular_rad": 1e-07,
+      "relative_volume": 1e-06
+    },
+    "verified": [
+      {
+        "id": "motor",
+        "valid": true,
+        "solids": 2,
+        "volumes_mm3": [
+          10480.50982278021,
+          12997.341712025227
+        ],
+        "boundary_distance_mm": 6.657039364199591e-10,
+        "overlap_mm3": 0,
+        "measured_mount_centers_mm": {
+          "2": [
+            [
+              -12.0,
+              10.0,
+              9.999999999334296
+            ],
+            [
+              12.0,
+              10.0,
+              9.999999999334296
+            ],
+            [
+              -12.0,
+              -10.0,
+              9.999999999334296
+            ],
+            [
+              12.0,
+              -10.0,
+              9.999999999334296
+            ]
+          ],
+          "2.2": [
+            [
+              -12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              -12.0,
+              10.0,
+              10.0
+            ],
+            [
+              12.0,
+              10.0,
+              10.0
+            ]
+          ]
+        },
+        "step_sha256": "a5a487bb6e984d737423c60249e28a442e47fc5fd06b889d78a1698331a4c2c6"
+      },
+      {
+        "id": "motor-housing",
+        "valid": true,
+        "solids": 2,
+        "volumes_mm3": [
+          12997.341712025227,
+          30086.793249242222
+        ],
+        "boundary_distance_mm": 6.657039364199591e-10,
+        "overlap_mm3": 0,
+        "measured_mount_centers_mm": {
+          "2": [
+            [
+              -12.0,
+              10.0,
+              9.999999999334296
+            ],
+            [
+              12.0,
+              10.0,
+              9.999999999334296
+            ],
+            [
+              -12.0,
+              -10.0,
+              9.999999999334296
+            ],
+            [
+              12.0,
+              -10.0,
+              9.999999999334296
+            ]
+          ],
+          "2.2": [
+            [
+              -12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              -12.0,
+              10.0,
+              10.0
+            ],
+            [
+              12.0,
+              10.0,
+              10.0
+            ]
+          ]
+        },
+        "step_sha256": "6db57b2a29f7351aa484300c30dc89c15dc89f6901aa4183fbe4dc27a89a3a1d"
+      },
+      {
+        "id": "motor-rotated",
+        "valid": true,
+        "solids": 2,
+        "volumes_mm3": [
+          10480.509822781114,
+          12997.341712025227
+        ],
+        "boundary_distance_mm": 2.0293633441137728e-10,
+        "overlap_mm3": 0,
+        "measured_mount_centers_mm": {
+          "2": [
+            [
+              -11.99999999998992,
+              10.00000000004556,
+              9.999999999680142
+            ],
+            [
+              12.000000000007589,
+              9.99999999986239,
+              10.000000000630763
+            ],
+            [
+              -12.000000000146876,
+              -9.999999999953385,
+              9.999999999361378
+            ],
+            [
+              11.99999999985042,
+              -10.00000000013698,
+              10.000000000310663
+            ]
+          ],
+          "2.2": [
+            [
+              -12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              12.0,
+              -10.0,
+              10.0
+            ],
+            [
+              -12.0,
+              10.0,
+              10.0
+            ],
+            [
+              12.0,
+              10.0,
+              10.0
+            ]
+          ]
+        },
+        "step_sha256": "43276da8fda33a1b0a0b0e0f62131a91bc5d5172cb2f0b1f03f5a2b7c375bbae"
+      }
+    ],
+    "expected_rejections": [
+      {
+        "id": "motor-wrong-pitch",
+        "error": "INTERFACE_INCOMPATIBLE"
+      },
+      {
+        "id": "motor-missing-hole",
+        "error": "INTERFACE_NOT_FOUND"
+      }
+    ]
+  },
+  "kk60_accessory": 82
+}

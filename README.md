@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/showcase/hiwin-kk60/modeling-alpha9.gif)
+![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling-bounded.gif)
 
 **Parametric CAD for agents. Local Rust geometry, a TypeScript SDK, a CLI, and an inspectable modeling history.**
 
@@ -137,21 +137,23 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 Independent OCCT checks cover all 16 STEP revisions, 64 material probes and selected rail/carriage clearances. Proprietary internals are explicitly approximated or omitted; this is a catalog reconstruction, not a production drawing package. The animation is not a speed benchmark.
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](showcase/hiwin-kk60/verification.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](docs/benchmarks/bounded-candidate/kk60-readback.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## Performance
 
-Source candidate vs. published alpha.9: [bounded writes, assembly memory and Level‑1 validation](docs/bounded-builds.md).
+Colocad `b3e6000`, CadQuery 2.8.0 and build123d 0.13.0 delivered **207 independently verified STEP files**. Across the 12 scaling points Colocad used the **least peak memory in 11/12** and produced STEP **fastest in 6/12**. Across the 11 product and edit fixtures, the corresponding counts were **11/11 and 11/11**.
 
-**Alpha.9 compared with CadQuery 2.8.0 and build123d 0.13.0.** All 207 STEP files from the head-to-head fixtures passed independent readback. Across the 12 scaling points Colocad had the **lowest median peak memory in 10** and the **shortest median time in 6**. Small parts and shared instances favor Colocad; dense bores, long cut chains and many distinct definitions favor the Python backends on elapsed time.
+![Time to verified STEP and peak memory](docs/benchmarks/bounded-candidate/scorecard.svg)
 
-![Three-backend time to STEP and memory measurements](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)
+For 128 occurrences of one part, time to STEP was **0.61 / 2.03 / 3.36 s** in Colocad / CadQuery / build123d order. For 64 independent plates, peak memory was **74.3 / 255.8 / 291.2 MiB** and elapsed time was **15.29 / 2.46 / 3.45 s**. The Python backends also used less memory and time on the single 1,024-hole plate.
 
-**The same 43-solid hand, 100 seconds of edits:** Colocad / CadQuery / build123d delivered **32 / 58 / 48** verified assemblies at sampled peaks of **146.4 / 259.1 / 287.6 MiB**. Colocad used the least memory; the Python backends delivered more complete hands.
+![Memory across the full size series](docs/benchmarks/bounded-candidate/memory-scaling.svg)
 
-![Ten-times replay of actual hand deliveries and sampled memory peaks](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/hand-window.gif)
+In a 100 s edit queue, the backends delivered **25 / 57 / 48** complete 43-solid hands with sampled peaks of **115.8 / 258.1 / 287.8 MiB**.
 
-Checkpoints support inspection and add build I/O. [Methods, I/O chart and edit acceptance](docs/benchmark-alpha9.md) · [Download standalone HTML](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.9/scorecard.html) · [Earlier experiments](docs/performance.md).
+![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/bounded-candidate/hand-window.gif)
+
+[Offline HTML with all results and six geometry comparisons](docs/benchmarks/bounded-candidate/scorecard.html) · [Phase timings, I/O and scope](docs/benchmark-bounded-candidate.md) · [Reproduce](benchmarks/release/README.md).
 
 ## Support and limits
 

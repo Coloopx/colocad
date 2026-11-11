@@ -31,7 +31,7 @@ def probe(s,p,inside):
  return {'point':p,'material':inside}
 root=Path(sys.argv[1]);results=[];shapes={}
 for entry in session_steps(root):
- if entry['status']!='succeeded' or entry['operation']=='observe':continue
+ if entry['status']!='succeeded' or entry['operation'] in ('observe','query'):continue
  path=root/entry['artifactDirectory']/'model.step';receipt=json.loads((root/entry['receiptFile']).read_text())['data']
  digest=hashlib.sha256(path.read_bytes()).hexdigest();assert digest==receipt['artifact_sha256']['model.step']
  reader=STEPControl_Reader();assert int(reader.ReadFile(str(path)))==1;reader.TransferRoots();shape=reader.OneShape();solids=[];it=TopExp_Explorer(shape,TopAbs_SOLID)

@@ -1,5 +1,7 @@
 # Developer documentation
 
+[Current three-backend measurements and assembly phase breakdown](benchmark-bounded-candidate.md)
+
 Release measurements: [alpha.9 benchmark](benchmark-alpha9.md) · [中文](benchmark-alpha9.zh-CN.md) · [single-file HTML](benchmarks/alpha9/scorecard.html).
 
 [Actual modeling workflow](modeling-workflow.zh-CN.md) · [CLI modeling history and viewer](modeling-history.md)

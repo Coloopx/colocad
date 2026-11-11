@@ -1,0 +1,321 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "height": 45,
+    "wall": 2.4,
+    "clearance": 0.25
+  },
+  "features": [
+    {
+      "op": "shell_body",
+      "id": "housing",
+      "profile": {
+        "kind": "rectangle",
+        "width": 86,
+        "depth": 55,
+        "radius": 8
+      },
+      "height": {
+        "param": "height"
+      },
+      "wall": {
+        "param": "wall"
+      },
+      "floor": 3,
+      "open_face": "top",
+      "edge_radius": 0.5
+    },
+    {
+      "id": "windowed",
+      "op": "face_cutout",
+      "input": "housing",
+      "face": "neg_y",
+      "center": [
+        0,
+        22
+      ],
+      "profile": {
+        "kind": "rectangle",
+        "width": 32,
+        "depth": 14,
+        "radius": 2
+      },
+      "depth": 5
+    },
+    {
+      "id": "vented",
+      "op": "face_hole_grid",
+      "input": "windowed",
+      "face": "pos_y",
+      "center": [
+        0,
+        25.5
+      ],
+      "count": [
+        6,
+        4
+      ],
+      "spacing": [
+        10,
+        5
+      ],
+      "radius": 1.2,
+      "depth": 5
+    },
+    {
+      "op": "boss",
+      "id": "boss",
+      "origin": [
+        0,
+        0,
+        3
+      ],
+      "outer_radius": 3.2,
+      "height": 9,
+      "hole_radius": 1.2,
+      "hole_depth": 7
+    },
+    {
+      "op": "pattern",
+      "id": "bosses",
+      "input": "boss",
+      "positions": [
+        [
+          -34,
+          -19,
+          0
+        ],
+        [
+          -34,
+          19,
+          0
+        ],
+        [
+          34,
+          -19,
+          0
+        ],
+        [
+          34,
+          19,
+          0
+        ]
+      ]
+    },
+    {
+      "op": "union",
+      "id": "body",
+      "left": "vented",
+      "right": "bosses"
+    },
+    {
+      "op": "lid_for",
+      "id": "cover",
+      "profile": {
+        "kind": "rectangle",
+        "width": 86,
+        "depth": 55,
+        "radius": 8
+      },
+      "wall": {
+        "param": "wall"
+      },
+      "thickness": 2,
+      "lip_height": 3,
+      "clearance": {
+        "param": "clearance"
+      }
+    },
+    {
+      "op": "box",
+      "id": "pcb",
+      "origin": [
+        -32,
+        -17.5,
+        12
+      ],
+      "size": [
+        64,
+        35,
+        1.6
+      ]
+    },
+    {
+      "op": "box",
+      "id": "display",
+      "origin": [
+        -15,
+        -25,
+        16
+      ],
+      "size": [
+        30,
+        1,
+        12
+      ]
+    }
+  ],
+  "assembly": [
+    {
+      "id": "housing",
+      "input": "body",
+      "parent": "mechanical",
+      "poses": {
+        "normal": {
+          "translation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "internal": {
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "visible": false
+        },
+        "exploded": {
+          "translation": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "metadata": {
+        "label": "housing",
+        "bom": true
+      }
+    },
+    {
+      "id": "lid",
+      "input": "cover",
+      "parent": "mechanical",
+      "poses": {
+        "normal": {
+          "translation": [
+            0,
+            0,
+            {
+              "op": "sub",
+              "a": {
+                "param": "height"
+              },
+              "b": 3
+            }
+          ]
+        },
+        "internal": {
+          "translation": [
+            0,
+            0,
+            {
+              "op": "sub",
+              "a": {
+                "param": "height"
+              },
+              "b": 3
+            }
+          ],
+          "visible": false
+        },
+        "exploded": {
+          "translation": [
+            0,
+            0,
+            65
+          ]
+        }
+      },
+      "metadata": {
+        "label": "lid",
+        "bom": true
+      }
+    },
+    {
+      "id": "pcb",
+      "input": "pcb",
+      "representation": {
+        "kind": "envelope",
+        "reason": "Board outline only; electronics and connectors omitted."
+      },
+      "parent": "electronics",
+      "poses": {
+        "normal": {
+          "translation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "internal": {
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true
+        },
+        "exploded": {
+          "translation": [
+            0,
+            0,
+            15
+          ]
+        }
+      },
+      "metadata": {
+        "label": "pcb",
+        "bom": true
+      }
+    },
+    {
+      "id": "display",
+      "input": "display",
+      "representation": {
+        "kind": "envelope",
+        "reason": "Display fit envelope; no supplier CAD supplied."
+      },
+      "parent": "electronics",
+      "poses": {
+        "normal": {
+          "translation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "internal": {
+          "translation": [
+            0,
+            0,
+            0
+          ],
+          "visible": true
+        },
+        "exploded": {
+          "translation": [
+            0,
+            -12,
+            0
+          ]
+        }
+      },
+      "metadata": {
+        "label": "display",
+        "bom": true
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "mechanical"
+    },
+    {
+      "id": "electronics"
+    }
+  ]
+}

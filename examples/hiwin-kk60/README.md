@@ -2,9 +2,9 @@
 
 This example models one complete configuration of a real product: **HIWIN KK60 standard, 5 mm screw lead, 300 mm rail, one normal A block, open, without a motor or switches**. It contains 52 native geometric features, 81 named occurrences and 16 recorded construction/assembly milestones. The product is a catalog-based reconstruction, not an OEM manufacturing model.
 
-![Four synchronized views of actual recorded native construction](../../showcase/hiwin-kk60/modeling-alpha9.gif)
+![Four synchronized views of actual recorded native construction](../../showcase/hiwin-kk60/modeling-bounded.gif)
 
-[Complete offline delivery: HTML, STEP and session ZIP](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip) · [MP4](../../showcase/hiwin-kk60/modeling.mp4) · [Editable generated model](../../showcase/hiwin-kk60/model.json) · [Independent verification](../../showcase/hiwin-kk60/verification.json) · [Source dimensions and assumptions](sources.json)
+[Complete offline delivery: HTML, STEP and session ZIP](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip) · [MP4](../../showcase/hiwin-kk60/modeling.mp4) · [Editable generated model](../../showcase/hiwin-kk60/model.json) · [Independent verification](../../docs/benchmarks/bounded-candidate/kk60-readback.json) · [Source dimensions and assumptions](sources.json)
 
 ## Build, view and export through the CLI
 

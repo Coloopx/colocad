@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[三后端复测与 64 件装配分段耗时](benchmark-bounded-candidate.zh-CN.md)
+
 [本版三方性能复测](benchmark-alpha9.zh-CN.md) · [离线交互报告](benchmarks/alpha9/scorecard.html)
 
 [实际操作、输入输出与效果提升方法](modeling-workflow.zh-CN.md) · [CLI 查看器与离线导出](modeling-history.md)

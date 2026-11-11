@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "op": "box",
+      "id": "stock",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        60,
+        40,
+        20
+      ]
+    },
+    {
+      "op": "fillet",
+      "id": "part",
+      "input": "stock",
+      "radius": 3,
+      "select": {
+        "kind": "on_plane",
+        "axis": "z",
+        "value": 20,
+        "tolerance": 0.001,
+        "expected_count": 4
+      }
+    }
+  ],
+  "output": "part"
+}

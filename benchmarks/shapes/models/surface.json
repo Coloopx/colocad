@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [
+    {
+      "id": "a",
+      "op": "surface_patch",
+      "control_points": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            5,
+            2
+          ],
+          [
+            0,
+            10,
+            0
+          ]
+        ],
+        [
+          [
+            5,
+            0,
+            1
+          ],
+          [
+            5,
+            5,
+            4
+          ],
+          [
+            5,
+            10,
+            1
+          ]
+        ],
+        [
+          [
+            10,
+            0,
+            3
+          ],
+          [
+            10,
+            5,
+            6
+          ],
+          [
+            10,
+            10,
+            3
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "b",
+      "op": "surface_patch",
+      "control_points": [
+        [
+          [
+            30,
+            0,
+            2
+          ],
+          [
+            30,
+            5,
+            5
+          ],
+          [
+            30,
+            10,
+            2
+          ]
+        ],
+        [
+          [
+            35,
+            0,
+            1
+          ],
+          [
+            35,
+            5,
+            4
+          ],
+          [
+            35,
+            10,
+            1
+          ]
+        ],
+        [
+          [
+            40,
+            0,
+            0
+          ],
+          [
+            40,
+            5,
+            2
+          ],
+          [
+            40,
+            10,
+            0
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "bridge",
+      "op": "surface_bridge",
+      "start": "a",
+      "end": "b",
+      "start_scale": 0.75,
+      "end_scale": 1.25
+    },
+    {
+      "id": "edited",
+      "op": "surface_edit",
+      "input": "bridge",
+      "edits": [
+        {
+          "u": 2,
+          "v": 1,
+          "point": [
+            13,
+            5,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "moved",
+      "op": "place",
+      "input": "edited",
+      "translation": [
+        0,
+        0,
+        3
+      ],
+      "rotation_deg": [
+        10,
+        0,
+        15
+      ]
+    }
+  ],
+  "output": "moved",
+  "output_kind": "surface"
+}

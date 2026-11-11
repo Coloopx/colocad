@@ -11,3 +11,26 @@ Node 22 and the three native executables come with the npm package. For a source
 Time includes process startup, model construction, backend validation and delivery. The main workload uses normal SDK checkpoints; Python outputs one STEP. Product jobs record `/proc/PID/io` after child exit and before reaping it: `wchar` counts bytes passed to write-like syscalls (including waited-for children and stdout). The separate retained-byte metric counts workspace artifacts excluding sources and benchmark instrumentation. Neither number is physical SSD traffic or durability latency. Shared mount caches can bypass cgroup block attribution, so absent block counts do not imply free I/O. Memory is kernel cgroup peak (main and fixtures), or sampled peak (100 s queue); the agent, harness, verifier, renderer and inference are excluded.
 
 The runnable frozen geometry corpus is in [0005](../../specs/experiments/0005/README.md). The catalog append/migration and query experiments are internal comparisons; a successful eight-part shard is not counted as a monolithic assembly in the three-backend score. See the release report for the separate outcomes.
+
+## Source candidate and assembly follow-up
+
+The [candidate scorecard](../../docs/benchmarks/bounded-candidate/scorecard.html) records the source commit and measured native executable hashes. The first campaign reran the frozen primary suites and stress controls at `9f53a4e`. A second campaign reran all 207 primary jobs and all three hand queues on the subsequent assembly optimization. Fresh containers used the same image, budgets and inputs. The follow-up ran scaling, product/queue and paired jobs on separate CPU sets (0, 2 and 4). The stress records identify the earlier binary. Full result sets from different revisions have separate run directories.
+
+Build an isolated checkout of each revision. Stage its compiled native and catalog binaries or explicitly provide `AGENT_CAD_BINARY` in every measured container. Use steps 1, 2 and 4 above for the primary corpus. Run [the paired runner](../bounded/README.md) with `--cases unique:64 unique:16 unique:1` for the direct follow-up and audit the retained STEP hashes against the primary OCCT readbacks. The [six shape controls](../shapes/README.md) use separate macOS processes. Diagnostic profiling of one saved definition is available with `cargo run --release -p agent-cad --example profile_splines -- ARTIFACT_DIRECTORY DEFINITION_ID`.
+
+Set `campaign.json` in each run directory with the measured label, commit, native hashes and image ID, as recorded under `campaign` in the observations. Generate the complete comparison from verified run directories, in this order:
+
+```sh
+python3 benchmarks/release/report.py FINAL_RUN REPORT_DIR
+python3 benchmarks/release/scaling.py REPORT_DIR
+python3 benchmarks/release/unique-phases.py INITIAL_RUN FINAL_RUN REPORT_DIR
+python3 benchmarks/release/race.py FINAL_RUN REPORT_DIR
+python3 benchmarks/release/embed.py REPORT_DIR
+python3 benchmarks/release/controls.py INITIAL_RUN REPORT_DIR
+python3 benchmarks/release/shape-gallery.py SHAPE_RUN REPORT_DIR
+python3 benchmarks/release/iterations.py INITIAL_RUN FINAL_RUN PAIRED_HISTORY_JSON DIAGNOSTIC_DIR REPORT_DIR
+python3 benchmarks/release/extend-scorecard.py REPORT_DIR
+python3 benchmarks/release/candidate-docs.py REPORT_DIR
+```
+
+Use the plotting / build123d Python environment for `scaling.py`, `unique-phases.py`, `race.py` and `shape-gallery.py`. The final HTML embeds its figures, GIF, filterable measurements, shape readbacks and supplementary observations. Candidate images in the READMEs are repository-relative so the checked-out revision selects the matching files.

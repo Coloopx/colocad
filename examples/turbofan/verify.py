@@ -17,7 +17,7 @@ from OCP.BRepClass3d import BRepClass3d_SolidClassifier
 from OCP.gp import gp_Pnt
 root=Path(sys.argv[1]);results=[]
 for entry in session_steps(root):
-    if entry['status']!='succeeded' or entry['operation']=='observe':continue
+    if entry['status']!='succeeded' or entry['operation'] in ('observe','query'):continue
     directory=root/entry['artifactDirectory'];path=directory/'model.step';receipt=json.loads((root/entry['receiptFile']).read_text())['data']
     digest=hashlib.sha256(path.read_bytes()).hexdigest();assert digest==receipt['artifact_sha256']['model.step']
     reader=STEPControl_Reader();assert int(reader.ReadFile(str(path)))==1;reader.TransferRoots();shape=reader.OneShape()

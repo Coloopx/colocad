@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/showcase/hiwin-kk60/modeling-alpha9.gif)
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-bounded.gif)
 
 **面向 agent 的参数化 CAD：本地 Rust 几何内核、TypeScript SDK、CLI，以及可追溯的建模过程。**
 
@@ -136,21 +136,23 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 独立 OCCT 检查覆盖 16 份 STEP、64 个材料探针和指定位置的导轨/滑台间隙。未公开内部结构明确标为近似或省略；这是产品目录重建，不是可直接生产的完整图纸。动画也不是速度基准。
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](showcase/hiwin-kk60/verification.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/bounded-candidate/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## 性能
 
-候选源码与已发布 alpha.9 的同输入对照：[会话写入、装配内存和 Level‑1 校验](docs/bounded-builds.md)。
+Colocad `b3e6000`、CadQuery 2.8.0、build123d 0.13.0 共交付 **207 份通过独立 STEP 回读的模型**。12 个规模点中，Colocad 有 **11/12 内存峰值最低、6/12 耗时最短**。11 个产品及改参用例中分别为 **11/11、11/11**。
 
-**alpha.9 三方复测。** 针对相同几何，207 份 STEP 均通过独立回读。在主矩阵的 12 个规模点里，Colocad 有 **10 个峰值内存最低、6 个用时最短**。小零件、共享实例占优；大量独立件、密集孔和长布尔链的耗时由其他后端领先。
+![Time to verified STEP and peak memory](docs/benchmarks/bounded-candidate/scorecard.svg)
 
-![三后端构建时间与内存](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)
+在 Colocad / CadQuery / build123d 的顺序下，128 个共享实例用时 **0.61 / 2.03 / 3.36 秒**。64 个独立零件的峰值为 **74.3 / 255.8 / 291.2 MiB**，耗时 **15.29 / 2.46 / 3.45 秒**。1,024 孔单板仍由 Python 后端在速度和内存上领先。
 
-**同一只 43 实体灵巧手，100 秒连续改参：** 按 Colocad / CadQuery / build123d 顺序，交付 **32 / 58 / 48** 份有效 STEP，最高采样内存为 **146.4 / 259.1 / 287.6 MiB**。Colocad 内存最低，两套 Python 后端交付更多。
+![Memory across the full size series](docs/benchmarks/bounded-candidate/memory-scaling.svg)
 
-![100 秒真实队列十倍速回放](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/hand-window.gif)
+100 秒内交付的完整 43 实体手为 **25 / 57 / 48**，采样峰值 **115.8 / 258.1 / 287.8 MiB**。
 
-默认检查点换来了可检查的构建产物，也会增加写入量。[方法、构建 I/O 图与改参验收](docs/benchmark-alpha9.zh-CN.md) · [下载单文件 HTML](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.9/scorecard.html) · [历史实验](docs/performance.md)。
+![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/bounded-candidate/hand-window.gif)
+
+[单文件 HTML，含全部结果和六组实体渲染](docs/benchmarks/bounded-candidate/scorecard.html) · [分段耗时、I/O 与实验范围](docs/benchmark-bounded-candidate.zh-CN.md) · [复现步骤](benchmarks/release/README.md)。
 
 ## 支持范围与限制
 

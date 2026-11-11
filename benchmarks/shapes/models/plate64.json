@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {
+    "width": 80,
+    "length": 80,
+    "thickness": 6,
+    "hole_radius": 2,
+    "holes_x": 2
+  },
+  "features": [
+    {
+      "op": "box",
+      "id": "blank",
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "size": [
+        {
+          "param": "width"
+        },
+        {
+          "param": "length"
+        },
+        {
+          "param": "thickness"
+        }
+      ]
+    },
+    {
+      "op": "hole_grid",
+      "id": "mounting_holes",
+      "input": "blank",
+      "origin": [
+        8,
+        8,
+        -1
+      ],
+      "radius": {
+        "param": "hole_radius"
+      },
+      "depth": {
+        "op": "add",
+        "a": {
+          "param": "thickness"
+        },
+        "b": 2
+      },
+      "count": [
+        8,
+        8
+      ],
+      "spacing": [
+        8,
+        8
+      ]
+    }
+  ],
+  "output": "mounting_holes"
+}
