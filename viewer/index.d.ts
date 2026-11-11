@@ -1,9 +1,9 @@
 /** Browser-only custom element. Import registers <colocad-viewer>. */
 export interface ViewerSession {
-  format: 'colocad/viewer/1'; title: string; id: string; createdAt: string;
+  format: 'colocad/viewer/1'; title: string; id?: string; createdAt?: string;
   display?: { cutaway?: boolean; view?: 'iso'|'front'|'side'|'top' };
   steps: Array<Record<string, any>>;
-  meshes: Record<string, {positions: number[][]; normals?: number[][]; triangles: number[][]}>;
+  meshes: Record<string, {positions: number[][]; normals?: number[][]; triangles: number[][]} | {positionsF32:string;indicesU32:string}>;
 }
 export class ColocadViewer extends HTMLElement {
   session: ViewerSession;

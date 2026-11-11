@@ -1,0 +1,500 @@
+{
+  "$ref": "#/definitions/HybridModel",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Feature": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "op": {
+              "const": "profile_loft",
+              "type": "string"
+            },
+            "sections": {
+              "items": {
+                "items": {
+                  "$ref": "#/definitions/Vec3"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "id",
+            "op",
+            "sections"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "input": {
+              "type": "string"
+            },
+            "op": {
+              "const": "shell",
+              "type": "string"
+            },
+            "openFace": {
+              "additionalProperties": false,
+              "properties": {
+                "at": {
+                  "type": "number"
+                },
+                "plane": {
+                  "enum": [
+                    "XY",
+                    "XZ",
+                    "YZ"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "plane",
+                "at"
+              ],
+              "type": "object"
+            },
+            "thickness": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "input",
+            "op",
+            "openFace",
+            "thickness"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "input": {
+              "type": "string"
+            },
+            "op": {
+              "const": "hollow",
+              "type": "string"
+            },
+            "thickness": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "input",
+            "op",
+            "thickness"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "max": {
+              "$ref": "#/definitions/Vec3"
+            },
+            "min": {
+              "$ref": "#/definitions/Vec3"
+            },
+            "op": {
+              "const": "box",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "max",
+            "min",
+            "op"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "center": {
+              "$ref": "#/definitions/Vec3"
+            },
+            "id": {
+              "type": "string"
+            },
+            "op": {
+              "const": "sphere",
+              "type": "string"
+            },
+            "radius": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "id",
+            "op",
+            "radius"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "axis": {
+              "$ref": "#/definitions/Vec3"
+            },
+            "base": {
+              "$ref": "#/definitions/Vec3"
+            },
+            "height": {
+              "type": "number"
+            },
+            "id": {
+              "type": "string"
+            },
+            "op": {
+              "enum": [
+                "cone",
+                "cylinder"
+              ],
+              "type": "string"
+            },
+            "radius": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "height",
+            "id",
+            "op",
+            "radius"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "input": {
+              "type": "string"
+            },
+            "op": {
+              "enum": [
+                "cut",
+                "union",
+                "intersect",
+                "mesh_cut",
+                "mesh_union",
+                "mesh_intersect"
+              ],
+              "type": "string"
+            },
+            "tool": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "input",
+            "op",
+            "tool"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "op": {
+              "const": "import_step",
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "op",
+            "path"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "op": {
+              "const": "import_mesh",
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "units": {
+              "enum": [
+                "mm",
+                "cm",
+                "m",
+                "in"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "op",
+            "path"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "input": {
+              "type": "string"
+            },
+            "op": {
+              "const": "faceted_brep",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "input",
+            "op"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "HybridModel": {
+      "additionalProperties": false,
+      "properties": {
+        "checks": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "a": {
+                "type": "string"
+              },
+              "b": {
+                "type": "string"
+              },
+              "maxOverlapMm3": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "a",
+              "b"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "chordToleranceMm": {
+          "type": "number"
+        },
+        "facetedStep": {
+          "type": "boolean"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/Feature"
+          },
+          "type": "array"
+        },
+        "format": {
+          "const": "colocad/hybrid/1",
+          "type": "string"
+        },
+        "inspections": {
+          "items": {
+            "anyOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "from": {
+                    "$ref": "#/definitions/Vec3"
+                  },
+                  "instance": {
+                    "type": "string"
+                  },
+                  "maxMm": {
+                    "type": "number"
+                  },
+                  "minMm": {
+                    "type": "number"
+                  },
+                  "op": {
+                    "const": "wall_probe",
+                    "type": "string"
+                  },
+                  "to": {
+                    "$ref": "#/definitions/Vec3"
+                  }
+                },
+                "required": [
+                  "from",
+                  "instance",
+                  "maxMm",
+                  "minMm",
+                  "op",
+                  "to"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "instance": {
+                    "type": "string"
+                  },
+                  "op": {
+                    "const": "slice",
+                    "type": "string"
+                  },
+                  "zMm": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "instance",
+                  "op",
+                  "zMm"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "angleDeg": {
+                    "type": "number"
+                  },
+                  "bedZ": {
+                    "type": "number"
+                  },
+                  "instance": {
+                    "type": "string"
+                  },
+                  "op": {
+                    "const": "overhang",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "angleDeg",
+                  "bedZ",
+                  "instance",
+                  "op"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "type": "array"
+        },
+        "instances": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "input": {
+                "type": "string"
+              },
+              "material": {
+                "additionalProperties": false,
+                "properties": {
+                  "color": {
+                    "type": "string"
+                  },
+                  "opacity": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "rotate": {
+                "additionalProperties": false,
+                "properties": {
+                  "axis": {
+                    "$ref": "#/definitions/Vec3"
+                  },
+                  "center": {
+                    "$ref": "#/definitions/Vec3"
+                  },
+                  "degrees": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "axis",
+                  "degrees"
+                ],
+                "type": "object"
+              },
+              "translate": {
+                "$ref": "#/definitions/Vec3"
+              }
+            },
+            "required": [
+              "id",
+              "input"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        },
+        "units": {
+          "const": "mm",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "units",
+        "features",
+        "instances"
+      ],
+      "type": "object"
+    },
+    "Vec3": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    }
+  }
+}

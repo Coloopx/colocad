@@ -2,8 +2,8 @@
   "schema": 1,
   "executable": "colocad-catalog",
   "sha256": {
-    "darwin-arm64": "ed926fdfd09a57622257f6ee81db32b61cd71a81f0eea69a280a4f0edf10b5a7",
-    "linux-arm64": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
-    "linux-x64": "e20790a53b0b78231ddc01db68ab76cd1dbf63c492870eaf862bb57c2d5affee"
+    "darwin-arm64": "f23f484e3752ed7947060f87a7db8e253d6c02f215c38b065967192e7a77851b",
+    "linux-arm64": "176790008108dbb107d0f113a23427c75a900e546b3f3e0991238260eb6a5eaa",
+    "linux-x64": "73e3f052a335c855e0d1fca0d0cc38fb28df073eaa02065ca9a2c2a5d23d18f9"
   }
 }

@@ -2,7 +2,12 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
-## Unreleased
+## [0.1.0-alpha.10](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.10) - 2026-11-12
+
+- Build cubic landmark lofts, exact open and closed offset shells, and loft Boolean differences in an explicit local OCCT WASM path.
+- Import STL, OBJ and static triangle GLB, mix with exact STEP hardware, preserve instance colours and export an entire posed assembly as GLB or optional faceted/analytic STEP.
+- Check real posed part intersections and sample wall thickness, slices and overhangs. [Packaged fixture, SDK and CLI](docs/hybrid.md) · [Release regressions](docs/evidence/release-alpha.10.json).
+
 
 - Speed up exact inspection of distinct assembly parts by bounding regular rational quadratic trims and sharing identical pure spline solves. The final mass integral checks the original terminal stock-volume oracle. [Measured performance and readbacks](docs/benchmark-bounded-candidate.md).
 

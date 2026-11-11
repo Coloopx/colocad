@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { dirname } from "node:path";
 import { open, writeFile } from "node:fs/promises";
 import { compileTree, build, kernelModel, CadClient } from "../src/index.mjs";
 import { ModelingSession, exportSessionHtml } from "../src/session.mjs";
@@ -6,7 +7,7 @@ import { startViewer, parseViewOptions } from "../src/view-server.mjs";
 import { renderSession, parseRenderOptions } from "../src/render.mjs";
 import { writeSolidWorks } from "../src/solidworks.mjs";
 const [cmd, input, output, ...flags] = process.argv.slice(2);
-const help = "colocad head SESSION_DIRECTORY\ncolocad edit SESSION_DIRECTORY PARAMETERS.json\ncolocad inspect SESSION_DIRECTORY REQUEST.json\ncolocad migrate SESSION_DIRECTORY\ncolocad history SESSION_DIRECTORY [--after CURSOR --limit COUNT | --all]\n"+
+const help = "colocad build HYBRID.json NEW_DIRECTORY\ncolocad head SESSION_DIRECTORY\ncolocad edit SESSION_DIRECTORY PARAMETERS.json\ncolocad inspect SESSION_DIRECTORY REQUEST.json\ncolocad migrate SESSION_DIRECTORY\ncolocad history SESSION_DIRECTORY [--after CURSOR --limit COUNT | --all]\n"+
   "colocad query REVISION_DIR REQUEST.json [--out NEW_RECEIPT.json]\n"+
   "colocad build TREE.json NEW_DIRECTORY [--preview] [--queryable]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT] [--queryable]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad view SESSION_DIRECTORY [--no-open] [--port PORT] [--export OUTPUT.html] [--cutaway] [--view iso|front|side|top]\ncolocad render SESSION_DIRECTORY OUTPUT.mp4|OUTPUT.gif [--width N] [--height N] [--fps N] [--seconds-per-step N]\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT";
 async function readJsonInput(path) {
@@ -91,6 +92,12 @@ try {
       try { session=await ModelingSession.create(output,{wallMs:120000}); }
       catch(error) { if(error.code!=="EEXIST") throw error; session=await ModelingSession.open(output,{wallMs:120000}); }
       res=await session.build(spec.format==="colocad/1"?kernelModel(spec):spec,{label,queryable});
+      if(!res.ok) process.exitCode=1;
+    }
+    else if (cmd === "build" && output && spec.format==="colocad/hybrid/1") {
+      if(flags.length) throw Error('Hybrid builds always write review.html. See docs/hybrid.md for supported options.');
+      const {buildHybrid}=await import('../src/hybrid.mjs');
+      res=await buildHybrid(spec,output,{assetRoot:dirname(input)});
       if(!res.ok) process.exitCode=1;
     }
     else if (cmd === "plan" && !output) res = compileTree(spec);

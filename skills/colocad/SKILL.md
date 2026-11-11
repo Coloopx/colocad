@@ -5,6 +5,8 @@ description: Build, edit and verify mechanical parts or complete assemblies from
 
 Use the project's installed `@coloopx/colocad` on Node 22+. Agent, harness, SDK and the native CAD executable run in the same sandbox. Read the installed schema/capabilities when choosing an unfamiliar operation; the skill is guidance, not an image-to-CAD service.
 
+For a sculpted housing, a scanned or generated STL/OBJ/GLB exterior, or a failed freeform offset, use the [hybrid modeling workflow](references/hybrid.md).
+
 Choose the references needed for this task:
 
 - **A dimensioned part or common structure:** [quick-build](references/quick-build.md) has editable stock, plate, sleeve, angle and housing examples. Start with the controlling section or stock and add only required features.

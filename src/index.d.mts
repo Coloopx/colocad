@@ -39,6 +39,8 @@ export function compileTree(tree: FeatureTree): Feature[];
 export function kernelModel(
   tree: FeatureTree,
 ): import("../kernel/dist/types.js").Model;
+export type {HybridModel,HybridReceipt} from './hybrid.mjs';
+export function build(tree:import('./hybrid.mjs').HybridModel,destination:string,options?:{assetRoot?:string}):Promise<import('./hybrid.mjs').HybridReceipt>;
 export function build(
   tree: FeatureTree,
   destination: string,

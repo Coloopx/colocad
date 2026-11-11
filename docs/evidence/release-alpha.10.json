@@ -1,0 +1,80 @@
+{
+  "version": "0.1.0-alpha.10",
+  "date": "2026-11-12",
+  "syntheticFixture": {
+    "path": "examples/hybrid-enclosure/model.json",
+    "poseDegrees": [
+      0,
+      15,
+      30
+    ],
+    "wallProbeMm": 1.6000003814697266,
+    "occtStepReadback": {
+      "exact.step": {
+        "valid": true,
+        "solids": 2,
+        "volumeMm3": [
+          2469.095246042808,
+          84.00000000001737
+        ]
+      },
+      "lens.faceted.step": {
+        "valid": true,
+        "solids": 1,
+        "volumeMm3": [
+          48.0
+        ]
+      },
+      "assembly.step": {
+        "valid": true,
+        "solids": 3,
+        "volumeMm3": [
+          2469.095246042808,
+          84.00000000001737,
+          48.0
+        ]
+      }
+    }
+  },
+  "externalScan": {
+    "source": "https://graphics.stanford.edu/pub/3Dscanrep/armadillo/Armadillo.ply.gz",
+    "sha256": "8b9b56cc36e66d54429b1e1e75bd89e833645bfe0dc7c1afd1205877a7356a3f",
+    "triangles": 345944,
+    "boundsCheck": "actual mesh against two placed solids",
+    "overlapMm3": [
+      0,
+      3.8027976116271707
+    ],
+    "method": "triangle-solid-common",
+    "platform": "linux-arm64",
+    "vCPUs": 1,
+    "memoryLimitBytes": 536870912,
+    "cgroupMemoryPeakBytes": 536870912,
+    "swapBytes": 0,
+    "oomKills": 0,
+    "elapsedWholeSeconds": 11,
+    "combinedStepBytes": 152069489,
+    "scope": "Cold process with installed dependencies. Whole-second timing of build including disk export. The scan was losslessly transcoded to OBJ. Independent STEP round trip was measured on the smaller engineering fixture."
+  },
+  "offlineChromium": {
+    "remoteRequests": 0,
+    "uncaughtErrors": 0,
+    "renderedMaterials": [
+      [
+        "upper",
+        "d79445",
+        1
+      ],
+      [
+        "jaw",
+        "434b55",
+        1
+      ],
+      [
+        "lens",
+        "339e76",
+        0.8
+      ]
+    ]
+  }
+}

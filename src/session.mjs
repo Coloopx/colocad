@@ -282,6 +282,9 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso'}={})
       if(!hash)throw Error('SESSION_INTEGRITY: missing native preview mesh hash');
       const scene=JSON.parse(await checked(root,source+'/preview.mesh.json',hash));
       step.scene={instances:scene.instances?.length?scene.instances:scene.meshes.map(([id])=>({id,definition:id,origin:[0,0,0],axes:[[1,0,0],[0,1,0],[0,0,1]]})),definitions:{}};
+      const assembly=step.model?.assembly;
+      const materials=new Map((Array.isArray(assembly)?assembly:assembly?.instances??[]).map(i=>[i.id,i.metadata?.material??i.metadata]));
+      for(const instance of step.scene.instances) instance.material??=materials.get(instance.id);
       for(const [id,mesh] of scene.meshes){const key=sha(JSON.stringify(mesh));bundle.meshes[key]??=mesh;step.scene.definitions[id]=key;}
       if(data.artifact_sha256?.['preview.png'])step.png='data:image/png;base64,'+(await checked(root,artifact+'/preview.png',data.artifact_sha256['preview.png'])).toString('base64');
       if(entry.id===last?.id)step.stepFile=(await checked(root,source+'/model.step',sourceReport.artifact_sha256['model.step'])).toString('base64');
@@ -292,7 +295,10 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso'}={})
 }
 
 export async function exportSessionHtml(directory,destination,options={}){
-  const bundle=await readSessionBundle(directory,options);
+  return writeViewerHtml(await readSessionBundle(directory,options),destination);
+}
+
+export async function writeViewerHtml(bundle,destination){
   const runtime=await readFile(new URL('../viewer/dist/standalone.js',import.meta.url),'utf8');
   const payload=JSON.stringify(bundle).replaceAll('<','\\u003c').replaceAll('\u2028','\\u2028').replaceAll('\u2029','\\u2029');
   const html='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>colocad modeling history</title><style>html,body{margin:0;height:100%;background:#0a1220}colocad-viewer{display:block;height:100vh}</style><colocad-viewer></colocad-viewer><script id="colocad-session" type="application/json">'+payload+'</script><script>'+runtime.replaceAll('</script','<\\/script')+'</script><script>document.querySelector("colocad-viewer").session=JSON.parse(document.getElementById("colocad-session").textContent);</script></html>';

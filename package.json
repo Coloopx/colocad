@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.9",
+  "version": "0.1.0-alpha.10",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -34,7 +34,12 @@
     "./viewer": {
       "types": "./viewer/index.d.ts",
       "import": "./viewer/dist/index.js"
-    }
+    },
+    "./hybrid": {
+      "types": "./src/hybrid.d.mts",
+      "import": "./src/hybrid.mjs"
+    },
+    "./hybrid/schema": "./kernel/schemas/hybrid.schema.json"
   },
   "bin": {
     "colocad": "bin/colocad.mjs"
@@ -81,7 +86,9 @@
     "docs/benchmarks/bounded-candidate",
     "showcase/hiwin-kk60/modeling-bounded.gif",
     "docs/benchmarks/alpha9/hand-window.gif",
-    "showcase/hiwin-kk60/modeling-alpha9.gif"
+    "showcase/hiwin-kk60/modeling-alpha9.gif",
+    "examples/hybrid-enclosure",
+    "docs/evidence/release-alpha.10.json"
   ],
   "scripts": {
     "schema": "node scripts/schema.mjs",
@@ -100,8 +107,7 @@
   },
   "devDependencies": {
     "esbuild": "0.28.2",
-    "playwright": "1.65.0",
-    "three": "0.187.0"
+    "playwright": "1.65.0"
   },
   "peerDependencies": {
     "playwright": ">=1.50.0 <2"
@@ -110,5 +116,12 @@
     "playwright": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "@gltf-transform/core": "4.5.1",
+    "manifold-3d": "3.5.4",
+    "replicad": "1.2.1",
+    "replicad-opencascadejs": "1.2.1",
+    "three": "0.187.0"
   }
 }

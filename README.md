@@ -33,10 +33,18 @@ flowchart LR
 Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.9
+npm install @coloopx/colocad@0.1.0-alpha.10
 ```
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
+
+## Sculpted housings and external meshes
+
+Build a smooth landmark loft, offset the shell, import a scanned exterior and place exact STEP hardware in the same local job. Instance colours appear in the GLB and offline viewer. Each interference check records the method and measured overlap volume. [Hybrid operations and exchange formats](docs/hybrid.md)
+
+```sh
+npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.json ./housing-build
+```
 
 ## Quick start
 

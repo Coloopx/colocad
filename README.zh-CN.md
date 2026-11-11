@@ -32,10 +32,18 @@ flowchart LR
 需要 **Node.js 22+**，支持 **Linux x64、Linux arm64、macOS arm64**。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.9
+npm install @coloopx/colocad@0.1.0-alpha.10
 ```
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
+
+## 有机外壳与外部网格
+
+从轮廓标志点做光顺放样与法向偏置，将外部扫描网格和精确 STEP 机构放入同一装配。GLB 和离线查看器显示实例材质，干涉收据给出实际零件的交叠体积与算法。[使用说明、导出格式与验收](docs/hybrid.zh-CN.md)
+
+```sh
+npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.json ./housing-build
+```
 
 ## 快速开始
 

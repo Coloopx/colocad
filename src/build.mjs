@@ -15,8 +15,13 @@ import { CadClient } from "../kernel/dist/index.js";
 export async function build(
   tree,
   destination,
-  { preview = false, queryable = false, binary } = {},
+  { preview = false, queryable = false, binary, assetRoot } = {},
 ) {
+  if(tree?.format==='colocad/hybrid/1'){
+    if(queryable||binary) throw Error('Hybrid builds use the local hybrid kernel and report.json');
+    const {buildHybrid}=await import('./hybrid.mjs');
+    return buildHybrid(tree,destination,{assetRoot});
+  }
   const plan = compileTree(tree);
   const model = kernelModel(tree);
   if (preview) model.preview = {};
