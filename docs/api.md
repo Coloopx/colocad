@@ -97,6 +97,6 @@ colocad render SESSION modeling.mp4 --width 1280 --height 800 --fps 15
 
 `record` accepts feature trees or kernel JSON. The viewer serves a local snapshot. `replay` creates a self-contained HTML file. `render` uses optional Playwright/Chromium and FFmpeg to encode actual saved meshes; it writes a movie, poster and manifest. See [modeling history](modeling-history.md) for lifecycle, all options and artifact semantics.
 
-### Recorded exact inspection in the alpha.9 candidate
+### Recorded exact inspection in alpha.9
 
 `colocad head SESSION` returns the accepted step ID, geometry summary and query revision. An empty session returns JSON null. A build without a query snapshot has a null query revision. `colocad inspect SESSION REQUEST.json` executes a revision-bound request and records its receipt. `colocad edit SESSION PARAMETERS.json` changes numeric parameters on the accepted model. CLI failures exit nonzero. The SDK equivalents are `session.head()`, `session.query(request)` and `session.edit(parameters)`. Read the source through the relative `inputFile` in each ledger entry. Multiple inspections can point to the same immutable source. [Runnable plate workflow](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).

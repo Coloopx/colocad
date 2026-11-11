@@ -72,7 +72,12 @@
     "CHANGELOG.md",
     "ROADMAP.md",
     "ROADMAP.zh-CN.md",
-    "docs/cadquery-coverage.json"
+    "docs/cadquery-coverage.json",
+    "docs/benchmarks/alpha9/*.json",
+    "docs/benchmarks/alpha9/*.svg",
+    "docs/benchmarks/alpha9/scorecard.html",
+    "docs/benchmarks/alpha9/hand-window.gif",
+    "showcase/hiwin-kk60/modeling-alpha9.gif"
   ],
   "scripts": {
     "schema": "node scripts/schema.mjs",

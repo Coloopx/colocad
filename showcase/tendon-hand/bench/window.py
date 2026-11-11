@@ -36,7 +36,7 @@ def job(i,warm=False):
     row=dict(revision=i,guide_diameter_mm=diameter,cable_radius_mm=cable,solids=count,
              model_sha256=hashlib.sha256(data).hexdigest(),step_sha256=hashlib.sha256(target.read_bytes()).hexdigest(),
              start_s=tic-start,end_s=end-start,job_s=end-tic)
-    if backend=='build123d':row['phases']=got
+    if not native:row['phases']=got
     else:row['kernel_ms']=json.loads((rd/'report.json').read_text())['timing_ms']
     shutil.rmtree(scratch)
     return row

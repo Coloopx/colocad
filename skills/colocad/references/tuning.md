@@ -27,6 +27,13 @@ For a fair CadQuery or build123d comparison, use the same dimensions, features, 
 
 A 1 vCPU / 512 MiB CAD run establishes only that scoped run. It does not establish the memory budget of the resident agent/harness, an in-process LLM, Chromium or FFmpeg. Do not extrapolate a plate's speedup to a threaded multi-part product.
 
+## Choose a build path for a tight sandbox
+
+- Separate **occurrences** from **definitions**. Model one pin once and place it many times. Independently dimensioned pins are different geometry: do not alias them to reduce memory. If every part differs, budget a representative full build including export and checkpoints.
+- For dense bores, check the grid and axes on a small instance first; time the actual final density before committing to a sandbox deadline. A compact `hole_grid` instruction can still be expensive for the kernel. Do not split one required solid into a folder of partial STEPs and report success.
+- For multiple measurements of an unchanged part, record one queryable build. Use `head` and a batched `inspect` request; keep receipts and the reference to the accepted input. After `edit`, obtain the new revision before inspecting. For saved views of unchanged geometry, use the cached mesh.
+- When diagnosing I/O, distinguish logical writes (including checkpoints), final STEP bytes, retained project bytes, and actual device traffic. A warm-cache zero device counter does not mean no data was written. The [three-backend benchmark](https://github.com/Coloopx/colocad/blob/v0.1.0-alpha.9/docs/benchmark-alpha9.md) lists the workload and measurement boundaries.
+
 ## Evaluate the skill/prompt, not just the executor
 
 Hold product tasks, source packs, model/provider version, tools and budget fixed. Compare the existing skill with one changed instruction/tool response policy. Include a dimensioned part, a part needing section interpretation, an editable assembly and an ambiguous source case. Keep some tasks unseen during tuning. Measure required dimensions/features, edit preservation, fit checks, unsupported claims, correction count, inference cost and end-to-end duration.

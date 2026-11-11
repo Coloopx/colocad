@@ -1,0 +1,131 @@
+{
+  "version": "0.1.0-alpha.9",
+  "source_engine_and_sdk_commit": "16c0f57f4de422fedc15842e7344cb0f011d0015",
+  "date": "2026-11-11",
+  "tested_archive_sha256": "f651868202b7a85e6a24600d966d2f196c06edaff75db654db988fd7f35f99a7",
+  "native_sha256": {
+    "darwin-arm64": "980527fc9071c6bd72bd7b46049c55432843beb9017f4b5216648071a4b288c6",
+    "linux-arm64": "fafe5626b90940071e907ffede24afec6815931a09ef95da3ccdd0676f191501",
+    "linux-x64": "8c11ec79709b05580c7578e738bfc6e4a6a4e3a7796065d85c33d4af4ad81801"
+  },
+  "catalog_sha256": {
+    "darwin-arm64": "ed926fdfd09a57622257f6ee81db32b61cd71a81f0eea69a280a4f0edf10b5a7",
+    "linux-arm64": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+    "linux-x64": "e20790a53b0b78231ddc01db68ab76cd1dbf63c492870eaf862bb57c2d5affee"
+  },
+  "package_platforms": {
+    "darwin-arm64": {
+      "installed": true,
+      "cli": {
+        "ok": true,
+        "platform": "darwin-arm64"
+      },
+      "indexed_migration": true,
+      "documented_workflow": true
+    },
+    "linux-arm64": {
+      "installed": true,
+      "cli": {
+        "ok": true,
+        "platform": "linux-arm64"
+      },
+      "indexed_migration": true,
+      "documented_workflow": true
+    },
+    "linux-x64": {
+      "installed": true,
+      "cli": {
+        "ok": true,
+        "platform": "linux-x64"
+      },
+      "indexed_migration": true,
+      "documented_workflow": true
+    }
+  },
+  "tests": {
+    "rust_release": 129,
+    "node": 49,
+    "harness_integration": 6,
+    "viewer_and_render": true,
+    "frozen_g2": [
+      {
+        "split": "regression",
+        "cases": 18,
+        "passed": true,
+        "manifest_sha256": "5fa10bdb1d12a08ce1c19f1bf3a8b6ecd90ffb287e3a1febe9715e43a11ce75e"
+      },
+      {
+        "split": "held_out",
+        "cases": 6,
+        "passed": true,
+        "manifest_sha256": "5fa10bdb1d12a08ce1c19f1bf3a8b6ecd90ffb287e3a1febe9715e43a11ce75e"
+      }
+    ],
+    "kk60_stages": 16,
+    "turbofan_stages": 16,
+    "flange_replacements": "3 accepted, 2 expected rejections",
+    "kk60_accessory_solids": 82,
+    "external_step_query": true,
+    "exact_archive_grid_and_interface_readback": true,
+    "skill_manifest_validation": true
+  },
+  "benchmark": {
+    "common_readbacks": 108,
+    "fixture_readbacks": 99,
+    "hand_window_readbacks": 138,
+    "additional_monolithic_readbacks": 17,
+    "shard_catalog_hash_checks": 15,
+    "sampled_shard_geometry_readbacks": 9,
+    "secondary_cases": {
+      "boundary": {
+        "ok": 2,
+        "oom": 2
+      },
+      "extreme": {
+        "ok": 10,
+        "timeout": 4,
+        "not_run_after_boundary": 6,
+        "oom": 4,
+        "RESOURCE_LIMIT": 4
+      },
+      "compositional": {
+        "oom": 4,
+        "ok": 2
+      },
+      "sharded": {
+        "ok": 15
+      },
+      "native-control": {
+        "ok": 3
+      },
+      "history": {
+        "ok": 21,
+        "runtime_heap_oom": 3
+      },
+      "history-node": {
+        "ok": 12
+      }
+    },
+    "offline_browser": {
+      "external_requests": 0,
+      "filter": [
+        "69 rows",
+        "3 rows for part/1024"
+      ],
+      "downloadable_observations": 207,
+      "mobile_width_px": 390
+    }
+  },
+  "artifact_sha256": {
+    "kk60-readback.json": "f49585917c4c7fc1fad3c4a62cbb726f03e1453384a0488199168ee9125083ae",
+    "controls.json": "d641ba135b0dcea06160a72b5f67a202c2a7d0918ddfcff4f0ab553e4d36c032",
+    "kk60-render.json": "9899d0d759af8d5d664a71e1768f07d779fe5865845c24d69de0912b3defe059",
+    "scorecard.svg": "ac11270d045e75ec46acd5513a0ff07b24f397717750ef3ec7282d24127ae2ba",
+    "build-io.svg": "e10b131ed6d9f2217ee69f34f155be8a07052bbb7da8ac4e58102875ab08bed6",
+    "scorecard.html": "e6fada099004fdfa7598b1d4c41e018f3de363aaaa159346d5244ee98bd57efd",
+    "hand-window.gif": "47d4363d3cec2cc13a7303d9923c54d31c18e1a50c4e19763cbda48bfa1f820c",
+    "observations.json": "d7230b1f8dd3bfc783847d3b491db2a10c888103783b6c2cf07205c7c58a6dcd",
+    "raw-observations.tar.gz": "9534671bec086ddfa75aacd238e11b2757a5fdbbf363383b231e4bec4b230ce9"
+  },
+  "scope": "All scored benchmark calls are scripted CAD executions. No new live-LLM, arbitrary drawing, universal industrial CAD parity or vendor SolidWorks rebuild claim."
+}

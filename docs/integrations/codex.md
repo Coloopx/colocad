@@ -7,7 +7,7 @@ Install a project skill and let Codex use its existing terminal and image tools.
 From the root of a Node project:
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.7
+npm install --save-exact @coloopx/colocad@0.1.0-alpha.9
 mkdir -p .agents/skills
 test ! -e .agents/skills/colocad && \
   cp -R node_modules/@coloopx/colocad/skills/colocad .agents/skills/colocad

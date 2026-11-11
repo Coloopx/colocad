@@ -1,4 +1,4 @@
-# alpha.9 开发版会话索引
+# alpha.9 会话索引
 
 新建项目时，`ModelingSession.create()` 和 `colocad record` 默认用本地 Rust 程序存取 SQLite。沙箱内的 agent 和 harness 照常调 SDK 或 CLI。源码检出后可用 `npm run build:kernel` 构建宿主平台的执行程序。[English](indexed-sessions.md)
 
@@ -24,4 +24,4 @@ node bin/colocad.mjs history ./old-project --after 20 --limit 20
 
 真实写入测试在初始建模后完成 100 次成功改参和 9,900 次成功几何查询。全程峰值 271.67 MiB，重新打开后按顺序检查全部 10,001 条记录与已接受几何。恢复测试覆盖迁移和建模途中 SIGKILL。实体几何落盘、流式装配 STEP 和查看器分页属于后续阶段。[原始数据与复现](../benchmarks/session-catalog/README.md)
 
-使用 alpha.9 候选包时，先用 `colocad head SESSION` 读取已接受步骤及查询版本，再用 `colocad inspect SESSION REQUEST.json` 保存精确查询的请求和回执。改参使用 `colocad edit SESSION PARAMETERS.json`。一次查询可以在同一零件、坐标系与公差下测量多个特征。查询步骤通过 `inputFile` 引用已接受的源文件，读取时校验 SHA-256。[四孔改六孔的实例](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
+使用 alpha.9 时，先用 `colocad head SESSION` 读取已接受步骤及查询版本，再用 `colocad inspect SESSION REQUEST.json` 保存精确查询的请求和回执。改参使用 `colocad edit SESSION PARAMETERS.json`。一次查询可以在同一零件、坐标系与公差下测量多个特征。查询步骤通过 `inputFile` 引用已接受的源文件，读取时校验 SHA-256。[四孔改六孔的实例](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)

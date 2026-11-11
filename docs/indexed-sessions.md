@@ -1,8 +1,8 @@
-# Indexed sessions in the alpha.9 development branch
+# Indexed sessions in alpha.9
 
 [中文说明与测量结果](indexed-sessions.zh-CN.md)
 
-New `ModelingSession.create()` and `colocad record` projects use the local Rust SQLite catalog. Build the host executables with `npm run build:kernel` in a source checkout. The published alpha.8 package uses the JSON ledger.
+New `ModelingSession.create()` and `colocad record` projects use the local Rust SQLite catalog. Build the host executables with `npm run build:kernel` in a source checkout. Alpha.8 projects use a JSON ledger until explicitly migrated.
 
 ```sh
 node bin/colocad.mjs record examples/sensor-rail.json ./project --queryable

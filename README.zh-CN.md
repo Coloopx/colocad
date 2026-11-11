@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling.gif)
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/showcase/hiwin-kk60/modeling-alpha9.gif)
 
 **面向 agent 的参数化 CAD：本地 Rust 几何内核、TypeScript SDK、CLI，以及可追溯的建模过程。**
 
@@ -32,7 +32,7 @@ flowchart LR
 需要 **Node.js 22+**，支持 **Linux x64、Linux arm64、macOS arm64**。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.8
+npm install @coloopx/colocad@0.1.0-alpha.9
 ```
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
@@ -88,7 +88,7 @@ await session.edit({ length: 80 });
 | `colocad replay SESSION review.html` | 已保存会话 | 单文件离线 HTML |
 | `colocad render SESSION modeling.mp4` | 已保存会话 | 四视图动画，也支持 `.gif` |
 
-alpha.9 候选版增加了三个会话命令。用 `colocad head SESSION` 取当前有效的几何版本，`colocad inspect SESSION REQUEST.json` 查询并记录安装面和孔组，`colocad edit SESSION PARAMETERS.json` 从有效模型改参。四孔板示例演示了如何改成六孔，并重新测量孔径。[操作步骤](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
+alpha.9 增加了三个会话命令。用 `colocad head SESSION` 取当前有效的几何版本，`colocad inspect SESSION REQUEST.json` 查询并记录安装面和孔组，`colocad edit SESSION PARAMETERS.json` 从有效模型改参。四孔板示例演示了如何改成六孔，并重新测量孔径。[操作步骤](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
 
 无桌面的沙箱使用 `colocad view ./history --no-open --port 8787`，配合 harness 现有端口转发；监听地址为 `127.0.0.1`。
 
@@ -140,33 +140,15 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 性能
 
-**alpha.8 内存扩展性：**[三后端压力测试](docs/memory-persistence-report.zh-CN.md)覆盖大型实体、独立/共享装配和长历史，并保留 2 GiB 失败记录。Colocad 的内存优势取决于负载，独立定义和当前历史账本仍会增长；下版本定向优化见 [SDD 0006](specs/0006-bounded-memory-persistence.zh-CN.md)。
+**alpha.9 三方复测。** 针对相同几何，207 份 STEP 均通过独立回读。在主矩阵的 12 个规模点里，Colocad 有 **10 个峰值内存最低、6 个用时最短**。小零件、共享实例占优；大量独立件、密集孔和长布尔链的耗时由其他后端领先。
 
-性能取决于几何和执行方式。在同一个 **43 实体绳驱灵巧手**的 100 秒版本队列实测中，Colocad 完成交付 **44 份 STEP，build123d 为 33 份**，最高采样沙箱内存低 **57.1%**。
+![三后端构建时间与内存](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)
 
-![10 倍速回放：STEP 交付数和截至当前的最高采样沙箱内存](showcase/tendon-hand/window/hand-window-peak-en.gif)
+**同一只 43 实体灵巧手，100 秒连续改参：** 按 Colocad / CadQuery / build123d 顺序，交付 **32 / 58 / 48** 份有效 STEP，最高采样内存为 **146.4 / 259.1 / 287.6 MiB**。Colocad 内存最低，两套 Python 后端交付更多。
 
-| 相同版本队列，1 vCPU / 512 MiB | Colocad | build123d |
-| --- | ---: | ---: |
-| 100 秒完整 STEP 交付 | **44** | 33 |
-| 第一份 STEP | **2.223 s** | 3.010 s |
-| 相同前 33 个输入的任务耗时中位数 | **2.234 s** | 2.855 s |
-| 最高采样 cgroup 内存 | **130.9 MiB** | 304.9 MiB |
+![100 秒真实队列十倍速回放](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/hand-window.gif)
 
-每个后端运行一个窗口，每次改版新起 CAD 进程。内存约每 25 ms 采样，包含子进程、临时文件和计入容器的文件缓存；所有计数 STEP 均已回读。原始运行使用 alpha.2 SDK 和首次随 alpha.3 发布的优化内核，并非 alpha.6 的新实测。GIF 展示截至当前的最高采样值，而非瞬时内存。[方法与原始数据](showcase/tendon-hand/window/README.md)。
-
-<details>
-<summary>冷启动零件与缓存预览结果</summary>
-
-![四个历史任务的 STEP 耗时和内存对比](docs/benchmarks/time-to-step.zh-CN.svg)
-
-已发布 alpha.2 内核在传感器导轨、歧管上的 time-to-STEP 分别快 **22.0×、12.9×**，峰值内存分别为 build123d 的 **7.7%、8.0%**。两边在 Linux arm64、1 vCPU / 512 MiB 下预热后各测 5 个独立进程/cgroup；计入启动、导入、建模、校验和导出，不含安装、预览、推理或常驻 agent。这不是所有操作的优势：歧管几何计算为 53.7 ms，而 build123d 为 43.8 ms，旧版完整手模型也曾更慢。
-
-对未改变的几何，复用网格观察在两个零件上比 Colocad 自身重建后渲染快 5.6×–16.8×。这是内部缓存路径对比，不是 build123d 对比。
-
-</details>
-
-[完整性能证据与边界](docs/performance.md) · [含 STEP 下载的离线对比](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html)。
+默认检查点换来了可检查的构建产物，也会增加写入量。[方法、构建 I/O 图与改参验收](docs/benchmark-alpha9.zh-CN.md) · [下载单文件 HTML](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.9/scorecard.html) · [历史实验](docs/performance.md)。
 
 ## 支持范围与限制
 

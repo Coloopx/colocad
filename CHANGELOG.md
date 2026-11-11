@@ -2,7 +2,7 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
-## Unreleased — 0.1.0-alpha.9 candidate
+## [0.1.0-alpha.9](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.9) - 2026-11-11
 
 - Add session CLI commands `head`, `inspect` and `edit`. Each recorded exact query verifies and references its accepted input.
 - Encode assembly STEP entities directly into the output string and enforce its 32 MiB budget while appending. On Linux, stage final STEP files of 4 MiB or larger in synced 4 MiB chunks and release completed file pages. [Experiment](benchmarks/query-io/README.md).
@@ -11,7 +11,7 @@ Notable user-facing changes are recorded here. Colocad remains alpha software; s
 - Reduce the working set of legacy session imports: a 500k-entry migration fell from 512.00 to 33.06 MiB median Linux cgroup peak. [Measurements and limits](benchmarks/session-catalog/migration-memory.md).
 - Add reproducible three-backend memory scaling and extreme-limit experiments, raw OOM/timeout/policy outcomes, indexed-history and chunked-project prototypes, and validation/persistence controls. [Report](docs/memory-persistence-report.md) / [中文](docs/memory-persistence-report.zh-CN.md).
 - Scope bounded-memory persistence in bilingual [SDD 0006](specs/0006-bounded-memory-persistence.md), update ROADMAP and tuning guidance, and distinguish resident working sets from total geometry/disk complexity.
-- These are experimental scripts and next-version acceptance criteria. The published SDK/native remains alpha.8; catalog migration, paged large-model APIs and single-STEP streaming are not yet production features.
+- Publish the [three-backend release benchmark](docs/benchmark-alpha9.md), the [offline scorecard](docs/benchmarks/alpha9/scorecard.html) and a newly rendered KK60 cover. History migration and paging ship in this version; disk-backed active geometry and streaming a whole assembly STEP remain roadmap items.
 
 ## [0.1.0-alpha.8](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.8) - 2026-11-10
 
