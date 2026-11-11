@@ -6,6 +6,8 @@ Build locally with **SDK → CLI/tools → skill**. The skill guides modeling de
 
 These guides target **@coloopx/colocad 0.1.0-alpha.8**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
 
+For the alpha.9 development branch, see [indexed sessions, history pagination and migration](indexed-sessions.md).
+
 [中文开发指南](README.zh-CN.md)
 
 | Your task | Start here |

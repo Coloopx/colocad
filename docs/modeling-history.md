@@ -1,5 +1,7 @@
 # Modeling history: CLI first
 
+For the alpha.9 development checkout, see [indexed sessions and migration](indexed-sessions.md).
+
 Added in alpha.4. In a source checkout, use `node bin/colocad.mjs` in place of `colocad` below. The package entry points are `/session` for the recorder and `/viewer` for the browser component.
 
 ```sh

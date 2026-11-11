@@ -2,7 +2,7 @@
 
 2026-11-11 · Target: **0.1.0-alpha.9 (planned)** · [完整中文规格](0006-bounded-memory-persistence.zh-CN.md).
 
-Tracking: [issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 milestone](https://github.com/Coloopx/colocad/milestone/1). M0 is complete in the [quantitative report](../docs/memory-persistence-report.md); M1–M5 remain pending production work.
+Tracking: [issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 milestone](https://github.com/Coloopx/colocad/milestone/1). M0 is complete in the [quantitative report](../docs/memory-persistence-report.md); The development branch implements the M1 catalog and session migration through the SDK and CLI. [M1 checks](../benchmarks/session-catalog/README.md) · [usage](../docs/indexed-sessions.md). Geometry spill, streamed STEP, viewer paging and release follow in M2–M5.
 
 Agent, harness, SDK and the local Rust executor remain in the same sandbox. There is no new remote worker architecture. The investigation compares alpha.8 with pinned CadQuery/build123d, including Colocad's own limits, failures and scaling. The Python persistence code in `benchmarks/memory` is an experimental control, not a new production dependency.
 
@@ -10,7 +10,7 @@ Agent, harness, SDK and the local Rust executor remain in the same sandbox. Ther
 
 Let N be occurrences, D distinct definitions, H history events, Gᵢ each exact definition's size, and W the live dependency frontier. The intended memory bound is runtime/agent overhead + geometry(W) + operation temporaries + fixed index/IO/preview caches + charged file cache. Indexed lookup is O(log N) or O(log H) with a bounded page cache. Disk remains O(ΣGᵢ + N + H); whole-model export must process its output bytes. Arbitrary global Booleans on a large single body cannot promise O(log N) total resident space.
 
-The current executor consumes intermediate bodies at last use and shares repeated definitions. It still accumulates final assembly definitions, neutral exchange structures, STEP strings and query artifacts. Local checkpoint/query byte limits are not process limits. `ModelingSession` reads and rewrites the full ledger: O(H) work/space per append and O(H²) cumulative metadata IO. Offline HTML bundles collect all display data. Object counts are not proof of allocator or kernel-arena reclamation.
+The alpha.8 executor consumes intermediate bodies at last use and shares repeated definitions. It still accumulates final assembly definitions, neutral exchange structures, STEP strings and query artifacts. Local checkpoint/query byte limits are not process limits. `ModelingSession` reads and rewrites the full ledger: O(H) work/space per append and O(H²) cumulative metadata IO. Offline HTML bundles collect all display data. Object counts are not proof of allocator or kernel-arena reclamation.
 
 ## Planned architecture
 

@@ -1,6 +1,8 @@
 """Independent readback of actual live-agent session outputs, not model claims."""
 from pathlib import Path
 import sys,json,hashlib,math
+sys.path.insert(0, str(Path(__file__).resolve().parents[3]/'examples'))
+from session_steps import session_steps
 from OCP.STEPControl import STEPControl_Reader
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
@@ -14,7 +16,7 @@ from OCP.BRepAdaptor import BRepAdaptor_Curve
 from OCP.GeomAbs import GeomAbs_Circle
 from OCP.BRepExtrema import BRepExtrema_DistShapeShape
 from OCP.BRepAlgoAPI import BRepAlgoAPI_Common
-root=Path(sys.argv[1]);summary=json.loads((root/'summary.json').read_text());assert summary['passed'];session=root/'session';ledger=json.loads((session/'session.json').read_text());steps=[s for s in ledger['steps'] if s['status']=='succeeded' and s['operation'] not in ['query','observe']];assert len(steps)==2
+root=Path(sys.argv[1]);summary=json.loads((root/'summary.json').read_text());assert summary['passed'];session=root/'session';steps=[s for s in session_steps(session) if s['status']=='succeeded' and s['operation'] not in ['query','observe']];assert len(steps)==2
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def items(shape,kind):
  result=[];e=TopExp_Explorer(shape,kind)

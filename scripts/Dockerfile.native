@@ -1,5 +1,5 @@
 # Use a minimal context containing Cargo.toml, Cargo.lock, crates/ and third_party/.
-FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS builder
+FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS sources
 ARG TARGETARCH
 WORKDIR /src
 COPY third_party/solidcore-source.tar.gz /tmp/solidcore.tar.gz
@@ -8,6 +8,13 @@ COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds
 # must not unpack or overwrite the same Cargo cache entries.
+FROM sources AS catalog-builder
+RUN --mount=type=cache,id=colocad-registry-${TARGETARCH},target=/usr/local/cargo/registry,sharing=locked --mount=type=cache,id=colocad-target-${TARGETARCH},target=/src/target,sharing=locked cargo build --release --locked -p colocad-catalog && cp target/release/colocad-catalog /colocad-catalog
+FROM scratch AS catalog
+COPY --from=catalog-builder /colocad-catalog /colocad-catalog
+
+FROM sources AS builder
 RUN --mount=type=cache,id=colocad-registry-${TARGETARCH},target=/usr/local/cargo/registry,sharing=locked --mount=type=cache,id=colocad-target-${TARGETARCH},target=/src/target,sharing=locked cargo build --release --locked -p agent-cad && cp target/release/agent-cad /agent-cad
 FROM scratch
 COPY --from=builder /agent-cad /agent-cad
+COPY --from=catalog-builder /colocad-catalog /colocad-catalog

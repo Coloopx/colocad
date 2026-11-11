@@ -4,6 +4,8 @@ Notable user-facing changes are recorded here. Colocad remains alpha software; s
 
 ## Unreleased — alpha.9 investigation
 
+- Implement a Rust SQLite session catalog, paged CLI/SDK history, streaming migration of alpha.8 sessions and interrupted-write recovery. [Usage](docs/indexed-sessions.md) · [M1 evidence](benchmarks/session-catalog/README.md).
+
 - Add reproducible three-backend memory scaling and extreme-limit experiments, raw OOM/timeout/policy outcomes, indexed-history and chunked-project prototypes, and validation/persistence controls. [Report](docs/memory-persistence-report.md) / [中文](docs/memory-persistence-report.zh-CN.md).
 - Scope bounded-memory persistence in bilingual [SDD 0006](specs/0006-bounded-memory-persistence.md), update ROADMAP and tuning guidance, and distinguish resident working sets from total geometry/disk complexity.
 - These are experimental scripts and next-version acceptance criteria. The published SDK/native remains alpha.8; catalog migration, paged large-model APIs and single-STEP streaming are not yet production features.

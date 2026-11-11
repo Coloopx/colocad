@@ -54,6 +54,7 @@
     "NOTICE.md",
     "skills/colocad",
     "kernel/release.json",
+    "kernel/catalog.json",
     "scripts/check-release.mjs",
     "README.zh-CN.md",
     "viewer/dist",

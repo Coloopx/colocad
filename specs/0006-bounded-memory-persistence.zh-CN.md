@@ -2,7 +2,7 @@
 
 日期：2026-11-11。目标版本：**0.1.0-alpha.9（计划）**。本规格不代表版本已发布或生产迁移已完成。
 
-立项：[issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 milestone](https://github.com/Coloopx/colocad/milestone/1)。M0 已完成，见[量化报告](../docs/memory-persistence-report.zh-CN.md)；M1–M5 尚待生产实现与验收。[English](0006-bounded-memory-persistence.md)。
+立项：[issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 milestone](https://github.com/Coloopx/colocad/milestone/1)。M0 已完成，见[量化报告](../docs/memory-persistence-report.zh-CN.md)；开发分支已将 M1 的 Rust 索引、旧账本迁移和分页接到 SDK 与 CLI。[M1 验收](../benchmarks/session-catalog/README.md) · [使用说明](../docs/indexed-sessions.zh-CN.md)。几何落盘、流式 STEP、查看器分页和发布属于 M2–M5。[English](0006-bounded-memory-persistence.md)。
 
 ## 问题与目标
 
@@ -16,7 +16,7 @@
 
 对不可进一步共享或压缩的一般记录，磁盘下界为 Ω(ΣGᵢ + N + H)；读取或导出全部几何至少要处理对应总字节。单个布尔/圆角的最小工作集若超过预算，应在可预测时拒绝并给出诊断；分块装配不能解决任意单实体的大型全局几何运算。
 
-## 当前实现与风险
+## alpha.8 基线与风险
 
 - Rust 按最后使用次数转移/释放中间 B-rep；共享实例复用定义。`peak_live_feature_bodies` 只是对象计数，不能证明内核 arena、分配器或 RSS 已回收。
 - 装配仍累积全部最终定义和交换表示；STEP writer 累积记录字符串再生成整份文本；查询快照与返回产物也集中在内存中。

@@ -10,5 +10,5 @@ for(const stage of stages){
  if(!result.ok)throw Error(JSON.stringify(result.error));
 }
 const model=kk60();await writeFile(join(directory,'model.json'),JSON.stringify(model,null,2)+'\n');
-const last=(await session.read()).steps.at(-1);await copyFile(join(session.root,last.artifactDirectory,'model.step'),join(directory,'hiwin-kk60.step'));
+const last=await session.latestGeometry();await copyFile(join(session.root,last.artifactDirectory,'model.step'),join(directory,'hiwin-kk60.step'));
 console.log(JSON.stringify({directory,features:model.features.length,instances:model.assembly.length}));

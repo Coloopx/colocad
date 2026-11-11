@@ -15,9 +15,13 @@ export type SessionConfig = Omit<Config, 'outputRoot'>;
 export type RecordedReceipt = Receipt & { session_step: string };
 export class ModelingSession {
   readonly root: string;
-  static create(directory: string, options?: SessionConfig & {title?: string}): Promise<ModelingSession>;
+  constructor(directory: string, config?: SessionConfig);
+  static create(directory: string, options?: SessionConfig & {title?: string; storage?: 'indexed'|'json'}): Promise<ModelingSession>;
   static open(directory: string, options?: SessionConfig): Promise<ModelingSession>;
+  static migrate(directory: string): Promise<{migrated: boolean; steps: number; backup?: string}>;
   read(): Promise<SessionLedger>;
+  latestGeometry(): Promise<SessionStep | undefined>;
+  history(options?: {after?: number; limit?: number}): Promise<{steps: SessionStep[]; nextCursor: number | null}>;
   source(): Promise<Model>;
   build(model: Model, metadata?: StepMetadata): Promise<RecordedReceipt>;
   edit(parameters: Record<string, number>, metadata?: StepMetadata): Promise<RecordedReceipt>;

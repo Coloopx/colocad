@@ -4,6 +4,8 @@ Requires cadquery-ocp; it is a development verifier, not a runtime dependency.
 """
 import json,math,sys,hashlib
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from session_steps import session_steps
 from OCP.STEPControl import STEPControl_Reader
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
@@ -13,8 +15,8 @@ from OCP.TopExp import TopExp_Explorer
 from OCP.TopoDS import TopoDS
 from OCP.BRepClass3d import BRepClass3d_SolidClassifier
 from OCP.gp import gp_Pnt
-root=Path(sys.argv[1]);ledger=json.loads((root/'session.json').read_text());results=[]
-for entry in ledger['steps']:
+root=Path(sys.argv[1]);results=[]
+for entry in session_steps(root):
     if entry['status']!='succeeded' or entry['operation']=='observe':continue
     directory=root/entry['artifactDirectory'];path=directory/'model.step';receipt=json.loads((root/entry['receiptFile']).read_text())['data']
     digest=hashlib.sha256(path.read_bytes()).hexdigest();assert digest==receipt['artifact_sha256']['model.step']

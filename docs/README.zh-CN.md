@@ -34,6 +34,8 @@ node node_modules/@coloopx/colocad/skills/colocad/scripts/build.mjs \
 
 ## 接入哪个 harness
 
+alpha.9 开发分支已接入 Rust 会话索引，支持旧项目迁移与历史分页。[使用说明](indexed-sessions.zh-CN.md) · [验收数据](../benchmarks/session-catalog/README.md)。
+
 | 环境 | 推荐方式 | 安装位置 / 调用 |
 | --- | --- | --- |
 | Codex | 完整 skill + 自带终端和图像工具 | 项目 `.agents/skills/colocad`；`$colocad` |

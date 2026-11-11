@@ -6,10 +6,28 @@ import { startViewer, parseViewOptions } from "../src/view-server.mjs";
 import { renderSession, parseRenderOptions } from "../src/render.mjs";
 import { writeSolidWorks } from "../src/solidworks.mjs";
 const [cmd, input, output, ...flags] = process.argv.slice(2);
-const help = "colocad query REVISION_DIR REQUEST.json [--out NEW_RECEIPT.json]\n"+
+const help = "colocad migrate SESSION_DIRECTORY\ncolocad history SESSION_DIRECTORY [--after CURSOR --limit COUNT | --all]\n"+
+  "colocad query REVISION_DIR REQUEST.json [--out NEW_RECEIPT.json]\n"+
   "colocad build TREE.json NEW_DIRECTORY [--preview] [--queryable]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT] [--queryable]\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad view SESSION_DIRECTORY [--no-open] [--port PORT] [--export OUTPUT.html] [--cutaway] [--view iso|front|side|top]\ncolocad render SESSION_DIRECTORY OUTPUT.mp4|OUTPUT.gif [--width N] [--height N] [--fps N] [--seconds-per-step N]\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT";
 try {
   if (cmd === "--help" || cmd === "-h" || !cmd) console.log(help);
+  else if(cmd==='migrate' && input && !output) {
+    console.log(JSON.stringify(await ModelingSession.migrate(input)));
+  }
+  else if(cmd==='history' && input) {
+    const session=new ModelingSession(input);
+    const args=process.argv.slice(4);
+    if(args.length===1 && args[0]==='--all') console.log(JSON.stringify(await session.read()));
+    else {
+      const options={};
+      for(let i=0;i<args.length;i+=2) {
+        const key={'--after':'after','--limit':'limit'}[args[i]];
+        if(!key || Object.hasOwn(options,key) || !/^\d+$/.test(args[i+1]??'')) throw Error(help);
+        options[key]=Number(args[i+1]);
+      }
+      console.log(JSON.stringify(await session.history(options)));
+    }
+  }
   else if(cmd==='query'&&input&&output&&(flags.length===0||(flags.length===2&&flags[0]==='--out'))){
     const bytes=await readFile(output);if(bytes.length>2*1024*1024)throw Error('Query input exceeds 2 MiB');
     const client=new CadClient({outputRoot:input,queryRoots:[input],wallMs:120000});

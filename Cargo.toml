@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/agent-cad"]
+members = ["crates/agent-cad", "crates/session-catalog"]
 exclude = ["vendor/solidcore"]
 resolver = "2"
 
