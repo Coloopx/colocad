@@ -1,0 +1,266 @@
+--- a/crates/solidcore/src/kernel.rs
++++ b/crates/solidcore/src/kernel.rs
+@@ -134,9 +134,23 @@
+ /// speed.
+ #[derive(Debug, Default)]
+ #[non_exhaustive]
+-pub struct Caches {}
++pub struct Caches {
++    pub(crate) validation_properties:
++        RefCell<crate::nurbs::b_spline_curve::p3::ValidationPropertyMemo>,
++}
+ 
+ impl Caches {
++    /// Opt into bounded, bit-exact reuse of pure spline property solves during validation.
++    pub fn enable_validation_property_memo(&mut self) {
++        self.validation_properties.get_mut().enabled = true;
++    }
++
++    /// Number of exact cache hits and eligible misses for this kernel.
++    pub fn validation_property_counts(&self) -> (usize, usize, usize) {
++        let memo = self.validation_properties.borrow();
++        (memo.hits, memo.misses, memo.certified)
++    }
++
+     /// Drops all cached data.
+     pub fn clear(&mut self) {
+         *self = Self::default();
+--- a/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
++++ b/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
+@@ -254,6 +254,160 @@
+     }
+ }
+ 
++/// Only successful output of a pure, unowned BSpline property solver is shared.
++/// The entire key is compared after hashing. Bound input and output sizes as well
++/// as entry count, independently of how many definitions the assembly contains.
++#[derive(Debug, Default)]
++pub(crate) struct ValidationPropertyMemo {
++    pub(crate) enabled: bool,
++    pub(crate) hits: usize,
++    pub(crate) misses: usize,
++    pub(crate) certified: usize,
++    bytes: usize,
++    policy: Option<crate::curve::curve::p5::CurveMemoKey>,
++    values: std::collections::HashMap<Vec<u64>, Vec<SolutionEnd>>,
++}
++
++fn property_key(
++    k: &Kernel,
++    curve: &BSplineCurve,
++    domain: &Extent1d,
++    property: CurveProperty,
++    sep: f64,
++) -> Option<Vec<u64>> {
++    if !k.caches.validation_properties.borrow().enabled || k.cancel.is_some() {
++        return None;
++    }
++    let policy = crate::curve::curve::p5::CurveMemoKey::of_kernel(k)?;
++    let n = curve.nurb.as_ref()?;
++    let pts = n.cpts();
++    let knots = n.knots();
++    if pts.len() > 256 || knots.len() > 512 || pts.len() != n.n() + 1 || knots.len() != n.m() + 1 {
++        return None;
++    }
++    let mut key = Vec::with_capacity(12 + pts.len() * 4 + knots.len());
++    key.extend([
++        property as u64,
++        domain.min().to_bits(),
++        domain.max().to_bits(),
++        sep.to_bits(),
++        curve.dim,
++        curve.knot_type as u64,
++        curve.form as u64,
++        curve.out_of_bounds_enabled as u64,
++        curve.nurb_is_borrowed as u64,
++        n.degree() as u64,
++        pts.len() as u64,
++        knots.len() as u64,
++    ]);
++    key.extend(knots.iter().map(|v| v.to_bits()));
++    for p in pts {
++        key.extend([p.x.to_bits(), p.y.to_bits(), p.z.to_bits(), p.w.to_bits()]);
++    }
++    let mut memo = k.caches.validation_properties.borrow_mut();
++    if memo.policy != Some(policy) {
++        memo.values.clear();
++        memo.bytes = 0;
++        memo.policy = Some(policy);
++    }
++    Some(key)
++}
++
++// Bounds for a clamped chain of well-conditioned rational quadratic Bézier spans.
++// C'(u)=D(u)/W(u)^2 on the unit span. D is quadratic with the three poles below.
++// A projection bounded away from zero bounds speed from below. Since
++// C''=D'/W²-2DW'/W³, an upper bound for acceleration gives R >= |C'|²/|C''|.
++// At knots these are one-sided bounds. Knot continuity and kink checks still run.
++fn quadratic_regularity(curve: &BSplineCurve, domain: &Extent1d) -> Option<(f64, f64)> {
++    let n = curve.nurb.as_ref()?;
++    let pts = n.cpts();
++    let knots = n.knots();
++    if n.degree() != 2
++        || !matches!(curve.dim, 2 | 3)
++        || !n.is_rational()
++        || pts.len() < 3
++        || pts.len() > 129
++        || pts.len() % 2 != 1
++        || knots.len() != pts.len() + 3
++        || !knots.iter().all(|x| x.is_finite())
++        || knots[..3] != [domain.min(); 3]
++        || knots[pts.len()..] != [domain.max(); 3]
++    {
++        return None;
++    }
++    let mut speed = f64::INFINITY;
++    let mut radius = f64::INFINITY;
++    for i in (0..pts.len() - 2).step_by(2) {
++        let dt = knots[i + 3] - knots[i + 2];
++        if knots[i + 3] != knots[i + 4]
++            || !(dt > 1e-9 * (1. + domain.min().abs().max(domain.max().abs())) && dt < 1e8)
++        {
++            return None;
++        }
++        let a = pts[i];
++        let b = pts[i + 1];
++        let c = pts[i + 2];
++        let weights = [a.w, b.w, c.w];
++        if !weights.iter().all(|w| (0.25..=4.).contains(w)) {
++            return None;
++        }
++        let wmin = a.w.min(b.w).min(c.w);
++        let wmax = a.w.max(b.w).max(c.w);
++        let (pa, pb, pc) = (a.to_euclid(), b.to_euclid(), c.to_euclid());
++        let mut scale = 1.0_f64;
++        for p in [pa, pb, pc] {
++            for x in [p.x, p.y, p.z] {
++                if !x.is_finite() || x.abs() > 1e7 {
++                    return None;
++                }
++                scale = scale.max(x.abs());
++            }
++        }
++        let chord = pc - pa;
++        let sign = |x: f64| {
++            if x > 0. {
++                1.
++            } else if x < 0. {
++                -1.
++            } else {
++                0.
++            }
++        };
++        let direction = Vec3::new(sign(chord.x), sign(chord.y), sign(chord.z));
++        let d = [
++            (pb - pa) * (2. * a.w * b.w),
++            chord * (a.w * c.w),
++            (pc - pb) * (2. * b.w * c.w),
++        ];
++        let guard = 4096. * f64::EPSILON * scale * wmax.max(1.).powi(2);
++        let projected = d
++            .iter()
++            .map(|p| p.dot(direction))
++            .fold(f64::INFINITY, f64::min)
++            - guard;
++        if !(projected.is_finite() && projected > 0.) {
++            return None;
++        }
++        // |direction| <= sqrt(3). Extra factors make the inequalities conservative.
++        let velocity = projected / (2. * wmax * wmax);
++        let magnitude = d
++            .iter()
++            .map(|v| v.x.abs() + v.y.abs() + v.z.abs())
++            .fold(0., f64::max)
++            + guard;
++        // Derivatives of the two quadratic Bernstein polynomials are linear.
++        // Bound them by their actual derivative poles, including roundoff.
++        let l1 = |v: Vec3| v.x.abs() + v.y.abs() + v.z.abs();
++        let dprime = 2. * l1(d[1] - d[0]).max(l1(d[2] - d[1])) + 4. * guard;
++        let wprime = 2. * (b.w - a.w).abs().max((c.w - b.w).abs()) + 64. * f64::EPSILON * wmax;
++        let acceleration =
++            1.5 * (dprime / (wmin * wmin) + 2. * magnitude * wprime / (wmin * wmin * wmin));
++        speed = speed.min(velocity / dt);
++        radius = radius.min(velocity * velocity / acceleration);
++    }
++    (speed.is_finite() && radius.is_finite()).then_some((speed, radius))
++}
++
+ /// `SmCurve::GlobalPropertyAnalysis` of `curve` over `domain` (no extra arguments) with
+ /// minimum separation `min_sep`: whether the call returned `SM_SUCCESS` and the
+ /// solutions' start ends (including any partial solutions found before a failure, as
+@@ -266,6 +420,15 @@
+     property: CurveProperty,
+     min_sep: f64,
+ ) -> Result<(bool, Vec<SolutionEnd>)> {
++    let memo_key = property_key(k, curve, domain, property, min_sep);
++    if let Some(key) = &memo_key {
++        let mut memo = k.caches.validation_properties.borrow_mut();
++        if let Some(values) = memo.values.get(key).cloned() {
++            memo.hits += 1;
++            return Ok((true, values));
++        }
++        memo.misses += 1;
++    }
+     let property = match property {
+         CurveProperty::MinimizeFirstDerivative => CurvePropertyType::MinimizeFirstDerivative,
+         CurveProperty::MinimizeRadiusOfCurvature => CurvePropertyType::MinimizeRadiusOfCurvature,
+@@ -280,7 +443,17 @@
+     let ok =
+         ignored(crv.global_property_analysis_into(k, domain, property, min_sep, &opts, &mut out))?
+             .is_some();
+-    let sols = out.solutions.as_slice().iter().map(|s| s.start).collect();
++    let sols: Vec<_> = out.solutions.as_slice().iter().map(|s| s.start).collect();
++    if let Some(key) = memo_key.filter(|_| ok && sols.len() <= 16) {
++        let mut memo = k.caches.validation_properties.borrow_mut();
++        let bytes = key.capacity() * 8 + sols.len() * size_of::<SolutionEnd>();
++        if memo.values.len() >= 512 || memo.bytes + bytes > 1_048_576 {
++            memo.values.clear();
++            memo.bytes = 0;
++        }
++        memo.bytes += bytes;
++        memo.values.insert(key, sols.clone());
++    }
+     Ok((ok, sols))
+ }
+ 
+@@ -1688,7 +1861,18 @@
+                 5.0
+             };
+ 
+-            let solutions = if sized {
++            let regularity = if sized
++                && k.caches.validation_properties.borrow().enabled
++                && k.cancel.is_none()
++                && !k.fixes.query_statuses_pass_on
++            {
++                quadratic_regularity(self, &domain)
++            } else {
++                None
++            };
++            let speed_proven = regularity
++                .is_some_and(|(speed, _)| tol.is_finite() && tol >= 0. && speed > 8. * tol);
++            let solutions = if sized && !speed_proven {
+                 let (first_derivs_ok, sols) = global_property_analysis(
+                     k,
+                     self,
+@@ -1792,7 +1976,19 @@
+ 
+             // Another type of kink check: vanishing radius of curvature.
+             let mut radii = false;
+-            let solutions = if radius_sized {
++            let radius_proven = regularity.is_some_and(|(_, radius)| {
++                radius_tol.is_finite() && radius_tol >= 0. && radius > 8. * radius_tol
++            });
++            let solutions = if speed_proven
++                && radius_proven
++                && mapped.is_none()
++                && radius_sized
++                && !k.fixes.curve_check_zero_speed_tangent_end
++            {
++                k.caches.validation_properties.borrow_mut().certified += 1;
++                radii = true;
++                Vec::new()
++            } else if radius_sized {
+                 let (radii_ok, sols) = global_property_analysis(
+                     k,
+                     copy_curve,

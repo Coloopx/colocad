@@ -30,24 +30,31 @@ async function treeHash(dir){
  }
  await walk(dir);return hash.digest('hex');
 }
-const patch=lock.patch, patchFile=join(root,patch.path);
 const hashFile=async path=>createHash('sha256').update(await readFile(path)).digest('hex');
-if(await hashFile(patchFile)!==patch.sha256)throw Error('solidcore patch checksum mismatch');
-async function patchTree(directory){
- const target=join(directory,patch.target);
- if(await hashFile(target)!==patch.before)throw Error('unexpected upstream source for patch');
- const result=spawnSync('patch',['-s','-p1','-i',patchFile],{cwd:directory,stdio:'inherit'});
- if(result.status!==0||await hashFile(target)!==patch.after)throw Error('solidcore patch did not reproduce the pinned source');
+const patches=[{...lock.patch,targets:[lock.patch]},...(lock.additional_patches??[])];
+for(const patch of patches){
+ if(await hashFile(join(root,patch.path))!==patch.sha256)throw Error('solidcore patch checksum mismatch: '+patch.path);
 }
+async function patchTree(directory){
+ for(const patch of patches){
+  const hashes=await Promise.all(patch.targets.map(t=>hashFile(join(directory,t.target))));
+  if(hashes.every((hash,i)=>hash===patch.targets[i].after))continue;
+  if(!hashes.every((hash,i)=>hash===patch.targets[i].before))throw Error('unexpected source for '+patch.path);
+  const result=spawnSync('patch',['-s','-p1','-i',join(root,patch.path)],{cwd:directory,stdio:'inherit'});
+  if(result.status!==0)throw Error('applying patch failed: '+patch.path);
+  for(const t of patch.targets)if(await hashFile(join(directory,t.target))!==t.after)throw Error('incorrect patched file: '+t.target);
+ }
+}
+const patchSet=patches.map(p=>p.sha256);
 let exists=true;try{await access(destination);}catch{exists=false;}
 const manifestPath=join(root,'vendor/solidcore.manifest.json');
 if(exists){
  const saved=JSON.parse(await readFile(manifestPath,'utf8'));
  if(saved.archive_sha256!==digest||saved.tree_sha256!==await treeHash(destination))throw Error('vendor tree differs from its verified archive; use a clean vendor directory');
- if(saved.patch_sha256!==patch.sha256){
-  await patchTree(destination);
-  await writeFile(manifestPath,JSON.stringify({...saved,patch_sha256:patch.sha256,tree_sha256:await treeHash(destination)},null,2)+'\n');
- }else if(await hashFile(join(destination,patch.target))!==patch.after)throw Error('unexpected patched source');
+ await patchTree(destination);
+ if(JSON.stringify(saved.patch_sha256)!==JSON.stringify(patchSet)){
+  await writeFile(manifestPath,JSON.stringify({...saved,patch_sha256:patchSet,tree_sha256:await treeHash(destination)},null,2)+'\n');
+ }
  console.log('solidcore: verified source and patch');
 }else{
  const stage=join(root,'vendor',`.solidcore-${process.pid}`);await mkdir(stage,{recursive:true});
@@ -56,7 +63,7 @@ if(exists){
   if(result.status!==0)throw Error('extracting solidcore failed');
   await patchTree(stage);
   const tree_sha256=await treeHash(stage);await rename(stage,destination);
-  await writeFile(manifestPath,JSON.stringify({revision:lock.revision,archive_sha256:digest,patch_sha256:patch.sha256,tree_sha256},null,2)+'\n');
+  await writeFile(manifestPath,JSON.stringify({revision:lock.revision,archive_sha256:digest,patch_sha256:patchSet,tree_sha256},null,2)+'\n');
  }catch(error){await rm(stage,{recursive:true,force:true});throw error;}
  console.log('solidcore: extracted and verified pinned source');
 }

@@ -310,8 +310,21 @@ struct MeasuredPart {
     warnings: usize,
 }
 
+#[derive(Default)]
+struct InspectionTimes {
+    level1_ms: f64,
+    mass_ms: f64,
+    bounds_ms: f64,
+}
+
 impl MeasuredPart {
-    fn inspect(k: &mut Kernel, b: &mut Brep, id: &str) -> Result<Self> {
+    fn inspect(
+        k: &mut Kernel,
+        b: &mut Brep,
+        id: &str,
+        times: &mut InspectionTimes,
+    ) -> Result<Self> {
+        let t = Instant::now();
         let check = check_brep(k, b, CheckLevel::Level1)?;
         if !check.is_valid() || !brep_is_manifold_solid(b)? {
             return Err(CadError::new(
@@ -319,12 +332,17 @@ impl MeasuredPart {
                 format!("instance {}: {}", id, check.lines().join("; ")),
             ));
         }
+        times.level1_ms += t.elapsed().as_secs_f64() * 1000.;
+        let t = Instant::now();
         let v = volume(k, b)?;
+        times.mass_ms += t.elapsed().as_secs_f64() * 1000.;
         if !v.is_finite() || v <= 0. {
             return Err(CadError::new("INVALID_VOLUME", id));
         }
+        let t = Instant::now();
         let bb = brep_bounding_box(k, b, true)?;
         let (solids, _) = brep_material_census(b)?;
+        times.bounds_ms += t.elapsed().as_secs_f64() * 1000.;
         Ok(Self {
             bounds: [
                 std::array::from_fn(|i| bb.min_at(i)),
@@ -362,6 +380,9 @@ impl MeasuredPart {
 pub(crate) struct EarlyParts {
     eligible: BTreeMap<String, (usize, placement::Rigid)>,
     ready: BTreeMap<String, (MeasuredPart, Option<String>)>,
+    volume_oracles: BTreeMap<String, f64>,
+    checked_oracles: usize,
+    inspection_times: InspectionTimes,
     pub validation_ms: f64,
     pub export_ms: f64,
 }
@@ -393,6 +414,16 @@ impl EarlyParts {
         Ok(plan)
     }
 
+    // A terminal grid has no consumer between construction and exact inspection.
+    // Its tighter, placed mass integral also checks the independent stock oracle.
+    pub fn defer_volume_oracle(&mut self, id: &str, expected: f64) -> bool {
+        if !self.eligible.contains_key(id) {
+            return false;
+        }
+        self.volume_oracles.insert(id.to_owned(), expected);
+        true
+    }
+
     pub fn finish_feature(
         &mut self,
         k: &mut Kernel,
@@ -403,6 +434,7 @@ impl EarlyParts {
         let Some((idx, pose)) = self.eligible.remove(id) else {
             return Ok(());
         };
+        k.caches.enable_validation_property_memo();
         let part = &m.assembly[idx];
         let mut body = bodies
             .remove(id)
@@ -416,7 +448,14 @@ impl EarlyParts {
         self.export_ms += t.elapsed().as_secs_f64() * 1000.;
         let t = Instant::now();
         pose.apply(k, &mut body)?;
-        let measured = MeasuredPart::inspect(k, &mut body, &part.id)?;
+        let measured = MeasuredPart::inspect(k, &mut body, &part.id, &mut self.inspection_times)?;
+        if let Some(expected) = self.volume_oracles.remove(id) {
+            crate::executor::check_stock_volume(expected, measured.volume).map_err(|mut e| {
+                e.feature_id = Some(id.to_string());
+                e
+            })?;
+            self.checked_oracles += 1;
+        }
         self.validation_ms += t.elapsed().as_secs_f64() * 1000.;
         self.ready.insert(id.to_owned(), (measured, step));
         Ok(())
@@ -517,7 +556,8 @@ pub(crate) fn finish(
         } else {
             let mut body = take_body(k, source, bodies, uses)?;
             pose.apply(k, &mut body)?;
-            let part = MeasuredPart::inspect(k, &mut body, &instance.id)?;
+            let part =
+                MeasuredPart::inspect(k, &mut body, &instance.id, &mut early.inspection_times)?;
             if can_reuse {
                 measurements.insert(key, (pose.origin, part));
             } else {
@@ -729,7 +769,7 @@ pub(crate) fn finish(
     let (artifacts, preview_report) = preview::finish(k, m, display, cache)?;
     Ok(Build {
         artifacts,
-        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","measured_instances":m.assembly.len()-reused,"translated_instance_reuses":reused,"valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"early_released_definitions":early_count,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
+        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","measured_instances":m.assembly.len()-reused,"translated_instance_reuses":reused,"valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"early_released_definitions":early_count,"validation_property_solves":{"reused":k.caches.validation_property_counts().0,"computed_eligible":k.caches.validation_property_counts().1,"certified_regular_curves":k.caches.validation_property_counts().2},"terminal_stock_volume_checks":early.checked_oracles,"timing_ms":{"level1_and_manifold":early.inspection_times.level1_ms,"placed_volume":early.inspection_times.mass_ms,"bounds_and_census":early.inspection_times.bounds_ms,"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
         step,
     })
 }

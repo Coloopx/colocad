@@ -53,6 +53,16 @@ fn grid_stock_volume(model: &Model, feature: &Feature) -> Result<Option<f64>> {
     ))
 }
 
+pub(crate) fn check_stock_volume(expected: f64, actual: f64) -> Result<()> {
+    if !actual.is_finite() || (actual - expected).abs() > expected.abs() * 1e-6 + 1e-8 {
+        return Err(CadError::new(
+            "VOLUME_MISMATCH",
+            format!("grid expected {expected}, measured {actual} mm3"),
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn last_body_use(id: &str, uses: &mut BTreeMap<String, usize>) -> Result<bool> {
     let count = uses
         .get_mut(id)
@@ -159,6 +169,11 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
                 }
                 cached_trace["cache_hit"] = json!(true);
                 cached_trace["elapsed_ms"] = json!(tick.elapsed().as_secs_f64() * 1000.);
+                if matches!(f, Feature::HoleGrid { .. }) {
+                    if let Some(expected) = grid_stock_volume(model, f)? {
+                        early.defer_volume_oracle(f.id(), expected);
+                    }
+                }
                 trace.push(cached_trace);
                 bodies.insert(f.id().to_owned(), body);
                 peak_live_bodies = peak_live_bodies.max(bodies.len());
@@ -401,16 +416,13 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
                             }
                         }
                     }
-                    if let Some(expected) = expected_volume {
+                    if let Some(expected) =
+                        expected_volume.filter(|v| !early.defer_volume_oracle(f.id(), *v))
+                    {
                         let measure_start = Instant::now();
                         let actual = brep_volume_default(&k, &mut b, 1e-6)?;
                         measure_ms += measure_start.elapsed().as_secs_f64() * 1000.;
-                        if (actual - expected).abs() > expected.abs() * 1e-6 + 1e-8 {
-                            return Err(CadError::new(
-                                "VOLUME_MISMATCH",
-                                format!("grid expected {expected}, measured {actual} mm3"),
-                            ));
-                        }
+                        check_stock_volume(expected, actual)?;
                     }
                     b
                 }

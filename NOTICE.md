@@ -1,6 +1,6 @@
 # Notices
 
-Colocad and the included Agent CAD application code are distributed under the MIT license. The Rust application builds against SolidCore at revision bff1569a4c3347ed9af67faab71578cadf84fde2. SolidCore includes work derived from NVIDIA USD BRep / SMLib. The kernel's Apache-2.0 license, notices, attribution and licenses of Rust dependencies ship in `kernel/licenses`. Source provenance is also recorded in `third_party`. This source candidate applies the Colocad planar Face 37 containment prefilter in `third_party/patches/face37.patch`; its upstream source, patch, and resulting file are hash-pinned.
+Colocad and the included Agent CAD application code are distributed under the MIT license. The Rust application builds against SolidCore at revision bff1569a4c3347ed9af67faab71578cadf84fde2. SolidCore includes work derived from NVIDIA USD BRep / SMLib. The kernel's Apache-2.0 license, notices, attribution and licenses of Rust dependencies ship in `kernel/licenses`. Source provenance is also recorded in `third_party`. This source candidate applies Colocad changes for planar Face 37 containment and spline property analysis. The upstream sources, patches, and resulting files are hash-pinned in `third_party/solidcore.lock.json`.
 
 The session catalog executable uses rusqlite and bundled SQLite. Rust dependency licenses ship in `kernel/licenses`.
 

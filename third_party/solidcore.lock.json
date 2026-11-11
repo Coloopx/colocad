@@ -10,5 +10,23 @@
     "target": "crates/solidcore/src/topology/face/p4.rs",
     "before": "49f66a213b3380da6456f9416e26bce357547a0edab49fbc19ee3907fb44173e",
     "after": "6a98cd34469c4649551638dcbf1c0cf24c552f95025e41dba436d50df207360b"
-  }
+  },
+  "additional_patches": [
+    {
+      "path": "third_party/patches/validation-properties.patch",
+      "sha256": "52cd4d1abe53fc6e307e62bda61e37c61a9f4a8efd946eb957adadebb1d9b074",
+      "targets": [
+        {
+          "target": "crates/solidcore/src/kernel.rs",
+          "before": "0f46ccb8e23a0548ce3334fb0c93d7b9cc55306fc3a5441c8c1d92eb3bc3d26d",
+          "after": "9862a6b81c680d763e684639f0608c07945e40e59e0aa9e4013a70e3d9d1ad85"
+        },
+        {
+          "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
+          "before": "2efbdd8a7a49fe7e418bbfa011ad38522ef257b1c68986e0bc4b314650f6837e",
+          "after": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9"
+        }
+      ]
+    }
+  ]
 }
