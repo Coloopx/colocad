@@ -157,3 +157,31 @@ test('killing a streaming migration preserves v1 and retry discards the partial 
   assert.equal((await new ModelingSession(root).latestGeometry()).id,'s50000');
   await assert.rejects(stat(join(root,'.colocad-import.tmp')),{code:'ENOENT'});
 });
+
+test('compact inspections preserve exact replies, failures and independent extents after relocation',async t=>{
+  const root=await directory(t), project=join(root,'p');
+  let session=await ModelingSession.create(project);
+  const initial=await session.build(model,{queryable:true}), request=faces(initial.data.query_revision_id);
+  const first=await session.query(request), second=await session.query(request);
+  const failed=await session.query({...request,query_revision_id:'stale'});
+  assert.ok(first.ok && second.ok && !failed.ok);
+  const [,a,b,c]=(await session.history()).steps;
+  assert.equal(a.queryRequestFile,b.queryRequestFile);
+  assert.equal(a.receiptPack.file,b.receiptPack.file);
+  assert.equal(a.receiptPack.offset+a.receiptPack.length,b.receiptPack.offset);
+  const moved=join(root,'moved');await rename(project,moved);session=await ModelingSession.open(moved);
+  assert.deepEqual((await session.receipt(a)).data.timing_ms,first.data.timing_ms);
+  assert.deepEqual((await session.receipt(b)).data.results,second.data.results);
+  assert.deepEqual((await session.receipt(c)).error,failed.error);
+  // A crash after syncing an uncommitted member must not roll back or overwrite its neighbours.
+  const f=await open(join(moved,b.receiptPack.file),'a');await f.write(Buffer.from('uncommitted tail'));await f.sync();await f.close();
+  assert.ok((await session.query(request)).ok);
+  const d=(await session.history()).steps.at(-1);
+  assert.ok(d.receiptPack.offset>c.receiptPack.offset+c.receiptPack.length);
+  assert.ok((await session.receipt(d)).ok);
+  await assert.rejects(session.receipt({...a,receiptSha256:'0'.repeat(64)}),/SESSION_INTEGRITY/);
+  const handle=await open(join(moved,a.receiptPack.file),'r+');
+  await handle.write(Buffer.from([0]),0,1,a.receiptPack.offset);await handle.close();
+  await assert.rejects(session.receipt(a),/SESSION_INTEGRITY/);
+  assert.deepEqual((await session.receipt(b)).data.timing_ms,second.data.timing_ms);
+});

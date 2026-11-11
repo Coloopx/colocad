@@ -225,3 +225,28 @@ fn translated_links_reuse_measurement_and_rotated_links_keep_tight_bounds() {
     assert_eq!(b.report["validation"]["translated_instance_reuses"], 2);
     assert_eq!(b.step.matches("NEXT_ASSEMBLY_USAGE_OCCURRENCE(").count(), 4);
 }
+
+#[test]
+fn single_use_parts_release_early_with_identical_checked_instances_and_step() {
+    let model = m(json!({"version":1,"units":"mm","parameters":{},"features":[
+        {"id":"z","op":"box","origin":[0,0,0],"size":[3,7,2]},
+        {"id":"b","op":"box","origin":[0,0,0],"size":[4,5,6]},
+        {"id":"a","op":"box","origin":[2,1,0],"size":[8,2,4]}],
+        "assembly":[{"id":"shared","input":"b"},{"id":"first","input":"a","rotation_deg":[12,36,90]},
+                    {"id":"second","input":"z","translation":[10,20,30]},
+                    {"id":"copy","input":"b","translation":[0,50,0]}]}));
+    let streamed = build(&model).unwrap();
+    let retained =
+        agent_cad::build_revision_with_options(&model, &mut Default::default(), Some(true))
+            .unwrap();
+    assert_eq!(streamed.report["early_released_definitions"], 2);
+    assert_eq!(retained.report["early_released_definitions"], 0);
+    assert!(
+        streamed.report["peak_live_feature_bodies"].as_u64()
+            < retained.report["peak_live_feature_bodies"].as_u64()
+    );
+    assert_eq!(streamed.step, retained.step);
+    for key in ["geometry", "validation", "assembly"] {
+        assert_eq!(streamed.report[key], retained.report[key], "{key}");
+    }
+}

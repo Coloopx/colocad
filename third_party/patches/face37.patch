@@ -1,0 +1,82 @@
+--- a/crates/solidcore/src/topology/face/p4.rs
++++ b/crates/solidcore/src/topology/face/p4.rs
+@@ -2638,6 +2638,46 @@
+     Ok(None)
+ }
+ 
++// A positive-weight UV spline on its knot domain stays in the convex hull of
++// its Euclidean poles. For Face37 only Inside fails: a point strictly outside
++// this box cannot wind around the loop. Unknown trims use the original walk.
++fn nesting_hull(b: &Brep, l: LoopId) -> Option<[f64; 4]> {
++    use crate::curve::curve::p2::CurveKind;
++    let lu = b.loop_(l).ok()?.loopuse?;
++    let mut bounds = [
++        f64::INFINITY,
++        f64::INFINITY,
++        f64::NEG_INFINITY,
++        f64::NEG_INFINITY,
++    ];
++    for eu in eu1::loopuse_edgeuses(b, lu).ok()? {
++        let edge = b.edge(b.edgeuse(eu).ok()?.edge?).ok()?;
++        edge.curve.as_ref()?;
++        let trim = eu1::uv_trim_curve(b, eu).ok()?.0?;
++        let CurveKind::BSpline(curve) = trim.kind() else {
++            return None;
++        };
++        let domain = curve.natural_interval();
++        if !(edge.interval.min() >= domain.min() && edge.interval.max() <= domain.max()) {
++            return None;
++        }
++        let (poles, weights) = curve.control_polygon().ok()?;
++        if poles.is_empty() || !weights.iter().all(|w| w.is_finite() && *w > 0.) {
++            return None;
++        }
++        for p in poles {
++            if !(p.x.is_finite() && p.y.is_finite()) {
++                return None;
++            }
++            bounds[0] = bounds[0].min(p.x);
++            bounds[1] = bounds[1].min(p.y);
++            bounds[2] = bounds[2].max(p.x);
++            bounds[3] = bounds[3].max(p.y);
++        }
++    }
++    bounds.iter().all(|x| x.is_finite()).then_some(bounds)
++}
++
+ /// `sm_AssertTestFace37(pFace)` (`SmFace::AssertValid` test 37): whether every inner
+ /// loop of the face lies inside its outer loop (the first loop) and outside every other
+ /// inner loop, judged at one sample UV point per inner loop (`loop_sample_uv_point`)
+@@ -2670,6 +2710,12 @@
+     };
+ 
+     let zone_tol_3d = super::p2::tolerance(b, f)?;
++    // Only ordinary planar UV coordinates: no seam, pole or periodic equivalence.
++    let bounded = num_loops >= 4
++        && b.face(f)?.surface.as_ref().is_some_and(|s| {
++            matches!(s.kind(), crate::surface::surface::p2::SurfaceKind::Plane(_))
++        });
++    let mut hulls = vec![None; if bounded { num_loops } else { 0 }];
+ 
+     // for every InnerLoop
+     for (ii, &inner_loop) in loops.iter().enumerate().skip(1) {
+@@ -2694,6 +2740,19 @@
+         for (jj, &other) in loops.iter().enumerate().skip(1) {
+             if jj == ii {
+                 continue;
++            }
++            if bounded {
++                if let Some(h) = hulls[jj].get_or_insert_with(|| nesting_hull(b, other)) {
++                    let scale = h.iter().fold(1.0_f64, |a, x| a.max(x.abs()));
++                    let pad = uv_tol.abs().max(1e-8) + 128. * f64::EPSILON * scale;
++                    if sample_uv.x < h[0] - pad
++                        || sample_uv.x > h[2] + pad
++                        || sample_uv.y < h[1] - pad
++                        || sample_uv.y > h[3] + pad
++                    {
++                        continue;
++                    }
++                }
+             }
+             if contains_uv_point(k, b, other, None, sample_uv, uv_tol)?.containment
+                 == PointContainment::Inside

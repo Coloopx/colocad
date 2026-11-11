@@ -4,6 +4,10 @@ ARG TARGETARCH
 WORKDIR /src
 COPY third_party/solidcore-source.tar.gz /tmp/solidcore.tar.gz
 RUN echo "fd75dd9a3bbfe37e320a7d47f05a6a48566f8ffc93128eff92124b9259d812c0  /tmp/solidcore.tar.gz" | sha256sum -c - && mkdir -p vendor/solidcore && tar xzf /tmp/solidcore.tar.gz --strip-components=1 -C vendor/solidcore && rm /tmp/solidcore.tar.gz
+RUN apt-get update && apt-get install -y --no-install-recommends patch && rm -rf /var/lib/apt/lists/*
+COPY third_party/patches/face37.patch /tmp/face37.patch
+COPY third_party/solidcore.lock.json third_party/solidcore.lock.json
+RUN echo "1b4b3a591eeb0b95960f1b0afb511a3e32c95be1c188aad7c31fd275001cf284  /tmp/face37.patch" | sha256sum -c - && cd vendor/solidcore && patch -s -p1 < /tmp/face37.patch && echo "6a98cd34469c4649551638dcbf1c0cf24c552f95025e41dba436d50df207360b  crates/solidcore/src/topology/face/p4.rs" | sha256sum -c -
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds

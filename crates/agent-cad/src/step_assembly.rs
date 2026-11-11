@@ -132,7 +132,7 @@ impl Writer {
 }
 pub(crate) fn write(
     m: &Model,
-    defs: BTreeMap<String, step_import::model::Model>,
+    defs: BTreeMap<String, String>,
     solved: &BTreeMap<String, Rigid>,
 ) -> Result<String> {
     let group_poses = placement::groups(m)?;
@@ -142,9 +142,7 @@ pub(crate) fn write(
     };
     let mut definitions = BTreeMap::new();
     let mut shared = None;
-    for (name, body) in defs {
-        let text = write_solids(&body)?;
-        drop(body);
+    for (name, text) in defs {
         let parsed = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
         drop(text);
         let shift = w.count;

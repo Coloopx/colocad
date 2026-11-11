@@ -355,6 +355,74 @@ impl MeasuredPart {
     }
 }
 
+// A terminal definition used by exactly one occurrence has no consumers left
+// after its local STEP and exact placed measurements are ready. Keep only those
+// products; cross-part checks, mates, preview and query snapshots need live bodies.
+#[derive(Default)]
+pub(crate) struct EarlyParts {
+    eligible: BTreeMap<String, (usize, placement::Rigid)>,
+    ready: BTreeMap<String, (MeasuredPart, Option<String>)>,
+    pub validation_ms: f64,
+    pub export_ms: f64,
+}
+
+fn definition(body: &Brep) -> Result<String> {
+    step_assembly::write_solids(
+        &exchange::to_model(body).map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
+    )
+}
+
+impl EarlyParts {
+    pub fn plan(m: &Model, uses: &BTreeMap<String, usize>, queryable: bool) -> Result<Self> {
+        let mut plan = Self::default();
+        if m.assembly.len() < 2
+            || queryable
+            || m.preview.is_some()
+            || !m.checks.is_empty()
+            || m.mates.is_some()
+        {
+            return Ok(plan);
+        }
+        let groups = placement::groups(m)?;
+        for (idx, part) in m.assembly.iter().enumerate() {
+            if uses.get(&part.input) == Some(&1) {
+                let pose = placement::world(m, part, placement::PoseMode::Normal, &groups)?.0;
+                plan.eligible.insert(part.input.clone(), (idx, pose));
+            }
+        }
+        Ok(plan)
+    }
+
+    pub fn finish_feature(
+        &mut self,
+        k: &mut Kernel,
+        m: &Model,
+        id: &str,
+        bodies: &mut BTreeMap<String, Brep>,
+    ) -> Result<()> {
+        let Some((idx, pose)) = self.eligible.remove(id) else {
+            return Ok(());
+        };
+        let part = &m.assembly[idx];
+        let mut body = bodies
+            .remove(id)
+            .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))?;
+        let t = Instant::now();
+        let step = if part.export {
+            Some(definition(&body)?)
+        } else {
+            None
+        };
+        self.export_ms += t.elapsed().as_secs_f64() * 1000.;
+        let t = Instant::now();
+        pose.apply(k, &mut body)?;
+        let measured = MeasuredPart::inspect(k, &mut body, &part.id)?;
+        self.validation_ms += t.elapsed().as_secs_f64() * 1000.;
+        self.ready.insert(id.to_owned(), (measured, step));
+        Ok(())
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 pub(crate) fn finish(
     k: &mut Kernel,
@@ -363,6 +431,7 @@ pub(crate) fn finish(
     uses: &mut BTreeMap<String, usize>,
     trace: Vec<Value>,
     peak: usize,
+    mut early: EarlyParts,
     start: Instant,
     geometry_ms: f64,
     cache: &mut incremental::Checkpoints,
@@ -406,19 +475,17 @@ pub(crate) fn finish(
     let mut warnings = 0;
     let mut lo = [f64::INFINITY; 3];
     let mut hi = [f64::NEG_INFINITY; 3];
+    let early_count = early.ready.len();
     let p = &m.parameters;
     for instance in &m.assembly {
         let source = instance.input.as_str();
         let pose = solved[&instance.id];
-        if instance.export && !definitions.contains_key(source) {
+        let prepared = early.ready.remove(source);
+        if prepared.is_none() && instance.export && !definitions.contains_key(source) {
             let body = bodies
                 .get(source)
                 .ok_or_else(|| CadError::new("INVALID_REFERENCE", source))?;
-            definitions.insert(
-                instance.input.clone(),
-                exchange::to_model(body)
-                    .map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
-            );
+            definitions.insert(instance.input.clone(), definition(body)?);
         }
 
         // Translation preserves topology, mass and tight axis-aligned bounds. A different
@@ -435,7 +502,13 @@ pub(crate) fn finish(
             .and_then(|&(origin, part): &(Vec3, MeasuredPart)| {
                 part.translated(pose.origin - origin)
             });
-        let measured = if let Some(part) = previous {
+        let measured = if let Some((measured, local)) = prepared {
+            crate::executor::last_body_use(source, uses)?;
+            if let Some(text) = local {
+                definitions.insert(source.to_owned(), text);
+            }
+            measured
+        } else if let Some(part) = previous {
             if crate::executor::last_body_use(source, uses)? {
                 bodies.remove(source);
             }
@@ -629,10 +702,10 @@ pub(crate) fn finish(
             }
         }
     }
-    let validation_ms = tick.elapsed().as_secs_f64() * 1000.;
+    let validation_ms = early.validation_ms + tick.elapsed().as_secs_f64() * 1000.;
     let tick = Instant::now();
     let step = crate::step_assembly::write(m, definitions, &solved)?;
-    let export_ms = tick.elapsed().as_secs_f64() * 1000.;
+    let export_ms = early.export_ms + tick.elapsed().as_secs_f64() * 1000.;
     let mut display = Vec::new();
     if let Some(options) = &m.preview {
         for i in m.assembly.iter().filter(|i| i.export) {
@@ -656,7 +729,7 @@ pub(crate) fn finish(
     let (artifacts, preview_report) = preview::finish(k, m, display, cache)?;
     Ok(Build {
         artifacts,
-        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","measured_instances":m.assembly.len()-reused,"translated_instance_reuses":reused,"valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
+        report: json!({"preview":preview_report,"model_hash":model_hash(m),"executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"validation":{"level":"kernel_level_1_per_instance","measured_instances":m.assembly.len()-reused,"translated_instance_reuses":reused,"valid":true,"manifold":true,"warnings":warnings},"geometry":{"volume_mm3":total_volume,"volume_semantics":"sum_of_exported_instances","bbox_mm":[lo,hi],"faces":total_faces,"edges":total_edges,"solids":total_solids},"assembly":{"instances":instances,"checks":findings,"step_representation":"native_product_instance_tree","native_step_instance_tree":true,"groups":m.groups,"mate_solution":mate_report},"features":trace,"peak_live_feature_bodies":peak,"early_released_definitions":early_count,"timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},"step_bytes":step.len(),"editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}}),
         step,
     })
 }

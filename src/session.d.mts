@@ -4,7 +4,7 @@ export interface SessionStep {
   id: string; label: string; kind: string; operation: 'build'|'edit'|'observe'|'query';
   status: 'running'|'succeeded'|'failed'|'interrupted'; startedAt: string;
   finishedAt?: string; durationMs?: number; inputFile: string; inputSha256: string;
-  receiptFile?: string; receiptSha256?: string; artifactDirectory?: string;
+  receiptPack?: {file:string;offset:number;length:number}; receiptFile?: string; receiptSha256?: string; artifactDirectory?: string;
   geometry?: Record<string, unknown>; error?: { code: string; message: string };
   nativeTimingMs?: Record<string, unknown>; degradations?: Record<string, unknown>[];
   requestedParameters?: Record<string, number>;
@@ -16,10 +16,11 @@ export type RecordedReceipt = Receipt & { session_step: string };
 export class ModelingSession {
   readonly root: string;
   constructor(directory: string, config?: SessionConfig);
-  static create(directory: string, options?: SessionConfig & {title?: string; storage?: 'indexed'|'json'}): Promise<ModelingSession>;
+  static create(directory: string, options?: SessionConfig & {title?: string; storage?: 'compact'|'indexed'|'json'}): Promise<ModelingSession>;
   static open(directory: string, options?: SessionConfig): Promise<ModelingSession>;
   static migrate(directory: string): Promise<{migrated: boolean; steps: number; backup?: string}>;
   read(): Promise<SessionLedger>;
+  receipt(step: SessionStep): Promise<Receipt>;
   head(): Promise<{session_step: string; query_revision_id: string | null; geometry?: SessionStep['geometry']} | null>;
   latestGeometry(): Promise<SessionStep | undefined>;
   history(options?: {after?: number; limit?: number}): Promise<{steps: SessionStep[]; nextCursor: number | null}>;

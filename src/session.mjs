@@ -5,6 +5,8 @@ import { performance } from 'node:perf_hooks';
 import { catalogName, initializeCatalog, withCatalog, withLegacyWriter } from './session-catalog.mjs';
 import { CadClient, createCadTools } from './index.mjs';
 
+import {storeRequest,storeReceipt,readPacked} from './session-payload.mjs';
+
 const format='colocad/session/1';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const json=value=>JSON.stringify(value,null,2)+'\n';
@@ -60,7 +62,7 @@ async function syncArtifactTree(directory) {
 
 async function legacyStore(root,writable,callback) {
   const file=join(root,'session.json'), ledger=await load(file);
-  if(!writable && ledger.format==='colocad/session/2') return withCatalog(root,await catalogName(root),false,callback);
+  if(!writable && ['colocad/session/2','colocad/session/3'].includes(ledger.format)) return withCatalog(root,await catalogName(root),false,callback);
   if(ledger.format!==format || !Array.isArray(ledger.steps)) throw Error('SESSION_FORMAT: unsupported ledger');
   if(writable) {
     let changed=false;
@@ -82,15 +84,20 @@ async function legacyStore(root,writable,callback) {
 
 export class ModelingSession {
   constructor(root,config={}){this.root=resolve(root);this.config=config;this.cad=new CadClient({...config,outputRoot:join(this.root,'artifacts')});}
-  static async create(directory,{title='CAD modeling session',storage='indexed',...config}={}){
+  static async create(directory,{title='CAD modeling session',storage='compact',...config}={}){
     const s=new ModelingSession(directory,config);
-    if(!['indexed','json'].includes(storage)) throw Error('SESSION_FORMAT: unknown storage');
+    if(!['indexed','json','compact'].includes(storage)) throw Error('SESSION_FORMAT: unknown storage');
     await mkdir(s.root,{recursive:true});
     const file=join(s.root,'session.json');
     if(await stat(file).then(()=>true,e=>{if(e.code==='ENOENT')return false;throw e;}))
       throw Object.assign(Error('EEXIST: session already exists'),{code:'EEXIST'});
     const header={format,id:randomUUID(),title,createdAt:new Date().toISOString()};
-    if(storage==='indexed') await initializeCatalog(s.root,'init',header);
+    if(storage==='compact'){
+      // The catalog may reference this directory as soon as it is published.
+      await mkdir(join(s.root,'inspections'),{recursive:true});await syncPath(s.root);
+      header.queryReceipts='gzip-members/1';
+    }
+    if(storage!=='json') await initializeCatalog(s.root,'init',header);
     else await withLegacyWriter(s.root,()=>writeFile(file,json({...header,steps:[]}),{flag:'wx'}));
     return s;
   }
@@ -140,6 +147,10 @@ export class ModelingSession {
   }
   async source(){return this.withStore(false,store=>this.sourceFrom(store));}
   async latestGeometry(){return this.withStore(false,async store=>(await store.head())??undefined);}
+  async receipt(step) {
+    if(step.receiptPack)return readPacked(this.root,step.receiptPack,step.receiptSha256);
+    return JSON.parse(await checked(this.root,step.receiptFile,step.receiptSha256));
+  }
   async head() {
     return this.withStore(false,async store=>{
       const step=await store.head();
@@ -179,7 +190,9 @@ export class ModelingSession {
     } else if(operation!=='observe') {
       model.preview={view:'iso',chord_mm:.6,width:960,height:640,...model.preview};
     }
-    await mkdir(join(this.root,dir),{recursive:true});
+    const compact=operation==='query' && step.inputFile && (await store.header()).queryReceipts==='gzip-members/1';
+    if(compact)delete step.receiptFile;
+    if(!compact)await mkdir(join(this.root,dir),{recursive:true});
     if(!step.inputFile) {
       const bytes=json(model);
       step.inputFile=dir+'/input.json';
@@ -187,10 +200,8 @@ export class ModelingSession {
       await writeStepFile(join(this.root,step.inputFile),bytes);
     }
     if(requestedParameters)step.requestedParameters=requestedParameters;
-    if(queryRequest){const requestBytes=json(queryRequest);step.queryRequestFile=dir+'/query.json';step.queryRequestSha256=sha(requestBytes);await writeStepFile(join(this.root,step.queryRequestFile),requestBytes);}
-    await syncPath(join(this.root,dir));
-    await syncPath(join(this.root,'steps'));
-    await syncPath(this.root);
+    if(queryRequest){const requestBytes=json(queryRequest);step.queryRequestFile=dir+'/query.json';step.queryRequestSha256=sha(requestBytes);if(compact)step.queryRequestFile=await storeRequest(this.root,requestBytes,step.queryRequestSha256);else await writeStepFile(join(this.root,step.queryRequestFile),requestBytes);}
+    if(!compact){await syncPath(join(this.root,dir));await syncPath(join(this.root,'steps'));await syncPath(this.root);}
     await store.begin(step);
     const start=performance.now();let result;
     try{
@@ -218,7 +229,11 @@ export class ModelingSession {
       const directory=inside(this.root,step.artifactDirectory);
       await syncArtifactTree(directory);await syncPath(resolve(directory,'..'));await syncPath(this.root);
     }
-    await writeStepFile(join(this.root,step.receiptFile),receiptBytes);await syncPath(join(this.root,dir));
+    if(compact)step.receiptPack=await storeReceipt(this.root,id,receiptBytes);
+    if(!step.receiptPack){
+      if(compact){delete step.receiptPack;step.receiptFile=dir+'/receipt.json';await mkdir(join(this.root,dir),{recursive:true});await syncPath(join(this.root,'steps'));}
+      await writeStepFile(join(this.root,step.receiptFile),receiptBytes);await syncPath(join(this.root,dir));
+    }
     await store.finish(step);
     return {...result,session_step:id};
   }
@@ -247,14 +262,14 @@ export async function createSessionTools(session) {
 }
 
 export async function readSessionBundle(directory,{cutaway=false,view='iso'}={}){
-  const root=resolve(directory),ledger=await new ModelingSession(root).read();
+  const root=resolve(directory),session=new ModelingSession(root),ledger=await session.read();
   if(ledger.format!==format)throw Error('SESSION_FORMAT');
   const bundle={format:'colocad/viewer/1',title:ledger.title,id:ledger.id,createdAt:ledger.createdAt,display:{cutaway,view},steps:[],meshes:{}};
   const last=ledger.steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
   for(const entry of ledger.steps){
     const step={...entry};
     if(entry.inputFile)step.model=JSON.parse(await checked(root,entry.inputFile,entry.inputSha256));
-    if(entry.receiptFile&&entry.receiptSha256)step.receipt=JSON.parse(await checked(root,entry.receiptFile,entry.receiptSha256));
+    if((entry.receiptFile||entry.receiptPack)&&entry.receiptSha256)step.receipt=await session.receipt(entry);
     if(entry.queryRequestFile)step.queryRequest=JSON.parse(await checked(root,entry.queryRequestFile,entry.queryRequestSha256));
     if(entry.status==='succeeded'){
       const data=step.receipt.data,artifact=entry.artifactDirectory;inside(root,artifact);

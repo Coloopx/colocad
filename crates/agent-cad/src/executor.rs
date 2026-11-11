@@ -140,6 +140,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
             *uses.entry(part.input.clone()).or_default() += 1;
         }
     }
+    let mut early = assembly::EarlyParts::plan(model, &uses, queryable)?;
     let mut trace = vec![];
     let required_regions = regions::required(model);
     let mut region_map = BTreeMap::new();
@@ -161,6 +162,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
                 trace.push(cached_trace);
                 bodies.insert(f.id().to_owned(), body);
                 peak_live_bodies = peak_live_bodies.max(bodies.len());
+                early.finish_feature(&mut k, model, f.id(), &mut bodies)?;
                 continue;
             }
         }
@@ -481,9 +483,10 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
         }
         bodies.insert(f.id().to_string(), b);
         peak_live_bodies = peak_live_bodies.max(bodies.len());
+        early.finish_feature(&mut k, model, f.id(), &mut bodies)?;
         region_map.retain(|id, _| uses.get(id).copied().unwrap_or(0) > 0);
     }
-    let geometry_ms = start.elapsed().as_secs_f64() * 1000.;
+    let geometry_ms = start.elapsed().as_secs_f64() * 1000. - early.validation_ms - early.export_ms;
     let snapshot_start = Instant::now();
     let mut snapshot = if queryable {
         Some(query::artifact::Capture::new(&k, model, &bodies)?)
@@ -512,6 +515,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
             &mut uses,
             trace,
             peak_live_bodies,
+            early,
             start,
             geometry_ms,
             cache,
@@ -545,6 +549,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
             check.lines().join("; "),
         ));
     }
+    let level1_ms = tick.elapsed().as_secs_f64() * 1000.;
     let manifold = brep_is_manifold_solid(&body)?;
     if !manifold && !matches!(model.output_kind, OutputKind::Surface) {
         return Err(CadError::new(
@@ -605,7 +610,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
             "validation":{"level":"kernel_level_1", "valid":true,"warnings":check.warnings().count(),"manifold":manifold},
             "geometry":{"kind":model.output_kind,"volume_mm3":volume,"bbox_mm":[[bb.min_at(0),bb.min_at(1),bb.min_at(2)],[bb.max_at(0),bb.max_at(1),bb.max_at(2)]],
                 "faces":body.face_list().len(),"edges":body.edge_list().len(),"solids":solid_count,"void_regions":void_count},
-            "timing_ms":{"geometry":geometry_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},
+            "timing_ms":{"geometry":geometry_ms,"level1":level1_ms,"validation":validation_ms,"export":export_ms,"total":start.elapsed().as_secs_f64()*1000.},
             "peak_live_feature_bodies":peak_live_bodies,"features":trace,"step_bytes":step.len(),
             "editability":{"source":"model.json","parameter_replay":true,"native_commercial_feature_tree":false}
         }),

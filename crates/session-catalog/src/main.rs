@@ -25,6 +25,29 @@ CREATE INDEX unfinished ON steps(seq) WHERE status='running';
 PRAGMA application_id=1129270351;
 PRAGMA user_version=1;";
 
+// Advice is restricted to the project-owned, already synced immutable member
+// file. Do not flush system caches or evict the live SQLite indexes.
+#[cfg(target_os = "linux")]
+fn release_sealed_pack(root: &Path, segment: u64) {
+    use std::os::{fd::AsRawFd, unix::fs::OpenOptionsExt};
+    let dir = root.join("inspections");
+    if dir.canonicalize().ok().as_ref() != Some(&dir) {
+        return;
+    }
+    if let Ok(f) = OpenOptions::new()
+        .read(true)
+        .custom_flags(libc::O_NOFOLLOW)
+        .open(dir.join(format!("receipts-{segment}.gz")))
+    {
+        // A rejected advisory hint has no effect on durability or validation.
+        unsafe {
+            libc::posix_fadvise(f.as_raw_fd(), 0, 0, libc::POSIX_FADV_DONTNEED);
+        }
+    }
+}
+#[cfg(not(target_os = "linux"))]
+fn release_sealed_pack(_: &Path, _: u64) {}
+
 fn catalog_path(root: &Path, name: &str) -> Result<PathBuf> {
     let token = name
         .strip_prefix("session-")
@@ -89,6 +112,9 @@ fn initialize(root: &Path, name: &str, mode: &str, input: Value) -> Result<Value
         if header["format"] != "colocad/session/1" {
             return Err("SESSION_FORMAT".into());
         }
+        if header["queryReceipts"] == "gzip-members/1" {
+            tx.execute_batch("PRAGMA user_version=2")?;
+        }
         tx.execute("INSERT INTO metadata VALUES (?1)", [header.to_string()])?;
         tx.commit()?;
         // A closed project can be mounted read-only with just its database.
@@ -112,7 +138,7 @@ fn initialize(root: &Path, name: &str, mode: &str, input: Value) -> Result<Value
         writeln!(
             file,
             "{}",
-            json!({"format":"colocad/session/2","catalog":name})
+            json!({"format":if header["queryReceipts"]=="gzip-members/1" {"colocad/session/3"} else {"colocad/session/2"},"catalog":name})
         )?;
         file.sync_all()?;
         File::open(root)?.sync_all()?;
@@ -284,7 +310,7 @@ fn run() -> Result<()> {
     let db = open_db(&catalog_path(root, name)?, mode == "write")?;
     let app: i64 = db.query_row("PRAGMA application_id", [], |r| r.get(0))?;
     let version: i64 = db.query_row("PRAGMA user_version", [], |r| r.get(0))?;
-    if app != APP_ID || version != 1 {
+    if app != APP_ID || !matches!(version, 1 | 2) {
         return Err("SESSION_FORMAT: unsupported SQLite catalog".into());
     }
     if mode == "read" {
@@ -292,8 +318,22 @@ fn run() -> Result<()> {
     }
     reply(Ok(Value::Null))?;
     for line in lines {
-        let request = serde_json::from_str(&line?)?;
-        reply(dispatch(&db, request, mode == "write"))?;
+        let request: Value = serde_json::from_str(&line?)?;
+        let seal = (version == 2 && mode == "write" && request["op"] == "finish")
+            .then(|| {
+                request["step"]["id"]
+                    .as_str()?
+                    .strip_prefix('s')?
+                    .parse::<u64>()
+                    .ok()
+            })
+            .flatten()
+            .filter(|n| *n > 0 && n % 128 == 0);
+        let result = dispatch(&db, request, mode == "write");
+        if let Some(n) = seal.filter(|_| result.is_ok()) {
+            release_sealed_pack(root, (n - 1) / 128);
+        }
+        reply(result)?;
     }
     Ok(())
 }

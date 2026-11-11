@@ -18,7 +18,7 @@ export async function catalogName(root) {
     if ((await manifest.stat()).size > 256) return null;
     const data = JSON.parse(await manifest.readFile('utf8'));
     if (data.format === 'colocad/session/1') return null;
-    if (data.format !== 'colocad/session/2' || !/^session-[a-f0-9-]{36}\.sqlite$/.test(data.catalog))
+    if (!['colocad/session/2','colocad/session/3'].includes(data.format) || !/^session-[a-f0-9-]{36}\.sqlite$/.test(data.catalog))
       throw Error('SESSION_FORMAT: invalid catalog descriptor');
     return data.catalog;
   } finally { await manifest.close(); }

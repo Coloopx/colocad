@@ -23,6 +23,7 @@ fn main() {
         PathBuf::from("Cargo.toml"),
         PathBuf::from("build.rs"),
         PathBuf::from("../../Cargo.lock"),
+        PathBuf::from("../../third_party/solidcore.lock.json"),
     ]);
     paths.sort();
     println!("cargo:rerun-if-changed=src");

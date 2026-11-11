@@ -1,0 +1,7 @@
+# Downstream SolidCore changes
+
+`face37.patch` changes the implementation of planar Face 37 (hole-loop nesting) in the pinned SolidCore revision. The public kernel check level and tolerances are unchanged. The patch and the original/patched file hashes are in [the lock file](../solidcore.lock.json). The local vendor tool and native Linux image both verify the patch before compiling it.
+
+For a planar face with at least four loops, the check builds each inner loop's UV control-polygon bounds at most once. A B-spline on its natural knot interval with positive finite rational weights lies inside its Euclidean control hull. The winding of such a loop cannot put a point strictly outside the expanded hull inside the loop. Only the inner-versus-inner **Inside** predicate uses this exclusion. The outer-loop classification is unchanged. Unknown or missing trims, an edge interval extending beyond the curve's domain, nonpositive or nonfinite weights, non-planar faces, and points near or inside the expanded bounds all use the upstream classifier. Every loop still participates in Level‑1.
+
+This replaces expensive distant pair classifications with cheap comparisons; it does **not** make the pair enumeration subquadratic. Independent checks on the face, surface, edge, vertex and topology still run, including the manifold and mass-property checks in Colocad. See [the native negative regression](../../crates/agent-cad/tests/level1_nesting.rs).
