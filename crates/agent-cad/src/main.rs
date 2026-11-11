@@ -198,8 +198,14 @@ fn publish(out: &Path, files: std::collections::BTreeMap<String, Vec<u8>>) -> Re
     let stage = parent.join(format!(".{name}.{}.staging", std::process::id()));
     std::fs::create_dir(&stage).map_err(fail)?;
     let publish = (|| -> Result<(), CadError> {
-        for (name, bytes) in &files {
-            std::fs::write(stage.join(name), bytes).map_err(fail)?;
+        for (name, bytes) in files {
+            let path = stage.join(&name);
+            #[cfg(target_os = "linux")]
+            if name == "model.step" && bytes.len() >= STEP_WRITE_WINDOW {
+                write_large_step(&path, &bytes).map_err(fail)?;
+                continue;
+            }
+            std::fs::write(path, bytes).map_err(fail)?;
         }
         if out.exists() {
             return Err(CadError::new(
@@ -214,5 +220,35 @@ fn publish(out: &Path, files: std::collections::BTreeMap<String, Vec<u8>>) -> Re
         let _ = std::fs::remove_dir_all(&stage);
     }
     publish?;
+    Ok(())
+}
+
+#[cfg(target_os = "linux")]
+const STEP_WRITE_WINDOW: usize = 4 * 1024 * 1024;
+
+// The final exchange file can be larger than every other artifact combined.
+// During private staging, release completed output pages as the file grows.
+#[cfg(target_os = "linux")]
+fn write_large_step(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
+    use std::io::Write;
+    use std::os::fd::AsRawFd;
+
+    let mut output = std::fs::File::create_new(path)?;
+    let mut offset = 0;
+    for chunk in bytes.chunks(STEP_WRITE_WINDOW) {
+        output.write_all(chunk)?;
+        output.sync_data()?;
+        // SAFETY: output owns this open descriptor; no pointers are passed.
+        // Correctness depends on the write and sync, independently of advice support.
+        unsafe {
+            libc::posix_fadvise(
+                output.as_raw_fd(),
+                offset,
+                chunk.len() as libc::off_t,
+                libc::POSIX_FADV_DONTNEED,
+            );
+        }
+        offset += chunk.len() as libc::off_t;
+    }
     Ok(())
 }

@@ -20,6 +20,7 @@ export class ModelingSession {
   static open(directory: string, options?: SessionConfig): Promise<ModelingSession>;
   static migrate(directory: string): Promise<{migrated: boolean; steps: number; backup?: string}>;
   read(): Promise<SessionLedger>;
+  head(): Promise<{session_step: string; query_revision_id: string | null; geometry?: SessionStep['geometry']} | null>;
   latestGeometry(): Promise<SessionStep | undefined>;
   history(options?: {after?: number; limit?: number}): Promise<{steps: SessionStep[]; nextCursor: number | null}>;
   source(): Promise<Model>;

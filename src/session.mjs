@@ -14,10 +14,28 @@ function inside(root,path){
   if(typeof path!=='string'||isAbsolute(path)||path.split(/[\\/]/).includes('..'))throw Error('SESSION_PATH: expected relative artifact path');
   const target=resolve(root,path);if(target!==root&&!target.startsWith(root+sep))throw Error('SESSION_PATH');return target;
 }
-async function checked(root,path,hash){
+async function sessionPath(root,path){
   const file=inside(root,path),actual=await realpath(file),base=await realpath(root);
   if(!actual.startsWith(base+sep))throw Error('SESSION_PATH: symlink leaves session');
-  const bytes=await readFile(file);if(hash&&sha(bytes)!==hash)throw Error('SESSION_INTEGRITY: '+path);return bytes;
+  return actual;
+}
+async function checked(root,path,hash){
+  const bytes=await readFile(await sessionPath(root,path));if(hash&&sha(bytes)!==hash)throw Error('SESSION_INTEGRITY: '+path);return bytes;
+}
+
+// An inspection binds to immutable source bytes. Verify them with one reusable
+// buffer so recording another question does not copy or parse the whole model.
+async function verifySource(root,step) {
+  const handle=await open(await sessionPath(root,step.inputFile),'r');
+  try {
+    const buffer=Buffer.allocUnsafe(64*1024), digest=createHash('sha256');
+    for (;;) {
+      const {bytesRead}=await handle.read(buffer,0,buffer.length,null);
+      if (!bytesRead) break;
+      digest.update(buffer.subarray(0,bytesRead));
+    }
+    if(digest.digest('hex')!==step.inputSha256) throw Error('SESSION_INTEGRITY: '+step.inputFile);
+  } finally { await handle.close(); }
 }
 
 const accepted = step => step.status==='succeeded' && !['observe','query'].includes(step.operation);
@@ -122,6 +140,14 @@ export class ModelingSession {
   }
   async source(){return this.withStore(false,store=>this.sourceFrom(store));}
   async latestGeometry(){return this.withStore(false,async store=>(await store.head())??undefined);}
+  async head() {
+    return this.withStore(false,async store=>{
+      const step=await store.head();
+      if(!step) return null;
+      const receipt=JSON.parse(await checked(this.root,step.receiptFile,step.receiptSha256));
+      return {session_step:step.id,query_revision_id:receipt.data.query_revision_id??null,geometry:step.geometry};
+    });
+  }
   async build(model,metadata={}){const input=structuredClone(model);return this.withStore(true,store=>this.run(store,input,'build',metadata));}
   async edit(parameters,metadata={}){return this.withStore(true,async store=>{
     const model=await this.sourceFrom(store);
@@ -135,13 +161,31 @@ export class ModelingSession {
     }return this.run(store,next,'build',metadata);
   });}
   async observe(options={},metadata={}){return this.withStore(true,async store=>{const model=await this.sourceFrom(store);model.preview={...model.preview,...options};return this.run(store,model,'observe',metadata);});}
-  async query(request,metadata={}){const input=structuredClone(request);return this.withStore(true,async store=>this.run(store,await this.sourceFrom(store),'query',metadata,undefined,undefined,input));}
+  async query(request,metadata={}){const input=structuredClone(request);return this.withStore(true,async store=>this.run(store,undefined,'query',metadata,undefined,undefined,input));}
   async run(store,model,operation,{label=operation,kind=['observe','query'].includes(operation)?'inspection':'geometry',queryable}={},preset,requestedParameters,queryRequest){
     const id='s'+String(await store.length()+1).padStart(4,'0'),dir=join('steps',id);
+    const previous=await store.head();
+    const step={id,label:String(label),kind:String(kind),operation,status:'running',startedAt:new Date().toISOString(),receiptFile:dir+'/receipt.json'};
+    if(operation==='query') {
+      if(!previous) throw Error('SESSION_EMPTY: build a model first');
+      if(previous.inputSha256) {
+        await verifySource(this.root,previous);
+        step.inputFile=previous.inputFile;
+        step.inputSha256=previous.inputSha256;
+      } else {
+        // Older ledgers may have no digest. Materialize a checked input for this step.
+        model=await this.sourceFrom(store);
+      }
+    } else if(operation!=='observe') {
+      model.preview={view:'iso',chord_mm:.6,width:960,height:640,...model.preview};
+    }
     await mkdir(join(this.root,dir),{recursive:true});
-    if(!['observe','query'].includes(operation))model.preview={view:'iso',chord_mm:.6,width:960,height:640,...model.preview};
-    const bytes=json(model);await writeStepFile(join(this.root,dir,'input.json'),bytes);
-    const step={id,label:String(label),kind:String(kind),operation,status:'running',startedAt:new Date().toISOString(),inputFile:dir+'/input.json',inputSha256:sha(bytes),receiptFile:dir+'/receipt.json'};
+    if(!step.inputFile) {
+      const bytes=json(model);
+      step.inputFile=dir+'/input.json';
+      step.inputSha256=sha(bytes);
+      await writeStepFile(join(this.root,step.inputFile),bytes);
+    }
     if(requestedParameters)step.requestedParameters=requestedParameters;
     if(queryRequest){const requestBytes=json(queryRequest);step.queryRequestFile=dir+'/query.json';step.queryRequestSha256=sha(requestBytes);await writeStepFile(join(this.root,step.queryRequestFile),requestBytes);}
     await syncPath(join(this.root,dir));
@@ -150,8 +194,7 @@ export class ModelingSession {
     await store.begin(step);
     const start=performance.now();let result;
     try{
-      const previous=await store.head();
-      step.queryable=queryable??((model.datums?.length||model.interfaces?.length)?true:previous?.queryable??false);
+      step.queryable=queryable??((model?.datums?.length||model?.interfaces?.length)?true:previous?.queryable??false);
       const accepted=operation==='query'?JSON.parse(await checked(this.root,previous.receiptFile,previous.receiptSha256)):undefined;
       if(accepted&&queryRequest.query_revision_id!==accepted.data.query_revision_id)preset={ok:false,error:{code:'QUERY_REVISION_MISMATCH',message:'Query must target the accepted geometry revision'}};
       result=preset??await (operation==='query'

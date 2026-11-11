@@ -55,32 +55,52 @@ fn record(r: &Record, shift: u64) -> String {
             .join(",")
     )
 }
+const STEP_HEADER: &str = "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact B-rep product assembly'),'2;1');\nFILE_NAME('model.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n";
+const STEP_END: &str = "ENDSEC;\nEND-ISO-10303-21;\n";
+const MAX_ASSEMBLY_STEP: usize = 32 * 1024 * 1024;
+
 struct Writer {
-    items: Vec<String>,
+    output: String,
+    count: u64,
 }
 impl Writer {
-    fn add(&mut self, s: String) -> u64 {
-        self.items.push(s);
-        self.items.len() as u64
+    fn add(&mut self, entity: String) -> Result<u64> {
+        use std::fmt::Write;
+        let id = self.count + 1;
+        let digits = id.ilog10() as usize + 1;
+        // "#", "=", ";" and newline are also part of the byte budget.
+        if self.output.len() + digits + 4 + entity.len() + STEP_END.len() > MAX_ASSEMBLY_STEP {
+            return Err(CadError::new("RESOURCE_LIMIT", "STEP exceeds 32 MiB"));
+        }
+        writeln!(&mut self.output, "#{id}={entity};").expect("writing to String");
+        self.count = id;
+        Ok(id)
     }
-    fn frame(&mut self, t: Rigid) -> u64 {
+    fn frame(&mut self, t: Rigid) -> Result<u64> {
         let v = |p: Vec3| format!("({:.17E},{:.17E},{:.17E})", p.x, p.y, p.z);
-        let p = self.add(format!("CARTESIAN_POINT('',{})", v(t.origin)));
-        let z = self.add(format!("DIRECTION('',{})", v(t.axes[2])));
-        let x = self.add(format!("DIRECTION('',{})", v(t.axes[0])));
+        let p = self.add(format!("CARTESIAN_POINT('',{})", v(t.origin)))?;
+        let z = self.add(format!("DIRECTION('',{})", v(t.axes[2])))?;
+        let x = self.add(format!("DIRECTION('',{})", v(t.axes[0])))?;
         self.add(format!("AXIS2_PLACEMENT_3D('',#{p},#{z},#{x})"))
     }
-    fn product(&mut self, name: &str, pc: u64, dc: u64, context: u64, identity: u64) -> (u64, u64) {
-        let product = self.add(format!("PRODUCT({0},{0},'',(#{pc}))", quoted(name)));
-        let form = self.add(format!("PRODUCT_DEFINITION_FORMATION('','',#{product})"));
-        let pd = self.add(format!("PRODUCT_DEFINITION('design','',#{form},#{dc})"));
-        let shape = self.add(format!("PRODUCT_DEFINITION_SHAPE('','',#{pd})"));
+    fn product(
+        &mut self,
+        name: &str,
+        pc: u64,
+        dc: u64,
+        context: u64,
+        identity: u64,
+    ) -> Result<(u64, u64)> {
+        let product = self.add(format!("PRODUCT({0},{0},'',(#{pc}))", quoted(name)))?;
+        let form = self.add(format!("PRODUCT_DEFINITION_FORMATION('','',#{product})"))?;
+        let pd = self.add(format!("PRODUCT_DEFINITION('design','',#{form},#{dc})"))?;
+        let shape = self.add(format!("PRODUCT_DEFINITION_SHAPE('','',#{pd})"))?;
         let rep = self.add(format!(
             "SHAPE_REPRESENTATION({},(#{identity}),#{context})",
             quoted(name)
-        ));
-        self.add(format!("SHAPE_DEFINITION_REPRESENTATION(#{shape},#{rep})"));
-        (pd, rep)
+        ))?;
+        self.add(format!("SHAPE_DEFINITION_REPRESENTATION(#{shape},#{rep})"))?;
+        Ok((pd, rep))
     }
     fn occurrence(
         &mut self,
@@ -89,39 +109,45 @@ impl Writer {
         child: (u64, u64),
         t: Rigid,
         identity: u64,
-    ) {
-        let frame = self.frame(t);
+    ) -> Result<()> {
+        let frame = self.frame(t)?;
         let transform = self.add(format!(
             "ITEM_DEFINED_TRANSFORMATION('','',#{identity},#{frame})"
-        ));
-        let relation=self.add(format!("(REPRESENTATION_RELATIONSHIP('','',#{},#{}) REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION(#{transform}) SHAPE_REPRESENTATION_RELATIONSHIP())",child.1,parent.1));
+        ))?;
+        let relation=self.add(format!("(REPRESENTATION_RELATIONSHIP('','',#{},#{}) REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION(#{transform}) SHAPE_REPRESENTATION_RELATIONSHIP())",child.1,parent.1))?;
         let use_id = self.add(format!(
             "NEXT_ASSEMBLY_USAGE_OCCURRENCE({0},{0},'',#{1},#{2},$)",
             quoted(id),
             parent.0,
             child.0
-        ));
+        ))?;
         let shape = self.add(format!(
             "PRODUCT_DEFINITION_SHAPE('Placement','',#{use_id})"
-        ));
+        ))?;
         self.add(format!(
             "CONTEXT_DEPENDENT_SHAPE_REPRESENTATION(#{relation},#{shape})"
-        ));
+        ))?;
+        Ok(())
     }
 }
 pub(crate) fn write(
     m: &Model,
-    defs: &BTreeMap<String, step_import::model::Model>,
+    defs: BTreeMap<String, step_import::model::Model>,
     solved: &BTreeMap<String, Rigid>,
 ) -> Result<String> {
     let group_poses = placement::groups(m)?;
-    let mut w = Writer { items: vec![] };
+    let mut w = Writer {
+        output: String::from(STEP_HEADER),
+        count: 0,
+    };
     let mut definitions = BTreeMap::new();
     let mut shared = None;
     for (name, body) in defs {
-        let text = write_solids(body)?;
+        let text = write_solids(&body)?;
+        drop(body);
         let parsed = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
-        let shift = w.items.len() as u64;
+        drop(text);
+        let shift = w.count;
         let find = |ty| {
             parsed
                 .entities
@@ -139,18 +165,17 @@ pub(crate) fn write(
                 find("GEOMETRIC_REPRESENTATION_CONTEXT")?,
             ));
         }
-        for (id, entity) in &parsed.entities {
-            if *id != w.items.len() as u64 + 1 - shift {
+        for (id, entity) in parsed.entities {
+            if id != w.count + 1 - shift {
                 return Err(failure("non-contiguous generated entities"));
             }
             let text = match entity {
-                StepInstance::Simple(r) if r.name == "PRODUCT" => {
-                    let mut r = r.clone();
+                StepInstance::Simple(mut r) if r.name == "PRODUCT" => {
                     r.params[0] = Param::Str(name.clone());
                     r.params[1] = Param::Str(name.clone());
                     record(&r, shift)
                 }
-                StepInstance::Simple(r) => record(r, shift),
+                StepInstance::Simple(r) => record(&r, shift),
                 StepInstance::Complex(rs) => format!(
                     "({})",
                     rs.iter()
@@ -159,13 +184,13 @@ pub(crate) fn write(
                         .join(" ")
                 ),
             };
-            w.add(text);
+            w.add(text)?;
         }
-        definitions.insert(name.clone(), (pd, rep));
+        definitions.insert(name, (pd, rep));
     }
     let (pc, dc, context) = shared.ok_or_else(|| failure("no exported definitions"))?;
-    let identity = w.frame(Rigid::default());
-    let root = w.product("agent-cad-assembly", pc, dc, context, identity);
+    let identity = w.frame(Rigid::default())?;
+    let root = w.product("agent-cad-assembly", pc, dc, context, identity)?;
     // Empty construction-only branches are omitted so they cannot become extra free roots.
     let mut used = BTreeSet::new();
     for i in m.assembly.iter().filter(|i| i.export) {
@@ -181,7 +206,7 @@ pub(crate) fn write(
     }
     let mut groups = BTreeMap::new();
     for g in m.groups.iter().filter(|g| used.contains(&g.id)) {
-        groups.insert(g.id.clone(), w.product(&g.id, pc, dc, context, identity));
+        groups.insert(g.id.clone(), w.product(&g.id, pc, dc, context, identity)?);
     }
     for g in m.groups.iter().filter(|g| used.contains(&g.id)) {
         let parent = g.parent.as_ref().map_or(root, |id| groups[id]);
@@ -191,7 +216,7 @@ pub(crate) fn write(
             groups[&g.id],
             g.pose.resolve(&m.parameters)?,
             identity,
-        );
+        )?;
     }
     for i in m.assembly.iter().filter(|i| i.export) {
         let parent = i.parent.as_ref().map_or(root, |id| groups[id]);
@@ -205,14 +230,10 @@ pub(crate) fn write(
                 .inverse()
                 .compose(solved[&i.id]),
             identity,
-        );
+        )?;
     }
-    let mut out=String::from("ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact B-rep product assembly'),'2;1');\nFILE_NAME('model.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n");
-    for (i, item) in w.items.iter().enumerate() {
-        out.push_str(&format!("#{}={item};\n", i + 1));
-    }
-    out.push_str("ENDSEC;\nEND-ISO-10303-21;\n");
-    Ok(out)
+    w.output.push_str(STEP_END);
+    Ok(w.output)
 }
 fn rec<'a>(f: &'a StepFile, id: u64, ty: &str) -> Result<&'a Record> {
     f.entities

@@ -4,6 +4,8 @@
 
 立项：[issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 milestone](https://github.com/Coloopx/colocad/milestone/1)。M0 已完成，见[量化报告](../docs/memory-persistence-report.zh-CN.md)；开发分支已将 M1 的 Rust 索引、旧账本迁移和分页接到 SDK 与 CLI。[M1 验收](../benchmarks/session-catalog/README.md) · [使用说明](../docs/indexed-sessions.zh-CN.md)。几何落盘、流式 STEP、查看器分页和发布属于 M2–M5。[English](0006-bounded-memory-persistence.md)。
 
+alpha.9 候选版已将装配 STEP 实体逐行写入同一个结果缓冲，并在使用后释放对应的中性交换几何。会话查询复用已校验的源文件。几何工作集按预算落盘及回读、超过 128 实例的流式单文件 STEP 仍待实现。[候选版实测](../benchmarks/query-io/README.md)
+
 ## 问题与目标
 
 现有 agent、harness、SDK 和 Rust 执行器都在同一沙箱内。用户报告 Python CAD 在大零件/多零件过程中越过 2 GiB；本次三后端实验检验该现象，同时检验 Colocad 自身。旧版本的 128 特征/实例和 1024 切孔拒绝边界不是大模型扩展性证明。

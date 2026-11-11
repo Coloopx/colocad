@@ -2,8 +2,10 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
-## Unreleased — alpha.9 investigation
+## Unreleased — 0.1.0-alpha.9 candidate
 
+- Add session CLI commands `head`, `inspect` and `edit`. Each recorded exact query verifies and references its accepted input.
+- Encode assembly STEP entities directly into the output string and enforce its 32 MiB budget while appending. On Linux, stage final STEP files of 4 MiB or larger in synced 4 MiB chunks and release completed file pages. [Experiment](benchmarks/query-io/README.md).
 - Implement a Rust SQLite session catalog, paged CLI/SDK history, streaming migration of alpha.8 sessions and interrupted-write recovery. [Usage](docs/indexed-sessions.md) · [M1 evidence](benchmarks/session-catalog/README.md).
 
 - Reduce the working set of legacy session imports: a 500k-entry migration fell from 512.00 to 33.06 MiB median Linux cgroup peak. [Measurements and limits](benchmarks/session-catalog/migration-memory.md).

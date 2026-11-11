@@ -23,3 +23,5 @@ node bin/colocad.mjs history ./old-project --after 20 --limit 20
 从 1 万到 50 万条，查询的采样匿名峰值增加 2.40 MiB，验收上限为 16 MiB。50 万条的同条件复测中，旧版和新版迁移耗时中位数分别为 25.63 秒和 25.44 秒，采样文件页峰值中位数由 492.97 降到 14.19 MiB；新版三轮都没有触发限额回收。另用 64 MiB 无 swap 容器完成同一迁移，总峰值 33.45 MiB。以上不含常驻 agent 和 harness；文件系统可忽略回收提示，超大单条记录和元数据头也会增加内存，磁盘仍须容纳源文件和数据库。[对照方法和逐次记录](../benchmarks/session-catalog/migration-memory.md)。
 
 真实写入测试在初始建模后完成 100 次成功改参和 9,900 次成功几何查询。全程峰值 271.67 MiB，重新打开后按顺序检查全部 10,001 条记录与已接受几何。恢复测试覆盖迁移和建模途中 SIGKILL。实体几何落盘、流式装配 STEP 和查看器分页属于后续阶段。[原始数据与复现](../benchmarks/session-catalog/README.md)
+
+使用 alpha.9 候选包时，先用 `colocad head SESSION` 读取已接受步骤及查询版本，再用 `colocad inspect SESSION REQUEST.json` 保存精确查询的请求和回执。改参使用 `colocad edit SESSION PARAMETERS.json`。一次查询可以在同一零件、坐标系与公差下测量多个特征。查询步骤通过 `inputFile` 引用已接受的源文件，读取时校验 SHA-256。[四孔改六孔的实例](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)

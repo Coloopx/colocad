@@ -6,6 +6,8 @@ Tracking: [issue #1](https://github.com/Coloopx/colocad/issues/1) · [alpha.9 mi
 
 Agent, harness, SDK and the local Rust executor remain in the same sandbox. There is no new remote worker architecture. The investigation compares alpha.8 with pinned CadQuery/build123d, including Colocad's own limits, failures and scaling. The Python persistence code in `benchmarks/memory` is an experimental control, not a new production dependency.
 
+The alpha.9 candidate writes assembly entities into one STEP buffer and releases each neutral definition as it is consumed. Recorded session queries reuse the verified accepted source. The byte-budgeted geometry spill/reload path and a streamed single STEP beyond the 128-instance envelope are still open. [Candidate measurements](../benchmarks/query-io/README.md).
+
 ## Honest complexity target
 
 Let N be occurrences, D distinct definitions, H history events, Gᵢ each exact definition's size, and W the live dependency frontier. The intended memory bound is runtime/agent overhead + geometry(W) + operation temporaries + fixed index/IO/preview caches + charged file cache. Indexed lookup is O(log N) or O(log H) with a bounded page cache. Disk remains O(ΣGᵢ + N + H); whole-model export must process its output bytes. Arbitrary global Booleans on a large single body cannot promise O(log N) total resident space.

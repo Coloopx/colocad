@@ -88,6 +88,8 @@ await session.edit({ length: 80 });
 | `colocad replay SESSION review.html` | 已保存会话 | 单文件离线 HTML |
 | `colocad render SESSION modeling.mp4` | 已保存会话 | 四视图动画，也支持 `.gif` |
 
+alpha.9 候选版增加了三个会话命令。用 `colocad head SESSION` 取当前有效的几何版本，`colocad inspect SESSION REQUEST.json` 查询并记录安装面和孔组，`colocad edit SESSION PARAMETERS.json` 从有效模型改参。四孔板示例演示了如何改成六孔，并重新测量孔径。[操作步骤](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
+
 无桌面的沙箱使用 `colocad view ./history --no-open --port 8787`，配合 harness 现有端口转发；监听地址为 `127.0.0.1`。
 
 ```sh

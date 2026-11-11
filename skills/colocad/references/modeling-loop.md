@@ -27,6 +27,36 @@ Exact grid snapshots require alpha.8 or later: alpha.7 had a nested seam UV-line
 
 For a replacement workflow, challenge the same recipe with compatible and incompatible sources. Do not add a new part template or hardcoded face mapping for each input. Use only the pose/pair checks required by the task; report their discrete scope.
 
+## Inspect and edit from a shell
+
+When `colocad --help` lists `inspect`, use this sequence for a mounting plate. Replace `MODEL` with the bundled `skills/colocad/assets/plate-grid.json` or your own source.
+
+```sh
+colocad record MODEL ./plate --queryable
+colocad head ./plate
+colocad inspect ./plate holes.json
+colocad edit ./plate parameters.json
+colocad head ./plate
+```
+
+For the bundled plate, use the following request in `holes.json`. Set `query_revision_id` to the value returned by the first head. Questions about the same definition, coordinate space and tolerance can share one request and one snapshot load.
+
+```json
+{
+  "schema": "colocad.query/1",
+  "query_revision_id": "REVISION_FROM_HEAD",
+  "target": {"definition_id": "mounts"},
+  "space": "definition",
+  "tolerance": {"linear_mm": 0.00001, "angular_rad": 0.0000001},
+  "queries": [
+    {"id":"bores","op":"holes","where":{"termination":"through"}},
+    {"id":"top","op":"faces","where":{"planar_normal_aligned_with":[0,0,1]},"limit":16}
+  ]
+}
+```
+
+With `{"length":100,"xCount":3,"xPitch":32,"holeDiameter":8}` in `parameters.json`, the expected result changes from four 6 mm bores to six 8 mm bores. Issue the semantic request against the new head and check status, item count and segment diameters. Resolve any topology refs again. `inspect` records each request and receipt. The direct `colocad query REVISION_DIR REQUEST.json` command also works on a detached revision. For a long session, use `head` to resume and `history SESSION --after N --limit K` to inspect a range.
+
 ## Match evidence to the claim
 
 | Claim | A useful check |

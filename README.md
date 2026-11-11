@@ -89,6 +89,8 @@ Inspect the timeline, source, features, receipts and selected parts. Switch came
 | `colocad replay SESSION review.html` | Saved session | Self-contained offline HTML |
 | `colocad render SESSION modeling.mp4` | Saved session | Four-view animation; `.gif` also supported |
 
+The alpha.9 candidate adds three session commands for a shell-based agent. Use `colocad head SESSION` to get the accepted query revision, `colocad inspect SESSION REQUEST.json` to record exact measurements, and `colocad edit SESSION PARAMETERS.json` to rebuild after a parameter change. The four-hole plate example exercises all three. [Plate workflow](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
+
 In a headless sandbox, use `colocad view ./history --no-open --port 8787` with the harness's port forwarding; the listener binds to `127.0.0.1`.
 
 ```sh

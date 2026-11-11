@@ -8,6 +8,8 @@ This roadmap separates shipped architecture, scoped acceptance and planned exper
 
 The alpha.9 memory work is tracked in [issue #1](https://github.com/Coloopx/colocad/issues/1) and its [milestone](https://github.com/Coloopx/colocad/milestone/1): M0 investigation complete. The M1 development implementation includes a Rust session catalog, paged history and v1 migration. [M1 validation](benchmarks/session-catalog/README.md) · [500k migration memory gate](benchmarks/session-catalog/migration-memory.md). M2–M5 are pending.
 
+The alpha.9 candidate reduces the live STEP buffers during assembly encoding and shares query input files across recorded inspections. [Implementation and measurement](benchmarks/query-io/README.md).
+
 **Next-version priority: bounded-memory persistence.** [SDD 0006](specs/0006-bounded-memory-persistence.md) scopes alpha.9 around indexed history, a byte-budgeted active geometry set, streamed artifacts and large-project/viewer pagination. The [memory study](docs/memory-persistence-report.md) retains Colocad/CadQuery/build123d baselines, failures and experimental controls. Prototype working-set plateaus do not constitute a shipped catalog migration or single-STEP streaming implementation; these have separate acceptance gates. This directed experiment also supplies a concrete G4 development case.
 
 ```mermaid
