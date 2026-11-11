@@ -100,3 +100,5 @@ colocad render SESSION modeling.mp4 --width 1280 --height 800 --fps 15
 ### Recorded exact inspection in alpha.9
 
 `colocad head SESSION` returns the accepted step ID, geometry summary and query revision. An empty session returns JSON null. A build without a query snapshot has a null query revision. `colocad inspect SESSION REQUEST.json` executes a revision-bound request and records its receipt. `colocad edit SESSION PARAMETERS.json` changes numeric parameters on the accepted model. CLI failures exit nonzero. The SDK equivalents are `session.head()`, `session.query(request)` and `session.edit(parameters)`. Read the source through the relative `inputFile` in each ledger entry. Multiple inspections can point to the same immutable source. [Runnable plate workflow](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
+
+For new compact sessions in the source candidate, use `session.receipt(step)` to read a checked, full receipt from either storage layout. See [session compatibility and persistence](indexed-sessions.md).

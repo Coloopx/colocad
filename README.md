@@ -141,6 +141,8 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ## Performance
 
+Source candidate vs. published alpha.9: [bounded writes, assembly memory and Level‑1 validation](docs/bounded-builds.md).
+
 **Alpha.9 compared with CadQuery 2.8.0 and build123d 0.13.0.** All 207 STEP files from the head-to-head fixtures passed independent readback. Across the 12 scaling points Colocad had the **lowest median peak memory in 10** and the **shortest median time in 6**. Small parts and shared instances favor Colocad; dense bores, long cut chains and many distinct definitions favor the Python backends on elapsed time.
 
 ![Three-backend time to STEP and memory measurements](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)

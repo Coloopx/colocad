@@ -1,0 +1,38 @@
+--- a/crates/agent-cad/src/executor.rs
++++ b/crates/agent-cad/src/executor.rs
+@@ -538,7 +538,9 @@
+     }
+     let mut body = take_body(&mut k, &model.output, &mut bodies, &mut uses)?;
+     let tick = Instant::now();
++    let mut sample = Instant::now();
+     let check = check_brep(&mut k, &mut body, CheckLevel::Level1)?;
++    eprintln!("PHASE level1 {:.6}",sample.elapsed().as_secs_f64()); sample=Instant::now();
+     if !check.is_valid() {
+         return Err(CadError::new(
+             "GEOMETRY_VALIDATION_FAILED",
+@@ -546,6 +548,7 @@
+         ));
+     }
+     let manifold = brep_is_manifold_solid(&body)?;
++    eprintln!("PHASE manifold {:.6}",sample.elapsed().as_secs_f64()); sample=Instant::now();
+     if !manifold && !matches!(model.output_kind, OutputKind::Surface) {
+         return Err(CadError::new(
+             "OUTPUT_KIND",
+@@ -563,6 +566,7 @@
+     } else {
+         0.
+     };
++    eprintln!("PHASE volume {:.6}",sample.elapsed().as_secs_f64()); sample=Instant::now();
+     if !volume.is_finite() || (manifold && volume <= 0.) {
+         return Err(CadError::new(
+             "INVALID_VOLUME",
+@@ -570,7 +574,9 @@
+         ));
+     }
+     let bb = brep_bounding_box(&k, &body, true)?;
++    eprintln!("PHASE bounds {:.6}",sample.elapsed().as_secs_f64()); sample=Instant::now();
+     let (solid_count, void_count) = brep_material_census(&body)?;
++    eprintln!("PHASE census {:.6}",sample.elapsed().as_secs_f64());
+     let validation_ms = tick.elapsed().as_secs_f64() * 1000.;
+     let tick = Instant::now();
+     let neutral = exchange::to_model(&body)

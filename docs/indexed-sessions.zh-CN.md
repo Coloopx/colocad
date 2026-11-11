@@ -1,4 +1,7 @@
-# alpha.9 会话索引
+# 会话索引与紧凑回执
+
+候选源码默认新建 v3 项目。每次查询仍执行内核并核对已接受的输入；相同请求共享校验过的 JSON 文件，完整回执（包括每次的耗时和失败原因）分段追加，落盘后目录才提交其偏移和 SHA‑256。查询历史用 `await session.receipt(step)` 读取，无需猜测文件路径。构建、改参和 STEP 文件仍可直接打开。超过 32 MiB 的单条回执沿用普通文件。已有项目不自动改格式；要与 alpha.9 客户端互通，新建时传 `{storage:'indexed'}`。老客户端会拒绝 v3，而不是误读它。完整会话复制仍需保留整个目录。[三项实测与限制](bounded-builds.md)。
+
 
 新建项目时，`ModelingSession.create()` 和 `colocad record` 默认用本地 Rust 程序存取 SQLite。沙箱内的 agent 和 harness 照常调 SDK 或 CLI。源码检出后可用 `npm run build:kernel` 构建宿主平台的执行程序。[English](indexed-sessions.md)
 

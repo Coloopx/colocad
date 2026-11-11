@@ -2,6 +2,12 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
+## Unreleased
+
+- Pack durable query receipts in new sessions; use `session.receipt(step)` for portable readback and `storage: 'indexed'` for alpha.9 file compatibility.
+- Release single-use terminal bodies before plain assembly export, preserving the local STEP product and checked world placement.
+- Accelerate Level-1 planar loop nesting with conservative UV bounds. [Scope, measurements and reproduction](docs/bounded-builds.md).
+
 ## [0.1.0-alpha.9](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.9) - 2026-11-11
 
 - Add session CLI commands `head`, `inspect` and `edit`. Each recorded exact query verifies and references its accepted input.

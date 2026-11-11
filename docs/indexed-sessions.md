@@ -1,8 +1,8 @@
-# Indexed sessions in alpha.9
+# Indexed sessions
 
 [中文说明与测量结果](indexed-sessions.zh-CN.md)
 
-New `ModelingSession.create()` and `colocad record` projects use the local Rust SQLite catalog. Build the host executables with `npm run build:kernel` in a source checkout. Alpha.8 projects use a JSON ledger until explicitly migrated.
+Since alpha.9, new SDK and CLI projects use the local Rust SQLite catalog. Build the host executables with `npm run build:kernel` in a source checkout. Alpha.8 projects use a JSON ledger until explicitly migrated.
 
 ```sh
 node bin/colocad.mjs record examples/sensor-rail.json ./project --queryable
@@ -22,6 +22,16 @@ const { steps, nextCursor } = await session.history({ limit: 20 });
 ```
 
 The head is the latest successful build or edit. Failed and interrupted attempts, camera observations and exact queries remain available in history. `source()` loads and checks the accepted source file. To inspect an active writer's history from another process, use the CLI history command or `new ModelingSession(directory).history()`. Opening a session for writing checks for interrupted operations.
+
+**Source candidate: compact inspections.** New projects default to a v3 descriptor. A query still executes the kernel and verifies its accepted input. Its full JSON request is content-addressed; each complete reply, including event-specific timings and failures, is checksummed and appended as an independent gzip member. The catalog references the bytes only after they are synced. A crash can leave unreachable trailing bytes, but a later writer cannot overwrite a committed reply. Build/edit artifacts are unchanged. To read a reply without depending on its storage layout:
+
+```js
+for (const step of (await session.history({limit:20})).steps) {
+  if (step.receiptSha256) console.log(await session.receipt(step));
+}
+```
+
+Use `ModelingSession.create(dir, {storage:'indexed'})` for the alpha.9 v2 layout with a regular receipt JSON file per step, or `storage:'json'` for v1. Existing projects keep their layout when reopened. Older clients reject v3; use the current CLI/SDK to view or export it. Very large receipts (>32 MiB uncompressed) retain the ordinary file representation. The disk footprint still grows with new information; many distinct requests, geometry edits, or a full in-memory viewer export can grow memory usage. See the [matched experiments](bounded-builds.md).
 
 **Existing projects.** Old JSON projects keep their original format until explicitly migrated. Migration reads one step at a time into private SQLite batches (4,096 rows or about 4 MiB of encoded entries, whichever comes first). A single oversized entry can exceed this target. On Linux, the importer asks the kernel to release consumed input pages and newly synced output ranges; regular catalog operations keep their normal cache behavior. The importer preserves the old manifest under the backup filename printed by the command, and atomically replaces `session.json` after the catalog is durable. Retrying after interruption uses the authoritative manifest. Relative source, receipt, geometry and query paths remain valid after moving the whole directory. Use `ModelingSession.create(dir, {storage:'json'})` for a consumer that requires the old disk format. The compatibility APIs `session.read()` and `colocad history DIR --all` materialize a version 1 ledger in memory. Scripts that directly access `session.json.steps` must use one of these APIs or request legacy storage.
 

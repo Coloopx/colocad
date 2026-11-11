@@ -140,6 +140,8 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 性能
 
+候选源码与已发布 alpha.9 的同输入对照：[会话写入、装配内存和 Level‑1 校验](docs/bounded-builds.md)。
+
 **alpha.9 三方复测。** 针对相同几何，207 份 STEP 均通过独立回读。在主矩阵的 12 个规模点里，Colocad 有 **10 个峰值内存最低、6 个用时最短**。小零件、共享实例占优；大量独立件、密集孔和长布尔链的耗时由其他后端领先。
 
 ![三后端构建时间与内存](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)
