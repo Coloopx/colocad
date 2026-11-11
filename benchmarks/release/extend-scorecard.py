@@ -35,4 +35,4 @@ raw=dict(assembly_phase_runs=read('unique-phases.json'),iterations=iteration,con
 extra+='<details><summary>Paired trials, receipts and stress outcomes (JSON)</summary><pre id="aux-values"></pre></details><script type="application/json" id="aux-data">'+json.dumps(raw,separators=(',',':')).replace('<','\\u003c')+'</script><script>document.querySelector("details:last-of-type").ontoggle=e=>{if(e.target.open)document.getElementById("aux-values").textContent=JSON.stringify(JSON.parse(document.getElementById("aux-data").textContent),null,2)}</script>'
 page=page.replace('</style>','select{padding:.5em;font:inherit}.shape-pair{display:flex;gap:1em;flex-wrap:wrap}.shape-pair[hidden]{display:none}.shape-pair figure{background:white;margin:12px 0;padding:8px}.shape-pair img{max-width:100%;object-fit:contain}pre{max-height:22em;overflow:auto}</style>')
 page=page.replace('<p><button id="download">',extra+'<p><button id="download">')
-(root/'scorecard.html').write_text(page)
+(root/'scorecard.html').write_text('\n'.join(line.rstrip() for line in page.splitlines())+'\n')

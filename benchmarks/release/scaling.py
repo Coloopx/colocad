@@ -50,6 +50,8 @@ def main():
     for ax in axes[:,0]:ax.set_ylabel("cgroup peak (MiB)")
     fig.legend(*axes.flat[0].get_legend_handles_labels(),loc="lower center",ncol=3,frameon=False)
     fig.savefig(args.directory/"memory-scaling.svg",metadata={"Date":None,"Description":"All twelve verified scaling workloads, plotted at their actual sizes on a log2 x-axis."})
+    svg=args.directory/"memory-scaling.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines())+"\n")
     plt.close(fig)
 
 if __name__=="__main__":

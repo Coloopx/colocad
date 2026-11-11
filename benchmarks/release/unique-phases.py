@@ -35,3 +35,6 @@ for i,total in enumerate(left):ax.text(total+.25,i,f'{total:.2f}',va='center',fo
 ax.invert_yaxis();ax.set_xlim(0,max(left)*1.12);ax.grid(axis='x',alpha=.2);ax.set_axisbelow(True);ax.spines[['top','right','left']].set_visible(False)
 fig.legend(*ax.get_legend_handles_labels(),loc='lower center',ncol=4,frameon=False)
 fig.savefig(a.dest/'unique-phases.svg',metadata={'Date':None});plt.close(fig)
+
+svg=a.dest/"unique-phases.svg"
+svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines())+"\n")
