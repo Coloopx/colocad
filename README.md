@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling.gif)
+![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/showcase/hiwin-kk60/modeling-alpha9.gif)
 
 **Parametric CAD for agents. Local Rust geometry, a TypeScript SDK, a CLI, and an inspectable modeling history.**
 
@@ -33,7 +33,7 @@ flowchart LR
 Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.8
+npm install @coloopx/colocad@0.1.0-alpha.9
 ```
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
@@ -89,6 +89,8 @@ Inspect the timeline, source, features, receipts and selected parts. Switch came
 | `colocad replay SESSION review.html` | Saved session | Self-contained offline HTML |
 | `colocad render SESSION modeling.mp4` | Saved session | Four-view animation; `.gif` also supported |
 
+Alpha.9 adds three session commands for a shell-based agent. Use `colocad head SESSION` to get the accepted query revision, `colocad inspect SESSION REQUEST.json` to record exact measurements, and `colocad edit SESSION PARAMETERS.json` to rebuild after a parameter change. The four-hole plate example exercises all three. [Plate workflow](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
+
 In a headless sandbox, use `colocad view ./history --no-open --port 8787` with the harness's port forwarding; the listener binds to `127.0.0.1`.
 
 ```sh
@@ -139,37 +141,19 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ## Performance
 
-**Memory scaling (alpha.8):** the [three-backend stress study](docs/memory-persistence-report.md) measures large solids, independent/shared assemblies and long history, including 2 GiB failures. Colocad's memory advantage is workload-dependent; independent definitions and the current history ledger still grow. The next-version work is scoped in [SDD 0006](specs/0006-bounded-memory-persistence.md).
+**Alpha.9 compared with CadQuery 2.8.0 and build123d 0.13.0.** All 207 STEP files from the head-to-head fixtures passed independent readback. Across the 12 scaling points Colocad had the **lowest median peak memory in 10** and the **shortest median time in 6**. Small parts and shared instances favor Colocad; dense bores, long cut chains and many distinct definitions favor the Python backends on elapsed time.
 
-Performance depends on geometry and execution mode. In a measured 100-second queue of the same **43-solid tendon hand**, Colocad delivered **44 complete STEP revisions versus build123d's 33**, with **57.1% lower highest sampled sandbox memory**.
+![Three-backend time to STEP and memory measurements](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/scorecard.svg)
 
-![10× replay: STEP deliveries and peak-so-far sampled sandbox memory](showcase/tendon-hand/window/hand-window-peak-en.gif)
+**The same 43-solid hand, 100 seconds of edits:** Colocad / CadQuery / build123d delivered **32 / 58 / 48** verified assemblies at sampled peaks of **146.4 / 259.1 / 287.6 MiB**. Colocad used the least memory; the Python backends delivered more complete hands.
 
-| Same revision queue, 1 vCPU / 512 MiB | Colocad | build123d |
-| --- | ---: | ---: |
-| Complete STEP deliveries in 100 s | **44** | 33 |
-| First STEP | **2.223 s** | 3.010 s |
-| Median job, same first 33 inputs | **2.234 s** | 2.855 s |
-| Highest sampled cgroup memory | **130.9 MiB** | 304.9 MiB |
+![Ten-times replay of actual hand deliveries and sampled memory peaks](https://raw.githubusercontent.com/Coloopx/colocad/v0.1.0-alpha.9/docs/benchmarks/alpha9/hand-window.gif)
 
-One window per backend; a fresh CAD process per revision; approximately 25 ms memory sampling includes subprocesses, temporary files and charged file cache. Every counted STEP reopened successfully. This run used the alpha.2 SDK and the optimized kernel first bundled in alpha.3; it is not a new alpha.6 measurement. The GIF plots the highest sample so far, not instantaneous usage. [Method and samples](showcase/tendon-hand/window/README.md).
-
-<details>
-<summary>Cold-start parts and cached previews</summary>
-
-![Time to STEP and peak memory on four historical workloads](docs/benchmarks/time-to-step.svg)
-
-The published alpha.2 kernel reached STEP **22.0× faster** for a sensor rail and **12.9× faster** for a manifold, using **7.7% and 8.0%** of build123d's peak memory. Five fresh processes/cgroups per part and backend after warm-up; Linux arm64, 1 vCPU / 512 MiB. Startup/imports, modeling, checks and export count; installation, previews, inference and a resident agent do not. These gains do not apply to every operation: manifold geometry alone took 53.7 ms versus build123d's 43.8 ms, and the old complete-hand result was slower.
-
-For unchanged geometry, saved-mesh observation was 5.6×–16.8× faster than Colocad's own rebuild-and-render path on two parts. This is an internal cache comparison, not a build123d result.
-
-</details>
-
-[Full performance evidence and limitations](docs/performance.md) · [Offline comparison with STEP downloads](https://github.com/Coloopx/colocad/raw/refs/heads/main/docs/benchmarks/comparison.html).
+Checkpoints support inspection and add build I/O. [Methods, I/O chart and edit acceptance](docs/benchmark-alpha9.md) · [Download standalone HTML](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.9/scorecard.html) · [Earlier experiments](docs/performance.md).
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.8.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.9.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).

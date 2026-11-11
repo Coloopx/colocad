@@ -1,5 +1,7 @@
 # Release validation
 
+[Alpha.9 release evidence](evidence/release-alpha.9.json) · [new comparative measurements](benchmark-alpha9.md). The version-specific runs below are historical.
+
 The same public build API compiled the two different feature trees in `examples/`. The manifold has one solid with 27 faces and 54 edges. OCCT read its STEP as a valid solid with volume 45,490.923866 mm³. Reducing the blind-port count from four to three restored 226.194671 mm³, matching π × 3² × 8. The rail has rectangular through-slots patterned along Y. Removing one slot restored 405 mm³. The validation script also probes points within and outside the blind ends, the pocket, and the fillet.
 
 ![Manifold precision mesh preview](manifold.png)

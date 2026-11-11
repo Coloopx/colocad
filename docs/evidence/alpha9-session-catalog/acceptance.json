@@ -1,0 +1,75 @@
+{
+  "unit_integration": {
+    "node": 46,
+    "harness_integration": 6,
+    "viewer": {
+      "passed": true,
+      "offline": true,
+      "queryHistory": true,
+      "controls": true,
+      "failedStep": true,
+      "download": true,
+      "mobile": true,
+      "errors": [],
+      "remoteRequests": 0
+    },
+    "render": {
+      "passed": true,
+      "frames": 13,
+      "cli": true,
+      "mp4": true,
+      "sourceHash": "72546485ac714afdb7844ae07e244835c005541339dbebd07cfb76466a3c7ac3",
+      "browserErrors": []
+    }
+  },
+  "package_checks": [
+    {
+      "passed": true,
+      "platform": "darwin-arm64",
+      "mode": "write",
+      "accepted": "s0002"
+    },
+    {
+      "passed": true,
+      "platform": "linux-arm64",
+      "mode": "write",
+      "accepted": "s0002"
+    },
+    {
+      "passed": true,
+      "platform": "linux-x64",
+      "mode": "write",
+      "accepted": "s0002"
+    },
+    {
+      "passed": true,
+      "platform": "linux-arm64",
+      "mode": "read-only",
+      "accepted": "s0002"
+    }
+  ],
+  "x64_scope": "package correctness in an x86-64 Linux VM; performance figures are Linux arm64 only",
+  "source_query_plans": {
+    "head": [
+      "SCAN steps USING INDEX accepted"
+    ],
+    "running": [
+      "SCAN steps USING INDEX unfinished"
+    ],
+    "page": [
+      "SEARCH steps USING INTEGER PRIMARY KEY (rowid>?)"
+    ]
+  },
+  "real_session_storage": {
+    "regular_files": 31117,
+    "logical_bytes": 104161523,
+    "catalog_bytes": 8388608
+  },
+  "failure_injection": [
+    "SIGKILL during native CAD build",
+    "SIGKILL during streaming import of 50k entries",
+    "malformed JSON after steps",
+    "concurrent write refused while reader sees running state"
+  ],
+  "power_loss": "process-kill and SQLite recovery exercised; physical power interruption was not tested"
+}

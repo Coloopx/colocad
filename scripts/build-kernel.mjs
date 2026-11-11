@@ -6,7 +6,7 @@ import { join } from "node:path";
 const root = fileURLToPath(new URL("..", import.meta.url));
 for (const [cmd, args] of [
   [process.execPath, ["scripts/vendor.mjs"]],
-  ["cargo", ["build", "--release", "--locked", "-p", "agent-cad"]],
+  ["cargo", ["build", "--release", "--locked", "-p", "agent-cad", "-p", "colocad-catalog"]],
 ]) {
   const result = spawnSync(cmd, args, { cwd: root, stdio: "inherit" });
   if (result.status !== 0) throw Error("Build failed: " + cmd);
@@ -16,6 +16,7 @@ const dir = join(root, "kernel/native", platform);
 const name = process.platform === "win32" ? "agent-cad.exe" : "agent-cad";
 await mkdir(dir, { recursive: true });
 await copyFile(join(root, "target/release", name), join(dir, name));
+await copyFile(join(root, "target/release/colocad-catalog"), join(dir, "colocad-catalog"));
 const bytes = await readFile(join(dir, name));
 await writeFile(
   join(dir, "manifest.json"),

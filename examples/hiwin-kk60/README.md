@@ -2,7 +2,7 @@
 
 This example models one complete configuration of a real product: **HIWIN KK60 standard, 5 mm screw lead, 300 mm rail, one normal A block, open, without a motor or switches**. It contains 52 native geometric features, 81 named occurrences and 16 recorded construction/assembly milestones. The product is a catalog-based reconstruction, not an OEM manufacturing model.
 
-![Four synchronized views of actual recorded native construction](../../showcase/hiwin-kk60/modeling.gif)
+![Four synchronized views of actual recorded native construction](../../showcase/hiwin-kk60/modeling-alpha9.gif)
 
 [Complete offline delivery: HTML, STEP and session ZIP](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip) · [MP4](../../showcase/hiwin-kk60/modeling.mp4) · [Editable generated model](../../showcase/hiwin-kk60/model.json) · [Independent verification](../../showcase/hiwin-kk60/verification.json) · [Source dimensions and assumptions](sources.json)
 
@@ -24,7 +24,7 @@ node bin/colocad.mjs render ./out/hiwin-kk60/session ./out/hiwin-kk60/modeling.g
   --width 960 --height 600 --fps 10 --seconds-per-step 0.75
 ```
 
-With the npm alpha.4 package, the generator is included under `node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs`; the CLI is `npx colocad`. The generator requires a new output directory. It writes the actual per-stage sources/receipts/artifacts to `session/`, plus final `model.json` and `hiwin-kk60.step`. `replay` produces one self-contained HTML file, embedding meshes, source, receipts and final STEP. The interactive viewer supports four viewpoints, cutaway, explosion, part selection and the feature journal. Movie export is optional and runs locally; Chromium/FFmpeg have a separate resource cost from geometry builds.
+With the npm package, the generator is included under `node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs`; the CLI is `npx colocad`. The generator requires a new output directory. It writes the actual per-stage sources/receipts/artifacts to `session/`, plus final `model.json` and `hiwin-kk60.step`. `replay` produces one self-contained HTML file, embedding meshes, source, receipts and final STEP. The interactive viewer supports four viewpoints, cutaway, explosion, part selection and the feature journal. Movie export is optional and runs locally; Chromium/FFmpeg have a separate resource cost from geometry builds.
 
 The film shows the real intermediate B-reps: rail stock → guide grooves → six counterbores; saddle → nut seat → mounting pattern; stepped shaft → helical cuts; bearing plate and motor support → assembly. It does not interpolate or simulate machining. The final explode/reassemble segment changes displayed placements only. Recorded call times remain visible; the 26-second review is **not** a 26-second build or a build123d comparison.
 
@@ -46,7 +46,7 @@ Run the independent verifier with a development Python environment containing `c
 python examples/hiwin-kk60/verify.py ./out/hiwin-kk60/session ./out/hiwin-kk60/verification.json
 ```
 
-It reopens every successful STEP in OCCT, checks all solids, counts and volumes, probes the rail counterbores, carriage mounting holes and screw groove/crest, and measures selected rail/carriage overlap at −105/0/+105 mm travel. Tests in `test/kk60.test.mjs` also rebuild both carriage travel endpoints. The recorded result passed all 16 revisions and 64 material probes. Maximum relative volume disagreement was 0.002608%; the three selected rail/carriage overlap volumes were all zero. These checks do not certify every internal fit.
+It reopens every successful STEP in OCCT, checks all solids, counts and volumes, probes the rail counterbores, carriage mounting holes and screw groove/crest, and measures selected rail/carriage overlap at −105/0/+105 mm travel. Tests in `test/kk60.test.mjs` also rebuild both carriage travel endpoints. The [alpha.9 rebuild](../../docs/benchmarks/alpha9/kk60-readback.json) repeats all 16 steps. The original recorded result passed all 16 revisions and 64 material probes. Maximum relative volume disagreement was 0.002608%; the three selected rail/carriage overlap volumes were all zero. These checks do not certify every internal fit.
 
 Unpublished rolling-element arrangement, bearing sizes, coupling details and nut recirculation are not recovered OEM specifications. The nut is an envelope with a screw bore; recirculation is omitted. Threaded holes are nominal bores; tolerance fits, load rating, fatigue, contact/preload and complete all-pairs interference are not certified. These limits are part of the delivered model, not hidden assumptions.
 

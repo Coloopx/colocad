@@ -1,10 +1,14 @@
 # Developer documentation
 
+Release measurements: [alpha.9 benchmark](benchmark-alpha9.md) · [中文](benchmark-alpha9.zh-CN.md) · [single-file HTML](benchmarks/alpha9/scorecard.html).
+
 [Actual modeling workflow](modeling-workflow.zh-CN.md) · [CLI modeling history and viewer](modeling-history.md)
 
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
-These guides target **@coloopx/colocad 0.1.0-alpha.8**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+These guides target **@coloopx/colocad 0.1.0-alpha.9**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+
+For alpha.9, see [indexed sessions, history pagination and migration](indexed-sessions.md).
 
 [中文开发指南](README.zh-CN.md)
 

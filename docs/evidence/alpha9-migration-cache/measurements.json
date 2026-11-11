@@ -1,0 +1,447 @@
+{
+  "baseline_commit": "1c8ee5a2ecde4aaa97f33cb31b338d9394b8c62a",
+  "image": "sha256:eb355a472cd7523e69527fec2473903b216de501477b002b1faadc9b28aaaf8a",
+  "host": "macOS arm64, Colima, fresh APFS clone per arm64 cgroup, workspace bind mount",
+  "cpu": 1,
+  "swap": 0,
+  "network": false,
+  "component_sample_interval_ms": 20,
+  "metric": "cgroup v2 memory.peak (bytes). File, anon and RSS peaks sampled independently.",
+  "scope": "Local SDK import; fixture preparation and independent post-import verification outside measured cgroup. No resident agent, harness or geometry build.",
+  "decision": "Accept migration gate on this fixture/mount: every final arm64 case <=48 MiB, zero max/oom/oom_kill events. No speed claim.",
+  "source_sha256": {
+    "crates/session-catalog/src/migration.rs": "38b23adeaaec45788167276ea057b901648d5cb6a92c87ba40d8f824d86332db",
+    "crates/session-catalog/src/main.rs": "73e32213efba6d5e3d4c0fbabefe6828f596486d41d73b7a3d8bf265065d4165",
+    "crates/session-catalog/Cargo.toml": "beaa3646aeb479ebef220b261c64ff53175c9b6c7fed6b8c5d85e376185e19d8",
+    "Cargo.lock": "a7f0ca0b4a7b077c9842dbd802f28dc88872e21a0bb0539503f71243209ceede",
+    "src/session.mjs": "92f661378e0a5cf0939d51cb78f2d2ae90c05cc498f10c3bdbbacc79722ac1a5",
+    "src/session-catalog.mjs": "9e58812d438438dbffd73580d1122a872e99553269305cd664ad66b686d3ffe2",
+    "benchmarks/session-catalog/migrate-memory.py": "419af5cf34659142068dbc510c9f5a93094b29d94825bfbee32b7398b2d6752a",
+    "benchmarks/session-catalog/workload.mjs": "f3e19b8366a59b466339c5aaa91acccb196c359dd090ea0888ed5f8f294ddb15",
+    "benchmarks/memory/monitor.py": "6e56b0ae9db05fa05aae85b57c10c8d2c0b1cc3d95c2325bc68b484e5734e0b2"
+  },
+  "packaged_helpers": {
+    "darwin-arm64": "ed926fdfd09a57622257f6ee81db32b61cd71a81f0eea69a280a4f0edf10b5a7",
+    "linux-arm64": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+    "linux-x64": "e20790a53b0b78231ddc01db68ab76cd1dbf63c492870eaf862bb57c2d5affee"
+  },
+  "archive_sha256": "e6e7e067ceef3be1302a52f5d2f2d16f74d8735519d519094fbc78b06896df32",
+  "regressions": {
+    "node": 48,
+    "integrations": 6,
+    "host_package_smoke": [
+      "darwin-arm64",
+      "linux-arm64",
+      "linux-x64"
+    ],
+    "read_only_package": "linux-arm64"
+  },
+  "preproduction_diagnostics": [
+    {
+      "stage": "copy-prepared pilot",
+      "outcome": "ENOSPC",
+      "oom_kill": 0,
+      "explanation": "Host workspace exhausted during private DB write. Not included in matched measurements. See candidate-500k-2 raw stderr and cgroup trace."
+    },
+    {
+      "stage": "first baseline verification",
+      "outcome": "host verifier failed after successful SDK response",
+      "explanation": "Python 3.9 lacks hashlib.file_digest; use incremental SHA-256 and repeat. No unverified baseline in the paired result."
+    }
+  ],
+  "secondary_x64": {
+    "monitor": {
+      "status": "ok",
+      "exit_code": 0,
+      "wall_s": 31.825221000006422,
+      "peak_bytes": 26787840,
+      "sampled_max": {
+        "anon": 19316736,
+        "file": 5410816,
+        "rss_sum": 74252288,
+        "current": 26787840,
+        "kernel": 2232320
+      },
+      "baseline": {
+        "t": 0.017867000002297573,
+        "current": 7114752,
+        "anon": 5967872,
+        "file": 57344,
+        "rss_sum": 14704640,
+        "kernel": 598016
+      },
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "cpu": {
+        "usage_usec": 32659152,
+        "user_usec": 27369340,
+        "system_usec": 5289812,
+        "core_sched.force_idle_usec": 0,
+        "nr_periods": 327,
+        "nr_throttled": 318,
+        "throttled_usec": 12227232,
+        "nr_bursts": 0,
+        "burst_usec": 0
+      },
+      "limit_bytes": "67108864",
+      "swap_max": "0",
+      "result": {
+        "ok": true,
+        "synthetic": true,
+        "count": 100000
+      }
+    },
+    "head": {
+      "ok": true,
+      "synthetic": true,
+      "count": 100000,
+      "head": "s0100000"
+    },
+    "scope": "100k, separate x86_64 VM, Docker data volume, 64 MiB; functional portability check, not a matched speed comparison."
+  },
+  "runs": {
+    "before-500k-1": {
+      "total_peak_bytes": 536870912,
+      "sampled_peaks_bytes": {
+        "anon": 19267584,
+        "file": 516599808,
+        "rss_sum": 68829184,
+        "current": 536870912,
+        "kernel": 3964928
+      },
+      "wall_s": 25.62846197001636,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1752,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "ebc8c101bf421b43c5078cdedcea47c1df1846df9884dbb9dabb9e3ad2721b17",
+        "integrity": "ok"
+      }
+    },
+    "before-500k-2": {
+      "total_peak_bytes": 536870912,
+      "sampled_peaks_bytes": {
+        "anon": 19279872,
+        "file": 517021696,
+        "rss_sum": 68833280,
+        "current": 536870912,
+        "kernel": 3911680
+      },
+      "wall_s": 24.49473263701657,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1744,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "ebc8c101bf421b43c5078cdedcea47c1df1846df9884dbb9dabb9e3ad2721b17",
+        "integrity": "ok"
+      }
+    },
+    "before-500k-3": {
+      "total_peak_bytes": 536870912,
+      "sampled_peaks_bytes": {
+        "anon": 19259392,
+        "file": 516919296,
+        "rss_sum": 68800512,
+        "current": 536870912,
+        "kernel": 3928064
+      },
+      "wall_s": 26.02272755402373,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 1679,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "ebc8c101bf421b43c5078cdedcea47c1df1846df9884dbb9dabb9e3ad2721b17",
+        "integrity": "ok"
+      }
+    },
+    "after-500k-1": {
+      "total_peak_bytes": 34664448,
+      "sampled_peaks_bytes": {
+        "anon": 19337216,
+        "file": 14561280,
+        "rss_sum": 68857856,
+        "current": 34664448,
+        "kernel": 2121728
+      },
+      "wall_s": 29.530878056015354,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "after-500k-2": {
+      "total_peak_bytes": 34664448,
+      "sampled_peaks_bytes": {
+        "anon": 19333120,
+        "file": 14893056,
+        "rss_sum": 68878336,
+        "current": 34664448,
+        "kernel": 2121728
+      },
+      "wall_s": 25.43808255402837,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "after-500k-3": {
+      "total_peak_bytes": 34738176,
+      "sampled_peaks_bytes": {
+        "anon": 19316736,
+        "file": 14876672,
+        "rss_sum": 68849664,
+        "current": 34738176,
+        "kernel": 2117632
+      },
+      "wall_s": 24.226982469961513,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "after-10k": {
+      "total_peak_bytes": 32120832,
+      "sampled_peaks_bytes": {
+        "anon": 19111936,
+        "file": 10338304,
+        "rss_sum": 68648960,
+        "current": 31858688,
+        "kernel": 1761280
+      },
+      "wall_s": 0.5527139169862494,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 10000,
+        "catalog_bytes": 10584064,
+        "prepare": "clone",
+        "backup_sha256": "3a44080989e97693c0617d8fc91ebb6435799d16321dcb488cdde85ec999185d",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "after-100k": {
+      "total_peak_bytes": 33296384,
+      "sampled_peaks_bytes": {
+        "anon": 19337216,
+        "file": 10756096,
+        "rss_sum": 68857856,
+        "current": 33296384,
+        "kernel": 1835008
+      },
+      "wall_s": 4.7228859609458596,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 100000,
+        "catalog_bytes": 105893888,
+        "prepare": "clone",
+        "backup_sha256": "7a400a9418be34e8639f1ac58eacdb50c6a4e0c0486dbf9031d6df04cfe0dab8",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "after-500k-64": {
+      "total_peak_bytes": 35078144,
+      "sampled_peaks_bytes": {
+        "anon": 19308544,
+        "file": 14966784,
+        "rss_sum": 68853760,
+        "current": 35078144,
+        "kernel": 2138112
+      },
+      "wall_s": 23.74085501098307,
+      "limit_bytes": 67108864,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 500000,
+        "catalog_bytes": 529833984,
+        "prepare": "clone",
+        "backup_sha256": "15a262709a6f3b06feae20f27d41516627893e79ed91e0f74888f42a883fe9fe",
+        "helper_sha256": "3c901d796dc650a4a45dc1a35137f57fb86746c1643555dacfbcf36d3fb359bd",
+        "integrity": "ok"
+      }
+    },
+    "control-none": {
+      "total_peak_bytes": 221294592,
+      "sampled_peaks_bytes": {
+        "anon": 19333120,
+        "file": 198209536,
+        "rss_sum": 68878336,
+        "current": 220827648,
+        "kernel": 2187264
+      },
+      "wall_s": 4.804376501997467,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 100000,
+        "catalog_bytes": 105893888,
+        "prepare": "clone",
+        "backup_sha256": "7a400a9418be34e8639f1ac58eacdb50c6a4e0c0486dbf9031d6df04cfe0dab8",
+        "helper_sha256": "9458d25cf8500f34978217a72314bdfeca87ad07c1c82214824359bf7598b3ec",
+        "integrity": "ok"
+      }
+    },
+    "control-source": {
+      "total_peak_bytes": 132612096,
+      "sampled_peaks_bytes": {
+        "anon": 19341312,
+        "file": 110268416,
+        "rss_sum": 68882432,
+        "current": 132087808,
+        "kernel": 1990656
+      },
+      "wall_s": 4.818612210976426,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 100000,
+        "catalog_bytes": 105893888,
+        "prepare": "clone",
+        "backup_sha256": "7a400a9418be34e8639f1ac58eacdb50c6a4e0c0486dbf9031d6df04cfe0dab8",
+        "helper_sha256": "8f05888cca7e7c7954cc1a6877ebc332bef9fd459f4a458f79de97d6254c7122",
+        "integrity": "ok"
+      }
+    },
+    "control-stage": {
+      "total_peak_bytes": 118829056,
+      "sampled_peaks_bytes": {
+        "anon": 19329024,
+        "file": 96522240,
+        "rss_sum": 68882432,
+        "current": 118304768,
+        "kernel": 2035712
+      },
+      "wall_s": 4.575533044000622,
+      "limit_bytes": 536870912,
+      "events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "verified": {
+        "entries": 100000,
+        "catalog_bytes": 105893888,
+        "prepare": "clone",
+        "backup_sha256": "7a400a9418be34e8639f1ac58eacdb50c6a4e0c0486dbf9031d6df04cfe0dab8",
+        "helper_sha256": "3116abe2422210157ceb3571d4b9242a9cfae248ce1b3af08fcabe41691626c4",
+        "integrity": "ok"
+      }
+    }
+  },
+  "raw_trace_sha256": "d1a4446c7135681f2f957272a04ff8c6438cc12f0958916e3a7f513752d515c4"
+}

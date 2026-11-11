@@ -19,13 +19,20 @@ Change one cause at a time and retain the original acceptance target. These are 
 
 For large assemblies, split geometry residency, validity checks, mass/count queries, export buffers, history metadata and display bundles. A shared definition does not guarantee every downstream verifier/exporter shares its temporary state. Prefer reusable definition-level checks when rigid-placement invariants justify them, and independently check the complete delivered geometry. Do not simply remove verification.
 
-The alpha.8 feature/instance/cutter limits are policy boundaries, not evidence of logarithmic memory. A chunked project can bound active geometry by persisting completed parts and loading only the needed chunk; it is a different delivery contract from one assembly STEP. The memory-study prototypes are not installed SDK commands. Preserve units, placements, parameter source, hashes and all required geometry. Keep history and observations out of growing in-memory arrays; paged persistence is an alpha.9 project, not an existing promise.
+The alpha.8 feature/instance/cutter limits are policy boundaries, not evidence of logarithmic memory. A chunked project can bound active geometry by persisting completed parts and loading only the needed chunk; it is a different delivery contract from one assembly STEP. The memory-study prototypes are not installed SDK commands. Preserve units, placements, parameter source, hashes and all required geometry. On the alpha.9 development branch, use indexed session history and cursor pages. A recorded query streams the source hash and shares its input file with the accepted revision. Group independent checks with the same target in the request’s queries array to reduce snapshot reads.
 
 Keep source interpretation/inference, CAD startup, geometry, validation, STEP export, tessellation, view rendering and video encoding separate. Time-to-STEP and time-to-preview answer different questions. A cached view cannot be compared with another tool's fresh geometry build as if they were the same task.
 
 For a fair CadQuery or build123d comparison, use the same dimensions, features, instances, precision and required artifacts. Verify both geometries independently, pin environments and define cold/warm behavior. Report repeat counts, median/tails, failures and the accounting boundary. For memory, state sampled RSS/process sum/cgroup, sampling interval and whether the plot is instantaneous or the peak-so-far; retaining a peak is a presentation choice, not the original trace.
 
 A 1 vCPU / 512 MiB CAD run establishes only that scoped run. It does not establish the memory budget of the resident agent/harness, an in-process LLM, Chromium or FFmpeg. Do not extrapolate a plate's speedup to a threaded multi-part product.
+
+## Choose a build path for a tight sandbox
+
+- Separate **occurrences** from **definitions**. Model one pin once and place it many times. Independently dimensioned pins are different geometry: do not alias them to reduce memory. If every part differs, budget a representative full build including export and checkpoints.
+- For dense bores, check the grid and axes on a small instance first; time the actual final density before committing to a sandbox deadline. A compact `hole_grid` instruction can still be expensive for the kernel. Do not split one required solid into a folder of partial STEPs and report success.
+- For multiple measurements of an unchanged part, record one queryable build. Use `head` and a batched `inspect` request; keep receipts and the reference to the accepted input. After `edit`, obtain the new revision before inspecting. For saved views of unchanged geometry, use the cached mesh.
+- When diagnosing I/O, distinguish logical writes (including checkpoints), final STEP bytes, retained project bytes, and actual device traffic. A warm-cache zero device counter does not mean no data was written. The [three-backend benchmark](https://github.com/Coloopx/colocad/blob/v0.1.0-alpha.9/docs/benchmark-alpha9.md) lists the workload and measurement boundaries.
 
 ## Evaluate the skill/prompt, not just the executor
 

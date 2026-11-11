@@ -1,6 +1,6 @@
 # Agent CAD 完整工作指南：资料、工具、建模闭环与调优
 
-本指南对应 colocad alpha.7 的 skill 和可运行示例。目标是把指定产品及其工程依据变成可编辑源、精确几何、可追溯检查和可供人类查看的过程。以下是基于仓库实作和公开资料整理的默认方法，不是已证明适用于所有模型/产品的最优提示词。
+本指南对应 colocad alpha.9 的 skill 和可运行示例。目标是把指定产品及其工程依据变成可编辑源、精确几何、可追溯检查和可供人类查看的过程。以下是基于仓库实作和公开资料整理的默认方法，不是已证明适用于所有模型/产品的最优提示词。
 
 [English overview](agent-modeling-handbook.md) · [研究依据与适用边界](agent-modeling-research.md) · [随包 skill](../skills/colocad/SKILL.md) · [提示词模板](../skills/colocad/references/prompt-patterns.md) · [真实 KK60 产品](../examples/hiwin-kk60/README.md)
 
@@ -226,7 +226,7 @@ KK60 的真实螺旋槽让总装触发内部 STEP 实体数限制，最终修复
 ## 8. 运行、审阅与交付
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.7
+npm install @coloopx/colocad@0.1.0-alpha.9
 node node_modules/@coloopx/colocad/examples/hiwin-kk60/run.mjs ./actuator
 npx colocad view ./actuator/session
 npx colocad replay ./actuator/session ./actuator.html

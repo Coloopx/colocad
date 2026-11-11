@@ -1,0 +1,99 @@
+{
+  "development_wal_control": {
+    "status": "ok",
+    "exit_code": 0,
+    "wall_s": 241.1024532399606,
+    "peak_bytes": 366903296,
+    "sampled_max": {
+      "anon": 37384192,
+      "file": 256327680,
+      "rss_sum": 113303552,
+      "current": 366735360,
+      "kernel": 73408512
+    },
+    "baseline": {
+      "t": 0.0009754589991644025,
+      "current": 6692864,
+      "anon": 5967872,
+      "file": 8192,
+      "rss_sum": 11726848,
+      "kernel": 462848
+    },
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "cpu": {
+      "usage_usec": 156117137,
+      "user_usec": 40510040,
+      "system_usec": 115607097,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 2412,
+      "nr_throttled": 3,
+      "throttled_usec": 23732,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "limit_bytes": "536870912",
+    "swap_max": "0",
+    "result": {
+      "ok": true,
+      "edits": 100,
+      "queries": 9900,
+      "initialBuilds": 1,
+      "verifiedInOrder": 10001,
+      "head": "s10001"
+    }
+  },
+  "read_only_mount": "A closed WAL-mode snapshot with no WAL/SHM sidecars could not open on a read-only mount. Final generation uses a rollback journal and passes a read-only packaged CLI/SDK test.",
+  "superseded_run": "A second WAL candidate run was explicitly stopped after the read-only failure. No result was used for acceptance.",
+  "docker_volume_enospc": {
+    "status": "error",
+    "exit_code": 1,
+    "wall_s": 227.25037973298458,
+    "peak_bytes": 270700544,
+    "sampled_max": {
+      "anon": 35774464,
+      "file": 182538240,
+      "rss_sum": 110993408,
+      "current": 269410304,
+      "kernel": 54616064
+    },
+    "baseline": {
+      "t": 0.0009471250232309103,
+      "current": 6791168,
+      "anon": 5967872,
+      "file": 16384,
+      "rss_sum": 11726848,
+      "kernel": 475136
+    },
+    "events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "cpu": {
+      "usage_usec": 139340546,
+      "user_usec": 36432847,
+      "system_usec": 102907699,
+      "core_sched.force_idle_usec": 0,
+      "nr_periods": 2229,
+      "nr_throttled": 1,
+      "throttled_usec": 3076,
+      "nr_bursts": 0,
+      "burst_usec": 0
+    },
+    "limit_bytes": "536870912",
+    "swap_max": "0",
+    "result": {}
+  },
+  "enospc_message": "node:internal/fs/promises:744\n      (await PromisePrototypeThen(\n       ^\n\nError: ENOSPC: no space left on device, write\n    at async write (node:internal/fs/promises:744:8)\n    at async writeFileHandle (node:internal/fs/promises:501:7)\n    at async fsCall (node:internal/fs/promises:466:12)\n    at async writeStepFile (file:///pkg/src/session.mjs:31:9)\n    at async ModelingSession.run (file:///pkg/src/session.mjs:178:5)\n    at async connect (file:///pkg/src/session-catalog.mjs:51:16)\n    at async appendHistory (file:///pkg/benchmarks/session-catalog/workload.mjs:27:17)\n    at async file:///pkg/benchmarks/session-catalog/workload.mjs:74:51 {\n  errno: -28,\n  code: 'ENOSPC',\n  syscall: 'write'\n}\n\nNode.js v22.23.3\n",
+  "resolution": "Fresh run of the same final candidate on a workspace bind mount with sufficient disk space. Mount types differ; the failed Docker-volume run is excluded from timing comparisons."
+}

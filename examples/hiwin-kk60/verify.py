@@ -5,6 +5,8 @@ selected rail/carriage clearances. This is not manufacturer certification.
 """
 import json,sys,hashlib,math
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from session_steps import session_steps
 from OCP.STEPControl import STEPControl_Reader
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
@@ -27,8 +29,8 @@ def near(a,b,tol=1e-5):assert abs(a-b)<tol,(a,b,tol)
 def probe(s,p,inside):
  state=BRepClass3d_SolidClassifier(s,gp_Pnt(*p),1e-6).State();assert state==(TopAbs_IN if inside else TopAbs_OUT),(p,state,inside)
  return {'point':p,'material':inside}
-root=Path(sys.argv[1]);ledger=json.loads((root/'session.json').read_text());results=[];shapes={}
-for entry in ledger['steps']:
+root=Path(sys.argv[1]);results=[];shapes={}
+for entry in session_steps(root):
  if entry['status']!='succeeded' or entry['operation']=='observe':continue
  path=root/entry['artifactDirectory']/'model.step';receipt=json.loads((root/entry['receiptFile']).read_text())['data']
  digest=hashlib.sha256(path.read_bytes()).hexdigest();assert digest==receipt['artifact_sha256']['model.step']

@@ -7,7 +7,7 @@ Use a project skill with Claude Code's existing Bash and file/image tools. Insta
 From your project's root (with a `package.json`; create one with `npm init -y` if needed):
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.7
+npm install --save-exact @coloopx/colocad@0.1.0-alpha.9
 mkdir -p .claude/skills
 test ! -e .claude/skills/colocad && \
   cp -R node_modules/@coloopx/colocad/skills/colocad .claude/skills/colocad

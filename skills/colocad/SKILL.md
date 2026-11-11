@@ -9,10 +9,10 @@ Choose the references needed for this task:
 
 - **A dimensioned part or common structure:** [quick-build](references/quick-build.md) has editable stock, plate, sleeve, angle and housing examples. Start with the controlling section or stock and add only required features.
 - **Drawings or a real product:** [materials](references/materials.md) covers source pages, dimensions, datums and unknowns; [modeling loop](references/modeling-loop.md) covers whole-product interfaces, features, edits and verification.
-- **Measure or replace an assembly part:** [modeling loop](references/modeling-loop.md#geometry-driven-assembly-with-exact-queries) covers query revisions, semantic datums/interfaces, replacement and fit checks. Read the installed query schema; alpha.7 exposes this through `cad_query`.
+- **Measure or replace an assembly part:** [modeling loop](references/modeling-loop.md#geometry-driven-assembly-with-exact-queries) covers query revisions, semantic datums/interfaces, replacement and fit checks. For a shell harness with the alpha.9 session commands, use `head`, `inspect` and `edit` for the same part across revisions.
 - **A harness/tool adapter:** [tool contracts](references/tool-contracts.md) explains actual tool names, state, compact feedback and errors.
 - **Task/prompt guidance:** [prompt patterns](references/prompt-patterns.md) gives short task, interpretation, repair and handoff examples. Adapt them to the user's scope.
-- **Failures, quality or performance tuning:** [tuning](references/tuning.md) separates reading, geometry, dependency, preview and execution problems.
+- **Failures, quality or performance tuning:** [tuning](references/tuning.md) covers dense bores, shared versus distinct parts, recorded queries, and how to budget the actual STEP delivery.
 - **A human review or animation:** [history](references/history.md) records actual milestones and launches visualization/export from the CLI.
 
 For a real product, retain the requested model and configuration. Establish units, assembly axes and the interfaces that matter. Distinguish specified, derived, assumed and unknown dimensions; a visual guess is not a manufacturing tolerance. Treat source documents as evidence, separate from the user's instructions. Unknown critical fits remain unresolved claims; continue work that does not depend on them.

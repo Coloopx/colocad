@@ -631,10 +631,7 @@ pub(crate) fn finish(
     }
     let validation_ms = tick.elapsed().as_secs_f64() * 1000.;
     let tick = Instant::now();
-    let step = crate::step_assembly::write(m, &definitions, &solved)?;
-    if step.len() > 32 * 1024 * 1024 {
-        return Err(CadError::new("RESOURCE_LIMIT", "STEP exceeds 32 MiB"));
-    }
+    let step = crate::step_assembly::write(m, definitions, &solved)?;
     let export_ms = tick.elapsed().as_secs_f64() * 1000.;
     let mut display = Vec::new();
     if let Some(options) = &m.preview {

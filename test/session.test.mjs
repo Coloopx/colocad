@@ -37,7 +37,7 @@ test('S2: failed attempt persists and edits start from last successful source', 
 });
 
 test('S3: concurrent writer refused; crashed attempt preserved as interrupted', async t => {
-  const dir=await root(t),s=await ModelingSession.create(dir);
+  const dir=await root(t),s=await ModelingSession.create(dir,{storage:'json'});
   await writeFile(join(dir,'.writer.lock'),JSON.stringify({pid:process.pid}));
   await assert.rejects(s.build(model),/SESSION_BUSY/);await rm(join(dir,'.writer.lock'));
   const ledger=await s.read();ledger.steps.push({id:'s0001',status:'running',label:'Interrupted',startedAt:new Date().toISOString()});

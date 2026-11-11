@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 assert.ok(!process.env.AGENT_CAD_BINARY);
 const pkg=resolve('node_modules/@coloopx/colocad'),out=resolve('documentation-check');
 const files=['README.md','README.zh-CN.md','ROADMAP.md','ROADMAP.zh-CN.md',
+  'docs/benchmark-alpha9.md','docs/benchmark-alpha9.zh-CN.md','docs/benchmarks/alpha9/scorecard.html','docs/benchmarks/alpha9/scorecard.svg','docs/benchmarks/alpha9/observations.json',
   'docs/cadquery-comparison.md','docs/cadquery-comparison.zh-CN.md','docs/cadquery-coverage.json',
   'docs/best-practices.md','docs/best-practices.zh-CN.md','docs/agent-modeling-handbook.md','docs/agent-modeling-handbook.zh-CN.md',
   'skills/colocad/SKILL.md','skills/colocad/references/tuning.md','skills/colocad/references/modeling-loop.md','skills/colocad/references/prompt-patterns.md'];

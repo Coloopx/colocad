@@ -1,5 +1,7 @@
 # Modeling and integration best practices
 
+For a memory-constrained build, share one definition for identical instances. For unique stock or a dense drilling pattern, measure one representative full STEP with the intended checkpoints before scaling. The [release comparison](benchmark-alpha9.md) includes both wins and reversals.
+
 Applies to the supported Colocad alpha.8 APIs. [中文](best-practices.zh-CN.md) · [Complete agent handbook](agent-modeling-handbook.md) · [Query contract and limits](engineering-queries.md).
 
 
