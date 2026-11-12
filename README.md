@@ -157,6 +157,8 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
 
+**History length and model size have different costs.** Indexed head reads stayed near 20.5 MiB from 10k to 500k entries. On a KK60 camera adapter, 4,096 checks of one revision stayed near 99 MiB after warm-up, but 64 real edits raised current memory from 58.5 to 114.0 MiB. [Change orders, cross-backend geometry checks and growth curves](docs/field-history.md).
+
 The 100 s edit queues delivered **42 / 45 / 42** verified 43-solid hands, with sampled running peaks of **165.2 / 293.8 / 283.5 MiB**.
 
 ![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)

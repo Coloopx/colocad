@@ -156,6 +156,8 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
 
+**历史条数和模型规模要分开看。** 1 万到 50 万条历史的索引 head 读取峰值约 20.5 MiB。在 KK60 转接板上，固定一版连续检查 4,096 次，预热后约 99 MiB；保持两个零件连续改图 64 次，整组当前内存从 58.5 涨到 114.0 MiB。[真实改装、三后端几何验收和内存增长曲线](docs/field-history.zh-CN.md)。
+
 100 秒改参窗口内完成并验收的 43 实体灵巧手为 **42 / 45 / 42 份**，采样累计峰值 **165.2 / 293.8 / 283.5 MiB**。
 
 ![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)

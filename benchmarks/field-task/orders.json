@@ -1,0 +1,7 @@
+[
+  {"id":"install","source":"nominal","length":44,"gauge":5,"cameraPitch":16,"window":false},
+  {"id":"resize","source":"nominal","length":54,"gauge":7,"cameraPitch":22,"window":false},
+  {"id":"service","source":"nominal","length":54,"gauge":7,"cameraPitch":22,"window":true},
+  {"id":"missing","source":"incomplete","length":54,"gauge":7,"cameraPitch":22,"window":true},
+  {"id":"replace","source":"relocated","length":54,"gauge":7,"cameraPitch":22,"window":true}
+]

@@ -1,0 +1,2762 @@
+{
+  "schema": "colocad.field-history/1",
+  "image": "sha256:eb355a472cd7523e69527fec2473903b216de501477b002b1faadc9b28aaaf8a",
+  "old_writes": {
+    "alpha.9": {
+      "kernel_peak_mib": 224.11328125,
+      "clock_offset_upper_s": 1.0171341364039108,
+      "checkpoints": [
+        {
+          "operations": 1000,
+          "entries": 1001,
+          "samples": 188,
+          "current_window_mib": {
+            "current": 58.306640625,
+            "anon": 30.025390625,
+            "file": 22.138671875,
+            "kernel": 6.0234375
+          },
+          "sampled_high_water_interval_mib": [
+            68.4609375,
+            68.4609375
+          ]
+        },
+        {
+          "operations": 2000,
+          "entries": 2001,
+          "samples": 184,
+          "current_window_mib": {
+            "current": 71.861328125,
+            "anon": 28.48828125,
+            "file": 33.158203125,
+            "kernel": 9.98828125
+          },
+          "sampled_high_water_interval_mib": [
+            81.2890625,
+            81.2890625
+          ]
+        },
+        {
+          "operations": 3000,
+          "entries": 3001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 87.6328125,
+            "anon": 28.79296875,
+            "file": 44.859375,
+            "kernel": 13.9921875
+          },
+          "sampled_high_water_interval_mib": [
+            96.9140625,
+            102.28515625
+          ]
+        },
+        {
+          "operations": 4000,
+          "entries": 4001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 110.0703125,
+            "anon": 29.0859375,
+            "file": 63.21875,
+            "kernel": 18.07421875
+          },
+          "sampled_high_water_interval_mib": [
+            121.61328125,
+            123.53515625
+          ]
+        },
+        {
+          "operations": 5000,
+          "entries": 5001,
+          "samples": 190,
+          "current_window_mib": {
+            "current": 126.5,
+            "anon": 29.33984375,
+            "file": 75.220703125,
+            "kernel": 22.05078125
+          },
+          "sampled_high_water_interval_mib": [
+            138.19140625,
+            140.09375
+          ]
+        },
+        {
+          "operations": 6000,
+          "entries": 6001,
+          "samples": 188,
+          "current_window_mib": {
+            "current": 137.296875,
+            "anon": 30.0625,
+            "file": 81.056640625,
+            "kernel": 25.984375
+          },
+          "sampled_high_water_interval_mib": [
+            151.70703125,
+            151.70703125
+          ]
+        },
+        {
+          "operations": 7000,
+          "entries": 7001,
+          "samples": 188,
+          "current_window_mib": {
+            "current": 153.640625,
+            "anon": 30.0078125,
+            "file": 93.482421875,
+            "kernel": 30.03125
+          },
+          "sampled_high_water_interval_mib": [
+            165.5078125,
+            167.703125
+          ]
+        },
+        {
+          "operations": 8000,
+          "entries": 8001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 170.52734375,
+            "anon": 30.3203125,
+            "file": 105.94921875,
+            "kernel": 34.0078125
+          },
+          "sampled_high_water_interval_mib": [
+            186.25,
+            186.25
+          ]
+        },
+        {
+          "operations": 9000,
+          "entries": 9001,
+          "samples": 190,
+          "current_window_mib": {
+            "current": 191.125,
+            "anon": 29.90625,
+            "file": 123.435546875,
+            "kernel": 38.072265625
+          },
+          "sampled_high_water_interval_mib": [
+            202.05078125,
+            204.96875
+          ]
+        },
+        {
+          "operations": 10000,
+          "entries": 10001,
+          "samples": 191,
+          "current_window_mib": {
+            "current": 207.0546875,
+            "anon": 29.625,
+            "file": 135.5546875,
+            "kernel": 42.0703125
+          },
+          "sampled_high_water_interval_mib": [
+            219.36328125,
+            223.99609375
+          ]
+        }
+      ],
+      "sha256": {
+        "measurement.json": "0e84e276d836cca7cecda0fcef1719101eb4d0bf29eb340bd17f2d015b950692",
+        "memory.jsonl": "ce4931875b2bb5b6dd37f1794d8d9e02bb4633b13da70b8e910f0abe9e088e00",
+        "stdout.log": "5ce75542efc631abbfa36db7f0905d7358d23afa4794aedee036742adde1dcda"
+      },
+      "db_sha256": "76d1d0eb76f4705c13b9b1734e4428d07ca4707a9e58017d156f2d95dd0d7cd4"
+    },
+    "alpha.10": {
+      "kernel_peak_mib": 72.0,
+      "clock_offset_upper_s": 0.6339104965445586,
+      "checkpoints": [
+        {
+          "operations": 1000,
+          "entries": 1001,
+          "samples": 187,
+          "current_window_mib": {
+            "current": 49.37890625,
+            "anon": 31.375,
+            "file": 15.33984375,
+            "kernel": 2.68359375
+          },
+          "sampled_high_water_interval_mib": [
+            61.72265625,
+            61.72265625
+          ]
+        },
+        {
+          "operations": 2000,
+          "entries": 2001,
+          "samples": 190,
+          "current_window_mib": {
+            "current": 48.775390625,
+            "anon": 30.201171875,
+            "file": 15.4921875,
+            "kernel": 2.98046875
+          },
+          "sampled_high_water_interval_mib": [
+            61.72265625,
+            61.72265625
+          ]
+        },
+        {
+          "operations": 3000,
+          "entries": 3001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 50.16015625,
+            "anon": 30.7734375,
+            "file": 16.3984375,
+            "kernel": 3.140625
+          },
+          "sampled_high_water_interval_mib": [
+            62.5625,
+            62.5625
+          ]
+        },
+        {
+          "operations": 4000,
+          "entries": 4001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 53.05078125,
+            "anon": 32.83984375,
+            "file": 16.99609375,
+            "kernel": 3.35546875
+          },
+          "sampled_high_water_interval_mib": [
+            65.2734375,
+            65.2734375
+          ]
+        },
+        {
+          "operations": 5000,
+          "entries": 5001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 54.4140625,
+            "anon": 33.30078125,
+            "file": 17.62890625,
+            "kernel": 3.609375
+          },
+          "sampled_high_water_interval_mib": [
+            66.765625,
+            66.765625
+          ]
+        },
+        {
+          "operations": 6000,
+          "entries": 6001,
+          "samples": 185,
+          "current_window_mib": {
+            "current": 55.0625,
+            "anon": 33.2890625,
+            "file": 18.0859375,
+            "kernel": 3.78125
+          },
+          "sampled_high_water_interval_mib": [
+            67.453125,
+            67.671875
+          ]
+        },
+        {
+          "operations": 7000,
+          "entries": 7001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 56.0234375,
+            "anon": 33.33203125,
+            "file": 18.65234375,
+            "kernel": 4.0390625
+          },
+          "sampled_high_water_interval_mib": [
+            68.40625,
+            68.40625
+          ]
+        },
+        {
+          "operations": 8000,
+          "entries": 8001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 56.6796875,
+            "anon": 33.26171875,
+            "file": 19.23046875,
+            "kernel": 4.25
+          },
+          "sampled_high_water_interval_mib": [
+            69.01953125,
+            69.01953125
+          ]
+        },
+        {
+          "operations": 9000,
+          "entries": 9001,
+          "samples": 187,
+          "current_window_mib": {
+            "current": 57.4296875,
+            "anon": 33.38671875,
+            "file": 19.7421875,
+            "kernel": 4.43359375
+          },
+          "sampled_high_water_interval_mib": [
+            69.94140625,
+            70.0078125
+          ]
+        },
+        {
+          "operations": 10000,
+          "entries": 10001,
+          "samples": 189,
+          "current_window_mib": {
+            "current": 57.98828125,
+            "anon": 33.35546875,
+            "file": 19.78125,
+            "kernel": 4.68359375
+          },
+          "sampled_high_water_interval_mib": [
+            70.3359375,
+            71.625
+          ]
+        }
+      ],
+      "sha256": {
+        "measurement.json": "62e0beeac3de6021269d881af7beeb228e1784fb7fa8e352793ed5cf29849ded",
+        "memory.jsonl": "88af4926836e9f4f7a87ece612670cccc0944f6669f66f220f80cdaa01f2be26",
+        "stdout.log": "5c9fcc35bc428027f81fd807586c9e0be9529e6fb761023e83b54bea35990114"
+      },
+      "db_sha256": "02da71ee5ceda6ba61c969cc098f8448256aeae62b576138f16ab4688aec8e36"
+    }
+  },
+  "head_reads": [
+    {
+      "entries": 10000,
+      "peak_mib": 20.48828125
+    },
+    {
+      "entries": 100000,
+      "peak_mib": 20.5078125
+    },
+    {
+      "entries": 500000,
+      "peak_mib": 20.45703125
+    }
+  ],
+  "geometry_median_mib": {
+    "chain/32": 45.9375,
+    "chain/64": 62.30859375,
+    "chain/8": 40.6640625,
+    "part/1024": 308.48046875,
+    "part/16": 40.04296875,
+    "part/256": 99.69140625,
+    "repeated/1": 39.60546875,
+    "repeated/128": 45.5625,
+    "repeated/32": 38.5625,
+    "unique/1": 40.6484375,
+    "unique/16": 67.03515625,
+    "unique/64": 88.609375
+  },
+  "field": {
+    "colocad": {
+      "steps": [
+        {
+          "id": "install",
+          "validSolids": 2,
+          "plateVolumeMm3": 9114.042083455797,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "2b9fd515c93f84e6131a505ba9e79bf4333af9d8e239e228b5f5c2f66b9df10d"
+        },
+        {
+          "id": "resize",
+          "validSolids": 2,
+          "plateVolumeMm3": 15839.658916838116,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "05e145148bea7970ddec431c82bcb4f134483837d58a47010209e04c9d4ae184"
+        },
+        {
+          "id": "service",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838114,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "3a3202104ad34284d69971ad72c4bb06d1dba1ddb498bed29adbf2de0d11c240"
+        },
+        {
+          "id": "replace",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838114,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "7e36a7e4f67325af08fed886ccaece67d95f4a87b2a8e653419777d9d70bf275"
+        }
+      ],
+      "rejected": [
+        {
+          "id": "missing",
+          "reason": "MOUNT_CARDINALITY",
+          "observed": 3
+        }
+      ],
+      "wall_s": 5.69400537799811,
+      "peak_mib": 63.84765625,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "producer": {
+        "ok": true,
+        "receipts": [
+          {
+            "id": "install",
+            "placed": [
+              0,
+              33,
+              0
+            ],
+            "step": "install.step",
+            "revision": "sha256:d65083c67db298c64d2994faf583ff66b7079e6a8269b411f1bab3f542f3c5e2"
+          },
+          {
+            "id": "resize",
+            "placed": [
+              0,
+              33,
+              0
+            ],
+            "step": "resize.step",
+            "revision": "sha256:5c1444432061745be5d35c5e1751610fe7e8c53c0e74543583a2431652c9ed11"
+          },
+          {
+            "id": "service",
+            "placed": [
+              0,
+              33,
+              0
+            ],
+            "step": "service.step",
+            "revision": "sha256:3f4436982d3c649913f4a6dd2e7a3dac85ff0d292d1ba5199068d879e0826b5b"
+          },
+          {
+            "id": "missing",
+            "reason": "MOUNT_CARDINALITY",
+            "observed": 3
+          },
+          {
+            "id": "replace",
+            "placed": [
+              7,
+              33,
+              11
+            ],
+            "step": "replace.step",
+            "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+          }
+        ],
+        "diagnostics": [
+          {
+            "source": "nominal",
+            "blindStatus": "partial",
+            "recognizedBlind": 0,
+            "mountCircles": 4
+          },
+          {
+            "source": "incomplete",
+            "blindStatus": "partial",
+            "recognizedBlind": 0,
+            "mountCircles": 3
+          },
+          {
+            "source": "relocated",
+            "blindStatus": "partial",
+            "recognizedBlind": 0,
+            "mountCircles": 4
+          }
+        ],
+        "checkpoints": [],
+        "historyQueries": 0,
+        "acceptedHead": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      }
+    },
+    "cadquery": {
+      "steps": [
+        {
+          "id": "install",
+          "validSolids": 2,
+          "plateVolumeMm3": 9114.042083455797,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "595a0138ac5b01e04a3dabc7b69beb4bf9aab41c91b60c5793222ccba895137c"
+        },
+        {
+          "id": "resize",
+          "validSolids": 2,
+          "plateVolumeMm3": 15839.658916838118,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "cd8af8b24d08bf6fdac91889a379069a67a639780d7bf7b7beb92c7f186ae33a"
+        },
+        {
+          "id": "service",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838114,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "deac41a8aae8d1935ac1a933026bc3441b673091bcf36cf011cd667a10cd0d01"
+        },
+        {
+          "id": "replace",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838118,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "0bb2e06b93f017c80759c97c1d83f23cd5525026e9026387968f029ac0a22f71"
+        }
+      ],
+      "rejected": [
+        {
+          "id": "missing",
+          "reason": "MOUNT_CARDINALITY",
+          "observed": 3
+        }
+      ],
+      "wall_s": 4.197374918032438,
+      "peak_mib": 512.0,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 636,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "producer": {
+        "ok": true,
+        "receipts": [
+          {
+            "id": "install",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "install.step"
+          },
+          {
+            "id": "resize",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "resize.step"
+          },
+          {
+            "id": "service",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "service.step"
+          },
+          {
+            "id": "missing",
+            "reason": "MOUNT_CARDINALITY",
+            "observed": 3
+          },
+          {
+            "id": "replace",
+            "placed": [
+              7.0,
+              33.0,
+              11.0
+            ],
+            "step": "replace.step"
+          }
+        ]
+      }
+    },
+    "build123d": {
+      "steps": [
+        {
+          "id": "install",
+          "validSolids": 2,
+          "plateVolumeMm3": 9114.042083455797,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "b76e1bd47ed58b1a3485546c61dd12b050e79b49bb45a9a5c3c23db753691a38"
+        },
+        {
+          "id": "resize",
+          "validSolids": 2,
+          "plateVolumeMm3": 15839.658916838118,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": false,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "a3f62cafd1334aa59c720e6563a854ff3c5226ffefd2e953c66062e25ca394aa"
+        },
+        {
+          "id": "service",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838114,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "9c6e5b53a44bbbe375ffa22b9df7caa6dbb8daa243514a31e5e8fac19a1585d9"
+        },
+        {
+          "id": "replace",
+          "validSolids": 2,
+          "plateVolumeMm3": 15615.658916838118,
+          "mounts": 4,
+          "cameraBores": 2,
+          "window": true,
+          "contactGapMm": 0.0,
+          "overlapMm3": 0,
+          "sha256": "a5592b276ab28257ba90c24a06ce983184dedf6a80167512980d40e6c03655f4"
+        }
+      ],
+      "rejected": [
+        {
+          "id": "missing",
+          "reason": "MOUNT_CARDINALITY",
+          "observed": 3
+        }
+      ],
+      "wall_s": 3.960864002001472,
+      "peak_mib": 512.0,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 33,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "producer": {
+        "ok": true,
+        "receipts": [
+          {
+            "id": "install",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "install.step"
+          },
+          {
+            "id": "resize",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "resize.step"
+          },
+          {
+            "id": "service",
+            "placed": [
+              0.0,
+              33.0,
+              0.0
+            ],
+            "step": "service.step"
+          },
+          {
+            "id": "missing",
+            "reason": "MOUNT_CARDINALITY",
+            "observed": 3
+          },
+          {
+            "id": "replace",
+            "placed": [
+              7.0,
+              33.0,
+              11.0
+            ],
+            "step": "replace.step"
+          }
+        ]
+      }
+    }
+  },
+  "sources": {
+    "nominal.step": "863683ec9189e1f2598c44131d719c304af3d288b1e4777dbea8ffc584d28811",
+    "relocated.step": "b390d74d98342837c4e7a6183f11ce6fc1a1c891048965e93454abbb2ea01437",
+    "incomplete.step": "0ecba3d00cdd4a200e5c21e6a81c12822463f64e559df0766a4849220c1e1d3e"
+  },
+  "fixed_geometry": {
+    "ok": true,
+    "receipts": [
+      {
+        "id": "install",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "install.step",
+        "revision": "sha256:d65083c67db298c64d2994faf583ff66b7079e6a8269b411f1bab3f542f3c5e2"
+      },
+      {
+        "id": "resize",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "resize.step",
+        "revision": "sha256:5c1444432061745be5d35c5e1751610fe7e8c53c0e74543583a2431652c9ed11"
+      },
+      {
+        "id": "service",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "service.step",
+        "revision": "sha256:3f4436982d3c649913f4a6dd2e7a3dac85ff0d292d1ba5199068d879e0826b5b"
+      },
+      {
+        "id": "missing",
+        "reason": "MOUNT_CARDINALITY",
+        "observed": 3
+      },
+      {
+        "id": "replace",
+        "placed": [
+          7,
+          33,
+          11
+        ],
+        "step": "replace.step",
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      }
+    ],
+    "diagnostics": [
+      {
+        "source": "nominal",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 4
+      },
+      {
+        "source": "incomplete",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 3
+      },
+      {
+        "source": "relocated",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 4
+      }
+    ],
+    "checkpoints": [
+      {
+        "queries": 0,
+        "current": 108244992,
+        "peak": 121016320,
+        "anon": 20275200,
+        "file": 85880832,
+        "kernel": 1921024,
+        "file_dirty": 4096,
+        "file_writeback": 0,
+        "heapUsed": 13081336,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1,
+        "current": 92717056,
+        "peak": 121016320,
+        "anon": 19832832,
+        "file": 70844416,
+        "kernel": 2015232,
+        "file_dirty": 4096,
+        "file_writeback": 0,
+        "heapUsed": 12352880,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 128,
+        "current": 94400512,
+        "peak": 121016320,
+        "anon": 20955136,
+        "file": 71249920,
+        "kernel": 1998848,
+        "file_dirty": 4096,
+        "file_writeback": 0,
+        "heapUsed": 11192536,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 256,
+        "current": 99688448,
+        "peak": 121016320,
+        "anon": 25874432,
+        "file": 71475200,
+        "kernel": 2150400,
+        "file_dirty": 4096,
+        "file_writeback": 0,
+        "heapUsed": 10112384,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 384,
+        "current": 100274176,
+        "peak": 121016320,
+        "anon": 26632192,
+        "file": 71479296,
+        "kernel": 2154496,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9217376,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 512,
+        "current": 102768640,
+        "peak": 121016320,
+        "anon": 28930048,
+        "file": 71589888,
+        "kernel": 2183168,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 8529608,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 640,
+        "current": 103747584,
+        "peak": 121016320,
+        "anon": 29728768,
+        "file": 71589888,
+        "kernel": 2056192,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 6849752,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 768,
+        "current": 103776256,
+        "peak": 121016320,
+        "anon": 29757440,
+        "file": 71589888,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14050416,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 896,
+        "current": 103727104,
+        "peak": 121016320,
+        "anon": 29868032,
+        "file": 71589888,
+        "kernel": 2203648,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 12542152,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1024,
+        "current": 104013824,
+        "peak": 121016320,
+        "anon": 30130176,
+        "file": 71589888,
+        "kernel": 2211840,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11278904,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1152,
+        "current": 103784448,
+        "peak": 121016320,
+        "anon": 29835264,
+        "file": 71589888,
+        "kernel": 2187264,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10078088,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1280,
+        "current": 103788544,
+        "peak": 121016320,
+        "anon": 29839360,
+        "file": 71589888,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 8877024,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1408,
+        "current": 99999744,
+        "peak": 121016320,
+        "anon": 30404608,
+        "file": 67244032,
+        "kernel": 2166784,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 7363840,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1536,
+        "current": 104349696,
+        "peak": 121016320,
+        "anon": 30437376,
+        "file": 71471104,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14724368,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1664,
+        "current": 104185856,
+        "peak": 121016320,
+        "anon": 30437376,
+        "file": 71471104,
+        "kernel": 2203648,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 13405416,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1792,
+        "current": 104427520,
+        "peak": 121016320,
+        "anon": 30658560,
+        "file": 71471104,
+        "kernel": 2199552,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 12514304,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 1920,
+        "current": 104423424,
+        "peak": 121016320,
+        "anon": 30674944,
+        "file": 71471104,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11271200,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2048,
+        "current": 104382464,
+        "peak": 121016320,
+        "anon": 30683136,
+        "file": 71471104,
+        "kernel": 2203648,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10009688,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2176,
+        "current": 104534016,
+        "peak": 121016320,
+        "anon": 30687232,
+        "file": 71479296,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 8685296,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2304,
+        "current": 104366080,
+        "peak": 121016320,
+        "anon": 30691328,
+        "file": 71479296,
+        "kernel": 2195456,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 7272544,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2432,
+        "current": 104431616,
+        "peak": 121016320,
+        "anon": 30691328,
+        "file": 71479296,
+        "kernel": 2199552,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 13864456,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2560,
+        "current": 104501248,
+        "peak": 121016320,
+        "anon": 30711808,
+        "file": 71479296,
+        "kernel": 2207744,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 12991688,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2688,
+        "current": 103849984,
+        "peak": 121016320,
+        "anon": 29958144,
+        "file": 71479296,
+        "kernel": 2207744,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11455240,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2816,
+        "current": 104013824,
+        "peak": 121016320,
+        "anon": 30257152,
+        "file": 71479296,
+        "kernel": 2203648,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10537816,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 2944,
+        "current": 104013824,
+        "peak": 121016320,
+        "anon": 30265344,
+        "file": 71479296,
+        "kernel": 2220032,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9286128,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3072,
+        "current": 104062976,
+        "peak": 121016320,
+        "anon": 30232576,
+        "file": 71479296,
+        "kernel": 2203648,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 8220408,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3200,
+        "current": 104005632,
+        "peak": 121016320,
+        "anon": 30289920,
+        "file": 71479296,
+        "kernel": 2199552,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 15351656,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3328,
+        "current": 105447424,
+        "peak": 121016320,
+        "anon": 31494144,
+        "file": 71479296,
+        "kernel": 2224128,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 13680904,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3456,
+        "current": 105664512,
+        "peak": 121016320,
+        "anon": 31944704,
+        "file": 71479296,
+        "kernel": 2232320,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 12623296,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3584,
+        "current": 105762816,
+        "peak": 121016320,
+        "anon": 31944704,
+        "file": 71479296,
+        "kernel": 2228224,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11402208,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3712,
+        "current": 105918464,
+        "peak": 121016320,
+        "anon": 31944704,
+        "file": 71479296,
+        "kernel": 2240512,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10395752,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3840,
+        "current": 102641664,
+        "peak": 121016320,
+        "anon": 28852224,
+        "file": 71479296,
+        "kernel": 2232320,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9001832,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 3968,
+        "current": 103546880,
+        "peak": 121016320,
+        "anon": 29769728,
+        "file": 71479296,
+        "kernel": 2252800,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 7682728,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "queries": 4096,
+        "current": 103759872,
+        "peak": 121016320,
+        "anon": 29995008,
+        "file": 71479296,
+        "kernel": 2244608,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14623104,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      }
+    ],
+    "historyQueries": 4096,
+    "acceptedHead": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745",
+    "session_disk_bytes": 30620543,
+    "session_sqlite_bytes": 4292608,
+    "packs_bytes": 11915111
+  },
+  "rebuild": {
+    "ok": true,
+    "receipts": [
+      {
+        "id": "install",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "install.step",
+        "revision": "sha256:d65083c67db298c64d2994faf583ff66b7079e6a8269b411f1bab3f542f3c5e2"
+      },
+      {
+        "id": "resize",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "resize.step",
+        "revision": "sha256:5c1444432061745be5d35c5e1751610fe7e8c53c0e74543583a2431652c9ed11"
+      },
+      {
+        "id": "service",
+        "placed": [
+          0,
+          33,
+          0
+        ],
+        "step": "service.step",
+        "revision": "sha256:3f4436982d3c649913f4a6dd2e7a3dac85ff0d292d1ba5199068d879e0826b5b"
+      },
+      {
+        "id": "missing",
+        "reason": "MOUNT_CARDINALITY",
+        "observed": 3
+      },
+      {
+        "id": "replace",
+        "placed": [
+          7,
+          33,
+          11
+        ],
+        "step": "replace.step",
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      }
+    ],
+    "diagnostics": [
+      {
+        "source": "nominal",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 4
+      },
+      {
+        "source": "incomplete",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 3
+      },
+      {
+        "source": "relocated",
+        "blindStatus": "partial",
+        "recognizedBlind": 0,
+        "mountCircles": 4
+      }
+    ],
+    "checkpoints": [
+      {
+        "edits": 0,
+        "current": 61313024,
+        "peak": 74145792,
+        "anon": 20238336,
+        "file": 38965248,
+        "kernel": 1916928,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 13091888,
+        "revision": "sha256:2e4d031a057634f955946a246659e84a4973f68e0a712b10f298e2f787221745"
+      },
+      {
+        "edits": 1,
+        "current": 63418368,
+        "peak": 75304960,
+        "anon": 21422080,
+        "file": 39743488,
+        "kernel": 2154496,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14099416,
+        "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+      },
+      {
+        "edits": 4,
+        "current": 62197760,
+        "peak": 77156352,
+        "anon": 17936384,
+        "file": 42262528,
+        "kernel": 1953792,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9297344,
+        "revision": "sha256:dcd8a6eb6de19a1c89cd998948de426095bb92e34fdb308f8eaa224d46e45dd3"
+      },
+      {
+        "edits": 8,
+        "current": 71319552,
+        "peak": 83320832,
+        "anon": 23171072,
+        "file": 45625344,
+        "kernel": 2428928,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14575648,
+        "revision": "sha256:c2342407248960a44c10254f17ed9c57f2b4d0cf4778c1a2b22c273786e0b00f"
+      },
+      {
+        "edits": 12,
+        "current": 71344128,
+        "peak": 84180992,
+        "anon": 19722240,
+        "file": 48992256,
+        "kernel": 2461696,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11011000,
+        "revision": "sha256:de720e17c9ecb4cbd8ae359d729ee8137113ff6872d7478af0eb02cc7726ea00"
+      },
+      {
+        "edits": 16,
+        "current": 78860288,
+        "peak": 91742208,
+        "anon": 23613440,
+        "file": 52355072,
+        "kernel": 2736128,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 15002648,
+        "revision": "sha256:2931604b6b774939a0e4163b981420ea0e816625ca2ab379e13d4be61f3977bf"
+      },
+      {
+        "edits": 20,
+        "current": 77242368,
+        "peak": 92725248,
+        "anon": 18964480,
+        "file": 55717888,
+        "kernel": 2514944,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10015304,
+        "revision": "sha256:70f9f5bb365c68fb52d348ad454fc46668f17c0c9bdd3b1ea71d7b3e3b63bc3c"
+      },
+      {
+        "edits": 24,
+        "current": 84938752,
+        "peak": 98181120,
+        "anon": 22716416,
+        "file": 59080704,
+        "kernel": 2973696,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14006048,
+        "revision": "sha256:c5b7b33c18f79113e32297795868d8ab04e65fb14a470efd0693ca6fe12ffbda"
+      },
+      {
+        "edits": 28,
+        "current": 83283968,
+        "peak": 100655104,
+        "anon": 18104320,
+        "file": 62443520,
+        "kernel": 2732032,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9021872,
+        "revision": "sha256:6c1d70b68e5d0f4a5135256f29825db2bab42d9fbbc9cacccc26e49474a71de4"
+      },
+      {
+        "edits": 32,
+        "current": 91009024,
+        "peak": 103870464,
+        "anon": 21929984,
+        "file": 65806336,
+        "kernel": 3207168,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 13023392,
+        "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+      },
+      {
+        "edits": 36,
+        "current": 90456064,
+        "peak": 110628864,
+        "anon": 18223104,
+        "file": 69173248,
+        "kernel": 2977792,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 8063752,
+        "revision": "sha256:b7b6e34fbfdec92e33e6c9310ea3acd61051cff799c52a445a1c6c6d7c54b9d2"
+      },
+      {
+        "edits": 40,
+        "current": 98148352,
+        "peak": 110628864,
+        "anon": 21979136,
+        "file": 72536064,
+        "kernel": 3436544,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 12034424,
+        "revision": "sha256:2cad4be116e629acdbf05d529dda660c168fb1bd824b32d22a7faf2bd17d55b5"
+      },
+      {
+        "edits": 44,
+        "current": 105455616,
+        "peak": 118448128,
+        "anon": 25735168,
+        "file": 75898880,
+        "kernel": 3702784,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 16034744,
+        "revision": "sha256:b6ada259ebb2016709e26535e8f995dc72dacb701011fe2a75a9dc2bd8150191"
+      },
+      {
+        "edits": 48,
+        "current": 104251392,
+        "peak": 118448128,
+        "anon": 21078016,
+        "file": 79265792,
+        "kernel": 3674112,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 10182408,
+        "revision": "sha256:5fe6422e85b0fd6d678278771ae529332005d68da23f779fa15b3fcf5404e02c"
+      },
+      {
+        "edits": 52,
+        "current": 111288320,
+        "peak": 124530688,
+        "anon": 24846336,
+        "file": 82628608,
+        "kernel": 3788800,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 14171312,
+        "revision": "sha256:7e8f8b21d72db22d7e1a0f24ba7b63a2bd30d8ed12f49a05b2c61efc81f905a8"
+      },
+      {
+        "edits": 56,
+        "current": 111050752,
+        "peak": 126246912,
+        "anon": 21094400,
+        "file": 85991424,
+        "kernel": 3747840,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 9765360,
+        "revision": "sha256:568f805db51f6176b66b6cfd7375090689b638ccc53ac4446b5493ec121a5a43"
+      },
+      {
+        "edits": 60,
+        "current": 112173056,
+        "peak": 129441792,
+        "anon": 18624512,
+        "file": 89354240,
+        "kernel": 3973120,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 7395136,
+        "revision": "sha256:4849314816ea45079f8d5528026c4e2d9a8fe020c2e95fdaf72493a21363f5bd"
+      },
+      {
+        "edits": 64,
+        "current": 119517184,
+        "peak": 132579328,
+        "anon": 22376448,
+        "file": 92717056,
+        "kernel": 4239360,
+        "file_dirty": 0,
+        "file_writeback": 0,
+        "heapUsed": 11162000,
+        "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+      }
+    ],
+    "historyQueries": 0,
+    "historyEdits": 64,
+    "editSteps": [
+      {
+        "i": 1,
+        "id": "s0005",
+        "gauge": 5,
+        "cameraPitch": 16,
+        "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e",
+        "sha256": "02e75a4a0528033ac66f13f0da65c78975d6141160418458771d2f2b6a436306"
+      },
+      {
+        "i": 2,
+        "id": "s0006",
+        "gauge": 5.5,
+        "cameraPitch": 16,
+        "revision": "sha256:7a150f1c138fc9d3d71653c9fe6e9d261022f9e45fff034cd819b81acd339348",
+        "sha256": "e748267662ca2a6948a23a8a6d25d0c4e06e9c61b9d3bb95b17547a70819ef80"
+      },
+      {
+        "i": 3,
+        "id": "s0007",
+        "gauge": 6,
+        "cameraPitch": 16,
+        "revision": "sha256:5f7e62e6143241f82d219b641fc65d5b55414e11513f1d71eb489b644c6610ff",
+        "sha256": "c84f0f305667610cd91ee6f891f85c1b3cea3d62e4a4282a927d1270f14685b5"
+      },
+      {
+        "i": 4,
+        "id": "s0008",
+        "gauge": 6.5,
+        "cameraPitch": 16,
+        "revision": "sha256:dcd8a6eb6de19a1c89cd998948de426095bb92e34fdb308f8eaa224d46e45dd3",
+        "sha256": "731466f68f4edda7d707daa8edd830a0058429871d84a510de2accdd3f09cbb8"
+      },
+      {
+        "i": 5,
+        "id": "s0009",
+        "gauge": 7,
+        "cameraPitch": 16,
+        "revision": "sha256:c7f0032224477377949f5a18f62243b9c5346cb8ec4b1ab24532a0499b5eb4ca",
+        "sha256": "794c580251b941122facb368b0d84719a6aafdd9d2c2cfb3cabb3ec8f0bf793b"
+      },
+      {
+        "i": 6,
+        "id": "s0010",
+        "gauge": 5,
+        "cameraPitch": 16.25,
+        "revision": "sha256:36a968d59c66c696bf231d9aee8e2aad331441cf7956cc3828113924b0d8125b",
+        "sha256": "b53fe04d648c2b291058205823b9ae2fc6eed1a37c6f1b4cece9d777accbd106"
+      },
+      {
+        "i": 7,
+        "id": "s0011",
+        "gauge": 5.5,
+        "cameraPitch": 16.25,
+        "revision": "sha256:60cca6a9c95dfbed583538ba6c4597e29070e12d60541fae67db8ad227baefe2",
+        "sha256": "b1fbe329afa9b6e8f170bafdaef5135fffbcc1b3f0afc4ff59e5e7c5629b620e"
+      },
+      {
+        "i": 8,
+        "id": "s0012",
+        "gauge": 6,
+        "cameraPitch": 16.25,
+        "revision": "sha256:c2342407248960a44c10254f17ed9c57f2b4d0cf4778c1a2b22c273786e0b00f",
+        "sha256": "5566beab4f6425fcf984f2dfc0e1b8187384b12c33f98100716103fa61a741fc"
+      },
+      {
+        "i": 9,
+        "id": "s0013",
+        "gauge": 6.5,
+        "cameraPitch": 16.25,
+        "revision": "sha256:2cb6d070d19605edbcf9268db28eac5c18d40f0feded917e5b444296a42d7837",
+        "sha256": "28de7a7688f56b9c19e4b4268046870d1e3106b0f578117d8e9f8e3543c19a08"
+      },
+      {
+        "i": 10,
+        "id": "s0014",
+        "gauge": 7,
+        "cameraPitch": 16.25,
+        "revision": "sha256:0eea00b56aa37a4c21b59acb0889733de47dd6cfcabce385b900d7f8247e87c2",
+        "sha256": "3cb13c8e9606a25cfbf5d8103ff515fe8e031f84968c10adc49b439707a2e728"
+      },
+      {
+        "i": 11,
+        "id": "s0015",
+        "gauge": 5,
+        "cameraPitch": 16.5,
+        "revision": "sha256:f5dec4c57a7719102187a4fbdb2fb23ab484d49376015d9e64453ea2d8da14d0",
+        "sha256": "50e9c0ec22e02f9cac32fe3598efbec0054a11815e3a6223ab83f8efcc61c37c"
+      },
+      {
+        "i": 12,
+        "id": "s0016",
+        "gauge": 5.5,
+        "cameraPitch": 16.5,
+        "revision": "sha256:de720e17c9ecb4cbd8ae359d729ee8137113ff6872d7478af0eb02cc7726ea00",
+        "sha256": "f1b40bc3741771b5a0ca16f14892f858a4ff3dea86674633038dbe0c5691d8fd"
+      },
+      {
+        "i": 13,
+        "id": "s0017",
+        "gauge": 6,
+        "cameraPitch": 16.5,
+        "revision": "sha256:f9638c8fd4cf33a4f2abc286184c3b3cdea308838b103942001a0f63d2272747",
+        "sha256": "2b61cf8a6078aeb58af73d8846ddf796c31479c2f42e0546eb60ba074881e01b"
+      },
+      {
+        "i": 14,
+        "id": "s0018",
+        "gauge": 6.5,
+        "cameraPitch": 16.5,
+        "revision": "sha256:aa04e25d1728dc00a389da56a1927893c3d1ecea51c810ec7a97113fc33a0744",
+        "sha256": "ff43c36a1c183e8c2b5937f2d5aa83c92cd345b69cc9b4a21e043f54faab6120"
+      },
+      {
+        "i": 15,
+        "id": "s0019",
+        "gauge": 7,
+        "cameraPitch": 16.5,
+        "revision": "sha256:21ea8febbe20cf31e90fea595f37414959581fe50bf4698ffd60118320106786",
+        "sha256": "e4b7bea61f004910dc7896111530510393658abb67969798fe47877ee8a39ef3"
+      },
+      {
+        "i": 16,
+        "id": "s0020",
+        "gauge": 5,
+        "cameraPitch": 16.75,
+        "revision": "sha256:2931604b6b774939a0e4163b981420ea0e816625ca2ab379e13d4be61f3977bf",
+        "sha256": "3aefdff34b91f1b4e6910b510866dfdeb6b619b0f719b492f82d2759af5aaf52"
+      },
+      {
+        "i": 17,
+        "id": "s0021",
+        "gauge": 5.5,
+        "cameraPitch": 16.75,
+        "revision": "sha256:2eed2d0259f52779c0cd910ce2f479a47db89d1f291f82ba5bc44e7033aa6623",
+        "sha256": "de4926fc52ee59e707664a83f0fa5e575179ad8428ac911a5ad66ddd6310afd3"
+      },
+      {
+        "i": 18,
+        "id": "s0022",
+        "gauge": 6,
+        "cameraPitch": 16.75,
+        "revision": "sha256:c2afe6f687fbd8352f7ae0c59a27d9c5c9846478dea07bf6f1df3c0b6c2130f0",
+        "sha256": "1d46084f9d1ec20b909dd305b8c207cb495651a6a6abb8d857314186faa4ff41"
+      },
+      {
+        "i": 19,
+        "id": "s0023",
+        "gauge": 6.5,
+        "cameraPitch": 16.75,
+        "revision": "sha256:23da139ec892e89685845d04c6a6c37e7a19bf0d98662be84f948387a9802327",
+        "sha256": "e0b31667eb5fbee3e8fea51bac9589d093ac9b625e2c92eee67c9c3ad23c8e04"
+      },
+      {
+        "i": 20,
+        "id": "s0024",
+        "gauge": 7,
+        "cameraPitch": 16.75,
+        "revision": "sha256:70f9f5bb365c68fb52d348ad454fc46668f17c0c9bdd3b1ea71d7b3e3b63bc3c",
+        "sha256": "2c46bd257bae0c11c21b3d83e6d82b700ce6fe83626564bf96da2e05818cf678"
+      },
+      {
+        "i": 21,
+        "id": "s0025",
+        "gauge": 5,
+        "cameraPitch": 17,
+        "revision": "sha256:38f22e1a4d960267ecc97f65fcc2140eec5b0ada384df54f58df3125b2d6b0b8",
+        "sha256": "6d3c6fac7aef35c8f3c198e21f9a8775b6e3219a53aab3b646862d802cc2245f"
+      },
+      {
+        "i": 22,
+        "id": "s0026",
+        "gauge": 5.5,
+        "cameraPitch": 17,
+        "revision": "sha256:35b3316a51c78cf7f3710b5c04def251aeb35a8094dcf69797baa804666a7b89",
+        "sha256": "7f386a0966aed64983581a5d2638ba128e810683ce9e99f03da81a1661cd2a92"
+      },
+      {
+        "i": 23,
+        "id": "s0027",
+        "gauge": 6,
+        "cameraPitch": 17,
+        "revision": "sha256:19e410cb37d4131e8f7ae01f8cc0196eed1e8c92ae88d0b186701c8bd62e264f",
+        "sha256": "a79fa52ac12af17ef8bd4a6581009d8d06175938bcb5c7e246b0178f7c2162a3"
+      },
+      {
+        "i": 24,
+        "id": "s0028",
+        "gauge": 6.5,
+        "cameraPitch": 17,
+        "revision": "sha256:c5b7b33c18f79113e32297795868d8ab04e65fb14a470efd0693ca6fe12ffbda",
+        "sha256": "53c28b30a6629a2f74f2c7caa398e3c51915aabf069f126728219460c1bf7fa9"
+      },
+      {
+        "i": 25,
+        "id": "s0029",
+        "gauge": 7,
+        "cameraPitch": 17,
+        "revision": "sha256:b4902d4bcc29677fdd710fc68a4c660950643d2c9c9762491aaea9c74a3a4bfa",
+        "sha256": "0b255dcf7b6932cc3217cccd5eddbd4512ed6e4a8ab9f95129830dacf972d69e"
+      },
+      {
+        "i": 26,
+        "id": "s0030",
+        "gauge": 5,
+        "cameraPitch": 17.25,
+        "revision": "sha256:919252101d10b185074f5ef1f26644c1fdea7518cab14b3fb3c2e2e882ae369b",
+        "sha256": "e46411e0e90c72d876cbd61525e8748ce4ca15fe3091282360aa5e9dec5d5cb8"
+      },
+      {
+        "i": 27,
+        "id": "s0031",
+        "gauge": 5.5,
+        "cameraPitch": 17.25,
+        "revision": "sha256:0aee5d433cc45767acc9810feea762c267d5dadb63ae47b567653412be2fd073",
+        "sha256": "a16dfbd9a90dc7f8bb03a0b74316b16b5e055b185efbca0ae3a9bdce1a15b15a"
+      },
+      {
+        "i": 28,
+        "id": "s0032",
+        "gauge": 6,
+        "cameraPitch": 17.25,
+        "revision": "sha256:6c1d70b68e5d0f4a5135256f29825db2bab42d9fbbc9cacccc26e49474a71de4",
+        "sha256": "ce4662926b43ddc5b8436e989ce7fc218504933a45b3b3dd54ae8c64144b49e0"
+      },
+      {
+        "i": 29,
+        "id": "s0033",
+        "gauge": 6.5,
+        "cameraPitch": 17.25,
+        "revision": "sha256:685c31a60151f9efa29851f1e2ecbfeec1bc4caaf4d136cb40f350815d3cccd2",
+        "sha256": "e29d69c8ed8aee0dca9fd555a7059be15667df3449eddcc1dbbc54eb09927328"
+      },
+      {
+        "i": 30,
+        "id": "s0034",
+        "gauge": 7,
+        "cameraPitch": 17.25,
+        "revision": "sha256:c32892a85fd548a3a8ed14d3ccaad4fa778acbbc926eb864e1681a9bf90c039d",
+        "sha256": "b2ad6ebffcbf23af53d04b40e43b518bdf47519e8ceccc77ee3abfd9be65642c"
+      },
+      {
+        "i": 31,
+        "id": "s0035",
+        "gauge": 5,
+        "cameraPitch": 17.5,
+        "revision": "sha256:32bf07abee33aae81809fa4125916a1aefd3ef686de146e816ecef5d2b168ae8",
+        "sha256": "103066a723928d69ca7f88c0b351edea6a7a5cee7f0e2d472afeff1d6a9870e5"
+      },
+      {
+        "i": 32,
+        "id": "s0036",
+        "gauge": 5.5,
+        "cameraPitch": 17.5,
+        "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53",
+        "sha256": "11a6a6e8d39738d462bd4ca2b8f8cd3b9b4f5b709c917b70c3292d1548be663f"
+      },
+      {
+        "i": 33,
+        "id": "s0037",
+        "gauge": 6,
+        "cameraPitch": 17.5,
+        "revision": "sha256:d7314370f165f1b127804ae9463bdca584f13dcb8d62280e4072e2ba04f3d006",
+        "sha256": "9754101f4d6e1f8ad8ce7c76bf8fc43d4272b58763ec7decb0f39c9150468e7b"
+      },
+      {
+        "i": 34,
+        "id": "s0038",
+        "gauge": 6.5,
+        "cameraPitch": 17.5,
+        "revision": "sha256:992ad53f059152a39b9d9e87fb6fe2e7243194cf9828a5d2f99dd2d833f09a51",
+        "sha256": "0b94f1aa428d6f1083b3ee0c8d44b6976c57997c52c583a7ae5383fe76d9a2ec"
+      },
+      {
+        "i": 35,
+        "id": "s0039",
+        "gauge": 7,
+        "cameraPitch": 17.5,
+        "revision": "sha256:6debf0a29cb9a5e037a2acf0041e0a9113a203931442bf9cb3f6dac6dbb13801",
+        "sha256": "53da1ea70d39287702eed649c17f2d8d01dfb2922204f5e17511715a5e0fe7cb"
+      },
+      {
+        "i": 36,
+        "id": "s0040",
+        "gauge": 5,
+        "cameraPitch": 17.75,
+        "revision": "sha256:b7b6e34fbfdec92e33e6c9310ea3acd61051cff799c52a445a1c6c6d7c54b9d2",
+        "sha256": "9454e3b35fd4f3101ff39fd1a10691068f9b5989c86ce9bf0f5ba870f4f1af49"
+      },
+      {
+        "i": 37,
+        "id": "s0041",
+        "gauge": 5.5,
+        "cameraPitch": 17.75,
+        "revision": "sha256:472a382c8022e40c5d82ad574ff458a53482f244476b98ebc7f5e699b8389887",
+        "sha256": "98dc94be6e70e5012c43afa1943aac2b785581f40212f2f85642b7763d614c7b"
+      },
+      {
+        "i": 38,
+        "id": "s0042",
+        "gauge": 6,
+        "cameraPitch": 17.75,
+        "revision": "sha256:3cac8001721cf4ffeb76659d2a9d76702e7662e66c98e176df67c5438ab6a28c",
+        "sha256": "712db95f2a9fb5664e228f044819759c7fd72979379ccc734ba12fa80dcfa6dd"
+      },
+      {
+        "i": 39,
+        "id": "s0043",
+        "gauge": 6.5,
+        "cameraPitch": 17.75,
+        "revision": "sha256:594a00f2f65ce38d21dbf22aa26fab39cc0b28dfdf8a2608cb609512e18adbc9",
+        "sha256": "5c694562453000393e9a6e3f8dfa545df6c04a9c5050132787996a3f3c6ee430"
+      },
+      {
+        "i": 40,
+        "id": "s0044",
+        "gauge": 7,
+        "cameraPitch": 17.75,
+        "revision": "sha256:2cad4be116e629acdbf05d529dda660c168fb1bd824b32d22a7faf2bd17d55b5",
+        "sha256": "5cf559caa5a840957a8dfec50aa38bd336dbef3d2f59512faca5ac2adffaa65b"
+      },
+      {
+        "i": 41,
+        "id": "s0045",
+        "gauge": 5,
+        "cameraPitch": 18,
+        "revision": "sha256:ff9241ebbc12ad533a5c9b1676f3baff11f0ccde042811334bb5e01ddc276f39",
+        "sha256": "9bebf09e071626eaddbbd4e7876862a45d6ebea2d2282a4b95362dc439783290"
+      },
+      {
+        "i": 42,
+        "id": "s0046",
+        "gauge": 5.5,
+        "cameraPitch": 18,
+        "revision": "sha256:32ab2e421d47a120453fd8b70513a879f648af7ffd6aecfb8b03bb200fe5bfb1",
+        "sha256": "178d0544e5b1280c293b4f875ade0e24422def0bd32060079c4861e981d538ef"
+      },
+      {
+        "i": 43,
+        "id": "s0047",
+        "gauge": 6,
+        "cameraPitch": 18,
+        "revision": "sha256:da09de24766fc45ad342dd8be9172868733b4e0eaf69d18e5c76575ba2267ee7",
+        "sha256": "97b15ff1477e8525896ccfb6dcff66e5b486dc863331753b4383020b5a00f573"
+      },
+      {
+        "i": 44,
+        "id": "s0048",
+        "gauge": 6.5,
+        "cameraPitch": 18,
+        "revision": "sha256:b6ada259ebb2016709e26535e8f995dc72dacb701011fe2a75a9dc2bd8150191",
+        "sha256": "e32b6344ab976805e6657190fc3c50e6e382e13954db50d07f18ee42426cae58"
+      },
+      {
+        "i": 45,
+        "id": "s0049",
+        "gauge": 7,
+        "cameraPitch": 18,
+        "revision": "sha256:817bed1cf466e872ea026d479e520b24ab9ead5328b47c6f3577cfca8e71cb81",
+        "sha256": "2cef1a84ad4d1cbd7e3b5660638902ff31c14b3fcfd2ec7439d43f39d77c40df"
+      },
+      {
+        "i": 46,
+        "id": "s0050",
+        "gauge": 5,
+        "cameraPitch": 18.25,
+        "revision": "sha256:c25fceea322a1b22eacfcfbfe9940ad21561ff5f50d0550454610dc2047cce58",
+        "sha256": "6053a44dcc0e0345b239f3bc5b33e7da6720fe285efaa48cd48c2e0259aa181a"
+      },
+      {
+        "i": 47,
+        "id": "s0051",
+        "gauge": 5.5,
+        "cameraPitch": 18.25,
+        "revision": "sha256:b125ee573b5508719302ee556222c5dcf443fc05c821ac6458e0957f99258a8d",
+        "sha256": "47d0dcacbe7092d7a4bd6ef9fe0576a010b21f4941e68a6b23335b99ace00e1c"
+      },
+      {
+        "i": 48,
+        "id": "s0052",
+        "gauge": 6,
+        "cameraPitch": 18.25,
+        "revision": "sha256:5fe6422e85b0fd6d678278771ae529332005d68da23f779fa15b3fcf5404e02c",
+        "sha256": "630279cc281b624416e97f702d9326303d1747c7a97c218c7ebce92251bc14c0"
+      },
+      {
+        "i": 49,
+        "id": "s0053",
+        "gauge": 6.5,
+        "cameraPitch": 18.25,
+        "revision": "sha256:ac840d835746220610699618b61b385ebcfbd62d4164c1ab76cf02a1f391c961",
+        "sha256": "5b4563752e7b068d4df44e85ba17dbf31d778167a2fb7e732801cd203fb10ff7"
+      },
+      {
+        "i": 50,
+        "id": "s0054",
+        "gauge": 7,
+        "cameraPitch": 18.25,
+        "revision": "sha256:47cbbf0d92fd2be84aa93caa34b40aebf9eb3e7063d07abdc2560c7c64ba11ff",
+        "sha256": "b9ebf05915ff00aa7dbef451749145b5da6de89c1de1b2497d208384eea265d6"
+      },
+      {
+        "i": 51,
+        "id": "s0055",
+        "gauge": 5,
+        "cameraPitch": 18.5,
+        "revision": "sha256:b58bf06805b30f5477c528508f642d2ad7f33be95022c77a2fb86aafca18b00a",
+        "sha256": "f50ae027643837ea77a5b0909c4168d47306940751ef95f95caffdc95914dfe0"
+      },
+      {
+        "i": 52,
+        "id": "s0056",
+        "gauge": 5.5,
+        "cameraPitch": 18.5,
+        "revision": "sha256:7e8f8b21d72db22d7e1a0f24ba7b63a2bd30d8ed12f49a05b2c61efc81f905a8",
+        "sha256": "6d6d00def001edf711854ed7324733056e428253c50c123abaf425f38ed8c265"
+      },
+      {
+        "i": 53,
+        "id": "s0057",
+        "gauge": 6,
+        "cameraPitch": 18.5,
+        "revision": "sha256:2fb6b96cef08e7a50e5e0626ed429a334ca162bf90cc1a1624128691de0fccaa",
+        "sha256": "666cd289ee9ae5f671c4cc87315f2f984fd6e48cff123b15870767b9092427e4"
+      },
+      {
+        "i": 54,
+        "id": "s0058",
+        "gauge": 6.5,
+        "cameraPitch": 18.5,
+        "revision": "sha256:c17985f2ea2947912fe087c3b0e71634d32aa1a706bc1706e4e302cf02cd52ae",
+        "sha256": "8fd85e4d4b57126ede0de31ddd29d795addd844a388a8ec525e59e0003507e00"
+      },
+      {
+        "i": 55,
+        "id": "s0059",
+        "gauge": 7,
+        "cameraPitch": 18.5,
+        "revision": "sha256:4a4a2a81ea6950fa24d2370ad3e8c7fc9d3ddb8c3f014aad7f5100f416893504",
+        "sha256": "bbc3de3e0378c4fedf6f82d2fc881af0521780679c511a3b4a104291615829de"
+      },
+      {
+        "i": 56,
+        "id": "s0060",
+        "gauge": 5,
+        "cameraPitch": 18.75,
+        "revision": "sha256:568f805db51f6176b66b6cfd7375090689b638ccc53ac4446b5493ec121a5a43",
+        "sha256": "5985cf91bdaf36f0056b055f1b9fac8229eacdd3ce177990370a41907db87770"
+      },
+      {
+        "i": 57,
+        "id": "s0061",
+        "gauge": 5.5,
+        "cameraPitch": 18.75,
+        "revision": "sha256:63db6a4e60b5830c562e592a2252baf1749b8a1482e3540ee2dbfdfcfc9677d7",
+        "sha256": "38ffc1a1c7a0347d8dd31d82f708e366f23fcf2d7553ca86f5ed9bb7c288ee1e"
+      },
+      {
+        "i": 58,
+        "id": "s0062",
+        "gauge": 6,
+        "cameraPitch": 18.75,
+        "revision": "sha256:786ace586653ce872ef535b2061823efe67b2bbaa6f298e727a546a7e21b4d8c",
+        "sha256": "4c2b34e01d1fb86056482bc4a3f2b04e9e82d2e2ad3dc72e7c9d0ae9112a77e3"
+      },
+      {
+        "i": 59,
+        "id": "s0063",
+        "gauge": 6.5,
+        "cameraPitch": 18.75,
+        "revision": "sha256:d63564e728f0c3e0c6a8e20b2b1e10da64d6f4b9c840b93baab3fdfb74a211f6",
+        "sha256": "53bc0bac0f67798ff3af83cffaae585010180d9e0748662d61c8a75948c65e58"
+      },
+      {
+        "i": 60,
+        "id": "s0064",
+        "gauge": 7,
+        "cameraPitch": 18.75,
+        "revision": "sha256:4849314816ea45079f8d5528026c4e2d9a8fe020c2e95fdaf72493a21363f5bd",
+        "sha256": "845595442dd0e157cacabf181a1960d32f6046020a50de6b842592957d43a8ed"
+      },
+      {
+        "i": 61,
+        "id": "s0065",
+        "gauge": 5,
+        "cameraPitch": 19,
+        "revision": "sha256:d95a655372e6eaccf2dc3cc73e4d433159b7c34b29da788de11f292527a54392",
+        "sha256": "bf8db88f867ccef3e76114a61861bb819292304798dbcac1e8f7abe5a268dfeb"
+      },
+      {
+        "i": 62,
+        "id": "s0066",
+        "gauge": 5.5,
+        "cameraPitch": 19,
+        "revision": "sha256:612fd74cfc13d5c0b8c9f7cef9f8a17f326d22e501d13f9d4522a3a787fe5a10",
+        "sha256": "211653798fe32df0e5f3ce9529a34e5578d26990c87b0932aa9dd7d2a63f7eb6"
+      },
+      {
+        "i": 63,
+        "id": "s0067",
+        "gauge": 6,
+        "cameraPitch": 19,
+        "revision": "sha256:7a4f7d187400afcc62fd503fa4b393d841eb5b12ab88b748a1545227d0a14699",
+        "sha256": "9af05c965f73e588315987421881dda9cbc4f4c8852b5b79cca1ea0ca2c2e24d"
+      },
+      {
+        "i": 64,
+        "id": "s0068",
+        "gauge": 6.5,
+        "cameraPitch": 19,
+        "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d",
+        "sha256": "7fc13f2ffbfccbc5e74c8564080eb82fd15cf3f1bd5434f26c2a96742cb982d8"
+      }
+    ],
+    "acceptedHead": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d",
+    "readbacks": [
+      {
+        "id": "s0005",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "02e75a4a0528033ac66f13f0da65c78975d6141160418458771d2f2b6a436306"
+      },
+      {
+        "id": "s0006",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e748267662ca2a6948a23a8a6d25d0c4e06e9c61b9d3bb95b17547a70819ef80"
+      },
+      {
+        "id": "s0007",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "c84f0f305667610cd91ee6f891f85c1b3cea3d62e4a4282a927d1270f14685b5"
+      },
+      {
+        "id": "s0008",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "731466f68f4edda7d707daa8edd830a0058429871d84a510de2accdd3f09cbb8"
+      },
+      {
+        "id": "s0009",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "794c580251b941122facb368b0d84719a6aafdd9d2c2cfb3cabb3ec8f0bf793b"
+      },
+      {
+        "id": "s0010",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "b53fe04d648c2b291058205823b9ae2fc6eed1a37c6f1b4cece9d777accbd106"
+      },
+      {
+        "id": "s0011",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "b1fbe329afa9b6e8f170bafdaef5135fffbcc1b3f0afc4ff59e5e7c5629b620e"
+      },
+      {
+        "id": "s0012",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "5566beab4f6425fcf984f2dfc0e1b8187384b12c33f98100716103fa61a741fc"
+      },
+      {
+        "id": "s0013",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "28de7a7688f56b9c19e4b4268046870d1e3106b0f578117d8e9f8e3543c19a08"
+      },
+      {
+        "id": "s0014",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "3cb13c8e9606a25cfbf5d8103ff515fe8e031f84968c10adc49b439707a2e728"
+      },
+      {
+        "id": "s0015",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "50e9c0ec22e02f9cac32fe3598efbec0054a11815e3a6223ab83f8efcc61c37c"
+      },
+      {
+        "id": "s0016",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "f1b40bc3741771b5a0ca16f14892f858a4ff3dea86674633038dbe0c5691d8fd"
+      },
+      {
+        "id": "s0017",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "2b61cf8a6078aeb58af73d8846ddf796c31479c2f42e0546eb60ba074881e01b"
+      },
+      {
+        "id": "s0018",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "ff43c36a1c183e8c2b5937f2d5aa83c92cd345b69cc9b4a21e043f54faab6120"
+      },
+      {
+        "id": "s0019",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e4b7bea61f004910dc7896111530510393658abb67969798fe47877ee8a39ef3"
+      },
+      {
+        "id": "s0020",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "3aefdff34b91f1b4e6910b510866dfdeb6b619b0f719b492f82d2759af5aaf52"
+      },
+      {
+        "id": "s0021",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "de4926fc52ee59e707664a83f0fa5e575179ad8428ac911a5ad66ddd6310afd3"
+      },
+      {
+        "id": "s0022",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "1d46084f9d1ec20b909dd305b8c207cb495651a6a6abb8d857314186faa4ff41"
+      },
+      {
+        "id": "s0023",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e0b31667eb5fbee3e8fea51bac9589d093ac9b625e2c92eee67c9c3ad23c8e04"
+      },
+      {
+        "id": "s0024",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "2c46bd257bae0c11c21b3d83e6d82b700ce6fe83626564bf96da2e05818cf678"
+      },
+      {
+        "id": "s0025",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "6d3c6fac7aef35c8f3c198e21f9a8775b6e3219a53aab3b646862d802cc2245f"
+      },
+      {
+        "id": "s0026",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "7f386a0966aed64983581a5d2638ba128e810683ce9e99f03da81a1661cd2a92"
+      },
+      {
+        "id": "s0027",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "a79fa52ac12af17ef8bd4a6581009d8d06175938bcb5c7e246b0178f7c2162a3"
+      },
+      {
+        "id": "s0028",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "53c28b30a6629a2f74f2c7caa398e3c51915aabf069f126728219460c1bf7fa9"
+      },
+      {
+        "id": "s0029",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "0b255dcf7b6932cc3217cccd5eddbd4512ed6e4a8ab9f95129830dacf972d69e"
+      },
+      {
+        "id": "s0030",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e46411e0e90c72d876cbd61525e8748ce4ca15fe3091282360aa5e9dec5d5cb8"
+      },
+      {
+        "id": "s0031",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "a16dfbd9a90dc7f8bb03a0b74316b16b5e055b185efbca0ae3a9bdce1a15b15a"
+      },
+      {
+        "id": "s0032",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "ce4662926b43ddc5b8436e989ce7fc218504933a45b3b3dd54ae8c64144b49e0"
+      },
+      {
+        "id": "s0033",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e29d69c8ed8aee0dca9fd555a7059be15667df3449eddcc1dbbc54eb09927328"
+      },
+      {
+        "id": "s0034",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "b2ad6ebffcbf23af53d04b40e43b518bdf47519e8ceccc77ee3abfd9be65642c"
+      },
+      {
+        "id": "s0035",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "103066a723928d69ca7f88c0b351edea6a7a5cee7f0e2d472afeff1d6a9870e5"
+      },
+      {
+        "id": "s0036",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "11a6a6e8d39738d462bd4ca2b8f8cd3b9b4f5b709c917b70c3292d1548be663f"
+      },
+      {
+        "id": "s0037",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "9754101f4d6e1f8ad8ce7c76bf8fc43d4272b58763ec7decb0f39c9150468e7b"
+      },
+      {
+        "id": "s0038",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "0b94f1aa428d6f1083b3ee0c8d44b6976c57997c52c583a7ae5383fe76d9a2ec"
+      },
+      {
+        "id": "s0039",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "53da1ea70d39287702eed649c17f2d8d01dfb2922204f5e17511715a5e0fe7cb"
+      },
+      {
+        "id": "s0040",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "9454e3b35fd4f3101ff39fd1a10691068f9b5989c86ce9bf0f5ba870f4f1af49"
+      },
+      {
+        "id": "s0041",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "98dc94be6e70e5012c43afa1943aac2b785581f40212f2f85642b7763d614c7b"
+      },
+      {
+        "id": "s0042",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "712db95f2a9fb5664e228f044819759c7fd72979379ccc734ba12fa80dcfa6dd"
+      },
+      {
+        "id": "s0043",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "5c694562453000393e9a6e3f8dfa545df6c04a9c5050132787996a3f3c6ee430"
+      },
+      {
+        "id": "s0044",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "5cf559caa5a840957a8dfec50aa38bd336dbef3d2f59512faca5ac2adffaa65b"
+      },
+      {
+        "id": "s0045",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "9bebf09e071626eaddbbd4e7876862a45d6ebea2d2282a4b95362dc439783290"
+      },
+      {
+        "id": "s0046",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "178d0544e5b1280c293b4f875ade0e24422def0bd32060079c4861e981d538ef"
+      },
+      {
+        "id": "s0047",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "97b15ff1477e8525896ccfb6dcff66e5b486dc863331753b4383020b5a00f573"
+      },
+      {
+        "id": "s0048",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "e32b6344ab976805e6657190fc3c50e6e382e13954db50d07f18ee42426cae58"
+      },
+      {
+        "id": "s0049",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "2cef1a84ad4d1cbd7e3b5660638902ff31c14b3fcfd2ec7439d43f39d77c40df"
+      },
+      {
+        "id": "s0050",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "6053a44dcc0e0345b239f3bc5b33e7da6720fe285efaa48cd48c2e0259aa181a"
+      },
+      {
+        "id": "s0051",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "47d0dcacbe7092d7a4bd6ef9fe0576a010b21f4941e68a6b23335b99ace00e1c"
+      },
+      {
+        "id": "s0052",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "630279cc281b624416e97f702d9326303d1747c7a97c218c7ebce92251bc14c0"
+      },
+      {
+        "id": "s0053",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "5b4563752e7b068d4df44e85ba17dbf31d778167a2fb7e732801cd203fb10ff7"
+      },
+      {
+        "id": "s0054",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "b9ebf05915ff00aa7dbef451749145b5da6de89c1de1b2497d208384eea265d6"
+      },
+      {
+        "id": "s0055",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "f50ae027643837ea77a5b0909c4168d47306940751ef95f95caffdc95914dfe0"
+      },
+      {
+        "id": "s0056",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "6d6d00def001edf711854ed7324733056e428253c50c123abaf425f38ed8c265"
+      },
+      {
+        "id": "s0057",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "666cd289ee9ae5f671c4cc87315f2f984fd6e48cff123b15870767b9092427e4"
+      },
+      {
+        "id": "s0058",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "8fd85e4d4b57126ede0de31ddd29d795addd844a388a8ec525e59e0003507e00"
+      },
+      {
+        "id": "s0059",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "bbc3de3e0378c4fedf6f82d2fc881af0521780679c511a3b4a104291615829de"
+      },
+      {
+        "id": "s0060",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "5985cf91bdaf36f0056b055f1b9fac8229eacdd3ce177990370a41907db87770"
+      },
+      {
+        "id": "s0061",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "38ffc1a1c7a0347d8dd31d82f708e366f23fcf2d7553ca86f5ed9bb7c288ee1e"
+      },
+      {
+        "id": "s0062",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "4c2b34e01d1fb86056482bc4a3f2b04e9e82d2e2ad3dc72e7c9d0ae9112a77e3"
+      },
+      {
+        "id": "s0063",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "53bc0bac0f67798ff3af83cffaae585010180d9e0748662d61c8a75948c65e58"
+      },
+      {
+        "id": "s0064",
+        "validSolids": 2,
+        "plateVolumeMm3": 15615.658916838114,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "845595442dd0e157cacabf181a1960d32f6046020a50de6b842592957d43a8ed"
+      },
+      {
+        "id": "s0065",
+        "validSolids": 2,
+        "plateVolumeMm3": 11154.042083455797,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "bf8db88f867ccef3e76114a61861bb819292304798dbcac1e8f7abe5a268dfeb"
+      },
+      {
+        "id": "s0066",
+        "validSolids": 2,
+        "plateVolumeMm3": 12269.446291801381,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "211653798fe32df0e5f3ce9529a34e5578d26990c87b0932aa9dd7d2a63f7eb6"
+      },
+      {
+        "id": "s0067",
+        "validSolids": 2,
+        "plateVolumeMm3": 13384.850500146962,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "9af05c965f73e588315987421881dda9cbc4f4c8852b5b79cca1ea0ca2c2e24d"
+      },
+      {
+        "id": "s0068",
+        "validSolids": 2,
+        "plateVolumeMm3": 14500.254708492543,
+        "mounts": 4,
+        "cameraBores": 2,
+        "window": true,
+        "contactGapMm": 0.0,
+        "overlapMm3": 0,
+        "sha256": "7fc13f2ffbfccbc5e74c8564080eb82fd15cf3f1bd5434f26c2a96742cb982d8"
+      }
+    ],
+    "session_disk_bytes": 249737251,
+    "session_sqlite_bytes": 106496
+  },
+  "cache_diagnostic": {
+    "before": {
+      "current": 51122176,
+      "peak": 143273984,
+      "anon": 9183232,
+      "file": 39084032,
+      "kernel": 2600960,
+      "file_dirty": 0,
+      "file_writeback": 0
+    },
+    "noop": {
+      "current": 51126272,
+      "peak": 143273984,
+      "anon": 9183232,
+      "file": 39084032,
+      "kernel": 2600960,
+      "file_dirty": 0,
+      "file_writeback": 0
+    },
+    "after": {
+      "current": 51126272,
+      "peak": 143273984,
+      "anon": 9187328,
+      "file": 39084032,
+      "kernel": 2596864,
+      "file_dirty": 0,
+      "file_writeback": 0
+    },
+    "files": 1403,
+    "bytes": 245944885,
+    "hashes_reopened": 68,
+    "events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "scope": "Fresh private session; producer exited; closed files of older accepted geometry revisions only, no active head, SQLite, global drop or changed artifact bytes. One diagnostic, not a runtime fix."
+  },
+  "notes": [
+    "Mixed write: per-series one archived session; checkpoint component medians in a 4 s window ending 1 to 2.1 s before the corresponding commit marker. Independent component statistics need not sum exactly. High-water interval is sampled, not memory.peak.",
+    "Head read: synthetic metadata, three fresh runs/size. Geometry: three fresh runs/size. Fixed geometry: one fresh session with 4 accepted product revisions then 4096 identical durable exact queries; kernel stats at the SDK boundary; excludes final paged audit from checkpoints. No 20 ms trace to disk in this run.",
+    "Field backends share geometric acceptance. Python exporters do not implement the Colocad revision ledger, preview or durable queries. Timings are single workflow receipts, not a speed ranking or a comparison of matched persistence implementations."
+  ]
+}

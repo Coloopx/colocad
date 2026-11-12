@@ -52,6 +52,8 @@ On the complete hand, logical writes were 5,670 / 948 / 947 KiB. Retained files 
 
 ![Build I/O](benchmarks/alpha10/build-io.svg)
 
+[History length vs. active geometry: KK60 retrofit, 4,096 durable queries and 64 independently checked revisions](field-history.md).
+
 ## Release comparisons and additional checks
 
 The separate 512 MiB alpha.9/alpha.10 experiment ran three alternating pairs on each of 12 inputs. All 72 exports matched their per-input digest and the 12 distinct STEP models passed OCCT. The median for 64 distinct plates went from 49.13 to 11.60 s. For the 1,024-hole plate it went from 100.40 to 58.23 s. Each long session reopened 10,001 committed entries. Peak memory was 224.1 → 72.0 MiB, with 21,219 → 1,505 files.
