@@ -1,5 +1,7 @@
 # Saving 256 geometry revisions under a 512 MiB limit
 
+Follow-up measurements compare the same 256 edits with both Python backends and replay the two engineering change orders. [November 13 comparison](benchmark-alpha11-rc1.md).
+
 The Linux candidate `0.1.0-alpha.11-rc.1` reduced peak sandbox memory on the KK60 camera adapter from **512.0 to 94.9 MiB** on ext4 and **288.3 to 84.8 MiB** on a host directory mounted through virtiofs. Each project kept 260 accepted revisions and occupied about 905 MiB on disk.
 
 ![Sandbox memory over 256 actual geometry edits on two filesystems](benchmarks/revision-cache/comparison.svg)

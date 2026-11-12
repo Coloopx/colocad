@@ -1,0 +1,1098 @@
+[
+  {
+    "id": "cadquery/0",
+    "sha256": "4d97c7f08aaa5f306cda2bac168d808269f5649809d6bd4ab00a3c7f9194a1e9",
+    "solids": 43,
+    "volume": 315782.1561698237,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/1",
+    "sha256": "aae257aab1697dee74542e49abf28df149e64fc8c6b6f46f0c0a85be45832e25",
+    "solids": 43,
+    "volume": 315435.2494601118,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/2",
+    "sha256": "0643ac8602dcfbba7afc087e7368a2daee0061a7fb46582ebf5eac0a8a022630",
+    "solids": 43,
+    "volume": 315749.46650317864,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/3",
+    "sha256": "328469e3201eee55b74883ebde5bd25e0be9a98cc1d4c1905f46f6b8bc517fe0",
+    "solids": 43,
+    "volume": 315471.9395873932,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/4",
+    "sha256": "91b1d5070c6216bbeda935ac46835855536d0aea38e5ab8bf680d9d5881ed80e",
+    "solids": 43,
+    "volume": 315716.3318354558,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/5",
+    "sha256": "7000907c1bab8d3a89e3637af1927a6371c1f78d874769c6309a046887651b1e",
+    "solids": 43,
+    "volume": 315508.1857457216,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/6",
+    "sha256": "d26823bb8df3d491eb7154a649719b8d95a9096f9413e0e65cc7ea4eef10fa7d",
+    "solids": 43,
+    "volume": 315682.7522877669,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/7",
+    "sha256": "5838e2e175328e0a5d53f4f113efa42c4d5f16e86644809395d18230de049a80",
+    "solids": 43,
+    "volume": 315543.98779803416,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/8",
+    "sha256": "cb5f9c9fb3b63beaa3a8d65053667dcc3207c55f2d6b832b04e88d2edbd1ce0e",
+    "solids": 43,
+    "volume": 315648.72798338137,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/9",
+    "sha256": "2c3851a207b0b515cafefdf9b1925e54f1b87556041090f6f1c93aba68c21ceb",
+    "solids": 43,
+    "volume": 315579.3456093095,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/10",
+    "sha256": "4d592be25a6381ee9fa2301d9d72b5d1e8b1c025368ed31d85039c5a6cb03852",
+    "solids": 43,
+    "volume": 315614.2590479965,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "cadquery/11",
+    "sha256": "f60629a2fa53246c0befa6645f918b272b29a29ca5888ab40224dbf88dedede2",
+    "solids": 43,
+    "volume": 315818.3724499343,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/12",
+    "sha256": "abb6aef18e611a5ff7007bfac9b9c699375e2f3ce5282f9c9b360c94070cb00b",
+    "solids": 43,
+    "volume": 315471.46574022237,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/13",
+    "sha256": "765f0e51c3499f656d8cbc15b528bec291f6c40eb39b3af253fce9bcc6e9367d",
+    "solids": 43,
+    "volume": 315785.68278328923,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/14",
+    "sha256": "f6206f898a718bb774573d02b95bc9f04db05940a1241bc6f6a0c42ceed4d04a",
+    "solids": 43,
+    "volume": 315508.1558675038,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/15",
+    "sha256": "f0e59cfdb2c398f068e60df9e0fb3c7148b36f0ea7331c5066e794950789a121",
+    "solids": 43,
+    "volume": 315752.5481155663,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/16",
+    "sha256": "73a425858294c9de0d4e86b889bdac7f54c9c232bc6cb38881774e72d086ea22",
+    "solids": 43,
+    "volume": 315544.4020258322,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/17",
+    "sha256": "0520cf651dc185dcd3aad2d080265dd0de0702273e25d9cb23b386b9eb5606a1",
+    "solids": 43,
+    "volume": 315718.9685678775,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/18",
+    "sha256": "2bec9c336430e155dee0045dc2a4713a53ada91595eb95c58f91ff18db9713ea",
+    "solids": 43,
+    "volume": 315580.20407814474,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/19",
+    "sha256": "7bdf3a5931502dc809a29b53afae4fac457f8add481c80254314bea973421632",
+    "solids": 43,
+    "volume": 315684.94426349195,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/20",
+    "sha256": "1d95c9102a8c38c2a9ab56e10a385c7237130634b81e8005510abf75b484bd27",
+    "solids": 43,
+    "volume": 315615.5618894201,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/21",
+    "sha256": "c9c28a1d0f87586899db650a969ee9e15cf8bbcf9862b379ce0fe71d9555e761",
+    "solids": 43,
+    "volume": 315650.4753281071,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "cadquery/22",
+    "sha256": "2bcfecff9b8b2d35857dc0f19e71b242cd224d2c8e39250275aca9db60f15378",
+    "solids": 43,
+    "volume": 315855.1416503519,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/23",
+    "sha256": "a64cff7020a1f3957dca0703d8d0d23d035937fdc81791022f2dbe8ee69663d6",
+    "solids": 43,
+    "volume": 315508.23494064,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/24",
+    "sha256": "c04afed70b1803e94a5db5761803884aee223352f521afba9f012a8c887ba5ad",
+    "solids": 43,
+    "volume": 315822.45198370685,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/25",
+    "sha256": "0679490de4e2b14d1954bf751b8374a3623d8268fd66fd5fefa1df3ccce1ef96",
+    "solids": 43,
+    "volume": 315544.9250679214,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/26",
+    "sha256": "f1717cca56b3321bdad25137be0e37c1e33a07f7969abf9f798c9310d8266554",
+    "solids": 43,
+    "volume": 315789.31731598394,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/27",
+    "sha256": "dd01a4a29d23ed68e63bce282e8098571586bc57f78cb393620c87eb728ead93",
+    "solids": 43,
+    "volume": 315581.17122624983,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/28",
+    "sha256": "49615050c20603cd9c0194b279ace476295edb42afbd86fc5f85d4a360325f64",
+    "solids": 43,
+    "volume": 315755.7377682951,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/29",
+    "sha256": "08c016a874ce09958e55f1554fd303968ca71290d003c394e8502295ad720cd7",
+    "solids": 43,
+    "volume": 315616.97327856236,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/30",
+    "sha256": "ff3b87bc34687839f573a186a57107bcb676cf463b1cd1aac8d23a962e67c214",
+    "solids": 43,
+    "volume": 315721.7134639096,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/31",
+    "sha256": "a3d2c560d26cf50d17100d1376fab518af335f4d149d06cf1232e81b79dc0095",
+    "solids": 43,
+    "volume": 315652.3310898377,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/32",
+    "sha256": "53b4613c35f0fa42676749e1209a4c8f0621d7e03be2b72c8b30e57dfc816889",
+    "solids": 43,
+    "volume": 315687.24452852464,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "cadquery/33",
+    "sha256": "21b91c49a19db0338a49f882be8d54db8661e61c94089ca26def02fd37823858",
+    "solids": 43,
+    "volume": 315892.4637710766,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/34",
+    "sha256": "b293b36c724ba9a15506c5c623d9cab1f4282ea388c8da9f89df66c25b2e96c2",
+    "solids": 43,
+    "volume": 315545.5570613646,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/35",
+    "sha256": "7174bd578a57c2995de7ad4d01e327390b3da3cdc777e0bdd04ad6515964e845",
+    "solids": 43,
+    "volume": 315859.7741044315,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/36",
+    "sha256": "66fa657567beaddeaceaf31c246962a12f49186cbd033c902adb12392e49e560",
+    "solids": 43,
+    "volume": 315582.24718864606,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/37",
+    "sha256": "72fbdec64f8eb0215fe2f8f74389b703368d0a445f126cfa0ad93490a9ac9914",
+    "solids": 43,
+    "volume": 315826.6394367086,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/38",
+    "sha256": "9e2e85d554d7dc487394ec00d69fe2447c2e87db07b9ec86e6322652304e24e6",
+    "solids": 43,
+    "volume": 315618.4933469745,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/39",
+    "sha256": "f90bb8ae2010177935a13d7548a6c18f8885361972b019dfc0b7333c6a5f0c13",
+    "solids": 43,
+    "volume": 315793.05988901976,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/40",
+    "sha256": "0a1015f89b2f2871eb579783459ba969eda08e177bb3f15acd59d96f9ab72d9a",
+    "solids": 43,
+    "volume": 315654.295399287,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/41",
+    "sha256": "a8963be80885ebb76745530e5dfb18b7253f05a590630a7acf7b4b7630e49a2b",
+    "solids": 43,
+    "volume": 315759.03558463417,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/42",
+    "sha256": "061dfa3e8cbe92b4bd4e6ff12b81e5c7a611fe297079a454d32246574bfacd45",
+    "solids": 43,
+    "volume": 315689.65321056236,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/43",
+    "sha256": "30bd27c2df902a9c5d88fdb07894fb14ba3edf77e814e9ec5741f326ddc250d9",
+    "solids": 43,
+    "volume": 315724.5666492493,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "cadquery/44",
+    "sha256": "515c84c64ae4188c87bdc183d8273bae4fb7431f02d014cd35af5c3cac3b473a",
+    "solids": 43,
+    "volume": 315930.33881210827,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/45",
+    "sha256": "f1cefb7337ed62be298687ec4fbee3331af947191e4ef095b3922422dba15d94",
+    "solids": 43,
+    "volume": 315583.43210239627,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/46",
+    "sha256": "a7b4de7c86b444ba2d8442efe35d0def041aa88525c7413e1175e2f6fd51721c",
+    "solids": 43,
+    "volume": 315897.6491454632,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/47",
+    "sha256": "15d726aa7cbbc8bda67c271869228e73d17fd1339e74bbd5f525f38ee6f6f05b",
+    "solids": 43,
+    "volume": 315620.12222967774,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/48",
+    "sha256": "fdd256221c3b06dc06203f05c396244acaa1b6976caec780fb39345b0a08f20f",
+    "solids": 43,
+    "volume": 315864.5144777403,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/49",
+    "sha256": "c120586636d5d0fe66ffe53e8502169ec95f35a2cfa8b7254bad5623d4a07947",
+    "solids": 43,
+    "volume": 315656.3683880062,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "cadquery/50",
+    "sha256": "9fd78435cfd9abb709c36952eecd17cb3a2470d99aede886163800c8d4f169d7",
+    "solids": 43,
+    "volume": 315830.93493005144,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "colocad/0",
+    "sha256": "ed9e428547721d5b3f55c86b710140cc86c952de8831d519fbd4c766030969e0",
+    "solids": 43,
+    "volume": 315782.1567056093,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/1",
+    "sha256": "76bafc4739c957cde847bbe5892f142e9099760543fda9f8ce2a8ec18b5ad8aa",
+    "solids": 43,
+    "volume": 315435.2500220562,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/2",
+    "sha256": "0595ea36f2731da45d65d040046d9d803a1a9422768d76b80fc3889d83ab06b8",
+    "solids": 43,
+    "volume": 315749.46702588967,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/3",
+    "sha256": "fa617321ffc4e7211562cbefbe8d1189a63d8ae92bdd183a1685f123d9dba078",
+    "solids": 43,
+    "volume": 315471.94012839714,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/4",
+    "sha256": "b992b0281d1f63f322a0b21fd9c50c211a5c3517f25ccc10de83bfb5ef60e1f9",
+    "solids": 43,
+    "volume": 315716.3323671276,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/5",
+    "sha256": "74058a84eede6c9de6487c1a1c3a4892046c44e39a978128c75d0f2bda5cb925",
+    "solids": 43,
+    "volume": 315508.1862978169,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/6",
+    "sha256": "0178ff60b7111d25999f9b4dc34aa17fc3cd03165c97a1ea6d5a4a0a6e62a159",
+    "solids": 43,
+    "volume": 315682.75283980597,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/7",
+    "sha256": "fc8160b0cb13bbf05cca60143450a1b7349dfd7cf3ee47889bd7e326766ff2f4",
+    "solids": 43,
+    "volume": 315543.98834699363,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/8",
+    "sha256": "1481e8aa88d5ed9ca9035e3b7c99f60ae8c6a3004420e942453127f319b0fb90",
+    "solids": 43,
+    "volume": 315648.7285138545,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/9",
+    "sha256": "a47ff9d0d4a94715b1c478fa94013c308b7dc49dde8b7e2d1f061fe50800e8f5",
+    "solids": 43,
+    "volume": 315579.34615771525,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/10",
+    "sha256": "329a50c077922e1afac84f2eea1aef50492acb97e6eac1762b67d794992c4bba",
+    "solids": 43,
+    "volume": 315614.25958667515,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "colocad/11",
+    "sha256": "84fa152e6f4cf01b3a384ca0f8b4a5fc25d85c59b73523819e0f4f6bea3a2e47",
+    "solids": 43,
+    "volume": 315818.3729857199,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/12",
+    "sha256": "5832df66e7204bd21678d21034385341c4a8b2d760b4e0fa4518fe73f5c6d3ef",
+    "solids": 43,
+    "volume": 315471.46630216675,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/13",
+    "sha256": "8d03e7be336c5f69592b3bc0ebb7abe9556b9d60e2b8757840fc26655133f7b6",
+    "solids": 43,
+    "volume": 315785.68330600025,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/14",
+    "sha256": "f5aca68facb0b45a37751abe2d605b234a6a433323f5fd0d17072b73cab04031",
+    "solids": 43,
+    "volume": 315508.1564085077,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/15",
+    "sha256": "49484ef033f4333a096116a62b37e2d1966afed588ffe06402e832af861572a8",
+    "solids": 43,
+    "volume": 315752.5486472382,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/16",
+    "sha256": "533d037ced2ff1c1568bc0f14b06044c7ed2581f0d17d2acbcae0b02b823a966",
+    "solids": 43,
+    "volume": 315544.4025779275,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/17",
+    "sha256": "c4a03bd94f2b2ef75e6b3ca219146a7264b20540c944a5023f7b60333d6607ef",
+    "solids": 43,
+    "volume": 315718.96911991655,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/18",
+    "sha256": "9e9f8132c25b920906c57bb8f74586dbcefb42d54784ac6748acf2b7a04d7268",
+    "solids": 43,
+    "volume": 315580.2046271042,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/19",
+    "sha256": "08980c463a2018e455862a70ff3ed42928a1732dfed514d2c4922d001f63799b",
+    "solids": 43,
+    "volume": 315684.9447939651,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/20",
+    "sha256": "1cd1591587727498deddaea0ea1036df46c35992aa81a7767e4dbe61a264152e",
+    "solids": 43,
+    "volume": 315615.56243782584,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/21",
+    "sha256": "aa6727df929e9c07a7031fdd50772416cc41168bdb69556c6c0a2f55b2df2ed1",
+    "solids": 43,
+    "volume": 315650.47586678574,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "colocad/22",
+    "sha256": "fbdb098bb518354c00438c0738f77cde3e0205d6cf69c18d372ce4c7060561fd",
+    "solids": 43,
+    "volume": 315855.1421861375,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/23",
+    "sha256": "cfad61a3f1805195826b692c78061754ea1ec6752da389bb1502a46a2db61054",
+    "solids": 43,
+    "volume": 315508.2355025844,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/24",
+    "sha256": "c97be077319a694225652dc6f41eae93e7b8151054abba566a739b4cb18f0ba9",
+    "solids": 43,
+    "volume": 315822.4525064179,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/25",
+    "sha256": "64581a6ef03ae17c3dd62c810ddfc73a5b23ad1ba70d30710d85d03babbb2a6e",
+    "solids": 43,
+    "volume": 315544.92560892535,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/26",
+    "sha256": "57050bb11309d262cf552ea7dce509ee1c70edf84983044ea9ec4441865e60d7",
+    "solids": 43,
+    "volume": 315789.3178476558,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/27",
+    "sha256": "3365495c805be66b1a8f11e4bfbf49e165db6876954d6a02d04a57cd06699f6d",
+    "solids": 43,
+    "volume": 315581.17177834513,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/28",
+    "sha256": "98a24ee0ccb0f40f83e572128fdf94c5cee0154d658f34d004ef2f590417de0a",
+    "solids": 43,
+    "volume": 315755.7383203342,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/29",
+    "sha256": "71fc861f2be89bda16952391696fb51759554d1698352078dae1eacbe962182b",
+    "solids": 43,
+    "volume": 315616.97382752184,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/30",
+    "sha256": "51d715aa9dc7ea822be315cf3eca62a6a2a42179634bb981fbf4e5210cd75176",
+    "solids": 43,
+    "volume": 315721.7139943827,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/31",
+    "sha256": "a38e95d5045abba7e5e90b44ab1fcd8d9b367ebb9eafaf05745cbed7eafa716f",
+    "solids": 43,
+    "volume": 315652.33163824346,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/32",
+    "sha256": "fcc777dcda7b5d02782f3b089de9614d2b817584458280e2d51ed50c38adf174",
+    "solids": 43,
+    "volume": 315687.24506720336,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "colocad/33",
+    "sha256": "d9ea56d2f6db2c408863b190385ae23bcd4e0e7abf8b674ccc1249ed1251f7d6",
+    "solids": 43,
+    "volume": 315892.4643068621,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/34",
+    "sha256": "474f266224a9eb972fbceb4c1ac76c1560cfdbe6188154ca350654bf18496e68",
+    "solids": 43,
+    "volume": 315545.557623309,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/35",
+    "sha256": "72ce686fb89af12728cc4bfda77992e93656b9c5f410fa966cf652faa2a562ad",
+    "solids": 43,
+    "volume": 315859.7746271425,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/36",
+    "sha256": "bd5d0827e224021142af849d5e6ea65b42fb6c4a262a2cf88befb684dcd99dfa",
+    "solids": 43,
+    "volume": 315582.24772965,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/37",
+    "sha256": "e95f42f59a089ac29208225b0d5c810afc1ee2faa810300517f3b846e3a505ce",
+    "solids": 43,
+    "volume": 315826.63996838045,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/38",
+    "sha256": "2725497c0269998e2e1917b67ad28111d6b8f9bf98f65005809beefabb87c3cd",
+    "solids": 43,
+    "volume": 315618.4938990698,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/39",
+    "sha256": "392de64a3915327de5467eb64998d2c742ea9164a9597ef7c4cabd96e45b15cf",
+    "solids": 43,
+    "volume": 315793.0604410588,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/40",
+    "sha256": "e13907cd401affac53775469d4f5429baf679b028713eebcbafc6d57c9c961f3",
+    "solids": 43,
+    "volume": 315654.2959482465,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/41",
+    "sha256": "3580b40768bc915150c62e766a067c294e443f4316ee624c1d893bbaae2dcb36",
+    "solids": 43,
+    "volume": 315759.03611510736,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/42",
+    "sha256": "616177f0441d96d84f8fe7f556d2c5adedea64a42d8e8c24b00b48a8cd72dff6",
+    "solids": 43,
+    "volume": 315689.65375896805,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/43",
+    "sha256": "6ec3e8b75ed0b1c916bf6b15ec678748ce4bb6f1c0f53b760f6f191b7a3609d9",
+    "solids": 43,
+    "volume": 315724.567187928,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "colocad/44",
+    "sha256": "cca1d102150c25674631c4bf57cb89dbb4d23ba37b5573bc2ac43fdc3c3d40e4",
+    "solids": 43,
+    "volume": 315930.3393478938,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.69
+  },
+  {
+    "id": "build123d/0",
+    "sha256": "71d9a3f89ce4ade39a2fd4fc50b0544ceead475d2ed029b1c0677b841c0c16c3",
+    "solids": 43,
+    "volume": 315782.1561698261,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/1",
+    "sha256": "8930818115eb006d186b835d104bbeda1fc8ad2f39222ca9a02114fcb3224d50",
+    "solids": 43,
+    "volume": 315435.24946011393,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/2",
+    "sha256": "d406762bd2c1680daaa1d4d9b6319013794b6ce63fecf5721f87613bfd666549",
+    "solids": 43,
+    "volume": 315749.46650318394,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/3",
+    "sha256": "99a218c711157293493ee518a7ba16c5be57a4c4e4e0e1cd51d182206a5feaaa",
+    "solids": 43,
+    "volume": 315471.9395873955,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/4",
+    "sha256": "ba848edd5eee7258046053c6acb024e18a115bc13374bda2507e9c901b7cf190",
+    "solids": 43,
+    "volume": 315716.3318354653,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/5",
+    "sha256": "a21428f91cd52b62847c2b2f0a1454edd4a699a0fd3171513059e4ac85ecaa16",
+    "solids": 43,
+    "volume": 315508.18574572395,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/6",
+    "sha256": "f97c7e3afed099f0237d61bd024b0174050b1509264965395b6efa2dcb0a54ad",
+    "solids": 43,
+    "volume": 315682.752287768,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/7",
+    "sha256": "a2de9a74bb3d1ef01d1946b57444c8c14a77b07dca85cdd1cf7a413553d3e041",
+    "solids": 43,
+    "volume": 315543.9877980346,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/8",
+    "sha256": "66b903e52f475d7253aba2d8171fb9430bf29f464d9dff4f51fb3a460532a0a6",
+    "solids": 43,
+    "volume": 315648.7279833835,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/9",
+    "sha256": "fbf183af7942deb823bc0dcee7952e8a99b68c5be1341ff7d9cc41a0a9e4faa3",
+    "solids": 43,
+    "volume": 315579.34560931555,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/10",
+    "sha256": "f73476572d27d7135803c017ae284b0ea181d7127c267b4cf450a8e3200a799c",
+    "solids": 43,
+    "volume": 315614.2590480007,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.65
+  },
+  {
+    "id": "build123d/11",
+    "sha256": "972ed48e6eb4de55d27daed4d21266be8d23432f66fa6a08d746697f7e81d76e",
+    "solids": 43,
+    "volume": 315818.3724499367,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/12",
+    "sha256": "77016af83697c375a913354bd7400ec6bc1204824d2c3840fb5471afd49ebc22",
+    "solids": 43,
+    "volume": 315471.4657402245,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/13",
+    "sha256": "321f50a57abe6c2e48b3417dee5ecfcad5b8fe74f1654e6574735d0104cb5a3f",
+    "solids": 43,
+    "volume": 315785.6827832945,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/14",
+    "sha256": "61a7e85b84224cf4a9514228b76ac34a583432ed1c7a8ae13be6c5fe7cdb764b",
+    "solids": 43,
+    "volume": 315508.1558675061,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/15",
+    "sha256": "f745984f232b8f3c6c152339bcd789aee2a13a59c50c592a9717fa30bae1fa86",
+    "solids": 43,
+    "volume": 315752.54811557586,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/16",
+    "sha256": "e37ac7b1736e89145ceafc5319613da22509d8c0fcee374457bdb05facb899b3",
+    "solids": 43,
+    "volume": 315544.40202583454,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/17",
+    "sha256": "f5968bf36930a073e6773d4039ea3d208a7cf395af8841f4d64473f4e217bbd0",
+    "solids": 43,
+    "volume": 315718.9685678786,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/18",
+    "sha256": "daa85ed433bd993b5232ea70285d7120768a8de26045a9d0938e9889679342c2",
+    "solids": 43,
+    "volume": 315580.2040781452,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/19",
+    "sha256": "2ed13a35f36a6321eaa46c75fc780acd1ababf81988a8390c91411836ccb18a7",
+    "solids": 43,
+    "volume": 315684.9442634941,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/20",
+    "sha256": "bef0f67b05e7e2a0d064c57eb8b5fed626250d200a25b6748c70e9d446f67fb2",
+    "solids": 43,
+    "volume": 315615.56188942614,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/21",
+    "sha256": "1ab83afb10340061b9295231d414f0d1c57d654dec66beec12bb4f40e243b796",
+    "solids": 43,
+    "volume": 315650.4753281112,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.66
+  },
+  {
+    "id": "build123d/22",
+    "sha256": "0a62d08df6a04b5bdeb88743b1e4c2287f41e21950354316a70dcb8af07e9918",
+    "solids": 43,
+    "volume": 315855.14165035426,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/23",
+    "sha256": "066150ed1f34e6c0bdb6eca440ac84ad5d95afd652ecb44949041f2db207205d",
+    "solids": 43,
+    "volume": 315508.23494064214,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/24",
+    "sha256": "edfcfe65114f2e25f77d33a44a97a464f2fea7d8dfaf90f42e0613d9c2b40bd0",
+    "solids": 43,
+    "volume": 315822.45198371215,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/25",
+    "sha256": "90d437ea9ffaf4bec98408e1460399478f5608a4a6a9e8c6277fc4d15bbbc083",
+    "solids": 43,
+    "volume": 315544.92506792373,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/26",
+    "sha256": "865c954b131d9b84f5f8f83f58eac5704a7e975fd1cadc17f6abded7402fcb54",
+    "solids": 43,
+    "volume": 315789.3173159935,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/27",
+    "sha256": "d1ec48b5e5f49b98008d9d2f2754e4d9513521ba4db2885711e27b22301d3bce",
+    "solids": 43,
+    "volume": 315581.17122625216,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/28",
+    "sha256": "22aef219b3693a33babdb7c04ab88377a1b10047d967854dc04a7fdb8ee08598",
+    "solids": 43,
+    "volume": 315755.7377682962,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/29",
+    "sha256": "3a9afd813ff2091e728996d909c2b4ccb2bbe99b09b5375862f7fd2f3eb48606",
+    "solids": 43,
+    "volume": 315616.97327856283,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/30",
+    "sha256": "ed2e6f749259d31dd583ac646a15579003dcd3de7f624ef8c6571d02fa07c922",
+    "solids": 43,
+    "volume": 315721.7134639117,
+    "checked_guide_diameter": 3.06,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/31",
+    "sha256": "4a767450a589846b0a2fbde320761ca5c6d4f369bdc7cda735dcf13ee7f6cf87",
+    "solids": 43,
+    "volume": 315652.33108984376,
+    "checked_guide_diameter": 3.14,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/32",
+    "sha256": "228e4b3d2c0861e1da731c9d117a714886b5e65a5230bd4ea06038bb6c00b99e",
+    "solids": 43,
+    "volume": 315687.2445285288,
+    "checked_guide_diameter": 3.1,
+    "checked_cable_radius": 0.67
+  },
+  {
+    "id": "build123d/33",
+    "sha256": "a00d0fd437f34d800deae1e1eaa8fd883a1487c89276ae29993a59e281495f22",
+    "solids": 43,
+    "volume": 315892.4637710789,
+    "checked_guide_diameter": 2.9,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/34",
+    "sha256": "8fab1d03db13225ac8b70cbaabe34df09ec9d5221eeb15c5ba0ffd3614e627e1",
+    "solids": 43,
+    "volume": 315545.5570613668,
+    "checked_guide_diameter": 3.3,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/35",
+    "sha256": "696cab565e3ea77ba4420786c9c24be1be76c05beba0975ff0131833a73e0a7f",
+    "solids": 43,
+    "volume": 315859.7741044368,
+    "checked_guide_diameter": 2.94,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/36",
+    "sha256": "b3fe4c6c5c638492c2e75fe3efffbbcc11325da453498a46f39d888b1855296a",
+    "solids": 43,
+    "volume": 315582.2471886483,
+    "checked_guide_diameter": 3.26,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/37",
+    "sha256": "e6178e6c81ed204587ac61059035d75ddc188ded34a4d5a5ac1dbf3798e0fbc3",
+    "solids": 43,
+    "volume": 315826.63943671813,
+    "checked_guide_diameter": 2.98,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/38",
+    "sha256": "97682c65586be8b875c0eb49bc188367ea14873ef395e61d4d9e2c45f3dcccc6",
+    "solids": 43,
+    "volume": 315618.4933469768,
+    "checked_guide_diameter": 3.22,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/39",
+    "sha256": "24eab43597ef64e97f8d6f94728419667b045fceda99cdc8c0805b1fba347eb0",
+    "solids": 43,
+    "volume": 315793.05988902086,
+    "checked_guide_diameter": 3.02,
+    "checked_cable_radius": 0.68
+  },
+  {
+    "id": "build123d/40",
+    "sha256": "4fea85544944d2f10732b5d85e290c9295e2899e15beacc84540089ed2e8de0c",
+    "solids": 43,
+    "volume": 315654.2953992875,
+    "checked_guide_diameter": 3.18,
+    "checked_cable_radius": 0.68
+  }
+]

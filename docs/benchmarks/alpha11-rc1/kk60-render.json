@@ -1,0 +1,143 @@
+{
+  "format": "colocad/film/1",
+  "sha256": "88c930dd83289bf4418945fa2ef2bba6d4d7d2fe1a8daa25fe1fa20f7e7798c0",
+  "bytes": 3000082,
+  "width": 960,
+  "height": 600,
+  "fps": 8,
+  "secondsPerStep": 0.75,
+  "frames": 144,
+  "durationSeconds": 18,
+  "reviewTiming": "edited pacing; not a benchmark",
+  "steps": [
+    {
+      "id": "s0001",
+      "label": "Extrude the U-section rail",
+      "status": "succeeded",
+      "durationMs": 731.342292,
+      "inputSha256": "a3937380b88a9c831e3b2e45a96178cafdee8b6eec54048059be69d35846702b",
+      "receiptSha256": "8083b352a859b7ee32fd151d3efa0a1c596c1993e988fae5ee58a830d5c631e5"
+    },
+    {
+      "id": "s0002",
+      "label": "Cut the four guide raceways",
+      "status": "succeeded",
+      "durationMs": 145.99733400000014,
+      "inputSha256": "8d0fcdabd94a0c7f2b5f66b331832949ef1b2b5e57d6a47a9b14734fe8f5931f",
+      "receiptSha256": "767e898d8425b93fa69f23519035f720a6cf6bb84a26e2c4399b6631f918babf"
+    },
+    {
+      "id": "s0003",
+      "label": "Drill and counterbore the six mounting holes",
+      "status": "succeeded",
+      "durationMs": 1133.231584,
+      "inputSha256": "1e0af055ad1413cf3b48cab4213d0df12b5e241e212c232d849d1ad0fecff3bb",
+      "receiptSha256": "0b51b3d61a459cd138165dd81e6109be1f8ff76a3c171a736f49a96079806f66"
+    },
+    {
+      "id": "s0004",
+      "label": "Extrude the carriage saddle",
+      "status": "succeeded",
+      "durationMs": 23.570666000000074,
+      "inputSha256": "55f4d9141a4466a2d8db0fbc33366d8e1c3cf76a48f6fa0a0ccfddd0b5f083fa",
+      "receiptSha256": "7b6b049d9537f05d8602e6e534f5944bbfb4c0c4718b4b8f621e09961aad67a2"
+    },
+    {
+      "id": "s0005",
+      "label": "Machine the nut seat and ball tracks",
+      "status": "succeeded",
+      "durationMs": 288.57945900000004,
+      "inputSha256": "ea041776efac016808283f9bccaf381e9d576085291e3d49e419edb1393038bb",
+      "receiptSha256": "355e5129f19a46f3f22770a453c9cad7cdb515272be231ca3ca7b933e5a1adc2"
+    },
+    {
+      "id": "s0006",
+      "label": "Drill the M5 mounting pattern and datum slots",
+      "status": "succeeded",
+      "durationMs": 772.8570420000005,
+      "inputSha256": "f56f3a11cf4c46c0939890c446328b6ac76606a456a72b012d890b1e1aca15c2",
+      "receiptSha256": "08406fc452696b62cbac4bbfd77fa5800f5902240f93f6ebbddc52fa5296b78d"
+    },
+    {
+      "id": "s0007",
+      "label": "Revolve the stepped ballscrew blank",
+      "status": "succeeded",
+      "durationMs": 134.93916700000045,
+      "inputSha256": "f658826e2cf20109b0d91e617ba9bdda7bb07df6d5f005e208e832b3304f1c49",
+      "receiptSha256": "c136405135ee1f5621215dbfe2f6f4cdc669bbad3739465a7d8260aac83537dd"
+    },
+    {
+      "id": "s0008",
+      "label": "Cut 56 helical turns at 5 mm lead",
+      "status": "succeeded",
+      "durationMs": 27486.545083,
+      "inputSha256": "65962c402db795c410f548a9fd0f507eeb0c177527567070f9b0e645af17378b",
+      "receiptSha256": "fbe282001b1d962d349d4b867bc7bf413c0c2238839bebe8aa9d8b4ad6fbdf30"
+    },
+    {
+      "id": "s0009",
+      "label": "Machine the end bearing plate",
+      "status": "succeeded",
+      "durationMs": 459.06512499999735,
+      "inputSha256": "185d373b44665fb1a440d7792305ee4c0bb0b52905489251f2a453e049805901",
+      "receiptSha256": "3f5b3b50423416b8aa6782bc1970e766a60e63c0886c63a5707bb397973dd39b"
+    },
+    {
+      "id": "s0010",
+      "label": "Machine the motor support and register",
+      "status": "succeeded",
+      "durationMs": 1599.116667000002,
+      "inputSha256": "0db51b4fc432f00e0fd573a42239548ea5c3d0982915843f8f403a45318d1fb0",
+      "receiptSha256": "6e79ebb8bffb401094774565860dcd17e9d4fbffbc2ce58511c348612d2371c3"
+    },
+    {
+      "id": "s0011",
+      "label": "Bore and split the coupling hubs",
+      "status": "succeeded",
+      "durationMs": 204.30374999999913,
+      "inputSha256": "76c4ec2c3d698e5d6096f19edfee5d430dcca161b8e51039263dd3a39c667737",
+      "receiptSha256": "60382522ff2be57f73703a44f517c2b12233d190c813b65ea42ab071491a55f7"
+    },
+    {
+      "id": "s0012",
+      "label": "Install the rail and end supports",
+      "status": "succeeded",
+      "durationMs": 3047.035624999997,
+      "inputSha256": "8b4d3a11afaa02e365649d8f5751224201b8b4ce1e2f953a94c310077bf3e309",
+      "receiptSha256": "265620e4ccd8deb2c08d8ca4812dc02a1f8081ae4bf22384c273f5eefbed0dd8"
+    },
+    {
+      "id": "s0013",
+      "label": "Install the ballscrew and support bearings",
+      "status": "succeeded",
+      "durationMs": 31093.911750000007,
+      "inputSha256": "fd56f33939093cda970c7a5f9e5e29af6d33345479d2918e3a6d41035d7810d7",
+      "receiptSha256": "174586e200e2cb62fb8f685a7ed86def0da6a95b93bb5516078d2a81acaca08e"
+    },
+    {
+      "id": "s0014",
+      "label": "Install the carriage and end caps",
+      "status": "succeeded",
+      "durationMs": 802.2574170000007,
+      "inputSha256": "00cfd7776c820a334e0dc19e55caaaa589714feb86b6f5ef76eedc4b6530d25a",
+      "receiptSha256": "86c8d3ff798f883282e3529dc369eb6ba13d816422513b200961854dca27e36c"
+    },
+    {
+      "id": "s0015",
+      "label": "Add the ball nut, guide balls and wipers",
+      "status": "succeeded",
+      "durationMs": 33334.797915999996,
+      "inputSha256": "9a6363ede8fea0ff55d72b434b3158f07293f0edf908d7398647e51d04bc7185",
+      "receiptSha256": "0a71423648d2c6ee536275be6eff3fbdf7f6c9eaaf837ed25a43b423c2c17a35"
+    },
+    {
+      "id": "s0016",
+      "label": "Complete the actuator and mounting hardware",
+      "status": "succeeded",
+      "durationMs": 40587.499500000005,
+      "inputSha256": "85bba194a82eacdec0b4160efb46708bfbbc45396461ee2a022251feaef2e0f3",
+      "receiptSha256": "59db2ac310179e0ddff625aa58707bce8a8bc432a13f937f74852555f3225b41"
+    }
+  ],
+  "browserErrors": []
+}

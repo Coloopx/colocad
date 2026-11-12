@@ -1,5 +1,7 @@
 # 连续保存 256 个几何版本的内存
 
+11 月 13 日复测新增了两套 Python 持久化适配器对照，以及两组工程更改任务的实际回读动图。[最新对照](benchmark-alpha11-rc1.zh-CN.md)。
+
 Colocad 的 Linux 候选版 `0.1.0-alpha.11-rc.1` 在 KK60 转接板连续改图任务中降低了整组沙箱内存。Linux ext4 上峰值从 **512.0 降到 94.9 MiB**，宿主机共享目录上从 **288.3 降到 84.8 MiB**。项目仍然保留 260 份几何版本，占用约 905 MiB 磁盘。
 
 ![两个文件系统上 256 次真实改图的沙箱内存曲线](benchmarks/revision-cache/comparison.svg)

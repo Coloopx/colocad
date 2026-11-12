@@ -1,0 +1,88 @@
+{
+  "g2-regression": {
+    "split": "regression",
+    "manifest_sha256": "5fa10bdb1d12a08ce1c19f1bf3a8b6ecd90ffb287e3a1febe9715e43a11ce75e",
+    "source_commit": "01079a9898480dd22d8c75277a526bf9da30a8a4",
+    "native_sha256": "b7056b6d874ba695b27595c567bc73d60468ece53c5255a6bfba14a58b31221f",
+    "families": {
+      "blend": {
+        "required": 2,
+        "passed": 2,
+        "positive": 1,
+        "expected_rejections": 1
+      },
+      "boolean": {
+        "required": 3,
+        "passed": 3,
+        "positive": 2,
+        "expected_rejections": 1
+      },
+      "foreign_step": {
+        "required": 7,
+        "passed": 7,
+        "positive": 6,
+        "expected_rejections": 1
+      },
+      "surface": {
+        "required": 3,
+        "passed": 3,
+        "positive": 1,
+        "expected_rejections": 2
+      },
+      "thin_wall": {
+        "required": 2,
+        "passed": 2,
+        "positive": 1,
+        "expected_rejections": 1
+      },
+      "whole_product": {
+        "required": 1,
+        "passed": 1,
+        "positive": 1,
+        "expected_rejections": 0
+      }
+    },
+    "passed": true,
+    "count": 18
+  },
+  "g2-held_out": {
+    "split": "held_out",
+    "manifest_sha256": "5fa10bdb1d12a08ce1c19f1bf3a8b6ecd90ffb287e3a1febe9715e43a11ce75e",
+    "source_commit": "01079a9898480dd22d8c75277a526bf9da30a8a4",
+    "native_sha256": "b7056b6d874ba695b27595c567bc73d60468ece53c5255a6bfba14a58b31221f",
+    "families": {
+      "blend": {
+        "required": 1,
+        "passed": 1,
+        "positive": 1,
+        "expected_rejections": 0
+      },
+      "boolean": {
+        "required": 1,
+        "passed": 1,
+        "positive": 1,
+        "expected_rejections": 0
+      },
+      "foreign_step": {
+        "required": 2,
+        "passed": 2,
+        "positive": 2,
+        "expected_rejections": 0
+      },
+      "surface": {
+        "required": 1,
+        "passed": 1,
+        "positive": 1,
+        "expected_rejections": 0
+      },
+      "thin_wall": {
+        "required": 1,
+        "passed": 1,
+        "positive": 1,
+        "expected_rejections": 0
+      }
+    },
+    "passed": true,
+    "count": 6
+  }
+}

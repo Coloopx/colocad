@@ -1,0 +1,672 @@
+[
+  {
+    "id": "finger-build123d-0",
+    "sha256": "57950b87e7ff647d1772af9a203cc2da52312b0cb83cae61bdfba0b1f4dfe5f7",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "finger-cadquery-0",
+    "sha256": "4db4fc7eb1fc8829bca29b9d8ed05479be8238677f2b882e89a1830d6ec6d2b6",
+    "solids": 1,
+    "volume": 13217.692245847347,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "finger-colocad-0",
+    "sha256": "677dc5f37d4f7e0894327ec5239d5deef0a2f8ebc2f0d83a87ffee0bfc5a0349",
+    "solids": 1,
+    "volume": 13217.692299430808,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "hand-build123d-0",
+    "sha256": "41289ff2b36857de747ed6b237c83a1c237b7a1fb4be9b2e455ed14a476a5512",
+    "solids": 43,
+    "volume": 315782.1561698261
+  },
+  {
+    "id": "hand-cadquery-0",
+    "sha256": "3f663769a6c79b00f8971b54b451ca679ad195222bbbcb3718152412caf21c17",
+    "solids": 43,
+    "volume": 315782.1561698237,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "hand-colocad-0",
+    "sha256": "ed9e428547721d5b3f55c86b710140cc86c952de8831d519fbd4c766030969e0",
+    "solids": 43,
+    "volume": 315782.1567056093,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-1-build123d-0",
+    "sha256": "e7fe12d1e6463f07bf7d4895902235c06b0440c5a97606f053dc5543325288b3",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "links-1-cadquery-0",
+    "sha256": "797b668c7a4fdb8e204f54206255b6be5a35e8f600477ed2804cc9b3d661b239",
+    "solids": 1,
+    "volume": 13217.692245847351,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-1-colocad-0",
+    "sha256": "d9575124bf520832bd53ef5c8f07682e1adca9251cbb29b5ff904f2949e3f46a",
+    "solids": 1,
+    "volume": 13217.692299430813,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-16-build123d-0",
+    "sha256": "c9fa642e296f9bdec459707a0ec947a69ad4b0d69d8816afc64f994ecda33102",
+    "solids": 16,
+    "volume": 211483.07593355805
+  },
+  {
+    "id": "links-16-cadquery-0",
+    "sha256": "c2b9dfe2af30d3c25d871634bd1fe11f87369c124655573367d3aa7df01bba9d",
+    "solids": 16,
+    "volume": 211483.0759335576,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-16-colocad-0",
+    "sha256": "7206c90d96ecd57ed2a45681fa57fe6d43ffeb80d46b9a6f5eb18fd30a139d37",
+    "solids": 16,
+    "volume": 211483.07679089298,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-4-build123d-0",
+    "sha256": "c7a672aa6ae92bcb23fe3c2e155b69e002cb70be0ae096ceace0dcc86ae14505",
+    "solids": 4,
+    "volume": 52870.76898338951
+  },
+  {
+    "id": "links-4-cadquery-0",
+    "sha256": "f77c1ee590d94600459f30602346a50bbc6b61e8b0cc9d4d0adbea9891c9c08c",
+    "solids": 4,
+    "volume": 52870.768983389404,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-4-colocad-0",
+    "sha256": "f4c4540fe186b59bf80d60e83b6375e17fca7f75e2d59a0a607741888e580096",
+    "solids": 4,
+    "volume": 52870.769197723246,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-43-build123d-0",
+    "sha256": "31de6b1d2ea1abbdaf4bf46f2d6acb60f6eda1f8100ee2877a1f49a57bf32d4c",
+    "solids": 43,
+    "volume": 568360.7665714374
+  },
+  {
+    "id": "links-43-cadquery-0",
+    "sha256": "e58ca4a9d4a0bd5b7f55550efcbcd97c1889c378b51d3a7cd4a8679d18f6ca5b",
+    "solids": 43,
+    "volume": 568360.7665714361,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "links-43-colocad-0",
+    "sha256": "7f519b80371a72b4b9eadcc547f750166819a1f4e95b83cde7f8a80c30aae4da",
+    "solids": 43,
+    "volume": 568360.768875525,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "manifold-build123d-0",
+    "sha256": "6578306f71278751001ddc3632bbc888a852bc4cdf7c2ae92ae9a214d7841371",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-cadquery-0",
+    "sha256": "17601ad12e7dcbfa01e83e6bb17aa5678fc8eceb8d769215fd3ad8d45fd5b3e6",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "max_two_way_difference_mm3": 0.0,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-colocad-0",
+    "sha256": "b8e8559016c8fa7cde247024840bc1732c1786f77cc72f00d07cee0efb53d5aa",
+    "solids": 1,
+    "volume": 45490.92384048452,
+    "max_two_way_difference_mm3": 0.0,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-edit-build123d-0",
+    "sha256": "fc4efc32c89e08e1e9bb70ea51952fa66fad769dc797ac0c18673d47684d1074",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-cadquery-0",
+    "sha256": "84d05a86fe63f78ccc56ac92359ef624ffe2ad24e74723db453e2cf14ca2511b",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "max_two_way_difference_mm3": 0.0,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-colocad-0",
+    "sha256": "436a4e488fd3494cd9b90468e63389853a920cdb2c09ffefcf59575852b01433",
+    "solids": 1,
+    "volume": 45472.07428125097,
+    "max_two_way_difference_mm3": 0.0,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "pins-16-build123d-0",
+    "sha256": "0834f392fb919f0de982da894a9c335d10cf338e879b5be004f2d20db7280c16",
+    "solids": 16,
+    "volume": 3285.842021872022
+  },
+  {
+    "id": "pins-16-cadquery-0",
+    "sha256": "446b4df70b0e5e160f9064e5d3bb500535b89c4025f4a8e236ab35084175effb",
+    "solids": 16,
+    "volume": 3285.842021872023,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "pins-16-colocad-0",
+    "sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7",
+    "solids": 16,
+    "volume": 3285.8420218720235,
+    "max_two_way_difference_mm3": 0.0
+  },
+  {
+    "id": "sensor-rail-build123d-0",
+    "sha256": "515f121b94f8e9a7d12ddb2e93cabc07d47116f9e5084a06fd06470126aac124",
+    "solids": 1,
+    "volume": 16578.826068749026,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-cadquery-0",
+    "sha256": "c9d751c0a930dbeee5b467aeef64460b94e3ebbbb5e7b6857fcc4314f4505a95",
+    "solids": 1,
+    "volume": 16578.826068749033,
+    "max_two_way_difference_mm3": 0.0,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-colocad-0",
+    "sha256": "6d5d1bfd8d0428b880286e0d80a2961dfcb20d7dc8d3516e432ceb964f67280e",
+    "solids": 1,
+    "volume": 16578.82594005017,
+    "max_two_way_difference_mm3": 0.0,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-edit-build123d-0",
+    "sha256": "43c935d3c659f96464d2bb5cc971de6e9869f9deb2dd1d6c09955cf77b392115",
+    "solids": 1,
+    "volume": 16983.826068749153,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-cadquery-0",
+    "sha256": "80dcf195193f703c8d470919aaa4cfe0b241786cee8cb5b6e67b7b8f4a85209d",
+    "solids": 1,
+    "volume": 16983.826068749157,
+    "max_two_way_difference_mm3": 0.0,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-colocad-0",
+    "sha256": "8baf878bc22c1b7a48634b8816601196a4f480b4b9414d2c1e0344bb9229dac5",
+    "solids": 1,
+    "volume": 16983.82594043615,
+    "max_two_way_difference_mm3": 0.0,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "finger-build123d-1",
+    "sha256": "69ece732e4abe343e93356bc611b76b93ef96b6f2d8292f16b48282940837317",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "finger-cadquery-1",
+    "sha256": "1d9feb9d23a3d19db5f89a4662edba8b72c538887ff92d52bd99157c96df33fc",
+    "solids": 1,
+    "volume": 13217.692245847347
+  },
+  {
+    "id": "finger-colocad-1",
+    "sha256": "677dc5f37d4f7e0894327ec5239d5deef0a2f8ebc2f0d83a87ffee0bfc5a0349",
+    "solids": 1,
+    "volume": 13217.692299430808
+  },
+  {
+    "id": "hand-build123d-1",
+    "sha256": "0a8c8b22948682bf8700e184a53b13c898924db1765472c2f6f7b5600bb41f6f",
+    "solids": 43,
+    "volume": 315782.1561698261
+  },
+  {
+    "id": "hand-cadquery-1",
+    "sha256": "f51e95e6e1dda2494fcc8fc86609b76b6d7ae3be45eeb8e3a023404de73d2435",
+    "solids": 43,
+    "volume": 315782.1561698237
+  },
+  {
+    "id": "hand-colocad-1",
+    "sha256": "ed9e428547721d5b3f55c86b710140cc86c952de8831d519fbd4c766030969e0",
+    "solids": 43,
+    "volume": 315782.1567056093
+  },
+  {
+    "id": "links-1-build123d-1",
+    "sha256": "409eb8accfaba67108c2d2756d2e1d577a3d073c14f22c960ff40822c9b87ec7",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "links-1-cadquery-1",
+    "sha256": "64c1808c02da2640afe7c6e5a2aa79b47167ceb4c6ce773f3bfb7f9f1b2e01cd",
+    "solids": 1,
+    "volume": 13217.692245847351
+  },
+  {
+    "id": "links-1-colocad-1",
+    "sha256": "d9575124bf520832bd53ef5c8f07682e1adca9251cbb29b5ff904f2949e3f46a",
+    "solids": 1,
+    "volume": 13217.692299430813
+  },
+  {
+    "id": "links-16-build123d-1",
+    "sha256": "be0a0e76254bd3313b27ded75ecf4f5d83004e0545f6bb44829c51206a7036fc",
+    "solids": 16,
+    "volume": 211483.07593355805
+  },
+  {
+    "id": "links-16-cadquery-1",
+    "sha256": "5a14205f53e855f44e349922f90d312a382ba1f60bf92378b6b304be92ab8491",
+    "solids": 16,
+    "volume": 211483.0759335576
+  },
+  {
+    "id": "links-16-colocad-1",
+    "sha256": "7206c90d96ecd57ed2a45681fa57fe6d43ffeb80d46b9a6f5eb18fd30a139d37",
+    "solids": 16,
+    "volume": 211483.07679089298
+  },
+  {
+    "id": "links-4-build123d-1",
+    "sha256": "37d99776f70aabc31b204b3d0ba25e5cd329ccb8af299a75b2f546fdcadc1357",
+    "solids": 4,
+    "volume": 52870.76898338951
+  },
+  {
+    "id": "links-4-cadquery-1",
+    "sha256": "a485f9bea6695aee6c268804b5765f949a5c28544054c07908f7aea2965075cb",
+    "solids": 4,
+    "volume": 52870.768983389404
+  },
+  {
+    "id": "links-4-colocad-1",
+    "sha256": "f4c4540fe186b59bf80d60e83b6375e17fca7f75e2d59a0a607741888e580096",
+    "solids": 4,
+    "volume": 52870.769197723246
+  },
+  {
+    "id": "links-43-build123d-1",
+    "sha256": "839a16a454a85dd4d012abfd0a04cdbffc52fbcb4eb597d1ea30804c4d2c3dd5",
+    "solids": 43,
+    "volume": 568360.7665714374
+  },
+  {
+    "id": "links-43-cadquery-1",
+    "sha256": "8aa249da0db6d5dca23ceb4ef4293175d185c4a23c1c0af6fc488cc88239eb3d",
+    "solids": 43,
+    "volume": 568360.7665714361
+  },
+  {
+    "id": "links-43-colocad-1",
+    "sha256": "7f519b80371a72b4b9eadcc547f750166819a1f4e95b83cde7f8a80c30aae4da",
+    "solids": 43,
+    "volume": 568360.768875525
+  },
+  {
+    "id": "manifold-build123d-1",
+    "sha256": "5e2c98232d5d8aea1799b8aec234de95a8f1779a354fa6f6d8395e31c656ce6a",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-cadquery-1",
+    "sha256": "dab1f62b8405e1fb056a4ed0d11b4981c24ed0625c7752db1dd5ace51e9a524d",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-colocad-1",
+    "sha256": "b8e8559016c8fa7cde247024840bc1732c1786f77cc72f00d07cee0efb53d5aa",
+    "solids": 1,
+    "volume": 45490.92384048452,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-edit-build123d-1",
+    "sha256": "d5cd8073e4b272157c1d34a52330c07eef65d565df36bd1e155b77cb230ce0ef",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-cadquery-1",
+    "sha256": "7eec932c63a6bf3339825dd5c23d55d9e9438a8b1cf839d138be8ded0a26a19b",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-colocad-1",
+    "sha256": "436a4e488fd3494cd9b90468e63389853a920cdb2c09ffefcf59575852b01433",
+    "solids": 1,
+    "volume": 45472.07428125097,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "pins-16-build123d-1",
+    "sha256": "8ec7487d0535f58a101c97266cbdc2a537ebf91488827a28d6b037773581660f",
+    "solids": 16,
+    "volume": 3285.842021872022
+  },
+  {
+    "id": "pins-16-cadquery-1",
+    "sha256": "0b5ec5ee37f06722e6dfc49649dd22317f4a65074070d7c25e9aae5cd40f0a09",
+    "solids": 16,
+    "volume": 3285.842021872023
+  },
+  {
+    "id": "pins-16-colocad-1",
+    "sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7",
+    "solids": 16,
+    "volume": 3285.8420218720235
+  },
+  {
+    "id": "sensor-rail-build123d-1",
+    "sha256": "0906e40bed94b6218f1d065495e50057cb99e865837f24da25b84eb3d654d9e1",
+    "solids": 1,
+    "volume": 16578.826068749026,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-cadquery-1",
+    "sha256": "5f2f61caab3cef64835e88e332c70de724b4dd987e03391f97e207f5c0f94ca5",
+    "solids": 1,
+    "volume": 16578.826068749033,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-colocad-1",
+    "sha256": "6d5d1bfd8d0428b880286e0d80a2961dfcb20d7dc8d3516e432ceb964f67280e",
+    "solids": 1,
+    "volume": 16578.82594005017,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-edit-build123d-1",
+    "sha256": "bbfbe2e4e911907466190c0b23a0f698229f9b6be062c062388d1a632afa437f",
+    "solids": 1,
+    "volume": 16983.826068749153,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-cadquery-1",
+    "sha256": "497190e66315a3a2058eac8af5c05894e3e592eb7932ed851a9e8ec73bf6a921",
+    "solids": 1,
+    "volume": 16983.826068749157,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-colocad-1",
+    "sha256": "8baf878bc22c1b7a48634b8816601196a4f480b4b9414d2c1e0344bb9229dac5",
+    "solids": 1,
+    "volume": 16983.82594043615,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "finger-build123d-2",
+    "sha256": "722a6f3154d2e21f961eaf314866283339fd518d2dd8a709b009fab42dbb3754",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "finger-cadquery-2",
+    "sha256": "e2bf7afd8f72a37c904132ac4accfe5d771dd60902e5c9064906898e5fcdd0d3",
+    "solids": 1,
+    "volume": 13217.692245847347
+  },
+  {
+    "id": "finger-colocad-2",
+    "sha256": "677dc5f37d4f7e0894327ec5239d5deef0a2f8ebc2f0d83a87ffee0bfc5a0349",
+    "solids": 1,
+    "volume": 13217.692299430808
+  },
+  {
+    "id": "hand-build123d-2",
+    "sha256": "48d38c2ebd63d6553b511e80abfb46ab838d5ed5d5b3e4a091e2c67d588cce0b",
+    "solids": 43,
+    "volume": 315782.1561698261
+  },
+  {
+    "id": "hand-cadquery-2",
+    "sha256": "8185156956651b7726dd357a6eca2ce14ff8009205ce7442b10a218b771839b9",
+    "solids": 43,
+    "volume": 315782.1561698237
+  },
+  {
+    "id": "hand-colocad-2",
+    "sha256": "ed9e428547721d5b3f55c86b710140cc86c952de8831d519fbd4c766030969e0",
+    "solids": 43,
+    "volume": 315782.1567056093
+  },
+  {
+    "id": "links-1-build123d-2",
+    "sha256": "2d4694a8898992e700dda9a90fb5cc893e5ed5e5ddf7171a0db2fe0e84db97e7",
+    "solids": 1,
+    "volume": 13217.692245847376
+  },
+  {
+    "id": "links-1-cadquery-2",
+    "sha256": "41435bcb932b54064aa129e647c7bd0c17b76ced91e25e5196529079e1a06625",
+    "solids": 1,
+    "volume": 13217.692245847351
+  },
+  {
+    "id": "links-1-colocad-2",
+    "sha256": "d9575124bf520832bd53ef5c8f07682e1adca9251cbb29b5ff904f2949e3f46a",
+    "solids": 1,
+    "volume": 13217.692299430813
+  },
+  {
+    "id": "links-16-build123d-2",
+    "sha256": "dd1a6fb8b95f73152686126e3289c67c6b6471eb4556d0138bf6d0f398d76e1b",
+    "solids": 16,
+    "volume": 211483.07593355805
+  },
+  {
+    "id": "links-16-cadquery-2",
+    "sha256": "e52a2f4f35c99adc725c86a8ab79fb92a70ebc8e02bed5472d751ae6b7ccf68e",
+    "solids": 16,
+    "volume": 211483.0759335576
+  },
+  {
+    "id": "links-16-colocad-2",
+    "sha256": "7206c90d96ecd57ed2a45681fa57fe6d43ffeb80d46b9a6f5eb18fd30a139d37",
+    "solids": 16,
+    "volume": 211483.07679089298
+  },
+  {
+    "id": "links-4-build123d-2",
+    "sha256": "36f91ef8387591d3c504841ffeb4cfd583149b5dd0857fe42032a097866ff76a",
+    "solids": 4,
+    "volume": 52870.76898338951
+  },
+  {
+    "id": "links-4-cadquery-2",
+    "sha256": "865ff27d25bcae7c622778d2b42991599dab4fd84eaf3f5f73e1b14eba0eaf20",
+    "solids": 4,
+    "volume": 52870.768983389404
+  },
+  {
+    "id": "links-4-colocad-2",
+    "sha256": "f4c4540fe186b59bf80d60e83b6375e17fca7f75e2d59a0a607741888e580096",
+    "solids": 4,
+    "volume": 52870.769197723246
+  },
+  {
+    "id": "links-43-build123d-2",
+    "sha256": "176d9d3a5cb7cf44a1f4aef5f1b77bb3db2f49cc344562ddba98a683d8473302",
+    "solids": 43,
+    "volume": 568360.7665714374
+  },
+  {
+    "id": "links-43-cadquery-2",
+    "sha256": "3013cc4e203926f41d939a09267e1c1aded7ca0bdadb0564890c8fce1677c879",
+    "solids": 43,
+    "volume": 568360.7665714361
+  },
+  {
+    "id": "links-43-colocad-2",
+    "sha256": "7f519b80371a72b4b9eadcc547f750166819a1f4e95b83cde7f8a80c30aae4da",
+    "solids": 43,
+    "volume": 568360.768875525
+  },
+  {
+    "id": "manifold-build123d-2",
+    "sha256": "cbb8bb2fc4cab46467a48b40a27c4abc10ba6c3dba4a2f21130370e78632f21c",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-cadquery-2",
+    "sha256": "62dbc3b71ab4ac9743b9c770b1bc472a7006460aac5fe8810c4abb2dd0920783",
+    "solids": 1,
+    "volume": 45490.92426116928,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-colocad-2",
+    "sha256": "b8e8559016c8fa7cde247024840bc1732c1786f77cc72f00d07cee0efb53d5aa",
+    "solids": 1,
+    "volume": 45490.92384048452,
+    "checked_bore_diameter": 6,
+    "checked_bore_count": 4
+  },
+  {
+    "id": "manifold-edit-build123d-2",
+    "sha256": "47bf37d4c7ee1c60c73946a59806c20ad58157b90f22361d75506b63f32c2ba5",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-cadquery-2",
+    "sha256": "1c013b493c494ebbc6eca4940320888c102193999cd96f0af400525b5c5fa2fa",
+    "solids": 1,
+    "volume": 45472.07470524791,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "manifold-edit-colocad-2",
+    "sha256": "436a4e488fd3494cd9b90468e63389853a920cdb2c09ffefcf59575852b01433",
+    "solids": 1,
+    "volume": 45472.07428125097,
+    "checked_bore_diameter": 7.0,
+    "checked_bore_count": 3
+  },
+  {
+    "id": "pins-16-build123d-2",
+    "sha256": "9703c3ecadb051f050ff54edb592178653e7caf8afce963ed8feee573609da09",
+    "solids": 16,
+    "volume": 3285.842021872022
+  },
+  {
+    "id": "pins-16-cadquery-2",
+    "sha256": "8eefde392debaf6d4cf4862de9b4368a19e2cdc631714c45a7ef5b2049c6c52f",
+    "solids": 16,
+    "volume": 3285.842021872023
+  },
+  {
+    "id": "pins-16-colocad-2",
+    "sha256": "6e65ecc4613c48581fc16f3abc8fd05de1a43bf0cc976993d20bd098a32b89c7",
+    "solids": 16,
+    "volume": 3285.8420218720235
+  },
+  {
+    "id": "sensor-rail-build123d-2",
+    "sha256": "18f31a960b7bf5a019978d911ebf5f3ba80b79e890be007ecd6675c7358074d3",
+    "solids": 1,
+    "volume": 16578.826068749026,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-cadquery-2",
+    "sha256": "fef08ad3b6ee6726cc70db63e892edb709d419c27e8fd217160ee19744411731",
+    "solids": 1,
+    "volume": 16578.826068749033,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-colocad-2",
+    "sha256": "6d5d1bfd8d0428b880286e0d80a2961dfcb20d7dc8d3516e432ceb964f67280e",
+    "solids": 1,
+    "volume": 16578.82594005017,
+    "slot_count_parameter": 3
+  },
+  {
+    "id": "sensor-rail-edit-build123d-2",
+    "sha256": "d5787c61769901741aec507ba23f4db8c5897977c22798b92d11d74e2ecb7070",
+    "solids": 1,
+    "volume": 16983.826068749153,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-cadquery-2",
+    "sha256": "d70adefa193f5561a43df16f78ab3da7c6f3d9e54fb4c4c27b9f00b23d4bdb40",
+    "solids": 1,
+    "volume": 16983.826068749157,
+    "slot_count_parameter": 2
+  },
+  {
+    "id": "sensor-rail-edit-colocad-2",
+    "sha256": "8baf878bc22c1b7a48634b8816601196a4f480b4b9414d2c1e0344bb9229dac5",
+    "solids": 1,
+    "volume": 16983.82594043615,
+    "slot_count_parameter": 2
+  }
+]

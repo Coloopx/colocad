@@ -1,5 +1,7 @@
 # Developer documentation
 
+[Candidate benchmarks, change-order replays and memory growth](benchmark-alpha11-rc1.md)
+
 [Freeform shells, mesh import and hybrid assembly](hybrid.md)
 
 [Alpha.10 three-backend rerun, memory scaling and hybrid builds](benchmark-alpha10.md) · [Offline performance and geometry comparison](benchmarks/alpha10/scorecard.html)

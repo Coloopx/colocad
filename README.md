@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling-alpha10.gif)
+![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling-alpha11-rc1.gif)
 
 **Parametric CAD for agents. Local Rust geometry, a TypeScript SDK, a CLI, and an inspectable modeling history.**
 
@@ -9,6 +9,8 @@
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
 **Alpha software:** useful for supported mechanical parts and assemblies, with measured performance and reproducible examples. It is not a complete replacement for build123d or a manufacturing-certified CAD system. See [support and limits](#support-and-limits).
+
+**256 saved KK60 edits used 92.5 MiB peak on the development candidate**, compared with 223.0 MiB for CadQuery and 271.4 MiB for build123d with durable history adapters. See the [change-order replay](#engineering-change-orders), [memory curves](#memory-over-256-saved-revisions) and [23-case benchmark](#performance).
 
 ## What you can build
 
@@ -36,7 +38,32 @@ Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 npm install @coloopx/colocad@0.1.0-alpha.10
 ```
 
+This command installs the published alpha.10 package. The November 13 figures use the local alpha.11 RC package built from [the candidate source](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4).
+
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
+
+## Engineering change orders
+
+Give each backend the same source STEP. Resize the KK60 camera plate, cut a cable window and remount it after the saddle moves. Then install a keyed motor flange from rotated coordinates and reject parts with a missing hole or the wrong pitch.
+
+![Ten change orders replayed from the source files and the independently verified backend exports](docs/benchmarks/alpha11-rc1/engineering-changes.gif)
+
+**Colocad, CadQuery and build123d each delivered seven valid assemblies and rejected all three incompatible inputs.** Colocad exposes parameter edits, revision history and exact snapshot queries through the same SDK and CLI. In the history test, six earlier camera pitches were measured from saved native snapshots with zero geometry rebuilds. The Python adapters reopened six saved STEPs for the same measurements. Colocad used an exact circular-edge query where high-level blind-hole recognition on the imported saddle was partial. [Work orders, checks and limits](docs/benchmark-alpha11-rc1.md).
+
+## Memory over 256 saved revisions
+
+Every edit changed real geometry and retained editable source, exact STEP and a mesh preview. All 1,024 edited assemblies across the four runs passed independent readback. Each session had one CPU, 512 MiB and zero swap.
+
+![Measured memory versus saved edit count, with current and kernel peak shown separately](docs/benchmarks/alpha11-rc1/revision-memory.gif)
+
+| Workflow | Peak MiB | Current MiB at edit 256 | Increase from edit 128 |
+|---|---:|---:|---:|
+| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
+| CadQuery 2.8.0 + durable adapter | 223.0 | 218.8 | **0.9 MiB** |
+| build123d 0.13.0 + durable adapter | 271.4 | 267.1 | 6.9 MiB |
+| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | Reached the cap |
+
+The RC had the lowest peak. The CadQuery adapter had the smallest late increase. Each Python adapter persisted its history in SQLite, synced its outputs and released clean file pages. Colocad also retained native checkpoints and query snapshots. [Session methods and per-revision evidence](docs/benchmark-alpha11-rc1.md#256-saved-geometry-edits).
 
 ## Sculpted housings and external meshes
 
@@ -84,7 +111,7 @@ Use `CadClient` for direct builds without session recording. [SDK, CLI and tool 
 
 ## Visualize and export from the CLI
 
-![CLI modeling-history viewer showing the KK60 assembly](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
+![CLI modeling-history viewer showing the KK60 assembly](showcase/hiwin-kk60/viewer-alpha11-rc1.png)
 
 Inspect the timeline, source, features, receipts and selected parts. Switch cameras, show display sections or explosion, and download artifacts. The offline HTML embeds its rendering code and geometry. Hosts can also embed `@coloopx/colocad/viewer`.
 
@@ -145,25 +172,21 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 Independent OCCT checks cover all 16 STEP revisions, 64 material probes and selected rail/carriage clearances. Proprietary internals are explicitly approximated or omitted; this is a catalog reconstruction, not a production drawing package. The animation is not a speed benchmark.
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](docs/benchmarks/alpha10/kk60-readback.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling-alpha11-rc1.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](docs/benchmarks/alpha11-rc1/kk60-readback.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## Performance
 
-**Colocad alpha.10 had the lowest peak sandbox memory in 22 of 23 mechanical cases.** Three fresh runs per backend per case produced 207 independently verified STEP files. Colocad had the fastest median delivery in 10/11 product and edit cases and 6/12 scaling cases. Results below use **Colocad / CadQuery / build123d** order.
+On the **November 13 candidate rerun**, Colocad had the lowest median peak memory in **22/23 cases** and the shortest median time to STEP in **16/23**. All 207 STEP exports passed independent checks. Times include fresh process startup and delivery. Each case ran three times per backend.
 
-![Time to verified STEP and sandbox memory](docs/benchmarks/alpha10/scorecard.svg)
+![Fresh time-to-STEP and cgroup peak measurements](docs/benchmarks/alpha11-rc1/scorecard.svg)
 
-128 placements of one part took **0.81 / 2.81 / 4.47 s**, peaking at **45.6 / 261.0 / 302.1 MiB**. For 64 distinct parts, peaks were **88.6 / 256.0 / 291.3 MiB**, while delivery took **13.46 / 2.96 / 3.76 s**. Both Python backends used less memory and finished sooner on the 1,024-hole plate.
+128 placements of one shared part took **0.62 / 2.51 / 3.64 s** in Colocad / CadQuery / build123d. For 64 independently sized plates the times were **11.12 / 2.28 / 3.51 s**. On the 1,024-hole solid both Python backends used less memory and finished sooner. [All memory scaling curves](docs/benchmarks/alpha11-rc1/memory-scaling.svg).
 
-![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
+One 100-second queue per backend produced **45 / 51 / 41** independently verified revisions of the 43-solid hand. The sampled memory peaks were **167.1 / 481.0 / 280.9 MiB**. The GIF plays recorded completion times at 10×.
 
-The Linux development candidate reduces peak memory for 256 saved KK60 camera-adapter edits from **512.0 to 94.9 MiB** on ext4 and from **288.3 to 84.8 MiB** on a virtiofs host mount. All 256 distinct STEPs passed independent geometry checks. [Revision memory curves and reproduction](docs/revision-cache.md) · [Retrofit and indexed-history baseline](docs/field-history.md).
+![Actual verified hand deliveries and sampled running memory peaks](docs/benchmarks/alpha11-rc1/hand-window.gif)
 
-The 100 s edit queues delivered **42 / 45 / 42** verified 43-solid hands, with sampled running peaks of **165.2 / 293.8 / 283.5 MiB**.
-
-![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)
-
-[Offline HTML with all 23 cases and geometry comparisons](docs/benchmarks/alpha10/scorecard.html) · [Timings, I/O, hybrid scans and limits](docs/benchmark-alpha10.md) · [Reproduce](benchmarks/release/README.md).
+[Offline single-file scorecard with the replays](docs/benchmarks/alpha11-rc1/scorecard.html) · [Methods and results](docs/benchmark-alpha11-rc1.md) · [Reproduce](https://github.com/Coloopx/colocad/blob/main/benchmarks/readme/candidate/README.md).
 
 ## Support and limits
 

@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-alpha10.gif)
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-alpha11-rc1.gif)
 
 **面向 agent 的参数化 CAD：本地 Rust 几何内核、TypeScript SDK、CLI，以及可追溯的建模过程。**
 
@@ -9,6 +9,9 @@
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
 **项目处于 alpha 阶段。** 已有机械零件、装配体、性能记录和可复现示例；尚不能完整替代 build123d，也不等于经过制造验收的 CAD 系统。[支持范围与限制](#支持范围与限制)。
+
+
+**开发候选版连续保存 256 次 KK60 改图，沙箱峰值为 92.5 MiB**，采用持久化适配器的 CadQuery 和 build123d 分别为 223.0、271.4 MiB。[工程换件动图](#工程更改单) · [内存增长曲线](#连续保存-256-版的内存) · [23 项性能对照](#性能)。
 
 ## 可以用来做什么
 
@@ -35,7 +38,32 @@ flowchart LR
 npm install @coloopx/colocad@0.1.0-alpha.10
 ```
 
+此命令安装已发布的 alpha.10；11 月 13 日的图表使用从[候选源码](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4)构建的本地 alpha.11 RC 包。
+
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
+
+## 工程更改单
+
+给三个后端相同的 STEP，要求改长、加厚 KK60 相机板，新增走线窗口，再用实际孔位适配坐标平移的替换件。另一组任务要求从旋转过的电机法兰重新求安装方向，遇到孔距不符或缺孔必须拒绝。
+
+![十条工程更改单的输入和三个后端实际输出的 STEP 回读](docs/benchmarks/alpha11-rc1/engineering-changes.gif)
+
+**Colocad、CadQuery 和 build123d 都交付了七个有效装配，并正确拒绝三个不兼容输入。** Colocad 的 SDK/CLI 自带改参、版本历史和快照查询；实测六个旧版本的孔距时，Colocad 直接查询原生快照，几何重建次数为 0；两个 Python 适配器重开六份 STEP 完成了相同测量。Colocad 的高层盲孔识别在重导入滑台上仍返回部分覆盖，实测用精确圆边找到了安装位置。[任务、几何验收和限制](docs/benchmark-alpha11-rc1.zh-CN.md)。
+
+## 连续保存 256 版的内存
+
+每次都修改真实几何并持久化可编辑源、精确 STEP 和网格预览。四个会话共 1,024 份改图装配全部独立回读通过。每场 1 vCPU、512 MiB、无交换。
+
+![按已完成改图数对齐的沙箱当前内存和累计峰值](docs/benchmarks/alpha11-rc1/revision-memory.gif)
+
+| 工作流 | 峰值 MiB | 第 256 版当前 MiB | 后 128 版净增 |
+|---|---:|---:|---:|
+| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
+| CadQuery 2.8.0 + 持久化适配器 | 223.0 | 218.8 | **0.9 MiB** |
+| build123d 0.13.0 + 持久化适配器 | 271.4 | 267.1 | 6.9 MiB |
+| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | 已触及限额 |
+
+候选版的绝对内存峰值最低，CadQuery 的后半段增量最小。两个 Python 适配器均采用 SQLite、文件同步及干净页释放，Colocad 还保留原生检查点和查询快照。[实测方法和逐版证据](docs/benchmark-alpha11-rc1.zh-CN.md)。
 
 ## 有机外壳与外部网格
 
@@ -83,7 +111,7 @@ await session.edit({ length: 80 });
 
 ## 从 CLI 启动可视化与导出
 
-![CLI 启动的建模历史查看器：KK60 装配体](https://raw.githubusercontent.com/Coloopx/colocad/main/showcase/hiwin-kk60/viewer.png)
+![CLI 启动的建模历史查看器：KK60 装配体](showcase/hiwin-kk60/viewer-alpha11-rc1.png)
 
 查看时间线、源、特征、回执与选中的零件；切换镜头、显示剖切/爆炸视图、下载产物。离线 HTML 内嵌渲染代码和几何。需要集成到现有界面时，可使用 `@coloopx/colocad/viewer`。
 
@@ -144,25 +172,21 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 独立 OCCT 检查覆盖 16 份 STEP、64 个材料探针和指定位置的导轨/滑台间隙。未公开内部结构明确标为近似或省略；这是产品目录重建，不是可直接生产的完整图纸。动画也不是速度基准。
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/alpha10/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling-alpha11-rc1.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/alpha11-rc1/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## 性能
 
-**Colocad alpha.10 在 23 个机械用例中的 22 个取得最低沙箱内存峰值。** 每个后端、每个用例各跑三次，207 份 STEP 均通过独立回读。11 个产品及改参用例中有 10 个耗时最短，12 个规模用例中有 6 个耗时最短。以下均按 **Colocad / CadQuery / build123d** 排列。
+**11 月 13 日的候选版复测**中，Colocad 在 **22/23** 个机械用例取得最低沙箱峰值，在 **16/23** 个用例最快交付 STEP。每个后端、每个用例新起进程跑三次，207 份 STEP 全部通过独立检查。
 
-![Time to verified STEP and sandbox memory](docs/benchmarks/alpha10/scorecard.svg)
+![重新测得的 STEP 交付时间和沙箱峰值](docs/benchmarks/alpha11-rc1/scorecard.svg)
 
-同一零件放置 128 次，耗时 **0.81 / 2.81 / 4.47 秒**，峰值 **45.6 / 261.0 / 302.1 MiB**。64 种独立零件的峰值为 **88.6 / 256.0 / 291.3 MiB**，交付耗时 **13.46 / 2.96 / 3.76 秒**。在 1,024 孔单板上，两个 Python 后端均更快且内存更低。
+同一零件放置 128 次，Colocad / CadQuery / build123d 耗时 **0.62 / 2.51 / 3.64 秒**。64 种独立尺寸板件分别用 **11.12 / 2.28 / 3.51 秒**。在 1,024 孔单实体上，两个 Python 后端都更快、内存也更低。[完整规模曲线](docs/benchmarks/alpha11-rc1/memory-scaling.svg)。
 
-![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
+三个后端各跑一个 100 秒队列，分别交付 **45 / 51 / 41** 份通过验收的 43 实体灵巧手。采样内存峰值为 **167.1 / 481.0 / 280.9 MiB**，动图按实测完成时间 10 倍速播放。
 
-Linux 开发候选版在 KK60 转接板连续保存 256 次改图时，ext4 的沙箱峰值从 **512.0 降到 94.9 MiB**，virtiofs 宿主机共享目录从 **288.3 降到 84.8 MiB**。256 份不同的 STEP 均通过独立几何验收。[连续改图内存曲线与复现](docs/revision-cache.zh-CN.md) · [真实改装与索引读取基线](docs/field-history.zh-CN.md)。
+![灵巧手实际交付数量和采样内存峰值](docs/benchmarks/alpha11-rc1/hand-window.gif)
 
-100 秒改参窗口内完成并验收的 43 实体灵巧手为 **42 / 45 / 42 份**，采样累计峰值 **165.2 / 293.8 / 283.5 MiB**。
-
-![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)
-
-[单文件 HTML，含全部 23 个用例和几何对照](docs/benchmarks/alpha10/scorecard.html) · [详细耗时、I/O、混合扫描件与限制](docs/benchmark-alpha10.zh-CN.md) · [复现步骤](benchmarks/release/README.md)。
+[单文件离线 HTML，内含动图](docs/benchmarks/alpha11-rc1/scorecard.html) · [方法与数据](docs/benchmark-alpha11-rc1.zh-CN.md) · [复现步骤](https://github.com/Coloopx/colocad/blob/main/benchmarks/readme/candidate/README.md)。
 
 ## 支持范围与限制
 

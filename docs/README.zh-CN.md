@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[候选版性能、工程更改单回放和内存曲线](benchmark-alpha11-rc1.zh-CN.md)
+
 [自由曲面、扫描网格与精确机构混合建模](hybrid.zh-CN.md)
 
 [alpha.10 三后端全量复测、规模增长与混合建模](benchmark-alpha10.zh-CN.md) · [单文件性能与几何对照](benchmarks/alpha10/scorecard.html)

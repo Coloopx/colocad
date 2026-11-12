@@ -4,6 +4,8 @@ Notable user-facing changes are recorded here. Colocad remains alpha software; s
 
 ## 0.1.0-alpha.11-rc.1 (development candidate)
 
+- Reran the 23-case STEP matrix, 100-second hand queues, two engineering change workflows and four 256-edit histories. The bilingual README includes the current readback animations and the standalone scorecard. [November 13 results](docs/benchmark-alpha11-rc1.md).
+
 - On Linux a successful geometry commit releases clean pages from the preceding revision and the new exchange files. The KK60 retrofit retained all 256 edited STEP deliveries. [Sandbox memory and geometry checks](docs/revision-cache.md).
 - Interrupted legacy migration can recover when a Linux container retains its exited writer as a zombie.
 
