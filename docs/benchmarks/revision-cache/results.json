@@ -1,0 +1,6981 @@
+{
+  "gate": {
+    "workload": "field-task KK60 adapter with query snapshots and previews, four setup revisions, then 256 distinct gauge/pitch edits",
+    "runtime_baseline": "public @coloopx/colocad@0.1.0-alpha.10",
+    "cpu": 1,
+    "memory_mib": 512,
+    "swap_mib": 0,
+    "mounts": [
+      "virtiofs host bind",
+      "native Linux ext4"
+    ],
+    "resource_gate_per_candidate_run": {
+      "max_late_current_growth_mib": 16,
+      "late_interval_edits": [
+        128,
+        256
+      ],
+      "max_cgroup_peak_mib": 256,
+      "oom_kills": 0
+    },
+    "correctness": "Keep four setup outcomes and known rejection, accept all edits, reopen paged history; require identical STEP bytes for each edit across variants, independently verify every distinct STEP, validate persisted digests and query old snapshots after reopen."
+  },
+  "verified_geometries": [
+    {
+      "id": "s0005",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "02e75a4a0528033ac66f13f0da65c78975d6141160418458771d2f2b6a436306"
+    },
+    {
+      "id": "s0006",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e748267662ca2a6948a23a8a6d25d0c4e06e9c61b9d3bb95b17547a70819ef80"
+    },
+    {
+      "id": "s0007",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c84f0f305667610cd91ee6f891f85c1b3cea3d62e4a4282a927d1270f14685b5"
+    },
+    {
+      "id": "s0008",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "731466f68f4edda7d707daa8edd830a0058429871d84a510de2accdd3f09cbb8"
+    },
+    {
+      "id": "s0009",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "794c580251b941122facb368b0d84719a6aafdd9d2c2cfb3cabb3ec8f0bf793b"
+    },
+    {
+      "id": "s0010",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b53fe04d648c2b291058205823b9ae2fc6eed1a37c6f1b4cece9d777accbd106"
+    },
+    {
+      "id": "s0011",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b1fbe329afa9b6e8f170bafdaef5135fffbcc1b3f0afc4ff59e5e7c5629b620e"
+    },
+    {
+      "id": "s0012",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5566beab4f6425fcf984f2dfc0e1b8187384b12c33f98100716103fa61a741fc"
+    },
+    {
+      "id": "s0013",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "28de7a7688f56b9c19e4b4268046870d1e3106b0f578117d8e9f8e3543c19a08"
+    },
+    {
+      "id": "s0014",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "3cb13c8e9606a25cfbf5d8103ff515fe8e031f84968c10adc49b439707a2e728"
+    },
+    {
+      "id": "s0015",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "50e9c0ec22e02f9cac32fe3598efbec0054a11815e3a6223ab83f8efcc61c37c"
+    },
+    {
+      "id": "s0016",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f1b40bc3741771b5a0ca16f14892f858a4ff3dea86674633038dbe0c5691d8fd"
+    },
+    {
+      "id": "s0017",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2b61cf8a6078aeb58af73d8846ddf796c31479c2f42e0546eb60ba074881e01b"
+    },
+    {
+      "id": "s0018",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ff43c36a1c183e8c2b5937f2d5aa83c92cd345b69cc9b4a21e043f54faab6120"
+    },
+    {
+      "id": "s0019",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e4b7bea61f004910dc7896111530510393658abb67969798fe47877ee8a39ef3"
+    },
+    {
+      "id": "s0020",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "3aefdff34b91f1b4e6910b510866dfdeb6b619b0f719b492f82d2759af5aaf52"
+    },
+    {
+      "id": "s0021",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "de4926fc52ee59e707664a83f0fa5e575179ad8428ac911a5ad66ddd6310afd3"
+    },
+    {
+      "id": "s0022",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1d46084f9d1ec20b909dd305b8c207cb495651a6a6abb8d857314186faa4ff41"
+    },
+    {
+      "id": "s0023",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e0b31667eb5fbee3e8fea51bac9589d093ac9b625e2c92eee67c9c3ad23c8e04"
+    },
+    {
+      "id": "s0024",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2c46bd257bae0c11c21b3d83e6d82b700ce6fe83626564bf96da2e05818cf678"
+    },
+    {
+      "id": "s0025",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6d3c6fac7aef35c8f3c198e21f9a8775b6e3219a53aab3b646862d802cc2245f"
+    },
+    {
+      "id": "s0026",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7f386a0966aed64983581a5d2638ba128e810683ce9e99f03da81a1661cd2a92"
+    },
+    {
+      "id": "s0027",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a79fa52ac12af17ef8bd4a6581009d8d06175938bcb5c7e246b0178f7c2162a3"
+    },
+    {
+      "id": "s0028",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53c28b30a6629a2f74f2c7caa398e3c51915aabf069f126728219460c1bf7fa9"
+    },
+    {
+      "id": "s0029",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0b255dcf7b6932cc3217cccd5eddbd4512ed6e4a8ab9f95129830dacf972d69e"
+    },
+    {
+      "id": "s0030",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e46411e0e90c72d876cbd61525e8748ce4ca15fe3091282360aa5e9dec5d5cb8"
+    },
+    {
+      "id": "s0031",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a16dfbd9a90dc7f8bb03a0b74316b16b5e055b185efbca0ae3a9bdce1a15b15a"
+    },
+    {
+      "id": "s0032",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ce4662926b43ddc5b8436e989ce7fc218504933a45b3b3dd54ae8c64144b49e0"
+    },
+    {
+      "id": "s0033",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e29d69c8ed8aee0dca9fd555a7059be15667df3449eddcc1dbbc54eb09927328"
+    },
+    {
+      "id": "s0034",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b2ad6ebffcbf23af53d04b40e43b518bdf47519e8ceccc77ee3abfd9be65642c"
+    },
+    {
+      "id": "s0035",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "103066a723928d69ca7f88c0b351edea6a7a5cee7f0e2d472afeff1d6a9870e5"
+    },
+    {
+      "id": "s0036",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "11a6a6e8d39738d462bd4ca2b8f8cd3b9b4f5b709c917b70c3292d1548be663f"
+    },
+    {
+      "id": "s0037",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9754101f4d6e1f8ad8ce7c76bf8fc43d4272b58763ec7decb0f39c9150468e7b"
+    },
+    {
+      "id": "s0038",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0b94f1aa428d6f1083b3ee0c8d44b6976c57997c52c583a7ae5383fe76d9a2ec"
+    },
+    {
+      "id": "s0039",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53da1ea70d39287702eed649c17f2d8d01dfb2922204f5e17511715a5e0fe7cb"
+    },
+    {
+      "id": "s0040",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9454e3b35fd4f3101ff39fd1a10691068f9b5989c86ce9bf0f5ba870f4f1af49"
+    },
+    {
+      "id": "s0041",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "98dc94be6e70e5012c43afa1943aac2b785581f40212f2f85642b7763d614c7b"
+    },
+    {
+      "id": "s0042",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "712db95f2a9fb5664e228f044819759c7fd72979379ccc734ba12fa80dcfa6dd"
+    },
+    {
+      "id": "s0043",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5c694562453000393e9a6e3f8dfa545df6c04a9c5050132787996a3f3c6ee430"
+    },
+    {
+      "id": "s0044",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5cf559caa5a840957a8dfec50aa38bd336dbef3d2f59512faca5ac2adffaa65b"
+    },
+    {
+      "id": "s0045",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9bebf09e071626eaddbbd4e7876862a45d6ebea2d2282a4b95362dc439783290"
+    },
+    {
+      "id": "s0046",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "178d0544e5b1280c293b4f875ade0e24422def0bd32060079c4861e981d538ef"
+    },
+    {
+      "id": "s0047",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "97b15ff1477e8525896ccfb6dcff66e5b486dc863331753b4383020b5a00f573"
+    },
+    {
+      "id": "s0048",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e32b6344ab976805e6657190fc3c50e6e382e13954db50d07f18ee42426cae58"
+    },
+    {
+      "id": "s0049",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2cef1a84ad4d1cbd7e3b5660638902ff31c14b3fcfd2ec7439d43f39d77c40df"
+    },
+    {
+      "id": "s0050",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6053a44dcc0e0345b239f3bc5b33e7da6720fe285efaa48cd48c2e0259aa181a"
+    },
+    {
+      "id": "s0051",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "47d0dcacbe7092d7a4bd6ef9fe0576a010b21f4941e68a6b23335b99ace00e1c"
+    },
+    {
+      "id": "s0052",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "630279cc281b624416e97f702d9326303d1747c7a97c218c7ebce92251bc14c0"
+    },
+    {
+      "id": "s0053",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5b4563752e7b068d4df44e85ba17dbf31d778167a2fb7e732801cd203fb10ff7"
+    },
+    {
+      "id": "s0054",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b9ebf05915ff00aa7dbef451749145b5da6de89c1de1b2497d208384eea265d6"
+    },
+    {
+      "id": "s0055",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f50ae027643837ea77a5b0909c4168d47306940751ef95f95caffdc95914dfe0"
+    },
+    {
+      "id": "s0056",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6d6d00def001edf711854ed7324733056e428253c50c123abaf425f38ed8c265"
+    },
+    {
+      "id": "s0057",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "666cd289ee9ae5f671c4cc87315f2f984fd6e48cff123b15870767b9092427e4"
+    },
+    {
+      "id": "s0058",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8fd85e4d4b57126ede0de31ddd29d795addd844a388a8ec525e59e0003507e00"
+    },
+    {
+      "id": "s0059",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bbc3de3e0378c4fedf6f82d2fc881af0521780679c511a3b4a104291615829de"
+    },
+    {
+      "id": "s0060",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5985cf91bdaf36f0056b055f1b9fac8229eacdd3ce177990370a41907db87770"
+    },
+    {
+      "id": "s0061",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "38ffc1a1c7a0347d8dd31d82f708e366f23fcf2d7553ca86f5ed9bb7c288ee1e"
+    },
+    {
+      "id": "s0062",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "4c2b34e01d1fb86056482bc4a3f2b04e9e82d2e2ad3dc72e7c9d0ae9112a77e3"
+    },
+    {
+      "id": "s0063",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53bc0bac0f67798ff3af83cffaae585010180d9e0748662d61c8a75948c65e58"
+    },
+    {
+      "id": "s0064",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "845595442dd0e157cacabf181a1960d32f6046020a50de6b842592957d43a8ed"
+    },
+    {
+      "id": "s0065",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bf8db88f867ccef3e76114a61861bb819292304798dbcac1e8f7abe5a268dfeb"
+    },
+    {
+      "id": "s0066",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "211653798fe32df0e5f3ce9529a34e5578d26990c87b0932aa9dd7d2a63f7eb6"
+    },
+    {
+      "id": "s0067",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9af05c965f73e588315987421881dda9cbc4f4c8852b5b79cca1ea0ca2c2e24d"
+    },
+    {
+      "id": "s0068",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7fc13f2ffbfccbc5e74c8564080eb82fd15cf3f1bd5434f26c2a96742cb982d8"
+    },
+    {
+      "id": "s0069",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7af71d526d3a2841f43e2e3012221e3fb49c9cd2f1e69bf693d32ace026959e9"
+    },
+    {
+      "id": "s0070",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8d6cc3acf922940b8b2d9a072ffe8af8efcd91a81b18a07e3512ee528e2dee9e"
+    },
+    {
+      "id": "s0071",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "fd05e157a694ad8e87de6ff043870ecc661a5838576a95de27cef4c1f36c795d"
+    },
+    {
+      "id": "s0072",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "cac9f76cd03349770bd135fe14cc8857036ef379a5442a54313a21ce04ff3dec"
+    },
+    {
+      "id": "s0073",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f14b252337c73a2cbc6bdbe8012525cb348ff95a56e8831afebd5acbab5364e3"
+    },
+    {
+      "id": "s0074",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "139e4f0a0b8775f3ff24d725eddd15c54db0e5c602cd52b907e7a15b2e1c614a"
+    },
+    {
+      "id": "s0075",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "08bc03e49b8bdca8e7c4b1066ca80cdec0eef9cc79740f96df18eefe3404d1f7"
+    },
+    {
+      "id": "s0076",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6532e467f3b7b5c6b25b1081414cf821284e671fd5ee6fe18b08414e90147bbf"
+    },
+    {
+      "id": "s0077",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d546ebe42d9dbbe0f4712ba3970aaa842a8552afd1bd5980e6c1e92c970cc23c"
+    },
+    {
+      "id": "s0078",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "fb6a040abe848d1e8b7f754a60a4cf29febe92a3ac41b748149c6ec4353bb02b"
+    },
+    {
+      "id": "s0079",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "88f276fbb52c380e50fd7943407e5eea7884d626d21ae9d7efa7485c9c7537b2"
+    },
+    {
+      "id": "s0080",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6655778b5f8986e012a08118462e6561359dd4d2d1508b5f7ef998df51480512"
+    },
+    {
+      "id": "s0081",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a0a23b1ddbc08332058455d32a94200b2daf4429552742c5263af76d23ef8af5"
+    },
+    {
+      "id": "s0082",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2566f33dc8bd14d63e876d73d108068de5ca105eaee1981cf2e81e8bce6c9dbf"
+    },
+    {
+      "id": "s0083",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "57cdd1444a6a36600759105b753c525b77baa27d8150924a6f4059de703c5230"
+    },
+    {
+      "id": "s0084",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8563fff728e1def12082e130627ba72b2770a7957baeab209a2d0edcbd1c3ceb"
+    },
+    {
+      "id": "s0085",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7c8baf5a89c81b0170a93559c2a78ef9498606578deb7d30e18c96c7a075157e"
+    },
+    {
+      "id": "s0086",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e2a283d3ed0f98535bd9da7e9c9d18011b036f43c9c8bb6df5eaf9b496dfa8ba"
+    },
+    {
+      "id": "s0087",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d062422bb0faa3e275cbd6b9bd618ed88f8e8d8dd9bdffbff537496b2fb309a8"
+    },
+    {
+      "id": "s0088",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2d5a3a14aab8429277a34cab63b0e41be6fc893386d9b315d1f4f15896982ffc"
+    },
+    {
+      "id": "s0089",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "44a6e3ee79b0e0275bbdb68b22e3f72084b839e1bbd8e809240ced548fb0af9e"
+    },
+    {
+      "id": "s0090",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b515392a7378da05f4de16dda461a4cda1b88357ee58571f8063245aa77a024e"
+    },
+    {
+      "id": "s0091",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "12eccb9e94b97a0c9e881969dccb4f24d010aa1df4fdc17a275a0bd38b0efa9d"
+    },
+    {
+      "id": "s0092",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "270ff4c04bb1f4ed4e7d87e2e2c01a07a1b7d48114ba2c6171bd52096dca8c80"
+    },
+    {
+      "id": "s0093",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "86945f08b9f1c005d7894861ddeb179eebdd0c6c16dcdefc4fb68c041dc18cf5"
+    },
+    {
+      "id": "s0094",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "56306342e370e77a3c4fafec7c5edd4e0149c6c64e1b59afbb8816b4ffc71703"
+    },
+    {
+      "id": "s0095",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "255d14389be67b0b72c0b9dbb34fb6637fa483e250b8ff09f1777dcb5b0a25a8"
+    },
+    {
+      "id": "s0096",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d569cdb1c0bca87322eedbaa54f1db46db321ee68ed92b793d4a2cfb8ba4311f"
+    },
+    {
+      "id": "s0097",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5d01f79ae3fbe98da59a427902533d9e0e21be6fc64537a06447814e84d65dd5"
+    },
+    {
+      "id": "s0098",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "47fc2bcdf43046183132f8643b78442b0ad3c1a387975dc656c250e501676c20"
+    },
+    {
+      "id": "s0099",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2e62cf091054b620a9d8296e4fc4e6f2d6712bb4c3369cbedf1fd65fb75b7478"
+    },
+    {
+      "id": "s0100",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b577e7b9c1c723216a4ebe77dd6594b5c16e0404a42b6b6fc9ab53b5a9043b5e"
+    },
+    {
+      "id": "s0101",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e7195034e82cb3919a580583efdc9058eb0fd956c6995b5ca711c6bd3d967336"
+    },
+    {
+      "id": "s0102",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "87394bb28f01bfb5db580858089b0f34cda47f4b0bb0789c1ea81f0724a6295e"
+    },
+    {
+      "id": "s0103",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "138292482012aa0f5fe5e8a07fdf4f2685d4cd07d455c556dd95b7268c46597e"
+    },
+    {
+      "id": "s0104",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6e1988a4fbda9df67c2640f3c632f7f6c242f9471d4ab8fd83f136f89ec5ba9b"
+    },
+    {
+      "id": "s0105",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "36495fbb555d9f5c9531159c85da49d2fc6606d8559687f2d53b451065b82630"
+    },
+    {
+      "id": "s0106",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bc1f101d6c7c92e13bf38cb6cfb3a1424263624173f6baf52b9c43bf76617fb1"
+    },
+    {
+      "id": "s0107",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "58ce19093d8a7e46307b0467cee3d1bc793a3e1da74862598ee558d6b735186b"
+    },
+    {
+      "id": "s0108",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e9a9b5fe2fbb616aac9003669e9fd347944288d15f86418760adf6b3c6489329"
+    },
+    {
+      "id": "s0109",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "00e9eca8b6621d71b973c693e460ad66df88b24c772b2b72f819cccd12fac9c7"
+    },
+    {
+      "id": "s0110",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "acb412d4437e580d71c22eecbfa84008e652bd2bfa6337b9f796666236694d29"
+    },
+    {
+      "id": "s0111",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9a64021d5a8a803a06fc954b321bc6bddc55bac8113c2bf417cb81cd3e8661c5"
+    },
+    {
+      "id": "s0112",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0358e6ecce60d4392cc8e7be781b60dd488de6e087c789debe057e6a2298d48e"
+    },
+    {
+      "id": "s0113",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7406bb62e5e44448ccf0e077a245974184de8390f64aecde3021f54746770f07"
+    },
+    {
+      "id": "s0114",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e25cbbff5dbe6b768fd00d890bd0c228917f10ccaa5a550ec45326f75cfb9beb"
+    },
+    {
+      "id": "s0115",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c643bc3484039769480291f803571fd6b63758fca0d0a578da1e3a470c61849d"
+    },
+    {
+      "id": "s0116",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a30d65a40589664d1d8fe72eb395190abf590d0fed8215cb06b376b54aa80b0b"
+    },
+    {
+      "id": "s0117",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c876c4472547c8d4ed94afcd22cb2e05743d071baeb290aed889b497d9aa3b87"
+    },
+    {
+      "id": "s0118",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b8f0ec12bbc2ae9afd6f20000334de40a66d9570e60a16eace35c255a697ee9d"
+    },
+    {
+      "id": "s0119",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c9659a16f1af23907b0aae8b557a63ee7cfbf1b8dfbcbc36367ff471b799d909"
+    },
+    {
+      "id": "s0120",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "831c43edfdea4b407f398d8f20442b6388c5ce6092b67d4e445358c8e1559eea"
+    },
+    {
+      "id": "s0121",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c43e2954362d07915de68aa73f43f96c40e12dd950cd64e6cb58f99715049939"
+    },
+    {
+      "id": "s0122",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bbf9bb92a1e0e2db2e1db3fc6d194b7f905bdb7b2d1812376f7d1852d02e5342"
+    },
+    {
+      "id": "s0123",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "dccdddfcbee88d55495a6d9b8e319bf3377e7f765c1792fed053c5e63e31f9e2"
+    },
+    {
+      "id": "s0124",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7a40e29053ab04e298b7f6fa630bcfb83a360bbe4513c2cfe5dda88c535ad201"
+    },
+    {
+      "id": "s0125",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "548182a19201f39beb4c8170bc00d9bb5c025eb9a5ef6c7591822aea52643ba0"
+    },
+    {
+      "id": "s0126",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "06d705b2a53611c440984e9ff33edbf4994fc09c256c42751f27b5974d6c3139"
+    },
+    {
+      "id": "s0127",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d28c1a81d878e430e3748a89bf7ffb40a101f78d52582ca4a95000d4cd1719ed"
+    },
+    {
+      "id": "s0128",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8f0d78ece6e72c5c2fd8da79fdd6b6f3f33147cdac96f33539352560c52118e3"
+    },
+    {
+      "id": "s0129",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8e58fc9219e32079425ab160ba079dc54fbd3b12c984f19fa93624da64c96ab4"
+    },
+    {
+      "id": "s0130",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "3af6b71bc15b853ba154d09ce800806f0c247880d109c4f28ee5075bca6490d9"
+    },
+    {
+      "id": "s0131",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "fbf3428e10a6f63bca7a06073d4a4c7dea00012de4bac0f446f50408aff70b33"
+    },
+    {
+      "id": "s0132",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7b5a093487ee1050abfdee90af145690c0a549cea3470bfbad10680a4b9c2004"
+    },
+    {
+      "id": "s0133",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a6a62f76d4d25c7058faf6f4e0a23ef4577710f6008ce11031b7c2b511d918bf"
+    },
+    {
+      "id": "s0134",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "4cb54f6476e78f418091bf6cfa8fca0aae706a9c38af64de5df2828aedaefd44"
+    },
+    {
+      "id": "s0135",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b71c01715badd8066b0662e5488a09510934b09db19db380e9cbfdf3275f73d7"
+    },
+    {
+      "id": "s0136",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d82cc429888356e5decaa0e6326b918d77a8151138f3e2772f816069847fbdd5"
+    },
+    {
+      "id": "s0137",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "86bdbe69cb25f48f8eff0ba0728520cf5c5556c88ca1554d6e4b680553d10ce4"
+    },
+    {
+      "id": "s0138",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ebfd9344cc039d0e1cba604c45118c96f80645453b4cd4491e75c7ebcd5bb38d"
+    },
+    {
+      "id": "s0139",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "6a9c05d4742a63ac0326d2a1d2ad21ff0bfcc5793fa0cd1e1d50e65894d8853f"
+    },
+    {
+      "id": "s0140",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "fa40b5699b8cf37d73be49bc96ff168c0515829bccfd0a775bff0106977410f6"
+    },
+    {
+      "id": "s0141",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1c48466485551dd508f4c4adb197ea514367a850ee0ac628db4767f2539c1574"
+    },
+    {
+      "id": "s0142",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7b72fa23399011f0849c5bdf6d82de01fb40a0ad45692e9ef76afd79a4950474"
+    },
+    {
+      "id": "s0143",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1a463575bc45c629b3e52c44b5d4176fa0acb20f289812ed9f34d57ca3d7ed21"
+    },
+    {
+      "id": "s0144",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d381cd27e13ba229b6c61b5c5324968ad6a64248e96b56e2e8a10c3aabf2d469"
+    },
+    {
+      "id": "s0145",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "419f143a2a64c395210fe425eef94d30bdd8f4d6fbdec7581b6f9d47a679888e"
+    },
+    {
+      "id": "s0146",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bdfb84158bbec43b115e05e3827e6c638636dde40b24dd82b807c4ebf17df5aa"
+    },
+    {
+      "id": "s0147",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53c12e1f0b35bdc8fd40124f949c70080de0fc539212752e582825ce5f8e1a04"
+    },
+    {
+      "id": "s0148",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a60865f05ff4239b3703107d6d8337891f184583182cd0caaa86e22fdcd7fc0e"
+    },
+    {
+      "id": "s0149",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "022c05f32a2d08d5f936a4add4976adc21e20ba79f5654d268eccdcee32cc1c8"
+    },
+    {
+      "id": "s0150",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "85aefb7228d1e6239a141ad1513a3892cbbc2c0516527092a090761e1da8d972"
+    },
+    {
+      "id": "s0151",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1e9fa1f110965a5c233f6cdcbda5addfb0edf3a95cbbd19fe02c8275930131b3"
+    },
+    {
+      "id": "s0152",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "743dca45dd4756c910d52c152ca9044f27f72002b3a4bd68c64cfb280deff950"
+    },
+    {
+      "id": "s0153",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bde6566623cd5715a36342260feac8c048b119a0c330bd2eea1cf33818f764a1"
+    },
+    {
+      "id": "s0154",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0d92c6427a327735c6dc9b4ad231902c21d35e9b4660989c7d77d31ab70e9453"
+    },
+    {
+      "id": "s0155",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f467018895b22569c7ac302adbf4fbdab4630f42a90f0f3e710188a9be106061"
+    },
+    {
+      "id": "s0156",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "77f8dc078fc52a84a9e997e2793525a6bb5230a31dd6de86e0e49a6ed054af86"
+    },
+    {
+      "id": "s0157",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "992f179183123ec0fba54ddeb7d724e1e9b0a7bba616ed4b170b48de863c715e"
+    },
+    {
+      "id": "s0158",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "4d2ade95dd7e3aed2b31f0166b7b9377620cc82e83104c830dda3807e9a0400b"
+    },
+    {
+      "id": "s0159",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "80959377f7dc51a3ffb0f4dadab2236cd21da85fee660e03b5d6f0cac003c4a3"
+    },
+    {
+      "id": "s0160",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "cb2296a075c6d36f65ca62b0ddce6886332d2af38cca117124a72a1f7119d892"
+    },
+    {
+      "id": "s0161",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9f29ee37787202c8f12bbd0d2c8df76e7cf550b8d21be1f1d975eeecbd16ee26"
+    },
+    {
+      "id": "s0162",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "374adf04304b052513c223184c567c25cbc0d8e7e2435748fb108abd54eda016"
+    },
+    {
+      "id": "s0163",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e20f1e1f3a42ffe57580d0a251f487c0a1e4513aaf3d0a85871396982836499b"
+    },
+    {
+      "id": "s0164",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0150dfe2b592cd80b135a2ae1b970ce22cbe6263dca7eba5b2b324c9a8a268be"
+    },
+    {
+      "id": "s0165",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e44eeb4959dd51bf2d4eca2599beab7c36b6da73dcfbb87916421aeb411a3cd0"
+    },
+    {
+      "id": "s0166",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e980452950b5730297596a61eef3aeb446e2002c30f4d64b4b461351d6888dee"
+    },
+    {
+      "id": "s0167",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "42131e8213b4cb93070868ac9b3b50e628fc84fd727546da4e42a8fd374bc091"
+    },
+    {
+      "id": "s0168",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "55223e2e6fc7e6073ac8cc6ef02f32db09517da6de747acb8be10ac25ca33970"
+    },
+    {
+      "id": "s0169",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ff8caf91b29c78b1a1c2a83ab5be517d00e22e70a92c06de3d169e0f7fae485f"
+    },
+    {
+      "id": "s0170",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "eb816d413177f38b4e44bb55c65f2a6a88a79bac8ae8b5b84d6ef50b925bb5e8"
+    },
+    {
+      "id": "s0171",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7a3ef50f641ba70e55946d59be3681b8848f40adde54f38efe2796102687041f"
+    },
+    {
+      "id": "s0172",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "dc87caba0615e89412a555036c3fd783e11203b5e578b780bf2321cb6c806f8b"
+    },
+    {
+      "id": "s0173",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "74bde0f523674f31607241903c878c052e198dc344f892130b73dd84594c74b2"
+    },
+    {
+      "id": "s0174",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "11a041da7382fde044a324a364b47d92912a3d27bce13c0d8e9e1aa0c2f34304"
+    },
+    {
+      "id": "s0175",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5dbcd9bb6c8fb3c6d2f69bce9579c30e9e67bc10c7e111c738fb33dbea66c2e2"
+    },
+    {
+      "id": "s0176",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "3191a806b3e4b41f5cdccf5ad8e2bb51bcc70146aed6184057416e73de20a94e"
+    },
+    {
+      "id": "s0177",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "a8f18cb8ff7e95285e034d221e58e25e842d7d2d01ba2ae55d9de433118f7040"
+    },
+    {
+      "id": "s0178",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e7fc92e05fb8ff0cad8e5d0c2cfbecb19fad736ee050899c70873f68cc9838cc"
+    },
+    {
+      "id": "s0179",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "413ec4063a6443bd15cd8bccdfda1f15e907916cc5fbd4e946b75a531e260c40"
+    },
+    {
+      "id": "s0180",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8d67dc08e747bc735880fc98eef81c237dc08ad5b9c96f9625f676bb53076632"
+    },
+    {
+      "id": "s0181",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "dd9f42fbe5b0570512dccccb7e5e7ccc65d90380ce011826ae8e3e4ff911be14"
+    },
+    {
+      "id": "s0182",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d185f9fea836521850f4456def499e14f9536209f32da43fc7c797d5ddea131e"
+    },
+    {
+      "id": "s0183",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "980d9641fd41eee78e83d5944d45e18abf2126be8414e770fc6991cf88b67229"
+    },
+    {
+      "id": "s0184",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e7bfa09528dad5b77803c9c43e3046b2053bf4dc5a864f109302ba4f6bb1f8c5"
+    },
+    {
+      "id": "s0185",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e1f268a3c94114f16dfed924acddb204ea234ca044657713477a63d24a0fb458"
+    },
+    {
+      "id": "s0186",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "86fcfbc0a9e292e6c6475a2807b694dbb7c26a49aa729b3e5a4e32f9605565bd"
+    },
+    {
+      "id": "s0187",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1aefad96a61751570051b959fd2f4fc24d23fe9c59b2a7c719defc3422388126"
+    },
+    {
+      "id": "s0188",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f56d94a99ab35d2e67f5ded2a0bf1835a4f756bd13db2f68f1896502f73f7fa5"
+    },
+    {
+      "id": "s0189",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "98154f572ff2d6e181f703816db8fd45a16d7e4e257a64c90ca659ffa9179dfa"
+    },
+    {
+      "id": "s0190",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2783a6bb013ba274dad66ec29b74ba7288e087ea860e5cef0dbfdc9251d3d196"
+    },
+    {
+      "id": "s0191",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "0a4fce67eb8d16fcd1d70a0f2bc0287cbee39ba4a1fa51ddb6e74749da1be7a1"
+    },
+    {
+      "id": "s0192",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5a09bd7230b9d30b3eb244a967708ac16bc89284f84136d3b6b81f2c445f6ba1"
+    },
+    {
+      "id": "s0193",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d9e88cf458c31997b0a66545338cf6d2adf1352ed56fb18387e9981dd36318e0"
+    },
+    {
+      "id": "s0194",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "7af759f6207eaf07aec1b45a0e66d7e66bb51b091b5175d30feccaba4cc82962"
+    },
+    {
+      "id": "s0195",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53a46539b07ad6ea4e114e29c0502c387fbb2c20ab348583c7e5f90876c2c1b9"
+    },
+    {
+      "id": "s0196",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "723e2a0a8865ba7d4fa24870ee6b62cc28e8c618b958fcfe94c71569f61ee372"
+    },
+    {
+      "id": "s0197",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "88b4a461a2d6fab24ae18188588c13a13f4e2e444a4a67037df33ad6f8b1beff"
+    },
+    {
+      "id": "s0198",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "04e3264eda4a28f929520b50a0daa3035b6f6d137c41b569cc8c2dd77fec51a5"
+    },
+    {
+      "id": "s0199",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "02ee634b42b013715028e542a41232f4ee172b626458839111464b31977762f2"
+    },
+    {
+      "id": "s0200",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "739661369c5176ab31b8cc006c4870b676514a91282663b6a1cfd0168182fbcc"
+    },
+    {
+      "id": "s0201",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "799a26cbd0e3377ced613b9e96e6423e3af958a9a71a3ec7e16bd22f327b0c5f"
+    },
+    {
+      "id": "s0202",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bd5241b4dbd1a1e1564f3de15bb1603cf03b0ed56bfbc9efb9ef080afeba3c27"
+    },
+    {
+      "id": "s0203",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d0091f36e028413e1cbf8a7cd7bd3b5ee0ca173b133fef539f362c6961e4184a"
+    },
+    {
+      "id": "s0204",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e0314d3cf193b626b8077f3afcdcf5229d2b7e72a182b508e21e30e41cb0fd4b"
+    },
+    {
+      "id": "s0205",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "80ecc8601cf2d669fd987d44dbcf6ef779ca15baaa3812fd1d8ff12dcd69b401"
+    },
+    {
+      "id": "s0206",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1e07182140a49909a351f434c03b24397b68d35a137beb6dd0868b37ce272ffd"
+    },
+    {
+      "id": "s0207",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "04726904e813528d56ec067f8df1472ec25d19941283dc65cc3c92398fdf7c88"
+    },
+    {
+      "id": "s0208",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e16b756783a9f87082c4e38443bafc7d5f5c7e225feab78cd6ec3ea45e1d7cbc"
+    },
+    {
+      "id": "s0209",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "990e8d3f97e3902fc3c5408f189e207a24f32f9c58136faccbd7d3d7ba6bf161"
+    },
+    {
+      "id": "s0210",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "35a17ecf6ecee81004b5cdc255eace01007cf598d761c551b9a60ea2c4cd8f27"
+    },
+    {
+      "id": "s0211",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "588147cbd2f0e1f85abc2f6c006a9b4e77c70fd9f2450077a603e6c94b00f79a"
+    },
+    {
+      "id": "s0212",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1f26520e2dd9e8a43004983c816f00e7790a6280f9ffc57c5ba765d5e3c7a21f"
+    },
+    {
+      "id": "s0213",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "519e68283675474532719f445bb52a56c721af19aa07e567da7d83760f29bbc3"
+    },
+    {
+      "id": "s0214",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "987435c496bf50434048711e015dfa55066f0fe92f500987740c514328f08f44"
+    },
+    {
+      "id": "s0215",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ae38e99ec8f3d8a3800d65f2a6fc68cedb7efe7df2bd0b9d2f66ba14e7a477d2"
+    },
+    {
+      "id": "s0216",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8a841863c67b15c3551434ecde341f821beb54187370f74cc4933b5a3633ca20"
+    },
+    {
+      "id": "s0217",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "571d4f129e08c7b44068a32b89b8e9898895cc02f6f7aa0314d110f6f08d9f9c"
+    },
+    {
+      "id": "s0218",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f679fb8c6adba1318062e9c5ad425b29900e482542cc001a7ce260075845fe19"
+    },
+    {
+      "id": "s0219",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "c8e16d53f876a90722b943ce8d9bd1b04e4d2a09b8d0986d3a41b4dd9a341d46"
+    },
+    {
+      "id": "s0220",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "84b52ad1e0907131ee5d05a6547e86ef71d75174abd9aee260f067b3d832c1b1"
+    },
+    {
+      "id": "s0221",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "b16891b780fea5f419a4f6cb24246b3963f4d395bea91991576afd1dd8dd57d6"
+    },
+    {
+      "id": "s0222",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ac2eedd87de5d85de41af751a8048824cfaa422a67d9fe73d8b4f2566c9008f4"
+    },
+    {
+      "id": "s0223",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "95b536b9f54bfc140cea5c33a51c89339b21f85f294a9212f6137013effc01d5"
+    },
+    {
+      "id": "s0224",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "50552683e304b05be6eaac4b1210b1496d9bf52d10fcfaa1220ff667ed134d6e"
+    },
+    {
+      "id": "s0225",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "9f9661efd118f4fd87ceb380e53844486d7532f1b4558abd99c513b95b78c7d2"
+    },
+    {
+      "id": "s0226",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "cc447f2e3d0d05f96be6eccf8bc5b73dd977b7b0bc9af9d5ee29c64e3082c965"
+    },
+    {
+      "id": "s0227",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "77c93450fa2f693ec3b5073f71b1679d3814c9b8abfe4b0beb7a5ecb61f82adc"
+    },
+    {
+      "id": "s0228",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ff03e3351de80b7d716011d52d98e4773762681c415154187f1c4e631c5d2bf3"
+    },
+    {
+      "id": "s0229",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8c669eedeb31cfa39a97cd772b78b4fd9b0c18a76f5c9d8641c3b8a646861dfb"
+    },
+    {
+      "id": "s0230",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "5ad8da627d1a368599bb41a253d0d4861abb54d9b00c89adb37b50d40f1cd988"
+    },
+    {
+      "id": "s0231",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ec42794a0a3d8ddbd6ee6c73cb7ab6edf4730bdb4cacf7611046fdff6b968ce5"
+    },
+    {
+      "id": "s0232",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bd79df308be05f865d7ea6106894856ac6b07ab132ea98f317240fc69de15515"
+    },
+    {
+      "id": "s0233",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "3960ead496e643fa0db6e42fa43b2e22f6688db96886ae56c29d7165e9ce1bbc"
+    },
+    {
+      "id": "s0234",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e10334c6ed53f77a0447399dc63328574e2de94a74d4b117af24d28fecaa3388"
+    },
+    {
+      "id": "s0235",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "d2ed349a77a8d6a3d5bfca36a1828ed1ad66ebfb748e4e0bfe2e0c3dd4ee1b62"
+    },
+    {
+      "id": "s0236",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f6bc386ff6131f32ed3cf3e398866f69b4dcb1ce270f5a48931cac3089e24341"
+    },
+    {
+      "id": "s0237",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "050dfedf04c416cb174e7ebd8a19baf2cda42bd70644dee24997630ec64a6685"
+    },
+    {
+      "id": "s0238",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ab4e1061cffa9f68995826645b7014716a203ffea62c4b1adf346c15d4ea798e"
+    },
+    {
+      "id": "s0239",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "564659c106f6e0a7719687fd60d29cae1bbde2cc984af71f31f57ddafea3bf24"
+    },
+    {
+      "id": "s0240",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "336e496562ffd3898510a61baacb23f71c95013275f6790fa9a903c52303e4b1"
+    },
+    {
+      "id": "s0241",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "e07be04720bc11cf6f47ae552c48c77e7b3f0b2c436887e360d2044aa876f276"
+    },
+    {
+      "id": "s0242",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1bc7d3a072deab076bdfb858a34581721368934b85da68fb0ee774bbddfd791f"
+    },
+    {
+      "id": "s0243",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "21d183510b3ef4cf950ee88a4b87a0de70695d6e60f7383032ef31b57cb3085a"
+    },
+    {
+      "id": "s0244",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838114,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f603c6477fb0c88e6570a596f7a953c25b6c0d1ab80753cc93a26c0d32b47fbe"
+    },
+    {
+      "id": "s0245",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8373038b3e10aacc82a322d3f1a3fe24fce2d9138f95950a36a8c6631b8aa68b"
+    },
+    {
+      "id": "s0246",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "8ed000eb0767641bb0a3ab733379e770a0c84652b2b85060da2f67d6e33df3eb"
+    },
+    {
+      "id": "s0247",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "cceca9778c0047f99eba0f3c392d3fb2d7c64deb3168c622015e78ce2dfdbba2"
+    },
+    {
+      "id": "s0248",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "2a5c4d16d123cbc8e4792e70e60f1a05f9fc65f3cc0add566533f90d02b5696c"
+    },
+    {
+      "id": "s0249",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838116,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "bb96abc5cc9f509fc5624f82d7447edb5a85fc7498e5c8d658061b8da94e3f63"
+    },
+    {
+      "id": "s0250",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "da3a0a22d78f7d2ff3cedc3692151605f29d5d4b6006577a8f022de1b45de655"
+    },
+    {
+      "id": "s0251",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f5a6a7ec00ea8d08c932cd3256b960d4637083b89894913ecc6a3e96589bd811"
+    },
+    {
+      "id": "s0252",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "1ccac32adaf892c896f1fb24b6b54575807bfc754d1a5988205a2d0584a64c2a"
+    },
+    {
+      "id": "s0253",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "810a5ec1cb911f08ff33e2e7e74ccfaa269802ee513c93393f67e51d81eb6e43"
+    },
+    {
+      "id": "s0254",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838116,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "542532dfeae5108435442fcaee6baf9e2bb9b1a06872560cfe290b2da960575a"
+    },
+    {
+      "id": "s0255",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "ac4b06eb2c77965c3f3a1cee01db8239832d483615245ac6d30acefc3240b6f5"
+    },
+    {
+      "id": "s0256",
+      "validSolids": 2,
+      "plateVolumeMm3": 12269.446291801381,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "777bb9f981367139adf0af6cc453785d04aa2dba9e2393864762e44c63ed7271"
+    },
+    {
+      "id": "s0257",
+      "validSolids": 2,
+      "plateVolumeMm3": 13384.850500146962,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "f3d6d125e042f5489e7dad9404e35e446f7126721e1660ca45f87fa96bea6bdf"
+    },
+    {
+      "id": "s0258",
+      "validSolids": 2,
+      "plateVolumeMm3": 14500.254708492543,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "53d706301aeb38c76fc56bf8b72dc0cde16aea5435f90765b781a9b606280013"
+    },
+    {
+      "id": "s0259",
+      "validSolids": 2,
+      "plateVolumeMm3": 15615.658916838116,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "14dec0404fa5f485f402d78088a2d9c8f3cfa17f6d50f5f3ab2fdeba85fdc070"
+    },
+    {
+      "id": "s0260",
+      "validSolids": 2,
+      "plateVolumeMm3": 11154.042083455797,
+      "mounts": 4,
+      "cameraBores": 2,
+      "window": true,
+      "contactGapMm": 0.0,
+      "overlapMm3": 0,
+      "sha256": "13cc1a749b04a0fd0d8f1297583cff45742bd48c809e13acce70ed626e006f12"
+    }
+  ],
+  "trials": {
+    "final-ext4-baseline": {
+      "checkpoints": [
+        {
+          "edits": 0,
+          "current_mib": 72.99609375,
+          "peak_mib": 81.5078125,
+          "anon_mib": 19.27734375,
+          "file_mib": 51.2265625,
+          "kernel_mib": 2.45703125
+        },
+        {
+          "edits": 1,
+          "current_mib": 77.8671875,
+          "peak_mib": 86.0,
+          "anon_mib": 20.4296875,
+          "file_mib": 54.74609375,
+          "kernel_mib": 2.65234375
+        },
+        {
+          "edits": 4,
+          "current_mib": 85.2578125,
+          "peak_mib": 93.35546875,
+          "anon_mib": 16.7890625,
+          "file_mib": 65.453125,
+          "kernel_mib": 2.95703125
+        },
+        {
+          "edits": 8,
+          "current_mib": 105.453125,
+          "peak_mib": 114.515625,
+          "anon_mib": 21.859375,
+          "file_mib": 79.73046875,
+          "kernel_mib": 3.73828125
+        },
+        {
+          "edits": 12,
+          "current_mib": 116.9375,
+          "peak_mib": 126.33984375,
+          "anon_mib": 18.62890625,
+          "file_mib": 94.015625,
+          "kernel_mib": 4.21875
+        },
+        {
+          "edits": 16,
+          "current_mib": 135.81640625,
+          "peak_mib": 145.0546875,
+          "anon_mib": 22.3671875,
+          "file_mib": 108.29296875,
+          "kernel_mib": 4.9375
+        },
+        {
+          "edits": 20,
+          "current_mib": 146.00390625,
+          "peak_mib": 154.6328125,
+          "anon_mib": 17.89453125,
+          "file_mib": 122.56640625,
+          "kernel_mib": 5.37890625
+        },
+        {
+          "edits": 24,
+          "current_mib": 164.46484375,
+          "peak_mib": 174.1171875,
+          "anon_mib": 21.47265625,
+          "file_mib": 136.84765625,
+          "kernel_mib": 6.109375
+        },
+        {
+          "edits": 28,
+          "current_mib": 174.828125,
+          "peak_mib": 183.25390625,
+          "anon_mib": 17.04296875,
+          "file_mib": 151.125,
+          "kernel_mib": 6.55859375
+        },
+        {
+          "edits": 32,
+          "current_mib": 193.66796875,
+          "peak_mib": 202.078125,
+          "anon_mib": 20.7734375,
+          "file_mib": 165.40625,
+          "kernel_mib": 7.2890625
+        },
+        {
+          "edits": 36,
+          "current_mib": 204.46875,
+          "peak_mib": 216.2890625,
+          "anon_mib": 16.859375,
+          "file_mib": 179.68359375,
+          "kernel_mib": 7.73046875
+        },
+        {
+          "edits": 40,
+          "current_mib": 224.73828125,
+          "peak_mib": 233.4453125,
+          "anon_mib": 22.23828125,
+          "file_mib": 193.953125,
+          "kernel_mib": 8.5
+        },
+        {
+          "edits": 44,
+          "current_mib": 236.67578125,
+          "peak_mib": 245.7421875,
+          "anon_mib": 19.25390625,
+          "file_mib": 208.19140625,
+          "kernel_mib": 9.00390625
+        },
+        {
+          "edits": 48,
+          "current_mib": 255.2890625,
+          "peak_mib": 263.6171875,
+          "anon_mib": 22.89453125,
+          "file_mib": 222.4296875,
+          "kernel_mib": 9.75
+        },
+        {
+          "edits": 52,
+          "current_mib": 265.44921875,
+          "peak_mib": 274.76953125,
+          "anon_mib": 18.484375,
+          "file_mib": 236.671875,
+          "kernel_mib": 10.1796875
+        },
+        {
+          "edits": 56,
+          "current_mib": 284.59765625,
+          "peak_mib": 292.859375,
+          "anon_mib": 22.609375,
+          "file_mib": 250.90625,
+          "kernel_mib": 10.91015625
+        },
+        {
+          "edits": 60,
+          "current_mib": 295.8125,
+          "peak_mib": 307.16796875,
+          "anon_mib": 19.0625,
+          "file_mib": 265.140625,
+          "kernel_mib": 11.3671875
+        },
+        {
+          "edits": 64,
+          "current_mib": 314.31640625,
+          "peak_mib": 322.265625,
+          "anon_mib": 22.640625,
+          "file_mib": 279.4453125,
+          "kernel_mib": 12.109375
+        },
+        {
+          "edits": 68,
+          "current_mib": 324.70703125,
+          "peak_mib": 337.359375,
+          "anon_mib": 18.16796875,
+          "file_mib": 293.75,
+          "kernel_mib": 12.546875
+        },
+        {
+          "edits": 72,
+          "current_mib": 343.078125,
+          "peak_mib": 352.3515625,
+          "anon_mib": 21.9453125,
+          "file_mib": 307.63671875,
+          "kernel_mib": 13.265625
+        },
+        {
+          "edits": 76,
+          "current_mib": 353.23828125,
+          "peak_mib": 369.49609375,
+          "anon_mib": 18.0078125,
+          "file_mib": 321.3125,
+          "kernel_mib": 13.68359375
+        },
+        {
+          "edits": 80,
+          "current_mib": 372.3203125,
+          "peak_mib": 380.421875,
+          "anon_mib": 22.1875,
+          "file_mib": 335.5546875,
+          "kernel_mib": 14.453125
+        },
+        {
+          "edits": 84,
+          "current_mib": 390.76171875,
+          "peak_mib": 399.078125,
+          "anon_mib": 25.76953125,
+          "file_mib": 349.796875,
+          "kernel_mib": 15.1796875
+        },
+        {
+          "edits": 88,
+          "current_mib": 401.12890625,
+          "peak_mib": 409.53125,
+          "anon_mib": 21.30078125,
+          "file_mib": 364.0234375,
+          "kernel_mib": 15.6171875
+        },
+        {
+          "edits": 92,
+          "current_mib": 419.51953125,
+          "peak_mib": 428.171875,
+          "anon_mib": 24.87890625,
+          "file_mib": 378.23828125,
+          "kernel_mib": 16.34375
+        },
+        {
+          "edits": 96,
+          "current_mib": 430.90625,
+          "peak_mib": 439.7734375,
+          "anon_mib": 21.64453125,
+          "file_mib": 392.453125,
+          "kernel_mib": 16.8046875
+        },
+        {
+          "edits": 100,
+          "current_mib": 449.625,
+          "peak_mib": 458.01953125,
+          "anon_mib": 25.2265625,
+          "file_mib": 406.671875,
+          "kernel_mib": 17.55078125
+        },
+        {
+          "edits": 104,
+          "current_mib": 459.87890625,
+          "peak_mib": 469.02734375,
+          "anon_mib": 20.875,
+          "file_mib": 420.88671875,
+          "kernel_mib": 17.98046875
+        },
+        {
+          "edits": 108,
+          "current_mib": 478.703125,
+          "peak_mib": 488.12890625,
+          "anon_mib": 24.79296875,
+          "file_mib": 435.08984375,
+          "kernel_mib": 18.71484375
+        },
+        {
+          "edits": 112,
+          "current_mib": 489.80859375,
+          "peak_mib": 497.89453125,
+          "anon_mib": 21.21875,
+          "file_mib": 449.29296875,
+          "kernel_mib": 19.18359375
+        },
+        {
+          "edits": 116,
+          "current_mib": 502.85546875,
+          "peak_mib": 512.0,
+          "anon_mib": 24.796875,
+          "file_mib": 458.2578125,
+          "kernel_mib": 19.796875
+        },
+        {
+          "edits": 120,
+          "current_mib": 503.67578125,
+          "peak_mib": 512.0,
+          "anon_mib": 20.3984375,
+          "file_mib": 463.2109375,
+          "kernel_mib": 19.96875
+        },
+        {
+          "edits": 124,
+          "current_mib": 503.08984375,
+          "peak_mib": 512.0,
+          "anon_mib": 23.9765625,
+          "file_mib": 458.6640625,
+          "kernel_mib": 20.21875
+        },
+        {
+          "edits": 128,
+          "current_mib": 500.73046875,
+          "peak_mib": 512.0,
+          "anon_mib": 21.27734375,
+          "file_mib": 459.11328125,
+          "kernel_mib": 20.27734375
+        },
+        {
+          "edits": 132,
+          "current_mib": 503.4765625,
+          "peak_mib": 512.0,
+          "anon_mib": 24.85546875,
+          "file_mib": 457.8046875,
+          "kernel_mib": 20.578125
+        },
+        {
+          "edits": 136,
+          "current_mib": 499.90625,
+          "peak_mib": 512.0,
+          "anon_mib": 20.4765625,
+          "file_mib": 458.74609375,
+          "kernel_mib": 20.66015625
+        },
+        {
+          "edits": 140,
+          "current_mib": 502.4921875,
+          "peak_mib": 512.0,
+          "anon_mib": 24.09765625,
+          "file_mib": 457.4296875,
+          "kernel_mib": 20.96484375
+        },
+        {
+          "edits": 144,
+          "current_mib": 494.5390625,
+          "peak_mib": 512.0,
+          "anon_mib": 19.9765625,
+          "file_mib": 453.62890625,
+          "kernel_mib": 20.921875
+        },
+        {
+          "edits": 148,
+          "current_mib": 503.12890625,
+          "peak_mib": 512.0,
+          "anon_mib": 24.15625,
+          "file_mib": 457.578125,
+          "kernel_mib": 21.39453125
+        },
+        {
+          "edits": 152,
+          "current_mib": 503.3828125,
+          "peak_mib": 512.0,
+          "anon_mib": 27.734375,
+          "file_mib": 453.7734375,
+          "kernel_mib": 21.63671875
+        },
+        {
+          "edits": 156,
+          "current_mib": 502.76171875,
+          "peak_mib": 512.0,
+          "anon_mib": 23.26171875,
+          "file_mib": 457.71484375,
+          "kernel_mib": 21.78125
+        },
+        {
+          "edits": 160,
+          "current_mib": 503.51953125,
+          "peak_mib": 512.0,
+          "anon_mib": 26.83984375,
+          "file_mib": 454.4140625,
+          "kernel_mib": 22.0390625
+        },
+        {
+          "edits": 164,
+          "current_mib": 502.734375,
+          "peak_mib": 512.0,
+          "anon_mib": 24.1640625,
+          "file_mib": 456.35546875,
+          "kernel_mib": 22.21484375
+        },
+        {
+          "edits": 168,
+          "current_mib": 502.65234375,
+          "peak_mib": 512.0,
+          "anon_mib": 21.47265625,
+          "file_mib": 458.796875,
+          "kernel_mib": 22.3828125
+        },
+        {
+          "edits": 172,
+          "current_mib": 503.1640625,
+          "peak_mib": 512.0,
+          "anon_mib": 25.05078125,
+          "file_mib": 455.2421875,
+          "kernel_mib": 22.62890625
+        },
+        {
+          "edits": 176,
+          "current_mib": 500.0625,
+          "peak_mib": 512.0,
+          "anon_mib": 20.66796875,
+          "file_mib": 456.4375,
+          "kernel_mib": 22.7109375
+        },
+        {
+          "edits": 180,
+          "current_mib": 503.6484375,
+          "peak_mib": 512.0,
+          "anon_mib": 24.2578125,
+          "file_mib": 456.12109375,
+          "kernel_mib": 23.03515625
+        },
+        {
+          "edits": 184,
+          "current_mib": 503.66796875,
+          "peak_mib": 512.0,
+          "anon_mib": 27.8359375,
+          "file_mib": 452.30859375,
+          "kernel_mib": 23.27734375
+        },
+        {
+          "edits": 188,
+          "current_mib": 503.78125,
+          "peak_mib": 512.0,
+          "anon_mib": 23.3671875,
+          "file_mib": 456.75,
+          "kernel_mib": 23.4375
+        },
+        {
+          "edits": 192,
+          "current_mib": 503.30078125,
+          "peak_mib": 512.0,
+          "anon_mib": 26.9453125,
+          "file_mib": 452.69140625,
+          "kernel_mib": 23.66015625
+        },
+        {
+          "edits": 196,
+          "current_mib": 502.7890625,
+          "peak_mib": 512.0,
+          "anon_mib": 23.07421875,
+          "file_mib": 455.88671875,
+          "kernel_mib": 23.82421875
+        },
+        {
+          "edits": 200,
+          "current_mib": 500.3828125,
+          "peak_mib": 512.0,
+          "anon_mib": 20.68359375,
+          "file_mib": 455.58203125,
+          "kernel_mib": 23.93359375
+        },
+        {
+          "edits": 204,
+          "current_mib": 503.3125,
+          "peak_mib": 512.0,
+          "anon_mib": 24.26171875,
+          "file_mib": 454.7734375,
+          "kernel_mib": 24.27734375
+        },
+        {
+          "edits": 208,
+          "current_mib": 502.26953125,
+          "peak_mib": 512.0,
+          "anon_mib": 27.83984375,
+          "file_mib": 449.9453125,
+          "kernel_mib": 24.484375
+        },
+        {
+          "edits": 212,
+          "current_mib": 502.625,
+          "peak_mib": 512.0,
+          "anon_mib": 23.37109375,
+          "file_mib": 454.3671875,
+          "kernel_mib": 24.64453125
+        },
+        {
+          "edits": 216,
+          "current_mib": 503.0859375,
+          "peak_mib": 512.0,
+          "anon_mib": 26.94921875,
+          "file_mib": 451.00390625,
+          "kernel_mib": 24.890625
+        },
+        {
+          "edits": 220,
+          "current_mib": 503.6875,
+          "peak_mib": 512.0,
+          "anon_mib": 23.078125,
+          "file_mib": 455.51953125,
+          "kernel_mib": 25.0859375
+        },
+        {
+          "edits": 224,
+          "current_mib": 501.32421875,
+          "peak_mib": 512.0,
+          "anon_mib": 20.6875,
+          "file_mib": 455.28125,
+          "kernel_mib": 25.2109375
+        },
+        {
+          "edits": 228,
+          "current_mib": 503.89453125,
+          "peak_mib": 512.0,
+          "anon_mib": 24.56640625,
+          "file_mib": 453.796875,
+          "kernel_mib": 25.53125
+        },
+        {
+          "edits": 232,
+          "current_mib": 503.73046875,
+          "peak_mib": 512.0,
+          "anon_mib": 28.14453125,
+          "file_mib": 449.8125,
+          "kernel_mib": 25.76953125
+        },
+        {
+          "edits": 236,
+          "current_mib": 503.765625,
+          "peak_mib": 512.0,
+          "anon_mib": 23.37109375,
+          "file_mib": 454.078125,
+          "kernel_mib": 26.078125
+        },
+        {
+          "edits": 240,
+          "current_mib": 503.6796875,
+          "peak_mib": 512.0,
+          "anon_mib": 26.94921875,
+          "file_mib": 450.34375,
+          "kernel_mib": 26.14453125
+        },
+        {
+          "edits": 244,
+          "current_mib": 503.27734375,
+          "peak_mib": 512.0,
+          "anon_mib": 23.7421875,
+          "file_mib": 452.859375,
+          "kernel_mib": 26.43359375
+        },
+        {
+          "edits": 248,
+          "current_mib": 503.99609375,
+          "peak_mib": 512.0,
+          "anon_mib": 27.3203125,
+          "file_mib": 449.875,
+          "kernel_mib": 26.5625
+        },
+        {
+          "edits": 252,
+          "current_mib": 503.71484375,
+          "peak_mib": 512.0,
+          "anon_mib": 22.8515625,
+          "file_mib": 453.9140625,
+          "kernel_mib": 26.703125
+        },
+        {
+          "edits": 256,
+          "current_mib": 503.6015625,
+          "peak_mib": 512.0,
+          "anon_mib": 26.4296875,
+          "file_mib": 450.203125,
+          "kernel_mib": 26.96875
+        }
+      ],
+      "late_growth_mib": 2.87109375,
+      "peak_mib": 512.0,
+      "passed_memory_thresholds": false,
+      "audit": {
+        "accepted": 260,
+        "distinctEditedSteps": 256,
+        "artifactHashesChecked": 4416,
+        "oldSnapshots": [
+          {
+            "edit": 1,
+            "pitch": 16,
+            "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+          },
+          {
+            "edit": 32,
+            "pitch": 17.5,
+            "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+          },
+          {
+            "edit": 64,
+            "pitch": 19,
+            "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+          },
+          {
+            "edit": 128,
+            "pitch": 22.25,
+            "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+          },
+          {
+            "edit": 192,
+            "pitch": 25.5,
+            "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+          },
+          {
+            "edit": 256,
+            "pitch": 28.75,
+            "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+          }
+        ],
+        "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+      },
+      "cgroup_events": null,
+      "outer_wall_s": 162.414403708
+    },
+    "final-ext4-candidate": {
+      "checkpoints": [
+        {
+          "edits": 0,
+          "current_mib": 61.6328125,
+          "peak_mib": 73.66015625,
+          "anon_mib": 19.296875,
+          "file_mib": 40.12890625,
+          "kernel_mib": 2.140625
+        },
+        {
+          "edits": 1,
+          "current_mib": 62.26171875,
+          "peak_mib": 74.55859375,
+          "anon_mib": 20.4375,
+          "file_mib": 39.515625,
+          "kernel_mib": 2.22265625
+        },
+        {
+          "edits": 4,
+          "current_mib": 59.1875,
+          "peak_mib": 75.03125,
+          "anon_mib": 17.23046875,
+          "file_mib": 39.56640625,
+          "kernel_mib": 2.1796875
+        },
+        {
+          "edits": 8,
+          "current_mib": 64.32421875,
+          "peak_mib": 76.23046875,
+          "anon_mib": 22.16796875,
+          "file_mib": 39.63671875,
+          "kernel_mib": 2.5
+        },
+        {
+          "edits": 12,
+          "current_mib": 61.25390625,
+          "peak_mib": 76.23046875,
+          "anon_mib": 18.94140625,
+          "file_mib": 39.71484375,
+          "kernel_mib": 2.50390625
+        },
+        {
+          "edits": 16,
+          "current_mib": 65.421875,
+          "peak_mib": 77.65625,
+          "anon_mib": 22.7265625,
+          "file_mib": 39.79296875,
+          "kernel_mib": 2.76953125
+        },
+        {
+          "edits": 20,
+          "current_mib": 60.9921875,
+          "peak_mib": 78.4375,
+          "anon_mib": 18.3203125,
+          "file_mib": 39.87109375,
+          "kernel_mib": 2.73828125
+        },
+        {
+          "edits": 24,
+          "current_mib": 64.984375,
+          "peak_mib": 78.4375,
+          "anon_mib": 21.90625,
+          "file_mib": 39.9453125,
+          "kernel_mib": 3.0078125
+        },
+        {
+          "edits": 28,
+          "current_mib": 60.59765625,
+          "peak_mib": 78.89453125,
+          "anon_mib": 17.453125,
+          "file_mib": 40.01953125,
+          "kernel_mib": 2.95703125
+        },
+        {
+          "edits": 32,
+          "current_mib": 64.515625,
+          "peak_mib": 78.89453125,
+          "anon_mib": 21.05859375,
+          "file_mib": 40.09375,
+          "kernel_mib": 3.23046875
+        },
+        {
+          "edits": 36,
+          "current_mib": 61.0703125,
+          "peak_mib": 81.44921875,
+          "anon_mib": 17.51953125,
+          "file_mib": 40.16796875,
+          "kernel_mib": 3.203125
+        },
+        {
+          "edits": 40,
+          "current_mib": 66.23828125,
+          "peak_mib": 81.44921875,
+          "anon_mib": 22.35546875,
+          "file_mib": 40.2421875,
+          "kernel_mib": 3.51171875
+        },
+        {
+          "edits": 44,
+          "current_mib": 63.25390625,
+          "peak_mib": 81.44921875,
+          "anon_mib": 19.37109375,
+          "file_mib": 40.31640625,
+          "kernel_mib": 3.55859375
+        },
+        {
+          "edits": 48,
+          "current_mib": 68.1328125,
+          "peak_mib": 81.44921875,
+          "anon_mib": 23.734375,
+          "file_mib": 40.390625,
+          "kernel_mib": 3.99609375
+        },
+        {
+          "edits": 52,
+          "current_mib": 63.60546875,
+          "peak_mib": 83.01953125,
+          "anon_mib": 19.28125,
+          "file_mib": 40.46484375,
+          "kernel_mib": 3.7578125
+        },
+        {
+          "edits": 56,
+          "current_mib": 67.47265625,
+          "peak_mib": 83.01953125,
+          "anon_mib": 22.8671875,
+          "file_mib": 40.546875,
+          "kernel_mib": 4.02734375
+        },
+        {
+          "edits": 60,
+          "current_mib": 64.01171875,
+          "peak_mib": 83.01953125,
+          "anon_mib": 19.3203125,
+          "file_mib": 40.6171875,
+          "kernel_mib": 4.02734375
+        },
+        {
+          "edits": 64,
+          "current_mib": 67.97265625,
+          "peak_mib": 83.01953125,
+          "anon_mib": 22.8984375,
+          "file_mib": 40.703125,
+          "kernel_mib": 4.29296875
+        },
+        {
+          "edits": 68,
+          "current_mib": 63.578125,
+          "peak_mib": 83.62890625,
+          "anon_mib": 18.42578125,
+          "file_mib": 40.7734375,
+          "kernel_mib": 4.265625
+        },
+        {
+          "edits": 72,
+          "current_mib": 67.46875,
+          "peak_mib": 83.62890625,
+          "anon_mib": 22.0078125,
+          "file_mib": 40.73046875,
+          "kernel_mib": 4.51171875
+        },
+        {
+          "edits": 76,
+          "current_mib": 63.359375,
+          "peak_mib": 83.94921875,
+          "anon_mib": 17.83203125,
+          "file_mib": 40.921875,
+          "kernel_mib": 4.5078125
+        },
+        {
+          "edits": 80,
+          "current_mib": 68.16015625,
+          "peak_mib": 83.94921875,
+          "anon_mib": 22.375,
+          "file_mib": 40.99609375,
+          "kernel_mib": 4.78515625
+        },
+        {
+          "edits": 84,
+          "current_mib": 72.171875,
+          "peak_mib": 84.05078125,
+          "anon_mib": 25.95703125,
+          "file_mib": 41.0703125,
+          "kernel_mib": 5.0703125
+        },
+        {
+          "edits": 88,
+          "current_mib": 67.72265625,
+          "peak_mib": 84.05078125,
+          "anon_mib": 21.484375,
+          "file_mib": 41.14453125,
+          "kernel_mib": 5.046875
+        },
+        {
+          "edits": 92,
+          "current_mib": 71.671875,
+          "peak_mib": 84.73046875,
+          "anon_mib": 25.0625,
+          "file_mib": 41.21484375,
+          "kernel_mib": 5.3203125
+        },
+        {
+          "edits": 96,
+          "current_mib": 68.1875,
+          "peak_mib": 84.734375,
+          "anon_mib": 21.53515625,
+          "file_mib": 41.29296875,
+          "kernel_mib": 5.31640625
+        },
+        {
+          "edits": 100,
+          "current_mib": 72.17578125,
+          "peak_mib": 84.734375,
+          "anon_mib": 25.1171875,
+          "file_mib": 41.3671875,
+          "kernel_mib": 5.578125
+        },
+        {
+          "edits": 104,
+          "current_mib": 67.765625,
+          "peak_mib": 84.8828125,
+          "anon_mib": 20.6484375,
+          "file_mib": 41.44140625,
+          "kernel_mib": 5.53515625
+        },
+        {
+          "edits": 108,
+          "current_mib": 72.43359375,
+          "peak_mib": 84.8828125,
+          "anon_mib": 25.00390625,
+          "file_mib": 41.51171875,
+          "kernel_mib": 5.8046875
+        },
+        {
+          "edits": 112,
+          "current_mib": 69.06640625,
+          "peak_mib": 86.5546875,
+          "anon_mib": 21.4453125,
+          "file_mib": 41.5859375,
+          "kernel_mib": 5.81640625
+        },
+        {
+          "edits": 116,
+          "current_mib": 72.79296875,
+          "peak_mib": 86.5546875,
+          "anon_mib": 25.0234375,
+          "file_mib": 41.6640625,
+          "kernel_mib": 6.0859375
+        },
+        {
+          "edits": 120,
+          "current_mib": 68.5078125,
+          "peak_mib": 87.5234375,
+          "anon_mib": 20.55078125,
+          "file_mib": 41.7421875,
+          "kernel_mib": 6.05078125
+        },
+        {
+          "edits": 124,
+          "current_mib": 72.43359375,
+          "peak_mib": 87.5234375,
+          "anon_mib": 24.12890625,
+          "file_mib": 41.8125,
+          "kernel_mib": 6.3203125
+        },
+        {
+          "edits": 128,
+          "current_mib": 69.2734375,
+          "peak_mib": 88.49609375,
+          "anon_mib": 20.90625,
+          "file_mib": 41.8828125,
+          "kernel_mib": 6.47265625
+        },
+        {
+          "edits": 132,
+          "current_mib": 73.07421875,
+          "peak_mib": 88.49609375,
+          "anon_mib": 24.484375,
+          "file_mib": 41.95703125,
+          "kernel_mib": 6.58203125
+        },
+        {
+          "edits": 136,
+          "current_mib": 68.7890625,
+          "peak_mib": 88.49609375,
+          "anon_mib": 20.03515625,
+          "file_mib": 42.0390625,
+          "kernel_mib": 6.52734375
+        },
+        {
+          "edits": 140,
+          "current_mib": 72.98046875,
+          "peak_mib": 88.49609375,
+          "anon_mib": 23.9765625,
+          "file_mib": 42.109375,
+          "kernel_mib": 6.8203125
+        },
+        {
+          "edits": 144,
+          "current_mib": 68.78125,
+          "peak_mib": 88.9921875,
+          "anon_mib": 19.796875,
+          "file_mib": 42.19140625,
+          "kernel_mib": 6.78515625
+        },
+        {
+          "edits": 148,
+          "current_mib": 73.41796875,
+          "peak_mib": 88.9921875,
+          "anon_mib": 23.9765625,
+          "file_mib": 42.26171875,
+          "kernel_mib": 7.078125
+        },
+        {
+          "edits": 152,
+          "current_mib": 77.3828125,
+          "peak_mib": 89.23828125,
+          "anon_mib": 27.5546875,
+          "file_mib": 42.3359375,
+          "kernel_mib": 7.3359375
+        },
+        {
+          "edits": 156,
+          "current_mib": 72.8671875,
+          "peak_mib": 89.23828125,
+          "anon_mib": 23.08203125,
+          "file_mib": 42.41796875,
+          "kernel_mib": 7.30078125
+        },
+        {
+          "edits": 160,
+          "current_mib": 76.7265625,
+          "peak_mib": 89.23828125,
+          "anon_mib": 26.66015625,
+          "file_mib": 42.4921875,
+          "kernel_mib": 7.5546875
+        },
+        {
+          "edits": 164,
+          "current_mib": 74.203125,
+          "peak_mib": 89.23828125,
+          "anon_mib": 23.984375,
+          "file_mib": 42.5625,
+          "kernel_mib": 7.6171875
+        },
+        {
+          "edits": 168,
+          "current_mib": 71.734375,
+          "peak_mib": 89.23828125,
+          "anon_mib": 21.29296875,
+          "file_mib": 42.63671875,
+          "kernel_mib": 7.6328125
+        },
+        {
+          "edits": 172,
+          "current_mib": 75.56640625,
+          "peak_mib": 89.23828125,
+          "anon_mib": 24.87109375,
+          "file_mib": 42.7109375,
+          "kernel_mib": 7.90625
+        },
+        {
+          "edits": 176,
+          "current_mib": 71.16796875,
+          "peak_mib": 91.5,
+          "anon_mib": 20.3984375,
+          "file_mib": 42.79296875,
+          "kernel_mib": 7.8828125
+        },
+        {
+          "edits": 180,
+          "current_mib": 75.07421875,
+          "peak_mib": 91.5,
+          "anon_mib": 23.9765625,
+          "file_mib": 42.8671875,
+          "kernel_mib": 8.140625
+        },
+        {
+          "edits": 184,
+          "current_mib": 79.109375,
+          "peak_mib": 91.5,
+          "anon_mib": 27.5546875,
+          "file_mib": 42.94140625,
+          "kernel_mib": 8.40234375
+        },
+        {
+          "edits": 188,
+          "current_mib": 74.62109375,
+          "peak_mib": 91.5,
+          "anon_mib": 23.08203125,
+          "file_mib": 43.015625,
+          "kernel_mib": 8.40234375
+        },
+        {
+          "edits": 192,
+          "current_mib": 78.46484375,
+          "peak_mib": 91.5,
+          "anon_mib": 26.66015625,
+          "file_mib": 43.08984375,
+          "kernel_mib": 8.66015625
+        },
+        {
+          "edits": 196,
+          "current_mib": 74.12890625,
+          "peak_mib": 91.5,
+          "anon_mib": 22.1875,
+          "file_mib": 43.171875,
+          "kernel_mib": 8.61328125
+        },
+        {
+          "edits": 200,
+          "current_mib": 78.02734375,
+          "peak_mib": 91.5,
+          "anon_mib": 25.765625,
+          "file_mib": 43.24609375,
+          "kernel_mib": 8.87109375
+        },
+        {
+          "edits": 204,
+          "current_mib": 73.53515625,
+          "peak_mib": 92.09375,
+          "anon_mib": 21.29296875,
+          "file_mib": 43.32421875,
+          "kernel_mib": 8.85546875
+        },
+        {
+          "edits": 208,
+          "current_mib": 77.62890625,
+          "peak_mib": 92.09375,
+          "anon_mib": 24.875,
+          "file_mib": 43.3984375,
+          "kernel_mib": 9.109375
+        },
+        {
+          "edits": 212,
+          "current_mib": 73.02734375,
+          "peak_mib": 93.34375,
+          "anon_mib": 20.40234375,
+          "file_mib": 43.47265625,
+          "kernel_mib": 9.078125
+        },
+        {
+          "edits": 216,
+          "current_mib": 77.03125,
+          "peak_mib": 93.34375,
+          "anon_mib": 23.98046875,
+          "file_mib": 43.52734375,
+          "kernel_mib": 9.3515625
+        },
+        {
+          "edits": 220,
+          "current_mib": 80.984375,
+          "peak_mib": 93.34375,
+          "anon_mib": 27.55859375,
+          "file_mib": 43.59765625,
+          "kernel_mib": 9.609375
+        },
+        {
+          "edits": 224,
+          "current_mib": 77.52734375,
+          "peak_mib": 93.34375,
+          "anon_mib": 23.98828125,
+          "file_mib": 43.67578125,
+          "kernel_mib": 9.62109375
+        },
+        {
+          "edits": 228,
+          "current_mib": 74.8671875,
+          "peak_mib": 93.34375,
+          "anon_mib": 21.296875,
+          "file_mib": 43.75,
+          "kernel_mib": 9.640625
+        },
+        {
+          "edits": 232,
+          "current_mib": 78.671875,
+          "peak_mib": 93.34375,
+          "anon_mib": 24.875,
+          "file_mib": 43.828125,
+          "kernel_mib": 9.91015625
+        },
+        {
+          "edits": 236,
+          "current_mib": 74.26171875,
+          "peak_mib": 94.19140625,
+          "anon_mib": 20.40234375,
+          "file_mib": 43.8984375,
+          "kernel_mib": 9.88671875
+        },
+        {
+          "edits": 240,
+          "current_mib": 78.1796875,
+          "peak_mib": 94.19140625,
+          "anon_mib": 23.984375,
+          "file_mib": 43.96875,
+          "kernel_mib": 10.15234375
+        },
+        {
+          "edits": 244,
+          "current_mib": 82.09765625,
+          "peak_mib": 94.91796875,
+          "anon_mib": 27.5703125,
+          "file_mib": 44.04296875,
+          "kernel_mib": 10.4140625
+        },
+        {
+          "edits": 248,
+          "current_mib": 77.796875,
+          "peak_mib": 94.91796875,
+          "anon_mib": 23.09765625,
+          "file_mib": 44.1171875,
+          "kernel_mib": 10.3984375
+        },
+        {
+          "edits": 252,
+          "current_mib": 81.65234375,
+          "peak_mib": 94.91796875,
+          "anon_mib": 26.67578125,
+          "file_mib": 44.203125,
+          "kernel_mib": 10.66015625
+        },
+        {
+          "edits": 256,
+          "current_mib": 77.09765625,
+          "peak_mib": 94.91796875,
+          "anon_mib": 22.203125,
+          "file_mib": 44.28125,
+          "kernel_mib": 10.61328125
+        }
+      ],
+      "late_growth_mib": 7.82421875,
+      "peak_mib": 94.91796875,
+      "passed_memory_thresholds": true,
+      "audit": {
+        "accepted": 260,
+        "distinctEditedSteps": 256,
+        "artifactHashesChecked": 4416,
+        "oldSnapshots": [
+          {
+            "edit": 1,
+            "pitch": 16,
+            "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+          },
+          {
+            "edit": 32,
+            "pitch": 17.5,
+            "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+          },
+          {
+            "edit": 64,
+            "pitch": 19,
+            "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+          },
+          {
+            "edit": 128,
+            "pitch": 22.25,
+            "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+          },
+          {
+            "edit": 192,
+            "pitch": 25.5,
+            "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+          },
+          {
+            "edit": 256,
+            "pitch": 28.75,
+            "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+          }
+        ],
+        "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+      },
+      "cgroup_events": null,
+      "outer_wall_s": 161.663936167
+    },
+    "final-bind-baseline": {
+      "checkpoints": [
+        {
+          "edits": 0,
+          "current_mib": 58.4765625,
+          "peak_mib": 71.05859375,
+          "anon_mib": 19.2890625,
+          "file_mib": 37.15625,
+          "kernel_mib": 1.99609375
+        },
+        {
+          "edits": 1,
+          "current_mib": 60.34765625,
+          "peak_mib": 72.70703125,
+          "anon_mib": 20.41796875,
+          "file_mib": 37.90234375,
+          "kernel_mib": 1.9296875
+        },
+        {
+          "edits": 4,
+          "current_mib": 58.9453125,
+          "peak_mib": 74.33984375,
+          "anon_mib": 16.703125,
+          "file_mib": 40.30859375,
+          "kernel_mib": 1.87109375
+        },
+        {
+          "edits": 8,
+          "current_mib": 67.53515625,
+          "peak_mib": 79.71875,
+          "anon_mib": 21.65625,
+          "file_mib": 43.515625,
+          "kernel_mib": 2.33984375
+        },
+        {
+          "edits": 12,
+          "current_mib": 67.828125,
+          "peak_mib": 80.296875,
+          "anon_mib": 18.55078125,
+          "file_mib": 46.72265625,
+          "kernel_mib": 2.37109375
+        },
+        {
+          "edits": 16,
+          "current_mib": 74.859375,
+          "peak_mib": 86.62890625,
+          "anon_mib": 22.21484375,
+          "file_mib": 49.9296875,
+          "kernel_mib": 2.62890625
+        },
+        {
+          "edits": 20,
+          "current_mib": 73.625,
+          "peak_mib": 88.07421875,
+          "anon_mib": 17.83984375,
+          "file_mib": 53.140625,
+          "kernel_mib": 2.59375
+        },
+        {
+          "edits": 24,
+          "current_mib": 80.61328125,
+          "peak_mib": 92.3671875,
+          "anon_mib": 21.421875,
+          "file_mib": 56.34765625,
+          "kernel_mib": 2.8359375
+        },
+        {
+          "edits": 28,
+          "current_mib": 79.55078125,
+          "peak_mib": 95.9140625,
+          "anon_mib": 16.953125,
+          "file_mib": 59.5546875,
+          "kernel_mib": 2.80859375
+        },
+        {
+          "edits": 32,
+          "current_mib": 86.390625,
+          "peak_mib": 98.8125,
+          "anon_mib": 20.66015625,
+          "file_mib": 62.76171875,
+          "kernel_mib": 2.8984375
+        },
+        {
+          "edits": 36,
+          "current_mib": 86.0625,
+          "peak_mib": 104.13671875,
+          "anon_mib": 17.05078125,
+          "file_mib": 65.96875,
+          "kernel_mib": 2.8671875
+        },
+        {
+          "edits": 40,
+          "current_mib": 94.5625,
+          "peak_mib": 106.66796875,
+          "anon_mib": 22.21484375,
+          "file_mib": 69.17578125,
+          "kernel_mib": 3.16015625
+        },
+        {
+          "edits": 44,
+          "current_mib": 95.1796875,
+          "peak_mib": 108.9765625,
+          "anon_mib": 19.25390625,
+          "file_mib": 72.390625,
+          "kernel_mib": 3.3515625
+        },
+        {
+          "edits": 48,
+          "current_mib": 102.2578125,
+          "peak_mib": 113.59765625,
+          "anon_mib": 22.89453125,
+          "file_mib": 75.59765625,
+          "kernel_mib": 3.6015625
+        },
+        {
+          "edits": 52,
+          "current_mib": 101.22265625,
+          "peak_mib": 118.36328125,
+          "anon_mib": 18.73046875,
+          "file_mib": 78.8046875,
+          "kernel_mib": 3.58203125
+        },
+        {
+          "edits": 56,
+          "current_mib": 109.62890625,
+          "peak_mib": 121.62109375,
+          "anon_mib": 23.84765625,
+          "file_mib": 82.01171875,
+          "kernel_mib": 3.72265625
+        },
+        {
+          "edits": 60,
+          "current_mib": 109.81640625,
+          "peak_mib": 122.15234375,
+          "anon_mib": 20.5859375,
+          "file_mib": 85.22265625,
+          "kernel_mib": 3.75
+        },
+        {
+          "edits": 64,
+          "current_mib": 116.88671875,
+          "peak_mib": 129.63671875,
+          "anon_mib": 24.1640625,
+          "file_mib": 88.4296875,
+          "kernel_mib": 4.1875
+        },
+        {
+          "edits": 68,
+          "current_mib": 116.58984375,
+          "peak_mib": 130.4140625,
+          "anon_mib": 20.5859375,
+          "file_mib": 91.63671875,
+          "kernel_mib": 4.1328125
+        },
+        {
+          "edits": 72,
+          "current_mib": 123.8046875,
+          "peak_mib": 135.74609375,
+          "anon_mib": 24.3984375,
+          "file_mib": 94.84765625,
+          "kernel_mib": 4.40625
+        },
+        {
+          "edits": 76,
+          "current_mib": 122.47265625,
+          "peak_mib": 137.046875,
+          "anon_mib": 19.9296875,
+          "file_mib": 98.05078125,
+          "kernel_mib": 4.3984375
+        },
+        {
+          "edits": 80,
+          "current_mib": 129.453125,
+          "peak_mib": 141.71484375,
+          "anon_mib": 23.5078125,
+          "file_mib": 101.25,
+          "kernel_mib": 4.65625
+        },
+        {
+          "edits": 84,
+          "current_mib": 129.15234375,
+          "peak_mib": 145.3125,
+          "anon_mib": 19.93359375,
+          "file_mib": 104.453125,
+          "kernel_mib": 4.62890625
+        },
+        {
+          "edits": 88,
+          "current_mib": 136.13671875,
+          "peak_mib": 147.59765625,
+          "anon_mib": 23.51171875,
+          "file_mib": 107.66015625,
+          "kernel_mib": 4.86328125
+        },
+        {
+          "edits": 92,
+          "current_mib": 134.94140625,
+          "peak_mib": 151.8359375,
+          "anon_mib": 19.0390625,
+          "file_mib": 110.8671875,
+          "kernel_mib": 4.8671875
+        },
+        {
+          "edits": 96,
+          "current_mib": 142.171875,
+          "peak_mib": 153.62890625,
+          "anon_mib": 22.96484375,
+          "file_mib": 114.06640625,
+          "kernel_mib": 5.1328125
+        },
+        {
+          "edits": 100,
+          "current_mib": 141.84375,
+          "peak_mib": 159.25,
+          "anon_mib": 19.39453125,
+          "file_mib": 117.26953125,
+          "kernel_mib": 5.1015625
+        },
+        {
+          "edits": 104,
+          "current_mib": 148.703125,
+          "peak_mib": 161.140625,
+          "anon_mib": 22.9765625,
+          "file_mib": 120.47265625,
+          "kernel_mib": 5.19921875
+        },
+        {
+          "edits": 108,
+          "current_mib": 148.51953125,
+          "peak_mib": 165.32421875,
+          "anon_mib": 19.33203125,
+          "file_mib": 123.67578125,
+          "kernel_mib": 5.1875
+        },
+        {
+          "edits": 112,
+          "current_mib": 155.59765625,
+          "peak_mib": 167.78125,
+          "anon_mib": 22.9140625,
+          "file_mib": 126.87890625,
+          "kernel_mib": 5.62890625
+        },
+        {
+          "edits": 116,
+          "current_mib": 154.90625,
+          "peak_mib": 174.90234375,
+          "anon_mib": 18.734375,
+          "file_mib": 130.0859375,
+          "kernel_mib": 5.859375
+        },
+        {
+          "edits": 120,
+          "current_mib": 162.31640625,
+          "peak_mib": 174.90234375,
+          "anon_mib": 22.9140625,
+          "file_mib": 133.2890625,
+          "kernel_mib": 5.859375
+        },
+        {
+          "edits": 124,
+          "current_mib": 169.328125,
+          "peak_mib": 180.49609375,
+          "anon_mib": 26.4921875,
+          "file_mib": 136.48828125,
+          "kernel_mib": 6.11328125
+        },
+        {
+          "edits": 128,
+          "current_mib": 169.0234375,
+          "peak_mib": 180.6328125,
+          "anon_mib": 23.1796875,
+          "file_mib": 139.69140625,
+          "kernel_mib": 5.94140625
+        },
+        {
+          "edits": 132,
+          "current_mib": 176.2109375,
+          "peak_mib": 187.671875,
+          "anon_mib": 26.7578125,
+          "file_mib": 142.89453125,
+          "kernel_mib": 6.33203125
+        },
+        {
+          "edits": 136,
+          "current_mib": 175.78515625,
+          "peak_mib": 190.2421875,
+          "anon_mib": 23.18359375,
+          "file_mib": 146.10546875,
+          "kernel_mib": 6.33203125
+        },
+        {
+          "edits": 140,
+          "current_mib": 182.75390625,
+          "peak_mib": 194.9453125,
+          "anon_mib": 26.76171875,
+          "file_mib": 149.30859375,
+          "kernel_mib": 6.59375
+        },
+        {
+          "edits": 144,
+          "current_mib": 181.40625,
+          "peak_mib": 196.7265625,
+          "anon_mib": 22.296875,
+          "file_mib": 152.5078125,
+          "kernel_mib": 6.56640625
+        },
+        {
+          "edits": 148,
+          "current_mib": 188.48828125,
+          "peak_mib": 200.63671875,
+          "anon_mib": 25.87890625,
+          "file_mib": 155.7109375,
+          "kernel_mib": 6.6640625
+        },
+        {
+          "edits": 152,
+          "current_mib": 188.13671875,
+          "peak_mib": 204.4609375,
+          "anon_mib": 22.30078125,
+          "file_mib": 158.91796875,
+          "kernel_mib": 6.80859375
+        },
+        {
+          "edits": 156,
+          "current_mib": 195.3203125,
+          "peak_mib": 206.21875,
+          "anon_mib": 25.87890625,
+          "file_mib": 162.1171875,
+          "kernel_mib": 7.078125
+        },
+        {
+          "edits": 160,
+          "current_mib": 194.03125,
+          "peak_mib": 210.9375,
+          "anon_mib": 21.41015625,
+          "file_mib": 165.3203125,
+          "kernel_mib": 7.046875
+        },
+        {
+          "edits": 164,
+          "current_mib": 200.91015625,
+          "peak_mib": 213.3984375,
+          "anon_mib": 24.98828125,
+          "file_mib": 168.5234375,
+          "kernel_mib": 7.3046875
+        },
+        {
+          "edits": 168,
+          "current_mib": 200.4921875,
+          "peak_mib": 217.61328125,
+          "anon_mib": 21.41015625,
+          "file_mib": 171.73046875,
+          "kernel_mib": 7.29296875
+        },
+        {
+          "edits": 172,
+          "current_mib": 207.66015625,
+          "peak_mib": 219.87109375,
+          "anon_mib": 24.98828125,
+          "file_mib": 174.93359375,
+          "kernel_mib": 7.5625
+        },
+        {
+          "edits": 176,
+          "current_mib": 206.29296875,
+          "peak_mib": 224.65625,
+          "anon_mib": 20.58984375,
+          "file_mib": 178.1328125,
+          "kernel_mib": 7.54296875
+        },
+        {
+          "edits": 180,
+          "current_mib": 213.46484375,
+          "peak_mib": 224.9921875,
+          "anon_mib": 24.23828125,
+          "file_mib": 181.33984375,
+          "kernel_mib": 7.80859375
+        },
+        {
+          "edits": 184,
+          "current_mib": 212.76953125,
+          "peak_mib": 232.0625,
+          "anon_mib": 20.05859375,
+          "file_mib": 184.54296875,
+          "kernel_mib": 8.05859375
+        },
+        {
+          "edits": 188,
+          "current_mib": 220.234375,
+          "peak_mib": 232.0625,
+          "anon_mib": 24.23828125,
+          "file_mib": 187.75,
+          "kernel_mib": 8.0625
+        },
+        {
+          "edits": 192,
+          "current_mib": 227.1328125,
+          "peak_mib": 239.2890625,
+          "anon_mib": 27.83984375,
+          "file_mib": 190.94921875,
+          "kernel_mib": 8.32421875
+        },
+        {
+          "edits": 196,
+          "current_mib": 226.06640625,
+          "peak_mib": 239.2890625,
+          "anon_mib": 23.3671875,
+          "file_mib": 194.15234375,
+          "kernel_mib": 8.296875
+        },
+        {
+          "edits": 200,
+          "current_mib": 232.96484375,
+          "peak_mib": 244.71484375,
+          "anon_mib": 27.0,
+          "file_mib": 197.359375,
+          "kernel_mib": 8.53515625
+        },
+        {
+          "edits": 204,
+          "current_mib": 233.66015625,
+          "peak_mib": 244.88671875,
+          "anon_mib": 24.4453125,
+          "file_mib": 200.55859375,
+          "kernel_mib": 8.5625
+        },
+        {
+          "edits": 208,
+          "current_mib": 234.27734375,
+          "peak_mib": 249.90234375,
+          "anon_mib": 21.75390625,
+          "file_mib": 203.76171875,
+          "kernel_mib": 8.61328125
+        },
+        {
+          "edits": 212,
+          "current_mib": 241.28125,
+          "peak_mib": 253.0,
+          "anon_mib": 25.33203125,
+          "file_mib": 206.96484375,
+          "kernel_mib": 8.8515625
+        },
+        {
+          "edits": 216,
+          "current_mib": 239.89453125,
+          "peak_mib": 258.125,
+          "anon_mib": 20.859375,
+          "file_mib": 210.16796875,
+          "kernel_mib": 8.8046875
+        },
+        {
+          "edits": 220,
+          "current_mib": 247.0390625,
+          "peak_mib": 258.26171875,
+          "anon_mib": 24.44140625,
+          "file_mib": 213.37109375,
+          "kernel_mib": 9.078125
+        },
+        {
+          "edits": 224,
+          "current_mib": 253.859375,
+          "peak_mib": 266.3671875,
+          "anon_mib": 28.01953125,
+          "file_mib": 216.578125,
+          "kernel_mib": 9.19140625
+        },
+        {
+          "edits": 228,
+          "current_mib": 252.578125,
+          "peak_mib": 266.3671875,
+          "anon_mib": 23.546875,
+          "file_mib": 219.78515625,
+          "kernel_mib": 9.1328125
+        },
+        {
+          "edits": 232,
+          "current_mib": 259.76953125,
+          "peak_mib": 271.3515625,
+          "anon_mib": 27.125,
+          "file_mib": 222.984375,
+          "kernel_mib": 9.6015625
+        },
+        {
+          "edits": 236,
+          "current_mib": 258.53125,
+          "peak_mib": 273.6328125,
+          "anon_mib": 22.65234375,
+          "file_mib": 226.1875,
+          "kernel_mib": 9.53515625
+        },
+        {
+          "edits": 240,
+          "current_mib": 265.32421875,
+          "peak_mib": 277.7265625,
+          "anon_mib": 26.23046875,
+          "file_mib": 229.39453125,
+          "kernel_mib": 9.6171875
+        },
+        {
+          "edits": 244,
+          "current_mib": 264.265625,
+          "peak_mib": 280.51171875,
+          "anon_mib": 21.8046875,
+          "file_mib": 232.59375,
+          "kernel_mib": 9.7578125
+        },
+        {
+          "edits": 248,
+          "current_mib": 271.265625,
+          "peak_mib": 282.80078125,
+          "anon_mib": 25.3828125,
+          "file_mib": 235.796875,
+          "kernel_mib": 9.8359375
+        },
+        {
+          "edits": 252,
+          "current_mib": 269.9375,
+          "peak_mib": 287.95703125,
+          "anon_mib": 20.91015625,
+          "file_mib": 239.0,
+          "kernel_mib": 9.9609375
+        },
+        {
+          "edits": 256,
+          "current_mib": 277.39453125,
+          "peak_mib": 288.3359375,
+          "anon_mib": 24.7890625,
+          "file_mib": 242.203125,
+          "kernel_mib": 10.23828125
+        }
+      ],
+      "late_growth_mib": 108.37109375,
+      "peak_mib": 288.3359375,
+      "passed_memory_thresholds": false,
+      "audit": {
+        "accepted": 260,
+        "distinctEditedSteps": 256,
+        "artifactHashesChecked": 4416,
+        "oldSnapshots": [
+          {
+            "edit": 1,
+            "pitch": 16,
+            "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+          },
+          {
+            "edit": 32,
+            "pitch": 17.5,
+            "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+          },
+          {
+            "edit": 64,
+            "pitch": 19,
+            "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+          },
+          {
+            "edit": 128,
+            "pitch": 22.25,
+            "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+          },
+          {
+            "edit": 192,
+            "pitch": 25.5,
+            "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+          },
+          {
+            "edit": 256,
+            "pitch": 28.75,
+            "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+          }
+        ],
+        "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+      },
+      "cgroup_events": null,
+      "outer_wall_s": 161.037004625
+    },
+    "final-bind-candidate": {
+      "checkpoints": [
+        {
+          "edits": 0,
+          "current_mib": 56.15234375,
+          "peak_mib": 68.80859375,
+          "anon_mib": 19.296875,
+          "file_mib": 35.01171875,
+          "kernel_mib": 1.83984375
+        },
+        {
+          "edits": 1,
+          "current_mib": 57.62890625,
+          "peak_mib": 70.671875,
+          "anon_mib": 20.43359375,
+          "file_mib": 34.95703125,
+          "kernel_mib": 2.078125
+        },
+        {
+          "edits": 4,
+          "current_mib": 53.78515625,
+          "peak_mib": 71.703125,
+          "anon_mib": 16.7734375,
+          "file_mib": 34.95703125,
+          "kernel_mib": 1.84765625
+        },
+        {
+          "edits": 8,
+          "current_mib": 59.328125,
+          "peak_mib": 71.703125,
+          "anon_mib": 21.83203125,
+          "file_mib": 34.96484375,
+          "kernel_mib": 2.28125
+        },
+        {
+          "edits": 12,
+          "current_mib": 55.81640625,
+          "peak_mib": 71.703125,
+          "anon_mib": 18.62109375,
+          "file_mib": 34.96875,
+          "kernel_mib": 2.10546875
+        },
+        {
+          "edits": 16,
+          "current_mib": 59.98828125,
+          "peak_mib": 73.37890625,
+          "anon_mib": 22.33984375,
+          "file_mib": 34.97265625,
+          "kernel_mib": 2.515625
+        },
+        {
+          "edits": 20,
+          "current_mib": 55.5859375,
+          "peak_mib": 73.37890625,
+          "anon_mib": 17.921875,
+          "file_mib": 34.98046875,
+          "kernel_mib": 2.47265625
+        },
+        {
+          "edits": 24,
+          "current_mib": 59.12890625,
+          "peak_mib": 73.37890625,
+          "anon_mib": 21.50390625,
+          "file_mib": 34.984375,
+          "kernel_mib": 2.54296875
+        },
+        {
+          "edits": 28,
+          "current_mib": 54.75,
+          "peak_mib": 73.6875,
+          "anon_mib": 17.03125,
+          "file_mib": 34.98828125,
+          "kernel_mib": 2.63671875
+        },
+        {
+          "edits": 32,
+          "current_mib": 58.66796875,
+          "peak_mib": 73.6875,
+          "anon_mib": 20.73046875,
+          "file_mib": 34.9921875,
+          "kernel_mib": 2.7421875
+        },
+        {
+          "edits": 36,
+          "current_mib": 54.9375,
+          "peak_mib": 75.765625,
+          "anon_mib": 17.09765625,
+          "file_mib": 34.99609375,
+          "kernel_mib": 2.828125
+        },
+        {
+          "edits": 40,
+          "current_mib": 60.13671875,
+          "peak_mib": 75.765625,
+          "anon_mib": 21.93359375,
+          "file_mib": 35.0,
+          "kernel_mib": 2.94140625
+        },
+        {
+          "edits": 44,
+          "current_mib": 57.3125,
+          "peak_mib": 75.765625,
+          "anon_mib": 18.95703125,
+          "file_mib": 35.01171875,
+          "kernel_mib": 3.1171875
+        },
+        {
+          "edits": 48,
+          "current_mib": 61.87109375,
+          "peak_mib": 75.765625,
+          "anon_mib": 23.33203125,
+          "file_mib": 35.015625,
+          "kernel_mib": 3.36328125
+        },
+        {
+          "edits": 52,
+          "current_mib": 57.8125,
+          "peak_mib": 77.0546875,
+          "anon_mib": 19.44140625,
+          "file_mib": 35.01953125,
+          "kernel_mib": 3.296875
+        },
+        {
+          "edits": 56,
+          "current_mib": 62.671875,
+          "peak_mib": 77.0546875,
+          "anon_mib": 24.23828125,
+          "file_mib": 35.0234375,
+          "kernel_mib": 3.40625
+        },
+        {
+          "edits": 60,
+          "current_mib": 59.609375,
+          "peak_mib": 77.0546875,
+          "anon_mib": 20.9453125,
+          "file_mib": 35.03125,
+          "kernel_mib": 3.3984375
+        },
+        {
+          "edits": 64,
+          "current_mib": 63.21484375,
+          "peak_mib": 77.0546875,
+          "anon_mib": 24.5234375,
+          "file_mib": 35.03515625,
+          "kernel_mib": 3.6328125
+        },
+        {
+          "edits": 68,
+          "current_mib": 59.80859375,
+          "peak_mib": 77.796875,
+          "anon_mib": 20.9921875,
+          "file_mib": 35.0390625,
+          "kernel_mib": 3.6328125
+        },
+        {
+          "edits": 72,
+          "current_mib": 63.61328125,
+          "peak_mib": 77.796875,
+          "anon_mib": 24.57421875,
+          "file_mib": 35.04296875,
+          "kernel_mib": 3.8671875
+        },
+        {
+          "edits": 76,
+          "current_mib": 59.38671875,
+          "peak_mib": 77.796875,
+          "anon_mib": 20.171875,
+          "file_mib": 35.04296875,
+          "kernel_mib": 3.96875
+        },
+        {
+          "edits": 80,
+          "current_mib": 62.92578125,
+          "peak_mib": 77.796875,
+          "anon_mib": 23.75390625,
+          "file_mib": 35.046875,
+          "kernel_mib": 4.05078125
+        },
+        {
+          "edits": 84,
+          "current_mib": 59.2578125,
+          "peak_mib": 77.796875,
+          "anon_mib": 20.20703125,
+          "file_mib": 35.04296875,
+          "kernel_mib": 4.00390625
+        },
+        {
+          "edits": 88,
+          "current_mib": 63.34765625,
+          "peak_mib": 77.796875,
+          "anon_mib": 23.7890625,
+          "file_mib": 35.04296875,
+          "kernel_mib": 4.27734375
+        },
+        {
+          "edits": 92,
+          "current_mib": 58.83984375,
+          "peak_mib": 77.796875,
+          "anon_mib": 19.31640625,
+          "file_mib": 35.046875,
+          "kernel_mib": 4.38671875
+        },
+        {
+          "edits": 96,
+          "current_mib": 63.0,
+          "peak_mib": 77.796875,
+          "anon_mib": 23.203125,
+          "file_mib": 35.046875,
+          "kernel_mib": 4.61328125
+        },
+        {
+          "edits": 100,
+          "current_mib": 59.203125,
+          "peak_mib": 78.140625,
+          "anon_mib": 19.625,
+          "file_mib": 35.046875,
+          "kernel_mib": 4.4375
+        },
+        {
+          "edits": 104,
+          "current_mib": 63.18359375,
+          "peak_mib": 78.140625,
+          "anon_mib": 23.3671875,
+          "file_mib": 35.046875,
+          "kernel_mib": 4.6640625
+        },
+        {
+          "edits": 108,
+          "current_mib": 59.46875,
+          "peak_mib": 78.33203125,
+          "anon_mib": 19.67578125,
+          "file_mib": 35.05078125,
+          "kernel_mib": 4.6171875
+        },
+        {
+          "edits": 112,
+          "current_mib": 63.51171875,
+          "peak_mib": 78.33203125,
+          "anon_mib": 23.2578125,
+          "file_mib": 35.046875,
+          "kernel_mib": 5.0546875
+        },
+        {
+          "edits": 116,
+          "current_mib": 59.37109375,
+          "peak_mib": 80.57421875,
+          "anon_mib": 19.078125,
+          "file_mib": 35.046875,
+          "kernel_mib": 5.11328125
+        },
+        {
+          "edits": 120,
+          "current_mib": 63.7578125,
+          "peak_mib": 80.57421875,
+          "anon_mib": 23.2578125,
+          "file_mib": 35.046875,
+          "kernel_mib": 5.2109375
+        },
+        {
+          "edits": 124,
+          "current_mib": 67.40625,
+          "peak_mib": 80.57421875,
+          "anon_mib": 26.86328125,
+          "file_mib": 35.05078125,
+          "kernel_mib": 5.4453125
+        },
+        {
+          "edits": 128,
+          "current_mib": 63.828125,
+          "peak_mib": 80.57421875,
+          "anon_mib": 23.16015625,
+          "file_mib": 35.046875,
+          "kernel_mib": 5.4140625
+        },
+        {
+          "edits": 132,
+          "current_mib": 67.671875,
+          "peak_mib": 80.57421875,
+          "anon_mib": 26.73828125,
+          "file_mib": 35.046875,
+          "kernel_mib": 5.6640625
+        },
+        {
+          "edits": 136,
+          "current_mib": 63.953125,
+          "peak_mib": 80.8515625,
+          "anon_mib": 23.1640625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 5.63671875
+        },
+        {
+          "edits": 140,
+          "current_mib": 67.71484375,
+          "peak_mib": 80.8515625,
+          "anon_mib": 26.7421875,
+          "file_mib": 35.0546875,
+          "kernel_mib": 5.86328125
+        },
+        {
+          "edits": 144,
+          "current_mib": 63.71484375,
+          "peak_mib": 81.80078125,
+          "anon_mib": 22.640625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 5.83203125
+        },
+        {
+          "edits": 148,
+          "current_mib": 67.40625,
+          "peak_mib": 81.80078125,
+          "anon_mib": 26.21875,
+          "file_mib": 35.05078125,
+          "kernel_mib": 5.8984375
+        },
+        {
+          "edits": 152,
+          "current_mib": 63.83203125,
+          "peak_mib": 82.59375,
+          "anon_mib": 22.64453125,
+          "file_mib": 35.0546875,
+          "kernel_mib": 5.87890625
+        },
+        {
+          "edits": 156,
+          "current_mib": 67.6953125,
+          "peak_mib": 82.59375,
+          "anon_mib": 26.22265625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 6.27734375
+        },
+        {
+          "edits": 160,
+          "current_mib": 63.05078125,
+          "peak_mib": 82.59375,
+          "anon_mib": 21.75390625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 6.2265625
+        },
+        {
+          "edits": 164,
+          "current_mib": 67.08203125,
+          "peak_mib": 82.59375,
+          "anon_mib": 25.33203125,
+          "file_mib": 35.0546875,
+          "kernel_mib": 6.484375
+        },
+        {
+          "edits": 168,
+          "current_mib": 63.38671875,
+          "peak_mib": 82.59375,
+          "anon_mib": 21.75390625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 6.43359375
+        },
+        {
+          "edits": 172,
+          "current_mib": 67.25,
+          "peak_mib": 82.59375,
+          "anon_mib": 25.33203125,
+          "file_mib": 35.05078125,
+          "kernel_mib": 6.67578125
+        },
+        {
+          "edits": 176,
+          "current_mib": 62.5859375,
+          "peak_mib": 82.59375,
+          "anon_mib": 20.890625,
+          "file_mib": 35.05078125,
+          "kernel_mib": 6.48046875
+        },
+        {
+          "edits": 180,
+          "current_mib": 66.4375,
+          "peak_mib": 82.59375,
+          "anon_mib": 24.4765625,
+          "file_mib": 35.0546875,
+          "kernel_mib": 6.875
+        },
+        {
+          "edits": 184,
+          "current_mib": 62.5546875,
+          "peak_mib": 82.65625,
+          "anon_mib": 20.37109375,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.10546875
+        },
+        {
+          "edits": 188,
+          "current_mib": 66.765625,
+          "peak_mib": 82.65625,
+          "anon_mib": 24.55078125,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.05078125
+        },
+        {
+          "edits": 192,
+          "current_mib": 70.453125,
+          "peak_mib": 83.35546875,
+          "anon_mib": 28.19140625,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.1484375
+        },
+        {
+          "edits": 196,
+          "current_mib": 66.28125,
+          "peak_mib": 83.35546875,
+          "anon_mib": 23.71875,
+          "file_mib": 35.05859375,
+          "kernel_mib": 7.28515625
+        },
+        {
+          "edits": 200,
+          "current_mib": 69.9453125,
+          "peak_mib": 83.35546875,
+          "anon_mib": 27.296875,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.5234375
+        },
+        {
+          "edits": 204,
+          "current_mib": 66.41015625,
+          "peak_mib": 84.09765625,
+          "anon_mib": 23.71875,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.4765625
+        },
+        {
+          "edits": 208,
+          "current_mib": 70.12890625,
+          "peak_mib": 84.09765625,
+          "anon_mib": 27.296875,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.734375
+        },
+        {
+          "edits": 212,
+          "current_mib": 65.65625,
+          "peak_mib": 84.09765625,
+          "anon_mib": 22.82421875,
+          "file_mib": 35.05859375,
+          "kernel_mib": 7.6796875
+        },
+        {
+          "edits": 216,
+          "current_mib": 69.3828125,
+          "peak_mib": 84.09765625,
+          "anon_mib": 26.40234375,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.76171875
+        },
+        {
+          "edits": 220,
+          "current_mib": 65.66015625,
+          "peak_mib": 84.09765625,
+          "anon_mib": 22.82421875,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.70703125
+        },
+        {
+          "edits": 224,
+          "current_mib": 69.5234375,
+          "peak_mib": 84.09765625,
+          "anon_mib": 26.4140625,
+          "file_mib": 35.0546875,
+          "kernel_mib": 7.96875
+        },
+        {
+          "edits": 228,
+          "current_mib": 65.05078125,
+          "peak_mib": 84.09765625,
+          "anon_mib": 21.94140625,
+          "file_mib": 35.0625,
+          "kernel_mib": 7.90234375
+        },
+        {
+          "edits": 232,
+          "current_mib": 68.8125,
+          "peak_mib": 84.09765625,
+          "anon_mib": 25.51953125,
+          "file_mib": 35.05859375,
+          "kernel_mib": 8.16796875
+        },
+        {
+          "edits": 236,
+          "current_mib": 65.30078125,
+          "peak_mib": 84.6640625,
+          "anon_mib": 21.94140625,
+          "file_mib": 35.05859375,
+          "kernel_mib": 8.12109375
+        },
+        {
+          "edits": 240,
+          "current_mib": 69.02734375,
+          "peak_mib": 84.6640625,
+          "anon_mib": 25.51953125,
+          "file_mib": 35.0625,
+          "kernel_mib": 8.35546875
+        },
+        {
+          "edits": 244,
+          "current_mib": 64.578125,
+          "peak_mib": 84.7734375,
+          "anon_mib": 21.078125,
+          "file_mib": 35.05859375,
+          "kernel_mib": 8.28515625
+        },
+        {
+          "edits": 248,
+          "current_mib": 68.640625,
+          "peak_mib": 84.7734375,
+          "anon_mib": 24.65625,
+          "file_mib": 35.05859375,
+          "kernel_mib": 8.71484375
+        },
+        {
+          "edits": 252,
+          "current_mib": 64.11328125,
+          "peak_mib": 84.7734375,
+          "anon_mib": 20.4765625,
+          "file_mib": 35.05859375,
+          "kernel_mib": 8.49609375
+        },
+        {
+          "edits": 256,
+          "current_mib": 68.73046875,
+          "peak_mib": 84.7734375,
+          "anon_mib": 24.65625,
+          "file_mib": 35.0625,
+          "kernel_mib": 8.765625
+        }
+      ],
+      "late_growth_mib": 4.90234375,
+      "peak_mib": 84.7734375,
+      "passed_memory_thresholds": true,
+      "audit": {
+        "accepted": 260,
+        "distinctEditedSteps": 256,
+        "artifactHashesChecked": 4416,
+        "oldSnapshots": [
+          {
+            "edit": 1,
+            "pitch": 16,
+            "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+          },
+          {
+            "edit": 32,
+            "pitch": 17.5,
+            "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+          },
+          {
+            "edit": 64,
+            "pitch": 19,
+            "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+          },
+          {
+            "edit": 128,
+            "pitch": 22.25,
+            "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+          },
+          {
+            "edit": 192,
+            "pitch": 25.5,
+            "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+          },
+          {
+            "edit": 256,
+            "pitch": 28.75,
+            "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+          }
+        ],
+        "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+      },
+      "cgroup_events": {
+        "limit": 536870912,
+        "swap": 0,
+        "events": {
+          "low": "0",
+          "high": "0",
+          "max": "0",
+          "oom": "0",
+          "oom_kill": "0",
+          "oom_group_kill": "0"
+        }
+      },
+      "outer_wall_s": 162.94379304199998
+    }
+  },
+  "environment": {
+    "baseline": {
+      "version": "0.1.0-alpha.10",
+      "kernel_arm64": "f7c814d77fe0937bc1d7d7334b857f0e43ac933c792d68769e3f76034853ce64",
+      "catalog_arm64": "176790008108dbb107d0f113a23427c75a900e546b3f3e0991238260eb6a5eaa",
+      "sdk_session": "0756ab254e1f9dd57c835c3ab260d892687e07036d56ade3ea54aaf40bb1176f",
+      "storage_adapter": "509eeeba4fef061ca76ce255de162c246656460e79c5d60d5f81cbd66951c520"
+    },
+    "candidate": {
+      "version": "0.1.0-alpha.11-rc.1",
+      "kernel_arm64": "f7c814d77fe0937bc1d7d7334b857f0e43ac933c792d68769e3f76034853ce64",
+      "catalog_arm64": "55c8beb6d4e6977ed38f7094184d33d068a5d08838883d0a3cc71f57c4ac131d",
+      "sdk_session": "0756ab254e1f9dd57c835c3ab260d892687e07036d56ade3ea54aaf40bb1176f",
+      "storage_adapter": "757797f4a3a301bcba9eda47a2d942da2e9cf847a3af018920d10440cd4bf801"
+    },
+    "benchmark_image_id": "sha256:eb355a472cd7523e69527fec2473903b216de501477b002b1faadc9b28aaaf8a",
+    "runner_image_id": "sha256:55ca57993e79d588558ad6cbb3b79001189963b2e132d19d4e957486b06c703d",
+    "architecture": "Linux arm64",
+    "cpu": 1,
+    "limit_mib": 512,
+    "swap_mib": 0,
+    "geometry": "Same shipped native executable, source fixture and verification criteria.",
+    "measurements": "SDK process with local Rust kernel and catalog. Current and peak sampled at edit boundaries before paged audit. Final comparison serialized on CPU 2 in a shared Colima VM. Additional ext4 controls have direct memory.events readback.",
+    "retained_sessions": {
+      "final-ext4-baseline": {
+        "files": 5459,
+        "bytes": 949409385
+      },
+      "final-ext4-candidate": {
+        "files": 5459,
+        "bytes": 949400243
+      },
+      "final-bind-baseline": {
+        "files": 5459,
+        "bytes": 949413249
+      },
+      "final-bind-candidate": {
+        "files": 5459,
+        "bytes": 949420583
+      },
+      "final-ext4-confirm": {
+        "files": 5459,
+        "bytes": 949426963
+      }
+    },
+    "excluded_pilot": "A preliminary Docker data-volume run was intentionally stopped to avoid filling the shared daemon data disk. Only fresh completed ext4 and virtiofs runs are compared.",
+    "probe_24_while_producer_alive": {
+      "file_before_mib": 33.141,
+      "groups_in_advice_order": {
+        "session.json": 33.141,
+        "index": 33.141,
+        ".catalog-writer": 33.141,
+        "checkpoints": 29.398,
+        "model.json": 29.398,
+        "preview.png": 28.684,
+        "query": 28.684,
+        "report.json": 28.367,
+        "mesh-cache": 19.539,
+        "model.stl": 19.539,
+        "preview.mesh.json": 19.539,
+        "model.glb": 19.539,
+        "model.step": 19.539,
+        "input.json": 11.227,
+        "receipt.json": 11.227
+      }
+    },
+    "intermediate_scope": "Exploratory trials used separate cores and could overlap. The final four comparison runs were serialized. The incremental benefit of just the bulk export advice has not been isolated.",
+    "validation": {
+      "macos_node_tests": 53,
+      "linux_session_regressions": 12,
+      "linux_catalog_unit_tests": 2,
+      "linux_x64_installed_cli_smoke": {
+        "platform": "x64",
+        "node": "v22.23.2",
+        "head": "s0002",
+        "volume": 1599.9999999999998
+      },
+      "runner_runtime": "abelien/runner:sandbox-local, Node v22.23.2, SDK + native catalog and CAD; local image with no resident inference agent in this measurement"
+    }
+  },
+  "final-ext4-confirm": {
+    "checkpoints": [
+      {
+        "edits": 0,
+        "current_mib": 61.71875,
+        "peak_mib": 73.640625,
+        "anon_mib": 19.28515625,
+        "file_mib": 40.12890625,
+        "kernel_mib": 2.1015625
+      },
+      {
+        "edits": 1,
+        "current_mib": 62.33203125,
+        "peak_mib": 74.41015625,
+        "anon_mib": 20.41796875,
+        "file_mib": 39.515625,
+        "kernel_mib": 2.18359375
+      },
+      {
+        "edits": 4,
+        "current_mib": 58.984375,
+        "peak_mib": 76.05859375,
+        "anon_mib": 17.109375,
+        "file_mib": 39.56640625,
+        "kernel_mib": 2.1328125
+      },
+      {
+        "edits": 8,
+        "current_mib": 64.2265625,
+        "peak_mib": 76.140625,
+        "anon_mib": 22.00390625,
+        "file_mib": 39.63671875,
+        "kernel_mib": 2.4453125
+      },
+      {
+        "edits": 12,
+        "current_mib": 61.09375,
+        "peak_mib": 76.140625,
+        "anon_mib": 18.78125,
+        "file_mib": 39.71484375,
+        "kernel_mib": 2.44921875
+      },
+      {
+        "edits": 16,
+        "current_mib": 65.1796875,
+        "peak_mib": 77.94140625,
+        "anon_mib": 22.4453125,
+        "file_mib": 39.7890625,
+        "kernel_mib": 2.73046875
+      },
+      {
+        "edits": 20,
+        "current_mib": 60.66796875,
+        "peak_mib": 78.19921875,
+        "anon_mib": 18.0625,
+        "file_mib": 39.86328125,
+        "kernel_mib": 2.67578125
+      },
+      {
+        "edits": 24,
+        "current_mib": 64.6015625,
+        "peak_mib": 78.19921875,
+        "anon_mib": 21.640625,
+        "file_mib": 39.94140625,
+        "kernel_mib": 2.9453125
+      },
+      {
+        "edits": 28,
+        "current_mib": 60.49609375,
+        "peak_mib": 78.66796875,
+        "anon_mib": 17.484375,
+        "file_mib": 40.015625,
+        "kernel_mib": 2.93359375
+      },
+      {
+        "edits": 32,
+        "current_mib": 64.4296875,
+        "peak_mib": 78.66796875,
+        "anon_mib": 20.94921875,
+        "file_mib": 40.09375,
+        "kernel_mib": 3.19921875
+      },
+      {
+        "edits": 36,
+        "current_mib": 60.59765625,
+        "peak_mib": 79.921875,
+        "anon_mib": 17.1640625,
+        "file_mib": 40.16796875,
+        "kernel_mib": 3.140625
+      },
+      {
+        "edits": 40,
+        "current_mib": 64.6328125,
+        "peak_mib": 79.921875,
+        "anon_mib": 20.75,
+        "file_mib": 40.2421875,
+        "kernel_mib": 3.421875
+      },
+      {
+        "edits": 44,
+        "current_mib": 60.3671875,
+        "peak_mib": 80.76953125,
+        "anon_mib": 16.61328125,
+        "file_mib": 40.31640625,
+        "kernel_mib": 3.3984375
+      },
+      {
+        "edits": 48,
+        "current_mib": 65.86328125,
+        "peak_mib": 80.76953125,
+        "anon_mib": 21.5390625,
+        "file_mib": 40.390625,
+        "kernel_mib": 3.6953125
+      },
+      {
+        "edits": 52,
+        "current_mib": 69.76953125,
+        "peak_mib": 82.33203125,
+        "anon_mib": 25.12109375,
+        "file_mib": 40.46484375,
+        "kernel_mib": 3.96875
+      },
+      {
+        "edits": 56,
+        "current_mib": 65.28125,
+        "peak_mib": 82.33203125,
+        "anon_mib": 20.66015625,
+        "file_mib": 40.546875,
+        "kernel_mib": 3.92578125
+      },
+      {
+        "edits": 60,
+        "current_mib": 69.1640625,
+        "peak_mib": 82.33203125,
+        "anon_mib": 24.2421875,
+        "file_mib": 40.6171875,
+        "kernel_mib": 4.203125
+      },
+      {
+        "edits": 64,
+        "current_mib": 65.6796875,
+        "peak_mib": 83.20703125,
+        "anon_mib": 20.66796875,
+        "file_mib": 40.703125,
+        "kernel_mib": 4.18359375
+      },
+      {
+        "edits": 68,
+        "current_mib": 69.7578125,
+        "peak_mib": 83.20703125,
+        "anon_mib": 24.28125,
+        "file_mib": 40.77734375,
+        "kernel_mib": 4.45703125
+      },
+      {
+        "edits": 72,
+        "current_mib": 65.15625,
+        "peak_mib": 83.20703125,
+        "anon_mib": 19.828125,
+        "file_mib": 40.734375,
+        "kernel_mib": 4.41796875
+      },
+      {
+        "edits": 76,
+        "current_mib": 69.66796875,
+        "peak_mib": 83.20703125,
+        "anon_mib": 23.9375,
+        "file_mib": 40.92578125,
+        "kernel_mib": 4.6796875
+      },
+      {
+        "edits": 80,
+        "current_mib": 66.2421875,
+        "peak_mib": 84.859375,
+        "anon_mib": 20.375,
+        "file_mib": 40.99609375,
+        "kernel_mib": 4.67578125
+      },
+      {
+        "edits": 84,
+        "current_mib": 70.078125,
+        "peak_mib": 84.859375,
+        "anon_mib": 23.953125,
+        "file_mib": 41.0703125,
+        "kernel_mib": 4.953125
+      },
+      {
+        "edits": 88,
+        "current_mib": 65.63671875,
+        "peak_mib": 84.859375,
+        "anon_mib": 19.484375,
+        "file_mib": 41.1484375,
+        "kernel_mib": 4.91796875
+      },
+      {
+        "edits": 92,
+        "current_mib": 69.5546875,
+        "peak_mib": 84.859375,
+        "anon_mib": 23.0625,
+        "file_mib": 41.21875,
+        "kernel_mib": 5.19921875
+      },
+      {
+        "edits": 96,
+        "current_mib": 66.109375,
+        "peak_mib": 85.671875,
+        "anon_mib": 19.515625,
+        "file_mib": 41.296875,
+        "kernel_mib": 5.18359375
+      },
+      {
+        "edits": 100,
+        "current_mib": 70.16796875,
+        "peak_mib": 85.671875,
+        "anon_mib": 23.09375,
+        "file_mib": 41.37109375,
+        "kernel_mib": 5.47265625
+      },
+      {
+        "edits": 104,
+        "current_mib": 65.53125,
+        "peak_mib": 85.671875,
+        "anon_mib": 18.625,
+        "file_mib": 41.4453125,
+        "kernel_mib": 5.41796875
+      },
+      {
+        "edits": 108,
+        "current_mib": 70.0390625,
+        "peak_mib": 85.671875,
+        "anon_mib": 22.625,
+        "file_mib": 41.51953125,
+        "kernel_mib": 5.6953125
+      },
+      {
+        "edits": 112,
+        "current_mib": 65.94140625,
+        "peak_mib": 86.90625,
+        "anon_mib": 18.453125,
+        "file_mib": 41.59375,
+        "kernel_mib": 5.6640625
+      },
+      {
+        "edits": 116,
+        "current_mib": 70.40625,
+        "peak_mib": 86.90625,
+        "anon_mib": 22.6328125,
+        "file_mib": 41.671875,
+        "kernel_mib": 5.95703125
+      },
+      {
+        "edits": 120,
+        "current_mib": 74.39453125,
+        "peak_mib": 86.90625,
+        "anon_mib": 26.2109375,
+        "file_mib": 41.75,
+        "kernel_mib": 6.2265625
+      },
+      {
+        "edits": 124,
+        "current_mib": 69.98828125,
+        "peak_mib": 86.90625,
+        "anon_mib": 21.7421875,
+        "file_mib": 41.8203125,
+        "kernel_mib": 6.36328125
+      },
+      {
+        "edits": 128,
+        "current_mib": 74.09765625,
+        "peak_mib": 86.90625,
+        "anon_mib": 25.6484375,
+        "file_mib": 41.890625,
+        "kernel_mib": 6.453125
+      },
+      {
+        "edits": 132,
+        "current_mib": 70.60546875,
+        "peak_mib": 88.1015625,
+        "anon_mib": 22.0703125,
+        "file_mib": 41.96875,
+        "kernel_mib": 6.46484375
+      },
+      {
+        "edits": 136,
+        "current_mib": 74.47265625,
+        "peak_mib": 88.1015625,
+        "anon_mib": 25.66796875,
+        "file_mib": 42.05078125,
+        "kernel_mib": 6.73046875
+      },
+      {
+        "edits": 140,
+        "current_mib": 70.52734375,
+        "peak_mib": 88.1015625,
+        "anon_mib": 21.703125,
+        "file_mib": 42.12109375,
+        "kernel_mib": 6.6796875
+      },
+      {
+        "edits": 144,
+        "current_mib": 74.51953125,
+        "peak_mib": 88.1015625,
+        "anon_mib": 25.28125,
+        "file_mib": 42.19921875,
+        "kernel_mib": 6.9609375
+      },
+      {
+        "edits": 148,
+        "current_mib": 71.09765625,
+        "peak_mib": 89.1796875,
+        "anon_mib": 21.70703125,
+        "file_mib": 42.26953125,
+        "kernel_mib": 6.96875
+      },
+      {
+        "edits": 152,
+        "current_mib": 75.08203125,
+        "peak_mib": 89.1796875,
+        "anon_mib": 25.28515625,
+        "file_mib": 42.34765625,
+        "kernel_mib": 7.40625
+      },
+      {
+        "edits": 156,
+        "current_mib": 70.62890625,
+        "peak_mib": 89.1796875,
+        "anon_mib": 20.8125,
+        "file_mib": 42.4296875,
+        "kernel_mib": 7.19921875
+      },
+      {
+        "edits": 160,
+        "current_mib": 74.5703125,
+        "peak_mib": 89.1796875,
+        "anon_mib": 24.390625,
+        "file_mib": 42.5,
+        "kernel_mib": 7.45703125
+      },
+      {
+        "edits": 164,
+        "current_mib": 71.0703125,
+        "peak_mib": 90.0078125,
+        "anon_mib": 20.8125,
+        "file_mib": 42.5703125,
+        "kernel_mib": 7.4609375
+      },
+      {
+        "edits": 168,
+        "current_mib": 74.92578125,
+        "peak_mib": 90.0078125,
+        "anon_mib": 24.390625,
+        "file_mib": 42.6484375,
+        "kernel_mib": 7.734375
+      },
+      {
+        "edits": 172,
+        "current_mib": 70.56640625,
+        "peak_mib": 90.0078125,
+        "anon_mib": 19.91796875,
+        "file_mib": 42.72265625,
+        "kernel_mib": 7.68359375
+      },
+      {
+        "edits": 176,
+        "current_mib": 74.34765625,
+        "peak_mib": 90.0078125,
+        "anon_mib": 23.49609375,
+        "file_mib": 42.80078125,
+        "kernel_mib": 7.9609375
+      },
+      {
+        "edits": 180,
+        "current_mib": 70.31640625,
+        "peak_mib": 90.15625,
+        "anon_mib": 19.3203125,
+        "file_mib": 42.87890625,
+        "kernel_mib": 7.93359375
+      },
+      {
+        "edits": 184,
+        "current_mib": 74.91796875,
+        "peak_mib": 90.15625,
+        "anon_mib": 23.5,
+        "file_mib": 42.953125,
+        "kernel_mib": 8.23828125
+      },
+      {
+        "edits": 188,
+        "current_mib": 78.8515625,
+        "peak_mib": 91.265625,
+        "anon_mib": 27.11328125,
+        "file_mib": 43.02734375,
+        "kernel_mib": 8.5078125
+      },
+      {
+        "edits": 192,
+        "current_mib": 74.26953125,
+        "peak_mib": 91.265625,
+        "anon_mib": 22.6796875,
+        "file_mib": 43.1015625,
+        "kernel_mib": 8.45703125
+      },
+      {
+        "edits": 196,
+        "current_mib": 78.1953125,
+        "peak_mib": 91.36328125,
+        "anon_mib": 26.2578125,
+        "file_mib": 43.1875,
+        "kernel_mib": 8.73828125
+      },
+      {
+        "edits": 200,
+        "current_mib": 75.8828125,
+        "peak_mib": 91.36328125,
+        "anon_mib": 23.8359375,
+        "file_mib": 43.26171875,
+        "kernel_mib": 8.78125
+      },
+      {
+        "edits": 204,
+        "current_mib": 73.4140625,
+        "peak_mib": 91.36328125,
+        "anon_mib": 21.14453125,
+        "file_mib": 43.3359375,
+        "kernel_mib": 8.80859375
+      },
+      {
+        "edits": 208,
+        "current_mib": 77.234375,
+        "peak_mib": 91.36328125,
+        "anon_mib": 24.72265625,
+        "file_mib": 43.41015625,
+        "kernel_mib": 9.07421875
+      },
+      {
+        "edits": 212,
+        "current_mib": 72.7734375,
+        "peak_mib": 93.3984375,
+        "anon_mib": 20.25,
+        "file_mib": 43.48828125,
+        "kernel_mib": 9.03515625
+      },
+      {
+        "edits": 216,
+        "current_mib": 76.8671875,
+        "peak_mib": 93.3984375,
+        "anon_mib": 23.83203125,
+        "file_mib": 43.54296875,
+        "kernel_mib": 9.30859375
+      },
+      {
+        "edits": 220,
+        "current_mib": 80.71875,
+        "peak_mib": 93.3984375,
+        "anon_mib": 27.41015625,
+        "file_mib": 43.61328125,
+        "kernel_mib": 9.5703125
+      },
+      {
+        "edits": 224,
+        "current_mib": 76.3359375,
+        "peak_mib": 93.3984375,
+        "anon_mib": 22.9375,
+        "file_mib": 43.6953125,
+        "kernel_mib": 9.53515625
+      },
+      {
+        "edits": 228,
+        "current_mib": 80.29296875,
+        "peak_mib": 93.3984375,
+        "anon_mib": 26.515625,
+        "file_mib": 43.76953125,
+        "kernel_mib": 9.79296875
+      },
+      {
+        "edits": 232,
+        "current_mib": 75.6796875,
+        "peak_mib": 93.3984375,
+        "anon_mib": 22.04296875,
+        "file_mib": 43.84375,
+        "kernel_mib": 9.765625
+      },
+      {
+        "edits": 236,
+        "current_mib": 79.734375,
+        "peak_mib": 93.3984375,
+        "anon_mib": 25.62109375,
+        "file_mib": 43.92578125,
+        "kernel_mib": 10.05078125
+      },
+      {
+        "edits": 240,
+        "current_mib": 75.30859375,
+        "peak_mib": 94.2890625,
+        "anon_mib": 21.16015625,
+        "file_mib": 43.99609375,
+        "kernel_mib": 10.00390625
+      },
+      {
+        "edits": 244,
+        "current_mib": 79.203125,
+        "peak_mib": 94.2890625,
+        "anon_mib": 24.75,
+        "file_mib": 44.0703125,
+        "kernel_mib": 10.28125
+      },
+      {
+        "edits": 248,
+        "current_mib": 74.8359375,
+        "peak_mib": 94.4609375,
+        "anon_mib": 20.28125,
+        "file_mib": 44.1484375,
+        "kernel_mib": 10.24609375
+      },
+      {
+        "edits": 252,
+        "current_mib": 80.03515625,
+        "peak_mib": 94.4609375,
+        "anon_mib": 25.07421875,
+        "file_mib": 44.23046875,
+        "kernel_mib": 10.58203125
+      },
+      {
+        "edits": 256,
+        "current_mib": 77.05078125,
+        "peak_mib": 94.4609375,
+        "anon_mib": 22.0859375,
+        "file_mib": 44.3125,
+        "kernel_mib": 10.578125
+      }
+    ],
+    "late_growth_mib": 2.953125,
+    "peak_mib": 94.4609375,
+    "passed_memory_thresholds": true,
+    "audit": {
+      "accepted": 260,
+      "distinctEditedSteps": 256,
+      "artifactHashesChecked": 4416,
+      "oldSnapshots": [
+        {
+          "edit": 1,
+          "pitch": 16,
+          "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+        },
+        {
+          "edit": 32,
+          "pitch": 17.5,
+          "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+        },
+        {
+          "edit": 64,
+          "pitch": 19,
+          "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+        },
+        {
+          "edit": 128,
+          "pitch": 22.25,
+          "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+        },
+        {
+          "edit": 192,
+          "pitch": 25.5,
+          "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+        },
+        {
+          "edit": 256,
+          "pitch": 28.75,
+          "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+        }
+      ],
+      "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+    },
+    "cgroup_events": {
+      "limit": 536870912,
+      "swap": 0,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      }
+    },
+    "outer_wall_s": 162.23190383399998
+  },
+  "runner/history": {
+    "checkpoints": [
+      {
+        "edits": 0,
+        "current_mib": 91.86328125,
+        "peak_mib": 103.93359375,
+        "anon_mib": 19.34375,
+        "file_mib": 70.25,
+        "kernel_mib": 2.22265625
+      },
+      {
+        "edits": 1,
+        "current_mib": 92.4296875,
+        "peak_mib": 105.73046875,
+        "anon_mib": 20.48046875,
+        "file_mib": 69.6328125,
+        "kernel_mib": 2.29296875
+      },
+      {
+        "edits": 4,
+        "current_mib": 88.7734375,
+        "peak_mib": 105.921875,
+        "anon_mib": 16.83984375,
+        "file_mib": 69.6875,
+        "kernel_mib": 2.234375
+      },
+      {
+        "edits": 8,
+        "current_mib": 94.1640625,
+        "peak_mib": 105.921875,
+        "anon_mib": 21.6796875,
+        "file_mib": 69.7578125,
+        "kernel_mib": 2.55078125
+      },
+      {
+        "edits": 12,
+        "current_mib": 90.93359375,
+        "peak_mib": 105.921875,
+        "anon_mib": 18.44921875,
+        "file_mib": 69.83984375,
+        "kernel_mib": 2.5546875
+      },
+      {
+        "edits": 16,
+        "current_mib": 95.2421875,
+        "peak_mib": 108.30859375,
+        "anon_mib": 22.2578125,
+        "file_mib": 69.91796875,
+        "kernel_mib": 2.82421875
+      },
+      {
+        "edits": 20,
+        "current_mib": 90.79296875,
+        "peak_mib": 108.30859375,
+        "anon_mib": 17.78515625,
+        "file_mib": 69.9921875,
+        "kernel_mib": 2.79296875
+      },
+      {
+        "edits": 24,
+        "current_mib": 94.6953125,
+        "peak_mib": 108.30859375,
+        "anon_mib": 21.421875,
+        "file_mib": 70.06640625,
+        "kernel_mib": 3.05859375
+      },
+      {
+        "edits": 28,
+        "current_mib": 90.19140625,
+        "peak_mib": 108.671875,
+        "anon_mib": 16.953125,
+        "file_mib": 70.14453125,
+        "kernel_mib": 3.03125
+      },
+      {
+        "edits": 32,
+        "current_mib": 94.125,
+        "peak_mib": 108.671875,
+        "anon_mib": 20.62109375,
+        "file_mib": 70.21875,
+        "kernel_mib": 3.28515625
+      },
+      {
+        "edits": 36,
+        "current_mib": 91.11328125,
+        "peak_mib": 111.21484375,
+        "anon_mib": 17.046875,
+        "file_mib": 70.484375,
+        "kernel_mib": 3.40625
+      },
+      {
+        "edits": 40,
+        "current_mib": 95.2890625,
+        "peak_mib": 111.21484375,
+        "anon_mib": 21.0625,
+        "file_mib": 70.5625,
+        "kernel_mib": 3.55859375
+      },
+      {
+        "edits": 44,
+        "current_mib": 89.44140625,
+        "peak_mib": 111.2265625,
+        "anon_mib": 14.91015625,
+        "file_mib": 70.6328125,
+        "kernel_mib": 3.8125
+      },
+      {
+        "edits": 48,
+        "current_mib": 95.36328125,
+        "peak_mib": 111.2265625,
+        "anon_mib": 20.71484375,
+        "file_mib": 70.70703125,
+        "kernel_mib": 3.765625
+      },
+      {
+        "edits": 52,
+        "current_mib": 99.1796875,
+        "peak_mib": 111.79296875,
+        "anon_mib": 24.32421875,
+        "file_mib": 70.78125,
+        "kernel_mib": 4.02734375
+      },
+      {
+        "edits": 56,
+        "current_mib": 95.75,
+        "peak_mib": 111.79296875,
+        "anon_mib": 20.7578125,
+        "file_mib": 70.86328125,
+        "kernel_mib": 4.0234375
+      },
+      {
+        "edits": 60,
+        "current_mib": 99.69921875,
+        "peak_mib": 112.59375,
+        "anon_mib": 24.3359375,
+        "file_mib": 70.93359375,
+        "kernel_mib": 4.28515625
+      },
+      {
+        "edits": 64,
+        "current_mib": 97.44140625,
+        "peak_mib": 112.59375,
+        "anon_mib": 22.046875,
+        "file_mib": 71.01953125,
+        "kernel_mib": 4.33203125
+      },
+      {
+        "edits": 68,
+        "current_mib": 94.9921875,
+        "peak_mib": 112.86328125,
+        "anon_mib": 19.390625,
+        "file_mib": 71.09375,
+        "kernel_mib": 4.35546875
+      },
+      {
+        "edits": 72,
+        "current_mib": 98.86328125,
+        "peak_mib": 112.86328125,
+        "anon_mib": 22.97265625,
+        "file_mib": 71.05078125,
+        "kernel_mib": 4.625
+      },
+      {
+        "edits": 76,
+        "current_mib": 94.45703125,
+        "peak_mib": 113.8125,
+        "anon_mib": 18.52734375,
+        "file_mib": 71.30859375,
+        "kernel_mib": 4.58984375
+      },
+      {
+        "edits": 80,
+        "current_mib": 98.94140625,
+        "peak_mib": 113.8125,
+        "anon_mib": 22.51171875,
+        "file_mib": 71.3828125,
+        "kernel_mib": 4.85546875
+      },
+      {
+        "edits": 84,
+        "current_mib": 102.6953125,
+        "peak_mib": 114.90234375,
+        "anon_mib": 26.08984375,
+        "file_mib": 71.45703125,
+        "kernel_mib": 5.1171875
+      },
+      {
+        "edits": 88,
+        "current_mib": 98.2890625,
+        "peak_mib": 114.90234375,
+        "anon_mib": 21.62890625,
+        "file_mib": 71.53125,
+        "kernel_mib": 5.09375
+      },
+      {
+        "edits": 92,
+        "current_mib": 102.17578125,
+        "peak_mib": 115.09765625,
+        "anon_mib": 25.20703125,
+        "file_mib": 71.6015625,
+        "kernel_mib": 5.359375
+      },
+      {
+        "edits": 96,
+        "current_mib": 98.21484375,
+        "peak_mib": 116.171875,
+        "anon_mib": 21.13671875,
+        "file_mib": 71.68359375,
+        "kernel_mib": 5.33203125
+      },
+      {
+        "edits": 100,
+        "current_mib": 102.33984375,
+        "peak_mib": 116.171875,
+        "anon_mib": 24.73828125,
+        "file_mib": 71.7578125,
+        "kernel_mib": 5.6015625
+      },
+      {
+        "edits": 104,
+        "current_mib": 98.69140625,
+        "peak_mib": 117.1171875,
+        "anon_mib": 21.17578125,
+        "file_mib": 71.83203125,
+        "kernel_mib": 5.60546875
+      },
+      {
+        "edits": 108,
+        "current_mib": 103.00390625,
+        "peak_mib": 117.1171875,
+        "anon_mib": 25.16796875,
+        "file_mib": 71.90625,
+        "kernel_mib": 5.86328125
+      },
+      {
+        "edits": 112,
+        "current_mib": 98.66796875,
+        "peak_mib": 117.69140625,
+        "anon_mib": 20.70703125,
+        "file_mib": 71.98046875,
+        "kernel_mib": 5.8359375
+      },
+      {
+        "edits": 116,
+        "current_mib": 102.58984375,
+        "peak_mib": 117.69140625,
+        "anon_mib": 24.28515625,
+        "file_mib": 72.05859375,
+        "kernel_mib": 6.09765625
+      },
+      {
+        "edits": 120,
+        "current_mib": 99.01171875,
+        "peak_mib": 118.5,
+        "anon_mib": 20.70703125,
+        "file_mib": 72.1328125,
+        "kernel_mib": 6.1015625
+      },
+      {
+        "edits": 124,
+        "current_mib": 103.08203125,
+        "peak_mib": 118.5,
+        "anon_mib": 24.28515625,
+        "file_mib": 72.203125,
+        "kernel_mib": 6.3671875
+      },
+      {
+        "edits": 128,
+        "current_mib": 98.765625,
+        "peak_mib": 118.5,
+        "anon_mib": 20.13671875,
+        "file_mib": 72.2734375,
+        "kernel_mib": 6.3359375
+      },
+      {
+        "edits": 132,
+        "current_mib": 102.66015625,
+        "peak_mib": 118.5,
+        "anon_mib": 23.71484375,
+        "file_mib": 72.3515625,
+        "kernel_mib": 6.59375
+      },
+      {
+        "edits": 136,
+        "current_mib": 98.984375,
+        "peak_mib": 119.51953125,
+        "anon_mib": 19.5625,
+        "file_mib": 72.43359375,
+        "kernel_mib": 6.87109375
+      },
+      {
+        "edits": 140,
+        "current_mib": 103.28125,
+        "peak_mib": 119.51953125,
+        "anon_mib": 24.00390625,
+        "file_mib": 72.40625,
+        "kernel_mib": 6.8671875
+      },
+      {
+        "edits": 144,
+        "current_mib": 107.30078125,
+        "peak_mib": 119.51953125,
+        "anon_mib": 27.58203125,
+        "file_mib": 72.484375,
+        "kernel_mib": 7.140625
+      },
+      {
+        "edits": 148,
+        "current_mib": 102.9765625,
+        "peak_mib": 119.51953125,
+        "anon_mib": 23.109375,
+        "file_mib": 72.5546875,
+        "kernel_mib": 7.109375
+      },
+      {
+        "edits": 152,
+        "current_mib": 106.91015625,
+        "peak_mib": 119.51953125,
+        "anon_mib": 26.6875,
+        "file_mib": 72.62890625,
+        "kernel_mib": 7.38671875
+      },
+      {
+        "edits": 156,
+        "current_mib": 103.40234375,
+        "peak_mib": 119.9140625,
+        "anon_mib": 23.1328125,
+        "file_mib": 72.7109375,
+        "kernel_mib": 7.37890625
+      },
+      {
+        "edits": 160,
+        "current_mib": 107.4296875,
+        "peak_mib": 119.9140625,
+        "anon_mib": 26.7578125,
+        "file_mib": 72.78515625,
+        "kernel_mib": 7.65625
+      },
+      {
+        "edits": 164,
+        "current_mib": 102.890625,
+        "peak_mib": 121.07421875,
+        "anon_mib": 22.2890625,
+        "file_mib": 72.85546875,
+        "kernel_mib": 7.6171875
+      },
+      {
+        "edits": 168,
+        "current_mib": 106.890625,
+        "peak_mib": 121.07421875,
+        "anon_mib": 25.8671875,
+        "file_mib": 72.9296875,
+        "kernel_mib": 7.8828125
+      },
+      {
+        "edits": 172,
+        "current_mib": 103.39453125,
+        "peak_mib": 121.43359375,
+        "anon_mib": 22.2890625,
+        "file_mib": 73.00390625,
+        "kernel_mib": 7.87890625
+      },
+      {
+        "edits": 176,
+        "current_mib": 107.140625,
+        "peak_mib": 121.43359375,
+        "anon_mib": 25.8671875,
+        "file_mib": 73.0859375,
+        "kernel_mib": 8.16015625
+      },
+      {
+        "edits": 180,
+        "current_mib": 102.75390625,
+        "peak_mib": 121.43359375,
+        "anon_mib": 21.39453125,
+        "file_mib": 73.15625,
+        "kernel_mib": 8.11328125
+      },
+      {
+        "edits": 184,
+        "current_mib": 106.703125,
+        "peak_mib": 121.43359375,
+        "anon_mib": 24.97265625,
+        "file_mib": 73.23046875,
+        "kernel_mib": 8.3828125
+      },
+      {
+        "edits": 188,
+        "current_mib": 103.1484375,
+        "peak_mib": 122.40625,
+        "anon_mib": 21.39453125,
+        "file_mib": 73.30859375,
+        "kernel_mib": 8.38671875
+      },
+      {
+        "edits": 192,
+        "current_mib": 107.04296875,
+        "peak_mib": 122.40625,
+        "anon_mib": 24.97265625,
+        "file_mib": 73.3828125,
+        "kernel_mib": 8.64453125
+      },
+      {
+        "edits": 196,
+        "current_mib": 102.76171875,
+        "peak_mib": 122.40625,
+        "anon_mib": 20.5,
+        "file_mib": 73.46484375,
+        "kernel_mib": 8.62109375
+      },
+      {
+        "edits": 200,
+        "current_mib": 106.49609375,
+        "peak_mib": 122.40625,
+        "anon_mib": 24.078125,
+        "file_mib": 73.54296875,
+        "kernel_mib": 8.875
+      },
+      {
+        "edits": 204,
+        "current_mib": 102.61328125,
+        "peak_mib": 122.76953125,
+        "anon_mib": 19.8984375,
+        "file_mib": 73.6171875,
+        "kernel_mib": 8.86328125
+      },
+      {
+        "edits": 208,
+        "current_mib": 107.01171875,
+        "peak_mib": 122.76953125,
+        "anon_mib": 24.078125,
+        "file_mib": 73.69140625,
+        "kernel_mib": 9.15234375
+      },
+      {
+        "edits": 212,
+        "current_mib": 110.9921875,
+        "peak_mib": 123.84375,
+        "anon_mib": 27.66015625,
+        "file_mib": 73.765625,
+        "kernel_mib": 9.421875
+      },
+      {
+        "edits": 216,
+        "current_mib": 106.5078125,
+        "peak_mib": 123.84375,
+        "anon_mib": 23.1875,
+        "file_mib": 73.82421875,
+        "kernel_mib": 9.40234375
+      },
+      {
+        "edits": 220,
+        "current_mib": 110.37109375,
+        "peak_mib": 123.84375,
+        "anon_mib": 26.765625,
+        "file_mib": 73.8984375,
+        "kernel_mib": 9.66015625
+      },
+      {
+        "edits": 224,
+        "current_mib": 106.95703125,
+        "peak_mib": 123.84375,
+        "anon_mib": 23.1875,
+        "file_mib": 73.97265625,
+        "kernel_mib": 9.66015625
+      },
+      {
+        "edits": 228,
+        "current_mib": 110.8671875,
+        "peak_mib": 123.84375,
+        "anon_mib": 26.765625,
+        "file_mib": 74.046875,
+        "kernel_mib": 9.9296875
+      },
+      {
+        "edits": 232,
+        "current_mib": 106.49609375,
+        "peak_mib": 123.84375,
+        "anon_mib": 22.3671875,
+        "file_mib": 74.12109375,
+        "kernel_mib": 9.89453125
+      },
+      {
+        "edits": 236,
+        "current_mib": 110.375,
+        "peak_mib": 123.84375,
+        "anon_mib": 25.9453125,
+        "file_mib": 74.19921875,
+        "kernel_mib": 10.16796875
+      },
+      {
+        "edits": 240,
+        "current_mib": 106.8359375,
+        "peak_mib": 124.25,
+        "anon_mib": 22.37109375,
+        "file_mib": 74.2734375,
+        "kernel_mib": 10.16015625
+      },
+      {
+        "edits": 244,
+        "current_mib": 110.42578125,
+        "peak_mib": 124.25,
+        "anon_mib": 25.65625,
+        "file_mib": 74.34765625,
+        "kernel_mib": 10.41015625
+      },
+      {
+        "edits": 248,
+        "current_mib": 106.26953125,
+        "peak_mib": 125.05078125,
+        "anon_mib": 21.33984375,
+        "file_mib": 74.421875,
+        "kernel_mib": 10.40234375
+      },
+      {
+        "edits": 252,
+        "current_mib": 110.29296875,
+        "peak_mib": 125.05078125,
+        "anon_mib": 24.921875,
+        "file_mib": 74.5078125,
+        "kernel_mib": 10.68359375
+      },
+      {
+        "edits": 256,
+        "current_mib": 106.8125,
+        "peak_mib": 125.21875,
+        "anon_mib": 21.34375,
+        "file_mib": 74.58984375,
+        "kernel_mib": 10.65625
+      }
+    ],
+    "late_growth_mib": 8.046875,
+    "peak_mib": 125.21875,
+    "passed_memory_thresholds": true,
+    "audit": {
+      "accepted": 260,
+      "distinctEditedSteps": 256,
+      "artifactHashesChecked": 4416,
+      "oldSnapshots": [
+        {
+          "edit": 1,
+          "pitch": 16,
+          "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+        },
+        {
+          "edit": 32,
+          "pitch": 17.5,
+          "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+        },
+        {
+          "edit": 64,
+          "pitch": 19,
+          "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+        },
+        {
+          "edit": 128,
+          "pitch": 22.25,
+          "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+        },
+        {
+          "edit": 192,
+          "pitch": 25.5,
+          "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+        },
+        {
+          "edit": 256,
+          "pitch": 28.75,
+          "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+        }
+      ],
+      "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+    },
+    "cgroup_events": {
+      "limit": 536870912,
+      "swap": 0,
+      "events": {
+        "low": "0",
+        "high": "0",
+        "max": "0",
+        "oom": "0",
+        "oom_kill": "0",
+        "oom_group_kill": "0"
+      }
+    },
+    "outer_wall_s": 161.79578962499994
+  },
+  "retirement_only_trial": {
+    "checkpoints": [
+      {
+        "edits": 0,
+        "current_mib": 36.453125,
+        "peak_mib": 58.5234375,
+        "anon_mib": 19.26171875,
+        "file_mib": 15.09765625,
+        "kernel_mib": 2.0625
+      },
+      {
+        "edits": 1,
+        "current_mib": 42.109375,
+        "peak_mib": 58.5234375,
+        "anon_mib": 20.4140625,
+        "file_mib": 19.46484375,
+        "kernel_mib": 2.15234375
+      },
+      {
+        "edits": 4,
+        "current_mib": 37.36328125,
+        "peak_mib": 60.79296875,
+        "anon_mib": 16.8203125,
+        "file_mib": 18.38671875,
+        "kernel_mib": 2.12109375
+      },
+      {
+        "edits": 8,
+        "current_mib": 33.9609375,
+        "peak_mib": 63.73046875,
+        "anon_mib": 21.734375,
+        "file_mib": 9.8203125,
+        "kernel_mib": 2.40234375
+      },
+      {
+        "edits": 12,
+        "current_mib": 37.83984375,
+        "peak_mib": 63.73046875,
+        "anon_mib": 18.515625,
+        "file_mib": 16.734375,
+        "kernel_mib": 2.4296875
+      },
+      {
+        "edits": 16,
+        "current_mib": 40.05859375,
+        "peak_mib": 63.73046875,
+        "anon_mib": 22.171875,
+        "file_mib": 15.10546875,
+        "kernel_mib": 2.6875
+      },
+      {
+        "edits": 20,
+        "current_mib": 35.69140625,
+        "peak_mib": 63.73046875,
+        "anon_mib": 17.69921875,
+        "file_mib": 15.09765625,
+        "kernel_mib": 2.65234375
+      },
+      {
+        "edits": 24,
+        "current_mib": 37.3125,
+        "peak_mib": 63.73046875,
+        "anon_mib": 21.28515625,
+        "file_mib": 13.0390625,
+        "kernel_mib": 2.9140625
+      },
+      {
+        "edits": 28,
+        "current_mib": 42.953125,
+        "peak_mib": 66.73828125,
+        "anon_mib": 16.8125,
+        "file_mib": 23.16015625,
+        "kernel_mib": 2.90625
+      },
+      {
+        "edits": 32,
+        "current_mib": 43.1015625,
+        "peak_mib": 66.73828125,
+        "anon_mib": 20.421875,
+        "file_mib": 19.49609375,
+        "kernel_mib": 3.1640625
+      },
+      {
+        "edits": 36,
+        "current_mib": 42.296875,
+        "peak_mib": 66.73828125,
+        "anon_mib": 16.92578125,
+        "file_mib": 22.16796875,
+        "kernel_mib": 3.13671875
+      },
+      {
+        "edits": 40,
+        "current_mib": 51.609375,
+        "peak_mib": 66.73828125,
+        "anon_mib": 21.16015625,
+        "file_mib": 26.875,
+        "kernel_mib": 3.41796875
+      },
+      {
+        "edits": 44,
+        "current_mib": 50.8671875,
+        "peak_mib": 67.59765625,
+        "anon_mib": 16.1015625,
+        "file_mib": 22.3125,
+        "kernel_mib": 3.609375
+      },
+      {
+        "edits": 48,
+        "current_mib": 34.66015625,
+        "peak_mib": 67.59765625,
+        "anon_mib": 20.328125,
+        "file_mib": 10.58984375,
+        "kernel_mib": 3.63671875
+      },
+      {
+        "edits": 52,
+        "current_mib": 52.328125,
+        "peak_mib": 68.8828125,
+        "anon_mib": 23.90625,
+        "file_mib": 24.3828125,
+        "kernel_mib": 3.92578125
+      },
+      {
+        "edits": 56,
+        "current_mib": 35.2421875,
+        "peak_mib": 68.8828125,
+        "anon_mib": 20.57421875,
+        "file_mib": 10.74609375,
+        "kernel_mib": 3.9140625
+      },
+      {
+        "edits": 60,
+        "current_mib": 51.91015625,
+        "peak_mib": 72.54296875,
+        "anon_mib": 24.18359375,
+        "file_mib": 23.3046875,
+        "kernel_mib": 4.1796875
+      },
+      {
+        "edits": 64,
+        "current_mib": 53.3046875,
+        "peak_mib": 72.54296875,
+        "anon_mib": 20.60546875,
+        "file_mib": 28.265625,
+        "kernel_mib": 4.21875
+      },
+      {
+        "edits": 68,
+        "current_mib": 50.484375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 24.18359375,
+        "file_mib": 21.7734375,
+        "kernel_mib": 4.45703125
+      },
+      {
+        "edits": 72,
+        "current_mib": 49.12109375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 19.73046875,
+        "file_mib": 24.77734375,
+        "kernel_mib": 4.42578125
+      },
+      {
+        "edits": 76,
+        "current_mib": 54.9609375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 23.59375,
+        "file_mib": 26.6796875,
+        "kernel_mib": 4.6875
+      },
+      {
+        "edits": 80,
+        "current_mib": 45.2421875,
+        "peak_mib": 72.54296875,
+        "anon_mib": 20.015625,
+        "file_mib": 20.42578125,
+        "kernel_mib": 4.6875
+      },
+      {
+        "edits": 84,
+        "current_mib": 46.35546875,
+        "peak_mib": 72.54296875,
+        "anon_mib": 23.640625,
+        "file_mib": 17.7109375,
+        "kernel_mib": 4.95703125
+      },
+      {
+        "edits": 88,
+        "current_mib": 40.03125,
+        "peak_mib": 72.54296875,
+        "anon_mib": 19.171875,
+        "file_mib": 15.91796875,
+        "kernel_mib": 4.91796875
+      },
+      {
+        "edits": 92,
+        "current_mib": 46.625,
+        "peak_mib": 72.54296875,
+        "anon_mib": 22.75,
+        "file_mib": 18.40234375,
+        "kernel_mib": 5.35546875
+      },
+      {
+        "edits": 96,
+        "current_mib": 35.18359375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 19.4453125,
+        "file_mib": 10.56640625,
+        "kernel_mib": 5.16015625
+      },
+      {
+        "edits": 100,
+        "current_mib": 48.67578125,
+        "peak_mib": 72.54296875,
+        "anon_mib": 23.21875,
+        "file_mib": 19.98828125,
+        "kernel_mib": 5.46875
+      },
+      {
+        "edits": 104,
+        "current_mib": 35.09375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 18.890625,
+        "file_mib": 10.72265625,
+        "kernel_mib": 5.39453125
+      },
+      {
+        "edits": 108,
+        "current_mib": 45.3828125,
+        "peak_mib": 72.54296875,
+        "anon_mib": 22.828125,
+        "file_mib": 16.88671875,
+        "kernel_mib": 5.66796875
+      },
+      {
+        "edits": 112,
+        "current_mib": 36.66015625,
+        "peak_mib": 72.54296875,
+        "anon_mib": 18.65234375,
+        "file_mib": 12.18359375,
+        "kernel_mib": 5.65234375
+      },
+      {
+        "edits": 116,
+        "current_mib": 39.84765625,
+        "peak_mib": 72.54296875,
+        "anon_mib": 22.83203125,
+        "file_mib": 10.953125,
+        "kernel_mib": 5.9375
+      },
+      {
+        "edits": 120,
+        "current_mib": 43.71484375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 26.41015625,
+        "file_mib": 11.02734375,
+        "kernel_mib": 6.20703125
+      },
+      {
+        "edits": 124,
+        "current_mib": 51.83984375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 21.94921875,
+        "file_mib": 23.65234375,
+        "kernel_mib": 6.1796875
+      },
+      {
+        "edits": 128,
+        "current_mib": 57.52734375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 26.125,
+        "file_mib": 24.78125,
+        "kernel_mib": 6.44921875
+      },
+      {
+        "edits": 132,
+        "current_mib": 56.87890625,
+        "peak_mib": 72.54296875,
+        "anon_mib": 22.546875,
+        "file_mib": 27.6953125,
+        "kernel_mib": 6.4765625
+      },
+      {
+        "edits": 136,
+        "current_mib": 44.375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 26.12890625,
+        "file_mib": 11.3359375,
+        "kernel_mib": 6.703125
+      },
+      {
+        "edits": 140,
+        "current_mib": 55.90234375,
+        "peak_mib": 72.54296875,
+        "anon_mib": 21.6640625,
+        "file_mib": 27.44921875,
+        "kernel_mib": 6.6953125
+      },
+      {
+        "edits": 144,
+        "current_mib": 60.81640625,
+        "peak_mib": 72.94921875,
+        "anon_mib": 25.2421875,
+        "file_mib": 28.58984375,
+        "kernel_mib": 6.9609375
+      },
+      {
+        "edits": 148,
+        "current_mib": 41.58203125,
+        "peak_mib": 76.6484375,
+        "anon_mib": 21.6640625,
+        "file_mib": 12.83984375,
+        "kernel_mib": 6.9296875
+      },
+      {
+        "edits": 152,
+        "current_mib": 55.56640625,
+        "peak_mib": 76.6484375,
+        "anon_mib": 25.2421875,
+        "file_mib": 23.015625,
+        "kernel_mib": 7.21875
+      },
+      {
+        "edits": 156,
+        "current_mib": 50.9453125,
+        "peak_mib": 76.6484375,
+        "anon_mib": 20.76953125,
+        "file_mib": 22.96875,
+        "kernel_mib": 7.1796875
+      },
+      {
+        "edits": 160,
+        "current_mib": 54.609375,
+        "peak_mib": 76.6484375,
+        "anon_mib": 24.3515625,
+        "file_mib": 22.62109375,
+        "kernel_mib": 7.44921875
+      },
+      {
+        "edits": 164,
+        "current_mib": 57.91015625,
+        "peak_mib": 76.6484375,
+        "anon_mib": 20.7734375,
+        "file_mib": 29.4375,
+        "kernel_mib": 7.46484375
+      },
+      {
+        "edits": 168,
+        "current_mib": 58.56640625,
+        "peak_mib": 76.6484375,
+        "anon_mib": 24.3515625,
+        "file_mib": 26.3046875,
+        "kernel_mib": 7.71484375
+      },
+      {
+        "edits": 172,
+        "current_mib": 42.96484375,
+        "peak_mib": 76.6484375,
+        "anon_mib": 19.87890625,
+        "file_mib": 15.41015625,
+        "kernel_mib": 7.6484375
+      },
+      {
+        "edits": 176,
+        "current_mib": 57.36328125,
+        "peak_mib": 76.6484375,
+        "anon_mib": 23.45703125,
+        "file_mib": 25.92578125,
+        "kernel_mib": 7.953125
+      },
+      {
+        "edits": 180,
+        "current_mib": 51.875,
+        "peak_mib": 79.63671875,
+        "anon_mib": 19.27734375,
+        "file_mib": 24.47265625,
+        "kernel_mib": 7.9296875
+      },
+      {
+        "edits": 184,
+        "current_mib": 58.53125,
+        "peak_mib": 79.63671875,
+        "anon_mib": 23.45703125,
+        "file_mib": 26.7265625,
+        "kernel_mib": 8.234375
+      },
+      {
+        "edits": 188,
+        "current_mib": 63.14453125,
+        "peak_mib": 79.63671875,
+        "anon_mib": 27.03515625,
+        "file_mib": 27.48828125,
+        "kernel_mib": 8.4921875
+      },
+      {
+        "edits": 192,
+        "current_mib": 58.9921875,
+        "peak_mib": 79.63671875,
+        "anon_mib": 22.5625,
+        "file_mib": 27.88671875,
+        "kernel_mib": 8.46875
+      },
+      {
+        "edits": 196,
+        "current_mib": 59.34375,
+        "peak_mib": 79.63671875,
+        "anon_mib": 26.140625,
+        "file_mib": 24.40625,
+        "kernel_mib": 8.71875
+      },
+      {
+        "edits": 200,
+        "current_mib": 60.2578125,
+        "peak_mib": 79.63671875,
+        "anon_mib": 22.5625,
+        "file_mib": 28.82421875,
+        "kernel_mib": 8.7265625
+      },
+      {
+        "edits": 204,
+        "current_mib": 64.4296875,
+        "peak_mib": 79.63671875,
+        "anon_mib": 26.140625,
+        "file_mib": 29.25390625,
+        "kernel_mib": 8.9921875
+      },
+      {
+        "edits": 208,
+        "current_mib": 56.37109375,
+        "peak_mib": 79.63671875,
+        "anon_mib": 21.66796875,
+        "file_mib": 25.70703125,
+        "kernel_mib": 8.94140625
+      },
+      {
+        "edits": 212,
+        "current_mib": 59.53125,
+        "peak_mib": 79.63671875,
+        "anon_mib": 25.3359375,
+        "file_mib": 24.86328125,
+        "kernel_mib": 9.19921875
+      },
+      {
+        "edits": 216,
+        "current_mib": 58.80859375,
+        "peak_mib": 79.63671875,
+        "anon_mib": 21.7578125,
+        "file_mib": 27.62109375,
+        "kernel_mib": 9.22265625
+      },
+      {
+        "edits": 220,
+        "current_mib": 64.6875,
+        "peak_mib": 79.63671875,
+        "anon_mib": 25.3359375,
+        "file_mib": 29.7421875,
+        "kernel_mib": 9.5078125
+      },
+      {
+        "edits": 224,
+        "current_mib": 58.046875,
+        "peak_mib": 80.265625,
+        "anon_mib": 20.9375,
+        "file_mib": 27.5234375,
+        "kernel_mib": 9.4609375
+      },
+      {
+        "edits": 228,
+        "current_mib": 57.875,
+        "peak_mib": 80.265625,
+        "anon_mib": 24.515625,
+        "file_mib": 23.56640625,
+        "kernel_mib": 9.71875
+      },
+      {
+        "edits": 232,
+        "current_mib": 56.765625,
+        "peak_mib": 81.23828125,
+        "anon_mib": 20.94140625,
+        "file_mib": 25.9296875,
+        "kernel_mib": 9.72265625
+      },
+      {
+        "edits": 236,
+        "current_mib": 64.65234375,
+        "peak_mib": 81.23828125,
+        "anon_mib": 24.51953125,
+        "file_mib": 29.98046875,
+        "kernel_mib": 10.01953125
+      },
+      {
+        "edits": 240,
+        "current_mib": 58.08203125,
+        "peak_mib": 81.23828125,
+        "anon_mib": 20.12890625,
+        "file_mib": 27.875,
+        "kernel_mib": 9.97265625
+      },
+      {
+        "edits": 244,
+        "current_mib": 61.78515625,
+        "peak_mib": 81.23828125,
+        "anon_mib": 23.7109375,
+        "file_mib": 27.7734375,
+        "kernel_mib": 10.2265625
+      },
+      {
+        "edits": 248,
+        "current_mib": 57.296875,
+        "peak_mib": 81.23828125,
+        "anon_mib": 19.53125,
+        "file_mib": 27.4375,
+        "kernel_mib": 10.2265625
+      },
+      {
+        "edits": 252,
+        "current_mib": 57.3203125,
+        "peak_mib": 81.23828125,
+        "anon_mib": 23.71875,
+        "file_mib": 22.921875,
+        "kernel_mib": 10.5
+      },
+      {
+        "edits": 256,
+        "current_mib": 82.984375,
+        "peak_mib": 94.6640625,
+        "anon_mib": 27.39453125,
+        "file_mib": 44.6015625,
+        "kernel_mib": 10.828125
+      }
+    ],
+    "late_growth_mib": 25.45703125,
+    "peak_mib": 94.6640625,
+    "passed_memory_thresholds": false,
+    "audit": {
+      "accepted": 260,
+      "distinctEditedSteps": 256,
+      "artifactHashesChecked": 4416,
+      "oldSnapshots": [
+        {
+          "edit": 1,
+          "pitch": 16,
+          "revision": "sha256:7d4dca73b1323b6ac0f37d62892e013831e235589e41cc468b8c63c50d152a7e"
+        },
+        {
+          "edit": 32,
+          "pitch": 17.5,
+          "revision": "sha256:5108d2c5172a9b85b5fa4d7cf6825ded22c09b3010df941a8e0f391e7c669c53"
+        },
+        {
+          "edit": 64,
+          "pitch": 19,
+          "revision": "sha256:67e359f6f7121bbbe4982cc66503441d0516e277bdedb29de403bfe7729b3a3d"
+        },
+        {
+          "edit": 128,
+          "pitch": 22.25,
+          "revision": "sha256:edf6dcc7b56a88856b0b0782e412786c0c64e92428577ce653ba94b6de41c082"
+        },
+        {
+          "edit": 192,
+          "pitch": 25.5,
+          "revision": "sha256:162d5ff75c36b16e5e333f3bb8cdf0ff221604d715fab096968b048e169d3abc"
+        },
+        {
+          "edit": 256,
+          "pitch": 28.75,
+          "revision": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+        }
+      ],
+      "headAfterReopen": "sha256:f618381bae247025f2a8dec90c445f1896291ee8e98748ff9e763259a7cd5718"
+    },
+    "cgroup_events": null,
+    "outer_wall_s": null
+  }
+}

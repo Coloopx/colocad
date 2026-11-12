@@ -6,7 +6,10 @@ p.add_argument('output',type=Path);p.add_argument('--runtime',type=Path,help='un
 p.add_argument('--cpu',type=int,default=0);p.add_argument('--history-queries',type=int,default=0)
 p.add_argument('--history-edits',type=int,default=0)
 p.add_argument('--cache-probe',action='store_true',help='after 64 geometry edits, test Linux cache advice on expired revisions in this private output')
+p.add_argument('--guest-output',type=Path,help='empty existing directory on the Docker daemon, for a native filesystem history run')
 a=p.parse_args()
+if a.guest_output and (not a.guest_output.is_absolute() or not (a.history_queries or a.history_edits)):
+    p.error('--guest-output needs an absolute daemon directory and a history workload')
 if min(a.history_queries,a.history_edits,a.cpu)<0 or (a.history_queries and a.history_edits):p.error('select one nonnegative history workload')
 if a.cache_probe and a.history_edits!=64:p.error('the cache probe requires 64 edits')
 here=Path(__file__).resolve().parent;repo=here.parents[1];out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
@@ -14,12 +17,19 @@ pkg=(a.runtime or repo).resolve();inputs=out/'inputs'
 subprocess.run(['node',here/'prepare.mjs',inputs],check=True)
 for backend in (['history'] if (a.history_queries or a.history_edits) else ['colocad','cadquery','build123d']):
     dest=out/backend;dest.mkdir()
+    project=a.guest_output or dest
+    if a.guest_output:
+        subprocess.run(['docker','run','--rm','--network','none','--mount',f'type=bind,src={project},dst=/check,readonly',
+            'colocad-memory:20261111','python','-c','from pathlib import Path; assert not any(Path("/check").iterdir())'],check=True)
     cmd=['docker','run','--rm','--network','none','--cpus','1','--cpuset-cpus',str(a.cpu),'--memory','512m','--memory-swap','512m',
-        '-v',f'{pkg}:/pkg:ro','-v',f'{repo}/benchmarks:/pkg/benchmarks:ro','-v',f'{inputs}:/inputs:ro','-v',f'{dest}:/out','colocad-memory:20261111']
+        '-v',f'{pkg}:/pkg:ro','-v',f'{repo}/benchmarks:/pkg/benchmarks:ro','-v',f'{inputs}:/inputs:ro','-v',f'{project}:/out','colocad-memory:20261111']
     if a.cache_probe:cmd+=['python','/pkg/benchmarks/field-task/cache-probe.py']
     if backend!='history':cmd+=['python','/pkg/benchmarks/memory/monitor.py']
     cmd+=(['node','/pkg/benchmarks/field-task/colocad.mjs','/inputs','/out',str(a.history_queries),str(a.history_edits)] if backend in ['history','colocad'] else
           ['/opt/'+{'cadquery':'cq','build123d':'bd'}[backend]+'/bin/python','/pkg/benchmarks/field-task/python-backends.py',backend,'/inputs','/out'])
     subprocess.run(cmd,check=True)
+    if a.guest_output:
+        subprocess.run(['docker','run','--rm','--network','none','-v',f'{project}:/from:ro','-v',f'{dest}:/to',
+            'colocad-memory:20261111','cp','-r','/from/.','/to'],check=True)
     if backend!='history':
         m=json.loads((dest/'measurement.json').read_text());assert m['status']=='ok', (backend,(dest/'stderr.log').read_text())

@@ -2,6 +2,11 @@
 
 Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
 
+## 0.1.0-alpha.11-rc.1 (development candidate)
+
+- On Linux a successful geometry commit releases clean pages from the preceding revision and the new exchange files. The KK60 retrofit retained all 256 edited STEP deliveries. [Sandbox memory and geometry checks](docs/revision-cache.md).
+- Interrupted legacy migration can recover when a Linux container retains its exited writer as a zombie.
+
 ## [0.1.0-alpha.10](https://github.com/Coloopx/colocad/releases/tag/v0.1.0-alpha.10) - 2026-11-12
 
 - Build cubic landmark lofts, exact open and closed offset shells, and loft Boolean differences in an explicit local OCCT WASM path.

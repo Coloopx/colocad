@@ -25,3 +25,17 @@ python3 benchmarks/field-task/analyze.py RAW_SESSIONS out/field out/field/readba
 ```
 
 The optional [cache probe](cache-probe.py) runs only in its own fresh, completed experiment after the producer exits. It excludes the current head and live database, records a no-op and advisory-release sample, and reopens all 68 STEP hashes. No host-wide cache reset is used.
+
+## 256 saved revisions
+
+[Acceptance thresholds](revision-gate.json) cover 256 distinct edits of the same two-solid assembly. Reopen every STEP, compare its digest across versions, and replay six old exact queries after reopening the project. Measure current cgroup memory at edit boundaries and the kernel high-water mark before starting the audit. The original 64-edit verifier still defaults to 64.
+
+```sh
+python3 benchmarks/field-task/run.py out/series --runtime "$RUNTIME" --history-edits 256
+python3 benchmarks/field-task/verify.py out/series out/256-readbacks.json edits 256
+node benchmarks/field-task/check-revisions.mjs out/series/history out/256-readbacks.json out/revision-audit.json
+```
+
+For native filesystem accounting, supply `--guest-output /absolute/path` to the runner. This must be a new empty directory on the Docker daemon's filesystem. The runner copies its results back after completion. Use the same input, image, CPU, limit and mount for both versions. A host directory mounted by a Linux VM may use virtiofs and produce different cache charges.
+
+[report-revisions.py](report-revisions.py) takes a directory containing the four final trials, the corresponding `audits/*.json` and the independent `readbacks.json`. Name trial directories `final-ext4-baseline`, `final-ext4-candidate`, `final-bind-baseline` and `final-bind-candidate`. The script also includes optional exploratory and runner data if present. [plot-revisions.py](plot-revisions.py) renders the resulting JSON.

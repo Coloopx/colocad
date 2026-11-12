@@ -1,5 +1,7 @@
 # What still grows after persisting the index?
 
+The Linux development candidate has completed the 256-revision follow-up on ext4 and virtiofs. [Results](revision-cache.md)
+
 **Indexed lookups are nearly flat across the tested history sizes. Repeated geometry edits are not.** In a KK60 camera-adapter retrofit, recording 4,096 checks of the same geometry stayed near 99 MiB after warm-up. Keeping the same two parts but delivering 64 distinct revisions increased current sandbox memory from 58.5 to 114.0 MiB.
 
 ![History lookups, mixed writes, fixed geometry and repeated geometry edits](benchmarks/alpha10/field-history.svg)

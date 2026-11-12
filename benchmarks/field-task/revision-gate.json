@@ -1,0 +1,13 @@
+{
+  "workload": "field-task KK60 adapter with query snapshots and previews, four setup revisions, then 256 distinct gauge/pitch edits",
+  "runtime_baseline": "public @coloopx/colocad@0.1.0-alpha.10",
+  "cpu": 1, "memory_mib": 512, "swap_mib": 0,
+  "mounts": ["virtiofs host bind", "native Linux ext4"],
+  "resource_gate_per_candidate_run": {
+    "max_late_current_growth_mib": 16,
+    "late_interval_edits": [128,256],
+    "max_cgroup_peak_mib": 256,
+    "oom_kills": 0
+  },
+  "correctness": "Keep four setup outcomes and known rejection, accept all edits, reopen paged history; require identical STEP bytes for each edit across variants, independently verify every distinct STEP, validate persisted digests and query old snapshots after reopen."
+}

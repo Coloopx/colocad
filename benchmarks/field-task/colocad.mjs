@@ -48,7 +48,7 @@ if(n||edits){
   const snapshot=async i=>{
     const current=Number(await cg('memory.current')),peak=Number(await cg('memory.peak'));
     const stat=Object.fromEntries((await cg('memory.stat')).trim().split('\n').map(s=>s.split(' ')));
-    checkpoints.push({[edits?'edits':'queries']:i,current,peak,...Object.fromEntries(['anon','file','kernel','file_dirty','file_writeback'].map(k=>[k,Number(stat[k])])),heapUsed:process.memoryUsage().heapUsed,revision});
+    checkpoints.push({[edits?'edits':'queries']:i,current,peak,...Object.fromEntries(['anon','file','kernel','file_dirty','file_writeback','shmem','file_mapped','active_file','inactive_file','slab','sock','kernel_stack'].map(k=>[k,Number(stat[k])])),heapUsed:process.memoryUsage().heapUsed,revision});
   };
   await snapshot(0);
   for(let i=1;i<=n;i++){
@@ -65,6 +65,10 @@ if(n||edits){
     editSteps.push({i,id:r.session_step,gauge,cameraPitch,revision,sha256:r.data.artifact_sha256['model.step']});
     if(i===1||i%4===0||i===edits)await snapshot(i);
   }
+  await writeFile(join(out,'cgroup-events.json'),JSON.stringify({
+    limit:Number(await cg('memory.max')),swap:Number(await cg('memory.swap.max')),
+    events:Object.fromEntries((await cg('memory.events')).trim().split('\n').map(line=>line.split(' ')))
+  }));
   const reopened=await ModelingSession.open(resolve(out,'session'));assert.equal((await reopened.head()).query_revision_id,revision);
   let count=0,after=0;
   do{const page=await reopened.history({after,limit:128});

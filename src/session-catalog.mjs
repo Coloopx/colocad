@@ -52,6 +52,26 @@ async function connect(root, mode, name, callback) {
   finally { child.stdin.end(); await closed; }
 }
 
+async function writerCanRun(pid) {
+  try {
+    process.kill(pid, 0);
+    if (process.platform !== 'linux') return true;
+    // A container's PID 1 may keep an exited helper as a zombie. Its PID still
+    // answers signal 0, but its file descriptors and writer lease are gone.
+    const status = await readFile(`/proc/${pid}/stat`, 'utf8');
+    return status.slice(status.lastIndexOf(')') + 2, status.lastIndexOf(')') + 3) !== 'Z';
+  } catch (error) {
+    if (error.code === 'ESRCH') return false;
+    if (error.code === 'ENOENT') {
+      // With procfs unavailable, keep respecting a possibly live legacy writer.
+      try { process.kill(pid, 0); }
+      catch (retry) { if (retry.code === 'ESRCH') return false; throw retry; }
+      return true;
+    }
+    throw error;
+  }
+}
+
 // Alpha.8 clients honor this PID file. The Rust process owns both the OS
 // lock and the PID recorded here, including during a long streaming import.
 async function legacyLock(root,pid,action) {
@@ -59,8 +79,7 @@ async function legacyLock(root,pid,action) {
   try {
     const owner=JSON.parse(await readFile(path,'utf8'));
     if(!Number.isInteger(owner.pid) || owner.pid<1) throw Error('SESSION_BUSY: unknown writer');
-    try { process.kill(owner.pid,0); }
-    catch(error) { if(error.code!=='ESRCH') throw error; await rm(path); }
+    if (!await writerCanRun(owner.pid)) await rm(path);
   } catch(error) { if(error.code!=='ENOENT') throw error; }
   const temp=path+'.'+randomUUID();
   await writeFile(temp,JSON.stringify({pid}),{flag:'wx'});

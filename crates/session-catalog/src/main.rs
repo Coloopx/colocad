@@ -1,4 +1,6 @@
 mod migration;
+#[cfg(target_os = "linux")]
+mod revision_cache;
 
 use rusqlite::{params, Connection, OpenFlags, OptionalExtension};
 use serde_json::{json, Value};
@@ -329,7 +331,26 @@ fn run() -> Result<()> {
             })
             .flatten()
             .filter(|n| *n > 0 && n % 128 == 0);
+        #[cfg(target_os = "linux")]
+        let previous = if mode == "write" {
+            revision_cache::previous(&db, &request)
+        } else {
+            None
+        };
+        #[cfg(target_os = "linux")]
+        let exports = previous
+            .as_ref()
+            .and_then(|_| request["step"]["artifactDirectory"].as_str())
+            .map(str::to_owned);
         let result = dispatch(&db, request, mode == "write");
+        #[cfg(target_os = "linux")]
+        if let Some(revision) = previous.filter(|_| result.is_ok()) {
+            revision.release(root);
+        }
+        #[cfg(target_os = "linux")]
+        if let Some(path) = exports.filter(|_| result.is_ok()) {
+            revision_cache::release_exports(root, &path);
+        }
         if let Some(n) = seal.filter(|_| result.is_ok()) {
             release_sealed_pack(root, (n - 1) / 128);
         }

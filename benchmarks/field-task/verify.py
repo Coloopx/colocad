@@ -63,7 +63,8 @@ def verify(path,source,id,x,z,l,g,p,window):
 out=Path(sys.argv[1]); result={}
 if len(sys.argv)>3 and sys.argv[3]=='edits':
     root=out/'history';data=json.loads((root/'result.json').read_text())
-    assert data['historyEdits']==len(data['editSteps'])==64
+    expected_edits=int(sys.argv[4]) if len(sys.argv)>4 else 64
+    assert expected_edits>0 and data['historyEdits']==len(data['editSteps'])==expected_edits
     db=next((root/'session').glob('*.sqlite'))
     con=sqlite3.connect(db.resolve().as_uri()+'?immutable=1',uri=True)
     edits=[]
@@ -74,7 +75,7 @@ if len(sys.argv)>3 and sys.argv[3]=='edits':
         assert (g,p)==(r['gauge'],r['cameraPitch'])
         report=verify(root/'session'/e['artifactDirectory']/'model.step',out/'inputs'/'relocated.step',e['id'],7,11,54,g,p,True)
         assert report['sha256']==r['sha256'];edits.append(report)
-    assert len({e['sha256'] for e in edits})==64
+    assert len({e['sha256'] for e in edits})==expected_edits
     Path(sys.argv[2]).write_text(json.dumps(edits,indent=2)+'\n');sys.exit()
 for backend in ('colocad','cadquery','build123d'):
     root=out/backend

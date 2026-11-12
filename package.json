@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.0-alpha.10",
+  "version": "0.1.0-alpha.11-rc.1",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -85,6 +85,7 @@
     "docs/benchmarks/bounded/observations.json",
     "docs/benchmarks/bounded-candidate",
     "docs/benchmarks/alpha10",
+    "docs/benchmarks/revision-cache",
     "showcase/hiwin-kk60/modeling-alpha10.gif",
     "showcase/hiwin-kk60/modeling-bounded.gif",
     "docs/benchmarks/alpha9/hand-window.gif",
