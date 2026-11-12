@@ -1,6 +1,8 @@
 # Colocad 路线图
 
-更新：**2026-11-11**。[English](ROADMAP.md) · [CadQuery 覆盖报告](docs/cadquery-comparison.zh-CN.md) · [四阶段规范](specs/0005-capability-reliability-and-optimization.zh-CN.md)。
+更新：**2026-11-12**。[English](ROADMAP.md) · [CadQuery 覆盖报告](docs/cadquery-comparison.zh-CN.md) · [四阶段规范](specs/0005-capability-reliability-and-optimization.zh-CN.md)。
+
+[alpha.10 性能复测与混合模型验收](docs/benchmark-alpha10.zh-CN.md)记录了 207 次独立交付和 100 秒灵巧手改参。下一轮性能工作以密集孔板的 Level-1 校验、独立零件的放置体积积分、完整装配的持久化写入为基线。
 
 目标是形成可供 agent 实用的独立机械建模与装配系统。**G1–G3 已在声明范围内验收；G4 的自动 benchmark／回溯优化执行器仍是规划，尚未交付或验收。** 不把已有局部成绩解释成完整取代 CadQuery/build123d。
 

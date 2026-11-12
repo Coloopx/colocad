@@ -34,3 +34,34 @@ python3 benchmarks/release/candidate-docs.py REPORT_DIR
 ```
 
 Use the plotting / build123d Python environment for `scaling.py`, `unique-phases.py`, `race.py` and `shape-gallery.py`. The final HTML embeds its figures, GIF, filterable measurements, shape readbacks and supplementary observations. Candidate images in the READMEs are repository-relative so the checked-out revision selects the matching files.
+
+## Reproduce the public alpha.10 figures
+
+Use the source tree at tag `v0.1.0-alpha.10` for the workload inputs and the reporting scripts from this documentation revision. Install the public npm tarball. Verify that `src/`, `bin/`, `kernel/dist/`, `kernel/native/` and the skill files in the measured checkout match that install byte for byte. The Linux image digest and package integrity are in the [campaign record](../../docs/benchmarks/alpha10/observations.json).
+
+Run steps 1–4 above in fresh directories, including the extended stress plans. In this rerun the main scaling jobs used CPU 0, fixtures and queues CPU 2, shards CPU 3, extremes and history CPU 4, and query, boundary, compositional and native controls CPU 6. Each measured job used one CPU. These lanes shared an eight-vCPU development VM. In the separate alpha.9/alpha.10 pairs, four observations from two pairs were set aside when the validation lane overlapped the timing lane. Those pairs were repeated on CPU 0 and both long sessions on CPU 2; the diagnostic record preserves the 120 s SDK timeout. Timed binaries, thresholds, input queues, random seeds and stop-after-failure rules came from the frozen plans. Wait for the independent verifier processes to exit successfully before reading their incrementally written JSON.
+
+Additional runs associated with the figures:
+
+- Run the [six shape controls](../shapes/README.md) into `$OUT/shapes`. The shape gallery uses the macOS build123d 0.11.1 environment. Linux fixtures use the pinned image.
+- Run steps 1–4 of the [matched release comparison](../bounded/README.md), selecting the public alpha.9 package as the baseline. Write the geometry trials to `$OUT/pairs`, the session measurements to `session-before` and `session-after`, and the projects to `project-before` and `project-after`. Run `node benchmarks/bounded/audit-session.mjs "$OUT/project-VARIANT/edits"` into `audit-VARIANT.log` for each variant.
+- Run the two frozen [geometry splits](../../specs/experiments/0005/README.md), the [KK60](../../examples/hiwin-kk60/README.md) and [turbofan](../../examples/turbofan/README.md) sessions, and the [replacement and external-STEP checks](../../examples/engineering-interfaces/README.md). Store the splits in `g2-regression` and `g2-held`, the engineering examples in `flange` and `kk60-interface`, and the per-stage OCCT readbacks in `kk60-readback.json` and `turbofan-readback.json`. Render the KK60 session to `$OUT/cover.gif` at 960 × 600, 8 fps and 0.75 s per step.
+- Run the packaged housing example and the [Stanford scan reproduction](../../docs/hybrid.md#release-regressions) in separate Linux arm64 containers, at 1 vCPU and 512 MiB with swap and network disabled. Write into `$OUT/hybrid-housing` and `$OUT/hybrid-scan`. For each case, record the space-separated fields `start_ns end_ns memory.peak` and then the lines of `/sys/fs/cgroup/memory.events` in `hybrid-CASE.log`. Run `test/validation/hybrid-exchange.py` on the housing directory into `hybrid-occt.log`. These are Colocad capability and resource checks.
+
+With the new `campaign.json` in `$OUT` and the completed readbacks, generate the data and figures below. Use a Python environment with build123d, NumPy, Pillow and Matplotlib for the graphics scripts.
+
+```sh
+DEST=docs/benchmarks/alpha10
+mkdir -p "$DEST"
+python3 benchmarks/release/report.py "$OUT" "$DEST"
+python3 benchmarks/release/scaling.py "$DEST"
+python3 benchmarks/release/unique-phases.py "$OUT" "$DEST"
+python3 benchmarks/release/race.py "$OUT" "$DEST"
+python3 benchmarks/release/embed.py "$DEST"
+python3 benchmarks/release/shape-gallery.py "$OUT/shapes" "$DEST"
+python3 benchmarks/release/controls.py "$OUT" "$DEST"
+python3 benchmarks/release/acceptance.py "$OUT" "$DEST"
+python3 benchmarks/release/extend-scorecard.py "$DEST"
+```
+
+The independent readbacks need the original STEP artifacts. After completing validation and rendering, the per-trial workspaces can be losslessly archived. Keep the public JSON, charts and cover as the portable comparison.

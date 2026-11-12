@@ -1,6 +1,8 @@
 # Colocad roadmap
 
-Updated **2026-11-11**. [中文](ROADMAP.zh-CN.md) · [CadQuery coverage](docs/cadquery-comparison.md) · [Ordered acceptance spec](specs/0005-capability-reliability-and-optimization.md).
+Updated **2026-11-12**. [中文](ROADMAP.zh-CN.md) · [CadQuery coverage](docs/cadquery-comparison.md) · [Ordered acceptance spec](specs/0005-capability-reliability-and-optimization.md).
+
+[Alpha.10 performance and hybrid acceptance](docs/benchmark-alpha10.md) records 207 independent deliveries and the 100-second hand queue. The next performance baselines are dense-plate Level-1 checks, placed-volume integration on distinct parts, and persistent writes for full assemblies.
 
 This roadmap separates shipped architecture, scoped acceptance and planned experiments. Colocad targets a practical independent modeling/assembly stack for agents; it does not claim full CadQuery/build123d equivalence. **G4's automated benchmark/optimization runner is planned, not shipped or accepted.**
 

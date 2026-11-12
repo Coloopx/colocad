@@ -17,4 +17,4 @@ npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.
 
 默认导出完整 `assembly.glb`、各实例 STL、精确件 `exact.step` 和单文件 HTML。启用 `facetedStep:true` 会另写网格的平面分面 B-rep，以及包含全部实例的 `assembly.step`。实体在 STEP 中处于装配位置，编辑参数、姿态和约束保存在源文档。需要对网格本身做精确切割时，可以显式 `faceted_brep` 转换，三角面数会直接影响开销。分面写入当前支持独立外壳，遇到封闭内负壳会给出错误。
 
-[全部操作、限制与复现命令](hybrid.md) · [发布验收数据](evidence/release-alpha.10.json)
+[全部操作、限制与复现命令](hybrid.md) · [发布验收数据](evidence/release-alpha.10.json) · [本次全量复测](benchmark-alpha10.zh-CN.md)

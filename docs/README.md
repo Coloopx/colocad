@@ -2,9 +2,9 @@
 
 [Freeform shells, mesh import and hybrid assembly](hybrid.md)
 
-[Current three-backend measurements and assembly phase breakdown](benchmark-bounded-candidate.md)
+[Alpha.10 three-backend rerun, memory scaling and hybrid builds](benchmark-alpha10.md) · [Offline performance and geometry comparison](benchmarks/alpha10/scorecard.html)
 
-Release measurements: [alpha.9 benchmark](benchmark-alpha9.md) · [中文](benchmark-alpha9.zh-CN.md) · [single-file HTML](benchmarks/alpha9/scorecard.html).
+Earlier reports cover [assembly validation optimization](benchmark-bounded-candidate.md) · [alpha.9](benchmark-alpha9.md)
 
 [Actual modeling workflow](modeling-workflow.zh-CN.md) · [CLI modeling history and viewer](modeling-history.md)
 

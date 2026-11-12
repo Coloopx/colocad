@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling-bounded.gif)
+![HIWIN KK60 linear actuator — actual native modeling and assembly in four views](showcase/hiwin-kk60/modeling-alpha10.gif)
 
 **Parametric CAD for agents. Local Rust geometry, a TypeScript SDK, a CLI, and an inspectable modeling history.**
 
@@ -145,27 +145,27 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 Independent OCCT checks cover all 16 STEP revisions, 64 material probes and selected rail/carriage clearances. Proprietary internals are explicitly approximated or omitted; this is a catalog reconstruction, not a production drawing package. The animation is not a speed benchmark.
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](docs/benchmarks/bounded-candidate/kk60-readback.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling.mp4) · [Editable model](showcase/hiwin-kk60/model.json) · [Checks](docs/benchmarks/alpha10/kk60-readback.json) · [Dimensions and assumptions](examples/hiwin-kk60/sources.json) · [Full offline delivery](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## Performance
 
-Colocad `b3e6000`, CadQuery 2.8.0 and build123d 0.13.0 delivered **207 independently verified STEP files**. Across the 12 scaling points Colocad used the **least peak memory in 11/12** and produced STEP **fastest in 6/12**. Across the 11 product and edit fixtures, the corresponding counts were **11/11 and 11/11**.
+**Colocad alpha.10 had the lowest peak sandbox memory in 22 of 23 mechanical cases.** Three fresh runs per backend per case produced 207 independently verified STEP files. Colocad had the fastest median delivery in 10/11 product and edit cases and 6/12 scaling cases. Results below use **Colocad / CadQuery / build123d** order.
 
-![Time to verified STEP and peak memory](docs/benchmarks/bounded-candidate/scorecard.svg)
+![Time to verified STEP and sandbox memory](docs/benchmarks/alpha10/scorecard.svg)
 
-For 128 occurrences of one part, time to STEP was **0.61 / 2.03 / 3.36 s** in Colocad / CadQuery / build123d order. For 64 independent plates, peak memory was **74.3 / 255.8 / 291.2 MiB** and elapsed time was **15.29 / 2.46 / 3.45 s**. The Python backends also used less memory and time on the single 1,024-hole plate.
+128 placements of one part took **0.81 / 2.81 / 4.47 s**, peaking at **45.6 / 261.0 / 302.1 MiB**. For 64 distinct parts, peaks were **88.6 / 256.0 / 291.3 MiB**, while delivery took **13.46 / 2.96 / 3.76 s**. Both Python backends used less memory and finished sooner on the 1,024-hole plate.
 
-![Memory across the full size series](docs/benchmarks/bounded-candidate/memory-scaling.svg)
+![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
 
-In a 100 s edit queue, the backends delivered **25 / 57 / 48** complete 43-solid hands with sampled peaks of **115.8 / 258.1 / 287.8 MiB**.
+The 100 s edit queues delivered **42 / 45 / 42** verified 43-solid hands, with sampled running peaks of **165.2 / 293.8 / 283.5 MiB**.
 
-![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/bounded-candidate/hand-window.gif)
+![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)
 
-[Offline HTML with all results and six geometry comparisons](docs/benchmarks/bounded-candidate/scorecard.html) · [Phase timings, I/O and scope](docs/benchmark-bounded-candidate.md) · [Reproduce](benchmarks/release/README.md).
+[Offline HTML with all 23 cases and geometry comparisons](docs/benchmarks/alpha10/scorecard.html) · [Timings, I/O, hybrid scans and limits](docs/benchmark-alpha10.md) · [Reproduce](benchmarks/release/README.md).
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Release verification](docs/evidence/release-alpha.9.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.10/release-validation.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).

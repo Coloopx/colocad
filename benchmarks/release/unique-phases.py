@@ -4,7 +4,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-p=argparse.ArgumentParser();p.add_argument('before',type=Path);p.add_argument('after',type=Path);p.add_argument('dest',type=Path);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('before',type=Path,nargs='?',help='optional historical run for a revision comparison');p.add_argument('after',type=Path);p.add_argument('dest',type=Path);a=p.parse_args()
 def sample(root,backend):
     candidates=[]
     for f in (root/'main').glob(backend+'-unique-64-r*/measurement.json'):
@@ -19,8 +19,12 @@ def sample(root,backend):
         ends={e['phase']:e['elapsed_s'] for e in map(json.loads,(d/'events.jsonl').read_text().splitlines())}
         g,v,x=ends['geometry']-ends['imported'],ends['validated']-ends['geometry'],ends['exported']-ends['validated']
     return dict(run=d.name,wall_s=wall,geometry_s=g,validation_s=v,export_s=x,other_s=wall-g-v-x)
-b=json.loads((a.before/'campaign.json').read_text())['engine_commit'][:7];n=json.loads((a.after/'campaign.json').read_text())['engine_commit'][:7]
-rows={f'Colocad {b}':sample(a.before,'colocad'),f'Colocad {n}':sample(a.after,'colocad'),'CadQuery 2.8.0':sample(a.after,'cadquery'),'build123d 0.13.0':sample(a.after,'build123d')}
+rows={}
+if a.before:
+    baseline=json.loads((a.before/'campaign.json').read_text())['label']
+    rows['Colocad '+baseline]=sample(a.before,'colocad')
+version=json.loads((a.after/'campaign.json').read_text())['label']
+rows.update({'Colocad '+version:sample(a.after,'colocad'),'CadQuery 2.8.0':sample(a.after,'cadquery'),'build123d 0.13.0':sample(a.after,'build123d')})
 (a.dest/'unique-phases.json').write_text(json.dumps(rows,indent=2)+'\n')
 plt.rcParams.update({'font.family':'DejaVu Sans','svg.fonttype':'none','svg.hashsalt':'unique-phases'})
 fig,ax=plt.subplots(figsize=(10.5,3.7));fig.patch.set_facecolor('#f6f8f5');fig.subplots_adjust(left=.20,right=.93,top=.72,bottom=.23)

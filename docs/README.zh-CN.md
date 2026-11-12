@@ -2,9 +2,9 @@
 
 [自由曲面、扫描网格与精确机构混合建模](hybrid.zh-CN.md)
 
-[三后端复测与 64 件装配分段耗时](benchmark-bounded-candidate.zh-CN.md)
+[alpha.10 三后端全量复测、规模增长与混合建模](benchmark-alpha10.zh-CN.md) · [单文件性能与几何对照](benchmarks/alpha10/scorecard.html)
 
-[本版三方性能复测](benchmark-alpha9.zh-CN.md) · [离线交互报告](benchmarks/alpha9/scorecard.html)
+历史对照：[装配校验优化](benchmark-bounded-candidate.zh-CN.md) · [alpha.9](benchmark-alpha9.zh-CN.md)
 
 [实际操作、输入输出与效果提升方法](modeling-workflow.zh-CN.md) · [CLI 查看器与离线导出](modeling-history.md)
 

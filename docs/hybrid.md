@@ -56,7 +56,7 @@ A `wall_probe` measures each material interval crossed by a segment whose endpoi
 
 The bundled fixture exercises a 1.6 mm offset shell, a subtraction between two smooth lofts, an articulated lever and an external mesh insert. Tests build 0°, 15° and 30° poses, then deliberately move the insert into the wall. An independent Python OCCT reader reopens both constituent STEP files and the mixed three-solid delivery.
 
-The external stress fixture uses the original Stanford Armadillo range-scan reconstruction. The converter preserves its 172,974 vertices and 345,944 triangles when writing OBJ. It uses a 2 mm cube at a known surface vertex as the positive intersection control. The scan and test cubes use the declared mm scale for this experiment. The repository distributes the reproduction script and measurements. [Scan source](https://graphics.stanford.edu/data/3Dscanrep/) · [Release evidence](evidence/release-alpha.10.json)
+The external stress fixture uses the original Stanford Armadillo range-scan reconstruction. The converter preserves its 172,974 vertices and 345,944 triangles when writing OBJ. It uses a 2 mm cube at a known surface vertex as the positive intersection control. The scan and test cubes use the declared mm scale for this experiment. The repository distributes the reproduction script and measurements. [Scan source](https://graphics.stanford.edu/data/3Dscanrep/) · [Release evidence](evidence/release-alpha.10.json) · [Full benchmark rerun](benchmark-alpha10.md)
 
 ```sh
 python3 test/validation/hybrid-scan.py /tmp/colocad-scan

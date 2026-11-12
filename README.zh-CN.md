@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-bounded.gif)
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-alpha10.gif)
 
 **面向 agent 的参数化 CAD：本地 Rust 几何内核、TypeScript SDK、CLI，以及可追溯的建模过程。**
 
@@ -144,27 +144,27 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 独立 OCCT 检查覆盖 16 份 STEP、64 个材料探针和指定位置的导轨/滑台间隙。未公开内部结构明确标为近似或省略；这是产品目录重建，不是可直接生产的完整图纸。动画也不是速度基准。
 
-[MP4](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/bounded-candidate/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](showcase/hiwin-kk60/modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/alpha10/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
 
 ## 性能
 
-Colocad `b3e6000`、CadQuery 2.8.0、build123d 0.13.0 共交付 **207 份通过独立 STEP 回读的模型**。12 个规模点中，Colocad 有 **11/12 内存峰值最低、6/12 耗时最短**。11 个产品及改参用例中分别为 **11/11、11/11**。
+**Colocad alpha.10 在 23 个机械用例中的 22 个取得最低沙箱内存峰值。** 每个后端、每个用例各跑三次，207 份 STEP 均通过独立回读。11 个产品及改参用例中有 10 个耗时最短，12 个规模用例中有 6 个耗时最短。以下均按 **Colocad / CadQuery / build123d** 排列。
 
-![Time to verified STEP and peak memory](docs/benchmarks/bounded-candidate/scorecard.svg)
+![Time to verified STEP and sandbox memory](docs/benchmarks/alpha10/scorecard.svg)
 
-在 Colocad / CadQuery / build123d 的顺序下，128 个共享实例用时 **0.61 / 2.03 / 3.36 秒**。64 个独立零件的峰值为 **74.3 / 255.8 / 291.2 MiB**，耗时 **15.29 / 2.46 / 3.45 秒**。1,024 孔单板仍由 Python 后端在速度和内存上领先。
+同一零件放置 128 次，耗时 **0.81 / 2.81 / 4.47 秒**，峰值 **45.6 / 261.0 / 302.1 MiB**。64 种独立零件的峰值为 **88.6 / 256.0 / 291.3 MiB**，交付耗时 **13.46 / 2.96 / 3.76 秒**。在 1,024 孔单板上，两个 Python 后端均更快且内存更低。
 
-![Memory across the full size series](docs/benchmarks/bounded-candidate/memory-scaling.svg)
+![Memory across all twelve scaling points](docs/benchmarks/alpha10/memory-scaling.svg)
 
-100 秒内交付的完整 43 实体手为 **25 / 57 / 48**，采样峰值 **115.8 / 258.1 / 287.8 MiB**。
+100 秒改参窗口内完成并验收的 43 实体灵巧手为 **42 / 45 / 42 份**，采样累计峰值 **165.2 / 293.8 / 283.5 MiB**。
 
-![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/bounded-candidate/hand-window.gif)
+![Verified hand deliveries and running memory peaks at 10×](docs/benchmarks/alpha10/hand-window.gif)
 
-[单文件 HTML，含全部结果和六组实体渲染](docs/benchmarks/bounded-candidate/scorecard.html) · [分段耗时、I/O 与实验范围](docs/benchmark-bounded-candidate.zh-CN.md) · [复现步骤](benchmarks/release/README.md)。
+[单文件 HTML，含全部 23 个用例和几何对照](docs/benchmarks/alpha10/scorecard.html) · [详细耗时、I/O、混合扫描件与限制](docs/benchmark-alpha10.zh-CN.md) · [复现步骤](benchmarks/release/README.md)。
 
 ## 支持范围与限制
 
-- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[发布验证](docs/evidence/release-alpha.7.json)。
+- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.10/release-validation.json)。
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。

@@ -84,6 +84,8 @@
     "docs/benchmarks/bounded/comparison.html",
     "docs/benchmarks/bounded/observations.json",
     "docs/benchmarks/bounded-candidate",
+    "docs/benchmarks/alpha10",
+    "showcase/hiwin-kk60/modeling-alpha10.gif",
     "showcase/hiwin-kk60/modeling-bounded.gif",
     "docs/benchmarks/alpha9/hand-window.gif",
     "showcase/hiwin-kk60/modeling-alpha9.gif",
