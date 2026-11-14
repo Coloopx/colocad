@@ -2,7 +2,7 @@
 
 For a memory-constrained build, share one definition for identical instances. For unique stock or a dense drilling pattern, measure one representative full STEP with the intended checkpoints before scaling. The [release comparison](benchmark-alpha9.md) includes both wins and reversals.
 
-Applies to the supported Colocad alpha.8 APIs. [中文](best-practices.zh-CN.md) · [Complete agent handbook](agent-modeling-handbook.md) · [Query contract and limits](engineering-queries.md).
+The examples use Colocad 0.1.0. [中文](best-practices.zh-CN.md) · [Complete agent handbook](agent-modeling-handbook.md) · [Query contract and limits](engineering-queries.md).
 
 
 ## Start from the structure that controls the part
@@ -47,7 +47,7 @@ Use a bounded correction loop: locate the failed feature, inspect its inputs and
 
 ### Run the edit/query loop against the installed package
 
-Install `@coloopx/colocad@0.1.0-alpha.8` in a new project. Save this as `query-workflow.mjs`; keep `query-session` and `query-review.html` unused before the first run:
+Install `@coloopx/colocad@0.1.0` in a new project. Save this as `query-workflow.mjs`; keep `query-session` and `query-review.html` unused before the first run:
 
 **Version note:** alpha.8 fixes grid exact snapshot creation. The example now uses `face_hole_grid` directly. Upgrade SDK and native together; preview precision was not the cause in alpha.7. [Original failure](evidence/alpha.7-query-guidance.json) / [Repair regression](evidence/release-alpha.8.json).
 

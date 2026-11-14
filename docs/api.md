@@ -1,6 +1,6 @@
 # SDK, CLI and tool reference
 
-Targets `@coloopx/colocad@0.1.0-alpha.7`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
+The examples target `@coloopx/colocad@0.1.0`. The [public declarations](../src/index.d.mts) and [kernel declarations](../kernel/src/types.ts) are the complete type contracts.
 
 ## Feature-tree SDK and CLI
 
@@ -61,7 +61,7 @@ Build receipts include `artifact_directory`, `geometry`, `validation`, feature r
 
 Preview options include `view: "iso" | "top" | "bottom" | "front" | "back" | "left" | "right"`, image size, `chord_mm` and section settings. Use the schema for exact fields and limits. A different camera can reuse geometry; changing mesh precision or geometry can require new work.
 
-The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The SDK has no in-flight `AbortSignal` contract in alpha.7: the Pi example checks cancellation before dispatch, while an already-running native call is bounded by `wallMs`.
+The kernel SDK limits serialized input to 32 MiB. Query capabilities for native feature, assembly and mesh budgets. The Pi integration checks `AbortSignal` before dispatch. Once the native process starts, `wallMs` limits its runtime.
 
 ## Agent tools
 

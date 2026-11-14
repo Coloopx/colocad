@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+正式版 `0.1.0` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
+
 [候选版性能、工程更改单回放和内存曲线](benchmark-alpha11-rc1.zh-CN.md)
 
 [自由曲面、扫描网格与精确机构混合建模](hybrid.zh-CN.md)
@@ -42,7 +44,7 @@ node node_modules/@coloopx/colocad/skills/colocad/scripts/build.mjs \
 
 ## 接入哪个 harness
 
-alpha.9 已接入 Rust 会话索引，支持旧项目迁移与历史分页。[使用说明](indexed-sessions.zh-CN.md) · [验收数据](../benchmarks/session-catalog/README.md)。
+Rust 会话索引支持旧项目迁移与历史分页。[使用说明](indexed-sessions.zh-CN.md) · [验收数据](../benchmarks/session-catalog/README.md)。
 
 | 环境 | 推荐方式 | 安装位置 / 调用 |
 | --- | --- | --- |
@@ -73,7 +75,7 @@ test ! -e .agents/skills/colocad && \
 
 每个独立建模会话使用自己的 client 和输出根目录；同一会话顺序执行，便于复用特征检查点和网格。`edit` 不会修改传入的模型对象，接受修改后必须保存新 `model.json` 或合并参数，避免下一次改参回退到旧版本。
 
-仅转视角使用缓存预览。观察产物目录可能只有预览；STEP 在 `source_artifact_directory` 指向的几何版本中。沙箱销毁前，用现有 harness 的产物机制保存 JSON、STEP、回执和预览。SDK 没有内置云存储或会话数据库。
+仅转视角使用缓存预览。观察产物目录可能只有预览；STEP 在 `source_artifact_directory` 指向的几何版本中。沙箱销毁前，用现有 harness 的产物机制保存 JSON、STEP、回执和预览。`ModelingSession` 使用项目目录里的 SQLite 索引保存本地历史。
 
 [架构与生命周期](integrations/overview.md) · [SDK / CLI / 工具 API](api.md) · [可运行示例](../examples/integrations/README.md)
 

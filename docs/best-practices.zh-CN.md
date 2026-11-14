@@ -2,7 +2,7 @@
 
 内存紧张时，相同零件共享定义；遇到大量独立毛坯或密集孔阵列，先用一个有代表性的完整 STEP 和实际检查点设定测资源，再放大规模。[三方复测](benchmark-alpha9.zh-CN.md)同时列出领先和落后的工作负载。
 
-适用于 Colocad alpha.8 已支持的 API。[English](best-practices.md) · [完整建模手册](agent-modeling-handbook.zh-CN.md) · [查询契约与边界](engineering-queries.zh-CN.md)。
+示例使用 Colocad 0.1.0。[English](best-practices.md) · [完整建模手册](agent-modeling-handbook.zh-CN.md) · [查询契约与边界](engineering-queries.zh-CN.md)。
 
 ## 从资料与控制结构开始
 
@@ -36,7 +36,7 @@
 
 ## 可以直接执行的改参示例
 
-在新项目安装 `@coloopx/colocad@0.1.0-alpha.8`，将[英文页的完整脚本](best-practices.md#run-the-editquery-loop-against-the-installed-package)保存为 `query-workflow.mjs`，执行：
+在新项目安装 `@coloopx/colocad@0.1.0`，将[英文页的完整脚本](best-practices.md#run-the-editquery-loop-against-the-installed-package)保存为 `query-workflow.mjs`，执行：
 
 ```sh
 node query-workflow.mjs

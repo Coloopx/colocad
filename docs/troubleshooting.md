@@ -2,6 +2,7 @@
 
 | Symptom | Check and action |
 | --- | --- |
+| Near-circular elliptical extrusion returns `GEOMETRY_VALIDATION_FAILED` | Reproduced in 0.1.0 for a 49.9858 × 49.963 mm base. Preserve the specified ellipse when both dimensions matter. The circular variant in the appearance study changes one dimension by 0.0228 mm. [Reproduction and measurements](benchmark-appearance.md). |
 | Skill cannot be found | Check `.agents/skills/colocad/SKILL.md` for Codex/Pi or `.claude/skills/colocad/SKILL.md` for Claude Code; start in that project and refresh/restart discovery. |
 | Skill helper cannot import colocad | Install the pinned package in the current project and run the helper from there. Copy the complete skill folder. |
 | `colocad build` rejects `version: 1` | That CLI expects `format: "colocad/1"`. Use `CadClient` or the skill helper for a kernel model. |

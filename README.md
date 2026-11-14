@@ -8,14 +8,12 @@
 
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
-**Release 0.1.0** supports the mechanical modeling and assembly workflows described below. See [support and limits](#support-and-limits).
-
-**256 saved KK60 edits used 92.5 MiB peak on the development candidate**, compared with 223.0 MiB for CadQuery and 271.4 MiB for build123d with durable history adapters. See the [change-order replay](#engineering-change-orders), [memory curves](#memory-over-256-saved-revisions) and [23-case benchmark](#performance).
+**[Colocad 0.1.0](https://github.com/Coloopx/colocad/releases/tag/v0.1.0) is the current release.** Across five product models Colocad used less memory in fresh processes, while CadQuery rebuilt faster in a loaded host. In a separate Linux sandbox test, saving 256 edits to the KK60 assembly took **92.5 MiB** of peak memory. [Five-product comparison](#five-product-appearance-models) · [Memory by revision](#memory-over-256-saved-revisions).
 
 ## What you can build
 
 - **Parts and assemblies:** parametric features, repeated part definitions, exact STEP and PNG/GLB/STL previews.
-- **Engineering queries (alpha.7):** exact topology, composable selection, datums, holes/groups, mounting interfaces and measured assembly relationships. [Supported domains](docs/engineering-queries.md).
+- **Engineering queries:** exact topology, composable selection, datums, holes/groups, mounting interfaces and measured assembly relationships. [Supported domains](docs/engineering-queries.md).
 - **Agent workflows:** SDK tools and a bundled skill for interpreting dimensions, planning features, editing and checking results.
 - **Human review:** persistent build attempts, source/receipt inspection, offline single-file HTML and four-view MP4/GIF replay.
 
@@ -35,43 +33,12 @@ flowchart LR
 Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0
+npm install @coloopx/colocad
 ```
 
-The 0.1.0 release ships the same native binaries as the November 13 benchmarks. Those measurements used [the candidate source](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4).
+The npm `latest` tag points to `0.1.0`. To pin it, run `npm install --save-exact @coloopx/colocad@0.1.0`. The release check installed from the public registry and exported the manifold with the CLI. OCCT reopened one valid 90 × 45 × 12 mm solid. [Installation and STEP readback](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json).
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
-
-## Engineering change orders
-
-Give each backend the same source STEP. Resize the KK60 camera plate, cut a cable window and remount it after the saddle moves. Then install a keyed motor flange from rotated coordinates and reject parts with a missing hole or the wrong pitch.
-
-![Ten change orders replayed from the source files and the independently verified backend exports](docs/benchmarks/alpha11-rc1/engineering-changes.gif)
-
-**Colocad, CadQuery and build123d each delivered seven valid assemblies and rejected all three incompatible inputs.** Colocad exposes parameter edits, revision history and exact snapshot queries through the same SDK and CLI. In the history test, six earlier camera pitches were measured from saved native snapshots with zero geometry rebuilds. The Python adapters reopened six saved STEPs for the same measurements. Colocad used an exact circular-edge query where high-level blind-hole recognition on the imported saddle was partial. [Work orders, checks and limits](docs/benchmark-alpha11-rc1.md).
-
-## Memory over 256 saved revisions
-
-Every edit changed real geometry and retained editable source, exact STEP and a mesh preview. All 1,024 edited assemblies across the four runs passed independent readback. Each session had one CPU, 512 MiB and zero swap.
-
-![Measured memory versus saved edit count, with current and kernel peak shown separately](docs/benchmarks/alpha11-rc1/revision-memory.gif)
-
-| Workflow | Peak MiB | Current MiB at edit 256 | Increase from edit 128 |
-|---|---:|---:|---:|
-| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
-| CadQuery 2.8.0 + durable adapter | 223.0 | 218.8 | **0.9 MiB** |
-| build123d 0.13.0 + durable adapter | 271.4 | 267.1 | 6.9 MiB |
-| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | Reached the cap |
-
-The RC had the lowest peak. The CadQuery adapter had the smallest late increase. Each Python adapter persisted its history in SQLite, synced its outputs and released clean file pages. Colocad also retained native checkpoints and query snapshots. [Session methods and per-revision evidence](docs/benchmark-alpha11-rc1.md#256-saved-geometry-edits).
-
-## Sculpted housings and external meshes
-
-Build a smooth landmark loft, offset the shell, import a scanned exterior and place exact STEP hardware in the same local job. Instance colours appear in the GLB and offline viewer. Each interference check records the method and measured overlap volume. [Hybrid operations and exchange formats](docs/hybrid.md)
-
-```sh
-npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.json ./housing-build
-```
 
 ## Quick start
 
@@ -109,6 +76,37 @@ await session.edit({ length: 80 });
 
 Use `CadClient` for direct builds without session recording. [SDK, CLI and tool API](docs/api.md).
 
+## Engineering change orders
+
+Give each backend the same source STEP. Resize the KK60 camera plate, cut a cable window and remount it after the saddle moves. Then install a keyed motor flange from rotated coordinates and reject parts with a missing hole or the wrong pitch.
+
+![Ten change orders replayed from the source files and the independently verified backend exports](docs/benchmarks/alpha11-rc1/engineering-changes.gif)
+
+**Colocad, CadQuery and build123d each delivered seven valid assemblies and rejected all three incompatible inputs.** Colocad exposes parameter edits, revision history and exact snapshot queries through the same SDK and CLI. In the history test, six earlier camera pitches were measured from saved native snapshots with zero geometry rebuilds. The Python adapters reopened six saved STEPs for the same measurements. Colocad used an exact circular-edge query where high-level blind-hole recognition on the imported saddle was partial. [Work orders, checks and limits](docs/benchmark-alpha11-rc1.md).
+
+## Memory over 256 saved revisions
+
+Every edit changed real geometry and retained editable source, exact STEP and a mesh preview. All 1,024 edited assemblies across the four runs passed independent readback. Each session had one CPU, 512 MiB and zero swap.
+
+![Measured memory versus saved edit count, with current and kernel peak shown separately](docs/benchmarks/alpha11-rc1/revision-memory.gif)
+
+| Workflow | Peak MiB | Current MiB at edit 256 | Increase from edit 128 |
+|---|---:|---:|---:|
+| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
+| CadQuery 2.8.0 + durable adapter | 223.0 | 218.8 | **0.9 MiB** |
+| build123d 0.13.0 + durable adapter | 271.4 | 267.1 | 6.9 MiB |
+| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | Reached the cap |
+
+The RC had the lowest peak. The CadQuery adapter had the smallest late increase. Each Python adapter persisted its history in SQLite, synced its outputs and released clean file pages. Colocad also retained native checkpoints and query snapshots. [Session methods and per-revision evidence](docs/benchmark-alpha11-rc1.md#256-saved-geometry-edits).
+
+## Sculpted housings and external meshes
+
+Build a smooth landmark loft, offset the shell, import a scanned exterior and place exact STEP hardware in the same local job. Instance colours appear in the GLB and offline viewer. Each interference check records the method and measured overlap volume. [Hybrid operations and exchange formats](docs/hybrid.md)
+
+```sh
+npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.json ./housing-build
+```
+
 ## Visualize and export from the CLI
 
 ![CLI modeling-history viewer showing the KK60 assembly](showcase/hiwin-kk60/viewer-alpha11-rc1.png)
@@ -124,7 +122,7 @@ Inspect the timeline, source, features, receipts and selected parts. Switch came
 | `colocad replay SESSION review.html` | Saved session | Self-contained offline HTML |
 | `colocad render SESSION modeling.mp4` | Saved session | Four-view animation; `.gif` also supported |
 
-Alpha.9 adds three session commands for a shell-based agent. Use `colocad head SESSION` to get the accepted query revision, `colocad inspect SESSION REQUEST.json` to record exact measurements, and `colocad edit SESSION PARAMETERS.json` to rebuild after a parameter change. The four-hole plate example exercises all three. [Plate workflow](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
+Use `colocad head SESSION` to get the accepted query revision, `colocad inspect SESSION REQUEST.json` to record exact measurements, and `colocad edit SESSION PARAMETERS.json` to rebuild after a parameter change. The four-hole plate example exercises all three. [Plate workflow](skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
 
 In a headless sandbox, use `colocad view ./history --no-open --port 8787` with the harness's port forwarding; the listener binds to `127.0.0.1`.
 
@@ -176,6 +174,26 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ## Performance
 
+### Five product appearance models
+
+On macOS arm64, fresh Colocad builds used **69–83 MiB** of peak process-tree RSS across these five products. CadQuery used **481–495 MiB**. With each host already loaded, CadQuery rebuilt all five faster. For Mori, a fresh build took **2.24 / 2.29 s**, and a full rebuild from a loaded host took **2.12 / 0.38 s**.
+
+![Four views of the five assemblies, rendered from reopened Colocad STEP files](docs/benchmarks/appearance-0.1.0/step-views.gif)
+
+Each cell lists **Colocad / CadQuery**. Both executed the same reconstructed plan per product. Times are medians of three runs and exclude model inference, visual review and independent STEP readback.
+
+| Product | Fresh process to STEP (s) | Fresh peak RSS (MiB) | Loaded host to STEP (s) |
+|---|---:|---:|---:|
+| Mushroom | 0.92 / 2.12 | 71.1 / 484.6 | 0.85 / 0.10 |
+| Flipper Zero | 0.58 / 2.03 | 75.9 / 482.0 | 0.49 / 0.11 |
+| SenseCAP Watcher | 0.54 / 2.02 | 73.5 / 482.6 | 0.45 / 0.10 |
+| StackChan | 0.40 / 2.00 | 69.2 / 480.7 | 0.33 / 0.07 |
+| Mori | 2.24 / 2.29 | 82.7 / 495.0 | 2.12 / 0.38 |
+
+The SenseCAP row uses the same circular base in both backends. Colocad rejects the specified near-circular ellipse, and substituting a circle changes one dimension by 0.0228 mm. Across the five models, 109 of 139 specified part dimensions were verified within the study’s 0.25 mm threshold. [Method, geometry checks and per-run data](docs/benchmark-appearance.md).
+
+### Mechanical workloads on Linux
+
 On the **November 13 candidate rerun**, Colocad had the lowest median peak memory in **22/23 cases** and the shortest median time to STEP in **16/23**. All 207 STEP exports passed independent checks. Times include fresh process startup and delivery. Each case ran three times per backend.
 
 ![Fresh time-to-STEP and cgroup peak measurements](docs/benchmarks/alpha11-rc1/scorecard.svg)
@@ -203,7 +221,7 @@ One 100-second queue per backend produced **45 / 51 / 41** independently verifie
 
 ## Documentation and help
 
-Available in alpha.7: [exact queries and geometry-backed assembly](docs/engineering-queries.md), with a [runnable external STEP example](examples/engineering-queries/README.md). The [four ordered goals](specs/0005-capability-reliability-and-optimization.md) track functional coverage, geometry reliability, engineering usability, then benchmark-driven optimization. The SDK, CLI, tool schema and all three native targets ship together; this is a Colocad API, not CadQuery Python/API compatibility.
+Use [exact queries and geometry-backed assembly](docs/engineering-queries.md), with a [runnable external STEP example](examples/engineering-queries/README.md). The [four ordered goals](specs/0005-capability-reliability-and-optimization.md) track functional coverage, geometry reliability, engineering usability, then benchmark-driven optimization. The SDK, CLI, tool schema and all three native targets ship together; this is a Colocad API, not CadQuery Python/API compatibility.
 
 G1–G3 are accepted for the [declared workloads](specs/experiments/0005/README.md): 24/24 geometry cases independently verified, 127 Rust / 41 Node tests, and two live Pi tasks in Linux arm64 **1 vCPU / 512 MiB**. Peak cgroup memory was **256 MiB** for the corpus with a minimal supervisor and **371 MiB** for resident Pi/harness plus the 82-solid actuator edit and preview; zero OOM. This is resource/correctness acceptance, not a new build123d speed comparison or full industry-wide parity. G4 has not started.
 

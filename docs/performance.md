@@ -1,8 +1,17 @@
 # Performance evidence and reproduction
 
-**Current comparison:** [Alpha.9 versus CadQuery and build123d](benchmark-alpha9.md) · [Offline scorecard](benchmarks/alpha9/scorecard.html). The studies below use earlier kernels and dependency pins.
+## Choosing a measurement for a harness
 
-These measurements apply to the stated workloads and historical binaries. They are not a claim of universal superiority or a fresh benchmark of every release.
+| Question | Experiment |
+| --- | --- |
+| How long does one tool call take in a new process? How does a loaded host change that? | [Five product models on macOS arm64](benchmark-appearance.md) compare fresh time to STEP, sampled peak RSS and loaded rebuilds with CadQuery 2.8.0. |
+| What fits inside a Linux sandbox, including file-cache charges? | [23 mechanical cases, the 100-second hand queue and four 256-edit sessions](benchmark-alpha11-rc1.md) measure memory and delivery with Colocad, CadQuery and build123d. |
+
+Both November studies used the candidate runtime promoted to 0.1.0. The release check compared the candidate and final packages byte by byte. [Release validation](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json).
+
+## Earlier releases
+
+[Alpha.9 versus CadQuery and build123d](benchmark-alpha9.md) · [Offline alpha.9 scorecard](benchmarks/alpha9/scorecard.html)
 
 The [2026-11-11 memory and persistence study](memory-persistence-report.md) compares alpha.8 with CadQuery and build123d at larger scales, reproduces 2 GiB OOM, and measures indexed/chunked prototypes. Colocad's advantage depends on the workload: shared instances fare well; distinct parts and a large perforated solid expose current scaling limits. See the [alpha.9 bounded-memory specification](../specs/0006-bounded-memory-persistence.md) for the planned response.
 
