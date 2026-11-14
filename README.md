@@ -8,7 +8,7 @@
 
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
-**Alpha software:** useful for supported mechanical parts and assemblies, with measured performance and reproducible examples. It is not a complete replacement for build123d or a manufacturing-certified CAD system. See [support and limits](#support-and-limits).
+**Release 0.1.0** supports the mechanical modeling and assembly workflows described below. See [support and limits](#support-and-limits).
 
 **256 saved KK60 edits used 92.5 MiB peak on the development candidate**, compared with 223.0 MiB for CadQuery and 271.4 MiB for build123d with durable history adapters. See the [change-order replay](#engineering-change-orders), [memory curves](#memory-over-256-saved-revisions) and [23-case benchmark](#performance).
 
@@ -35,10 +35,10 @@ flowchart LR
 Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.10
+npm install @coloopx/colocad@0.1.0
 ```
 
-This command installs the published alpha.10 package. The November 13 figures use the local alpha.11 RC package built from [the candidate source](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4).
+The 0.1.0 release ships the same native binaries as the November 13 benchmarks. Those measurements used [the candidate source](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4).
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
 
@@ -190,7 +190,7 @@ One 100-second queue per backend produced **45 / 51 / 41** independently verifie
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.10/release-validation.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).

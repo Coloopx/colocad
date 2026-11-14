@@ -8,7 +8,7 @@
 
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
-**项目处于 alpha 阶段。** 已有机械零件、装配体、性能记录和可复现示例；尚不能完整替代 build123d，也不等于经过制造验收的 CAD 系统。[支持范围与限制](#支持范围与限制)。
+**正式版 0.1.0** 支持下文列出的机械零件和装配建模流程。[支持范围与限制](#支持范围与限制)。
 
 
 **开发候选版连续保存 256 次 KK60 改图，沙箱峰值为 92.5 MiB**，采用持久化适配器的 CadQuery 和 build123d 分别为 223.0、271.4 MiB。[工程换件动图](#工程更改单) · [内存增长曲线](#连续保存-256-版的内存) · [23 项性能对照](#性能)。
@@ -35,10 +35,10 @@ flowchart LR
 需要 **Node.js 22+**，支持 **Linux x64、Linux arm64、macOS arm64**。
 
 ```sh
-npm install @coloopx/colocad@0.1.0-alpha.10
+npm install @coloopx/colocad@0.1.0
 ```
 
-此命令安装已发布的 alpha.10；11 月 13 日的图表使用从[候选源码](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4)构建的本地 alpha.11 RC 包。
+正式版 0.1.0 的原生二进制与 11 月 13 日实测版本一致。图表使用从[候选源码](https://github.com/Coloopx/colocad/tree/01079a9898480dd22d8c75277a526bf9da30a8a4)构建的本地 alpha.11 RC 包。
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
 
@@ -190,7 +190,7 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 支持范围与限制
 
-- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.10/release-validation.json)。
+- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json)。
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。

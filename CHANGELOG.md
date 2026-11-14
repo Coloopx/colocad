@@ -1,8 +1,12 @@
 # Changelog
 
-Notable user-facing changes are recorded here. Colocad remains alpha software; supported geometry and measured workloads define each release's scope.
+Release notes cover supported geometry, package changes and measured workloads.
 
-## 0.1.0-alpha.11-rc.1 (development candidate)
+## [0.1.0](https://github.com/Coloopx/colocad/releases/tag/v0.1.0) - 2026-11-14
+
+- First non-prerelease npm version. Install with `npm install @coloopx/colocad@0.1.0` on Node.js 22+ for Linux x64, Linux arm64 and macOS arm64. It includes the RC's native geometry and catalog binaries, SDK, CLI, viewer and modeling skill.
+- In five appearance workflows on macOS arm64, fresh Colocad processes used 69–83 MiB peak RSS versus 481–495 MiB for CadQuery 2.8.0. With the host already loaded, CadQuery completed these five rebuilds faster. The experiment measured geometry through STEP export.
+- Known limitation: native solid validation rejects a 49.9858 × 49.963 mm elliptical extrusion in the SenseCAP mount reproduction. The circular approximation changes one envelope dimension by 0.0228 mm.
 
 - Reran the 23-case STEP matrix, 100-second hand queues, two engineering change workflows and four 256-edit histories. The bilingual README includes the current readback animations and the standalone scorecard. [November 13 results](docs/benchmark-alpha11-rc1.md).
 

@@ -10,7 +10,7 @@ Run in a new project directory:
 mkdir my-cad-project
 cd my-cad-project
 npm init -y
-npm install --save-exact @coloopx/colocad@0.1.0-alpha.9
+npm install --save-exact @coloopx/colocad@0.1.0
 cp node_modules/@coloopx/colocad/examples/manifold.json manifold.json
 ./node_modules/.bin/colocad plan manifold.json
 ./node_modules/.bin/colocad build manifold.json ./manifold-v1 --preview

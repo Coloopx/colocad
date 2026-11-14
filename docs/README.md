@@ -12,7 +12,7 @@ Earlier reports cover [assembly validation optimization](benchmark-bounded-candi
 
 Build locally with **SDK → CLI/tools → skill**. The skill guides modeling decisions; the SDK and Rust kernel execute them. Agent, harness and CAD process share the same sandbox and filesystem.
 
-These guides target **@coloopx/colocad 0.1.0-alpha.9**, Node.js 22+, Linux x64/arm64 or macOS arm64. The project is still alpha; documentation does not imply complete CAD coverage.
+These guides cover **@coloopx/colocad 0.1.0** on Node.js 22+ for Linux x64, Linux arm64 and macOS arm64.
 
 For alpha.9, see [indexed sessions, history pagination and migration](indexed-sessions.md).
 
