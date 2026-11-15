@@ -49,6 +49,8 @@ benchmarks/: 可复现性能输入与运行脚本。
 evidence/: 固定版本测试与性能回执。
 integrations/: Agent宿主及建模接入说明。
 
+step-import-contexts.md: 同长度多representation上下文、body归一证明及混合长度拒绝边界。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 本轮resource-budgets.md仅扩展PR6输出合同，静态回移不继承组合版本验收。
 

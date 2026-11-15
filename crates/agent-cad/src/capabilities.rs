@@ -1,11 +1,11 @@
-//! [INPUT]: PR6固定内核和宿主资源默认值。
-//! [OUTPUT]: 默认输入/独立STEP/reportBytes预算及固定STEP摘要格式能力。
-//! [POS]: 公开执行合同，不添加其它未合PR能力。
+//! [INPUT]: 固定内核、宿主资源预算和显式STEP上下文验证。
+//! [OUTPUT]: 独立输入/STEP/report预算及同长度body策略能力。
+//! [POS]: 公开执行合同；保留release字节策略，不扩展UV或几何容差。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Kernel policy and advertised implementation capabilities.
 use crate::*;
 pub(crate) fn kernel_policy() -> Value {
-    json!({"name":"solidcore","revision":KERNEL_REV,"tolerances":"kernel_defaults","upstream_fixes":["transform_scales_each_tolerance","transform_model_size_from_body_box","fillet_chamfer_cone_on_arc","shell_edges_on_analytics_exact"],"scoped_fixes":{"thicken":["shell_one_construction"],"measurement":["precise_properties_body_length_scale","precise_properties_split_at_surface_knots","precise_properties_span_end_from_below","precise_properties_trim_base_v","integrator_propagates_failure"]},"volume_integration_accuracy":1e-8})
+    json!({"name":"solidcore","revision":KERNEL_REV,"tolerances":"kernel_defaults","upstream_fixes":["transform_scales_each_tolerance","transform_model_size_from_body_box","fillet_chamfer_cone_on_arc","shell_edges_on_analytics_exact"],"scoped_fixes":{"step_import":["explicit_same_length_body_contexts"],"thicken":["shell_one_construction"],"measurement":["precise_properties_body_length_scale","precise_properties_split_at_surface_knots","precise_properties_span_end_from_below","precise_properties_trim_base_v","integrator_propagates_failure"]},"volume_integration_accuracy":1e-8})
 }
 pub fn capabilities() -> Value {
     let limits = ResourceLimits::default();

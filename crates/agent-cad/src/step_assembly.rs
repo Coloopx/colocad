@@ -1,13 +1,15 @@
-//! [INPUT]: PR6外部STEP合同和独立宿主输出字节预算。
-//! [OUTPUT]: 原产品树和按outputStepBytes计量的装配序列化。
-//! [POS]: STEP交换边界；实体/上下文/单位策略保持PR6基线。
+//! [INPUT]: 固定STEP mapper、显式body上下文、产品树及宿主独立字节预算。
+//! [OUTPUT]: mm归一共享定义/刚体模板与受outputStepBytes约束的STEP。
+//! [POS]: STEP交换边界；units验证归属，transforms解析位姿，resources保持准入/输出合同。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-//! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
-//! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。
-//! [POS]: 解析/实例/输出预算与字节预算独立。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+mod export;
+mod units;
+pub(crate) use export::{write_solids, write_surface};
+mod transforms;
 use crate::*;
 use placement::Rigid;
 use step_import::part21::{self, Instance as StepInstance, Param, Record, StepFile};
+use transforms::{axis, mapping_transform};
 fn failure(e: impl std::fmt::Display) -> CadError {
     CadError::new("STEP_ASSEMBLY", e.to_string())
 }
@@ -253,93 +255,6 @@ fn reference(r: &Record, i: usize) -> Result<u64> {
         .and_then(Param::as_ref_id)
         .ok_or_else(|| failure(format!("{} missing reference {i}", r.name)))
 }
-fn vector(f: &StepFile, id: u64, ty: &str) -> Result<Vec3> {
-    let r = rec(f, id, ty)?;
-    let a = r
-        .params
-        .get(1)
-        .and_then(Param::as_list)
-        .ok_or_else(|| failure("3D vector required"))?;
-    if a.len() != 3 {
-        return Err(failure("3D vector required"));
-    }
-    let n = a
-        .iter()
-        .map(|p| {
-            p.as_f64()
-                .filter(|v| v.is_finite())
-                .ok_or_else(|| failure("nonfinite vector"))
-        })
-        .collect::<Result<Vec<_>>>()?;
-    Ok(Vec3::new(n[0], n[1], n[2]))
-}
-fn axis(f: &StepFile, id: u64, scale: f64) -> Result<Rigid> {
-    let r = rec(f, id, "AXIS2_PLACEMENT_3D")?;
-    let origin = vector(f, reference(r, 1)?, "CARTESIAN_POINT")? * scale;
-    let z = match r.params.get(2).and_then(Param::as_ref_id) {
-        Some(id) => operations::unit(vector(f, id, "DIRECTION")?)?,
-        None => Vec3::Z,
-    };
-    let x = match r.params.get(3).and_then(Param::as_ref_id) {
-        Some(id) => vector(f, id, "DIRECTION")?,
-        None => Vec3::X,
-    };
-    let x = operations::unit(x - z * z.dot(x))?;
-    Ok(Rigid {
-        origin,
-        axes: [x, z.cross(x), z],
-    })
-}
-fn mapping_transform(f: &StepFile, id: u64, scale: f64) -> Result<Rigid> {
-    let item = f
-        .entities
-        .get(&id)
-        .ok_or_else(|| failure("missing mapped transform"))?;
-    if item
-        .record("CARTESIAN_TRANSFORMATION_OPERATOR_3DNON_UNIFORM")
-        .is_some()
-        || item
-            .record("CARTESIAN_TRANSFORMATION_OPERATOR_3D_NON_UNIFORM")
-            .is_some()
-    {
-        return Err(failure("non-uniform mapped scale is not a rigid placement"));
-    }
-    let three = rec(f, id, "CARTESIAN_TRANSFORMATION_OPERATOR_3D")?;
-    let (base, offset, third) = if three.params.len() >= 6 {
-        (three, 1, three.params.get(5))
-    } else {
-        let base = rec(f, id, "CARTESIAN_TRANSFORMATION_OPERATOR")?;
-        (base, 0, three.params.first())
-    };
-    let direction = |p: Option<&Param>, default: Vec3| -> Result<Vec3> {
-        match p.and_then(Param::as_ref_id) {
-            Some(id) => operations::unit(vector(f, id, "DIRECTION")?),
-            None => Ok(default),
-        }
-    };
-    let x = direction(base.params.get(offset), Vec3::X)?;
-    let y = direction(base.params.get(offset + 1), Vec3::Y)?;
-    let z = direction(third, x.cross(y))?;
-    let factor = match base.params.get(offset + 3) {
-        Some(Param::Null) | None => 1.,
-        Some(p) => p.as_f64().ok_or_else(|| failure("mapped scale"))?,
-    };
-    if !factor.is_finite()
-        || (factor - 1.).abs() > 1e-12
-        || x.dot(y).abs() > 1e-8
-        || x.dot(z).abs() > 1e-8
-        || y.dot(z).abs() > 1e-8
-        || x.cross(y).dot(z) < 1. - 1e-8
-    {
-        return Err(failure(
-            "mapped transform must be right-handed rigid, scale 1",
-        ));
-    }
-    Ok(Rigid {
-        axes: [x, y, z],
-        origin: vector(f, reference(base, offset + 2)?, "CARTESIAN_POINT")? * scale,
-    })
-}
 #[derive(Clone)]
 pub(crate) struct ImportedInstance {
     pub id: String,
@@ -358,80 +273,22 @@ pub(crate) struct Imported {
     pub instances: Vec<ImportedInstance>,
     pub groups: Vec<ImportedGroup>,
 }
+/// Definition imports share the same body-context proof as inspect/assembly.
+pub(crate) fn definition_model(
+    text: &str,
+    allow_assembly: bool,
+) -> Result<step_import::model::Model> {
+    let f = part21::parse(text.as_bytes(), &limits())
+        .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
+    let model = step_import::import(text.as_bytes(), &limits())
+        .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
+    units::Contexts::validate(&f, &model, allow_assembly)?;
+    Ok(model)
+}
 pub(crate) fn read(text: &str) -> Result<Imported> {
     let f = part21::parse(text.as_bytes(), &limits()).map_err(failure)?;
     let model = step_import::import(text.as_bytes(), &limits()).map_err(failure)?;
-    if !model.skipped.is_empty()||model.diagnostics.iter().any(|d|d.step_id.is_some()||d.message!=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances)){return Err(CadError::new("IMPORT_INCOMPLETE",format!("skipped={:?}; diagnostics={:?}",model.skipped,model.diagnostics)));}
-    // The geometry mapper has already converted lengths to mm. Apply the same file unit to placements.
-    fn unit(f: &StepFile, id: u64, depth: usize) -> Result<f64> {
-        if depth > 8 {
-            return Err(failure("cyclic length unit"));
-        }
-        let item = f.entities.get(&id).ok_or_else(|| failure("missing unit"))?;
-        if let Some(si) = item.record("SI_UNIT") {
-            if si.params.get(1).and_then(Param::as_enum) != Some("METRE") {
-                return Err(failure("length unit must resolve to metre"));
-            }
-            return Ok(match si.params.first() {
-                Some(Param::Null) => 1000.,
-                Some(Param::Enum(s)) => match s.as_str() {
-                    "MILLI" => 1.,
-                    "CENTI" => 10.,
-                    "DECI" => 100.,
-                    "KILO" => 1_000_000.,
-                    "MICRO" => 0.001,
-                    "NANO" => 0.000001,
-                    _ => return Err(failure("unsupported SI prefix")),
-                },
-                _ => return Err(failure("invalid length unit")),
-            });
-        }
-        if let Some(c) = item.record("CONVERSION_BASED_UNIT") {
-            let measure = f
-                .entities
-                .get(&reference(c, 1)?)
-                .ok_or_else(|| failure("unit conversion factor"))?;
-            let r = measure
-                .record("LENGTH_MEASURE_WITH_UNIT")
-                .or_else(|| measure.record("MEASURE_WITH_UNIT"))
-                .ok_or_else(|| failure("unit measure"))?;
-            let value = r
-                .params
-                .first()
-                .and_then(Param::as_f64)
-                .filter(|v| v.is_finite() && *v > 0.)
-                .ok_or_else(|| failure("invalid unit factor"))?;
-            return Ok(value * unit(f, reference(r, 1)?, depth + 1)?);
-        }
-        Err(failure("unsupported length unit"))
-    }
-    let mut unit_scales = BTreeSet::new();
-    for item in f.entities.values() {
-        if let Some(context) = item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT") {
-            let units = context
-                .params
-                .first()
-                .and_then(Param::as_list)
-                .ok_or_else(|| failure("unit context"))?;
-            for id in units.iter().filter_map(Param::as_ref_id) {
-                if f.entities
-                    .get(&id)
-                    .is_some_and(|i| i.record("LENGTH_UNIT").is_some())
-                {
-                    unit_scales.insert(format!("{}", unit(&f, id, 0)?));
-                }
-            }
-        }
-    }
-    if unit_scales.len() != 1 {
-        return Err(failure("assembly requires one unambiguous length unit"));
-    }
-    let scale = unit_scales
-        .iter()
-        .next()
-        .unwrap()
-        .parse::<f64>()
-        .map_err(failure)?;
+    let contexts = units::Contexts::validate(&f, &model, true)?;
     let body_map = model
         .bodies
         .iter()
@@ -468,8 +325,13 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                 .record("REPRESENTATION_RELATIONSHIP_WITH_TRANSFORMATION")
                 .ok_or_else(|| failure("assembly relationship without transform"))?;
             let t = rec(&f, reference(transform, 0)?, "ITEM_DEFINED_TRANSFORMATION")?;
-            let from = axis(&f, reference(t, 2)?, scale)?;
-            let to = axis(&f, reference(t, 3)?, scale)?;
+            let relation = rr
+                .record("REPRESENTATION_RELATIONSHIP")
+                .or_else(|| rr.record("SHAPE_REPRESENTATION_RELATIONSHIP"))
+                .ok_or_else(|| failure("missing relationship endpoints"))?;
+            let (source_rep, target_rep) = (reference(relation, 2)?, reference(relation, 3)?);
+            let from = axis(&f, reference(t, 2)?, contexts.scale(&f, source_rep)?)?;
+            let to = axis(&f, reference(t, 3)?, contexts.scale(&f, target_rep)?)?;
             placements.insert(occurrence, to.compose(from.inverse()));
         }
     }
@@ -495,7 +357,7 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
     struct Items<'a> {
         file: &'a StepFile,
         bodies: &'a BTreeMap<u64, usize>,
-        scale: f64,
+        contexts: &'a units::Contexts,
         mapped: BTreeSet<u64>,
     }
     impl Items<'_> {
@@ -557,8 +419,17 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                 self.mapped.insert(id);
                 let mi = rec(self.file, id, "MAPPED_ITEM")?;
                 let map = rec(self.file, reference(mi, 1)?, "REPRESENTATION_MAP")?;
-                let source = axis(self.file, reference(map, 0)?, self.scale)?;
-                let target = mapping_transform(self.file, reference(mi, 2)?, self.scale)?;
+                let mapped_rep = reference(map, 1)?;
+                let source = axis(
+                    self.file,
+                    reference(map, 0)?,
+                    self.contexts.scale(self.file, mapped_rep)?,
+                )?;
+                let target = mapping_transform(
+                    self.file,
+                    reference(mi, 2)?,
+                    self.contexts.scale(self.file, rep)?,
+                )?;
                 let transform = target.compose(source.inverse());
                 let mut contents = vec![];
                 self.collect(
@@ -679,7 +550,7 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
     let mut items = Items {
         file: &f,
         bodies: &body_map,
-        scale,
+        contexts: &contexts,
         mapped: BTreeSet::new(),
     };
     let mut owned = BTreeMap::new();
@@ -773,144 +644,6 @@ pub fn inspect_with_resource_limits(asset: &StepAsset, limits: &ResourceLimits) 
     let instances=data.instances.iter().map(|i|json!({"id":i.id,"input":format!("definition-{}",i.body_index),"parent":i.parent,"metadata":{"step_path":i.path}})).collect::<Vec<_>>();
     Ok(json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source",
         "resource_limits":limits,"resource_usage":{"step_bytes":asset.step.len()}}))
-}
-
-/// Serialize sheets as STEP surface models, preserving the exact trimmed surfaces.
-pub(crate) fn write_surface(model: &step_import::model::Model) -> Result<String> {
-    let mut source = model.clone();
-    for b in &mut source.bodies {
-        b.kind = step_import::model::BodyKind::ManifoldSolid;
-        for shell in &mut b.shells {
-            shell.closed = true;
-            // A sheet has two faceuses of one face; STEP stores that face once.
-            let mut seen = BTreeSet::new();
-            shell.faces.retain(|face| seen.insert(*face));
-        }
-    }
-    let text = step_export::write(&source).map_err(failure)?;
-    let mut file = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
-    for item in file.entities.values_mut() {
-        if let StepInstance::Simple(r) = item {
-            match r.name.as_str() {
-                "CLOSED_SHELL" => r.name = "OPEN_SHELL".into(),
-                "MANIFOLD_SOLID_BREP" => {
-                    r.name = "SHELL_BASED_SURFACE_MODEL".into();
-                    r.params[1] = Param::List(vec![r.params[1].clone()]);
-                }
-                "ADVANCED_BREP_SHAPE_REPRESENTATION" => {
-                    r.name = "MANIFOLD_SURFACE_SHAPE_REPRESENTATION".into()
-                }
-                _ => {}
-            }
-        }
-    }
-    let mut out=String::from("ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact surface model'),'2;1');\nFILE_NAME('surface.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n");
-    for (id, item) in &file.entities {
-        let value = match item {
-            StepInstance::Simple(r) => record(r, 0),
-            StepInstance::Complex(rs) => format!(
-                "({})",
-                rs.iter()
-                    .map(|r| record(r, 0))
-                    .collect::<Vec<_>>()
-                    .join(" ")
-            ),
-        };
-        out.push_str(&format!("#{id}={value};\n"));
-    }
-    out.push_str("ENDSEC;\nEND-ISO-10303-21;\n");
-    Ok(out)
-}
-
-/// Preserve one material solid across its outer shell and enclosed cavity shells.
-pub(crate) fn write_solids(model: &step_import::model::Model) -> Result<String> {
-    if model.bodies.iter().all(|b| b.shells.len() == 1) {
-        return step_export::write(model).map_err(failure);
-    }
-    let mut flat = model.clone();
-    flat.bodies.clear();
-    let mut groups = vec![];
-    for body in &model.bodies {
-        let start = flat.bodies.len();
-        for (index, shell) in body.shells.iter().enumerate() {
-            let mut part = body.clone();
-            if index > 0 {
-                // STEP requires a positive cavity shell, reversed by its oriented shell.
-                for &face in &shell.faces {
-                    part.faces[face].same_sense = !part.faces[face].same_sense;
-                    for bound in &mut part.faces[face].loops {
-                        bound.orientation = !bound.orientation;
-                    }
-                }
-            }
-            part.kind = step_import::model::BodyKind::ManifoldSolid;
-            part.step_id = flat.bodies.len() as u64 + 1;
-            part.shells = vec![shell.clone()];
-            flat.bodies.push(part);
-        }
-        groups.push(start..flat.bodies.len());
-    }
-    let text = step_export::write(&flat).map_err(failure)?;
-    let mut file = part21::parse(text.as_bytes(), &generated_limits()).map_err(failure)?;
-    let solids = file
-        .entities
-        .iter()
-        .filter_map(|(id, v)| v.record("MANIFOLD_SOLID_BREP").map(|_| *id))
-        .collect::<Vec<_>>();
-    if solids.len() != flat.bodies.len() {
-        return Err(failure("shell export count mismatch"));
-    }
-    let mut inner = BTreeSet::new();
-    for group in groups.iter().filter(|g| g.len() > 1) {
-        let voids = group
-            .clone()
-            .skip(1)
-            .map(|i| Param::Ref(solids[i]))
-            .collect::<Vec<_>>();
-        if let Some(StepInstance::Simple(r)) = file.entities.get_mut(&solids[group.start]) {
-            r.name = "BREP_WITH_VOIDS".into();
-            r.params.push(Param::List(voids));
-        }
-        for i in group.clone().skip(1) {
-            inner.insert(solids[i]);
-            if let Some(StepInstance::Simple(r)) = file.entities.get_mut(&solids[i]) {
-                let shell = r.params[1].clone();
-                r.name = "ORIENTED_CLOSED_SHELL".into();
-                // Positive cavity shell reversed toward the void (ISO 10303-42).
-                r.params = vec![
-                    Param::Str(String::new()),
-                    Param::Derived,
-                    shell,
-                    Param::Enum("F".into()),
-                ];
-            }
-        }
-    }
-    for item in file.entities.values_mut() {
-        if let StepInstance::Simple(r) = item {
-            if r.name == "ADVANCED_BREP_SHAPE_REPRESENTATION" {
-                if let Some(Param::List(items)) = r.params.get_mut(1) {
-                    items.retain(|v| v.as_ref_id().is_none_or(|id| !inner.contains(&id)));
-                }
-            }
-        }
-    }
-    let mut out=String::from("ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact solids with enclosed cavities'),'2;1');\nFILE_NAME('model.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n");
-    for (id, item) in &file.entities {
-        let value = match item {
-            StepInstance::Simple(r) => record(r, 0),
-            StepInstance::Complex(rs) => format!(
-                "({})",
-                rs.iter()
-                    .map(|r| record(r, 0))
-                    .collect::<Vec<_>>()
-                    .join(" ")
-            ),
-        };
-        out.push_str(&format!("#{id}={value};\n"));
-    }
-    out.push_str("ENDSEC;\nEND-ISO-10303-21;\n");
-    Ok(out)
 }
 
 #[cfg(test)]

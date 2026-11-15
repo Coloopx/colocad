@@ -24,12 +24,14 @@ regions.rs: Lazy exact inspection regions propagated along the feature DAG.
 relationships.rs: Exact solid relationships. Boundary distance and material overlap are independent predicates.
 sketch.rs: Parametric 2D constraints. Initial coordinates select a local solution branch.
 solve.rs: Bounded deterministic Levenberg–Marquardt with numerical rank diagnostics.
-step_assembly.rs: AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
+step_assembly.rs: AP203/AP214共享定义/产品实例与mm模板；调用局部units/transforms处理明确上下文及双端点位姿。 保留宿主独立输出预算。
 surfaces.rs: Tensor-product Bézier patches and exact parametric C2 bridge construction.
 validation.rs: Schema, reference and resource validation, without kernel execution.
 
 preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
+
+step_assembly/: body归属/归一证明和representation尺度下的刚体解析，见step_assembly/AGENTS.md。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执；模型不能抬高预算。

@@ -27,6 +27,9 @@ validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_refer
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
+step_units.rs: 同长度body上下文、uniform-cm及嵌套mapped/CDSR模板回放；明确拒绝mixed、缺长度/归属与冲突，接受重复相同上下文。
+support/: 合成STEP构造助手，不承载期望单位/位姿算法。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。

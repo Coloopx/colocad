@@ -6,6 +6,8 @@ Release 0.1.1 has a verified public npm installation and native builds for all t
 
 [Stable 0.1.1 benchmarks, engineering changes and 256-edit memory](benchmark-stable.md)
 
+[STEP representation contexts and supported unit boundaries](step-import-contexts.md)
+
 [Freeform shells, mesh import and hybrid assembly](hybrid.md)
 
 [Alpha.10 three-backend rerun, memory scaling and hybrid builds](benchmark-alpha10.md) · [Offline performance and geometry comparison](benchmarks/alpha10/scorecard.html)
