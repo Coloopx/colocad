@@ -1,5 +1,5 @@
-//! [INPUT]: 明确上下文与混合mm/cm的合成盒体、真实公开inspect/build入口。
-//! [OUTPUT]: 单位归一、CDSR/mapped世界位姿及拒绝缺失/冲突上下文回归。
+//! [INPUT]: 明确上下文合成盒体、公开OCCT嵌套夹具及真实inspect/build入口。
+//! [OUTPUT]: 单位归一、来源几何不变的CDSR位姿及缺失/冲突上下文拒绝回归。
 //! [POS]: B4公开行为验收；期望数值手算，不读取私有硬件。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 #[path = "support/step_units.rs"]
@@ -44,6 +44,38 @@ fn bounds(v: &Value, want: [[f64; 3]; 2]) {
             assert!((v[i][j].as_f64().unwrap() - want[i][j]).abs() < 1e-5, "{v}");
         }
     }
+}
+#[test]
+fn same_length_contexts_preserve_the_public_occt_nested_fixture() {
+    let original = include_str!("fixtures/nested-assembly.step");
+    assert_eq!(asset(original.into()).sha256,
+        "a00e6700566f453153c2f193cfed8fa004c30c4aa1723901334c57d6240153ef");
+    let before = "#394 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-07),#391,";
+    let after = "#394 = UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE(1.E-06),#391,";
+    assert_eq!(original.matches(before).count(), 1);
+    let changed = original.replacen(before, after, 1);
+    assert_eq!(changed.replacen(after, before, 1), original,
+        "only one representation uncertainty changes; coordinates, topology and transforms remain exact");
+    let (info, result) = replay(changed, "occt-nested-uncertainty");
+    assert_eq!(info["definitions"], 1);
+    let instances = info["instances"].as_array().unwrap();
+    assert_eq!(instances.len(), 2);
+    // 两级CDSR：根Rz90/平移100，再分别复用原点及Rz90/平移30。
+    for (origin, axes) in [
+        ([100., 0., 0.], [[0., 1., 0.], [-1., 0., 0.], [0., 0., 1.]]),
+        ([100., 30., 0.], [[-1., 0., 0.], [0., -1., 0.], [0., 0., 1.]]),
+    ] {
+        let matched = instances.iter().filter(|i| (0..3).all(|j|
+            (i["world_placement"]["origin_mm"][j].as_f64().unwrap() - origin[j]).abs() < 1e-5)).collect::<Vec<_>>();
+        assert_eq!(matched.len(), 1, "each original occurrence must retain its own world pose");
+        for i in 0..3 { for j in 0..3 {
+            assert!((matched[0]["world_placement"]["axes"][i][j].as_f64().unwrap() - axes[i][j]).abs() < 1e-9);
+        }}
+    }
+    assert_eq!(result.report["geometry"]["solids"], 2);
+    assert!((result.report["geometry"]["volume_mm3"].as_f64().unwrap() - 2000.).abs() < 1e-4);
+    bounds(&result.report["geometry"]["bbox_mm"], [[80., 0., 0.], [100., 30., 5.]]);
+    replay(result.step, "occt-nested-readback");
 }
 #[test]
 fn same_length_different_angle_contexts_preserve_explicit_body_mm() {
