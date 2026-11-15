@@ -27,5 +27,5 @@ validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_refer
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
-step_import_cache.rs: 9项解析计数红绿、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
+step_import_cache.rs: 10项解析计数红绿与公开revision冷建/全restore/单BodyIdx miss及严格权限控制、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
