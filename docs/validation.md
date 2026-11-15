@@ -1,5 +1,25 @@
 # Release validation
 
+## UV trim validation metric
+
+Native execution enables SolidCore's `uv_trim_checks_on_surface` check. A UV parameter difference is not a millimetre distance: an unchanged physical hole can have arbitrarily small trim coordinates after a surface is reparameterized. The check evaluates eligible UV-trim curvature and internal control-point spacing using the supporting surface's first fundamental form. The same execution kernel is used by single-body, early assembly-part and cached-body validation. The enabled fix is listed in `kernel.upstream_fixes` in capabilities and build receipts.
+
+The metric map is exact for an affinely parameterized planar patch. For a non-affine planar patch or a regular nonplanar surface it uses a local metric at the trim midpoint, with the existing surface-domain-centre fallback; it is not a global arc-length certificate. If a metric is unavailable, the original trim check or its error is retained. Three-dimensional curve checks, distance-gap tolerances, loop/topology checks and the Level-1/manifold gates are unchanged. This does not introduce a relative gap allowance, repair source geometry, or establish manufacturing accuracy.
+
+`crates/agent-cad/tests/uv_trim_metric.rs` generates a nominal 20 × 20 × 6 mm block with a radius-1 mm through bore. Only the planar end faces and their UV trims are affinely reparameterized to `[0, 1e-5]²`; 3D edge curves, vertices and stored tolerances are retained. Before the fix, both public part and assembly builds reject its STEP with `SmBSplineCurve` test 15 (coincident control points). The regression checks successful build and STEP readback, a real 0.01 mm endpoint-gap rejection, wrong outer-loop rejection, singular-metric fallback, unchanged faulty 3D-curve checks, and sphere poles/cylinder seams. Additional regressions exercise two independently released terminal definitions, real terminal import and translated-result checkpoint cache hits, conservative intermediate fallback, and a genuinely collapsed UV span rejected by test 15 with a regular metric. The checked-in `uv-rescaled-plate.step` fixture also exercises the public JavaScript SDK and official readback template.
+
+Run the native and SDK regressions against a freshly built executable:
+
+```sh
+npm run build:kernel
+cargo test --locked -p agent-cad --test uv_trim_metric
+node --test test/uv-trim-metric.test.mjs
+# Requires OCP (cadquery-ocp); use a new output directory.
+python test/validation/uv-trim-metric.py --native kernel/native/darwin-arm64/agent-cad --output out/uv-independent
+```
+
+Choose the matching Linux/macOS native path for your host. The independent audit verifies STEP validity, one solid, equal source/output volume and inside/outside probes; its volume/probe checks are audit tolerances, not changes to the native validation policy.
+
 [Alpha.9 release evidence](evidence/release-alpha.9.json) · [new comparative measurements](benchmark-alpha9.md). The version-specific runs below are historical.
 
 The same public build API compiled the two different feature trees in `examples/`. The manifold has one solid with 27 faces and 54 edges. OCCT read its STEP as a valid solid with volume 45,490.923866 mm³. Reducing the blind-port count from four to three restored 226.194671 mm³, matching π × 3² × 8. The rail has rectangular through-slots patterned along Y. Removing one slot restored 405 mm³. The validation script also probes points within and outside the blind ends, the pocket, and the fillet.

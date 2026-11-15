@@ -24,9 +24,13 @@ validation/: 原生与打包入口的独立几何/集成审计。
 evidence/: 已保存的历史失败文本。
 types/: 公开查询和宿主资源配置的编译合同与负例。
 
-[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+
 resource-limits.test.mjs: 公开SDK注册/UTF-8/JSON/聚合字节、宿主预算及原生摘要/回读守卫回归。
 output-step-budgets.test.mjs: 输出容量、SHA reader、session/HTML当前授权、文件回读及摘要元数据拒绝；Windows待验。
 
 report-capacity.test.mjs: 原7项真实reportBytes/冷建RED及负例，等待PR6 Windows验证。
 report-session-budget.test.mjs: 当前session文件/packed预算和SHA，等待PR6 Windows验证。
+
+uv-trim-metric.test.mjs: 公开SDK的UV缩放单体/装配、STEP回读及真实缓存命中回归。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

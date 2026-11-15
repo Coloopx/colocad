@@ -1,6 +1,8 @@
 //! Deterministic feature execution, exact validation and exports.
-//! Validates host budgets before checkpoint restore.
-//! Adjacent STEP imports share a source cache for this build.
+//! [INPUT]: 固定SolidCore、声明式模型、宿主字节预算及单次调用ImportCache。
+//! [OUTPUT]: build/revision候选、公共UV度量Level1校验、STEP/report与来源解析统计。
+//! [POS]: 先验证宿主预算；解析槽在快照前释放，统计在reportBytes最终准入前写入。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub struct Build {
     pub artifacts: BTreeMap<String, Vec<u8>>,
@@ -159,6 +161,7 @@ fn execute(
     k.fixes.transform_model_size_from_body_box = true;
     k.fixes.fillet_chamfer_cone_on_arc = true;
     k.fixes.shell_edges_on_analytics_exact = true;
+    k.fixes.uv_trim_checks_on_surface = true;
     let mut bodies = BTreeMap::new();
     let mut uses = BTreeMap::<String, usize>::new();
     for f in &model.features {

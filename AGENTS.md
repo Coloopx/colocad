@@ -1,19 +1,22 @@
-# Colocad — source navigation
-Rust + TypeScript + Node.js + SHA-pinned SolidCore.
-crates/agent-cad/src/: bounded native modeling, STEP exchange, validation and receipts.
-crates/agent-cad/tests/: native public API and geometry regressions.
-kernel/: public SDK, tracked TypeScript distribution and rebuilt-native boundary; see kernel/AGENTS.md.
-test/: public SDK/CLI and independent validation.
-docs/: API and verification boundaries.
-third_party/: pinned source archive and reviewed patches; generated vendor files are not committed.
-out/: ignored local reproductions, plans and validation evidence.
+# Colocad — PR3/6/12/14 本地基准集成树
+Rust + TypeScript + Node.js + SHA固定SolidCore。
+
+crates/agent-cad/src/: 公共UV曲面度量、宿主ByteBudgets及调用内ImportCache；保持Level1与几何容差。
+crates/agent-cad/tests/: 四个公开PR的原生回归及输入夹具。
+kernel/: 公共SDK、跟踪dist与原生构建边界，见kernel/AGENTS.md。
+src/: 公共session及当前宿主字节授权。
+test/: 公共SDK/CLI和独立消费验证。
+docs/: 原接口、资源合同和各源分支的历史验证边界。
+third_party/: SHA固定源码归档、补丁及顺序锁；vendor产物不提交。
+scripts/: 原生构建入口；本轮不执行。
+out/: 忽略的本地集成来源、冲突与哈希manifest。
+
+## 实验约束
+以c3200d59为唯一base，依次合入PR3@1b3f1bc、PR6@7693333、PR12@632d061及PR14@7a4a0d3原提交；不含PR8/10/G3或本轮UV性能修复。
+公共executor保持uv_trim_checks_on_surface=true；ImportCache与输入/STEP输出/report字节预算同时保留。模型不能抬高宿主预算。
+本轮只进行Git、文本与哈希核对，不构建、不运行Node/Rust/几何、不推送；源分支历史验收不视为组合版本通过。Windows基准另行执行。
+
+## 变更日志
+2026-11-17：创建独立本地四PR集成基线；保留各源提交及逐次merge来源，冲突合并功能与局部地图。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-
-宿主输入、STEP输出和报告分别设定有限预算；Rust resources与SDK resource-limits维持同一默认/硬上限。模型与producer不能授权，session及文件读取使用当前host快照。原生发布前分别检查实际stdout与report文件，旧超大checkpoint只冷建；几何/容差/原件SHA检查保持独立。
-
-Rebuild the TypeScript distribution when changing the SDK. Test native changes with a binary built from the same sources. See docs/resource-budgets.md for the resource experiments.
-
-scripts/: local and Docker builds apply the pinned vendor patches.
-See third_party/patches/README.md for the pinned planar conic domain patch and crates/agent-cad/tests/step_planar_conic_domain.rs for its regression cases.
-
-Adjacent STEP definition imports reuse one admitted source in the native build. See crates/agent-cad/src/import_cache.rs and crates/agent-cad/tests/step_import_cache.rs.

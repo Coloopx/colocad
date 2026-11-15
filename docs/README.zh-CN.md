@@ -107,3 +107,5 @@ test ! -e .agents/skills/colocad && \
 - [ROADMAP](../ROADMAP.zh-CN.md)：当前架构、验收范围、benchmark 与 RSI 规划。
 - [三后端内存压力与持久化报告](memory-persistence-report.zh-CN.md)及 [alpha.9 有界内存立项](../specs/0006-bounded-memory-persistence.zh-CN.md)。
 - [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)
+
+UV参数坐标与毫米距离的校验边界、平面/局部曲面度量及回归命令见[UV曲线校验](validation.md#uv-trim-validation-metric)。
