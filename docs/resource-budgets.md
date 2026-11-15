@@ -45,3 +45,13 @@ agent-cad build --out NEW_DIR --resource-limits '{"inputBytes":67108864,"stepByt
 Rust callers can use `ResourceLimits`, `validate_with_resource_limits`, `build_revision_with_resource_limits`, and `step_assembly::inspect_with_resource_limits`. Existing entry points retain the default policy. Asset sizes and SHA checks run before checkpoint restoration, so a previous successful larger-budget build cannot bypass a stricter current policy.
 
 This implementation still sends inline STEP text in JSON. Larger limits are not a guarantee that a complex CAD fits a memory/time quota. Size-only regressions use valid public STEP geometry padded with comments, distinct from real vendor assemblies. Deployments must measure their actual source geometry under their sandbox limits; a budget rejection is not evidence of damaged CAD or geometric impossibility.
+
+Run the public SDK controls with a freshly built native executable:
+
+```sh
+AGENT_CAD_BINARY=/absolute/agent-cad node --test test/resource-limits.test.mjs
+node test/validation/resource-budgets.mjs /absolute/agent-cad NEW_OUTPUT 34603008
+node test/validation/resource-budgets-occt.mjs crates/agent-cad/tests/fixtures/occt-drilled-block.step DELIVERED_STEP NEW_REPORT.json
+```
+
+The last command uses the repository's locked independent OCCT WASM dependency and records its SHA, validity, solid count, volume and bounds. It does not execute Colocad, modify the input or prove global material equivalence. The optional `resource-budgets.py NEW_OUTPUT` audit additionally compares material probes in an explicitly selected OCP environment; neither audit is a runtime geometry fallback.
