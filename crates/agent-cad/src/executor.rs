@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: 声明特征、宿主策略和版本缓存。
+ * [OUTPUT]: 受下游容量约束的STEP/快照/显示构造回执。
+ * [POS]: 原生确定性执行边界。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! Deterministic feature execution, exact validation and exports.
 //! Validates host budgets before checkpoint restore.
 //! Adjacent STEP imports share a source cache for this build.
@@ -133,6 +139,7 @@ pub fn build_revision_with_resource_limits(
         ));
     }
     let queryable = queryable.unwrap_or(!model.datums.is_empty() || !model.interfaces.is_empty());
+    step_import_limits::downstream(model, queryable)?;
     let mut imports = import_cache::ImportCache::default();
     let mut result = execute(model, cache, queryable, limits, &mut imports)?;
     result.report["step_source_cache"] = imports.report();
@@ -140,6 +147,7 @@ pub fn build_revision_with_resource_limits(
     result.report["resource_limits"] = json!(limits);
     result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>(),"output_step_bytes":result.step.len()});
     if let Some(recovery) = cache.recovery() { result.report["checkpoint_recovery"] = recovery; }
+    result.report["step_import_limits"] = json!(step_import_limits::current());
     resources::check_success_report(&result.report, limits.report_bytes)?;
     result.artifacts.append(&mut cache.files);
     Ok(result)

@@ -96,6 +96,7 @@ impl Checkpoints {
             let spec = json!([
                 EXECUTOR_VERSION,
                 EXECUTION_POLICY,
+                step_import_limits::current(),
                 KERNEL_REV,
                 operation,
                 params,

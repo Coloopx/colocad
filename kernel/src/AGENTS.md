@@ -22,3 +22,4 @@ outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加re
 reportBytes：全命令invoke/inspect/preview report按当前host报告额度；process保留UTF8字节有界接收，files提供校验reader。默认8MiB/顶128MiB/最小1024B，STEP固定SHA reader不读report。
 
 独立验收的编译/运行分离：默认release opt3在2CPU/5GiB/no-swap仅编译成功，随后Rust147/147在2CPU/3GiB运行；两次cold 3GiB OOM记录保留。详见../../docs/resource-budgets.md，不更新platform/release.json或发布npm。
+step-import-limits.ts: 计数配置硬顶校验和原生host参数。

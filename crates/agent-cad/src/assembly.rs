@@ -108,7 +108,13 @@ pub(crate) fn validate(m: &Model, features: &BTreeSet<String>) -> Result<()> {
             "choose output or assembly, not both",
         ));
     }
-    if m.assembly.len() > 128 || m.checks.len() > 64 {
+    step_import_limits::check(
+        "assembly_occurrences",
+        m.assembly.len(),
+        step_import_limits::current().max_occurrences,
+        "assembly_validation",
+    )?;
+    if m.checks.len() > 64 {
         return Err(CadError::new(
             "RESOURCE_LIMIT",
             "at most 128 instances and 64 assembly checks",
@@ -284,12 +290,7 @@ pub(crate) fn validate(m: &Model, features: &BTreeSet<String>) -> Result<()> {
             }
         }
     }
-    if pairs > 8128 {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "at most 8128 checked pairs",
-        ));
-    }
+    step_import_limits::check("checked_pairs", pairs, 8128, "assembly_validation")?;
     Ok(())
 }
 fn volume(k: &mut Kernel, b: &mut Brep) -> Result<f64> {

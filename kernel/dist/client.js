@@ -6,6 +6,7 @@
  */
 import { realpath } from 'node:fs/promises';
 import { readReportFile } from './files.js';
+import { stepImportArgs } from './step-import-limits.js';
 import { join, relative, isAbsolute, sep } from 'node:path';
 import { artifactJob } from './artifacts.js';
 import { resolveBinary } from './binary.js';
@@ -18,6 +19,7 @@ export class CadClient {
     config;
     byteLimits;
     explicitByteLimits;
+    stepArgs;
     previousRevision;
     previousQueryable = false;
     previewCache = new Map();
@@ -26,6 +28,7 @@ export class CadClient {
         const hostByteLimits = config.resourceLimits;
         this.byteLimits = resourceLimits(hostByteLimits);
         this.explicitByteLimits = hostByteLimits !== undefined;
+        this.stepArgs = stepImportArgs(config.stepImportLimits);
         if (config.runner && config.runner.mode !== 'native')
             throw Error('CAD executes in the current sandbox. Use the sandbox test harness for Docker experiments.');
         if (config.wallMs !== undefined && (!Number.isFinite(config.wallMs) || config.wallMs < 1 || config.wallMs > 120_000)) {
@@ -139,7 +142,7 @@ export class CadClient {
         try {
             const binary = resolveBinary(this.config.binary ?? this.config.runner?.binary);
             const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : args;
-            return receipt(await execute(binary, nativeArgs, input, this.config.wallMs ?? 30_000, this.byteLimits.reportBytes));
+            return receipt(await execute(binary, [...nativeArgs, ...this.stepArgs], input, this.config.wallMs ?? 30_000, this.byteLimits.reportBytes));
         }
         catch (cause) {
             return error('LOCAL_EXECUTION_FAILED', String(cause));

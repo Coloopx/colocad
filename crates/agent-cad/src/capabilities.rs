@@ -19,6 +19,7 @@ pub fn capabilities() -> Value {
     json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"units":["mm"],
         "resource_limits":limits,"resource_limit_ceilings":ResourceLimits::CEILINGS,
         "step_artifact":{"digest_file":"model.step.sha256","digest_format":"sha256_lowerhex_newline","digest_bytes":65},
+        "step_import":{"default_limits":step_import_limits::StepImportLimits::default(),"hard_limits":step_import_limits::StepImportLimits::HARD,"active_limits":step_import_limits::current(),"query_occurrences":128,"query_definitions":128,"preview_occurrences":128,"preview_definitions":128},
         "operations":operations,
         "profiles":["rectangle","circle","ellipse","polygon","outline_lines_and_arcs","constrained_sketch"],
         "assembly":{"named_instances":true,"hierarchy":true,"shared_definitions":true,"construction_volumes":true,"representation_declarations":true,"poses":["normal","internal","exploded"],"checks":["collision","containment","opening","interface_compatibility","geometric_relationship"],"step":"native_product_instance_tree","mates":["fixed","coincident","concentric","plane","distance","revolute","prismatic"],"mate_direction":{"axis":["aligned","opposed","unoriented"],"frame":["aligned","opposed"],"frame_twist_deg":true,"default":"aligned","unoriented_branch":"initial_pose_fixed_during_local_solve"},"mate_physical_residual_units":["mm","rad"]},

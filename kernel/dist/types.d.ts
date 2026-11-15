@@ -24,7 +24,15 @@ export type Runner = {
     mode: 'native';
     binary?: string;
 };
+/** Host-only count ceilings; defaults remain 100000/128/128/512. */
+export interface StepImportLimits {
+    maxEntities?: number;
+    maxDefinitions?: number;
+    maxOccurrences?: number;
+    maxGroups?: number;
+}
 export interface Config {
+    stepImportLimits?: StepImportLimits;
     outputRoot: string;
     binary?: string;
     wallMs?: number;

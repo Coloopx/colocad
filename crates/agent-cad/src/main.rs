@@ -25,7 +25,9 @@ fn main() {
 }
 fn run() -> Result<Value, CadError> {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
+    let count_limits = agent_cad::step_import_limits::host_args(&mut args)?;
     let limits = agent_cad::resources::take_host_limits(&mut args)?;
+    agent_cad::step_import_limits::with_import_limits(count_limits, || {
     let result = run_args(args, limits).and_then(|data| {
         agent_cad::resources::check_success_report(&data, limits.report_bytes)?;
         Ok(data)
@@ -34,6 +36,7 @@ fn run() -> Result<Value, CadError> {
         agent_cad::resources::check_report(&json!({"ok":false,"error":error}), limits.report_bytes)?;
     }
     result
+    })
 }
 fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<Value, CadError> {
     if args == ["capabilities"] {

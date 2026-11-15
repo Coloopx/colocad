@@ -121,3 +121,24 @@ Windows/WSL2 final acceptance: all 10 targeted controls and 144 native workspace
 Compilation and runtime both used two CPUs, 3 GiB RAM, zero swap and no OOM. Measured peaks were 1,508,564,992 bytes for full compilation, 372,731,904 for Rust runtime and 596,074,496 for Node runtime. These are the public test workload's observed peaks, not a bound for complex hardware or a speedup claim.
 
 Independent OCCT WASM reads the actual retained 32-solid output as valid, with volume 98378.7614034052 mm³ and bounds `[[0,0,0],[1012,16,10]]`. The public reference is byte-exactly related to the native input by one added comment. OCCT's attempt to read the single one-MiB comment hit its scanner buffer limit; that raw padded transfer did not pass. The unchanged reference and actual delivered STEP were independently read without rebuilding or repairing the native output. Global material equivalence, real vendor hardware and original seven-case acceptance remain unestablished.
+
+### Host STEP count policy
+
+`new CadClient({outputRoot, stepImportLimits: {maxEntities, maxDefinitions, maxOccurrences, maxGroups}})` freezes a host-owned count policy. Every key is optional. Values must be positive safe integers; unknown keys fail before execution. The native equivalent is `agent-cad inspect-step --step-import-limits '{"maxEntities":200000,"maxDefinitions":256,"maxOccurrences":1024,"maxGroups":2048}'` (the same option works with build/validate/query/observe). Resource configuration is not a Model field and cannot be supplied by agent IR.
+
+| Count | Default | Hard maximum |
+|---|---:|---:|
+| External Part21 entities | 100000 | 2000000 |
+| Source B-rep definitions | 128 | 1024 |
+| Mapped-per-product and total expanded leaf occurrences | 128 | 4096 |
+| Imported/model groups | 512 | 8192 |
+
+Parse, inspect, ordinary/definition/assembly STEP imports use the same policy and check the whole source, including occurrence expansion and fallback bodies. Internal generated STEP serialization remains separately limited to 1000000 entities per definition. No bytes, UV rules, units rules or geometric tolerances change. Source counts are not counts of hardware slots.
+
+`RESOURCE_LIMIT` errors include `details.resource_limit = {resource, actual, allowed, stage}`. An entity parser stops at the first excess record: `actual` is the observed `allowed+1`, marked `actual_is_lower_bound:true`, not a claim to have scanned the remaining file. Successful inspect returns exact `source_entities`, source definitions/instances and `step_import_limits`; builds record their effective count policy.
+
+The Rust entrypoints are `StepImportLimits`, `validate_with_import_limits(model, limits)`, `build_revision_with_import_limits(model, checkpoints, queryable, limits)`, and `step_assembly::inspect_with_import_limits(asset, limits)`. `step_import_limits::with_import_limits` establishes a synchronous thread-local scope for composition with other host policies; nested scopes and unwind restore the caller's policy. These are distinct from byte-budget APIs. Spawned threads do not inherit a scope.
+
+Explicit extensions support plain native assemblies and import-only definition tables within the configured finite limits. Ordinary feature programs retain the 128-feature budget. Query snapshots and display caches remain limited to 128 definitions/occurrences: unsupported expanded queryable/preview builds fail before geometry, and cache readers enforce the same fixed capacities. The unchanged 8128 checked-pair, solver-variable, face, mesh, byte and time budgets can still reject an expanded model. No instances are merged, silently truncated, dropped or converted to a compound to fit a smaller table.
+
+Checkpoint keys include the count policy as well as the existing geometry/execution identity. Reusing a revision under a different or lower policy therefore replays source imports instead of trusting a high-budget cached body. Query/preview artifacts retain their independent fixed format capacities.

@@ -1273,14 +1273,7 @@ pub(crate) fn execute(
                 return crate::step_assembly::build(k, &a.step);
             }
             let parsed = imports.parse(a, *definition, || {
-                let limits = step_import::Limits {
-                    max_entities: 100_000,
-                    max_list_depth: 24,
-                    max_ref_depth: 32,
-                    max_list_len: 16_384,
-                };
-                let parsed = step_import::import(a.step.as_bytes(), &limits)
-                    .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
+                let parsed = crate::step_assembly::read(&a.step)?.model;
                 if !parsed.skipped.is_empty()
                     || parsed.diagnostics.iter().any(|d|!(*definition && d.step_id.is_none() && d.message==format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",parsed.assembly_instances)))
                     || (parsed.assembly_instances > 0 && !definition)

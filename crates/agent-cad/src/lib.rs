@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: 宿主预算、声明式IR及固定原生内核。
+ * [OUTPUT]: 公开建模/验证及StepImportLimits与with_import_limits入口。
+ * [POS]: 原生库公共边界。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! A bounded, replayable feature IR over a pinned exact B-rep kernel.
 //! [INPUT]: 固定内核和声明式模型/宿主资源策略。
 //! [OUTPUT]: 默认兼容及显式宿主字节预算的Rust公共入口。
@@ -22,6 +28,10 @@ pub mod resources;
 pub mod sketch;
 mod solve;
 pub mod step_assembly;
+pub mod step_import_limits;
+pub use step_import_limits::{
+    build_revision_with_import_limits, validate_with_import_limits, StepImportLimits,
+};
 pub mod surfaces;
 use engineering::{Counterbore, OpenFace};
 pub mod assembly;

@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: 当前宿主group预算与声明刚体层级。
+ * [OUTPUT]: 有界group解析及刚体组合。
+ * [POS]: 实例/STEP/约束共享位姿实现。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! Rigid placement shared by model instances, STEP and constraint solving.
 use crate::*;
 use operations::{Frame, V3};
@@ -156,12 +162,12 @@ pub struct Group {
     pub pose: Pose,
 }
 pub(crate) fn groups(m: &Model) -> Result<BTreeMap<String, Rigid>> {
-    if m.groups.len() > 512 {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "at most 512 assembly groups",
-        ));
-    }
+    step_import_limits::check(
+        "assembly_groups",
+        m.groups.len(),
+        step_import_limits::current().max_groups,
+        "assembly_validation",
+    )?;
     let mut out = BTreeMap::new();
     let mut left = m.groups.iter().collect::<Vec<_>>();
     let mut ids = BTreeSet::new();
