@@ -1,0 +1,59 @@
+--- a/crates/step-import/src/script.rs
++++ b/crates/step-import/src/script.rs
+@@ -1,3 +1,7 @@
++//! [INPUT]: STEP中性有界曲线和解析曲面。
++//! [OUTPUT]: 构造脚本及平面conic连续极值参数域。
++//! [POS]: step-import构造桥；不修改输入曲线、容差或检查器。
++//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ //! Constructor scripts: a sequence of `SmBrepConstructor` calls over a table of
+ //! curves and surfaces, as one flat `f64` array, so that the Rust port and the C++
+ //! reference run exactly the same calls on the same numbers (difftest unit
+@@ -773,6 +777,28 @@
+     )
+ }
+ 
++// 投影为A*cos(t)+B*sin(t)。导数零点每隔180度；mapper有界弧至多一周。
++fn planar_conic_extrema(e: &crate::model::Edge, plane: &crate::model::Frame) -> Vec<P3> {
++    let (f, a, b) = match &e.curve {
++        Curve::Circle { frame, radius } => (frame, *radius, *radius),
++        Curve::Ellipse { frame, semi1, semi2 } => (frame, *semi1, *semi2),
++        _ => return Vec::new(),
++    };
++    let (lo, hi) = (e.t_start.min(e.t_end), e.t_start.max(e.t_end));
++    let mut points = Vec::new();
++    for axis in [plane.x, plane.y] {
++        let (x, y) = (a * dot(f.x, axis), b * dot(f.y, axis));
++        if x == 0.0 && y == 0.0 { continue; }
++        let angle = y.atan2(x).to_degrees();
++        let first = angle + 180.0 * ((lo - angle) / 180.0).ceil();
++        for i in 0..3 {
++            let t = first + 180.0 * f64::from(i);
++            if t >= lo && t <= hi { points.push(conic(f, a, b, t)); }
++        }
++    }
++    points
++}
++
+ /// Unwraps an angle (degrees) to within 180 of `prev`.
+ fn unwrap(prev: f64, x: f64) -> f64 {
+     x + 360.0 * ((prev - x) / 360.0).round()
+@@ -784,6 +810,8 @@
+ /// moved into the first loop's period; a closed direction spanning a full turn is one
+ /// period, its start moved into `[0, 360)` and the range kept within `[-360, 360]`;
+ /// vertex loops add their point in the directions that are not periodic).
++/// Planar circles and ellipses additionally include their continuous projected
++/// extrema; other curve and surface kinds retain the existing sampled bounds.
+ /// `None` for a face without loops and for surfaces whose STEP parameters are not
+ /// analytic here (revolution, extrusion, B-spline).
+ pub fn step_uv_domain(body: &Body, face: &crate::model::Face) -> Option<[f64; 4]> {
+@@ -842,6 +870,10 @@
+         for oe in es {
+             let e = body.edges.get(oe.edge)?;
+             let along = oe.forward == e.same_sense;
++            // 平面采样界不包住连续圆弧，补入实际弧区间内的投影极值。
++            if let Surface::Plane { frame } = &face.surface {
++                pts.extend(planar_conic_extrema(e, frame).into_iter().map(&map));
++            }
+             for j in 0..=EDGE_SAMPLES {
+                 let s = j as f64 / EDGE_SAMPLES as f64;
+                 pts.push(map(edge_point(e, if along { s } else { 1.0 - s })?));
