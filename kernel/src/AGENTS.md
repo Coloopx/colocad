@@ -15,6 +15,7 @@ query-generated.ts: 精确查询原生合同派生类型。
 helpers.ts: 有限声明式建模辅助器。
 preview-cache.ts: 固定预览缓存及显示预算。
 tools.ts: Agent工具公开合同与SDK调用适配。
+step-import-limits.ts: 计数配置单次读取/无原型快照、硬顶校验和原生host参数；不调用原对象toJSON。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加readStepArtifact的当前宿主输出预算与固定摘要核验，index.ts导出。更新跟踪的 dist 后使用当前工作树编译的原生程序验收。

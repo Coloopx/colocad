@@ -13,6 +13,7 @@ use std::{
     path::{Component, Path},
 };
 
+pub(crate) const MAX_INSTANCE_PATH: usize = 513;
 pub const MANIFEST: &str = "query-manifest.json";
 pub const MAX_GEOMETRY: usize = 64 * 1024 * 1024;
 fn digest<T: Serialize>(v: &T) -> Result<String> {
@@ -407,9 +408,7 @@ impl Capture {
                         .iter()
                         .find(|g| g.id == id)
                         .and_then(|g| g.parent.clone());
-                    if path.len() > 513 {
-                        return Err(CadError::new("QUERY_LIMIT", "instance path too deep"));
-                    }
+                    step_import_limits::check("query_instance_path", path.len(), MAX_INSTANCE_PATH, "query_snapshot_capture")?;
                 }
                 path.reverse();
                 let o = Occurrence {

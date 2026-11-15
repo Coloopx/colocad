@@ -1,7 +1,7 @@
 # /crates/agent-cad/src/query
 > L2 | 父级: ../AGENTS.md
 
-artifact.rs: Immutable exact query artifacts. Geometry is stored separately from the manifest.
+artifact.rs: 精确快照/重开及MAX_INSTANCE_PATH=513固定容量；计数预检与捕获防线共享该上限。
 compatibility.rs: Explicit engineering correspondence, evaluated after the actual mate transform.
 contract.rs: 所属模块的contract实现或公开配置。
 datums.rs: Persistent reconstruction recipes; observation refs remain revision-local.

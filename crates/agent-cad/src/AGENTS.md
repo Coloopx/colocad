@@ -24,7 +24,7 @@ regions.rs: Lazy exact inspection regions propagated along the feature DAG.
 relationships.rs: Exact solid relationships. Boundary distance and material overlap are independent predicates.
 sketch.rs: Parametric 2D constraints. Initial coordinates select a local solution branch.
 solve.rs: Bounded deterministic Levenberg–Marquardt with numerical rank diagnostics.
-step_import_limits.rs: 宿主显式STEP实体/定义/occurrence/group策略、硬顶、结构化拒绝、同步作用域及with_import_limits公共API。
+step_import_limits.rs: 宿主显式STEP实体/定义/occurrence/group策略、硬顶、结构化拒绝、query实际叶祖先链513路径预检、同步作用域及with_import_limits公共API。
 step_assembly.rs: AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
 surfaces.rs: Tensor-product Bézier patches and exact parametric C2 bridge construction.
 validation.rs: Schema, reference and resource validation, without kernel execution.

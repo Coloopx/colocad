@@ -39,7 +39,7 @@ fn review_i2_deep_query_is_rejected_before_any_feature_execution() {
     assert_eq!(plain.code,"STEP_ASSEMBLY");
     let query=build_revision_with_import_limits(&m,&mut Checkpoints::default(),Some(true),limits()).err().expect("unsupported query path");
     path_limit(query);
-    m.preview=serde_json::from_value(json!({"chord_mm":0.4})).ok();
+    m.preview=Some(serde_json::from_value(json!({"chord_mm":0.4})).unwrap());
     let query_preview=build_revision_with_import_limits(&m,&mut Checkpoints::default(),Some(true),limits()).err().expect("unsupported query path with preview");
     path_limit(query_preview);
 }
@@ -49,7 +49,7 @@ fn review_i2_plain_deep_chain_remains_supported_and_query_is_structurally_refuse
     let m=model(513,false);
     let plain=build_revision_with_import_limits(&m,&mut Checkpoints::default(),Some(false),limits()).unwrap();
     assert_eq!(plain.report["geometry"]["solids"],1);
-    assert_eq!(plain.report["geometry"]["volume_mm3"],1.0);
+    assert!((plain.report["geometry"]["volume_mm3"].as_f64().unwrap()-1.0).abs()<1e-8);
     let query=build_revision_with_import_limits(&m,&mut Checkpoints::default(),Some(true),limits()).err().expect("path length514");
     path_limit(query);
 }
@@ -62,7 +62,7 @@ fn review_i2_inclusive_query_path_shallow_groups_and_flat_preview_controls() {
         assert_eq!(manifest["body"]["occurrences"]["part"]["instance_path"].as_array().unwrap().len(),want_path);
     }
     // Display stores a flat world pose and does not consume query.instance_path.
-    let mut preview=model(513,false);preview.preview=serde_json::from_value(json!({"chord_mm":0.4})).ok();
+    let mut preview=model(513,false);preview.preview=Some(serde_json::from_value(json!({"chord_mm":0.4})).unwrap());
     let shown=build_revision_with_import_limits(&preview,&mut Checkpoints::default(),Some(false),limits()).unwrap();
     assert_eq!(shown.report["geometry"]["solids"],1);assert_eq!(shown.report["preview"]["complete"],true);
     let scene: Value=serde_json::from_slice(&shown.artifacts["preview.mesh.json"]).unwrap();

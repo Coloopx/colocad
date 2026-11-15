@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Host-only STEP count policy, external Part21 input and downstream capacity counts.
- * [OUTPUT]: Validated scoped limits, structured resource errors and one external parser identity.
+ * [OUTPUT]: Validated scoped limits, structured count/path preflight and one external parser identity.
  * [POS]: Native host boundary; agent Model JSON cannot grant itself a larger budget.
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */
@@ -157,7 +157,28 @@ pub(crate) fn feature_capacity(model: &Model) -> usize {
         MAX_FEATURES
     }
 }
+// -- Query paths include the leaf; count actual ancestors, not total groups. --
+fn query_paths(model: &Model) -> Result<()> {
+    check("assembly_groups", model.groups.len(), current().max_groups, "assembly_validation")?;
+    let parents: BTreeMap<_, _> = model.groups.iter()
+        .map(|g| (g.id.as_str(), g.parent.as_deref())).collect();
+    for instance in &model.assembly {
+        let mut parent = instance.parent.as_deref();
+        let mut seen = BTreeSet::new();
+        let mut length = 1;
+        while let Some(id) = parent {
+            if !seen.insert(id) {
+                return Err(CadError::new("ASSEMBLY_CYCLE", "cyclic group parent"));
+            }
+            parent = *parents.get(id).ok_or_else(|| CadError::new("INVALID_GROUP", id))?;
+            length += 1;
+        }
+        check("query_instance_path", length, query::artifact::MAX_INSTANCE_PATH, "downstream_capacity")?;
+    }
+    Ok(())
+}
 pub(crate) fn downstream(model: &Model, queryable: bool) -> Result<()> {
+    if queryable { query_paths(model)?; }
     if queryable || model.preview.is_some() {
         let prefix = if queryable { "query" } else { "preview" };
         check(
