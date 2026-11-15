@@ -1,10 +1,15 @@
 //! A bounded, replayable feature IR over a pinned exact B-rep kernel.
+//! [INPUT]: 模型和固定几何核。
+//! [OUTPUT]: 原生构建/验证及来源解析统计。
+//! [POS]: 公开库边界，解析状态仅存在于一次构建。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 mod compound;
 mod distance;
 pub mod engineering;
 mod exchange;
 mod grid;
 mod hollow;
+mod import_cache;
 pub mod mates;
 mod naming;
 mod network;

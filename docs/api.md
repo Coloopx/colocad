@@ -102,3 +102,10 @@ colocad render SESSION modeling.mp4 --width 1280 --height 800 --fps 15
 `colocad head SESSION` returns the accepted step ID, geometry summary and query revision. An empty session returns JSON null. A build without a query snapshot has a null query revision. `colocad inspect SESSION REQUEST.json` executes a revision-bound request and records its receipt. `colocad edit SESSION PARAMETERS.json` changes numeric parameters on the accepted model. CLI failures exit nonzero. The SDK equivalents are `session.head()`, `session.query(request)` and `session.edit(parameters)`. Read the source through the relative `inputFile` in each ledger entry. Multiple inspections can point to the same immutable source. [Runnable plate workflow](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell).
 
 For new compact sessions in the source candidate, use `session.receipt(step)` to read a checked, full receipt from either storage layout. See [session compatibility and persistence](indexed-sessions.md).
+
+
+## Invocation-local STEP parsing diagnostics
+
+Build receipts include `step_source_cache`: `parse_calls`, `hits`, `capacity`, `retained_models` and `scope`. These counts cover adjacent ordinary part/definition imports only; whole-assembly import, inspection and checkpoint decoding retain their existing paths. The diagnostic baseline records the original per-feature parse workload before enabling reuse.
+
+The source slot is local to one native build, holds at most one neutral model, is dropped before parsing another source, and is cleared for other geometry operations and before final snapshots/STEP/display. It never stores a B-rep or selects a body for the caller. Complete source admission remains inside the original parser callback, and each feature still checks its own body index, identity and mode. No byte/count/geometry/output/time budget is increased.
