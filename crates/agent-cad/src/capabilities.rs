@@ -1,7 +1,11 @@
 //! Kernel policy and advertised implementation capabilities.
+//! [INPUT]: 固定内核版本和执行器实际启用的修复策略。
+//! [OUTPUT]: capabilities与每轮kernel_policy回执。
+//! [POS]: 对外声明校验语义；默认容差与UV度量修复分别记录。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub(crate) fn kernel_policy() -> Value {
-    json!({"name":"solidcore","revision":KERNEL_REV,"tolerances":"kernel_defaults","upstream_fixes":["transform_scales_each_tolerance","transform_model_size_from_body_box","fillet_chamfer_cone_on_arc","shell_edges_on_analytics_exact"],"scoped_fixes":{"thicken":["shell_one_construction"],"measurement":["precise_properties_body_length_scale","precise_properties_split_at_surface_knots","precise_properties_span_end_from_below","precise_properties_trim_base_v","integrator_propagates_failure"]},"volume_integration_accuracy":1e-8})
+    json!({"name":"solidcore","revision":KERNEL_REV,"tolerances":"kernel_defaults","upstream_fixes":["transform_scales_each_tolerance","transform_model_size_from_body_box","fillet_chamfer_cone_on_arc","shell_edges_on_analytics_exact","uv_trim_checks_on_surface"],"scoped_fixes":{"thicken":["shell_one_construction"],"measurement":["precise_properties_body_length_scale","precise_properties_split_at_surface_knots","precise_properties_span_end_from_below","precise_properties_trim_base_v","integrator_propagates_failure"]},"volume_integration_accuracy":1e-8})
 }
 pub fn capabilities() -> Value {
     let schema = serde_json::to_value(schemars::schema_for!(Feature)).expect("serializable schema");

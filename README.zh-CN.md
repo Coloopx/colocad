@@ -211,6 +211,7 @@ SenseCAP 一行在两端都采用圆形底座。Colocad 对指定的近圆椭圆
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。
+- UV曲线校验采用支撑曲面的局部度量，避免把参数坐标当作毫米；默认几何容差不变，仿射平面的精确映射与其他参数化/奇异点边界分别说明。[回归及范围](docs/validation.md#uv-trim-validation-metric)。
 - CAD 的 512 MiB 测试不代表常驻 agent、浏览器和视频编码器的整体内存预算。
 - alpha.8 修复 `face_hole_grid` 与 `hole_grid` 接缝曲线的精确查询快照。[回归与安装包证据](docs/evidence/release-alpha.8.json)。
 

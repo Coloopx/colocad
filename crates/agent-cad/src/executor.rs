@@ -1,4 +1,8 @@
 //! Deterministic feature execution, exact validation and exports.
+//! [INPUT]: 固定SolidCore与声明式特征模型；共享内核策略贯穿构建及终态校验。
+//! [OUTPUT]: build/revision候选、严格Level1校验和精确STEP。
+//! [POS]: 单体与装配共用执行入口；UV曲面度量不改变几何容差。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub struct Build {
     pub artifacts: BTreeMap<String, Vec<u8>>,
@@ -136,6 +140,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool)
     k.fixes.transform_model_size_from_body_box = true;
     k.fixes.fillet_chamfer_cone_on_arc = true;
     k.fixes.shell_edges_on_analytics_exact = true;
+    k.fixes.uv_trim_checks_on_surface = true;
     let mut bodies = BTreeMap::new();
     let mut uses = BTreeMap::<String, usize>::new();
     for f in &model.features {
