@@ -71,6 +71,15 @@ test('the same valid STEP is refused by default native inspection and accepted w
  assert.equal(replay.ok,false);assert.equal(replay.error.code,'RESOURCE_LIMIT');assert.equal(replay.error.details.resource,'stepBytes');
 });
 
+test('the host configuration accessor is read once for validation and native forwarding',async t=>{
+ const root=await mkdtemp(join(tmpdir(),'colocad-host-accessor-'));t.after(()=>rm(root,{recursive:true,force:true}));
+ const expected={inputBytes:4096,stepBytes:1,totalStepBytes:3};let reads=0;
+ const cad=new CadClient({outputRoot:root,get resourceLimits(){return ++reads===1?expected:undefined;}});
+ assert.equal(reads,1,'validation and explicit forwarding must use the same configuration snapshot');
+ const report=await cad.capabilities();assert.equal(report.ok,true,JSON.stringify(report));
+ assert.deepEqual(report.data.resource_limits,expected);
+});
+
 test('active host limits are snapshotted independently of later caller mutation',async t=>{
  const config={...limits},cad=await client(t,config);config.stepBytes=1;
  const report=await cad.capabilities();assert.equal(report.ok,true,JSON.stringify(report));

@@ -23,8 +23,9 @@ export class CadClient {
   private previousQueryable = false;
   private readonly previewCache = new Map<string, string>();
   constructor(private readonly config: Config) {
-    this.byteLimits = resourceLimits(config.resourceLimits);
-    this.explicitByteLimits = config.resourceLimits !== undefined;
+    const hostByteLimits = config.resourceLimits;
+    this.byteLimits = resourceLimits(hostByteLimits);
+    this.explicitByteLimits = hostByteLimits !== undefined;
     if (config.runner && config.runner.mode !== 'native') throw Error('CAD executes in the current sandbox. Use the sandbox test harness for Docker experiments.');
     if (config.wallMs !== undefined && (!Number.isFinite(config.wallMs) || config.wallMs < 1 || config.wallMs > 120_000)) {
       throw Error('wallMs must be 1..120000');
