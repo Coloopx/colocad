@@ -9,4 +9,4 @@ third_party/: pinned source archive and reviewed patches; generated vendor files
 out/: ignored local reproductions, plans and validation evidence.
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 
-Native parse accounting/reuse is invocation-local and bounded to one recent part/definition source. All compilation and tests run on Windows/WSL2; local work is static only.
+Native parse accounting/reuse is invocation-local and bounded to one recently admitted part/definition source keyed by mode and verified SHA; selected bodies/BReps are never cached here. All compilation and tests run on Windows/WSL2; local work is static only.

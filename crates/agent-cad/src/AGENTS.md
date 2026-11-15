@@ -31,5 +31,5 @@ validation.rs: Schema, reference and resource validation, without kernel executi
 preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
 
-import_cache.rs: 单次构建的有界解析统计/最近来源槽；来源与模式不混用。
+import_cache.rs: 单次构建最近一个已准入中性来源的mode+verifiedSHA复用与计数；失配先清槽，不缓存所选Body/BRep。
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
