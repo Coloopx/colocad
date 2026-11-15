@@ -1,3 +1,5 @@
+/** [INPUT]: 原生可执行文件、无shell参数及独立输入。[OUTPUT]: 有界进程与结构化回执。
+ * [POS]: SDK执行隔离。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import { spawn } from 'node:child_process';
 import type { Receipt } from './types.js';
 
@@ -9,8 +11,8 @@ export interface ProcessResult {
   timedOut: boolean;
   overflow: boolean;
 }
-export function error(code: string, message: string): Receipt {
-  return { ok: false, error: { code, message } };
+export function error(code: string, message: string, details?: Record<string, unknown>): Receipt {
+  return { ok: false, error: { code, message, ...(details ? { details } : {}) } };
 }
 
 // Command arguments and input are separate; agent data never enters a shell string.

@@ -7,6 +7,6 @@ export interface ProcessResult {
     timedOut: boolean;
     overflow: boolean;
 }
-export declare function error(code: string, message: string): Receipt;
+export declare function error(code: string, message: string, details?: Record<string, unknown>): Receipt;
 export declare function execute(file: string, args: string[], input?: CadInput, wallMs?: number, maxOutputBytes?: number): Promise<ProcessResult>;
 export declare function receipt(result: ProcessResult): Receipt;

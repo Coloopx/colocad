@@ -1,6 +1,12 @@
 //! Schema, reference and resource validation, without kernel execution.
+//! [INPUT]: 模型与宿主字节策略。[OUTPUT]: 身份/依赖及单源/聚合字节验证。
+//! [POS]: 默认预算不变的纯准入层。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub fn validate(model: &Model) -> Result<()> {
+    validate_with_resource_limits(model, &ResourceLimits::default())
+}
+pub fn validate_with_resource_limits(model: &Model, limits: &ResourceLimits) -> Result<()> {
+    limits.validate()?;
     if let Some(p) = &model.preview {
         p.validate()?;
     }
@@ -221,17 +227,13 @@ pub fn validate(model: &Model) -> Result<()> {
     }
     let mut asset_bytes = 0;
     for (id, a) in &model.assets {
+        resources::check_bytes("stepBytes", a.step.len(), limits.step_bytes, false)?;
         asset_bytes += a.step.len();
         if !valid_id(id) || format!("{:x}", Sha256::digest(a.step.as_bytes())) != a.sha256 {
             return Err(CadError::new("ASSET_DIGEST_MISMATCH", id));
         }
     }
-    if asset_bytes > 24 * 1024 * 1024 {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "STEP asset bytes exceed 24 MiB",
-        ));
-    }
+    resources::check_bytes("totalStepBytes", asset_bytes, limits.total_step_bytes, false)?;
     for f in &model.features {
         surfaces::validate(f, model)?;
         if let Feature::ImportStep { asset, .. } | Feature::ComponentCad { asset, .. } = f {

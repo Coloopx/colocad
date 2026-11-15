@@ -1,4 +1,6 @@
 //! Deterministic feature execution, exact validation and exports.
+//! [INPUT]: 模型/缓存及宿主资源策略。[OUTPUT]: 原生候选与实际字节策略回执。
+//! [POS]: 入口始终先验证预算，再允许缓存恢复。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub struct Build {
     pub artifacts: BTreeMap<String, Vec<u8>>,
@@ -116,6 +118,14 @@ pub fn build_revision_with_options(
     cache: &mut incremental::Checkpoints,
     queryable: Option<bool>,
 ) -> Result<Build> {
+    build_revision_with_resource_limits(model, cache, queryable, &ResourceLimits::default())
+}
+pub fn build_revision_with_resource_limits(
+    model: &Model,
+    cache: &mut incremental::Checkpoints,
+    queryable: Option<bool>,
+    limits: &ResourceLimits,
+) -> Result<Build> {
     if queryable == Some(false) && (!model.datums.is_empty() || !model.interfaces.is_empty()) {
         return Err(CadError::new(
             "QUERY_SNAPSHOT_REQUIRED",
@@ -123,13 +133,15 @@ pub fn build_revision_with_options(
         ));
     }
     let queryable = queryable.unwrap_or(!model.datums.is_empty() || !model.interfaces.is_empty());
-    let mut result = execute(model, cache, queryable)?;
+    let mut result = execute(model, cache, queryable, limits)?;
+    result.report["resource_limits"] = json!(limits);
+    result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>()});
     result.artifacts.append(&mut cache.files);
     Ok(result)
 }
-fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool) -> Result<Build> {
+fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool, limits: &ResourceLimits) -> Result<Build> {
     let start = Instant::now();
-    validate(model)?;
+    validate_with_resource_limits(model, limits)?;
     cache.prepare(model);
     let mut k = Kernel::default();
     k.fixes.transform_scales_each_tolerance = true;

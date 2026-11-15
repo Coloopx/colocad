@@ -1,3 +1,9 @@
+/**
+ * [INPUT]: 公开模型、宿主配置及原生进程边界。
+ * [OUTPUT]: 显式且不可变字节预算下的构建/查询/检查回执。
+ * [POS]: SDK宿主边界；保持模型、路径及资源权限分离。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 import { readFile, realpath } from 'node:fs/promises';
 import { join, relative, isAbsolute, sep } from 'node:path';
 import { artifactJob } from './artifacts.js';
@@ -5,20 +11,27 @@ import { resolveBinary } from './binary.js';
 import { execute, receipt, error, type CadInput } from './process.js';
 import { previewKey, readPreviewCache, CacheError } from './preview-cache.js';
 import type { Config, Model, Receipt, PreviewOptions, Sketch, BuildOptions, QueryRequest } from './types.js';
+import { resourceLimits, ResourceLimitError, type ByteLimits } from './resource-limits.js';
 export type * from './types.js';
 export { attachStep } from './assets.js';
 
 /** Local CAD API for the Harness and Agent sharing this sandbox. */
 export class CadClient {
+  private readonly byteLimits: Readonly<ByteLimits>;
+  private readonly explicitByteLimits: boolean;
   private previousRevision?: string;
   private previousQueryable = false;
   private readonly previewCache = new Map<string, string>();
   constructor(private readonly config: Config) {
+    this.byteLimits = resourceLimits(config.resourceLimits);
+    this.explicitByteLimits = config.resourceLimits !== undefined;
     if (config.runner && config.runner.mode !== 'native') throw Error('CAD executes in the current sandbox. Use the sandbox test harness for Docker experiments.');
     if (config.wallMs !== undefined && (!Number.isFinite(config.wallMs) || config.wallMs < 1 || config.wallMs > 120_000)) {
       throw Error('wallMs must be 1..120000');
     }
   }
+  /** Immutable host policy shared by trusted file codecs and native requests. */
+  get resourceLimits(): Readonly<ByteLimits> { return this.byteLimits; }
   async capabilities(): Promise<Receipt> { return this.invoke(['capabilities']); }
   async schema(): Promise<Receipt> { return this.invoke(['schema']); }
   async querySchema(): Promise<Receipt> { return this.invoke(['query-schema']); }
@@ -94,10 +107,15 @@ export class CadClient {
   }
   private async invoke(args: string[], model?: unknown, rawInput?: CadInput): Promise<Receipt> {
     const input = rawInput ?? (model ? JSON.stringify(model) : '');
-    if (Buffer.byteLength(input) > 32 * 1024 * 1024) return error('RESOURCE_LIMIT', 'input exceeds 32 MiB');
+    const inputBytes = Buffer.byteLength(input);
+    if (inputBytes > this.byteLimits.inputBytes) {
+      const cause = new ResourceLimitError('inputBytes', inputBytes, this.byteLimits.inputBytes);
+      return error(cause.code, cause.message, cause.details);
+    }
     try {
       const binary = resolveBinary(this.config.binary ?? this.config.runner?.binary);
-      return receipt(await execute(binary, args, input, this.config.wallMs ?? 30_000,args[0]==='query'?8*1024*1024:2*1024*1024));
+      const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : args;
+      return receipt(await execute(binary, nativeArgs, input, this.config.wallMs ?? 30_000,args[0]==='query'?8*1024*1024:2*1024*1024));
     } catch (cause) { return error('LOCAL_EXECUTION_FAILED', String(cause)); }
   }
 }

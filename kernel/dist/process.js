@@ -1,6 +1,8 @@
+/** [INPUT]: 原生可执行文件、无shell参数及独立输入。[OUTPUT]: 有界进程与结构化回执。
+ * [POS]: SDK执行隔离。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import { spawn } from 'node:child_process';
-export function error(code, message) {
-    return { ok: false, error: { code, message } };
+export function error(code, message, details) {
+    return { ok: false, error: { code, message, ...(details ? { details } : {}) } };
 }
 // Command arguments and input are separate; agent data never enters a shell string.
 export function execute(file, args, input = '', wallMs = 30_000, maxOutputBytes = 2_097_152) {

@@ -1,26 +1,31 @@
+/** [INPUT]: 宿主文件路径及CadClient的不可变预算。[OUTPUT]: 有界模型/STEP读写。
+ * [POS]: 路径留在宿主，外来原文按同一单源预算注册。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import {open,readFile,writeFile,link,unlink} from 'node:fs/promises';
 import {randomUUID,createHash} from 'node:crypto';
 import {dirname,basename,extname,join} from 'node:path';
 import {CadClient} from './client.js';
 import {attachStep} from './assets.js';
 import type {Model,Receipt} from './types.js';
+import {ResourceLimitError} from './resource-limits.js';
 
 const limit=32*1024*1024;
 const marker='/* AGENT_CAD_IR_1 ';
 const hash=(s:string|Buffer)=>createHash('sha256').update(s).digest('hex');
-function requireData(r:Receipt){if(!r.ok)throw Object.assign(Error(r.error.message),{code:r.error.code});return r.data;}
+function requireData(r:Receipt){if(!r.ok)throw Object.assign(Error(r.error.message),r.error);return r.data;}
 const unsupported=(path:string)=>Object.assign(Error('No local CAD file codec for '+extname(path)),{code:'UNSUPPORTED_FILE_FORMAT'});
-async function bounded(path:string){
+async function bounded(path:string,limit:number){
   const fd=await open(path,'r');
   try{
-    const s=await fd.stat();if(!s.isFile()||s.size>limit)throw Error('CAD input must be a regular file up to 32 MiB');
-    const bytes=await fd.readFile();if(bytes.length>limit)throw Error('CAD file grew beyond its budget');return bytes;
+    const s=await fd.stat();if(!s.isFile())throw Error('CAD input must be a regular file');
+    if(s.size>limit)throw new ResourceLimitError('inputBytes',s.size,limit);
+    const bytes=await fd.readFile();if(bytes.length>limit)throw new ResourceLimitError('inputBytes',bytes.length,limit);return bytes;
   }finally{await fd.close();}
 }
 /** Paths belong to the Harness in the current sandbox. Foreign STEP geometry is imported as an asset. */
 export async function readModelFile(cad:CadClient,path:string):Promise<Model>{
   const ext=extname(path).toLowerCase();if(!['.json','.step','.stp'].includes(ext))throw unsupported(path);
-  const raw=(await bounded(path)).toString('utf8');
+  const raw=(await bounded(path,cad.resourceLimits.inputBytes)).toString('utf8');
   let model:Model;
   if(ext==='.json'){
     model=JSON.parse(raw) as Model;
@@ -29,7 +34,7 @@ export async function readModelFile(cad:CadClient,path:string):Promise<Model>{
     const start=raw.indexOf(marker);
     if(start<0){
       const id='source_part';
-      const seed=attachStep({version:1,units:'mm',parameters:{},features:[],output:''},id,raw);
+      const seed=attachStep({version:1,units:'mm',parameters:{},features:[],output:''},id,raw,{maxBytes:cad.resourceLimits.stepBytes});
       const inspected=requireData(await cad.inspectStep(seed,id));
       model={...(inspected.model_template as Model),assets:seed.assets};
     }else{
@@ -63,7 +68,9 @@ export async function writeModelFile(cad:CadClient,model:Model,path:string,optio
     const comment=marker+hash(bytes)+' '+hash(source)+' '+source.toString('base64')+' */\n';
     bytes=Buffer.from(step.slice(0,first)+comment+step.slice(first));
   }
-  if(bytes.length>limit)throw Error('file exceeds 32 MiB');
+  const container=ext==='.json'||options.embedModel&&['.step','.stp'].includes(ext);
+  const fileLimit=container?cad.resourceLimits.inputBytes:limit;
+  if(bytes.length>fileLimit)throw new ResourceLimitError(container?'inputBytes':'outputBytes',bytes.length,fileLimit);
   await publish(path,bytes);return {path,bytes:bytes.length,sha256:hash(bytes),model_hash:String(receipt.model_hash)};
 }
 export async function editModelFile(cad:CadClient,source:string,parameters:Record<string,number>,destination:string){

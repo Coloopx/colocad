@@ -1,4 +1,6 @@
 //! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
+//! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。
+//! [POS]: 解析/实例/输出预算与字节预算独立。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 use placement::Rigid;
 use step_import::part21::{self, Instance as StepInstance, Param, Record, StepFile};
@@ -746,9 +748,11 @@ pub(crate) fn build(k: &mut Kernel, text: &str) -> Result<Brep> {
 /// Inspect a host-registered asset and emit a replayable, definition-sharing IR template.
 /// The host must attach the same verified asset under `source` before building it.
 pub fn inspect(asset: &StepAsset) -> Result<Value> {
-    if asset.step.len() > 24 * 1024 * 1024 {
-        return Err(CadError::new("RESOURCE_LIMIT", "STEP at most 24 MiB"));
-    }
+    inspect_with_resource_limits(asset, &ResourceLimits::default())
+}
+pub fn inspect_with_resource_limits(asset: &StepAsset, limits: &ResourceLimits) -> Result<Value> {
+    limits.validate()?;
+    resources::check_bytes("stepBytes", asset.step.len(), limits.step_bytes, false)?;
     if format!("{:x}", Sha256::digest(asset.step.as_bytes())) != asset.sha256 {
         return Err(CadError::new("ASSET_DIGEST_MISMATCH", "source"));
     }
@@ -761,9 +765,8 @@ pub fn inspect(asset: &StepAsset) -> Result<Value> {
         .map(|g| json!({"id":g.id,"parent":g.parent,"pose":{"frame":frame(g.local)}}))
         .collect::<Vec<_>>();
     let instances=data.instances.iter().map(|i|json!({"id":i.id,"input":format!("definition-{}",i.body_index),"parent":i.parent,"metadata":{"step_path":i.path}})).collect::<Vec<_>>();
-    Ok(
-        json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source"}),
-    )
+    Ok(json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source",
+        "resource_limits":limits,"resource_usage":{"step_bytes":asset.step.len()}}))
 }
 
 /// Serialize sheets as STEP surface models, preserving the exact trimmed surfaces.

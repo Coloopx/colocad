@@ -1,13 +1,18 @@
 import type { Config, Model, Receipt, PreviewOptions, Sketch, BuildOptions, QueryRequest } from './types.js';
+import { type ByteLimits } from './resource-limits.js';
 export type * from './types.js';
 export { attachStep } from './assets.js';
 /** Local CAD API for the Harness and Agent sharing this sandbox. */
 export declare class CadClient {
     private readonly config;
+    private readonly byteLimits;
+    private readonly explicitByteLimits;
     private previousRevision?;
     private previousQueryable;
     private readonly previewCache;
     constructor(config: Config);
+    /** Immutable host policy shared by trusted file codecs and native requests. */
+    get resourceLimits(): Readonly<ByteLimits>;
     capabilities(): Promise<Receipt>;
     schema(): Promise<Receipt>;
     querySchema(): Promise<Receipt>;

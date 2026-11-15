@@ -1,4 +1,7 @@
 //! A bounded, replayable feature IR over a pinned exact B-rep kernel.
+//! [INPUT]: 固定内核和声明式模型/宿主资源策略。
+//! [OUTPUT]: 默认兼容及显式宿主字节预算的Rust公共入口。
+//! [POS]: crate公共边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 mod compound;
 mod distance;
 pub mod engineering;
@@ -14,6 +17,7 @@ pub mod preview;
 pub mod query;
 pub mod regions;
 pub mod relationships;
+pub mod resources;
 pub mod sketch;
 mod solve;
 pub mod step_assembly;
@@ -55,7 +59,8 @@ mod validation;
 pub use capabilities::capabilities;
 pub(crate) use capabilities::kernel_policy;
 pub use error::CadError;
-pub use executor::{build, build_revision, build_revision_with_options, Build};
+pub use executor::{build, build_revision, build_revision_with_options, build_revision_with_resource_limits, Build};
+pub use resources::ResourceLimits;
 pub(crate) use executor::{measured_volume, take_body};
 pub use model::*;
-pub use validation::validate;
+pub use validation::{validate, validate_with_resource_limits};
