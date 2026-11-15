@@ -136,3 +136,22 @@ test('agent model cannot grant itself a STEP policy and constructor config is fr
  const injected=await (await client()).validate({...stock,stepImportLimits:{maxEntities:2000000}});
  assert.equal(injected.ok,false);assert.equal(injected.error.code,'SCHEMA_ERROR');
 });
+
+
+for(const shape of ['prototype toJSON','non-enumerable toJSON','getter'])
+ test('review I1: host policy snapshot ignores '+shape,async()=>{
+  const {step}=await source();let reads=0,jsonCalls=0;
+  class Policy { maxEntities=1;toJSON(){jsonCalls++;return {maxEntities:2000000};} }
+  let policy=new Policy();
+  if(shape==='non-enumerable toJSON'){
+   policy={maxEntities:1};Object.defineProperty(policy,'toJSON',{value(){jsonCalls++;return {maxEntities:2000000};}});
+  }
+  if(shape==='getter'){
+   policy={};Object.defineProperty(policy,'maxEntities',{enumerable:true,get(){return ++reads===1?1:2000000;}});
+  }
+  const cad=await client(policy),capabilities=await cad.capabilities();assert.equal(capabilities.ok,true,JSON.stringify(capabilities));
+  assert.equal(capabilities.data.step_import.active_limits.maxEntities,1,'native must receive the validated value');
+  limited(await cad.inspectStep(asset(step),'source'),'step_entities',2,1);
+  assert.equal(jsonCalls,0,'custom serialization must never be invoked');
+  if(shape==='getter')assert.equal(reads,1,'read policy accessors once, before validating the snapshot');
+ });
