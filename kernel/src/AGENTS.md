@@ -17,7 +17,7 @@ preview-cache.ts: 固定预览缓存及显示预算。
 tools.ts: Agent工具公开合同与SDK调用适配。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加readStepArtifact的当前宿主输出预算与固定摘要核验，index.ts导出。tracked dist按同版Windows tsc实际生成字节同步并核SHA；独立SDK full 87/88（唯一SESSION_BUSY为既有baseline），types/schema仍在运行。验收显式指定kernel/AGENTS.md记录的rebuilt native，不继承stock binary能力。
+outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加readStepArtifact的当前宿主输出预算与固定摘要核验，index.ts导出。更新跟踪的 dist 后使用当前工作树编译的原生程序验收。
 
 reportBytes：全命令invoke/inspect/preview report按当前host报告额度；process保留UTF8字节有界接收，files提供校验reader。默认8MiB/顶128MiB/最小1024B，STEP固定SHA reader不读report。
 

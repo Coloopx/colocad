@@ -34,7 +34,7 @@ output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边
 report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精确边界，沿用已RED控制，PR6适配尚待Windows。
 
 step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与严格负例，等价需Win独立OCP。
-step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例；只在Windows验收。
+step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例。
 
 uv_trim_metric.rs: physically_valid_hole_survives_uv_rescaling_in_public_build；physically_valid_hole_survives_uv_rescaling_in_assembly 等公开行为回归。
 
