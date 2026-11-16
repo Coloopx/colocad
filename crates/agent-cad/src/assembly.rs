@@ -1,3 +1,7 @@
+//! [INPUT]: 显式实例、PR6宿主字节策略及原几何合同。
+//! [OUTPUT]: 原装配检查与受outputStepBytes约束的定义/产品树。
+//! [POS]: 输出预算贯通提前释放和装配终态，不改变数量或几何策略。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Named instances and exact, explicitly requested assembly checks.
 use crate::*;
 use operations::V3;
@@ -387,10 +391,12 @@ pub(crate) struct EarlyParts {
     pub export_ms: f64,
 }
 
-fn definition(body: &Brep) -> Result<String> {
-    step_assembly::write_solids(
+fn definition(body: &Brep, limits: &ResourceLimits) -> Result<String> {
+    let step = step_assembly::write_solids(
         &exchange::to_model(body).map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
-    )
+    )?;
+    resources::check_bytes("outputStepBytes", step.len(), limits.output_step_bytes, false)?;
+    Ok(step)
 }
 
 impl EarlyParts {
@@ -430,6 +436,7 @@ impl EarlyParts {
         m: &Model,
         id: &str,
         bodies: &mut BTreeMap<String, Brep>,
+        limits: &ResourceLimits,
     ) -> Result<()> {
         let Some((idx, pose)) = self.eligible.remove(id) else {
             return Ok(());
@@ -441,7 +448,7 @@ impl EarlyParts {
             .ok_or_else(|| CadError::new("INVALID_REFERENCE", id))?;
         let t = Instant::now();
         let step = if part.export {
-            Some(definition(&body)?)
+            Some(definition(&body, limits)?)
         } else {
             None
         };
@@ -474,6 +481,7 @@ pub(crate) fn finish(
     start: Instant,
     geometry_ms: f64,
     cache: &mut incremental::Checkpoints,
+    limits: &ResourceLimits,
     datums: &query::datums::Definitions,
     interfaces: &query::interfaces::Definitions,
 ) -> Result<Build> {
@@ -524,7 +532,7 @@ pub(crate) fn finish(
             let body = bodies
                 .get(source)
                 .ok_or_else(|| CadError::new("INVALID_REFERENCE", source))?;
-            definitions.insert(instance.input.clone(), definition(body)?);
+            definitions.insert(instance.input.clone(), definition(body, limits)?);
         }
 
         // Translation preserves topology, mass and tight axis-aligned bounds. A different
@@ -744,7 +752,7 @@ pub(crate) fn finish(
     }
     let validation_ms = early.validation_ms + tick.elapsed().as_secs_f64() * 1000.;
     let tick = Instant::now();
-    let step = crate::step_assembly::write(m, definitions, &solved)?;
+    let step = crate::step_assembly::write(m, definitions, &solved, limits.output_step_bytes)?;
     let export_ms = early.export_ms + tick.elapsed().as_secs_f64() * 1000.;
     let mut display = Vec::new();
     if let Some(options) = &m.preview {

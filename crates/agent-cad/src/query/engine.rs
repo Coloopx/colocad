@@ -1,3 +1,7 @@
+//! [INPUT]: PR6原query模型和独立宿主reportBytes。
+//! [OUTPUT]: 既有几何查询及当前报告预算下的结构化回执。
+//! [POS]: 只替换报告字节门禁，不引入D1进度/预检/库存策略。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use super::{artifact::Manifest, contract::*, snapshot::LoadedDefinition};
 use crate::*;
 use solidcore::curve::curve::CurveKind;
@@ -430,6 +434,10 @@ pub(crate) fn validate_tolerance(tol: Tolerance) -> Result<()> {
 }
 
 pub fn execute(root: &Path, request: Request) -> Result<Value> {
+    execute_with_report_limit(root, request, ResourceLimits::default().report_bytes)
+}
+pub fn execute_with_report_limit(root: &Path, request: Request, report_limit: usize) -> Result<Value> {
+    ResourceLimits { report_bytes: report_limit, ..ResourceLimits::default() }.validate()?;
     let start = Instant::now();
     if request.schema != "colocad.query/1" {
         return Err(CadError::new(
@@ -538,12 +546,7 @@ pub fn execute(root: &Path, request: Request) -> Result<Value> {
                 result_bytes += serde_json::to_vec(&result)
                     .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?
                     .len();
-                if result_bytes > 8 * 1024 * 1024 {
-                    return Err(CadError::new(
-                        "QUERY_LIMIT",
-                        "query receipt exceeds 8 MiB; request smaller pages",
-                    ));
-                }
+                resources::check_bytes("reportBytes", result_bytes, report_limit, true)?;
                 results.push(result)
             }
             Err(mut error) => {
@@ -554,15 +557,6 @@ pub fn execute(root: &Path, request: Request) -> Result<Value> {
         }
     }
     let receipt = json!({"schema":request.schema,"query_revision_id":request.query_revision_id,"target":request.target,"space":request.space,"tolerance":request.tolerance,"source_accuracy":"unknown","results":results,"degradations":c.manifest.body.degradations,"cache":{"geometry":"exact_snapshot","descriptors":"request_local"},"execution":{"geometry_build_calls":0,"step_export_calls":0,"tessellation_calls":0,"definitions_loaded":1+extra_definitions.len(),"measurement_calls":measurement_calls,"measurement_boolean_intersection_calls":measurement_calls,"material_probes":c.probes,"pattern_hypotheses":c.hypotheses},"timing_ms":{"load":load_ms,"index":index_ms,"query":start.elapsed().as_secs_f64()*1000.-load_ms-index_ms,"total":start.elapsed().as_secs_f64()*1000.}});
-    if serde_json::to_vec(&receipt)
-        .map_err(|e| CadError::new("QUERY_ARGUMENT", e.to_string()))?
-        .len()
-        > 8 * 1024 * 1024
-    {
-        return Err(CadError::new(
-            "QUERY_LIMIT",
-            "query receipt exceeds 8 MiB; request smaller pages",
-        ));
-    }
+    resources::check_success_report(&receipt, report_limit)?;
     Ok(receipt)
 }

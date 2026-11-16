@@ -1,3 +1,7 @@
+# [INPUT]: SHA固定SolidCore归档、顺序补丁与Colocad源码。
+# [OUTPUT]: Linux agent-cad与catalog镜像。
+# [POS]: 原生构建与scripts/vendor.mjs消费同一锁定补丁集合。
+# [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 # Use a minimal context containing Cargo.toml, Cargo.lock, crates/ and third_party/.
 FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS sources
 ARG TARGETARCH
@@ -10,6 +14,8 @@ COPY third_party/solidcore.lock.json third_party/solidcore.lock.json
 RUN echo "1b4b3a591eeb0b95960f1b0afb511a3e32c95be1c188aad7c31fd275001cf284  /tmp/face37.patch" | sha256sum -c - && cd vendor/solidcore && patch -s -p1 < /tmp/face37.patch && echo "6a98cd34469c4649551638dcbf1c0cf24c552f95025e41dba436d50df207360b  crates/solidcore/src/topology/face/p4.rs" | sha256sum -c -
 COPY third_party/patches/validation-properties.patch /tmp/validation-properties.patch
 RUN echo "52cd4d1abe53fc6e307e62bda61e37c61a9f4a8efd946eb957adadebb1d9b074  /tmp/validation-properties.patch" | sha256sum -c - && cd vendor/solidcore && patch -s -p1 < /tmp/validation-properties.patch && echo "9862a6b81c680d763e684639f0608c07945e40e59e0aa9e4013a70e3d9d1ad85  crates/solidcore/src/kernel.rs" | sha256sum -c - && echo "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c -
+COPY third_party/patches/planar-conic-domain.patch /tmp/planar-conic-domain.patch
+RUN echo "081b1f711ab04506336c37c609ea92e868428e52663be8952e2447ffdccddb1e  /tmp/planar-conic-domain.patch" | sha256sum -c - && cd vendor/solidcore && echo "f6f01ffe341d010304b92ec71db252e083f144940866e878b3163a8363c09bbe  crates/step-import/src/script.rs" | sha256sum -c - && patch -s -p1 < /tmp/planar-conic-domain.patch && echo "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00  crates/step-import/src/script.rs" | sha256sum -c -
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds

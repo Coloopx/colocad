@@ -1,6 +1,6 @@
-use agent_cad::{
-    build_revision_with_options, capabilities, validate, CadError, Model, MAX_INPUT_BYTES,
-};
+//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际STEP/reportBytes回执及发布前双计量。
+//! [POS]: 模型无权覆盖宿主预算。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+use agent_cad::{build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError, Model};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::io::{self, Read};
@@ -25,8 +25,28 @@ fn main() {
 }
 fn run() -> Result<Value, CadError> {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
+    let limits = agent_cad::resources::take_host_limits(&mut args)?;
+    let result = run_args(args, limits).and_then(|data| {
+        agent_cad::resources::check_success_report(&data, limits.report_bytes)?;
+        Ok(data)
+    });
+    if let Err(error) = &result {
+        agent_cad::resources::check_report(&json!({"ok":false,"error":error}), limits.report_bytes)?;
+    }
+    result
+}
+fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<Value, CadError> {
     if args == ["capabilities"] {
-        return Ok(capabilities());
+        let mut report = capabilities();
+        report["resource_limits"] = json!(limits);
+        report["resource_limit_ceilings"] = json!(agent_cad::ResourceLimits::CEILINGS);
+        report["limits"]["input_bytes"] = json!(limits.input_bytes);
+        report["limits"]["step_asset_bytes"] = json!(limits.step_bytes);
+        report["limits"]["step_total_bytes"] = json!(limits.total_step_bytes);
+        report["limits"]["output_step_bytes"] = json!(limits.output_step_bytes);
+        report["limits"]["report_bytes"] = json!(limits.report_bytes);
+        report["query"]["limits"]["receipt_bytes"] = json!(limits.report_bytes);
+        return Ok(report);
     }
     if args == ["schema"] {
         return serde_json::to_value(schemars::schema_for!(Model)).map_err(fail);
@@ -63,25 +83,20 @@ fn run() -> Result<Value, CadError> {
         ));
     }
     let input_limit = if command == "query" {
-        2 * 1024 * 1024
+        limits.input_bytes.min(2 * 1024 * 1024)
     } else {
-        MAX_INPUT_BYTES
+        limits.input_bytes
     };
     let mut bytes = vec![];
     io::stdin()
         .take((input_limit + 1) as u64)
         .read_to_end(&mut bytes)
         .map_err(fail)?;
-    if bytes.len() > input_limit {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "input exceeds command byte budget",
-        ));
-    }
+    agent_cad::resources::check_bytes("inputBytes", bytes.len(), input_limit, true)?;
     if command == "query" {
         let request = serde_json::from_slice(&bytes)
             .map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-        return agent_cad::query::engine::execute(Path::new(&args[2]), request);
+        return agent_cad::query::engine::execute_with_report_limit(Path::new(&args[2]), request, limits.report_bytes);
     }
     if command == "solve-sketch" {
         #[derive(serde::Deserialize)]
@@ -102,7 +117,9 @@ fn run() -> Result<Value, CadError> {
     if command == "inspect-step" {
         let request: agent_cad::StepAsset = serde_json::from_slice(&bytes)
             .map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-        return agent_cad::step_assembly::inspect(&request);
+        let mut report = agent_cad::step_assembly::inspect_with_resource_limits(&request, &limits)?;
+        report["resource_usage"]["input_bytes"] = json!(bytes.len());
+        return Ok(report);
     }
     if command == "observe" {
         let started = std::time::Instant::now();
@@ -124,6 +141,9 @@ fn run() -> Result<Value, CadError> {
             .iter()
             .map(|(name, data)| (name.clone(), format!("{:x}", Sha256::digest(data))))
             .collect::<std::collections::BTreeMap<_, _>>());
+        report["artifact_directory"] = json!(args[2]);
+        agent_cad::resources::check_success_report(&report, limits.report_bytes)?;
+        agent_cad::resources::check_report_file(&report, limits.report_bytes)?;
         artifacts.insert(
             "report.json".into(),
             serde_json::to_vec_pretty(&report).map_err(fail)?,
@@ -133,10 +153,11 @@ fn run() -> Result<Value, CadError> {
     }
     let model: Model =
         serde_json::from_slice(&bytes).map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-    validate(&model)?;
+    validate_with_resource_limits(&model, &limits)?;
     if command == "validate" {
         return Ok(
-            json!({"valid":true,"scope":"schema_and_dependencies_only","model_hash":agent_cad::model_hash(&model)}),
+            json!({"valid":true,"scope":"schema_and_dependencies_only","model_hash":agent_cad::model_hash(&model),
+                "resource_limits":limits,"resource_usage":{"input_bytes":bytes.len(),"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>()}}),
         );
     }
     let out = Path::new(&args[2]);
@@ -151,9 +172,12 @@ fn run() -> Result<Value, CadError> {
     } else {
         Default::default()
     };
-    let mut result = build_revision_with_options(&model, &mut cache, queryable.then_some(true))?;
-    result.report["artifact_sha256"] =
-        json!({"model.step":format!("{:x}",Sha256::digest(result.step.as_bytes()))});
+    let mut result = build_revision_with_resource_limits(&model, &mut cache, queryable.then_some(true), &limits)?;
+    result.report["resource_usage"]["input_bytes"] = json!(bytes.len());
+    let step_sha256 = format!("{:x}", Sha256::digest(result.step.as_bytes()));
+    // ---------- 固定摘要与STEP同一原子目录发布；reader无需加载report ----------
+    result.artifacts.insert("model.step.sha256".into(), format!("{step_sha256}\n").into_bytes());
+    result.report["artifact_sha256"] = json!({"model.step":step_sha256});
     for (name, bytes) in &result.artifacts {
         result.report["artifact_sha256"][name] = json!(format!("{:x}", Sha256::digest(bytes)));
     }
@@ -166,6 +190,9 @@ fn run() -> Result<Value, CadError> {
         }
     }
     let mut files = result.artifacts;
+    result.report["artifact_directory"] = json!(args[2]);
+    agent_cad::resources::check_success_report(&result.report, limits.report_bytes)?;
+    agent_cad::resources::check_report_file(&result.report, limits.report_bytes)?;
     files.insert("model.step".into(), result.step.into_bytes());
     files.insert(
         "model.json".into(),

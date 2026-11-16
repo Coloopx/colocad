@@ -1,4 +1,10 @@
+//! [INPUT]: PR6外部STEP合同和独立宿主输出字节预算。
+//! [OUTPUT]: 原产品树和按outputStepBytes计量的装配序列化。
+//! [POS]: STEP交换边界；实体/上下文/单位策略保持PR6基线。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
+//! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。
+//! [POS]: 解析/实例/输出预算与字节预算独立。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 use placement::Rigid;
 use step_import::part21::{self, Instance as StepInstance, Param, Record, StepFile};
@@ -57,21 +63,20 @@ fn record(r: &Record, shift: u64) -> String {
 }
 const STEP_HEADER: &str = "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact B-rep product assembly'),'2;1');\nFILE_NAME('model.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n";
 const STEP_END: &str = "ENDSEC;\nEND-ISO-10303-21;\n";
-const MAX_ASSEMBLY_STEP: usize = 32 * 1024 * 1024;
 
 struct Writer {
     output: String,
     count: u64,
+    limit: usize,
 }
 impl Writer {
     fn add(&mut self, entity: String) -> Result<u64> {
         use std::fmt::Write;
         let id = self.count + 1;
         let digits = id.ilog10() as usize + 1;
-        // "#", "=", ";" and newline are also part of the byte budget.
-        if self.output.len() + digits + 4 + entity.len() + STEP_END.len() > MAX_ASSEMBLY_STEP {
-            return Err(CadError::new("RESOURCE_LIMIT", "STEP exceeds 32 MiB"));
-        }
+        // ---------- 完整语法与尾部计入字节，尚未生成实体仅报告下界 ----------
+        let observed = self.output.len() + digits + 4 + entity.len() + STEP_END.len();
+        resources::check_bytes("outputStepBytes", observed, self.limit, true)?;
         writeln!(&mut self.output, "#{id}={entity};").expect("writing to String");
         self.count = id;
         Ok(id)
@@ -134,11 +139,14 @@ pub(crate) fn write(
     m: &Model,
     defs: BTreeMap<String, String>,
     solved: &BTreeMap<String, Rigid>,
+    limit: usize,
 ) -> Result<String> {
+    resources::check_bytes("outputStepBytes", STEP_HEADER.len() + STEP_END.len(), limit, true)?;
     let group_poses = placement::groups(m)?;
     let mut w = Writer {
         output: String::from(STEP_HEADER),
         count: 0,
+        limit,
     };
     let mut definitions = BTreeMap::new();
     let mut shared = None;
@@ -746,9 +754,11 @@ pub(crate) fn build(k: &mut Kernel, text: &str) -> Result<Brep> {
 /// Inspect a host-registered asset and emit a replayable, definition-sharing IR template.
 /// The host must attach the same verified asset under `source` before building it.
 pub fn inspect(asset: &StepAsset) -> Result<Value> {
-    if asset.step.len() > 24 * 1024 * 1024 {
-        return Err(CadError::new("RESOURCE_LIMIT", "STEP at most 24 MiB"));
-    }
+    inspect_with_resource_limits(asset, &ResourceLimits::default())
+}
+pub fn inspect_with_resource_limits(asset: &StepAsset, limits: &ResourceLimits) -> Result<Value> {
+    limits.validate()?;
+    resources::check_bytes("stepBytes", asset.step.len(), limits.step_bytes, false)?;
     if format!("{:x}", Sha256::digest(asset.step.as_bytes())) != asset.sha256 {
         return Err(CadError::new("ASSET_DIGEST_MISMATCH", "source"));
     }
@@ -761,9 +771,8 @@ pub fn inspect(asset: &StepAsset) -> Result<Value> {
         .map(|g| json!({"id":g.id,"parent":g.parent,"pose":{"frame":frame(g.local)}}))
         .collect::<Vec<_>>();
     let instances=data.instances.iter().map(|i|json!({"id":i.id,"input":format!("definition-{}",i.body_index),"parent":i.parent,"metadata":{"step_path":i.path}})).collect::<Vec<_>>();
-    Ok(
-        json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source"}),
-    )
+    Ok(json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source",
+        "resource_limits":limits,"resource_usage":{"step_bytes":asset.step.len()}}))
 }
 
 /// Serialize sheets as STEP surface models, preserving the exact trimmed surfaces.

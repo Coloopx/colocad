@@ -1,3 +1,6 @@
+/** [INPUT]: 当前宿主reportBytes、gzip回执及可信SHA。[OUTPUT]: 有界pack读写/解压与完整性核验。
+ * [POS]: 回执存储优化；压缩阈值不改变接受，预算不从producer继承。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 // A single catalog writer appends one independent gzip member per query receipt.
 // fsync data and directory before committing its address. Uncommitted tails are
 // unreachable after a crash; subsequent members never overwrite a committed one.
@@ -6,8 +9,9 @@ import {mkdir,open,realpath,rename,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomUUID,createHash} from 'node:crypto';
 import {gzipSync,gunzipSync} from 'node:zlib';
+import {DEFAULT_RESOURCE_LIMITS,ResourceLimitError,checkedLimit,RESOURCE_LIMIT_CEILINGS} from '../kernel/dist/resource-limits.js';
 
-const limit=32*1024*1024, nofollow=constants.O_NOFOLLOW??0;
+const packingThreshold=32*1024*1024, nofollow=constants.O_NOFOLLOW??0;
 async function sync(dir){const f=await open(dir,'r');try{await f.sync();}finally{await f.close();}}
 async function directory(root) {
   const base=await realpath(root), dir=join(base,'inspections');
@@ -34,8 +38,10 @@ export async function storeRequest(root,bytes,digest) {
   return 'inspections/'+name;
 }
 
-export async function storeReceipt(root,id,bytes) {
-  if(Buffer.byteLength(bytes)>limit)return null; // retain the ordinary file path for large receipts
+export async function storeReceipt(root,id,bytes,limit=DEFAULT_RESOURCE_LIMITS.reportBytes) {
+  checkedLimit(limit,RESOURCE_LIMIT_CEILINGS.reportBytes,'reportBytes');
+  if(Buffer.byteLength(bytes)>limit)throw new ResourceLimitError('reportBytes',Buffer.byteLength(bytes),limit);
+  if(Buffer.byteLength(bytes)>packingThreshold)return null; // retain the ordinary file path for large receipts
   const dir=await directory(root), name='receipts-'+Math.floor((Number(id.slice(1))-1)/128)+'.gz';
   const data=gzipSync(bytes,{level:1});
   const f=await open(join(dir,name),constants.O_APPEND|constants.O_CREAT|constants.O_WRONLY|nofollow,0o600);
@@ -49,11 +55,13 @@ export async function storeReceipt(root,id,bytes) {
   } finally {await f.close();}
 }
 
-export async function readPacked(root,ref,expected) {
+export async function readPacked(root,ref,expected,limit=DEFAULT_RESOURCE_LIMITS.reportBytes) {
+  checkedLimit(limit,RESOURCE_LIMIT_CEILINGS.reportBytes,'reportBytes');
   if(!ref || !/^inspections\/receipts-\d+\.gz$/.test(ref.file) ||
     !Number.isSafeInteger(ref.offset)||ref.offset<0||!Number.isSafeInteger(ref.length)||
-    ref.length<1||ref.length>limit+65536||!Number.isSafeInteger(ref.offset+ref.length)||
+    ref.length<1||ref.length>RESOURCE_LIMIT_CEILINGS.reportBytes+65536||!Number.isSafeInteger(ref.offset+ref.length)||
     !/^[a-f0-9]{64}$/.test(expected))throw Error('SESSION_INTEGRITY: invalid receipt extent');
+  if(ref.length>limit+65536)throw new ResourceLimitError('reportBytes',ref.length,limit,true);
   const base=await realpath(root), path=join(base,ref.file);
   if(await realpath(path)!==path)throw Error('SESSION_PATH: receipt pack symlink');
   const f=await open(path,constants.O_RDONLY|nofollow);
@@ -61,7 +69,11 @@ export async function readPacked(root,ref,expected) {
     if((await f.stat()).size<ref.offset+ref.length)throw Error('SESSION_INTEGRITY: truncated receipt');
     const data=Buffer.allocUnsafe(ref.length);
     for(let n=0;n<data.length;){const r=await f.read(data,n,data.length-n,ref.offset+n);if(!r.bytesRead)throw Error('SESSION_INTEGRITY: truncated receipt');n+=r.bytesRead;}
-    let bytes;try{bytes=gunzipSync(data,{maxOutputLength:limit});}catch{throw Error('SESSION_INTEGRITY: invalid receipt gzip');}
+    let bytes;try{bytes=gunzipSync(data,{maxOutputLength:limit+1});}catch(e){
+      if(e.code==='ERR_BUFFER_TOO_LARGE')throw new ResourceLimitError('reportBytes',limit+1,limit,true);
+      throw Error('SESSION_INTEGRITY: invalid receipt gzip');
+    }
+    if(bytes.length>limit)throw new ResourceLimitError('reportBytes',bytes.length,limit,true);
     if(createHash('sha256').update(bytes).digest('hex')!==expected)throw Error('SESSION_INTEGRITY: receipt checksum');
     return JSON.parse(bytes);
   } finally{await f.close();}
