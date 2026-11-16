@@ -1,6 +1,6 @@
 //! Deterministic feature execution, exact validation and exports.
-//! [INPUT]: 模型/缓存及宿主输入/输出资源策略。[OUTPUT]: 原生候选与独立STEP/reportBytes及checkpoint冷建原因。
-//! [POS]: 入口始终先验证预算，再允许缓存恢复。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+//! Validates host budgets before checkpoint restore and uses the supporting surface metric
+//! for UV trims during part and assembly validation.
 use crate::*;
 pub struct Build {
     pub artifacts: BTreeMap<String, Vec<u8>>,
@@ -151,6 +151,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
     k.fixes.transform_model_size_from_body_box = true;
     k.fixes.fillet_chamfer_cone_on_arc = true;
     k.fixes.shell_edges_on_analytics_exact = true;
+    k.fixes.uv_trim_checks_on_surface = true;
     let mut bodies = BTreeMap::new();
     let mut uses = BTreeMap::<String, usize>::new();
     for f in &model.features {

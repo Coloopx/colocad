@@ -8,3 +8,5 @@ output-budget-box.json: 2×3×4mm公开小盒体，单体24mm³/两实例48mm³�
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 
 planar_conic_seam.rs: 自有17度seam同步换基及单顶点不一致生成器，仅Win测试运行时产生STEP。
+
+uv-rescaled-plate.step: uv_trim_metric.rs::plate生成的20x20x6mm、半径1mm通孔块；两端面的UV范围为[0,1e-5]²，三维边/顶点/容差保留，用于公开SDK复现。
