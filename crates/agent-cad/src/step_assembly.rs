@@ -1,3 +1,7 @@
+//! [INPUT]: PR6外部STEP合同和独立宿主输出字节预算。
+//! [OUTPUT]: 原产品树和按outputStepBytes计量的装配序列化。
+//! [POS]: STEP交换边界；实体/上下文/单位策略保持PR6基线。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
 //! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。
 //! [POS]: 解析/实例/输出预算与字节预算独立。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
@@ -59,21 +63,20 @@ fn record(r: &Record, shift: u64) -> String {
 }
 const STEP_HEADER: &str = "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Exact B-rep product assembly'),'2;1');\nFILE_NAME('model.step','',(''),(''),'agent-cad','agent-cad','');\nFILE_SCHEMA(('CONFIG_CONTROL_DESIGN'));\nENDSEC;\nDATA;\n";
 const STEP_END: &str = "ENDSEC;\nEND-ISO-10303-21;\n";
-const MAX_ASSEMBLY_STEP: usize = 32 * 1024 * 1024;
 
 struct Writer {
     output: String,
     count: u64,
+    limit: usize,
 }
 impl Writer {
     fn add(&mut self, entity: String) -> Result<u64> {
         use std::fmt::Write;
         let id = self.count + 1;
         let digits = id.ilog10() as usize + 1;
-        // "#", "=", ";" and newline are also part of the byte budget.
-        if self.output.len() + digits + 4 + entity.len() + STEP_END.len() > MAX_ASSEMBLY_STEP {
-            return Err(CadError::new("RESOURCE_LIMIT", "STEP exceeds 32 MiB"));
-        }
+        // ---------- 完整语法与尾部计入字节，尚未生成实体仅报告下界 ----------
+        let observed = self.output.len() + digits + 4 + entity.len() + STEP_END.len();
+        resources::check_bytes("outputStepBytes", observed, self.limit, true)?;
         writeln!(&mut self.output, "#{id}={entity};").expect("writing to String");
         self.count = id;
         Ok(id)
@@ -136,11 +139,14 @@ pub(crate) fn write(
     m: &Model,
     defs: BTreeMap<String, String>,
     solved: &BTreeMap<String, Rigid>,
+    limit: usize,
 ) -> Result<String> {
+    resources::check_bytes("outputStepBytes", STEP_HEADER.len() + STEP_END.len(), limit, true)?;
     let group_poses = placement::groups(m)?;
     let mut w = Writer {
         output: String::from(STEP_HEADER),
         count: 0,
+        limit,
     };
     let mut definitions = BTreeMap::new();
     let mut shared = None;

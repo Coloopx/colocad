@@ -60,12 +60,12 @@ test('the same valid STEP is refused by default native inspection and accepted w
  assert.equal(before.error.details.resource,'inputBytes');
  const cad=await client(t,limits),after=await cad.inspectStep(model,'source');
  assert.equal(after.ok,true,JSON.stringify(after));assert.equal(after.data.instances.length,1);
- assert.deepEqual(after.data.resource_limits,limits);
+ assert.deepEqual(after.data.resource_limits,{...DEFAULT_RESOURCE_LIMITS,...limits});
  assert.equal(after.data.resource_usage.input_bytes,Buffer.byteLength(JSON.stringify(model.assets.source)));
  assert.equal(after.data.resource_usage.step_bytes,Buffer.byteLength(padded));
  const built=await cad.build({...after.data.model_template,assets:model.assets},{queryable:false});
  assert.equal(built.ok,true,JSON.stringify(built));assert.equal(built.data.validation.valid,true);
- assert.deepEqual(built.data.resource_limits,limits);
+ assert.deepEqual(built.data.resource_limits,{...DEFAULT_RESOURCE_LIMITS,...limits});
  const strict=await client(t,{...limits,stepBytes:1024});
  const replay=await strict.build({...after.data.model_template,assets:model.assets},{queryable:false,previousRevision:built.data.artifact_directory});
  assert.equal(replay.ok,false);assert.equal(replay.error.code,'RESOURCE_LIMIT');assert.equal(replay.error.details.resource,'stepBytes');
@@ -77,13 +77,13 @@ test('the host configuration accessor is read once for validation and native for
  const cad=new CadClient({outputRoot:root,get resourceLimits(){return ++reads===1?expected:undefined;}});
  assert.equal(reads,1,'validation and explicit forwarding must use the same configuration snapshot');
  const report=await cad.capabilities();assert.equal(report.ok,true,JSON.stringify(report));
- assert.deepEqual(report.data.resource_limits,expected);
+ assert.deepEqual(report.data.resource_limits,{...DEFAULT_RESOURCE_LIMITS,...expected});
 });
 
 test('active host limits are snapshotted independently of later caller mutation',async t=>{
  const config={...limits},cad=await client(t,config);config.stepBytes=1;
  const report=await cad.capabilities();assert.equal(report.ok,true,JSON.stringify(report));
- assert.deepEqual(report.data.resource_limits,limits);
+ assert.deepEqual(report.data.resource_limits,{...DEFAULT_RESOURCE_LIMITS,...limits});
 });
 
 test('trusted STEP and model file codecs use the same explicit client policy',async t=>{

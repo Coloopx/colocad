@@ -1,9 +1,16 @@
+/**
+ * [INPUT]: PR6公开SDK、原会话/产物SHA与当前宿主输出预算。
+ * [OUTPUT]: ModelingSession及按当前outputStepBytes校验的bundle/HTML。
+ * [POS]: 只新增输出读取授权，不引入库存/查询策略PR。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 import { mkdir, readFile, writeFile, rename, rm, realpath, open, opendir, stat } from 'node:fs/promises';
 import { resolve, join, relative, isAbsolute, sep } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { catalogName, initializeCatalog, withCatalog, withLegacyWriter } from './session-catalog.mjs';
 import { CadClient, createCadTools } from './index.mjs';
+import { readStepArtifact } from '../kernel/dist/files.js';
 
 import {storeRequest,storeReceipt,readPacked} from './session-payload.mjs';
 
@@ -261,8 +268,8 @@ export async function createSessionTools(session) {
   return tools;
 }
 
-export async function readSessionBundle(directory,{cutaway=false,view='iso'}={}){
-  const root=resolve(directory),session=new ModelingSession(root),ledger=await session.read();
+export async function readSessionBundle(directory,{cutaway=false,view='iso',resourceLimits}={}){
+  const root=resolve(directory),session=new ModelingSession(root,{resourceLimits}),ledger=await session.read();
   if(ledger.format!==format)throw Error('SESSION_FORMAT');
   const bundle={format:'colocad/viewer/1',title:ledger.title,id:ledger.id,createdAt:ledger.createdAt,display:{cutaway,view},steps:[],meshes:{}};
   const last=ledger.steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
@@ -287,7 +294,12 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso'}={})
       for(const instance of step.scene.instances) instance.material??=materials.get(instance.id);
       for(const [id,mesh] of scene.meshes){const key=sha(JSON.stringify(mesh));bundle.meshes[key]??=mesh;step.scene.definitions[id]=key;}
       if(data.artifact_sha256?.['preview.png'])step.png='data:image/png;base64,'+(await checked(root,artifact+'/preview.png',data.artifact_sha256['preview.png'])).toString('base64');
-      if(entry.id===last?.id)step.stepFile=(await checked(root,source+'/model.step',sourceReport.artifact_sha256['model.step'])).toString('base64');
+      if(entry.id===last?.id){
+        const expected=sourceReport.artifact_sha256?.['model.step'];
+        if(!expected)throw Error('SESSION_INTEGRITY: '+source+'/model.step');
+        const bytes=await readStepArtifact(session.cad,await sessionPath(root,source),{sha256:expected});
+        step.stepFile=bytes.toString('base64');
+      }
     }
     bundle.steps.push(step);
   }

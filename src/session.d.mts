@@ -1,3 +1,5 @@
+/** [INPUT]: PR6 Config字节策略与会话类型。[OUTPUT]: 含outputStepBytes的SessionReadOptions。
+ * [POS]: 会话及只读HTML授权类型边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import type { Config, Model, Receipt, PreviewOptions, Sketch, QueryRequest } from '../kernel/dist/types.js';
 export interface StepMetadata { label?: string; kind?: string; queryable?: boolean; }
 export interface SessionStep {
@@ -38,5 +40,6 @@ export function createSessionTools(session: ModelingSession): Promise<Array<{
   name: string; description: string; inputSchema: Record<string,unknown>;
   execute(args: any): Promise<Receipt>;
 }>>;
-export function readSessionBundle(directory: string, options?: {cutaway?: boolean; view?: 'iso'|'front'|'side'|'top'}): Promise<Record<string, any>>;
-export function exportSessionHtml(directory: string, destination: string, options?: {cutaway?: boolean; view?: 'iso'|'front'|'side'|'top'}): Promise<{file: string; steps: number; meshDefinitions: number; bytes: number}>;
+export interface SessionReadOptions {cutaway?: boolean; view?: 'iso'|'front'|'side'|'top'; resourceLimits?: Config['resourceLimits'];}
+export function readSessionBundle(directory: string, options?: SessionReadOptions): Promise<Record<string, any>>;
+export function exportSessionHtml(directory: string, destination: string, options?: SessionReadOptions): Promise<{file: string; steps: number; meshDefinitions: number; bytes: number}>;

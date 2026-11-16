@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "units": "mm",
+  "parameters": {},
+  "features": [{"id": "box", "op": "box", "origin": [0, 0, 0], "size": [2, 3, 4]}],
+  "output": "box"
+}

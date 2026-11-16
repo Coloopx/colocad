@@ -1,5 +1,5 @@
 //! Deterministic feature execution, exact validation and exports.
-//! [INPUT]: 模型/缓存及宿主资源策略。[OUTPUT]: 原生候选与实际字节策略回执。
+//! [INPUT]: 模型/缓存及宿主输入/输出资源策略。[OUTPUT]: 原生候选与独立输出STEP字节用量。
 //! [POS]: 入口始终先验证预算，再允许缓存恢复。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub struct Build {
@@ -134,8 +134,9 @@ pub fn build_revision_with_resource_limits(
     }
     let queryable = queryable.unwrap_or(!model.datums.is_empty() || !model.interfaces.is_empty());
     let mut result = execute(model, cache, queryable, limits)?;
+    resources::check_bytes("outputStepBytes", result.step.len(), limits.output_step_bytes, false)?;
     result.report["resource_limits"] = json!(limits);
-    result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>()});
+    result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>(),"output_step_bytes":result.step.len()});
     result.artifacts.append(&mut cache.files);
     Ok(result)
 }
@@ -189,7 +190,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
                 trace.push(cached_trace);
                 bodies.insert(f.id().to_owned(), body);
                 peak_live_bodies = peak_live_bodies.max(bodies.len());
-                early.finish_feature(&mut k, model, f.id(), &mut bodies)?;
+                early.finish_feature(&mut k, model, f.id(), &mut bodies, limits)?;
                 continue;
             }
         }
@@ -507,7 +508,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
         }
         bodies.insert(f.id().to_string(), b);
         peak_live_bodies = peak_live_bodies.max(bodies.len());
-        early.finish_feature(&mut k, model, f.id(), &mut bodies)?;
+        early.finish_feature(&mut k, model, f.id(), &mut bodies, limits)?;
         region_map.retain(|id, _| uses.get(id).copied().unwrap_or(0) > 0);
     }
     let geometry_ms = start.elapsed().as_secs_f64() * 1000. - early.validation_ms - early.export_ms;
@@ -543,6 +544,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
             start,
             geometry_ms,
             cache,
+            limits,
             &snapshot
                 .as_ref()
                 .map(|s| &s.datums)
@@ -609,12 +611,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
     } else {
         step_assembly::write_surface(&neutral)?
     };
-    if step.len() > 32 * 1024 * 1024 {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "STEP exceeds 32 MiB artifact budget",
-        ));
-    }
+    resources::check_bytes("outputStepBytes", step.len(), limits.output_step_bytes, false)?;
     let export_ms = tick.elapsed().as_secs_f64() * 1000.;
     let (artifacts, preview_report) = preview::finish(
         &mut k,

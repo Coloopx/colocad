@@ -30,6 +30,7 @@ fn utf8_single_and_aggregate_boundaries_are_independent() {
         input_bytes: 1024,
         step_bytes: 6,
         total_step_bytes: 12,
+        ..ResourceLimits::default()
     };
     validate_with_resource_limits(&model(&["日日", "日日"]), &limits).unwrap();
     let error = validate_with_resource_limits(&model(&["日日x"]), &limits).unwrap_err();

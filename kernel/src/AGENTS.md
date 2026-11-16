@@ -17,3 +17,4 @@ preview-cache.ts: 固定预览缓存及显示预算。
 tools.ts: Agent工具公开合同与SDK调用适配。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加readStepArtifact的当前宿主输出预算与固定摘要核验，index.ts导出。dist必须Windows重生成，包内基线dist不代表新源码。

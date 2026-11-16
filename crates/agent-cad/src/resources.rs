@@ -1,6 +1,6 @@
 //! [INPUT]: 宿主CLI或Rust调用方的显式字节预算，不读取模型字段。
-//! [OUTPUT]: 固定默认/硬上限、策略验证和准确或注明下界的超限回执。
-//! [POS]: SDK/native同一资源合同；几何、实体数和输出预算独立。
+//! [OUTPUT]: 输入/库存与独立outputStepBytes策略、固定硬顶及准确或下界超限回执。
+//! [POS]: SDK/native同一宿主资源合同；模型无权授权，几何和实体数独立。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 
@@ -11,6 +11,7 @@ pub struct ResourceLimits {
     pub input_bytes: usize,
     pub step_bytes: usize,
     pub total_step_bytes: usize,
+    pub output_step_bytes: usize,
 }
 impl Default for ResourceLimits {
     fn default() -> Self {
@@ -18,6 +19,7 @@ impl Default for ResourceLimits {
             input_bytes: MAX_INPUT_BYTES,
             step_bytes: 24 * MIB,
             total_step_bytes: 24 * MIB,
+            output_step_bytes: 32 * MIB,
         }
     }
 }
@@ -26,11 +28,13 @@ impl ResourceLimits {
         input_bytes: 512 * MIB,
         step_bytes: 256 * MIB,
         total_step_bytes: 512 * MIB,
+        output_step_bytes: 512 * MIB,
     };
     pub fn validate(&self) -> Result<()> {
         for (name, value, ceiling) in [
             ("inputBytes", self.input_bytes, Self::CEILINGS.input_bytes),
             ("stepBytes", self.step_bytes, Self::CEILINGS.step_bytes),
+            ("outputStepBytes", self.output_step_bytes, Self::CEILINGS.output_step_bytes),
             (
                 "totalStepBytes",
                 self.total_step_bytes,

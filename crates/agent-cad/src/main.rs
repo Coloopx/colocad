@@ -1,4 +1,4 @@
-//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI执行及实际字节回执。
+//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际输入/输出字节回执。
 //! [POS]: 模型无权覆盖宿主预算。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use agent_cad::{build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError, Model};
 use serde_json::{json, Value};
@@ -33,6 +33,7 @@ fn run() -> Result<Value, CadError> {
         report["limits"]["input_bytes"] = json!(limits.input_bytes);
         report["limits"]["step_asset_bytes"] = json!(limits.step_bytes);
         report["limits"]["step_total_bytes"] = json!(limits.total_step_bytes);
+        report["limits"]["output_step_bytes"] = json!(limits.output_step_bytes);
         return Ok(report);
     }
     if args == ["schema"] {
@@ -158,8 +159,10 @@ fn run() -> Result<Value, CadError> {
     };
     let mut result = build_revision_with_resource_limits(&model, &mut cache, queryable.then_some(true), &limits)?;
     result.report["resource_usage"]["input_bytes"] = json!(bytes.len());
-    result.report["artifact_sha256"] =
-        json!({"model.step":format!("{:x}",Sha256::digest(result.step.as_bytes()))});
+    let step_sha256 = format!("{:x}", Sha256::digest(result.step.as_bytes()));
+    // ---------- 固定摘要与STEP同一原子目录发布；reader无需加载report ----------
+    result.artifacts.insert("model.step.sha256".into(), format!("{step_sha256}\n").into_bytes());
+    result.report["artifact_sha256"] = json!({"model.step":step_sha256});
     for (name, bytes) in &result.artifacts {
         result.report["artifact_sha256"][name] = json!(format!("{:x}", Sha256::digest(bytes)));
     }
