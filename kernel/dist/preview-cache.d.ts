@@ -4,8 +4,8 @@ export declare class CacheError extends Error {
     constructor(code: string, message: string);
 }
 export declare function previewKey(model: Model): string;
-export declare function readPreviewCache(directory: string, options: Partial<PreviewOptions>): Promise<{
-    raw: NonSharedBuffer;
+export declare function readPreviewCache(directory: string, options: Partial<PreviewOptions>, reportBytes?: number): Promise<{
+    raw: Buffer<ArrayBufferLike>;
     source: string;
     sourceHash: string;
     options: {

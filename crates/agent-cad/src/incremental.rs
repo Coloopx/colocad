@@ -1,3 +1,7 @@
+//! [INPUT]: PR6原checkpoint、来源摘要及旧报告文件。
+//! [OUTPUT]: 既有恢复/捕获及over2MiB报告的显式安全冷建。
+//! [POS]: 仅缓存优化容量，不引入其它PR的计数身份或几何逻辑。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Revision-local cache. Keys cover the operation, its transitive inputs, the referenced
 //! parameters, asset digests and kernel version. Only the previous trusted revision is read.
 use crate::*;
@@ -16,6 +20,7 @@ const BUDGET: usize = 12 * 1024 * 1024;
 pub struct Checkpoints {
     enabled: bool,
     previous: Option<(PathBuf, Value)>,
+    oversized_legacy_manifest: bool,
     pub(crate) keys: BTreeMap<String, String>,
     pub(crate) files: BTreeMap<String, Vec<u8>>,
     used: usize,
@@ -29,22 +34,37 @@ impl Checkpoints {
                 ..Default::default()
             });
         }
+        let mut oversized_legacy_manifest = false;
         let previous = previous
             .map(|dir| {
                 let path = dir.join("report.json");
-                if fs::metadata(&path).map_err(io)?.len() > 2 * 1024 * 1024 {
-                    return Err(io("oversized checkpoint manifest"));
+                use std::io::Read;
+                const MANIFEST_LIMIT: u64 = 2 * 1024 * 1024;
+                let file = fs::File::open(&path).map_err(io)?;
+                if !file.metadata().map_err(io)?.is_file() { return Err(io("checkpoint manifest must be regular")); }
+                if file.metadata().map_err(io)?.len() > MANIFEST_LIMIT {
+                    oversized_legacy_manifest = true;
+                    return Ok(None);
                 }
-                let report: Value =
-                    serde_json::from_slice(&fs::read(path).map_err(io)?).map_err(io)?;
-                Ok((dir.to_owned(), report))
+                let mut bytes = Vec::new();
+                file.take(MANIFEST_LIMIT + 1).read_to_end(&mut bytes).map_err(io)?;
+                if bytes.len() as u64 > MANIFEST_LIMIT {
+                    oversized_legacy_manifest = true;
+                    return Ok(None);
+                }
+                let report: Value = serde_json::from_slice(&bytes).map_err(io)?;
+                Ok(Some((dir.to_owned(), report)))
             })
-            .transpose()?;
+            .transpose()?.flatten();
         Ok(Self {
             enabled: true,
             previous,
+            oversized_legacy_manifest,
             ..Default::default()
         })
+    }
+    pub(crate) fn recovery(&self) -> Option<Value> {
+        self.oversized_legacy_manifest.then(|| json!({"mode":"cold","reason":"oversized_legacy_manifest"}))
     }
     pub(crate) fn prepare(&mut self, model: &Model) {
         if !self.enabled {

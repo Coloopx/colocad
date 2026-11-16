@@ -1,5 +1,7 @@
 # Developer documentation
 
+[Host-controlled STEP byte budgets](resource-budgets.md): registration, transport and native asset limits, with unchanged defaults.
+
 Release 0.1.0 has a verified public npm installation and native builds for all three supported platforms. [Public install check](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json) · [Fresh builds, loaded rebuilds and memory for five products](benchmark-appearance.md)
 
 [Candidate benchmarks, change-order replays and memory growth](benchmark-alpha11-rc1.md)

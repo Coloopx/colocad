@@ -1,26 +1,67 @@
-import {open,readFile,writeFile,link,unlink} from 'node:fs/promises';
+/** [INPUT]: 宿主文件路径、产物SHA及CadClient不可变输入/输出预算。
+ * [OUTPUT]: 模型/当前reportBytes报告读取与固定SHA的独立STEP读取。
+ * [POS]: 路径留在宿主；输出不继承producer授权，外来原文仍按输入预算登记。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
+import {open,readFile,writeFile,link,unlink,realpath} from 'node:fs/promises';
 import {randomUUID,createHash} from 'node:crypto';
 import {dirname,basename,extname,join} from 'node:path';
-import {CadClient} from './client.js';
+import type {CadClient} from './client.js';
 import {attachStep} from './assets.js';
 import type {Model,Receipt} from './types.js';
+import {ResourceLimitError,checkedLimit,RESOURCE_LIMIT_CEILINGS} from './resource-limits.js';
 
-const limit=32*1024*1024;
+const otherArtifactLimit=32*1024*1024;
 const marker='/* AGENT_CAD_IR_1 ';
 const hash=(s:string|Buffer)=>createHash('sha256').update(s).digest('hex');
-function requireData(r:Receipt){if(!r.ok)throw Object.assign(Error(r.error.message),{code:r.error.code});return r.data;}
+function requireData(r:Receipt){if(!r.ok)throw Object.assign(Error(r.error.message),r.error);return r.data;}
 const unsupported=(path:string)=>Object.assign(Error('No local CAD file codec for '+extname(path)),{code:'UNSUPPORTED_FILE_FORMAT'});
-async function bounded(path:string){
+async function bounded(path:string,limit:number,resource:'inputBytes'|'outputStepBytes'|'reportBytes'|'outputBytes'='inputBytes'){
   const fd=await open(path,'r');
   try{
-    const s=await fd.stat();if(!s.isFile()||s.size>limit)throw Error('CAD input must be a regular file up to 32 MiB');
-    const bytes=await fd.readFile();if(bytes.length>limit)throw Error('CAD file grew beyond its budget');return bytes;
+    const s=await fd.stat();if(!s.isFile())throw Error('CAD file must be a regular file');
+    if(s.size>limit)throw new ResourceLimitError(resource,s.size,limit);
+    // ---------- 同一描述符有界读取，文件增长最多观察limit+1字节 ----------
+    const chunks:Buffer[]=[];let total=0;
+    for(;;){
+      const chunk=Buffer.allocUnsafe(Math.min(64*1024,limit+1-total));
+      const {bytesRead}=await fd.read(chunk,0,chunk.length,null);if(!bytesRead)break;
+      total+=bytesRead;
+      if(total>limit)throw new ResourceLimitError(resource,total,limit,true);
+      chunks.push(chunk.subarray(0,bytesRead));
+    }
+    return Buffer.concat(chunks,total);
   }finally{await fd.close();}
+}
+async function artifactPath(root:string,name:string){
+  const path=await realpath(join(root,name));
+  if(dirname(path)!==root)throw Object.assign(Error('STEP artifact path leaves its directory'),{code:'STEP_ARTIFACT_INTEGRITY'});
+  return path;
+}
+/** SHA-256固定64位小写十六进制加换行，不随装配规模增长。 */
+const stepDigestBytes=64+1;
+/** 当前宿主可传已验证回执SHA；默认读取原子发布的固定旁文件，不授予source权限。 */
+export async function readStepArtifact(cad:CadClient,artifactDirectory:string,options:{sha256?:string}={}):Promise<Buffer>{
+  const limit=cad.resourceLimits.outputStepBytes,receiptDigest=options.sha256;
+  const root=await realpath(artifactDirectory);
+  const bytes=await bounded(await artifactPath(root,'model.step'),limit,'outputStepBytes');
+  const expected=receiptDigest===undefined?
+    (await bounded(await artifactPath(root,'model.step.sha256'),stepDigestBytes,'outputBytes')).toString('utf8'):receiptDigest+'\n';
+  if(!/^[a-f0-9]{64}\n$/.test(expected)||hash(bytes)!==expected.slice(0,-1))
+    throw Object.assign(Error('STEP artifact SHA256 digest mismatch'),{code:'STEP_ARTIFACT_INTEGRITY'});
+  return bytes;
+}
+/** 当前宿主报告读取；producer策略无授权作用，SHA由可信调用方提供。 */
+export async function readReportFile(cad:{readonly resourceLimits:{readonly reportBytes:number}},path:string,options:{sha256?:string}={}):Promise<Buffer>{
+  const limit=checkedLimit(cad.resourceLimits.reportBytes,RESOURCE_LIMIT_CEILINGS.reportBytes,'reportBytes'),expected=options.sha256;
+  const bytes=await bounded(path,limit,'reportBytes');
+  if(expected!==undefined&&(!/^[a-f0-9]{64}$/.test(expected)||hash(bytes)!==expected))
+    throw Object.assign(Error('SESSION_INTEGRITY: report SHA256 mismatch'),{code:'REPORT_INTEGRITY'});
+  return bytes;
 }
 /** Paths belong to the Harness in the current sandbox. Foreign STEP geometry is imported as an asset. */
 export async function readModelFile(cad:CadClient,path:string):Promise<Model>{
   const ext=extname(path).toLowerCase();if(!['.json','.step','.stp'].includes(ext))throw unsupported(path);
-  const raw=(await bounded(path)).toString('utf8');
+  const raw=(await bounded(path,cad.resourceLimits.inputBytes)).toString('utf8');
   let model:Model;
   if(ext==='.json'){
     model=JSON.parse(raw) as Model;
@@ -29,7 +70,7 @@ export async function readModelFile(cad:CadClient,path:string):Promise<Model>{
     const start=raw.indexOf(marker);
     if(start<0){
       const id='source_part';
-      const seed=attachStep({version:1,units:'mm',parameters:{},features:[],output:''},id,raw);
+      const seed=attachStep({version:1,units:'mm',parameters:{},features:[],output:''},id,raw,{maxBytes:cad.resourceLimits.stepBytes});
       const inspected=requireData(await cad.inspectStep(seed,id));
       model={...(inspected.model_template as Model),assets:seed.assets};
     }else{
@@ -55,15 +96,22 @@ export async function writeModelFile(cad:CadClient,model:Model,path:string,optio
   const ext=extname(path).toLowerCase();const names:Record<string,string>={'.json':'model.json','.step':'model.step','.stp':'model.step','.glb':'model.glb','.stl':'model.stl','.png':'preview.png'};
   if(!Object.hasOwn(names,ext))throw unsupported(path);
   const preview=['.png','.stl','.glb'].includes(ext);
+  const stepOutput=['.step','.stp'].includes(ext);
   const receipt=requireData(await cad.build(preview?{...model,preview:model.preview??{}}:model));
-  let bytes=await readFile(join(String(receipt.artifact_directory),names[ext]));
-  if(options.embedModel&&['.step','.stp'].includes(ext)){
+  let bytes=stepOutput?await readStepArtifact(cad,String(receipt.artifact_directory),
+    {sha256:(receipt.artifact_sha256 as Record<string,string>|undefined)?.['model.step']}):
+    await readFile(join(String(receipt.artifact_directory),names[ext]));
+  if(options.embedModel&&stepOutput){
     const step=bytes.toString('utf8'),source=Buffer.from(JSON.stringify(model),'utf8');
     const first=step.indexOf('\n')+1;if(!first)throw Error('invalid STEP output header');
     const comment=marker+hash(bytes)+' '+hash(source)+' '+source.toString('base64')+' */\n';
     bytes=Buffer.from(step.slice(0,first)+comment+step.slice(first));
   }
-  if(bytes.length>limit)throw Error('file exceeds 32 MiB');
+  if(stepOutput&&bytes.length>cad.resourceLimits.outputStepBytes)
+    throw new ResourceLimitError('outputStepBytes',bytes.length,cad.resourceLimits.outputStepBytes);
+  const container=ext==='.json'||options.embedModel&&stepOutput;
+  const fileLimit=container?cad.resourceLimits.inputBytes:stepOutput?cad.resourceLimits.outputStepBytes:otherArtifactLimit;
+  if(bytes.length>fileLimit)throw new ResourceLimitError(container?'inputBytes':'outputBytes',bytes.length,fileLimit);
   await publish(path,bytes);return {path,bytes:bytes.length,sha256:hash(bytes),model_hash:String(receipt.model_hash)};
 }
 export async function editModelFile(cad:CadClient,source:string,parameters:Record<string,number>,destination:string){
