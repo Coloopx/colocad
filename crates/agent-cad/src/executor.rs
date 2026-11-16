@@ -1,6 +1,6 @@
 //! Deterministic feature execution, exact validation and exports.
-//! [INPUT]: 模型/缓存及宿主输入/输出资源策略。[OUTPUT]: 原生候选与独立STEP/reportBytes及checkpoint冷建原因。
-//! [POS]: 入口始终先验证预算，再允许缓存恢复。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+//! Validates host budgets before checkpoint restore.
+//! Adjacent STEP imports share a source cache for this build.
 use crate::*;
 pub struct Build {
     pub artifacts: BTreeMap<String, Vec<u8>>,
@@ -133,7 +133,9 @@ pub fn build_revision_with_resource_limits(
         ));
     }
     let queryable = queryable.unwrap_or(!model.datums.is_empty() || !model.interfaces.is_empty());
-    let mut result = execute(model, cache, queryable, limits)?;
+    let mut imports = import_cache::ImportCache::default();
+    let mut result = execute(model, cache, queryable, limits, &mut imports)?;
+    result.report["step_source_cache"] = imports.report();
     resources::check_bytes("outputStepBytes", result.step.len(), limits.output_step_bytes, false)?;
     result.report["resource_limits"] = json!(limits);
     result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>(),"output_step_bytes":result.step.len()});
@@ -142,7 +144,13 @@ pub fn build_revision_with_resource_limits(
     result.artifacts.append(&mut cache.files);
     Ok(result)
 }
-fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool, limits: &ResourceLimits) -> Result<Build> {
+fn execute(
+    model: &Model,
+    cache: &mut incremental::Checkpoints,
+    queryable: bool,
+    limits: &ResourceLimits,
+    imports: &mut import_cache::ImportCache,
+) -> Result<Build> {
     let start = Instant::now();
     validate_with_resource_limits(model, limits)?;
     cache.prepare(model);
@@ -171,6 +179,9 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
     let mut region_map = BTreeMap::new();
     let mut peak_live_bodies = 0;
     for f in &model.features {
+        if !matches!(f, Feature::ImportStep { assembly: false, .. }) {
+            imports.clear();
+        }
         let tick = Instant::now();
         if !required_regions.contains(f.id()) {
             if let Some((body, mut cached_trace)) = cache.restore(&mut k, f.id()) {
@@ -441,7 +452,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
                     }
                     b
                 }
-                other => operations::execute(&mut k, other, model, &mut bodies, &mut uses)?,
+                other => operations::execute(&mut k, other, model, &mut bodies, &mut uses, imports)?,
             };
             if b.face_list().len() > 20_000 {
                 return Err(CadError::new("RESOURCE_LIMIT", "face budget exceeded"));
@@ -513,6 +524,7 @@ fn execute(model: &Model, cache: &mut incremental::Checkpoints, queryable: bool,
         early.finish_feature(&mut k, model, f.id(), &mut bodies, limits)?;
         region_map.retain(|id, _| uses.get(id).copied().unwrap_or(0) > 0);
     }
+    imports.clear();
     let geometry_ms = start.elapsed().as_secs_f64() * 1000. - early.validation_ms - early.export_ms;
     let snapshot_start = Instant::now();
     let mut snapshot = if queryable {

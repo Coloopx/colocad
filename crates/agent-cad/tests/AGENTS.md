@@ -35,3 +35,5 @@ report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精
 
 step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与严格负例，等价需Win独立OCP。
 step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例；只在Windows验收。
+
+step_import_cache.rs: 10项解析计数红绿与公开revision冷建/全restore/单BodyIdx miss及严格权限控制、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
