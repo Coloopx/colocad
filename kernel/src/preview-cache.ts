@@ -19,7 +19,7 @@ export async function readPreviewCache(directory: string, options: Partial<Previ
   const source = resolve(directory);
   const path = join(source, 'preview.mesh.json');
   if ((await stat(path)).size > 24 * 1024 * 1024) throw new CacheError('PREVIEW_BUDGET', 'mesh cache exceeds 24 MiB');
-  const raw = await readFile(path);
+  const raw: Buffer<ArrayBufferLike> = await readFile(path);
   const report = JSON.parse((await readReportFile({resourceLimits:{reportBytes}},join(source, 'report.json'))).toString('utf8'));
   const expected = report.artifact_sha256?.['preview.mesh.json'];
   if (!expected || createHash('sha256').update(raw).digest('hex') !== expected
