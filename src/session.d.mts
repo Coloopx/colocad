@@ -1,4 +1,4 @@
-/** [INPUT]: PR6 Config字节策略与会话类型。[OUTPUT]: 含outputStepBytes的SessionReadOptions。
+/** [INPUT]: PR6 Config字节策略与会话类型。[OUTPUT]: 含outputStepBytes/reportBytes的SessionReadOptions。
  * [POS]: 会话及只读HTML授权类型边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import type { Config, Model, Receipt, PreviewOptions, Sketch, QueryRequest } from '../kernel/dist/types.js';
 export interface StepMetadata { label?: string; kind?: string; queryable?: boolean; }

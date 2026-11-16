@@ -1,4 +1,4 @@
-//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际输入/输出字节回执。
+//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际STEP/reportBytes回执及发布前双计量。
 //! [POS]: 模型无权覆盖宿主预算。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use agent_cad::{build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError, Model};
 use serde_json::{json, Value};
@@ -26,6 +26,16 @@ fn main() {
 fn run() -> Result<Value, CadError> {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     let limits = agent_cad::resources::take_host_limits(&mut args)?;
+    let result = run_args(args, limits).and_then(|data| {
+        agent_cad::resources::check_success_report(&data, limits.report_bytes)?;
+        Ok(data)
+    });
+    if let Err(error) = &result {
+        agent_cad::resources::check_report(&json!({"ok":false,"error":error}), limits.report_bytes)?;
+    }
+    result
+}
+fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<Value, CadError> {
     if args == ["capabilities"] {
         let mut report = capabilities();
         report["resource_limits"] = json!(limits);
@@ -34,6 +44,8 @@ fn run() -> Result<Value, CadError> {
         report["limits"]["step_asset_bytes"] = json!(limits.step_bytes);
         report["limits"]["step_total_bytes"] = json!(limits.total_step_bytes);
         report["limits"]["output_step_bytes"] = json!(limits.output_step_bytes);
+        report["limits"]["report_bytes"] = json!(limits.report_bytes);
+        report["query"]["limits"]["receipt_bytes"] = json!(limits.report_bytes);
         return Ok(report);
     }
     if args == ["schema"] {
@@ -84,7 +96,7 @@ fn run() -> Result<Value, CadError> {
     if command == "query" {
         let request = serde_json::from_slice(&bytes)
             .map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-        return agent_cad::query::engine::execute(Path::new(&args[2]), request);
+        return agent_cad::query::engine::execute_with_report_limit(Path::new(&args[2]), request, limits.report_bytes);
     }
     if command == "solve-sketch" {
         #[derive(serde::Deserialize)]
@@ -129,6 +141,9 @@ fn run() -> Result<Value, CadError> {
             .iter()
             .map(|(name, data)| (name.clone(), format!("{:x}", Sha256::digest(data))))
             .collect::<std::collections::BTreeMap<_, _>>());
+        report["artifact_directory"] = json!(args[2]);
+        agent_cad::resources::check_success_report(&report, limits.report_bytes)?;
+        agent_cad::resources::check_report_file(&report, limits.report_bytes)?;
         artifacts.insert(
             "report.json".into(),
             serde_json::to_vec_pretty(&report).map_err(fail)?,
@@ -175,6 +190,9 @@ fn run() -> Result<Value, CadError> {
         }
     }
     let mut files = result.artifacts;
+    result.report["artifact_directory"] = json!(args[2]);
+    agent_cad::resources::check_success_report(&result.report, limits.report_bytes)?;
+    agent_cad::resources::check_report_file(&result.report, limits.report_bytes)?;
     files.insert("model.step".into(), result.step.into_bytes());
     files.insert(
         "model.json".into(),

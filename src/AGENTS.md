@@ -21,3 +21,5 @@ view-server.mjs: 本地会话查看服务。
 仅session输出读取消费kernel的ResourceLimits和readStepArtifact；不引入其它PR的库存/查询策略。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+
+reportBytes：session当前host报告/回执读取和SHA、pack有界解压及compact持久化；32MiB仅为pack优化阈值。无D1库存/scene策略，catalog/迁移锁不改。

@@ -1,34 +1,44 @@
-/** [INPUT]: 原生可执行文件、无shell参数及独立输入。[OUTPUT]: 有界进程与结构化回执。
+/** [INPUT]: 原生可执行文件、独立输入及宿主reportBytes。[OUTPUT]: UTF8有界进程与结构化回执。
  * [POS]: SDK执行隔离。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import { spawn } from 'node:child_process';
+import { DEFAULT_RESOURCE_LIMITS, RESOURCE_LIMIT_CEILINGS, checkedLimit, ResourceLimitError } from './resource-limits.js';
 export function error(code, message, details) {
     return { ok: false, error: { code, message, ...(details ? { details } : {}) } };
 }
 // Command arguments and input are separate; agent data never enters a shell string.
-export function execute(file, args, input = '', wallMs = 30_000, maxOutputBytes = 2_097_152) {
+export function execute(file, args, input = '', wallMs = 30_000, maxOutputBytes = DEFAULT_RESOURCE_LIMITS.reportBytes) {
+    checkedLimit(maxOutputBytes, RESOURCE_LIMIT_CEILINGS.reportBytes, 'reportBytes');
     return new Promise((done, reject) => {
         const child = spawn(file, args, { stdio: ['pipe', 'pipe', 'pipe'] });
-        let stdout = '', stderr = '', timedOut = false, overflow = false;
+        let stderr = '', timedOut = false, overflow = false, outputBytes = 0;
+        const chunks = [];
         const timer = setTimeout(() => { timedOut = true; child.kill('SIGKILL'); }, wallMs);
         child.on('error', e => { clearTimeout(timer); reject(e); });
         child.stdout.on('data', b => {
-            stdout += b;
-            if (Buffer.byteLength(stdout) > maxOutputBytes) {
+            if (overflow)
+                return;
+            outputBytes += b.length;
+            if (outputBytes > maxOutputBytes) {
                 overflow = true;
                 child.kill('SIGKILL');
+                return;
             }
+            chunks.push(Buffer.from(b));
         });
         child.stderr.on('data', b => { stderr = (stderr + b).slice(-8192); });
         child.stdin.on('error', () => { });
-        child.on('close', code => { clearTimeout(timer); done({ code, stdout, stderr, timedOut, overflow }); });
+        child.on('close', code => { clearTimeout(timer); done({ code, stdout: Buffer.concat(chunks).toString('utf8'), stderr, timedOut, overflow, outputBytes, outputLimit: maxOutputBytes }); });
         child.stdin.end(input);
     });
 }
 export function receipt(result) {
     if (result.timedOut)
         return error('TIMEOUT', 'CAD command exceeded wall-clock budget');
-    if (result.overflow)
-        return error('OUTPUT_LIMIT', 'CAD response exceeded the command output budget');
+    if (result.overflow) {
+        const limit = result.outputLimit ?? DEFAULT_RESOURCE_LIMITS.reportBytes;
+        const cause = new ResourceLimitError('reportBytes', result.outputBytes ?? limit + 1, limit, true);
+        return error(cause.code, cause.message, cause.details);
+    }
     try {
         const value = JSON.parse(result.stdout);
         if (typeof value?.ok !== 'boolean'

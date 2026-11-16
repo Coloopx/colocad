@@ -30,3 +30,5 @@ fixtures/: 原生及独立内核产生的公开回归输入。
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。
+
+report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精确边界，沿用已RED控制，PR6适配尚待Windows。

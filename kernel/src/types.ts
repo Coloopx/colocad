@@ -13,7 +13,7 @@ export interface Config {
   outputRoot: string;
   binary?: string;
   wallMs?: number;
-  /** Host-owned byte limits; default budgets are unchanged. Never read from a model. */
+  /** Host-only input, independent STEP output and reportBytes budgets. Never read from a model. */
   resourceLimits?: ResourceLimits;
   /** Host-owned allowlist for querying reopened artifacts; defaults to outputRoot. */
   queryRoots?: string[];

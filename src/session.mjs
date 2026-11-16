@@ -1,6 +1,6 @@
 /**
  * [INPUT]: PR6公开SDK、原会话/产物SHA与当前宿主输出预算。
- * [OUTPUT]: ModelingSession及按当前outputStepBytes校验的bundle/HTML。
+ * [OUTPUT]: ModelingSession及按当前STEP/reportBytes校验的回执与bundle/HTML。
  * [POS]: 只新增输出读取授权，不引入库存/查询策略PR。
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */
@@ -10,7 +10,8 @@ import { createHash, randomUUID } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { catalogName, initializeCatalog, withCatalog, withLegacyWriter } from './session-catalog.mjs';
 import { CadClient, createCadTools } from './index.mjs';
-import { readStepArtifact } from '../kernel/dist/files.js';
+import { readStepArtifact,readReportFile } from '../kernel/dist/files.js';
+import {ResourceLimitError} from '../kernel/dist/resource-limits.js';
 
 import {storeRequest,storeReceipt,readPacked} from './session-payload.mjs';
 
@@ -155,14 +156,14 @@ export class ModelingSession {
   async source(){return this.withStore(false,store=>this.sourceFrom(store));}
   async latestGeometry(){return this.withStore(false,async store=>(await store.head())??undefined);}
   async receipt(step) {
-    if(step.receiptPack)return readPacked(this.root,step.receiptPack,step.receiptSha256);
-    return JSON.parse(await checked(this.root,step.receiptFile,step.receiptSha256));
+    if(step.receiptPack)return readPacked(this.root,step.receiptPack,step.receiptSha256,this.cad.resourceLimits.reportBytes);
+    return JSON.parse((await readReportFile(this.cad,await sessionPath(this.root,step.receiptFile),{sha256:step.receiptSha256})).toString('utf8'));
   }
   async head() {
     return this.withStore(false,async store=>{
       const step=await store.head();
       if(!step) return null;
-      const receipt=JSON.parse(await checked(this.root,step.receiptFile,step.receiptSha256));
+      const receipt=await this.receipt(step);
       return {session_step:step.id,query_revision_id:receipt.data.query_revision_id??null,geometry:step.geometry};
     });
   }
@@ -213,7 +214,7 @@ export class ModelingSession {
     const start=performance.now();let result;
     try{
       step.queryable=queryable??((model?.datums?.length||model?.interfaces?.length)?true:previous?.queryable??false);
-      const accepted=operation==='query'?JSON.parse(await checked(this.root,previous.receiptFile,previous.receiptSha256)):undefined;
+      const accepted=operation==='query'?await this.receipt(previous):undefined;
       if(accepted&&queryRequest.query_revision_id!==accepted.data.query_revision_id)preset={ok:false,error:{code:'QUERY_REVISION_MISMATCH',message:'Query must target the accepted geometry revision'}};
       result=preset??await (operation==='query'
         ?this.cad.query(inside(this.root,previous.artifactDirectory),queryRequest)
@@ -223,7 +224,7 @@ export class ModelingSession {
       if(operation==='query'&&result.ok){result.data.artifact_directory=inside(this.root,previous.artifactDirectory);result.data.source_artifact_directory=result.data.artifact_directory;result.data.source_artifact_sha256=accepted.data.artifact_sha256;}
     }catch(e){result={ok:false,error:{code:'SESSION_EXECUTION_FAILED',message:String(e.message)}};}
     step.durationMs=performance.now()-start;step.finishedAt=new Date().toISOString();step.status=result.ok?'succeeded':'failed';
-    const saved=structuredClone(result);
+    let saved=structuredClone(result);
     if(result.ok){
       step.artifactDirectory=relative(this.root,result.data.artifact_directory).split(sep).join('/');inside(this.root,step.artifactDirectory);
       saved.data.artifact_directory=step.artifactDirectory;
@@ -231,12 +232,18 @@ export class ModelingSession {
       step.geometry=result.data.geometry;step.nativeTimingMs=result.data.timing_ms;
       step.degradations=result.data.features?.filter(x=>x.degradation).map(x=>({id:x.id,...x.degradation}));
     }else step.error=result.error;
-    const receiptBytes=json(saved);step.receiptSha256=sha(receiptBytes);
+    let receiptBytes=JSON.stringify(saved)+'\n';
+    if(Buffer.byteLength(receiptBytes)>this.cad.resourceLimits.reportBytes){
+      const cause=new ResourceLimitError('reportBytes',Buffer.byteLength(receiptBytes),this.cad.resourceLimits.reportBytes);
+      result={ok:false,error:{code:cause.code,message:cause.message,details:cause.details}};
+      saved=result;receiptBytes=JSON.stringify(saved)+'\n';step.status='failed';step.error=result.error;
+    }
+    step.receiptSha256=sha(receiptBytes);
     if(result.ok && operation!=='query') {
       const directory=inside(this.root,step.artifactDirectory);
       await syncArtifactTree(directory);await syncPath(resolve(directory,'..'));await syncPath(this.root);
     }
-    if(compact)step.receiptPack=await storeReceipt(this.root,id,receiptBytes);
+    if(compact)step.receiptPack=await storeReceipt(this.root,id,receiptBytes,this.cad.resourceLimits.reportBytes);
     if(!step.receiptPack){
       if(compact){delete step.receiptPack;step.receiptFile=dir+'/receipt.json';await mkdir(join(this.root,dir),{recursive:true});await syncPath(join(this.root,'steps'));}
       await writeStepFile(join(this.root,step.receiptFile),receiptBytes);await syncPath(join(this.root,dir));
@@ -282,7 +289,7 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso',reso
       const data=step.receipt.data,artifact=entry.artifactDirectory;inside(root,artifact);
       // Observation results keep their original exact-geometry source for later lookup.
       const source=data.source_artifact_directory??artifact;
-      const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:await load(inside(root,source+'/report.json'));
+      const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:JSON.parse((await readReportFile(session.cad,await sessionPath(root,source+'/report.json'))).toString('utf8'));
       const guideHash=sourceReport.artifact_sha256?.['query-display.json'];
       if(guideHash)step.queryDisplay=JSON.parse(await checked(root,source+'/query-display.json',guideHash));
       const hash=sourceReport.artifact_sha256?.['preview.mesh.json'];

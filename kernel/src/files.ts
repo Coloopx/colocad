@@ -1,21 +1,21 @@
 /** [INPUT]: 宿主文件路径、产物SHA及CadClient不可变输入/输出预算。
- * [OUTPUT]: 有界模型读写与按固定SHA旁文件/宿主回执校验的STEP读取，不加载report。
+ * [OUTPUT]: 模型/当前reportBytes报告读取与固定SHA的独立STEP读取。
  * [POS]: 路径留在宿主；输出不继承producer授权，外来原文仍按输入预算登记。
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import {open,readFile,writeFile,link,unlink,realpath} from 'node:fs/promises';
 import {randomUUID,createHash} from 'node:crypto';
 import {dirname,basename,extname,join} from 'node:path';
-import {CadClient} from './client.js';
+import type {CadClient} from './client.js';
 import {attachStep} from './assets.js';
 import type {Model,Receipt} from './types.js';
-import {ResourceLimitError} from './resource-limits.js';
+import {ResourceLimitError,checkedLimit,RESOURCE_LIMIT_CEILINGS} from './resource-limits.js';
 
 const otherArtifactLimit=32*1024*1024;
 const marker='/* AGENT_CAD_IR_1 ';
 const hash=(s:string|Buffer)=>createHash('sha256').update(s).digest('hex');
 function requireData(r:Receipt){if(!r.ok)throw Object.assign(Error(r.error.message),r.error);return r.data;}
 const unsupported=(path:string)=>Object.assign(Error('No local CAD file codec for '+extname(path)),{code:'UNSUPPORTED_FILE_FORMAT'});
-async function bounded(path:string,limit:number,resource:'inputBytes'|'outputStepBytes'|'outputBytes'='inputBytes'){
+async function bounded(path:string,limit:number,resource:'inputBytes'|'outputStepBytes'|'reportBytes'|'outputBytes'='inputBytes'){
   const fd=await open(path,'r');
   try{
     const s=await fd.stat();if(!s.isFile())throw Error('CAD file must be a regular file');
@@ -48,6 +48,14 @@ export async function readStepArtifact(cad:CadClient,artifactDirectory:string,op
     (await bounded(await artifactPath(root,'model.step.sha256'),stepDigestBytes,'outputBytes')).toString('utf8'):receiptDigest+'\n';
   if(!/^[a-f0-9]{64}\n$/.test(expected)||hash(bytes)!==expected.slice(0,-1))
     throw Object.assign(Error('STEP artifact SHA256 digest mismatch'),{code:'STEP_ARTIFACT_INTEGRITY'});
+  return bytes;
+}
+/** 当前宿主报告读取；producer策略无授权作用，SHA由可信调用方提供。 */
+export async function readReportFile(cad:{readonly resourceLimits:{readonly reportBytes:number}},path:string,options:{sha256?:string}={}):Promise<Buffer>{
+  const limit=checkedLimit(cad.resourceLimits.reportBytes,RESOURCE_LIMIT_CEILINGS.reportBytes,'reportBytes'),expected=options.sha256;
+  const bytes=await bounded(path,limit,'reportBytes');
+  if(expected!==undefined&&(!/^[a-f0-9]{64}$/.test(expected)||hash(bytes)!==expected))
+    throw Object.assign(Error('SESSION_INTEGRITY: report SHA256 mismatch'),{code:'REPORT_INTEGRITY'});
   return bytes;
 }
 /** Paths belong to the Harness in the current sandbox. Foreign STEP geometry is imported as an asset. */

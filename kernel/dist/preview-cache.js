@@ -1,6 +1,11 @@
+/** [INPUT]: 当前reportBytes、显示网格和SHA报告。[OUTPUT]: 有界报告/SHA校验的显示缓存。
+ * [POS]: 仅报告读取改用宿主预算，网格原24MiB显示规则独立。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 import { createHash } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
+import { readReportFile } from './files.js';
+import { DEFAULT_RESOURCE_LIMITS } from './resource-limits.js';
 export class CacheError extends Error {
     code;
     constructor(code, message) {
@@ -12,13 +17,13 @@ export function previewKey(model) {
     const geometry = { ...model, preview: { pose: model.preview?.pose ?? 'normal', chord_mm: model.preview?.chord_mm ?? 0.2 } };
     return createHash('sha256').update(JSON.stringify(geometry)).digest('hex');
 }
-export async function readPreviewCache(directory, options) {
+export async function readPreviewCache(directory, options, reportBytes = DEFAULT_RESOURCE_LIMITS.reportBytes) {
     const source = resolve(directory);
     const path = join(source, 'preview.mesh.json');
     if ((await stat(path)).size > 24 * 1024 * 1024)
         throw new CacheError('PREVIEW_BUDGET', 'mesh cache exceeds 24 MiB');
     const raw = await readFile(path);
-    const report = JSON.parse(await readFile(join(source, 'report.json'), 'utf8'));
+    const report = JSON.parse((await readReportFile({ resourceLimits: { reportBytes } }, join(source, 'report.json'))).toString('utf8'));
     const expected = report.artifact_sha256?.['preview.mesh.json'];
     if (!expected || createHash('sha256').update(raw).digest('hex') !== expected
         || typeof report.model_hash !== 'string' || !report.preview) {

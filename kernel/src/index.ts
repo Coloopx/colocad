@@ -9,4 +9,4 @@ export { resolveBinary, resolveBinary as resolveWorker } from './binary.js';
 export { pose, occurrence, hardwareEnvelope, envelope, simplified, blindBoss } from './helpers.js';
 export type { HardwareKind } from './helpers.js';
 export type * from './types.js';
-export {readModelFile,writeModelFile,editModelFile,readStepArtifact} from './files.js';
+export {readModelFile,writeModelFile,editModelFile,readStepArtifact,readReportFile} from './files.js';

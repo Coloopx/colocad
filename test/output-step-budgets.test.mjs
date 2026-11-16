@@ -13,7 +13,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import * as sdk from '../kernel/dist/index.js';
 import {ModelingSession,readSessionBundle,exportSessionHtml} from '../src/session.mjs';
 
-const MiB=1024*1024,defaults={inputBytes:32*MiB,stepBytes:24*MiB,totalStepBytes:24*MiB,outputStepBytes:32*MiB};
+const MiB=1024*1024,defaults={inputBytes:32*MiB,stepBytes:24*MiB,totalStepBytes:24*MiB,outputStepBytes:32*MiB,reportBytes:8*MiB};
 const box=JSON.parse(await readFile(new URL('../crates/agent-cad/tests/fixtures/output-budget-box.json',import.meta.url),'utf8'));
 const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 const accepted=r=>{assert.equal(r.ok,true,JSON.stringify(r));return r.data;};

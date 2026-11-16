@@ -1,5 +1,5 @@
 //! Deterministic feature execution, exact validation and exports.
-//! [INPUT]: 模型/缓存及宿主输入/输出资源策略。[OUTPUT]: 原生候选与独立输出STEP字节用量。
+//! [INPUT]: 模型/缓存及宿主输入/输出资源策略。[OUTPUT]: 原生候选与独立STEP/reportBytes及checkpoint冷建原因。
 //! [POS]: 入口始终先验证预算，再允许缓存恢复。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::*;
 pub struct Build {
@@ -137,6 +137,8 @@ pub fn build_revision_with_resource_limits(
     resources::check_bytes("outputStepBytes", result.step.len(), limits.output_step_bytes, false)?;
     result.report["resource_limits"] = json!(limits);
     result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>(),"output_step_bytes":result.step.len()});
+    if let Some(recovery) = cache.recovery() { result.report["checkpoint_recovery"] = recovery; }
+    resources::check_success_report(&result.report, limits.report_bytes)?;
     result.artifacts.append(&mut cache.files);
     Ok(result)
 }
