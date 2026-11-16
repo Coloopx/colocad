@@ -1,4 +1,8 @@
 //! Lazy exact inspection regions propagated along the feature DAG.
+//! [INPUT]: 原生形体与operations刚体重放接口，使用独立空解析槽。
+//! [OUTPUT]: 外形/内腔/开口区域的几何传播。
+//! [POS]: 区域重放仅执行刚体特征，不延续主构建的来源缓存。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! They are constructed only for ancestors of an inspection_region request.
 use crate::*;
 use engineering::{in_frame, prism, profile_tool, OpenFace};
@@ -283,7 +287,7 @@ pub(crate) fn after(
             let input = f.inputs()[0].to_string();
             let mut bodies = BTreeMap::from([(input.clone(), copy(k, b)?)]);
             let mut uses = BTreeMap::from([(input, 1)]);
-            *b = operations::execute(k, f, m, &mut bodies, &mut uses)?;
+            *b = operations::execute(k, f, m, &mut bodies, &mut uses, &mut Default::default())?;
             Ok(())
         })?,
         Feature::Union { .. } => {

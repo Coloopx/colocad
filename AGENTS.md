@@ -17,3 +17,5 @@ scripts/: vendor提取与Docker相同补丁集合；本机不执行Node或构建
 See third_party/patches/README.md for the pinned planar conic domain patch and crates/agent-cad/tests/step_planar_conic_domain.rs for its regression cases.
 
 Surface-metric UV validation is enabled in the shared executor. See docs/validation.md and test/uv-trim-metric.test.mjs.
+
+Adjacent STEP definition imports reuse one admitted source in the native build. See crates/agent-cad/src/import_cache.rs and crates/agent-cad/tests/step_import_cache.rs.

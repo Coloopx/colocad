@@ -36,3 +36,5 @@ resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执
 outputStepBytes贯通resources、executor、assembly及step_assembly，main同目录原子发布model.step.sha256；capabilities仅增加输出合同，原PR6几何/数量/单位不变。
 
 reportBytes：resources有界计量，main发布前双准入，executor记录checkpoint_recovery；incremental超大旧manifest只冷建。query/engine只在PR6原算法替换报告容量，不带D1 progress/preflight/计数策略。
+
+import_cache.rs: 单次构建最近一个已准入中性来源的mode+verifiedSHA复用与计数；失配先清槽，不缓存所选Body/BRep。

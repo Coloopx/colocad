@@ -1,3 +1,7 @@
+//! [INPUT]: 几何特征、原始来源和本次解析槽。
+//! [OUTPUT]: 保留每个特征身份的独立BRep与严格来源/模式验证。
+//! [POS]: 普通part/definition解析诊断；assembly/component路径原样。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Geometric operations with explicit units, frames and re-evaluated selectors.
 use crate::*;
 use solidcore::curve::{curve::Curve, ellipse::Ellipse};
@@ -921,6 +925,7 @@ pub(crate) fn execute(
     m: &Model,
     bodies: &mut BTreeMap<String, Brep>,
     uses: &mut BTreeMap<String, usize>,
+    imports: &mut import_cache::ImportCache,
 ) -> Result<Brep> {
     use solidcore::sweep::api_brep::{
         create_linear_sweep, create_pipe_sweep, create_rotational_sweep,
@@ -1267,20 +1272,23 @@ pub(crate) fn execute(
             if *assembly {
                 return crate::step_assembly::build(k, &a.step);
             }
-            let limits = step_import::Limits {
-                max_entities: 100_000,
-                max_list_depth: 24,
-                max_ref_depth: 32,
-                max_list_len: 16_384,
-            };
-            let parsed = step_import::import(a.step.as_bytes(), &limits)
-                .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
-            if !parsed.skipped.is_empty()
-                || parsed.diagnostics.iter().any(|d|!(*definition && d.step_id.is_none() && d.message==format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",parsed.assembly_instances)))
-                || (parsed.assembly_instances > 0 && !definition)
-            {
-                return Err(CadError::new("IMPORT_INCOMPLETE","STEP contains skipped entities, ambiguous units or unapplied assembly transforms"));
-            }
+            let parsed = imports.parse(a, *definition, || {
+                let limits = step_import::Limits {
+                    max_entities: 100_000,
+                    max_list_depth: 24,
+                    max_ref_depth: 32,
+                    max_list_len: 16_384,
+                };
+                let parsed = step_import::import(a.step.as_bytes(), &limits)
+                    .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
+                if !parsed.skipped.is_empty()
+                    || parsed.diagnostics.iter().any(|d|!(*definition && d.step_id.is_none() && d.message==format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",parsed.assembly_instances)))
+                    || (parsed.assembly_instances > 0 && !definition)
+                {
+                    return Err(CadError::new("IMPORT_INCOMPLETE","STEP contains skipped entities, ambiguous units or unapplied assembly transforms"));
+                }
+                Ok(parsed)
+            })?;
             let source = parsed.bodies.get(*body_index).ok_or_else(|| {
                 CadError::new("INVALID_REFERENCE", "STEP body index out of range")
             })?;
