@@ -27,6 +27,17 @@
           "after": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/planar-conic-domain.patch",
+      "sha256": "081b1f711ab04506336c37c609ea92e868428e52663be8952e2447ffdccddb1e",
+      "targets": [
+        {
+          "target": "crates/step-import/src/script.rs",
+          "before": "f6f01ffe341d010304b92ec71db252e083f144940866e878b3163a8363c09bbe",
+          "after": "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00"
+        }
+      ]
     }
   ]
 }

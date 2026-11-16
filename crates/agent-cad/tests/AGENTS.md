@@ -32,3 +32,6 @@ resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及�
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。
 
 report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精确边界，沿用已RED控制，PR6适配尚待Windows。
+
+step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与严格负例，等价需Win独立OCP。
+step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例；只在Windows验收。
