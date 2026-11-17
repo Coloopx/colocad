@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {createReadStream} from 'node:fs';
-import {readFile,writeFile} from 'node:fs/promises';
+import {readFile,writeFile,mkdtemp,rm} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {ModelingSession} from '../../src/session.mjs';
 import {CadClient} from '../../kernel/dist/index.js';
@@ -13,12 +13,14 @@ const producer=JSON.parse(await readFile(join(trial,'result.json'),'utf8'));
 const oracle=JSON.parse(await readFile(oracleFile,'utf8'));
 assert.equal(oracle.length,256);
 const session=await ModelingSession.open(root);
-const client=new CadClient({outputRoot:join(root,'artifacts')});
 const head=await session.head();
 assert.equal(head.query_revision_id,producer.acceptedHead);
 const checkpointEdits=new Set([1,32,64,128,192,256]);
 let count=0,assets=0,after=0;
 const snapshots=[];
+const packed=JSON.parse(await readFile(join(root,'session.json'))).format==='colocad/session/4';
+const temp=packed?await mkdtemp('/tmp/colocad-checkout-'):undefined;
+const client=new CadClient({outputRoot:join(root,'artifacts'),queryRoots:temp?[temp]:[join(root,'artifacts')]});
 async function checkFile(path,want) {
   const hash=createHash('sha256');
   for await(const bytes of createReadStream(path))hash.update(bytes);
@@ -32,8 +34,14 @@ do{
     assert.equal(entry.status,'succeeded');
     const receipt=await session.receipt(entry);
     assert.ok(receipt.ok);
-    await checkFile(join(root,entry.inputFile),entry.inputSha256);
-    const directory=join(root,entry.artifactDirectory);
+    let paths={inputFile:join(root,entry.inputFile),artifactDirectory:join(root,entry.artifactDirectory)};
+    if(packed){
+      const dest=join(temp,'revision');
+      await rm(dest,{recursive:true,force:true});
+      paths=await session.checkout(entry.id,dest);
+    }
+    await checkFile(paths.inputFile,entry.inputSha256);
+    const directory=paths.artifactDirectory;
     for(const [name,digest] of Object.entries(receipt.data.artifact_sha256)){
       await checkFile(join(directory,name),digest);assets++;
     }
@@ -54,6 +62,7 @@ do{
   }
   after=page.nextCursor;
 }while(after!==null);
+if(temp)await rm(temp,{recursive:true});
 assert.deepEqual(await session.head(),head);
 assert.equal(count,260);assert.equal(snapshots.length,6);
 await writeFile(dest,JSON.stringify({accepted:count,distinctEditedSteps:oracle.length,artifactHashesChecked:assets,oldSnapshots:snapshots,headAfterReopen:head.query_revision_id},null,2)+'\n');

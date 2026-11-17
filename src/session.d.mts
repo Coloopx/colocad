@@ -18,9 +18,11 @@ export type RecordedReceipt = Receipt & { session_step: string };
 export class ModelingSession {
   readonly root: string;
   constructor(directory: string, config?: SessionConfig);
-  static create(directory: string, options?: SessionConfig & {title?: string; storage?: 'compact'|'indexed'|'json'}): Promise<ModelingSession>;
+  static create(directory: string, options?: SessionConfig & {title?: string; storage?: 'segmented'|'compact'|'indexed'|'json'}): Promise<ModelingSession>;
   static open(directory: string, options?: SessionConfig): Promise<ModelingSession>;
   static migrate(directory: string): Promise<{migrated: boolean; steps: number; backup?: string}>;
+  checkout(id: string, destination: string): Promise<{artifactDirectory: string; inputFile: string; receiptFile: string}>;
+  header(): Promise<Omit<SessionLedger,'steps'> & {geometryStorage?: 'segments/1'}>;
   read(): Promise<SessionLedger>;
   receipt(step: SessionStep): Promise<Receipt>;
   head(): Promise<{session_step: string; query_revision_id: string | null; geometry?: SessionStep['geometry']} | null>;

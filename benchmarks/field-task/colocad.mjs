@@ -10,7 +10,7 @@ await mkdir(out,{recursive:true});const orders=JSON.parse(await readFile(new URL
 const tol={linear_mm:.01,angular_rad:1e-4}, p=param=>({param}), mul=(a,b)=>({op:'mul',a,b}),add=(a,b)=>({op:'add',a,b});
 const cad=new CadClient({outputRoot:resolve(out,'imports')});
 let prior,revision,diagnostics=[],receipts=[];
-const session=await ModelingSession.create(resolve(out,'session'));
+const session=await ModelingSession.create(resolve(out,'session'),{storage:process.env.COLOCAD_BENCH_STORAGE});
 for(const o of orders){
   const changed=o.source!==prior?.source;
   let measured=prior?.measured,body=prior?.body;
@@ -67,9 +67,11 @@ if(n||edits){
   for(let i=1;i<=edits;i++){
     // Distinct configurations; fixed feature count, hole count, part count and active source size class.
     const gauge=5+((i-1)%5)*.5,cameraPitch=16+Math.floor((i-1)/5)*.25;
-    const r=await session.edit({gauge,cameraPitch});assert.ok(r.ok,JSON.stringify(r.error));
+    const start=performance.now();
+    const r=await session.edit({gauge,cameraPitch});
+    const commitMs=performance.now()-start;assert.ok(r.ok,JSON.stringify(r.error));
     assert.equal(r.data.geometry.solids,2);revision=r.data.query_revision_id;
-    editSteps.push({i,id:r.session_step,gauge,cameraPitch,revision,sha256:r.data.artifact_sha256['model.step']});
+    editSteps.push({i,commitMs,id:r.session_step,gauge,cameraPitch,revision,sha256:r.data.artifact_sha256['model.step']});
     if(i===1||i%4===0||i===edits)await snapshot(i);
   }
   if(process.env.COLOCAD_BENCH_COLD_AUDIT) {

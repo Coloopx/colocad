@@ -8,7 +8,7 @@ import {ModelingSession} from '../../src/session.mjs';
 import {createCompactSessionTools} from './compact-tools.mjs';
 const exec=promisify(execFile);
 export async function runGuidedWorkflow(directory){
- const root=resolve(directory),session=await ModelingSession.create(join(root,'session'),{title:'Guided workflow: build, check, edit, recover, inspect'});
+ const root=resolve(directory),session=await ModelingSession.create(join(root,'session'),{storage:'segmented',title:'Guided workflow: build, check, edit, recover, inspect'});
  const tools=await createCompactSessionTools(session);const calls=[];
  const call=async(name,args)=>{const result=await tools.find(t=>t.name===name).execute(args);calls.push({tool:name,result});return result;};
  const model=JSON.parse(await readFile(new URL('../../skills/colocad/assets/plate-grid.json',import.meta.url)));

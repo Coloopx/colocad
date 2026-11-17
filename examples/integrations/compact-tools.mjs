@@ -19,9 +19,17 @@ export function compactReceipt(receipt){
 }
 export async function createCompactSessionTools(session,{include=['cad_capabilities','cad_validate','cad_build','cad_preview','cad_edit']}={}){
  const tools=await createSessionTools(session),enabled=new Set(include);
+ const segmented=(await session.header()).geometryStorage==='segments/1';
  for(const name of enabled)if(!tools.some(t=>t.name===name))throw Error('Unknown CAD tool: '+name);
  return tools.filter(t=>enabled.has(t.name)).map(tool=>({...tool,
   description:tool.description+' Results summarize measurements and timing; full receipts remain in the recorded session. Report every listed degradation.',
-  async execute(args){const result=compactReceipt(await tool.execute(args));if(result.session_step)result.receipt_file=join(session.root,'steps',result.session_step,'receipt.json');return result;},
+  async execute(args){
+   const result=compactReceipt(await tool.execute(args));
+   if(result.session_step){
+    result.receipt_ref={session:session.root,step:result.session_step};
+    if(!segmented&&tool.name!=='cad_query')result.receipt_file=join(session.root,'steps',result.session_step,'receipt.json');
+   }
+   return result;
+  },
  }));
 }

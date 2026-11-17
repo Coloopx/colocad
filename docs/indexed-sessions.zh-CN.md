@@ -28,3 +28,11 @@ node bin/colocad.mjs history ./old-project --after 20 --limit 20
 真实写入测试在初始建模后完成 100 次成功改参和 9,900 次成功几何查询。全程峰值 271.67 MiB，重新打开后按顺序检查全部 10,001 条记录与已接受几何。恢复测试覆盖迁移和建模途中 SIGKILL。实体几何落盘、流式装配 STEP 和查看器分页属于后续阶段。[原始数据与复现](../benchmarks/session-catalog/README.md)
 
 使用 alpha.9 时，先用 `colocad head SESSION` 读取已接受步骤及查询版本，再用 `colocad inspect SESSION REQUEST.json` 保存精确查询的请求和回执。改参使用 `colocad edit SESSION PARAMETERS.json`。一次查询可以在同一零件、坐标系与公差下测量多个特征。查询步骤通过 `inputFile` 引用已接受的源文件，读取时校验 SHA-256。[四孔改六孔的实例](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
+
+## 几何历史分段存储（开发版）
+
+`colocad record` 新建的会话和随包提供的 Pi 记录式集成默认启用分段。直接调用 SDK 时，用 `ModelingSession.create(dir, {storage: 'segmented'})` 选择。SDK 的默认布局与已有调用方直接打开历史文件的用法兼容。
+
+当前已接受版本保留为普通文件，供改参、增量构建与查询使用。下一次成功提交几何时，Rust 将被替换版本的源文件、回执、STEP、预览、检查点和查询快照流式追加到段文件，先同步数据，再用同一个 SQLite 事务发布历史索引和新的 head，之后回收散文件。失败的编辑、查询和相机观察都保留原 head。每段最多 16 版，段达到 64 MiB 后另起新段，单个大版本可以超过此大小。未发布的尾部可在重试时覆盖。每个成员和目录索引均有 SHA-256。
+
+取回第一版可执行 `colocad checkout ./history s0001 ./original-part`。目标目录必须是新的，里面包含 `input.json`、`receipt.json` 和完整的 `revision/`。SDK 的 `session.checkout(id, destination)` 返回这三个路径。查询旧几何可以用 `colocad query ./original-part/revision request.json`。只读完整回执用 `session.receipt(step)`。历史 ledger 里的原路径在分段模式下是逻辑名称；依赖长期直接打开原路径的工具，可在 CLI 创建时指定 `--storage compact`。已有会话重开时沿用原格式。

@@ -32,3 +32,15 @@ The tested host exposes four guest CPUs. Paired live runs use lanes 0 and 1, eac
 - The persistence replay consumes the exact source, receipts, geometry, checkpoints, snapshots and previews from the 256 accepted edit artifacts. A common sequential payload input avoids charging thousands of source directory entries to the writer. Both layouts maintain an append-only member ledger, sync once per member and sync the ledger at each commit. Segment addressing needs fewer index bytes than loose paths. The sync comparison varies only the segment data fsync cadence. Both arms keep the renderable geometry and every byte of every member. A fresh process checks the complete manifest and all member hashes outside the timed interval.
 - Random-access testing builds a fixed-width offset sidecar, selects nonsequential historic revisions in a fresh process and materializes one revision at a time. The original OCCT verifier and published native snapshot query verify the selected revision. Full-session compatibility, concurrent readers and crash recovery are future implementation gates.
 - The serial post-commit probe uses `mincore` to count resident pages in existing revision files, before and after advising only displaced immutable members. The head and SQLite file are observed without advice. Residency counts can include pages charged outside the measured cgroup. A full historical scan is diagnostic and is excluded from the production proposal.
+
+## Exercise the actual segmented SDK
+
+Extract the public 0.1.1 npm tarball as the baseline. Build the matching Linux arm64 catalog for the candidate and provide the same Linux geometry binary and KK60 input STEPs to both. The driver starts one new volume and one 1-vCPU, 512 MiB, zero-swap cgroup per timed run. Each pair runs in alternating order on one CPU. The default command executes five consecutive pairs. Verification runs in a separate container with the original tolerances, then the driver deletes the volume.
+
+```sh
+python3 benchmarks/revision-attribution/paired-segments.py BASELINE_PACKAGE CANDIDATE_PACKAGE INPUTS RESULTS
+python3 benchmarks/revision-attribution/summarize-segments.py RESULTS metrics.json
+python3 benchmarks/revision-attribution/plot-segments.py metrics.json memory.svg
+```
+
+The driver accepts `--first-pair`, `--pairs` and `--cpu` to run a specific lane. Separate runs on simultaneous lanes share the host's storage and executable-page cache. The scorecard identifies which pairs ran alone. `commitMs` measures the caller's entire `session.edit()`, including the durable catalog commit and synchronous cleanup.
