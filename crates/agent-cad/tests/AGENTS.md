@@ -23,7 +23,7 @@ relationships.rs: exact_relationship_distinguishes_gap_contact_penetration_and_c
 sketch.rs: parametric_sketch_drives_exact_solid；underconstraint_and_conflict_are_explicit 等公开行为回归。
 snapshot_adversarial.rs: truncated_and_invalid_native_payloads_fail_without_panicking 等公开行为回归。
 surfaces.rs: planar_patch_thickens_to_exact_solid；c2_bridge_has_matching_analytic_boundary_jets 等公开行为回归。
-validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_reference 等公开行为回归。
+validation_properties.rs: 未映射/映射二次曲线的毫米度量保守证明、缩放/偏斜平面、严格求解器及真实小曲率负例的原报告对照。
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 

@@ -18,6 +18,7 @@ query-packed.mjs: 安装包公开查询入口验证。
 runner.mjs: 验证任务原生执行驱动。
 session-query-cli.mjs: 会话查询CLI消费。
 uv-trim-metric.py: 指定Colocad构建，OCCT核验UV缩放输入/输出有效性、等体积和材料点。
+uv-metric-performance.mjs: 明确三native的32同源钻孔块与普通十件装配性能对照，预热/三次实测、原生Level-1分项与完整STEP分别保留。
 
 step-planar-conic-delivery.py: WSL独立OCP闭合实体控制：有效性/物性/材料点/双向差集，失败保持unknown。
 step-planar-conic-results.md: 精确source commit绑定的Win实际143 Rust/52+1 Node与几何接受边界，私有件不冒称修复。

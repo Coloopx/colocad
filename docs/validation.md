@@ -8,6 +8,24 @@ The metric map is exact for an affinely parameterized planar patch. For a non-af
 
 `crates/agent-cad/tests/uv_trim_metric.rs` generates a nominal 20 × 20 × 6 mm block with a radius-1 mm through bore. Only the planar end faces and their UV trims are affinely reparameterized to `[0, 1e-5]²`; 3D edge curves, vertices and stored tolerances are retained. Before the fix, both public part and assembly builds reject its STEP with `SmBSplineCurve` test 15 (coincident control points). The regression checks successful build and STEP readback, a real 0.01 mm endpoint-gap rejection, wrong outer-loop rejection, singular-metric fallback, unchanged faulty 3D-curve checks, and sphere poles/cylinder seams. Additional regressions exercise two independently released terminal definitions, real terminal import and translated-result checkpoint cache hits, conservative intermediate fallback, and a genuinely collapsed UV span rejected by test 15 with a regular metric. The checked-in `uv-rescaled-plate.step` fixture also exercises the public JavaScript SDK and official readback template.
 
+Eligible terminal-assembly validation reuses the existing conservative rational-quadratic certificate on the actual metric-mapped curve. It independently bounds that curve's speed and curvature radius using its unchanged mapped tolerance; the raw UV certificate is not a physical-curvature certificate. Failed sizing or bounds, unsupported curves, cancellation and stricter status/zero-speed-end policies retain the original solver. The hash-locked extension and Docker application are described in [the downstream patch notes](../third_party/patches/README.md). Regression controls include skewed and rescaled planes, an ordinary UV circle flattened into a physically sharp ellipse, alternating surface metrics, cancellation and a multi-span kink.
+
+The public performance driver uses `native build --out NEW_DIRECTORY` with no checkpoint, query or preview flags. It verifies actual output files, literal geometry, STEP digests and one source parse with cache hits. It interleaves one warmup and three measured fresh-process runs per binary on the 32-part public reproduction and an ordinary ten-part control. Supply explicit release executables for metric off, metric on before optimization and metric on after optimization:
+
+```sh
+UV_METRIC_OFF_BINARY=/absolute/path/to/off/agent-cad \
+UV_METRIC_BEFORE_BINARY=/absolute/path/to/before/agent-cad \
+UV_METRIC_AFTER_BINARY=/absolute/path/to/after/agent-cad \
+UV_METRIC_PERF_OUT=/absolute/path/to/new-results \
+node test/validation/uv-metric-performance.mjs
+```
+
+The driver preserves process arguments, raw stdout, receipts and STEP hashes before geometry assertions. A benchmark using an instrumented executable must separately record that instrumentation and use an uninstrumented production executable for correctness tests. Timing results from different hosts are not directly comparable.
+
+Windows/WSL2 review validation against upstream 0.1.1 (`4124bcb`): all 181 Rust tests across 33 executables, the five UV/vendor-chain SDK tests and SDK/consumer type checks pass. The full serial SDK run is **92 passed / 1 failed**: the streaming migration's `SESSION_BUSY` at `session-catalog.test.mjs:155` also fails on the archived, unchanged 0.1.1 session sources with the byte-identical catalog executable. It is retained rather than reported as an all-green suite. Warm default-release compilation and the complete native runtime each pass at 2 CPUs / 3 GiB / swap 0; this is not a cold-compile memory claim.
+
+Independent read-only `replicad-opencascadejs@1.2.1` checks all four saved UV source/export files: valid one-solid geometry, literal 20 × 20 × 6 mm bounds, equal source/output measured volume within 1e-6 mm³ and all 16 material probes. Its pinned WASM SHA-256 is `a9335919fa64bfeaee3e241d3139ad134022682429c6688e20d8ca12093d33d9`. The material probes use exact solid/point distance and `InnerSolution`; the reduced WASM does not expose `BRepClass3d_SolidClassifier`. The nominal-volume audit keeps the published Python audit's 0.001 mm³ criterion. An additional 1e-8-relative nominal-volume check fails on the **source itself**: default OCCT integration reports 2381.1506875064147 mm³ versus ideal 2381.150444078461 mm³, identically for the exports; adaptive GK integration also misses that additional target. These stricter diagnostic failures are retained, and are not claimed repaired by the UV optimization. Native tolerances and rejection policies are unchanged.
+
 Run the native and SDK regressions against a freshly built executable:
 
 ```sh

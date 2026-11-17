@@ -1,0 +1,43 @@
+--- a/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
++++ b/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
+@@ -1861,11 +1861,11 @@
+                 5.0
+             };
+ 
+-            let regularity = if sized
++            let regularity_allowed = sized
+                 && k.caches.validation_properties.borrow().enabled
+                 && k.cancel.is_none()
+-                && !k.fixes.query_statuses_pass_on
+-            {
++                && !k.fixes.query_statuses_pass_on;
++            let regularity = if regularity_allowed {
+                 quadratic_regularity(self, &domain)
+             } else {
+                 None
+@@ -1976,12 +1976,22 @@
+ 
+             // Another type of kink check: vanishing radius of curvature.
+             let mut radii = false;
+-            let radius_proven = regularity.is_some_and(|(_, radius)| {
++            // ---- 曲率证明使用实际毫米映射后的控制点，不能复用原UV证明 ----
++            let radius_regularity = match mapped.as_ref() {
++                Some(curve) if regularity_allowed && radius_sized => {
++                    quadratic_regularity(curve, &domain)
++                }
++                Some(_) => None,
++                None => regularity,
++            };
++            let radius_speed_proven = radius_regularity.is_some_and(|(speed, _)| {
++                radius_tol.is_finite() && radius_tol >= 0. && speed > 8. * radius_tol
++            });
++            let radius_proven = radius_regularity.is_some_and(|(_, radius)| {
+                 radius_tol.is_finite() && radius_tol >= 0. && radius > 8. * radius_tol
+             });
+-            let solutions = if speed_proven
++            let solutions = if radius_speed_proven
+                 && radius_proven
+-                && mapped.is_none()
+                 && radius_sized
+                 && !k.fixes.curve_check_zero_speed_tangent_end
+             {

@@ -90,3 +90,7 @@ These are fetched at run time (never committed) and used only by difftest's
 - Use: the unmodified `dist/*.min.js` files, concatenated into
   `site/assets/vendor/d3-force.bundle.min.js`, lay out the dependency graph on the
   progress site (`graph.html`). They are served with the site and not loaded from a CDN.
+
+## Colocad downstream validation optimization
+
+The hash-locked `uv-metric-regularity.patch` applies the existing conservative quadratic regularity bounds to metric-mapped UV trims. It does not change the pinned upstream revision, geometry or validation thresholds; unresolved cases retain the original solver.
