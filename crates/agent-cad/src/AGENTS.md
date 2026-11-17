@@ -18,14 +18,14 @@ mates.rs: Local six-DOF rigid assembly solving, followed by exact B-rep checks.
 model.rs: Declarative input contract and bounded scalar evaluation.
 naming.rs: Semantic topology names carried by kernel copy/split/merge notifications.
 network.rs: Tensor-product Gordon interpolation of intersecting polynomial guide curves.
-operations.rs: Geometric operations with explicit units, frames and re-evaluated selectors.
+operations.rs: 显式单位/坐标/选择器的几何操作；definition复用完整几何/单位准入，assembly与普通导入保留完整位姿门禁。
 placement.rs: Rigid placement shared by model instances, STEP and constraint solving.
 regions.rs: Lazy exact inspection regions propagated along the feature DAG.
 relationships.rs: Exact solid relationships. Boundary distance and material overlap are independent predicates.
 sketch.rs: Parametric 2D constraints. Initial coordinates select a local solution branch.
 solve.rs: Bounded deterministic Levenberg–Marquardt with numerical rank diagnostics.
 step_import_limits.rs: 宿主显式STEP实体/定义/occurrence/group策略、硬顶、结构化拒绝、query实际叶祖先链513路径预检、同步作用域及with_import_limits公共API。
-step_assembly.rs: AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
+step_assembly.rs: 共用实体/定义/诊断/单位准入；单定义止于本地几何，AP203/AP214整装配另做全部刚性位姿展开。
 surfaces.rs: Tensor-product Bézier patches and exact parametric C2 bridge construction.
 validation.rs: Schema, reference and resource validation, without kernel execution.
 

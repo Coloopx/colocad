@@ -25,6 +25,8 @@ snapshot_adversarial.rs: truncated_and_invalid_native_payloads_fail_without_pani
 surfaces.rs: planar_patch_thickens_to_exact_solid；c2_bridge_has_matching_analytic_boundary_jets 等公开行为回归。
 validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_reference 等公开行为回归。
 
+step_definition_policy.rs: 公开重复product原件的单定义/默认整装配/显式129控制、本地坐标及实体/定义/字节/摘要/索引/诊断门禁。
+
 import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路径边界/浅层513组和preview-only真实控制。
 
 fixtures/: 原生及独立内核产生的公开回归输入。

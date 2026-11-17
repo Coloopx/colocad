@@ -1,6 +1,6 @@
 /**
  * [INPUT]: Public SDK/native host, generated exact box STEP and independent mapped/product occurrence fixtures.
- * [OUTPUT]: External STEP count budgets, structural diagnostics, replay and downstream-capacity regressions.
+ * [OUTPUT]: External STEP count budgets, local-definition isolation, structural diagnostics and replay regressions.
  * [POS]: STEP host-policy acceptance; real CAD stays separate from read-only private-source inspection.
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */
@@ -155,3 +155,42 @@ for(const shape of ['prototype toJSON','non-enumerable toJSON','getter'])
   assert.equal(jsonCalls,0,'custom serialization must never be invoked');
   if(shape==='getter')assert.equal(reads,1,'read policy accessors once, before validating the snapshot');
  });
+
+// -- 单定义不展开无关位姿；同一原件仍约束整装配。 --
+for(const [name,make] of [['mapped',mapped],['product',products]])test('review10: '+name+' local definition and same-source assembly controls',async t=>{
+ const {step}=await source(),text=make(step,129),model=asset(text);
+ const single={...model,features:[{id:'part',op:'import_step',asset:'source',definition:true,body_index:0}],output:'part'};
+ const whole={...model,features:[{id:'part',op:'import_step',asset:'source',assembly:true}],output:'part'};
+ await t.test('default single definition succeeds in local coordinates',async()=>{
+  const built=await (await client()).build(single);
+  assert.equal(built.ok,true,JSON.stringify(built));assert.equal(built.data.geometry.solids,1);
+  assert.ok(Math.abs(built.data.geometry.volume_mm3-8)<1e-5);
+  assert.deepEqual(built.data.geometry.bbox_mm,[[0,0,0],[2,2,2]]);
+ });
+ await t.test('default whole assembly refuses 129',async()=>{
+  const cad=await client();
+  limited(await cad.build(whole),'step_occurrences',129,128);
+  limited(await cad.inspectStep(model,'source'),'step_occurrences',129,128);
+ });
+ await t.test('explicit 129 imports all solids',async()=>{
+  const cad=await client({maxOccurrences:129}),inspected=await cad.inspectStep(model,'source');
+  assert.equal(inspected.ok,true,JSON.stringify(inspected));
+  assert.equal(inspected.data.definitions,1);assert.equal(inspected.data.instances.length,129);
+  const built=await cad.build({...inspected.data.model_template,assets:model.assets},{queryable:false});
+  assert.equal(built.ok,true,JSON.stringify(built));assert.equal(built.data.geometry.solids,129);
+  assert.ok(Math.abs(built.data.geometry.volume_mm3-1032)<1e-5);
+  const expected=name==='mapped'?[[0,0,0],[386,2,2]]:[[0,0,0],[2,2,2]];
+  assert.deepEqual(built.data.geometry.bbox_mm,expected);
+ });
+ await t.test('single definition does not consume expanded group or occurrence budgets',async()=>{
+  const built=await (await client({maxGroups:1,maxOccurrences:1})).build(single);
+  assert.equal(built.ok,true,JSON.stringify(built));assert.equal(built.data.geometry.solids,1);
+ });
+ await t.test('invalid index and non-definition mode still refuse',async()=>{
+  const bad=structuredClone(single);bad.features[0].body_index=1;
+  assert.equal((await (await client()).build(bad)).error.code,'INVALID_REFERENCE');
+  const ordinary=structuredClone(single);delete ordinary.features[0].definition;
+  const rejected=await (await client({maxOccurrences:129})).build(ordinary);
+  assert.equal(rejected.ok,false);assert.equal(rejected.error.code,'IMPORT_INCOMPLETE');
+ });
+});

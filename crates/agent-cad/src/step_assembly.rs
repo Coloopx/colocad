@@ -355,7 +355,7 @@ pub(crate) struct Imported {
     pub instances: Vec<ImportedInstance>,
     pub groups: Vec<ImportedGroup>,
 }
-pub(crate) fn read(text: &str) -> Result<Imported> {
+fn definitions(text: &str) -> Result<(StepFile, step_import::model::Model, f64)> {
     let f = step_import_limits::parse_external(text)?;
     let model = step_import_limits::import_external(text)?;
     if !model.skipped.is_empty()||model.diagnostics.iter().any(|d|d.step_id.is_some()||d.message!=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances)){return Err(CadError::new("IMPORT_INCOMPLETE",format!("skipped={:?}; diagnostics={:?}",model.skipped,model.diagnostics)));}
@@ -429,6 +429,14 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
         .unwrap()
         .parse::<f64>()
         .map_err(failure)?;
+    Ok((f, model, scale))
+}
+// -- 共用完整原件准入；单定义不消费产品树展开预算。 --
+pub(crate) fn read_definitions(text: &str) -> Result<step_import::model::Model> {
+    definitions(text).map(|(_, model, _)| model)
+}
+pub(crate) fn read(text: &str) -> Result<Imported> {
+    let (f, model, scale) = definitions(text)?;
     let body_map = model
         .bodies
         .iter()
