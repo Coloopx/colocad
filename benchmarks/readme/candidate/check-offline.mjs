@@ -33,11 +33,14 @@ try {
   }
   const primary=await download('#download');assert.equal(primary.observations.length,207);
   const field=await download('#workdata');
-  assert.equal(Object.keys(field.sessions).length,4);
-  for(const run of Object.values(field.sessions))assert.equal(run.edits.length,256);
+  const expected = ['build123d', 'cadquery', 'colocad'];
+  if (primary.version === '0.1.0-alpha.11-rc.1') expected.push('alpha10');
+  assert.deepEqual(Object.keys(field.sessions).sort(), expected.sort());
+  const trials = Object.values(field.sessions).flatMap(s => s.rounds ?? [s]);
+  for(const run of trials)assert.equal(run.edits.length,256);
   await page.setViewportSize({width:390,height:844});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390);
   assert.deepEqual(errors,[]);assert.deepEqual(network,[]);
   console.log(JSON.stringify({version:primary.version,rows:69,filteredRows:3,shapePairs:6,decodedImages:images.length,
-    downloadedEdits:1024,mobileWidth:390,remoteRequests:0,browserErrors:0}));
+    downloadedEdits:trials.length*256,mobileWidth:390,remoteRequests:0,browserErrors:0}));
 } finally { await browser.close(); }
