@@ -1,6 +1,6 @@
-//! [INPUT]: 显式实例、PR6宿主字节策略及原几何合同。
+//! [INPUT]: 显式实例、宿主字节/STEP计数策略及原几何合同。
 //! [OUTPUT]: 原装配检查与受outputStepBytes约束的定义/产品树。
-//! [POS]: 输出预算贯通提前释放和装配终态，不改变数量或几何策略。
+//! [POS]: 数量与输出预算分别门禁，保留8128精检对和原几何策略。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Named instances and exact, explicitly requested assembly checks.
 use crate::*;

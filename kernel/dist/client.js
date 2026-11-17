@@ -1,6 +1,6 @@
 /**
- * [INPUT]: 公开模型、宿主配置及原生进程边界。
- * [OUTPUT]: 不可变STEP/reportBytes下的全命令/inspect/preview回执。
+ * [INPUT]: 公开模型、宿主字节/STEP计数配置及原生进程边界。
+ * [OUTPUT]: 不可变字节与计数快照下的全命令/inspect/preview回执。
  * [POS]: SDK宿主边界；保持模型、路径及资源权限分离。
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */

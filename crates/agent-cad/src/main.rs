@@ -1,4 +1,4 @@
-//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际STEP/reportBytes回执及发布前双计量。
+//! [INPUT]: 宿主字节/STEP计数参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际STEP/reportBytes回执及发布前双计量。
 //! [POS]: 模型无权覆盖宿主预算。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use agent_cad::{build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError, Model};
 use serde_json::{json, Value};

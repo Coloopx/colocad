@@ -194,3 +194,44 @@ for(const [name,make] of [['mapped',mapped],['product',products]])test('review10
   assert.equal(rejected.ok,false);assert.equal(rejected.error.code,'IMPORT_INCOMPLETE');
  });
 });
+
+for(const [name,make] of [['mapped',mapped],['product',products]])test('review10 cache: '+name+' adjacent local definitions admit once',async()=>{
+ const {step}=await source(),text=make(step,129),model=attachStep(asset(text),'alias',text);
+ model.features=[{id:'a',op:'import_step',asset:'source',definition:true,body_index:0},
+  {id:'b',op:'import_step',asset:'alias',definition:true,body_index:0}];
+ model.assembly=[{id:'one',input:'a'},{id:'two',input:'b',translation:[10,0,0]}];
+ const cad=await client(),built=await cad.build(model);
+ assert.equal(built.ok,true,JSON.stringify(built));assert.equal(built.data.geometry.solids,2);
+ assert.ok(Math.abs(built.data.geometry.volume_mm3-16)<1e-5);
+ assert.equal(built.data.step_source_cache.parse_calls,1);assert.equal(built.data.step_source_cache.hits,1);
+ const bad=structuredClone(model);bad.features[1].body_index=1;
+ assert.equal((await (await client()).build(bad)).error.code,'INVALID_REFERENCE');
+ const ordinary=structuredClone(model);ordinary.features[1].definition=false;
+ limited(await (await client()).build(ordinary),'step_occurrences',129,128);
+});
+
+test('review10 washer: public equivalent129 same-file local/cache/whole controls',async t=>{
+ const text=await readFile(new URL('../crates/agent-cad/tests/fixtures/washer129-colocad.step',import.meta.url),'utf8');
+ const model=asset(text),volume=Math.PI*(4.5**2-2.2**2)*1.5;
+ const single={...model,features:[{id:'washer',op:'import_step',asset:'source',definition:true,body_index:0}],output:'washer'};
+ await t.test('default local definition and adjacent cache preserve72.61791mm3',async()=>{
+  const one=await (await client()).build(single);assert.equal(one.ok,true,JSON.stringify(one));
+  assert.equal(one.data.geometry.solids,1);assert.ok(Math.abs(one.data.geometry.volume_mm3-volume)<1e-5);
+  const two=structuredClone(single);two.features.push({...two.features[0],id:'second'});delete two.output;
+  two.assembly=[{id:'a',input:'washer'},{id:'b',input:'second',translation:[12,0,0]}];
+  const built=await (await client()).build(two);assert.equal(built.ok,true,JSON.stringify(built));
+  assert.equal(built.data.geometry.solids,2);assert.ok(Math.abs(built.data.geometry.volume_mm3-2*volume)<1e-5);
+  assert.equal(built.data.step_source_cache.parse_calls,1);assert.equal(built.data.step_source_cache.hits,1);
+ });
+ await t.test('default whole source refuses129',async()=>{
+  const whole={...model,features:[{id:'washer',op:'import_step',asset:'source',assembly:true}],output:'washer'};
+  limited(await (await client()).build(whole),'step_occurrences',129,128);
+ });
+ await t.test('explicit129 preserves complete washer tray',async()=>{
+  const cad=await client({maxOccurrences:129}),inspected=await cad.inspectStep(model,'source');
+  assert.equal(inspected.ok,true,JSON.stringify(inspected));assert.equal(inspected.data.instances.length,129);
+  const all=await cad.build({...inspected.data.model_template,assets:model.assets},{queryable:false});
+  assert.equal(all.ok,true,JSON.stringify(all));assert.equal(all.data.geometry.solids,129);
+  assert.ok(Math.abs(all.data.geometry.volume_mm3-129*volume)<1e-4);
+ });
+});

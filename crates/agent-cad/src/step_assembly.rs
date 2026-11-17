@@ -1,6 +1,6 @@
-//! [INPUT]: PR6外部STEP合同和独立宿主输出字节预算。
-//! [OUTPUT]: 原产品树和按outputStepBytes计量的装配序列化。
-//! [POS]: STEP交换边界；实体/上下文/单位策略保持PR6基线。
+//! [INPUT]: 外部STEP实体/定义/诊断/单位共用准入与独立宿主输出字节预算。
+//! [OUTPUT]: 本地定义读取、完整产品树与按outputStepBytes计量的装配序列化。
+//! [POS]: cache definition止于共用来源准入；整树路径另查occurrence/group，几何/单位规则不变。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
 //! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。

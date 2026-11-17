@@ -1,6 +1,6 @@
-//! [INPUT]: 几何特征、原始来源和本次解析槽。
+//! [INPUT]: 几何特征、原始来源、本次模式化准入槽及独立宿主计数/字节策略。
 //! [OUTPUT]: 保留每个特征身份的独立BRep与严格来源/模式验证。
-//! [POS]: 普通part/definition解析诊断；assembly/component路径原样。
+//! [POS]: part/definition共用cache准入后逐件选body；assembly/component保持完整树和字节门禁。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Geometric operations with explicit units, frames and re-evaluated selectors.
 use crate::*;
@@ -1272,16 +1272,7 @@ pub(crate) fn execute(
             if *assembly {
                 return crate::step_assembly::build(k, &a.step);
             }
-            let parsed = imports.parse(a, *definition, || {
-                let parsed = crate::step_assembly::read(&a.step)?.model;
-                if !parsed.skipped.is_empty()
-                    || parsed.diagnostics.iter().any(|d|!(*definition && d.step_id.is_none() && d.message==format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",parsed.assembly_instances)))
-                    || (parsed.assembly_instances > 0 && !definition)
-                {
-                    return Err(CadError::new("IMPORT_INCOMPLETE","STEP contains skipped entities, ambiguous units or unapplied assembly transforms"));
-                }
-                Ok(parsed)
-            })?;
+            let parsed = imports.parse(a, *definition)?;
             let source = parsed.bodies.get(*body_index).ok_or_else(|| {
                 CadError::new("INVALID_REFERENCE", "STEP body index out of range")
             })?;

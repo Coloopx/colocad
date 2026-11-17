@@ -1,6 +1,6 @@
-//! [INPUT]: PR6固定内核和宿主资源默认值。
-//! [OUTPUT]: 默认输入/独立STEP/reportBytes预算及固定STEP摘要格式能力。
-//! [POS]: 公开执行合同，不添加其它未合PR能力。
+//! [INPUT]: 固定内核、宿主字节默认值及STEP计数策略。
+//! [OUTPUT]: 默认输入/独立STEP/reportBytes、固定摘要格式及STEP计数能力。
+//! [POS]: 公开执行合同，本地分支能力回执，不代表发布接受。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Kernel policy and advertised implementation capabilities.
 use crate::*;

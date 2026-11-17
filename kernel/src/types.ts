@@ -1,4 +1,4 @@
-/** [INPUT]: 原生Schema及宿主字节合同。[OUTPUT]: 公开SDK类型。
+/** [INPUT]: 原生Schema、宿主字节及STEP计数合同。[OUTPUT]: 公开SDK类型。
  * [POS]: 配置与模型严格分离。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md */
 export type * from './generated.js';
 export type { ResourceLimits } from './resource-limits.js';

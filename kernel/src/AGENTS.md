@@ -5,7 +5,7 @@ index.ts: package公开入口与宿主资源合同导出。
 types.ts: 配置/回执类型，模型类型来自generated。
 resource-limits.ts: 默认/有限硬上限、不可变宿主字节策略和结构化超限错误。
 assets.ts: 无路径的原文SHA注册与单源字节预算。
-client.ts: 公开SDK与原生host选项传递、准确JSON字节预算。
+client.ts: 冻结并独立传递宿主字节/STEP计数快照，保留准确JSON/report预算。
 process.ts: 无shell子进程、超时/输出限制和回执解码。
 artifacts.ts: 独占且原子的本地产物目录。
 binary.ts: 本平台原生内核定位。
@@ -23,4 +23,3 @@ outputStepBytes在resource-limits.ts提供独立默认/硬顶；files.ts增加re
 reportBytes：全命令invoke/inspect/preview report按当前host报告额度；process保留UTF8字节有界接收，files提供校验reader。默认8MiB/顶128MiB/最小1024B，STEP固定SHA reader不读report。
 
 独立验收的编译/运行分离：默认release opt3在2CPU/5GiB/no-swap仅编译成功，随后Rust147/147在2CPU/3GiB运行；两次cold 3GiB OOM记录保留。详见../../docs/resource-budgets.md，不更新platform/release.json或发布npm。
-step-import-limits.ts: 计数配置硬顶校验和原生host参数。

@@ -1,6 +1,6 @@
-//! [INPUT]: PR6原checkpoint、来源摘要及旧报告文件。
+//! [INPUT]: checkpoint、来源摘要、宿主计数身份及旧报告文件。
 //! [OUTPUT]: 既有恢复/捕获及over2MiB报告的显式安全冷建。
-//! [POS]: 仅缓存优化容量，不引入其它PR的计数身份或几何逻辑。
+//! [POS]: 保留字节冷建策略，STEP计数身份变化不得复用旧准入。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Revision-local cache. Keys cover the operation, its transitive inputs, the referenced
 //! parameters, asset digests and kernel version. Only the previous trusted revision is read.
