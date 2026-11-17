@@ -28,8 +28,10 @@ export class CadClient {
         this.explicitByteLimits = hostByteLimits !== undefined;
         if (config.runner && config.runner.mode !== 'native')
             throw Error('CAD executes in the current sandbox. Use the sandbox test harness for Docker experiments.');
-        if (config.wallMs !== undefined && (!Number.isFinite(config.wallMs) || config.wallMs < 1 || config.wallMs > 120_000)) {
-            throw Error('wallMs must be 1..120000');
+        for (const name of ['wallMs', 'idleMs']) {
+            const value = config[name];
+            if (value !== undefined && (!Number.isSafeInteger(value) || value < 1 || value > 2_147_483_647))
+                throw Error(name + ' must be a positive timer integer');
         }
     }
     /** Immutable host policy shared by trusted file codecs and native requests. */
@@ -138,8 +140,10 @@ export class CadClient {
         }
         try {
             const binary = resolveBinary(this.config.binary ?? this.config.runner?.binary);
-            const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : args;
-            return receipt(await execute(binary, nativeArgs, input, this.config.wallMs ?? 30_000, this.byteLimits.reportBytes));
+            const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : [...args];
+            if (this.config.idleMs !== undefined || this.config.onProgress)
+                nativeArgs.push('--progress');
+            return receipt(await execute(binary, nativeArgs, input, this.config.wallMs ?? (this.config.idleMs === undefined ? 30_000 : null), this.byteLimits.reportBytes, { idleMs: this.config.idleMs, signal: this.config.signal, onProgress: this.config.onProgress }));
         }
         catch (cause) {
             return error('LOCAL_EXECUTION_FAILED', String(cause));

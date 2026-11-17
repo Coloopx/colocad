@@ -38,3 +38,7 @@ outputStepBytes贯通resources、executor、assembly及step_assembly，main同�
 reportBytes：resources有界计量，main发布前双准入，executor记录checkpoint_recovery；incremental超大旧manifest只冷建。query/engine只在PR6原算法替换报告容量，不带D1 progress/preflight/计数策略。
 
 import_cache.rs: 单次构建最近一个已准入中性来源的mode+verifiedSHA复用与计数；失配先清槽，不缓存所选Body/BRep。
+
+progress.rs: 显式启用的stderr结构化特征/阶段事件，不发送定时心跳。
+
+early_checks.rs: 固定位姿下依赖就绪的精确碰撞早检，mate模型仍在求解后检查，最终收口复用原结果。

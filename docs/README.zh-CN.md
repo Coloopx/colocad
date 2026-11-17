@@ -107,3 +107,5 @@ test ! -e .agents/skills/colocad && \
 - [ROADMAP](../ROADMAP.zh-CN.md)：当前架构、验收范围、benchmark 与 RSI 规划。
 - [三后端内存压力与持久化报告](memory-persistence-report.zh-CN.md)及 [alpha.9 有界内存立项](../specs/0006-bounded-memory-persistence.zh-CN.md)。
 - [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)
+
+[原生进度与宿主停滞监督](execution-progress.md)：解除120秒专用上限，按真实事件续期；固定实例碰撞提前检查，mate仍在求解后检查。

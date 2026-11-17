@@ -57,3 +57,5 @@ resource-budgets.md: input/STEP默认保持，新增reportBytes默认8MiB/顶128
 resource-budgets.md公共正文只保留资源合同、primary exporter链接和独立验收规则；内部批次/产品/控制器记录在忽略交接目录，实际buildprofile与counts待独立完成后填写。
 
 revision-memory-attribution.zh-CN.md: 0.1.1 revision-memory attribution, identical-byte layout experiments and proposed release gates.
+
+execution-progress.md: 宿主停滞/显式墙钟/取消合同、原生事件与固定实例碰撞早检的边界。
