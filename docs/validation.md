@@ -26,6 +26,19 @@ Windows/WSL2 review validation against upstream 0.1.1 (`4124bcb`): all 181 Rust 
 
 Independent read-only `replicad-opencascadejs@1.2.1` checks all four saved UV source/export files: valid one-solid geometry, literal 20 × 20 × 6 mm bounds, equal source/output measured volume within 1e-6 mm³ and all 16 material probes. Its pinned WASM SHA-256 is `a9335919fa64bfeaee3e241d3139ad134022682429c6688e20d8ca12093d33d9`. The material probes use exact solid/point distance and `InnerSolution`; the reduced WASM does not expose `BRepClass3d_SolidClassifier`. The nominal-volume audit keeps the published Python audit's 0.001 mm³ criterion. An additional 1e-8-relative nominal-volume check fails on the **source itself**: default OCCT integration reports 2381.1506875064147 mm³ versus ideal 2381.150444078461 mm³, identically for the exports; adaptive GK integration also misses that additional target. These stricter diagnostic failures are retained, and are not claimed repaired by the UV optimization. Native tolerances and rejection policies are unchanged.
 
+Review performance control on Windows/WSL Linux x64 (2 CPUs / 3 GiB / swap 0): three distinct, uninstrumented default-release executables use the exact frozen #3/#6/#12/#14 integration (`bd5a552`). Every variant's complete dependency tree was matched to a fresh pinned archive plus its locked patches, including file modes and symlink targets. All 24 fresh-process builds passed; the table uses three measured samples after one warmup, interleaved between variants, with no checkpoint/query/preview flags and no other owned test lanes running.
+
+| Public model / median milliseconds | Metric off | Metric on, before optimization | Metric on, optimized |
+|---|---:|---:|---:|
+| 32 drilled blocks: wall | 510.220 | 993.546 | 516.165 |
+| 32 drilled blocks: Level-1/manifold | 109.827 | 593.187 | 114.189 |
+| Ordinary ten-part assembly: wall | 158.280 | 291.117 | 152.085 |
+| Ordinary ten-part assembly: Level-1/manifold | 28.866 | 168.740 | 28.436 |
+
+The 32-block geometry stage remains 138.439 / 141.161 / 141.083 ms respectively, with one parse and 31 hits in every run. The ordinary control combines five public drilled blocks and five cylinders; it is not the private StackChan or Watcher workload. Independent pinned OCCT accepts all six representative output STEPs with literal solid counts, volume and world bounds. All three variants also produce byte-identical STEP files within each model. This is a same-host resource control, not a cross-platform speed guarantee or global material-equivalence certificate.
+
+The off/before/after executable SHA-256 values are `9df112faac198aa93fa8135d0719056655ba50a3d3836339f63193a6677a3fa4`, `2325089431d61e9e5c397662a76afa49caed4764a7a650bee9c3db2308fc4f6e` and `a3a246472502dfd8cfd13fbc21e69f8ae4e7d7af51ed3dba13b704116ef04af9`. The separately tested latest-main production executable is `c91ac69ba62e511caddcb029566d7ad5e2b47b89abb43f1831d3abe859b920a6`; the benchmark is bound to its original four-PR comparison source rather than presented as another full-suite run.
+
 Run the native and SDK regressions against a freshly built executable:
 
 ```sh
