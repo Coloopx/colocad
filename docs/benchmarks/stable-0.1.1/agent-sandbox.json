@@ -1,0 +1,168 @@
+{
+  "corpus": {
+    "passed": true,
+    "cases": 24,
+    "native_sha256": "49a8cb59f0000400ce56d60b7f2ce68b4f31f31080125040ba976b6e667fd9a9",
+    "peak_mib": 214.72265625,
+    "oom_kills": 0
+  },
+  "plate": {
+    "passed": true,
+    "model": "deepseek-flash",
+    "api": "openai-completions",
+    "tool_calls": 6,
+    "tool_errors": 0,
+    "assistant_turns": 7,
+    "native_sha256": "49a8cb59f0000400ce56d60b7f2ce68b4f31f31080125040ba976b6e667fd9a9",
+    "occt": {
+      "passed": true,
+      "mode": "plate",
+      "verifier": "OCCT 7.9.3.1.1 independent STEP readback",
+      "rows": [
+        {
+          "step_id": "s0001",
+          "solids": 1,
+          "volume_mm3": 23321.4159868246,
+          "step_sha256": "af7a350c98de0435d8db8d9ed70722f5ec7e6cdb28b58a10bf596886b873ada2",
+          "valid": true,
+          "radius_mm": 3,
+          "measured_hole_centers_mm": [
+            [
+              10.0,
+              10.0,
+              6.0
+            ],
+            [
+              70.0,
+              10.0,
+              6.0
+            ],
+            [
+              10.0,
+              40.0,
+              6.0
+            ],
+            [
+              70.0,
+              40.0,
+              6.0
+            ]
+          ]
+        },
+        {
+          "step_id": "s0003",
+          "solids": 1,
+          "volume_mm3": 23076.371759844602,
+          "step_sha256": "a9394a124029f961eb79864c3a60fe54a8adbb8184cbd18225b3867a84278ec3",
+          "valid": true,
+          "radius_mm": 3.5,
+          "measured_hole_centers_mm": [
+            [
+              10.0,
+              10.0,
+              6.0
+            ],
+            [
+              70.0,
+              10.0,
+              6.0
+            ],
+            [
+              10.0,
+              40.0,
+              6.0
+            ],
+            [
+              70.0,
+              40.0,
+              6.0
+            ]
+          ]
+        }
+      ],
+      "scope": "Live text-to-parametric plate and live edit/query of a seeded sourced product; not image-to-CAD inference or OEM/continuous-motion certification."
+    },
+    "peak_mib": 94.75390625,
+    "oom_kills": 0
+  },
+  "product": {
+    "passed": false,
+    "model": "deepseek-flash",
+    "api": "openai-completions",
+    "tool_calls": 4,
+    "tool_errors": 1,
+    "assistant_turns": 5,
+    "native_sha256": "49a8cb59f0000400ce56d60b7f2ce68b4f31f31080125040ba976b6e667fd9a9",
+    "peak_mib": 333.9296875,
+    "oom_kills": 0,
+    "trace": {
+      "steps": [
+        {
+          "tool": "cad_capabilities",
+          "ok": true,
+          "compact_json_utf8_bytes": 6010,
+          "error_code": null
+        },
+        {
+          "tool": "cad_query",
+          "ok": false,
+          "compact_json_utf8_bytes": 277,
+          "error_code": "QUERY_ARGUMENT"
+        },
+        {
+          "tool": "cad_query",
+          "ok": true,
+          "compact_json_utf8_bytes": 161651,
+          "error_code": null
+        },
+        {
+          "tool": "cad_edit",
+          "ok": true,
+          "compact_json_utf8_bytes": 2173,
+          "error_code": null
+        }
+      ],
+      "stop_reason": "length"
+    },
+    "same_prompt_repeat": {
+      "passed": false,
+      "model": "deepseek-flash",
+      "api": "openai-completions",
+      "tool_calls": 4,
+      "tool_errors": 1,
+      "assistant_turns": 5,
+      "native_sha256": "49a8cb59f0000400ce56d60b7f2ce68b4f31f31080125040ba976b6e667fd9a9",
+      "peak_mib": 323.46875,
+      "oom_kills": 0,
+      "trace": {
+        "steps": [
+          {
+            "tool": "cad_capabilities",
+            "ok": true,
+            "compact_json_utf8_bytes": 6010,
+            "error_code": null
+          },
+          {
+            "tool": "cad_query",
+            "ok": false,
+            "compact_json_utf8_bytes": 286,
+            "error_code": "QUERY_ARGUMENT"
+          },
+          {
+            "tool": "cad_query",
+            "ok": true,
+            "compact_json_utf8_bytes": 153202,
+            "error_code": null
+          },
+          {
+            "tool": "cad_query",
+            "ok": true,
+            "compact_json_utf8_bytes": 20487,
+            "error_code": null
+          }
+        ],
+        "stop_reason": "length"
+      }
+    }
+  }
+}

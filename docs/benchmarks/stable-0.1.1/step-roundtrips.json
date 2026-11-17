@@ -1,0 +1,631 @@
+{
+  "native_sha256": "26ecad91edf25aed04464a5cd811689248664cdc60fa084af57990fd4ee0cb85",
+  "external_step": {
+    "conical-tip": {
+      "sha256": "7e035df0718ef38738e10ed08306461b132c475f1d00563247361cdad5313219",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 4602.079662823871,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 4602.079662823871,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "match": true
+    },
+    "intersecting-bores": {
+      "sha256": "dcf69150e94bdc114a159a05f17d5c3cdab0a4a33658296aefaabbb97c83da82",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 4280.316690847059,
+        "bbox": [
+          -10.0000001,
+          -10.0,
+          -1e-07,
+          10.0000001,
+          10.0,
+          12.0000001
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 4280.3166911307635,
+        "bbox": [
+          -10.0000001,
+          -10.0,
+          -1e-07,
+          10.0000001,
+          10.0,
+          12.0000001
+        ]
+      },
+      "match": true
+    },
+    "kk60-accessory-bracket": {
+      "sha256": "ad516936f8ec31127ddba0057af55a94e4722632e591e4ea11b1fb3da5ee4eae",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 25238.407165544086,
+        "bbox": [
+          -25.0,
+          -25.0,
+          0.0,
+          25.0,
+          25.0,
+          33.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 25238.407165544086,
+        "bbox": [
+          -25.0,
+          -25.0,
+          0.0,
+          25.0,
+          25.0,
+          33.0
+        ]
+      },
+      "match": true
+    },
+    "motor-housing": {
+      "sha256": "e1444b2ac9a1016bf09d718e56367bb357ff15bdba637356b0d4f8742006dc65",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 30086.793249242222,
+        "bbox": [
+          -20.0,
+          -18.0,
+          -22.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 30086.793249242222,
+        "bbox": [
+          -20.0,
+          -18.0,
+          -22.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "match": true
+    },
+    "motor-missing-hole": {
+      "sha256": "258ed038ba3932e4ca3d18d0d21b55330c1ce58eb2d11dfe2494d5600d66c9cf",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 10581.040787695083,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 10581.040787695083,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "match": true
+    },
+    "motor-rotated": {
+      "sha256": "356b45dc32de3bf7b3344d160a081a202af7860478c9c41d01f5990003462466",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.509822781121,
+        "bbox": [
+          38.598440671806,
+          -55.8959001343,
+          -3.12090037821,
+          68.1628547688501,
+          -5.8334504478182,
+          47.031684254685
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.509822781112,
+        "bbox": [
+          38.598440671806,
+          -55.8959001343,
+          -3.12090037821,
+          68.1628547688501,
+          -5.8334504478182,
+          47.031684254685
+        ]
+      },
+      "match": true
+    },
+    "motor-wrong-pitch": {
+      "sha256": "49d00a69abf873fbc13aabe659537f2ffa0e7e3b17b9c6f34703dadadc5b64fd",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.509822780212,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.509822780212,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "match": true
+    },
+    "motor": {
+      "sha256": "6c43981dfa3d061b0c471ee2cb2caef6af0d75dd1fcd37babfffc9e41ad7c28b",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.50982278021,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 10480.50982278021,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          8.0
+        ]
+      },
+      "match": true
+    },
+    "spline-bore": {
+      "sha256": "0317c9bf5e5b7268ec20af565e5c68d3cdc4622331b129c199777349f77c9346",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707989937582,
+        "bbox": [
+          -10.0000001,
+          -10.0000001,
+          -1e-07,
+          10.0000001,
+          10.0000001,
+          12.000000100000003
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707260300967,
+        "bbox": [
+          -10.0000001,
+          -10.0000001,
+          -1e-07,
+          10.0000001,
+          10.0000001,
+          12.000000100000003
+        ]
+      },
+      "match": true
+    },
+    "split-angular-bore": {
+      "sha256": "d47ad01a86eec0f6814de524aba2c853ecb03ac6f7efdd0df46e2296d06fce19",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707993412288,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707993412302,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "match": true
+    },
+    "split-axial-bore": {
+      "sha256": "9296746e0548dc64face2a8a752647127e363c3d35d116765833cebdd6a2b055",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707993412302,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 4460.707993412302,
+        "bbox": [
+          -10.0,
+          -10.0,
+          0.0,
+          10.0,
+          10.0,
+          12.0
+        ]
+      },
+      "match": true
+    },
+    "support": {
+      "sha256": "21b3bc7861ad336e7672e413ce2bc971f31b48363f52528af8671b19f627545f",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 12997.341712025229,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          10.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 12997.341712025227,
+        "bbox": [
+          -20.0,
+          -18.0,
+          0.0,
+          20.0,
+          18.0,
+          10.0
+        ]
+      },
+      "match": true
+    },
+    "nested-assembly": {
+      "sha256": "a00e6700566f453153c2f193cfed8fa004c30c4aa1723901334c57d6240153ef",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 2,
+      "build": "ok",
+      "source": {
+        "n": 2,
+        "valid": true,
+        "volume": 2000.0000000000002,
+        "bbox": [
+          80.0,
+          0.0,
+          0.0,
+          100.0,
+          30.000000000000004,
+          5.0
+        ]
+      },
+      "delivered": {
+        "n": 2,
+        "valid": true,
+        "volume": 2000.0000000000002,
+        "bbox": [
+          80.0,
+          0.0,
+          0.0,
+          100.0,
+          30.000000000000004,
+          5.0
+        ]
+      },
+      "match": true
+    },
+    "occt-drilled-block": {
+      "sha256": "576b003a1788fce49a3512f683aa8e1463e808fbcbd0bf6454f5c1ace7435675",
+      "inspect": "ok",
+      "definitions": 1,
+      "instances": 1,
+      "build": "ok",
+      "source": {
+        "n": 1,
+        "valid": true,
+        "volume": 3074.3362938564087,
+        "bbox": [
+          0.0,
+          0.0,
+          0.0,
+          20.0,
+          16.0,
+          10.0
+        ]
+      },
+      "delivered": {
+        "n": 1,
+        "valid": true,
+        "volume": 3074.3362938564087,
+        "bbox": [
+          0.0,
+          0.0,
+          0.0,
+          20.0,
+          16.0,
+          10.0
+        ]
+      },
+      "match": true
+    },
+    "appearance-flipper-zero": {
+      "sha256": "c8bd4a5d35634356061975c2a423c555516f62e5d170fd23a566091e0dc1380e",
+      "inspect": "ok",
+      "definitions": 15,
+      "instances": 15,
+      "build": "ok",
+      "source": {
+        "n": 15,
+        "valid": true,
+        "volume": 92563.41639336689,
+        "bbox": [
+          -50.15112266773,
+          -12.8,
+          -0.003899336964000355,
+          50.15110000000062,
+          12.8,
+          40.109748519112
+        ]
+      },
+      "delivered": {
+        "n": 15,
+        "valid": true,
+        "volume": 92563.41639336577,
+        "bbox": [
+          -50.15112266773,
+          -12.8,
+          -0.003899336964000355,
+          50.15110000000062,
+          12.8,
+          40.109748519112
+        ]
+      },
+      "match": true
+    },
+    "appearance-mori": {
+      "sha256": "ae92fc5656463f9670a29e703e798eb01ef120b2c70bb093dc5e8d9f925903b3",
+      "inspect": "IMPORT_INCOMPLETE skipped=[Skipped { step_id: 4115, kind: \"MANIFOLD_SOLID_BREP\", reason: \"unsupported: HYPERBOLA\" }, Skipped { step_id: 5314, kind: \"MANIFOLD_SOLID_BREP\", reason: \"unsupported: HYPERBOLA\" }]; diagnostics=[Diagnostic { step_id: None, message: \"4 distinct unit contexts; using the def"
+    },
+    "appearance-mushroom": {
+      "sha256": "e07f6452fc287c26e9e86bf08436a92e8625fd30abc6d2ad46bcb978b0b240f3",
+      "inspect": "IMPORT_INCOMPLETE skipped=[]; diagnostics=[Diagnostic { step_id: None, message: \"3 distinct unit contexts; using the default fallback for bodies without an explicit context\" }, Diagnostic { step_id: None, message: \"10 assembly instance(s) are counted but not applied; bodies are in their defining r"
+    },
+    "appearance-sensecap-watcher": {
+      "sha256": "c6a579b5a4d6f42a02f65ca4a43ee73f9d1944b5e4c9ad516e90b6a48ef5aa49",
+      "inspect": "ok",
+      "definitions": 11,
+      "instances": 11,
+      "build": "ok",
+      "source": {
+        "n": 11,
+        "valid": true,
+        "volume": 121067.00978088548,
+        "bbox": [
+          -32.546411359424,
+          -18.0011,
+          -0.0114,
+          32.568377863589006,
+          33.9345,
+          71.89640000000011
+        ]
+      },
+      "delivered": {
+        "n": 11,
+        "valid": true,
+        "volume": 121067.00978087867,
+        "bbox": [
+          -32.546411359424,
+          -18.0011,
+          -0.0114,
+          32.568377863589006,
+          33.9345,
+          71.89640000000011
+        ]
+      },
+      "match": true
+    },
+    "appearance-stackchan": {
+      "sha256": "80e54e7bc8cc7e7db52155752a6f095cff6abf0d39649e054bf994f10de7b9d2",
+      "inspect": "ok",
+      "definitions": 10,
+      "instances": 10,
+      "build": "ok",
+      "source": {
+        "n": 10,
+        "valid": true,
+        "volume": 233374.40678439598,
+        "bbox": [
+          -27.135,
+          -34.7972,
+          0.0,
+          27.135,
+          34.7972,
+          69.4276
+        ]
+      },
+      "delivered": {
+        "n": 10,
+        "valid": true,
+        "volume": 233374.40678439598,
+        "bbox": [
+          -27.135,
+          -34.7972,
+          0.0,
+          27.135,
+          34.7972,
+          69.4276
+        ]
+      },
+      "match": true
+    }
+  },
+  "allowed": {
+    "cache": {
+      "capacity": 1,
+      "hits": 31,
+      "parse_calls": 1,
+      "retained_models": 0,
+      "scope": "native_build_adjacent_part_definition_imports"
+    },
+    "occt": {
+      "n": 32,
+      "valid": true,
+      "volume": 98378.76140340522,
+      "bbox": [
+        0.0,
+        0.0,
+        0.0,
+        1012.0,
+        16.0,
+        10.0
+      ]
+    }
+  },
+  "small-input": {
+    "limit_bytes": 1024,
+    "observed_bytes": 18958,
+    "observed_is_lower_bound": false,
+    "resource": "stepBytes"
+  },
+  "small-output": {
+    "limit_bytes": 1024,
+    "observed_bytes": 23142,
+    "observed_is_lower_bound": false,
+    "resource": "outputStepBytes"
+  },
+  "small-report": {
+    "limit_bytes": 1024,
+    "observed_bytes": 1026,
+    "observed_is_lower_bound": true,
+    "resource": "reportBytes"
+  }
+}

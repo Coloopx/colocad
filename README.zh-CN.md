@@ -1,6 +1,6 @@
 # Colocad
 
-![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](showcase/hiwin-kk60/modeling-alpha11-rc1.gif)
+![HIWIN KK60 线性执行器：真实建模与装配过程的四视图回放](docs/benchmarks/stable-0.1.1/kk60-modeling.gif)
 
 **面向 agent 的参数化 CAD：本地 Rust 几何内核、TypeScript SDK、CLI，以及可追溯的建模过程。**
 
@@ -8,7 +8,7 @@
 
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
-**正式版 0.1.1** 增加了按通道设置的 STEP 读写预算，修正平面圆锥曲线的包围盒，并复用连续装配零件的 STEP 解析结果。[版本变更](https://github.com/Coloopx/colocad/releases/tag/v0.1.1)。
+**[Colocad 0.1.1 正式版](https://github.com/Coloopx/colocad/releases/tag/v0.1.1)** 在 22/23 个机械用例中沙箱峰值最低。连续保存 256 次 KK60 几何修改，三个独立会话的累计峰值中位数为 **91.3 MiB**。[逐版内存](#连续保存-256-版的内存) · [三后端机械用例](#linux-沙箱机械用例) · [五款产品外观](#五款产品的外观建模)。
 
 ## 可以用来做什么
 
@@ -35,7 +35,7 @@ flowchart LR
 npm install @coloopx/colocad
 ```
 
-锁定正式版可使用 `npm install --save-exact @coloopx/colocad@0.1.1`。
+npm 的 `latest` 指向 `0.1.1`。如需锁定版本，使用 `npm install --save-exact @coloopx/colocad@0.1.1`。发布验收从公共注册表安装，再用 CLI 导出歧管，OCCT 回读得到一个 90 × 45 × 12 mm 的有效实体。[安装与回读记录](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json)。
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
 
@@ -79,13 +79,27 @@ await session.edit({ length: 80 });
 
 给三个后端相同的 STEP，要求改长、加厚 KK60 相机板，新增走线窗口，再用实际孔位适配坐标平移的替换件。另一组任务要求从旋转过的电机法兰重新求安装方向，遇到孔距不符或缺孔必须拒绝。
 
-![十条工程更改单的输入和三个后端实际输出的 STEP 回读](docs/benchmarks/alpha11-rc1/engineering-changes.gif)
+![十条工程更改单的输入和三个后端实际输出的 STEP 回读](docs/benchmarks/stable-0.1.1/engineering-changes.gif)
 
-**Colocad、CadQuery 和 build123d 都交付了七个有效装配，并正确拒绝三个不兼容输入。** Colocad 的 SDK/CLI 自带改参、版本历史和快照查询；实测六个旧版本的孔距时，Colocad 直接查询原生快照，几何重建次数为 0；两个 Python 适配器重开六份 STEP 完成了相同测量。Colocad 的高层盲孔识别在重导入滑台上仍返回部分覆盖，实测用精确圆边找到了安装位置。[任务、几何验收和限制](docs/benchmark-alpha11-rc1.zh-CN.md)。
+**Colocad、CadQuery 和 build123d 都交付了七个有效装配，并正确拒绝三个不兼容输入。** Colocad 的 SDK/CLI 自带改参、版本历史和快照查询；实测六个旧版本的孔距时，Colocad 直接查询原生快照，几何重建次数为 0；两个 Python 适配器重开六份 STEP 完成了相同测量。Colocad 的高层盲孔识别在重导入滑台上仍返回部分覆盖，实测用精确圆边找到了安装位置。[任务、几何验收和限制](docs/benchmark-stable.zh-CN.md)。
 
 ## 连续保存 256 版的内存
 
-[查看仓库主页的逐版曲线、实验版本和原始测量](https://github.com/Coloopx/colocad/blob/main/README.zh-CN.md#连续保存-256-版的内存)。
+在 1 vCPU、512 MiB、零交换的 Linux 沙箱中，连续改变相机板厚度和孔距。每次保存可编辑源、精确 STEP 和网格预览。三个后端各跑三轮，轮换次序、使用新数据卷，**2,304 份改图 STEP 全部独立回读通过**。
+
+![三种后端按已保存版本对齐的当前内存中位数、三轮范围和累计峰值](docs/benchmarks/stable-0.1.1/revision-memory.gif)
+
+| 工作流 | 累计峰值 MiB（中位数，范围） | 第 128 版 MiB | 第 256 版 MiB | 后 128 版净增 MiB |
+|---|---:|---:|---:|---:|
+| Colocad 0.1.1 | **91.3** (91.0–91.4) | 68.3 | 74.3 | +6.5 |
+| CadQuery 2.8.0 | **199.7** (199.6–200.3) | 195.5 | 195.9 | +0.8 |
+| build123d 0.13.0 | **268.1** (261.2–272.1) | 258.4 | 264.4 | +6.0 |
+
+曲线取保存后的 cgroup 当前读数，阴影表示三轮范围。峰值包含两次保存间的瞬时分配。后 128 版的增量按同一会话配对后取中位数。两套 Python 适配器均持久化到 SQLite 并同步文件，Colocad 还保存原生检查点与查询快照。[逐版原始数据与缓存条件](docs/benchmark-stable.zh-CN.md)。
+
+整段会话中，Colocad 的峰值比 CadQuery 低 54%，比 build123d 低 66%。从第 128 版到第 256 版，净增最小的是 CadQuery 2.8.0（+0.8 MiB）。这段曲线只能衡量已测试的 256 次修改，尚不能确定长期增长阶数。
+
+![后半段内存增量，每个会话以自己的第 128 版为零点](docs/benchmarks/stable-0.1.1/revision-growth.svg)
 
 ## 有机外壳与外部网格
 
@@ -97,7 +111,7 @@ npx colocad build node_modules/@coloopx/colocad/examples/hybrid-enclosure/model.
 
 ## 从 CLI 启动可视化与导出
 
-![CLI 启动的建模历史查看器：KK60 装配体](showcase/hiwin-kk60/viewer-alpha11-rc1.png)
+![CLI 启动的建模历史查看器：KK60 装配体](docs/benchmarks/stable-0.1.1/kk60-viewer.png)
 
 查看时间线、源、特征、回执与选中的零件；切换镜头、显示剖切/爆炸视图、下载产物。离线 HTML 内嵌渲染代码和几何。需要集成到现有界面时，可使用 `@coloopx/colocad/viewer`。
 
@@ -158,11 +172,50 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 独立 OCCT 检查覆盖 16 份 STEP、64 个材料探针和指定位置的导轨/滑台间隙。未公开内部结构明确标为近似或省略；这是产品目录重建，不是可直接生产的完整图纸。动画也不是速度基准。
 
-[MP4](showcase/hiwin-kk60/modeling-alpha11-rc1.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/alpha11-rc1/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [完整离线交付包](https://github.com/Coloopx/colocad/releases/download/v0.1.0-alpha.4/hiwin-kk60-delivery.zip)
+[MP4](docs/benchmarks/stable-0.1.1/kk60-modeling.mp4) · [可编辑模型](showcase/hiwin-kk60/model.json) · [验证结果](docs/benchmarks/stable-0.1.1/kk60-readback.json) · [尺寸与假设](examples/hiwin-kk60/sources.json) · [离线执行器查看器与 STEP 下载](https://github.com/Coloopx/colocad/releases/download/v0.1.1/kk60-actuator.html)
 
 ## 性能
 
-[查看三后端实测、产品装配和回读结果](https://github.com/Coloopx/colocad/blob/main/README.zh-CN.md#性能)。
+### 五款产品的外观建模
+
+在 macOS arm64 上，新进程构建五款产品时，Colocad 0.1.1 的进程树峰值 RSS 中位数为 **71–84 MiB**，CadQuery 2.8.0 为 **479–492 MiB**。从进程启动计时，Colocad 有 **5/5** 例更快。从加载完毕的宿主开始，两端都重新建模，CadQuery 有 **5/5** 例更快。
+
+![实测 STEP 回读后的五款产品四视图](docs/benchmarks/stable-0.1.1/appearance.gif)
+
+每格依次为 **Colocad / CadQuery**。同一份建模规格，每个后端和产品各预热一次，再测三次取中位数。80 份 STEP 均经独立回读。
+
+| 产品 | 新进程到 STEP（秒） | 新进程峰值 RSS（MiB） | 已加载后重建（秒） |
+|---|---:|---:|---:|
+| Mushroom | 0.96 / 2.26 | 72.1 / 483.1 | 0.87 / 0.11 |
+| Flipper Zero | 0.60 / 2.24 | 79.8 / 480.8 | 0.52 / 0.12 |
+| SenseCAP Watcher | 0.57 / 2.21 | 74.7 / 481.8 | 0.48 / 0.11 |
+| StackChan | 0.43 / 2.21 | 70.9 / 479.0 | 0.34 / 0.07 |
+| Mori | 2.33 / 2.71 | 84.3 / 492.2 | 2.24 / 0.47 |
+
+SenseCAP 的指定椭圆在正式版仍未通过校验，计时的两个后端均使用同一个圆形替代，短轴增加 0.0228 mm。139 个指定尺寸中，109 个通过 0.25 mm 对照阈值。[逐次耗时与几何验收](docs/benchmark-appearance.zh-CN.md)。
+
+### Linux 沙箱机械用例
+
+11 月 17 日使用 npm 正式包复测。23 个用例中，Colocad 在 **22/23** 个用例的峰值最低，在 **16/23** 个用例交付 STEP 最快。每个用例、后端均跑三个新进程，207 份 STEP 全部通过独立检查。
+
+![新进程交付 STEP 的耗时和沙箱峰值](docs/benchmarks/stable-0.1.1/scorecard.svg)
+
+以下顺序均为 **Colocad / CadQuery / build123d**。
+
+| 用例 | 到 STEP（秒） | 沙箱峰值（MiB） |
+|---|---|---|
+| 同一板件放置 128 次 | 0.60 / 1.69 / 2.30 | 51.7 / 260.8 / 301.7 |
+| 64 种独立尺寸的板件 | 9.85 / 1.95 / 2.44 | 101.2 / 255.7 / 290.9 |
+| 单实体 1,024 孔 | 45.44 / 3.94 / 3.67 | 311.4 / 240.8 / 275.4 |
+| 43 实体灵巧手 | 2.12 / 1.73 / 2.10 | 51.0 / 207.6 / 244.8 |
+
+共享一种板件定义放置 128 次，CadQuery 的耗时是 Colocad 的 2.8 倍。换成 64 种独立尺寸，Colocad 的耗时是 CadQuery 的 5.1 倍；在 1,024 孔单实体上为 11.5 倍，且两套 Python 后端都更省内存。
+
+灵巧手的 100 秒队列分别交付 **52 / 63 / 52** 份经回读的完整装配，采样内存峰值为 **200.4 / 512.0 / 291.3 MiB**。下图按实测时间 10 倍速播放。
+
+![灵巧手实际交付时间和运行中采样内存峰值](docs/benchmarks/stable-0.1.1/hand-window.gif)
+
+[单文件离线报告](docs/benchmarks/stable-0.1.1/scorecard.html) · [完整内存规模曲线](docs/benchmarks/stable-0.1.1/memory-scaling.svg) · [实验和验收](docs/benchmark-stable.zh-CN.md) · [复现步骤](benchmarks/readme/stable/README.md)。
 
 ## 支持范围与限制
 
@@ -171,7 +224,6 @@ npx colocad render ./actuator/session ./modeling.mp4
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。
 - CAD 的 512 MiB 测试不代表常驻 agent、浏览器和视频编码器的整体内存预算。
-- alpha.8 修复 `face_hole_grid` 与 `hole_grid` 接缝曲线的精确查询快照。[回归与安装包证据](docs/evidence/release-alpha.8.json)。
 
 ## 能力覆盖与路线图
 
@@ -181,7 +233,7 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 从[外部 STEP 示例](examples/engineering-queries/README.md)可以上手[精确查询与几何驱动装配](docs/engineering-queries.zh-CN.md)。[四阶段目标](specs/0005-capability-reliability-and-optimization.zh-CN.md)依次为功能覆盖、几何可靠性、工程可用性和基准测试驱动的优化。SDK、CLI、工具 schema 和三平台原生内核同步交付。查询接口采用 Colocad 自身的 API。
 
-G1–G3 已按[明确的验收范围](specs/experiments/0005/README.md)通过：24/24 几何案例独立验证、127 项 Rust / 41 项 Node 测试，以及 Linux arm64 **1 vCPU / 512 MiB** 内的两条真实 Pi 任务。语料执行加最小调度器的 cgroup 峰值约 **256 MiB**；驻留 Pi/harness 加 82 实体执行器改参和预览约 **371 MiB**，无 OOM。这是正确性与资源验收，不是新一轮 build123d 性能比较，也不代表全部工业场景对等；G4 尚未启动。
+本次正式版通过 166 项 Rust、88 项 Node 和 6 项集成测试。受限沙箱内的 24 项几何回归全部通过，驻留 Pi 的四孔板任务首轮通过。82 实体执行器任务首轮和原提示词重试均未完成验收。[受限沙箱实测](docs/benchmark-stable.zh-CN.md#驻留-pi-agent-与-harness) · [发布验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json).
 
 
 [入门](docs/getting-started.md) · [API](docs/api.md) · [完整建模指南](docs/agent-modeling-handbook.zh-CN.md) · [Skill](skills/colocad/SKILL.md) · [故障排查](docs/troubleshooting.md) · [全部文档](docs/README.zh-CN.md)

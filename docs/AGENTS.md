@@ -13,6 +13,7 @@ benchmark-alpha11-rc1.md: Engineering edits, memory growth and time to STEP
 benchmark-alpha11-rc1.zh-CN.md: 连续改图、装配换件和 STEP 交付
 benchmark-alpha9.md: Alpha.9 benchmark: choose by workload
 benchmark-alpha9.zh-CN.md: alpha.9：什么时候该选 Colocad
+benchmark-stable.md and benchmark-stable.zh-CN.md: public npm release performance and verified revision history.
 benchmark-appearance.md: Five product models on macOS arm64
 benchmark-appearance.zh-CN.md: 五款产品外观的 macOS arm64 建模实测
 benchmark-bounded-candidate.md: Three-backend measurements and assembly validation costs

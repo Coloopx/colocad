@@ -8,8 +8,10 @@ import uuid
 parser = argparse.ArgumentParser()
 parser.add_argument('out', type=Path)
 parser.add_argument('--candidate', required=True, type=Path)
-parser.add_argument('--baseline', required=True, type=Path)
-parser.add_argument('--cpu', default=4, type=int)
+parser.add_argument('--baseline', type=Path, help='Optional historical comparison package')
+parser.add_argument('--cpu', default=0, type=int)
+parser.add_argument('--rotation', type=int, choices=(0, 1, 2), default=0,
+                    help='Rotate the order of the three supported backends between repetitions')
 args = parser.parse_args()
 repo = Path(__file__).resolve().parents[2]
 out = args.out.resolve()
@@ -18,7 +20,11 @@ inputs = out/'inputs'
 if not inputs.exists():
     subprocess.run(['node', repo/'benchmarks/field-task/prepare.mjs', inputs], check=True)
 image = 'colocad-memory:20261111'
-for name in ('alpha10', 'cadquery', 'colocad', 'build123d'):
+backends = ['cadquery', 'colocad', 'build123d']
+backends = backends[args.rotation:] + backends[:args.rotation]
+if args.baseline:
+    backends.insert(0, 'alpha10')
+for name in backends:
     dest = out/name
     dest.mkdir()
     runtime = (args.baseline if name == 'alpha10' else args.candidate).resolve()

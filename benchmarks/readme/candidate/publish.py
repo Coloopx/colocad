@@ -16,7 +16,13 @@ def save(path,value):path.write_text(json.dumps(value,indent=2)+'\n')
 def run(script,*args):subprocess.run([sys.executable,repo/script,*args],check=True)
 
 campaign=read(trial/'campaign.json')
-assert campaign['label']=='0.1.0-alpha.11-rc.1'
+if campaign['runtime_kind'] == 'public npm release':
+    assert campaign['registry_integrity'] and campaign['tarball_sha256']
+    assert not (trial/'field/alpha10').exists()
+    cover_stem = dest/'kk60-modeling'
+else:
+    assert campaign['label'] == '0.1.0-alpha.11-rc.1'
+    cover_stem = repo/'showcase/hiwin-kk60/modeling-alpha11-rc1'
 # The binary/source identity is independent from the recipe used to test it.
 campaign['workload_sources']={name:hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in [
     'benchmarks/memory/plan-v1.json','benchmarks/memory/workload.py','benchmarks/memory/workload.mjs',
@@ -35,7 +41,7 @@ cover=read(trial/'cover.gif.json');cover.pop('file',None)
 assert cover['frames']==144 and not cover['browserErrors']
 save(dest/'kk60-render.json',cover)
 for ext in ['gif','mp4']:
-    shutil.copyfile(trial/('cover.'+ext),repo/'showcase/hiwin-kk60'/('modeling-alpha11-rc1.'+ext))
+    shutil.copyfile(trial/('cover.'+ext),cover_stem.parent/(cover_stem.name+'.'+ext))
 corpus={}
 for split in ['g2-regression','g2-held_out']:
     report=read(trial/split/'results.json');assert report['passed']
@@ -43,5 +49,9 @@ for split in ['g2-regression','g2-held_out']:
     corpus[split]['count']=len(report['rows'])
 save(dest/'geometry-corpus.json',corpus)
 for script,params in [('engineering.py',[trial,dest]),('engineering-gif.py',[trial,dest/'engineering-changes.gif']),
-                      ('memory-gif.py',[dest]),('extend-offline.py',[dest])]:
+                      ('memory-gif.py',[dest])]:
     run('benchmarks/readme/candidate/'+script,*params)
+
+if campaign['runtime_kind']=='public npm release':
+    run('benchmarks/readme/stable/growth.py',dest)
+run('benchmarks/readme/candidate/extend-offline.py',dest)

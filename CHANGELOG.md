@@ -7,6 +7,7 @@ Release notes cover supported geometry, package changes and measured workloads.
 - The host can grant separate byte budgets for input assets, STEP output and diagnostic reports. SDK, CLI, native delivery and session readback enforce the corresponding limit. [Resource budgets](docs/resource-budgets.md) · [#6](https://github.com/Coloopx/colocad/pull/6)
 - Imported planar conics use continuous extrema when computing bounds. The fix restored valid STEP round-trips for the Flipper Zero assembly in integration testing. [#12](https://github.com/Coloopx/colocad/pull/12)
 - Consecutive STEP definitions reuse the last verified source with the same SHA and reader mode. Placements are retained. The 32-placement integration case required one parse. [#14](https://github.com/Coloopx/colocad/pull/14) · [Integration readbacks](https://github.com/Coloopx/colocad/pull/16)
+- Public-package measurements covered 23 mechanical workloads, 256 saved geometry edits per session and five appearance products. All 207 mechanical exports passed independent STEP checks. [Results](docs/benchmark-stable.md) · [Offline scorecard](https://github.com/Coloopx/colocad/releases/download/v0.1.1/scorecard.html).
 
 ## [0.1.0](https://github.com/Coloopx/colocad/releases/tag/v0.1.0) - 2026-11-14
 
