@@ -167,3 +167,11 @@ Frozen source manifest SHA256: `d56da524448b6b18c9e2183c1edb9125f0b921efab060502
 The rebased cache owns mode-specific source admission; callers cannot supply a whole-product reader for `definition:true`. Both cache misses and hits preserve the single local-definition contract without authorizing unrelated placements. Each feature still selects and checks its own body index and builds its own exact B-rep. Byte policies, report/output checks, single-slot eviction and release before final artifacts are retained.
 
 `washer129-colocad.step` is a public native Colocad boss fixture equivalent to the review recipe (outer radius4.5mm, inner radius2.2mm, height1.5mm,129 copies on12mm/16-column grid). It is explicitly not the maintainer's original bytes; its provenance and SHA are adjacent. Tests retain the original8mm³ box controls and add washer single/cache/default whole/explicit129 controls. Latest-base results must be recorded from the new frozen source/native, not inherited from the old-base section.
+
+### PR10 cache contract after0.1.1 rebase (2026-11-17)
+
+The complete branch was rebased onto `4124bcb769825895313900a4be9cb1e3610d9512`. `ImportCache` owns definition-vs-part admission; hits retain each feature's body-index/exact B-rep checks and ordinary/whole imports cannot inherit local-definition permissions. Source/byte/output/report checks and the main single-slot release contract remain.
+
+Fresh Windows acceptance:34 workspace targets/181 native tests,28 related SDK checks, main cache10/10, types and doc-tests pass. Pinned independent OCCT reads8 actual STEP cases, including the public equivalent washer129 source/single/full/cache. One local washer is72.617914mm³ and the explicit129 delivery9367.710930mm³; default whole still refuses129>128. The fixture is native Colocad-generated and explicitly not the maintainer's original bytes. Original box and127/128 controls remain.
+
+Full SDK115/116 retains the existing streaming-migration `SESSION_BUSY` at `test/session-catalog.test.mjs:155`; old-base all75 was74/75. Those are separate source generations, not an all-green claim. Resource execution stayed within2CPU/3GiB/swap0 with private warm targets. Full hashes, source equality and raw results are local at `out/review-20261117/main011/REPORT.md`. No remote actions were taken.

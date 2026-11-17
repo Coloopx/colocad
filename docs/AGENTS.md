@@ -6,7 +6,7 @@ README.zh-CN.md: 开发与接入指南
 agent-modeling-handbook.md: Agent CAD handbook
 agent-modeling-handbook.zh-CN.md: Agent CAD 完整工作指南：资料、工具、建模闭环与调优
 agent-modeling-research.md: Research basis and evidence boundaries
-api.md: SDK、CLI、宿主STEP预算与单定义/整装配模式边界。
+api.md: SDK/CLI、宿主字节/计数、cache单定义边界与0.1.1分代验证记录。
 benchmark-alpha10.md: Colocad alpha.10 performance and geometry
 benchmark-alpha10.zh-CN.md: Colocad alpha.10 性能与几何复测
 benchmark-alpha11-rc1.md: Engineering edits, memory growth and time to STEP
