@@ -34,3 +34,4 @@ report-session-budget.test.mjs: 当前session文件/packed预算和SHA，等待P
 uv-trim-metric.test.mjs: 公开SDK的UV缩放单体/装配、STEP回读及真实缓存命中回归。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+vendor-patches.test.mjs: 同目标顺序补丁重复准备幂等、伪造manifest目标/补丁/归档摘要拒绝，真实tar/patch消费合成来源。
