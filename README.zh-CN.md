@@ -8,7 +8,7 @@
 
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
-**最新正式版为 [0.1.0](https://github.com/Coloopx/colocad/releases/tag/v0.1.0)。** 五款产品实测中，Colocad 的新进程占用更少内存，CadQuery 的已加载进程完整重建更快。Linux 沙箱里，Colocad 连续保存 256 次 KK60 改图的内存峰值为 **92.5 MiB**。[五款产品对照](#五款产品的外观建模) · [逐版内存曲线](#连续保存-256-版的内存)。
+**正式版 0.1.1** 增加了按通道设置的 STEP 读写预算，修正平面圆锥曲线的包围盒，并复用连续装配零件的 STEP 解析结果。[版本变更](https://github.com/Coloopx/colocad/releases/tag/v0.1.1)。
 
 ## 可以用来做什么
 
@@ -35,7 +35,7 @@ flowchart LR
 npm install @coloopx/colocad
 ```
 
-npm 的 `latest` 指向 `0.1.0`。如需锁定版本，使用 `npm install --save-exact @coloopx/colocad@0.1.0`。发布验收从公共注册表安装，再用 CLI 导出歧管，OCCT 回读得到一个 90 × 45 × 12 mm 的有效实体。 [安装与回读记录](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json)。
+锁定正式版可使用 `npm install --save-exact @coloopx/colocad@0.1.1`。
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
 
@@ -85,18 +85,7 @@ await session.edit({ length: 80 });
 
 ## 连续保存 256 版的内存
 
-每次都修改真实几何并持久化可编辑源、精确 STEP 和网格预览。四个会话共 1,024 份改图装配全部独立回读通过。每场 1 vCPU、512 MiB、无交换。
-
-![按已完成改图数对齐的沙箱当前内存和累计峰值](docs/benchmarks/alpha11-rc1/revision-memory.gif)
-
-| 工作流 | 峰值 MiB | 第 256 版当前 MiB | 后 128 版净增 |
-|---|---:|---:|---:|
-| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
-| CadQuery 2.8.0 + 持久化适配器 | 223.0 | 218.8 | **0.9 MiB** |
-| build123d 0.13.0 + 持久化适配器 | 271.4 | 267.1 | 6.9 MiB |
-| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | 已触及限额 |
-
-候选版的绝对内存峰值最低，CadQuery 的后半段增量最小。两个 Python 适配器均采用 SQLite、文件同步及干净页释放，Colocad 还保留原生检查点和查询快照。[实测方法和逐版证据](docs/benchmark-alpha11-rc1.zh-CN.md)。
+[查看仓库主页的逐版曲线、实验版本和原始测量](https://github.com/Coloopx/colocad/blob/main/README.zh-CN.md#连续保存-256-版的内存)。
 
 ## 有机外壳与外部网格
 
@@ -173,41 +162,11 @@ npx colocad render ./actuator/session ./modeling.mp4
 
 ## 性能
 
-### 五款产品的外观建模
-
-在 macOS arm64 上，每次启动新进程构建这五款产品时，Colocad 的进程树峰值 RSS 为 **69–83 MiB**，CadQuery 为 **481–495 MiB**。宿主进程已加载时，CadQuery 在五例完整重建中都更快。以 Mori 为例，两者从新进程到 STEP 分别用时 **2.24 / 2.29 秒**，从已加载的宿主重建则是 **2.12 / 0.38 秒**。
-
-![五款外观装配的四个视角，均来自重新打开的 Colocad STEP 文件](docs/benchmarks/appearance-0.1.0/step-views.gif)
-
-表中每格依次为 **Colocad / CadQuery**。每款产品的两个后端执行同一份重建规格，耗时取三次中位数。模型推理、视觉评审和独立 STEP 回读均在计时外。
-
-| 产品 | 新进程到 STEP（秒） | 新进程峰值 RSS（MiB） | 已加载后重建（秒） |
-|---|---:|---:|---:|
-| 蘑菇桌面机器人 | 0.92 / 2.12 | 71.1 / 484.6 | 0.85 / 0.10 |
-| Flipper Zero | 0.58 / 2.03 | 75.9 / 482.0 | 0.49 / 0.11 |
-| SenseCAP Watcher | 0.54 / 2.02 | 73.5 / 482.6 | 0.45 / 0.10 |
-| StackChan | 0.40 / 2.00 | 69.2 / 480.7 | 0.33 / 0.07 |
-| Mori | 2.24 / 2.29 | 82.7 / 495.0 | 2.12 / 0.38 |
-
-SenseCAP 一行在两端都采用圆形底座。Colocad 对指定的近圆椭圆拉伸校验失败，改成圆形后一个方向相差 0.0228 mm。五款产品共 139 个有明确数值的分件尺寸，其中 109 个已验证落在本次 0.25 mm 对照阈值内。[实测方法、几何验收与逐次数据](docs/benchmark-appearance.zh-CN.md)。
-
-### Linux 沙箱机械用例
-
-**11 月 13 日的候选版复测**中，Colocad 在 **22/23** 个机械用例取得最低沙箱峰值，在 **16/23** 个用例最快交付 STEP。每个后端、每个用例新起进程跑三次，207 份 STEP 全部通过独立检查。
-
-![重新测得的 STEP 交付时间和沙箱峰值](docs/benchmarks/alpha11-rc1/scorecard.svg)
-
-同一零件放置 128 次，Colocad / CadQuery / build123d 耗时 **0.62 / 2.51 / 3.64 秒**。64 种独立尺寸板件分别用 **11.12 / 2.28 / 3.51 秒**。在 1,024 孔单实体上，两个 Python 后端都更快、内存也更低。[完整规模曲线](docs/benchmarks/alpha11-rc1/memory-scaling.svg)。
-
-三个后端各跑一个 100 秒队列，分别交付 **45 / 51 / 41** 份通过验收的 43 实体灵巧手。采样内存峰值为 **167.1 / 481.0 / 280.9 MiB**，动图按实测完成时间 10 倍速播放。
-
-![灵巧手实际交付数量和采样内存峰值](docs/benchmarks/alpha11-rc1/hand-window.gif)
-
-[单文件离线 HTML，内含动图](docs/benchmarks/alpha11-rc1/scorecard.html) · [方法与数据](docs/benchmark-alpha11-rc1.zh-CN.md) · [复现步骤](https://github.com/Coloopx/colocad/blob/main/benchmarks/readme/candidate/README.md)。
+[查看三后端实测、产品装配和回读结果](https://github.com/Coloopx/colocad/blob/main/README.zh-CN.md#性能)。
 
 ## 支持范围与限制
 
-- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json)。
+- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json)。
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。

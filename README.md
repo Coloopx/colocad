@@ -8,7 +8,7 @@
 
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
-**[Colocad 0.1.0](https://github.com/Coloopx/colocad/releases/tag/v0.1.0) is the current release.** Across five product models Colocad used less memory in fresh processes, while CadQuery rebuilt faster in a loaded host. In a separate Linux sandbox test, saving 256 edits to the KK60 assembly took **92.5 MiB** of peak memory. [Five-product comparison](#five-product-appearance-models) · [Memory by revision](#memory-over-256-saved-revisions).
+**Release 0.1.1** adds independent STEP and report budgets, fixes bounds for imported planar conics and reuses parsed STEP sources for adjacent part definitions. [Release notes](https://github.com/Coloopx/colocad/releases/tag/v0.1.1).
 
 ## What you can build
 
@@ -36,7 +36,7 @@ Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 npm install @coloopx/colocad
 ```
 
-The npm `latest` tag points to `0.1.0`. To pin it, run `npm install --save-exact @coloopx/colocad@0.1.0`. The release check installed from the public registry and exported the manifold with the CLI. OCCT reopened one valid 90 × 45 × 12 mm solid. [Installation and STEP readback](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json).
+Pin this release with `npm install --save-exact @coloopx/colocad@0.1.1`.
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
 
@@ -86,18 +86,7 @@ Give each backend the same source STEP. Resize the KK60 camera plate, cut a cabl
 
 ## Memory over 256 saved revisions
 
-Every edit changed real geometry and retained editable source, exact STEP and a mesh preview. All 1,024 edited assemblies across the four runs passed independent readback. Each session had one CPU, 512 MiB and zero swap.
-
-![Measured memory versus saved edit count, with current and kernel peak shown separately](docs/benchmarks/alpha11-rc1/revision-memory.gif)
-
-| Workflow | Peak MiB | Current MiB at edit 256 | Increase from edit 128 |
-|---|---:|---:|---:|
-| Colocad 0.1.0-alpha.11-rc.1 | **92.5** | **73.0** | 6.8 MiB |
-| CadQuery 2.8.0 + durable adapter | 223.0 | 218.8 | **0.9 MiB** |
-| build123d 0.13.0 + durable adapter | 271.4 | 267.1 | 6.9 MiB |
-| Colocad 0.1.0-alpha.10 | 512.0 | 503.2 | Reached the cap |
-
-The RC had the lowest peak. The CadQuery adapter had the smallest late increase. Each Python adapter persisted its history in SQLite, synced its outputs and released clean file pages. Colocad also retained native checkpoints and query snapshots. [Session methods and per-revision evidence](docs/benchmark-alpha11-rc1.md#256-saved-geometry-edits).
+[See the repository for the revision curves, runtime identity and raw measurements](https://github.com/Coloopx/colocad/blob/main/README.md#memory-over-256-saved-revisions).
 
 ## Sculpted housings and external meshes
 
@@ -174,41 +163,11 @@ Independent OCCT checks cover all 16 STEP revisions, 64 material probes and sele
 
 ## Performance
 
-### Five product appearance models
-
-On macOS arm64, fresh Colocad builds used **69–83 MiB** of peak process-tree RSS across these five products. CadQuery used **481–495 MiB**. With each host already loaded, CadQuery rebuilt all five faster. For Mori, a fresh build took **2.24 / 2.29 s**, and a full rebuild from a loaded host took **2.12 / 0.38 s**.
-
-![Four views of the five assemblies, rendered from reopened Colocad STEP files](docs/benchmarks/appearance-0.1.0/step-views.gif)
-
-Each cell lists **Colocad / CadQuery**. Both executed the same reconstructed plan per product. Times are medians of three runs and exclude model inference, visual review and independent STEP readback.
-
-| Product | Fresh process to STEP (s) | Fresh peak RSS (MiB) | Loaded host to STEP (s) |
-|---|---:|---:|---:|
-| Mushroom | 0.92 / 2.12 | 71.1 / 484.6 | 0.85 / 0.10 |
-| Flipper Zero | 0.58 / 2.03 | 75.9 / 482.0 | 0.49 / 0.11 |
-| SenseCAP Watcher | 0.54 / 2.02 | 73.5 / 482.6 | 0.45 / 0.10 |
-| StackChan | 0.40 / 2.00 | 69.2 / 480.7 | 0.33 / 0.07 |
-| Mori | 2.24 / 2.29 | 82.7 / 495.0 | 2.12 / 0.38 |
-
-The SenseCAP row uses the same circular base in both backends. Colocad rejects the specified near-circular ellipse, and substituting a circle changes one dimension by 0.0228 mm. Across the five models, 109 of 139 specified part dimensions were verified within the study’s 0.25 mm threshold. [Method, geometry checks and per-run data](docs/benchmark-appearance.md).
-
-### Mechanical workloads on Linux
-
-On the **November 13 candidate rerun**, Colocad had the lowest median peak memory in **22/23 cases** and the shortest median time to STEP in **16/23**. All 207 STEP exports passed independent checks. Times include fresh process startup and delivery. Each case ran three times per backend.
-
-![Fresh time-to-STEP and cgroup peak measurements](docs/benchmarks/alpha11-rc1/scorecard.svg)
-
-128 placements of one shared part took **0.62 / 2.51 / 3.64 s** in Colocad / CadQuery / build123d. For 64 independently sized plates the times were **11.12 / 2.28 / 3.51 s**. On the 1,024-hole solid both Python backends used less memory and finished sooner. [All memory scaling curves](docs/benchmarks/alpha11-rc1/memory-scaling.svg).
-
-One 100-second queue per backend produced **45 / 51 / 41** independently verified revisions of the 43-solid hand. The sampled memory peaks were **167.1 / 481.0 / 280.9 MiB**. The GIF plays recorded completion times at 10×.
-
-![Actual verified hand deliveries and sampled running memory peaks](docs/benchmarks/alpha11-rc1/hand-window.gif)
-
-[Offline single-file scorecard with the replays](docs/benchmarks/alpha11-rc1/scorecard.html) · [Methods and results](docs/benchmark-alpha11-rc1.md) · [Reproduce](https://github.com/Coloopx/colocad/blob/main/benchmarks/readme/candidate/README.md).
+[Open the repository scorecard for measured workload timings, memory and independent geometry checks](https://github.com/Coloopx/colocad/blob/main/README.md#performance).
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).

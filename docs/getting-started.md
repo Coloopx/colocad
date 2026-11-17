@@ -10,7 +10,7 @@ Run in a new project directory:
 mkdir my-cad-project
 cd my-cad-project
 npm init -y
-npm install --save-exact @coloopx/colocad@0.1.0
+npm install --save-exact @coloopx/colocad@0.1.1
 cp node_modules/@coloopx/colocad/examples/manifold.json manifold.json
 ./node_modules/.bin/colocad plan manifold.json
 ./node_modules/.bin/colocad build manifold.json ./manifold-v1 --preview
@@ -18,7 +18,7 @@ cp node_modules/@coloopx/colocad/examples/manifold.json manifold.json
 
 `plan` checks and resolves the feature instructions. `build` creates the geometry. Each `colocad build` destination must be new. Read the returned JSON rather than guessing where files were written.
 
-Open `manifold-v1/part/preview.png`. The deliverables are `part/model.step`, the editable `part/feature-tree.json` and `part/report.json`; GLB/STL are display representations. The manifold exercises extrusion, a blind cut, a fillet and a linear pattern. The 0.1.0 release check reopened this STEP in OCCT and found one valid 90 × 45 × 12 mm solid. [Reference readback](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json).
+Open `manifold-v1/part/preview.png`. The deliverables are `part/model.step`, the editable `part/feature-tree.json` and `part/report.json`; GLB/STL are display representations. The manifold exercises extrusion, a blind cut, a fillet and a linear pattern. The 0.1.1 release check reopened this STEP in OCCT and found one valid 90 × 45 × 12 mm solid. [Reference readback](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json).
 
 Create `edit.mjs`:
 
