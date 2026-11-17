@@ -65,3 +65,15 @@ node benchmarks/readme/candidate/check-offline.mjs "$DEST/scorecard.html"
 ```
 
 The separate [five-product appearance experiment](../../../docs/benchmark-appearance.md) uses the original supplied cases on macOS. Its public measurement file records model and source-input hashes, fresh-process samples, loaded-host times, STEP hashes, geometric checks and the exact-ellipse control.
+
+## Sandbox and STEP acceptance
+
+The [resident Pi harness](../../../specs/experiments/0005/README.md#reproduce-the-sandbox-runs) exercises the four-hole plate and 82-solid KK60 edit with actual inference. Mount the staged rig at `/repo` and set `AGENT_CAD_BINARY=/repo/kernel/native/linux-arm64/agent-cad` so both the installed SDK and native binary match the release. Use a fresh 512 MiB cgroup per task. The [release record](../../../docs/benchmarks/stable-0.1.1/agent-sandbox.json) retains tool counts, CAD readbacks, peaks and OOM events. External STEP round trips separately compare OCCT validity, solid count, bounds and volume against each input. The [per-input results](../../../docs/benchmarks/stable-0.1.1/step-roundtrips.json) include source hashes, the shared-source cache counters and byte-budget refusal details.
+
+Run the external import check from the source checkout. Fourteen neutral fixtures are included in Git. To add the five product files, pass `--appearance-runs /path/to/runs` containing each product’s `cadquery/r1/model.step`; match the published source hashes when reproducing the exact 19-file comparison.
+
+```sh
+"$PY" benchmarks/readme/stable/verify-step-imports.py "$OUT/package/kernel/native/linux-arm64/agent-cad" "$D/step-roundtrips.json"
+```
+
+Use the native executable for the host running this command.

@@ -5,9 +5,9 @@
 | Question | Experiment |
 | --- | --- |
 | How long does one tool call take in a new process? How does a loaded host change that? | [Five product models on macOS arm64](benchmark-appearance.md) compare fresh time to STEP, sampled peak RSS and loaded rebuilds with CadQuery 2.8.0. |
-| What fits inside a Linux sandbox, including file-cache charges? | [23 mechanical cases, the 100-second hand queue and four 256-edit sessions](benchmark-alpha11-rc1.md) measure memory and delivery with Colocad, CadQuery and build123d. |
+| What fits inside a Linux sandbox, including file-cache charges? | [23 mechanical cases, the 100-second hand queue and 256-edit sessions](benchmark-stable.md) measure memory and delivery with Colocad, CadQuery and build123d. |
 
-Both November studies used the candidate runtime promoted to 0.1.0. The release check compared the candidate and final packages byte by byte. [Release validation](https://github.com/Coloopx/colocad/releases/download/v0.1.0/release-validation.json).
+The November 17 measurements use the public npm tarball directly. Each experiment records its platform, memory metric, workload and acceptance checks. [Download the three-backend scorecard](benchmarks/stable-0.1.1/scorecard.html).
 
 ## Earlier releases
 

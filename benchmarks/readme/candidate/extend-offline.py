@@ -16,6 +16,22 @@ for key,label in [('colocad','Colocad '+e['campaign']['label']),('cadquery','Cad
     row=e['sessions'][key];values={r['edits']:r for r in row['checkpoints']}
     extra+=f'<tr><td>{label}<td>{row["peak_mib"]:.1f}<td>{values[128]["current_mib"]:.1f}<td>{values[256]["current_mib"]:.1f}</tr>'
 extra+='</table></section><p><button id="workdata">Download engineering evidence (JSON)</button></p>'
+if 'initial_sessions' in e:
+    growth=base64.b64encode((dest/'revision-growth.svg').read_bytes()).decode()
+    extra+=f'<figure><img src="data:image/svg+xml;base64,{growth}" width="100%" alt="Paired memory growth after edit 128, with three-session ranges"></figure>'
+    extra+='<p>Subtract each session’s reading at edit 128 before finding the median. These changes describe this 128-edit interval.</p>'
+if (dest/'appearance.json').is_file():
+    appearance=json.loads((dest/'appearance.json').read_text())
+    extra+='<h2>Five product appearance models</h2><p>macOS arm64. Each cell lists Colocad / CadQuery. Timings are medians of three rebuilds after one warm-up. Peak RSS was sampled across the fresh process tree.</p>'
+    extra+=gif('appearance.gif','Four views of five product assemblies reopened from their STEP files')
+    extra+='<section><table><tr><th>Product<th>Fresh to STEP (s)<th>Peak RSS (MiB)<th>Loaded host to STEP (s)</tr>'
+    for case,backends in appearance['runs'].items():
+        cols=[]
+        for metric in ('wall','rss','loaded'):
+            values=[appearance['warmed_process'][case][b]['median'] if metric=='loaded' else backends[b][metric] for b in ('colocad','cadquery')]
+            cols.append(' / '.join(format(v,'.1f' if metric=='rss' else '.2f') for v in values))
+        extra+='<tr><td>'+html.escape(case)+'</td>'+''.join('<td>'+cell+'</td>' for cell in cols)+'</tr>'
+    extra+='</table></section><p>Geometry checks cover 80 exports. Both timed backends use the same circular substitution for the SenseCAP base. The specified ellipse failed Colocad validation. Of 139 declared dimensions, 109 met the 0.25 mm comparison threshold.</p>'
 extra+='<h2>Six shape controls</h2><p>Separate macOS arm64 run, Colocad and build123d 0.11.1, five timed processes per backend and shape. Images are independent STEP readbacks.</p><label>Shape <select id="shape">'
 for key,row in shapes['cases'].items():extra+=f'<option value="{key}">{html.escape(row["title"])}</option>'
 extra+='</select></label>'

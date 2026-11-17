@@ -1,0 +1,60 @@
+{
+  "overlapping_verifier": {
+    "version": "0.1.1",
+    "wall_s": 62.89393782199477,
+    "native_ms": {
+      "bounds_and_census": 768.2498319999999,
+      "export": 531.699708,
+      "geometry": 43579.725146000004,
+      "level1_and_manifold": 8629.387961999999,
+      "placed_volume": 4889.215544999999,
+      "total": 62555.540363,
+      "validation": 14568.397548
+    },
+    "features": 52,
+    "instances": 81,
+    "solids": 81,
+    "peak_mib": 209.609375,
+    "oom_kills": 0,
+    "cpu": "100000 100000",
+    "memory": 536870912,
+    "swap": 0,
+    "preview": {
+      "chord_mm": 0.5,
+      "width": 640,
+      "height": 480
+    },
+    "occt_valid": true,
+    "occt_solids": 81,
+    "step_sha256": "a72fe76e07587fb7b822625d9a6f43d8d5ab842dcc0f795e0f820b2ac8a52fd7"
+  },
+  "free_vcpu": {
+    "version": "0.1.1",
+    "wall_s": 31.76372355700005,
+    "native_ms": {
+      "bounds_and_census": 405.774583,
+      "export": 271.57825,
+      "geometry": 21749.56901,
+      "level1_and_manifold": 4529.943171000001,
+      "placed_volume": 2480.0080009999997,
+      "total": 31541.78339,
+      "validation": 7556.319962
+    },
+    "features": 52,
+    "instances": 81,
+    "solids": 81,
+    "peak_mib": 212.30078125,
+    "oom_kills": 0,
+    "cpu": "100000 100000",
+    "memory": 536870912,
+    "swap": 0,
+    "preview": {
+      "chord_mm": 0.5,
+      "width": 640,
+      "height": 480
+    },
+    "occt_valid": true,
+    "occt_solids": 81,
+    "step_sha256": "a72fe76e07587fb7b822625d9a6f43d8d5ab842dcc0f795e0f820b2ac8a52fd7"
+  }
+}

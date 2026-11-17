@@ -49,5 +49,9 @@ for split in ['g2-regression','g2-held_out']:
     corpus[split]['count']=len(report['rows'])
 save(dest/'geometry-corpus.json',corpus)
 for script,params in [('engineering.py',[trial,dest]),('engineering-gif.py',[trial,dest/'engineering-changes.gif']),
-                      ('memory-gif.py',[dest]),('extend-offline.py',[dest])]:
+                      ('memory-gif.py',[dest])]:
     run('benchmarks/readme/candidate/'+script,*params)
+
+if campaign['runtime_kind']=='public npm release':
+    run('benchmarks/readme/stable/growth.py',dest)
+run('benchmarks/readme/candidate/extend-offline.py',dest)

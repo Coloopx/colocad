@@ -2,7 +2,7 @@
 
 正式版 `0.1.1` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
 
-[候选版性能、工程更改单回放和内存曲线](benchmark-alpha11-rc1.zh-CN.md)
+[正式版 0.1.1 三后端性能、工程更改单与 256 版内存曲线](benchmark-stable.zh-CN.md)
 
 [自由曲面、扫描网格与精确机构混合建模](hybrid.zh-CN.md)
 
