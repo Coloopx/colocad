@@ -1,5 +1,5 @@
-//! [INPUT]: 原Part21 representation/item归属与mapper的mm化body。
-//! [OUTPUT]: 可证实的body单位覆盖、各representation尺度及受限诊断放行。
+//! [INPUT]: 原Part21 representation/item归属、引用关系与mapper的mm化body。
+//! [OUTPUT]: body单位覆盖、几何/位姿context一致性及纯描述元数据隔离。
 //! [POS]: STEP边界的上下文证据；不改vendor，不修几何/容差/预算。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use super::*;
@@ -14,6 +14,45 @@ fn representation(item: &StepInstance) -> Option<&Record> {
         StepInstance::Complex(rs) => rs.iter().find(|r| r.name == "REPRESENTATION"),
         _ => None,
     }
+}
+// ---- 仅无入边的纯描述representation可免长度；维数不是豁免依据 ----
+fn references(param: &Param, out: &mut BTreeSet<u64>) {
+    match param {
+        Param::Ref(id) => { out.insert(*id); }
+        Param::List(items) => items.iter().for_each(|p| references(p, out)),
+        Param::Typed(_, value) => references(value, out),
+        _ => {}
+    }
+}
+fn reference_owners(f: &StepFile, targets: &BTreeSet<u64>) -> BTreeMap<u64, BTreeSet<u64>> {
+    let mut out = BTreeMap::<u64, BTreeSet<u64>>::new();
+    for (owner, item) in &f.entities {
+        let records = match item {
+            StepInstance::Simple(r) => std::slice::from_ref(r),
+            StepInstance::Complex(rs) => rs,
+        };
+        let mut refs = BTreeSet::new();
+        for r in records {
+            for p in &r.params { references(p, &mut refs); }
+        }
+        for id in refs.intersection(targets) {
+            out.entry(*id).or_default().insert(*owner);
+        }
+    }
+    out
+}
+fn descriptive_metadata(f: &StepFile, id: u64, owners: &BTreeMap<u64, BTreeSet<u64>>) -> bool {
+    if owners.contains_key(&id) { return false; }
+    let Some(StepInstance::Simple(r)) = f.entities.get(&id) else { return false; };
+    if r.name != "REPRESENTATION" || r.params.len() != 3 { return false; }
+    let Some(items) = r.params.get(1).and_then(Param::as_list) else { return false; };
+    !items.is_empty() && items.iter().all(|p| {
+        let Some(item_id) = p.as_ref_id() else { return false; };
+        owners.get(&item_id).is_some_and(|users| users.len() == 1 && users.contains(&id))
+            && matches!(f.entities.get(&item_id),
+                Some(StepInstance::Simple(item)) if item.name == "DESCRIPTIVE_REPRESENTATION_ITEM"
+                    && item.params.len() == 2 && item.params.iter().all(|p| matches!(p, Param::Str(_))))
+    })
 }
 #[derive(Clone, Copy, PartialEq)]
 struct UnitContext {
@@ -218,16 +257,25 @@ impl Contexts {
                 expected = Some(unit);
             }
         }
-        // 本PR仅放行同长度的多context；真正mixed位姿尚未独立验收。
+        // 仅审计已声明单位的context；无GUC的UV参数域维持既有处理。
+        let declared = f.entities.iter().filter_map(|(id, item)|
+            item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT").map(|_| *id)).collect::<BTreeSet<_>>();
+        let targets = declared.iter().chain(out.reps.keys()).chain(out.owners.keys())
+            .copied().collect::<BTreeSet<_>>();
+        let owners = reference_owners(f, &targets);
+        let metadata = out.reps.keys().filter(|id| descriptive_metadata(f, **id, &owners))
+            .copied().collect::<BTreeSet<_>>();
         let mut length = None;
-        for (id, item) in &f.entities {
-            if item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT").is_some() {
-                let mm = context(f, *id)?.mm;
-                if length.is_some_and(|prior| prior != mm) {
-                    return Err(incomplete("mixed length contexts are not supported"));
-                }
-                length = Some(mm);
+        for id in declared {
+            // 未使用的声明无几何含义；context/item/rep的任何未知入边均保守保留。
+            if !owners.get(&id).is_some_and(|users| users.iter().any(|rep| !metadata.contains(rep))) {
+                continue;
             }
+            let mm = context(f, id)?.mm;
+            if length.is_some_and(|prior| prior != mm) {
+                return Err(incomplete("mixed length contexts are not supported"));
+            }
+            length = Some(mm);
         }
         let counted=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances);
         let summary=" distinct unit contexts; using the default fallback for bodies without an explicit context";

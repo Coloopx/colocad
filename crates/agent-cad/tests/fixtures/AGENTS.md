@@ -7,6 +7,8 @@ output-budget-box.json: 2×3×4mm公开小盒体，单体24mm³/两实例48mm³�
 
 unit-context-box.step: 合成2×3×4mm盒体，显式body毫米/角度context；无私有源件。
 
+metadata-2d.step: 由公开drilled-block按维护者脚本精确合成；去不确定度并追加三条角度元数据。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 
 planar_conic_seam.rs: 自有17度seam同步换基及单顶点不一致生成器，测试运行时产生STEP。

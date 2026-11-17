@@ -267,3 +267,110 @@ fn context_without_length_does_not_inherit_an_unrelated_file_unit() {
     assert_eq!(error.code, "IMPORT_INCOMPLETE");
     assert!(error.message.contains("explicit length unit"));
 }
+
+// ---- review8：角度元数据不能改变真实盒体的单位或几何 ----
+#[test]
+fn descriptive_metadata_context_preserves_public_drilled_block() {
+    let metadata = include_str!("fixtures/metadata-2d.step");
+    let control = metadata.lines().filter(|line| !line.starts_with("#900"))
+        .collect::<Vec<_>>().join("\n") + "\n";
+    for (name, text) in [("metadata-2d", metadata.to_string()), ("metadata-removed", control)] {
+        let (info, result) = replay(text, name);
+        assert_eq!(info["definitions"], 1);
+        assert_eq!(result.report["geometry"]["solids"], 1);
+        assert!((result.report["geometry"]["volume_mm3"].as_f64().unwrap()
+            - (3200. - 40. * std::f64::consts::PI)).abs() < 1e-4);
+        bounds(&result.report["geometry"]["bbox_mm"], [[0., 0., 0.], [20., 16., 10.]]);
+    }
+}
+fn angle_metadata(f: &mut Fixture, dimension: u8, item: &str) -> u64 {
+    let unit = f.add("(NAMED_UNIT(*) PLANE_ANGLE_UNIT() SI_UNIT($,.RADIAN.))");
+    let ctx = f.add(&format!("(GEOMETRIC_REPRESENTATION_CONTEXT({dimension}) GLOBAL_UNIT_ASSIGNED_CONTEXT((#{unit})) REPRESENTATION_CONTEXT('',''))"));
+    let item = f.add(item);
+    f.add(&format!("REPRESENTATION('settings',(#{item}),#{ctx})"))
+}
+#[test]
+fn descriptive_metadata_is_not_excluded_by_dimension() {
+    let mut f = Fixture::new();
+    f.box_body(false, false);
+    angle_metadata(&mut f, 3, "DESCRIPTIVE_REPRESENTATION_ITEM('angle','radian')");
+    let (_, b) = replay(f.text(), "metadata-3d");
+    bounds(&b.report["geometry"]["bbox_mm"], [[0., 0., 0.], [2., 3., 4.]]);
+}
+fn rejected(text: String, name: &str) -> agent_cad::CadError {
+    let directory = std::env::var("COLOCAD_UNIT_EVIDENCE_DIR").ok();
+    if let Some(path) = &directory {
+        std::fs::create_dir_all(path).unwrap();
+        std::fs::write(std::path::Path::new(path).join(format!("negative-{name}.step")), &text).unwrap();
+    }
+    let error = step_assembly::inspect(&asset(text)).unwrap_err();
+    if let Some(path) = directory {
+        std::fs::write(std::path::Path::new(&path).join(format!("negative-{name}.json")),
+            serde_json::to_vec_pretty(&error).unwrap()).unwrap();
+    }
+    error
+}
+#[test]
+fn geometry_and_unknown_items_in_2d_context_still_require_length() {
+    for (index, item) in ["CARTESIAN_POINT('',(0.,0.))", "UNRECOGNIZED_REPRESENTATION_ITEM('unknown')"].into_iter().enumerate() {
+        let mut f = Fixture::new();
+        f.box_body(false, false);
+        angle_metadata(&mut f, 2, item);
+        let e = rejected(f.text(), &["geometry-2d", "unknown-item-2d"][index]);
+        assert_eq!(e.code, "IMPORT_INCOMPLETE");
+        assert!(e.message.contains("explicit length unit"), "{e:?}");
+    }
+}
+#[test]
+fn linked_metadata_context_still_requires_length() {
+    let mut f = Fixture::new();
+    let body = f.box_body(false, false);
+    let metadata = angle_metadata(&mut f, 2, "DESCRIPTIVE_REPRESENTATION_ITEM('angle','radian')");
+    f.add(&format!("REPRESENTATION_RELATIONSHIP('','',#{},#{metadata})", body.rep));
+    let e = rejected(f.text(), "linked-metadata");
+    assert_eq!(e.code, "IMPORT_INCOMPLETE");
+    assert!(e.message.contains("explicit length unit"), "{e:?}");
+}
+#[test]
+fn placement_only_mixed_length_context_is_still_rejected() {
+    let mut f = Fixture::new();
+    f.box_body(false, false);
+    let frame = f.frame([1., 0., 0.], 0);
+    let ctx = f.context(true, false);
+    f.representation(&[frame], ctx);
+    let e = rejected(f.text(), "placement-mixed-length");
+    assert_eq!(e.code, "IMPORT_INCOMPLETE");
+    assert!(e.message.contains("mixed length"), "{e:?}");
+}
+#[test]
+fn non_rigid_mapping_is_still_rejected_with_metadata() {
+    let mut f = Fixture::new();
+    let body = f.box_body(false, false);
+    let from = f.frame([0., 0., 0.], 0);
+    let mapped = f.mapped(body.rep, from, [10., 0., 0.], 0);
+    let transform = f.record_mut(mapped, "MAPPED_ITEM").params[2].as_ref_id().unwrap();
+    f.record_mut(transform, "CARTESIAN_TRANSFORMATION_OPERATOR_3D").params[4] = Param::Real(2.);
+    let ctx = f.context(false, false);
+    let rep = f.representation(&[mapped], ctx);
+    f.replace_product_rep(body.product, rep);
+    angle_metadata(&mut f, 2, "DESCRIPTIVE_REPRESENTATION_ITEM('angle','radian')");
+    let e = rejected(f.text(), "non-rigid-mapping");
+    assert!(e.message.contains("rigid"), "{e:?}");
+}
+
+#[test]
+fn unknown_associations_to_metadata_context_item_or_rep_require_length() {
+    for target in 0..3 {
+        let mut f = Fixture::new();
+        f.box_body(false, false);
+        let rep = angle_metadata(&mut f, 2, "DESCRIPTIVE_REPRESENTATION_ITEM('angle','radian')");
+        let r = f.record_mut(rep, "REPRESENTATION");
+        let ctx = r.params[2].as_ref_id().unwrap();
+        let item = r.params[1].as_list().unwrap()[0].as_ref_id().unwrap();
+        let id = [ctx, item, rep][target];
+        f.add(&format!("UNRECOGNIZED_GEOMETRY(#{id})"));
+        let e = rejected(f.text(), &format!("unknown-association-{target}"));
+        assert_eq!(e.code, "IMPORT_INCOMPLETE");
+        assert!(e.message.contains("explicit length unit"), "{e:?}");
+    }
+}

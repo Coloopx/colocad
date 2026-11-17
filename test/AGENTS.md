@@ -24,10 +24,10 @@ validation/: 原生与打包入口的独立几何/集成审计。
 evidence/: 已保存的历史失败文本。
 types/: 公开查询和宿主资源配置的编译合同与负例。
 
-step-units.test.mjs: 官方SDK inspect→共享定义template build，验证同长度多context几何。
+step-units.test.mjs: 公开SDK同长度与review8元数据/去元数据对照，保存inspect/build/STEP回执。
 step-units-occt.py: OCP只读合成输入/输出，对独立手算bbox/体积/实体数断言；不匹配实例序号。
 
-step-units-occt.mjs: 锁定OCCT WASM独立核对合成与公开嵌套源/交付常量，旧raw mapped源仅诊断。
+step-units-occt.mjs: 锁定OCCT WASM独立核对合成与公开嵌套源/交付常量，旧raw mapped源仅诊断；可选case名单独立审计SDK元数据交付。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource-limits.test.mjs: 公开SDK注册/UTF-8/JSON/聚合字节、宿主预算及原生摘要/回读守卫回归。

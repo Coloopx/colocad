@@ -27,7 +27,7 @@ validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_refer
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
-step_units.rs: 同长度body上下文、uniform-cm及公开OCCT嵌套位姿/回读；拒绝mixed、缺归属与冲突，旧手造mapped控制不冒称独立source一致。
+step_units.rs: 同长度body上下文、公开OCCT嵌套及review8纯描述metadata对照/关联与刚体负例；拒绝mixed、缺归属与冲突，旧手造mapped控制不冒称独立source一致。
 support/: 合成STEP构造助手，不承载期望单位/位姿算法。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

@@ -12,14 +12,16 @@ import {createHash} from 'node:crypto';
 import initOC from 'replicad-opencascadejs';
 import {setOC,importSTEP,measureShapeVolumeProperties} from 'replicad';
 
-const [directory,output]=process.argv.slice(2);
-assert.ok(directory&&output,'usage: node step-units-occt.mjs UNIT_EVIDENCE_DIR NEW_REPORT.json');
+const [directory,output,names]=process.argv.slice(2);
+assert.ok(directory&&output,'usage: node step-units-occt.mjs UNIT_EVIDENCE_DIR NEW_REPORT.json [CASE_NAMES_COMMA_SEPARATED]');
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const wasm=await readFile(fileURLToPath(import.meta.resolve('replicad-opencascadejs/wasm')));
 const pkg=JSON.parse(await readFile(fileURLToPath(import.meta.resolve('replicad-opencascadejs/package.json')),'utf8'));
 const oc=await initOC({wasmBinary:wasm});setOC(oc);
 // ---- 期望来自手算常量，不读取Colocad报告作为期望 ----
 const expected={
+ 'metadata-2d':[1,3200-40*Math.PI,[[0,0,0],[20,16,10]]],
+ 'metadata-removed':[1,3200-40*Math.PI,[[0,0,0],[20,16,10]]],
  'same-length-angle':[1,24,[[0,0,0],[2,3,4]]],
  'same-length-uncertainty':[2,48,[[0,0,0],[2,3,4]]],
  'uniform-cm':[1,24000,[[0,0,0],[20,30,40]]],
@@ -42,7 +44,9 @@ function matches(actual,[solids,volume,bounds]){
 const report={scope:'independent read-only OCCT transfer and literal exported-geometry expectations; raw mapped source diagnostic only',
  engine:{package:pkg.name,version:pkg.version,wasm_sha256:sha(wasm)},platform:process.platform,arch:process.arch,
  no_solid_index_correspondence_assumed:true,cases:[]};
-for(const [name,wanted] of Object.entries(expected)){
+const selected=names?names.split(','):Object.keys(expected);
+assert.ok(selected.length&&selected.every(name=>Object.hasOwn(expected,name)),'unknown audit case');
+for(const [name,wanted] of Object.entries(expected).filter(([name])=>selected.includes(name))){
  const entry={name,expected:{solids:wanted[0],volume_mm3:wanted[1],bbox_mm:wanted[2]},raw_source_expected_asserted:name!=='nested-same-length'};
  try{
   entry.source=await properties(join(resolve(directory),name+'.step'));
