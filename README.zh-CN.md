@@ -101,6 +101,8 @@ await session.edit({ length: 80 });
 
 ![后半段内存增量，每个会话以自己的第 128 版为零点](docs/benchmarks/stable-0.1.1/revision-growth.svg)
 
+开发版 CLI 将被替换的几何版本写入分段文件，同一 KK60 会话最终保留 42 个文件、7 个目录。[与 0.1.1 的配对复测、完整提交耗时和历史回读](docs/revision-memory-attribution.zh-CN.md#分段写入修复与最终复测)。
+
 ## 有机外壳与外部网格
 
 从轮廓标志点做光顺放样与法向偏置，将外部扫描网格和精确 STEP 机构放入同一装配。GLB 和离线查看器显示实例材质，干涉收据给出实际零件的交叠体积与算法。[使用说明、导出格式与验收](docs/hybrid.zh-CN.md)

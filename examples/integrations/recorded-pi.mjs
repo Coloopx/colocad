@@ -8,7 +8,7 @@ import { createCadAgent } from './pi-core.mjs';
 // Replace only streamFn/model/auth with your harness configuration for live inference.
 // This deterministic example verifies the same Pi loop without requiring credentials.
 export async function runRecordedPiExample(directory){
- const root=resolve(directory),session=await ModelingSession.create(join(root,'session'),{title:'Pi agent • fan row revision history'});
+ const root=resolve(directory),session=await ModelingSession.create(join(root,'session'),{storage:'segmented',title:'Pi agent • fan row revision history'});
  const part=turbofan('fan-row');let turn=0;
  const model={id:'scripted-contract-test',name:'Scripted contract test',api:'openai-completions',provider:'test',baseUrl:'https://unused.invalid',reasoning:false,input:['text','image'],cost:{input:0,output:0,cacheRead:0,cacheWrite:0},contextWindow:100000,maxTokens:2000};
  const calls=[['cad_build',{model:part}],['cad_edit',{parameters:{unknownDimension:10}}],['cad_edit',{parameters:{fanRadius:144}}]];

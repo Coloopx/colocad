@@ -1,7 +1,7 @@
 /**
  * [INPUT]: PR6公开SDK、原会话/产物SHA与当前宿主输出预算。
  * [OUTPUT]: ModelingSession及按当前STEP/reportBytes校验的回执与bundle/HTML。
- * [POS]: 只新增输出读取授权，不引入库存/查询策略PR。
+ * [POS]: 会话存储、冷版本取回及宿主输出预算。
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */
 import { mkdir, readFile, writeFile, rename, rm, realpath, open, opendir, stat } from 'node:fs/promises';
@@ -10,9 +10,9 @@ import { createHash, randomUUID } from 'node:crypto';
 import { performance } from 'node:perf_hooks';
 import { catalogName, initializeCatalog, withCatalog, withLegacyWriter } from './session-catalog.mjs';
 import { CadClient, createCadTools } from './index.mjs';
-import { readStepArtifact,readReportFile } from '../kernel/dist/files.js';
 import {ResourceLimitError} from '../kernel/dist/resource-limits.js';
 
+import {readMember,copyDirectory} from './session-segments.mjs';
 import {storeRequest,storeReceipt,readPacked} from './session-payload.mjs';
 
 const format='colocad/session/1';
@@ -70,7 +70,7 @@ async function syncArtifactTree(directory) {
 
 async function legacyStore(root,writable,callback) {
   const file=join(root,'session.json'), ledger=await load(file);
-  if(!writable && ['colocad/session/2','colocad/session/3'].includes(ledger.format)) return withCatalog(root,await catalogName(root),false,callback);
+  if(!writable && ['colocad/session/2','colocad/session/3','colocad/session/4'].includes(ledger.format)) return withCatalog(root,await catalogName(root),false,callback);
   if(ledger.format!==format || !Array.isArray(ledger.steps)) throw Error('SESSION_FORMAT: unsupported ledger');
   if(writable) {
     let changed=false;
@@ -91,16 +91,21 @@ async function legacyStore(root,writable,callback) {
 }
 
 export class ModelingSession {
+  #editSource;
   constructor(root,config={}){this.root=resolve(root);this.config=config;this.cad=new CadClient({...config,outputRoot:join(this.root,'artifacts')});}
   static async create(directory,{title='CAD modeling session',storage='compact',...config}={}){
     const s=new ModelingSession(directory,config);
-    if(!['indexed','json','compact'].includes(storage)) throw Error('SESSION_FORMAT: unknown storage');
+    if(!['indexed','json','compact','segmented'].includes(storage)) throw Error('SESSION_FORMAT: unknown storage');
     await mkdir(s.root,{recursive:true});
     const file=join(s.root,'session.json');
     if(await stat(file).then(()=>true,e=>{if(e.code==='ENOENT')return false;throw e;}))
       throw Object.assign(Error('EEXIST: session already exists'),{code:'EEXIST'});
     const header={format,id:randomUUID(),title,createdAt:new Date().toISOString()};
-    if(storage==='compact'){
+    if(storage==='segmented'){
+      await mkdir(join(s.root,'segments'),{recursive:true});
+      header.geometryStorage='segments/1';
+    }
+    if(storage==='compact'||storage==='segmented'){
       // The catalog may reference this directory as soon as it is published.
       await mkdir(join(s.root,'inspections'),{recursive:true});await syncPath(s.root);
       header.queryReceipts='gzip-members/1';
@@ -132,6 +137,7 @@ export class ModelingSession {
     });
     return result===retry ? this.withStore(writable,callback) : result;
   }
+  async header(){return this.withStore(false,store=>store.header());}
   async read(){
     return this.withStore(false,async store=>{
       const header=await store.header(),steps=[];
@@ -155,21 +161,52 @@ export class ModelingSession {
   }
   async source(){return this.withStore(false,store=>this.sourceFrom(store));}
   async latestGeometry(){return this.withStore(false,async store=>(await store.head())??undefined);}
-  async receipt(step) {
+  async receiptFrom(store,step) {
     if(step.receiptPack)return readPacked(this.root,step.receiptPack,step.receiptSha256,this.cad.resourceLimits.reportBytes);
-    return JSON.parse((await readReportFile(this.cad,await sessionPath(this.root,step.receiptFile),{sha256:step.receiptSha256})).toString('utf8'));
+    const bytes=await readMember(this.root,store,step.receiptFile,step.receiptSha256,this.cad.resourceLimits.reportBytes);
+    return JSON.parse(bytes);
+  }
+  async receipt(step) {return this.withStore(false,store=>this.receiptFrom(store,step));}
+  async checkout(id,destination) {
+    if(!/^s[0-9]{4,}$/.test(id))throw Error('SESSION_STEP: invalid id');
+    const dest=resolve(destination);
+    const rel=relative(this.root,dest);
+    if(!rel || ['steps','artifacts','inspections','segments'].includes(rel.split(sep)[0]))throw Error('SESSION_PATH: checkout destination overlaps session storage');
+    return this.withStore(false,async store=>{
+      const [step]=(await store.page(Number(id.slice(1))-1,1)).steps;
+      if(step?.id!==id || !accepted(step))throw Error('SESSION_STEP: expected a successful geometry step');
+      const receipt=await this.receiptFrom(store,step);
+      await mkdir(dest);
+      try {
+        const artifactDirectory=join(dest,'revision');
+        await mkdir(artifactDirectory);
+        await copyDirectory(this.root,store,step.artifactDirectory,artifactDirectory,receipt.data.artifact_sha256??{},this.cad.resourceLimits);
+        const inputFile=join(dest,'input.json'),receiptFile=join(dest,'receipt.json');
+        await writeFile(inputFile,await readMember(this.root,store,step.inputFile,step.inputSha256));
+        await writeFile(receiptFile,await readMember(this.root,store,step.receiptFile,step.receiptSha256,this.cad.resourceLimits.reportBytes));
+        return {artifactDirectory,inputFile,receiptFile};
+      } catch(error){await rm(dest,{recursive:true,force:true});throw error;}
+    });
   }
   async head() {
     return this.withStore(false,async store=>{
       const step=await store.head();
       if(!step) return null;
-      const receipt=await this.receipt(step);
+      const receipt=await this.receiptFrom(store,step);
       return {session_step:step.id,query_revision_id:receipt.data.query_revision_id??null,geometry:step.geometry};
     });
   }
   async build(model,metadata={}){const input=structuredClone(model);return this.withStore(true,store=>this.run(store,input,'build',metadata));}
   async edit(parameters,metadata={}){return this.withStore(true,async store=>{
-    const model=await this.sourceFrom(store);
+    const current=await store.head();
+    if(!current)throw Error('SESSION_EMPTY: build a model first');
+    let model;
+    if(this.#editSource && this.#editSource.digest===current.inputSha256){
+      await verifySource(this.root,current);
+      model={...this.#editSource.model};
+    }else{
+      model=JSON.parse(await checked(this.root,current.inputFile,current.inputSha256));
+    }
     for(const key of Object.keys(parameters))if(!Object.hasOwn(model.parameters,key))return this.run(store,model,'edit',metadata,{ok:false,error:{code:'UNKNOWN_PARAMETER',message:key}},parameters);
     model.parameters={...model.parameters,...parameters};return this.run(store,model,'edit',metadata,undefined,parameters);
   });}
@@ -201,8 +238,10 @@ export class ModelingSession {
     const compact=operation==='query' && step.inputFile && (await store.header()).queryReceipts==='gzip-members/1';
     if(compact)delete step.receiptFile;
     if(!compact)await mkdir(join(this.root,dir),{recursive:true});
+    let cacheSource=false;
     if(!step.inputFile) {
-      const bytes=json(model);
+      const bytes=Buffer.from(json(model));
+      cacheSource=operation==='edit' && bytes.length<=1024*1024;
       step.inputFile=dir+'/input.json';
       step.inputSha256=sha(bytes);
       await writeStepFile(join(this.root,step.inputFile),bytes);
@@ -214,7 +253,7 @@ export class ModelingSession {
     const start=performance.now();let result;
     try{
       step.queryable=queryable??((model?.datums?.length||model?.interfaces?.length)?true:previous?.queryable??false);
-      const accepted=operation==='query'?await this.receipt(previous):undefined;
+      const accepted=operation==='query'?await this.receiptFrom(store,previous):undefined;
       if(accepted&&queryRequest.query_revision_id!==accepted.data.query_revision_id)preset={ok:false,error:{code:'QUERY_REVISION_MISMATCH',message:'Query must target the accepted geometry revision'}};
       result=preset??await (operation==='query'
         ?this.cad.query(inside(this.root,previous.artifactDirectory),queryRequest)
@@ -241,7 +280,10 @@ export class ModelingSession {
     step.receiptSha256=sha(receiptBytes);
     if(result.ok && operation!=='query') {
       const directory=inside(this.root,step.artifactDirectory);
-      await syncArtifactTree(directory);await syncPath(resolve(directory,'..'));await syncPath(this.root);
+      await syncArtifactTree(directory);
+      await syncPath(resolve(directory,'..'));
+      await syncPath(join(this.root,'artifacts'));
+      await syncPath(this.root);
     }
     if(compact)step.receiptPack=await storeReceipt(this.root,id,receiptBytes,this.cad.resourceLimits.reportBytes);
     if(!step.receiptPack){
@@ -249,6 +291,7 @@ export class ModelingSession {
       await writeStepFile(join(this.root,step.receiptFile),receiptBytes);await syncPath(join(this.root,dir));
     }
     await store.finish(step);
+    if(accepted(step))this.#editSource=cacheSource?{digest:step.inputSha256,model}:undefined;
     return {...result,session_step:id};
   }
   capabilities(){return this.cad.capabilities();} schema(){return this.cad.schema();} validate(m){return this.cad.validate(m);}
@@ -281,34 +324,36 @@ export async function readSessionBundle(directory,{cutaway=false,view='iso',reso
   const bundle={format:'colocad/viewer/1',title:ledger.title,id:ledger.id,createdAt:ledger.createdAt,display:{cutaway,view},steps:[],meshes:{}};
   const last=ledger.steps.findLast(x=>x.status==='succeeded'&&!['observe','query'].includes(x.operation));
   for(const entry of ledger.steps){
-    const step={...entry};
-    if(entry.inputFile)step.model=JSON.parse(await checked(root,entry.inputFile,entry.inputSha256));
-    if((entry.receiptFile||entry.receiptPack)&&entry.receiptSha256)step.receipt=await session.receipt(entry);
-    if(entry.queryRequestFile)step.queryRequest=JSON.parse(await checked(root,entry.queryRequestFile,entry.queryRequestSha256));
-    if(entry.status==='succeeded'){
-      const data=step.receipt.data,artifact=entry.artifactDirectory;inside(root,artifact);
-      // Observation results keep their original exact-geometry source for later lookup.
-      const source=data.source_artifact_directory??artifact;
-      const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:JSON.parse((await readReportFile(session.cad,await sessionPath(root,source+'/report.json'))).toString('utf8'));
-      const guideHash=sourceReport.artifact_sha256?.['query-display.json'];
-      if(guideHash)step.queryDisplay=JSON.parse(await checked(root,source+'/query-display.json',guideHash));
-      const hash=sourceReport.artifact_sha256?.['preview.mesh.json'];
-      if(!hash)throw Error('SESSION_INTEGRITY: missing native preview mesh hash');
-      const scene=JSON.parse(await checked(root,source+'/preview.mesh.json',hash));
-      step.scene={instances:scene.instances?.length?scene.instances:scene.meshes.map(([id])=>({id,definition:id,origin:[0,0,0],axes:[[1,0,0],[0,1,0],[0,0,1]]})),definitions:{}};
-      const assembly=step.model?.assembly;
-      const materials=new Map((Array.isArray(assembly)?assembly:assembly?.instances??[]).map(i=>[i.id,i.metadata?.material??i.metadata]));
-      for(const instance of step.scene.instances) instance.material??=materials.get(instance.id);
-      for(const [id,mesh] of scene.meshes){const key=sha(JSON.stringify(mesh));bundle.meshes[key]??=mesh;step.scene.definitions[id]=key;}
-      if(data.artifact_sha256?.['preview.png'])step.png='data:image/png;base64,'+(await checked(root,artifact+'/preview.png',data.artifact_sha256['preview.png'])).toString('base64');
-      if(entry.id===last?.id){
-        const expected=sourceReport.artifact_sha256?.['model.step'];
-        if(!expected)throw Error('SESSION_INTEGRITY: '+source+'/model.step');
-        const bytes=await readStepArtifact(session.cad,await sessionPath(root,source),{sha256:expected});
-        step.stepFile=bytes.toString('base64');
+    await session.withStore(false,async store=>{
+      const step={...entry};
+      if(entry.inputFile)step.model=JSON.parse(await readMember(root,store,entry.inputFile,entry.inputSha256));
+      if((entry.receiptFile||entry.receiptPack)&&entry.receiptSha256)step.receipt=await session.receiptFrom(store,entry);
+      if(entry.queryRequestFile)step.queryRequest=JSON.parse(await checked(root,entry.queryRequestFile,entry.queryRequestSha256));
+      if(entry.status==='succeeded'){
+        const data=step.receipt.data,artifact=entry.artifactDirectory;inside(root,artifact);
+        // Observation results keep their original exact-geometry source for later lookup.
+        const source=data.source_artifact_directory??artifact;
+        const sourceReport=entry.operation==='query'?{artifact_sha256:data.source_artifact_sha256}:source===artifact?data:JSON.parse((await readMember(root,store,source+'/report.json',undefined,session.cad.resourceLimits.reportBytes)).toString('utf8'));
+        const guideHash=sourceReport.artifact_sha256?.['query-display.json'];
+        if(guideHash)step.queryDisplay=JSON.parse(await readMember(root,store,source+'/query-display.json',guideHash));
+        const hash=sourceReport.artifact_sha256?.['preview.mesh.json'];
+        if(!hash)throw Error('SESSION_INTEGRITY: missing native preview mesh hash');
+        const scene=JSON.parse(await readMember(root,store,source+'/preview.mesh.json',hash));
+        step.scene={instances:scene.instances?.length?scene.instances:scene.meshes.map(([id])=>({id,definition:id,origin:[0,0,0],axes:[[1,0,0],[0,1,0],[0,0,1]]})),definitions:{}};
+        const assembly=step.model?.assembly;
+        const materials=new Map((Array.isArray(assembly)?assembly:assembly?.instances??[]).map(i=>[i.id,i.metadata?.material??i.metadata]));
+        for(const instance of step.scene.instances) instance.material??=materials.get(instance.id);
+        for(const [id,mesh] of scene.meshes){const key=sha(JSON.stringify(mesh));bundle.meshes[key]??=mesh;step.scene.definitions[id]=key;}
+        if(data.artifact_sha256?.['preview.png'])step.png='data:image/png;base64,'+(await readMember(root,store,artifact+'/preview.png',data.artifact_sha256['preview.png'])).toString('base64');
+        if(entry.id===last?.id){
+          const expected=sourceReport.artifact_sha256?.['model.step'];
+          if(!expected)throw Error('SESSION_INTEGRITY: '+source+'/model.step');
+          const bytes=await readMember(root,store,source+'/model.step',expected,session.cad.resourceLimits.outputStepBytes,'outputStepBytes');
+          step.stepFile=bytes.toString('base64');
+        }
       }
-    }
-    bundle.steps.push(step);
+      bundle.steps.push(step);
+    });
   }
   return bundle;
 }

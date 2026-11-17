@@ -102,6 +102,8 @@ The Colocad session peak was 54% below CadQuery and 66% below build123d. CadQuer
 
 ![Late memory growth relative to each session’s own reading at edit 128](docs/benchmarks/stable-0.1.1/revision-growth.svg)
 
+The development CLI archives displaced geometry in segments. The same KK60 session retains 42 files across seven directories. [Matched 0.1.1 comparison, commit latency and historical readback](docs/benchmark-segmented-sessions.md).
+
 ## Sculpted housings and external meshes
 
 Build a smooth landmark loft, offset the shell, import a scanned exterior and place exact STEP hardware in the same local job. Instance colours appear in the GLB and offline viewer. Each interference check records the method and measured overlap volume. [Hybrid operations and exchange formats](docs/hybrid.md)
