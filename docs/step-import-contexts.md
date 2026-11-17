@@ -41,4 +41,18 @@ The complete Rust workspace release suite passes 154 tests across 27 executables
 
 All compilation and runtime jobs used the existing shared owner/lane gate, two CPUs, 3 GiB RAM and zero swap, with no OOM. Compilation used a private copy of the existing B4 warm target and registry; no other repair cache was modified. This is Windows/WSL Linux x64 validation, not native Windows PE, macOS, CI or manufacturing acceptance. Mixed length and broader angle/UV semantics remain outside this narrow fix. No private CAD, paid model requests, vendor changes, remote publication or GitHub writes are part of this validation.
 
+## Rebased release 0.1.1 validation (2026-11-17)
+
+The sections above retain historical pre-rebase evidence; their native SHA and 154-test count are not evidence for this generation. The old complete branch is preserved at `backup/pr8-before-release011-rebase-7359068-1117` and the old 390-file evidence manifest remains unchanged.
+
+The complete PR branch was rebased from `c3200d59c326eb848bb76bfef1362e5899c78666` onto `4124bcb769825895313900a4be9cb1e3610d9512`. Tested source commit: `542428bee4248e7dc45ef53bd66a5e90dfcb6c1d`. New Linux x64 native SHA256: `6b4cc116ed69dd438c2070531ca9ce112b5fa5f1eb74a70216d72a3f05aefb22`. All 1205 frozen tracked files match this commit; evidence is separate under `out/review-20261117-release011/`.
+
+Conflict resolution keeps the release Writer/outputStepBytes code and inspect host-limit entry byte-identical. Definition imports keep the release ImportCache admission by verified SHA and mode; only a cache miss delegates to the context-checked definition mapper. Resource/executor/main/incremental/cache/SDK/session code and Cargo/package/vendor locks remain identical to the new base. The vendor is freshly derived from the pinned archive plus only the three release-locked patches, verified by the official vendor script; pending PR3/10 changes are not included.
+
+On this new source, all 20 context tests, four SDK context tests, eight native OCCT groups, the separate two SDK OCCT controls, and SDK/query/resource/output TypeScript checks pass. The full release workspace executes 188 tests across 33 executables, with zero failures, ignored or filtered tests. The workspace doc-test command passes with zero doc-tests. New byte-budget, cache and planar-conic regressions remain in the full suite.
+
+The single new-source serial SDK run is 91/92. Its only failure is the streaming-migration SESSION_BUSY assertion. Test/session/catalog source and Cargo lock match the new main commit; the local catalog SHA is `c69e2246bd7447a08a0b99a78d9387ed488eb9826a8cf638ccdf66fb177b7e1a`. The older native control may be cited only as older-source evidence: no new main runtime baseline was run, and no SESSION_BUSY retry was made. Formal main binary equivalence is not asserted. The local evidence contains the complete source/hash matrix and a separate static published-package comparison.
+
+All compilation/runtime jobs remain on Windows/WSL under the shared owner gate at 2 CPUs, 3 GiB and zero swap, without OOM or timeouts. Mac performs only editing, textpacks, hashes and Git. All PR8 jobs have exited; mixed length, broader angle/UV semantics, native Windows PE/macOS and remote CI remain outside the verified scope. No push, GitHub write, paid model request, private CAD test or fallback engine is part of this validation.
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
