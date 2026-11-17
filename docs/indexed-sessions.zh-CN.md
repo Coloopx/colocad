@@ -29,7 +29,7 @@ node bin/colocad.mjs history ./old-project --after 20 --limit 20
 
 使用 alpha.9 时，先用 `colocad head SESSION` 读取已接受步骤及查询版本，再用 `colocad inspect SESSION REQUEST.json` 保存精确查询的请求和回执。改参使用 `colocad edit SESSION PARAMETERS.json`。一次查询可以在同一零件、坐标系与公差下测量多个特征。查询步骤通过 `inputFile` 引用已接受的源文件，读取时校验 SHA-256。[四孔改六孔的实例](../skills/colocad/references/modeling-loop.md#inspect-and-edit-from-a-shell)
 
-## 几何历史分段存储（开发版）
+## 几何历史分段存储（0.1.2 起）
 
 `colocad record` 新建的会话和随包提供的 Pi 记录式集成默认启用分段。直接调用 SDK 时，用 `ModelingSession.create(dir, {storage: 'segmented'})` 选择。SDK 的默认布局与已有调用方直接打开历史文件的用法兼容。
 

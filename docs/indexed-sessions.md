@@ -41,7 +41,7 @@ Use `ModelingSession.create(dir, {storage:'indexed'})` for the alpha.9 v2 layout
 
 **Migration budget.** At 500,000 synthetic steps, the Linux arm64 test dropped from 512.00 to 33.06 MiB median cgroup peak. The same migration also completed under a 64 MiB limit. Reserve disk for both the original and the SQLite catalog. Filesystem hints are advisory and the importer still materializes the header and one complete entry. See the [matched experiment and limits](../benchmarks/session-catalog/migration-memory.md).
 
-## Segmented geometry history (development version)
+## Segmented geometry history
 
 New CLI sessions created by `colocad record` and the recorded Pi integrations use segmented storage. The format is selected when the session is created. The SDK preserves its loose-path default for existing callers. To opt in explicitly:
 

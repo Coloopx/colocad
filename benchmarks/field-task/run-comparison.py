@@ -12,6 +12,7 @@ parser.add_argument('--baseline', type=Path, help='Optional historical compariso
 parser.add_argument('--cpu', default=0, type=int)
 parser.add_argument('--rotation', type=int, choices=(0, 1, 2), default=0,
                     help='Rotate the order of the three supported backends between repetitions')
+parser.add_argument('--storage', choices=('segmented','compact'), help='Candidate SDK session storage')
 args = parser.parse_args()
 repo = Path(__file__).resolve().parents[2]
 out = args.out.resolve()
@@ -33,7 +34,10 @@ for name in backends:
                '--network','none','--memory','512m','--memory-swap','512m',
                '-v',f'{runtime}/kernel:/pkg/kernel:ro','-v',f'{runtime}/src:/pkg/src:ro',
                '-v',f'{repo}/benchmarks/field-task:/pkg/benchmarks/field-task:ro',
-               '-v',f'{inputs}:/inputs:ro','-v',f'{volume}:/out',image]
+               '-v',f'{inputs}:/inputs:ro','-v',f'{volume}:/out']
+    if name == 'colocad' and args.storage:
+        command += ['-e', 'COLOCAD_BENCH_STORAGE=' + args.storage]
+    command.append(image)
     if name in ('alpha10','colocad'):
         command += ['node','/pkg/benchmarks/field-task/colocad.mjs','/inputs','/out','0','256']
     else:

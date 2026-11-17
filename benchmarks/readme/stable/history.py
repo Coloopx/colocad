@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('output', type=Path)
 parser.add_argument('--runtime', type=Path, required=True, help='Extracted release npm package')
 parser.add_argument('--cpu', type=int, default=0)
+parser.add_argument('--storage', choices=('segmented','compact'))
 args = parser.parse_args()
 repo = Path(__file__).resolve().parents[3]
 scripts = repo/'benchmarks/field-task'
@@ -31,6 +32,8 @@ run(*warm, '/opt/bd/bin/python', '-c', 'import build123d')
 run(*warm, 'node', '/pkg/bin/colocad.mjs', 'build', '/pkg/examples/manifold.json', '/tmp/warm',
     stdout=subprocess.DEVNULL)
 def verify_round(dest):
+    if args.storage=='segmented':
+        assert json.loads((dest/'colocad/session/session.json').read_text())['format']=='colocad/session/4'
     for name in backends:
         run(sys.executable, scripts/'verify-comparison.py', dest, name)
     oracle = dest/'native-oracle.json'
@@ -43,7 +46,7 @@ with ThreadPoolExecutor(max_workers=1) as validator:
     for rotation in range(len(backends)):
         dest = base/f'round-{rotation+1}'
         run(sys.executable, scripts/'run-comparison.py', dest, '--candidate', runtime,
-            '--cpu', str(args.cpu), '--rotation', str(rotation))
+            '--cpu', str(args.cpu), '--rotation', str(rotation), *(['--storage',args.storage] if args.storage else []))
         checks.append(validator.submit(verify_round, dest))
     for check in checks:
         check.result()
