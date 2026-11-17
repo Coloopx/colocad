@@ -1,6 +1,6 @@
 # Fixing memory growth across saved geometry revisions
 
-Colocad 0.1.1 retained 5,719 files and 783 directories in the KK60 session. The new layout retained 42 files and seven directories for the same 260 accepted revisions. The current head stays available for modeling. Older receipts, source, exact solids and previews are indexed members of append-only segments. [Storage API and compatibility](indexed-sessions.md#segmented-geometry-history-development-version).
+Colocad 0.1.1 retained 5,719 files and 783 directories in the KK60 session. The new layout retained 42 files and seven directories for the same 260 accepted revisions. The current head stays available for modeling. Older receipts, source, exact solids and previews are indexed members of append-only segments. [Storage API and compatibility](indexed-sessions.md#segmented-geometry-history).
 
 ## Final source versus the public package
 

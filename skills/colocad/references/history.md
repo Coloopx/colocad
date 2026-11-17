@@ -12,6 +12,8 @@ Save each meaningful geometry or assembly milestone as JSON, then run from the p
 
 `record` accepts a kernel model or a `colocad/1` feature tree, appends a real build with a preview, and prints the receipt. Reuse the session directory for later attempts. A failed build exits nonzero and stays in history. Change the cause, then record a corrected attempt; do not delete the failed step to imply uninterrupted success.
 
+From 0.1.2, new CLI recordings keep the current geometry loose and archive displaced geometry in segments. Keep the step ID returned by each successful edit. To deliver an older version, use `colocad checkout SESSION s0001 NEW_DIRECTORY` and read `NEW_DIRECTORY/revision/model.step`. SDK harnesses can select the same storage with `ModelingSession.create(dir, {storage: 'segmented'})`.
+
 Choose steps that explain geometry: blank → bore/cut → shaped blade → repeated placements → full assembly. Avoid recording only final part placement if the user asked how the kernel constructed the shape. A milestone is an actual build call; internal feature timings remain in the receipt.
 
 The HTML is self-contained and includes orbit/view controls, display-only clipping/explosion, the inputs and receipts, and the final exact STEP. Review playback uses a presentation cadence; recorded call durations are shown separately. Preserve the entire session directory if every intermediate STEP must remain available. A camera change or clipping plane does not modify the saved exact model.

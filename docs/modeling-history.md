@@ -1,6 +1,6 @@
 # Modeling history: CLI first
 
-For the development CLI, see [segmented geometry, historical checkout and compatibility](indexed-sessions.md#segmented-geometry-history-development-version).
+For Colocad 0.1.2 and later, see [segmented geometry, historical checkout and compatibility](indexed-sessions.md#segmented-geometry-history).
 
 Added in alpha.4. In a source checkout, use `node bin/colocad.mjs` in place of `colocad` below. The package entry points are `/session` for the recorder and `/viewer` for the browser component.
 
