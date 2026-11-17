@@ -31,3 +31,6 @@ for ax,title in zip(axes,['Kernel slab','Whole sandbox']):
 fig.suptitle('KK60 assembly  ·  1 vCPU  ·  512 MiB  ·  final isolated pair',fontsize=13,fontweight='bold')
 plt.rcParams['svg.fonttype']='none'
 fig.savefig(args.output,metadata={'Date':None})
+# Matplotlib leaves spaces before newlines inside path attributes.
+if args.output.suffix.lower()=='.svg':
+    args.output.write_text('\n'.join(line.rstrip() for line in args.output.read_text().splitlines())+'\n')

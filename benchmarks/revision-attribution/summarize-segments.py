@@ -9,6 +9,8 @@ from pathlib import Path
 parser=argparse.ArgumentParser()
 parser.add_argument('results',type=Path)
 parser.add_argument('output',type=Path)
+parser.add_argument('--first-pair',type=int,default=1)
+parser.add_argument('--last-pair',type=int,default=10**6)
 args=parser.parse_args()
 def load(folder,name):
     return json.loads((folder/name).read_bytes())
@@ -16,11 +18,12 @@ def load(folder,name):
 rows=[]
 for folder in sorted(args.results.iterdir()):
     cfg=load(folder,'run-config.json')
+    if not args.first_pair<=cfg['pair']<=args.last_pair:continue
     result=load(folder,'result.json')
     archive=load(folder,'archive.json')
     checks=load(folder,'colocad-checked.json')
     assert len(checks['edits'])==256 and archive['accepted']==260
-    assert len(archive['oldSnapshots'])==6 and checks['events']['events']['oom_kill']==0
+    assert len(archive['oldSnapshots'])==6 and int(checks['events']['events']['oom_kill'])==0
     samples=result['checkpoints']
     old,latest=[next(s for s in samples if s['edits']==n) for n in [128,256]]
     latencies=sorted(row['commitMs'] for row in result['editSteps'])
@@ -29,9 +32,9 @@ for folder in sorted(args.results.iterdir()):
         lateMiB={k:(latest[k]-old[k])/2**20 for k in keys},
         peakMiB=latest['peak']/2**20,
         editP50Ms=statistics.median(latencies),editP95Ms=latencies[math.ceil(.95*len(latencies))-1],
-        editTotalSeconds=sum(latencies)/1000,receiptHashes=archive['artifactHashesChecked'],
+        editTotalSeconds=sum(latencies)/1000,artifactHashes=archive['artifactHashesChecked'],
         oldSnapshotPitches=[s['pitch'] for s in archive['oldSnapshots']],
-        occtEditedSteps=len(checks['edits']),oomKills=checks['events']['events']['oom_kill'],
+        occtEditedSteps=len(checks['edits']),oomKills=int(checks['events']['events']['oom_kill']),
         fullCheckSHA256=hashlib.sha256((folder/'colocad-checked.json').read_bytes()).hexdigest(),
         samples=[{k:s[k] for k in ['edits','current','peak','slab','file','anon','heapUsed']} for s in samples]))
 modes=['baseline','candidate']
