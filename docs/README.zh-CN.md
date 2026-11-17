@@ -1,6 +1,6 @@
 # 开发与接入指南
 
-正式版 `0.1.0` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.0/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
+正式版 `0.1.1` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
 
 [候选版性能、工程更改单回放和内存曲线](benchmark-alpha11-rc1.zh-CN.md)
 
@@ -14,7 +14,7 @@
 
 colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导建模流程**。Agent、harness 和 Rust CAD 进程都在同一个沙箱内，共享项目目录。现有 harness 负责模型推理、权限、会话和产物保存，不需要额外部署 CAD 服务。
 
-本文对应正式版 `@coloopx/colocad@0.1.0`。预编译内核支持 Linux x64、Linux arm64 和 macOS arm64，要求 Node.js 22+。
+本文对应正式版 `@coloopx/colocad@0.1.1`。预编译内核支持 Linux x64、Linux arm64 和 macOS arm64，要求 Node.js 22+。
 
 ## 从材料到交付的完整指南
 
@@ -25,7 +25,7 @@ colocad 的分层是 **SDK 为基础，CLI / 工具负责调用，skill 指导�
 在已有 Node 项目根目录执行；没有 `package.json` 时先运行 `npm init -y`：
 
 ```sh
-npm install --save-exact @coloopx/colocad@0.1.0
+npm install --save-exact @coloopx/colocad@0.1.1
 ./node_modules/.bin/colocad build \
   node_modules/@coloopx/colocad/examples/manifold.json ./manifold-v1 --preview
 ```
