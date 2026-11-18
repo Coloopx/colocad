@@ -3,6 +3,7 @@ Rust + TypeScript + Node.js + SHA-pinned SolidCore.
 crates/agent-cad/src/: bounded native modeling, STEP exchange, validation and receipts.
 crates/agent-cad/tests/: native public API and geometry regressions.
 kernel/: public SDK, tracked TypeScript distribution and rebuilt-native boundary; see kernel/AGENTS.md.
+kernel/src/: public SDK, host configuration and isolated native process boundary.
 test/: public SDK/CLI and independent validation.
 docs/: API and verification boundaries.
 third_party/: pinned source archive and reviewed patches; generated vendor files are not committed.

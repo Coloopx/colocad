@@ -13,7 +13,7 @@ const model = JSON.parse(await readFile(
   new URL('./node_modules/@coloopx/colocad/skills/colocad/assets/plate-grid.json', import.meta.url),
   'utf8',
 ));
-const cad = new CadClient({ outputRoot, wallMs: 30_000 });
+const cad = new CadClient({ outputRoot, idleMs: 120_000 });
 requireData(await cad.validate(model));
 const original = requireData(await cad.preview(model, { view: 'iso', chord_mm: 0.2 }));
 const top = requireData(await cad.observeArtifact(original.artifact_directory, { view: 'top' }));

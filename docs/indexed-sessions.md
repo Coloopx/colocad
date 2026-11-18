@@ -23,7 +23,7 @@ const { steps, nextCursor } = await session.history({ limit: 20 });
 
 The head is the latest successful build or edit. Failed and interrupted attempts, camera observations and exact queries remain available in history. `source()` loads and checks the accepted source file. To inspect an active writer's history from another process, use the CLI history command or `new ModelingSession(directory).history()`. Opening a session for writing checks for interrupted operations.
 
-**Source candidate: compact inspections.** New projects default to a v3 descriptor. A query still executes the kernel and verifies its accepted input. Its full JSON request is content-addressed; each complete reply, including event-specific timings and failures, is checksummed and appended as an independent gzip member. The catalog references the bytes only after they are synced. A crash can leave unreachable trailing bytes, but a later writer cannot overwrite a committed reply. Build/edit artifacts are unchanged. To read a reply without depending on its storage layout:
+**Source candidate: compact inspections.** SDK sessions with compact storage use a v3 descriptor. A query still executes the kernel and verifies its accepted input. Its full JSON request is content-addressed; each complete reply, including event-specific timings and failures, is checksummed and appended as an independent gzip member. The catalog references the bytes only after they are synced. A crash can leave unreachable trailing bytes, but a later writer cannot overwrite a committed reply. Build/edit artifacts are unchanged. To read a reply without depending on its storage layout:
 
 ```js
 for (const step of (await session.history({limit:20})).steps) {
@@ -40,3 +40,22 @@ Use `ModelingSession.create(dir, {storage:'indexed'})` for the alpha.9 v2 layout
 **Memory scope.** An indexed query reads a bounded page cache and the selected records. Modeling still needs the current source and geometry. Full viewer export still collects historical meshes. Exact definition spill and streamed assembly STEP export are scheduled separately in [SDD 0006](../specs/0006-bounded-memory-persistence.md). See [M1 validation](../benchmarks/session-catalog/README.md) for measurements and recovery tests.
 
 **Migration budget.** At 500,000 synthetic steps, the Linux arm64 test dropped from 512.00 to 33.06 MiB median cgroup peak. The same migration also completed under a 64 MiB limit. Reserve disk for both the original and the SQLite catalog. Filesystem hints are advisory and the importer still materializes the header and one complete entry. See the [matched experiment and limits](../benchmarks/session-catalog/migration-memory.md).
+
+## Segmented geometry history
+
+New CLI sessions created by `colocad record` and the recorded Pi integrations use segmented storage. The format is selected when the session is created. The SDK preserves its loose-path default for existing callers. To opt in explicitly:
+
+```js
+const session = await ModelingSession.create('./history', {storage: 'segmented'});
+const built = await session.build(model, {queryable: true});
+if (!built.ok) throw Error(built.error.message);
+await session.edit({width: 24});
+const delivery = await session.checkout(built.session_step, './original-part');
+console.log(delivery.artifactDirectory, delivery.inputFile, delivery.receiptFile);
+```
+
+`checkout` creates a new destination and restores one successful geometry revision, including its original STEP, preview, source, receipt, incremental checkpoints and any exact-query snapshot. The caller owns the delivery directory. Pass that directory's `revision` subdirectory to `colocad query` or authorize it in the SDK's `queryRoots`. The equivalent shell command is `colocad checkout ./history s0001 ./original-part`. Use `session.receipt(step)` to read only a receipt.
+
+The accepted head stays loose for incremental modeling. On the next successful build or edit, the catalog streams the displaced head into a segment, syncs the data, commits its directory locators and the new head together, then removes the displaced files. Queries, failed edits and camera observations keep the current head. Segments rotate after 16 revisions or once the previous segment reaches 64 MiB. One large revision can exceed that size. The catalog stores the index location and digest. Each member has its own offset, length and SHA-256. The next writer retries deferred cleanup and overwrites any uncommitted tail on the next append.
+
+In this format, paths in old ledger entries are logical names. For a delivery that must survive another edit, use `checkout`. For tools that open every historical file by its original path, create the CLI session with `--storage compact` or use the SDK default. Existing v1–v3 projects retain their layout when reopened. Copy the whole closed session, including its segments directory.

@@ -2,6 +2,19 @@
 
 Release notes cover supported geometry, package changes and measured workloads.
 
+## [0.1.3](https://github.com/Coloopx/colocad/releases/tag/v0.1.3) - 2026-11-18
+
+- Native CLI builds, sessions and the modeling skill renew a host-controlled inactivity window on ordered progress. An optional wall deadline, host cancellation and structured failure receipts let a harness distinguish model repair from an execution budget expiry. [Execution policy](docs/execution-progress.md)
+- Fixed-pose collisions run as soon as their source features exist. The scheduler caches world bounds and reuses completed checks. Assemblies with mates retain post-solve checking. [PR #21](https://github.com/Coloopx/colocad/pull/21)
+- Hosts can grant explicit STEP entity, definition, occurrence and group limits. Unsupported downstream operations return a bounded refusal. Ordinary imports reuse the parsed exchange file and exact spline validation results. [PR #10](https://github.com/Coloopx/colocad/pull/10)
+- Compared the shipped kernels on checked and unchecked mechanical assemblies, a KK60 bracket, and 256 saved edits. [Method, results and scope](docs/release-0.1.3.md)
+
+## [0.1.2](https://github.com/Coloopx/colocad/releases/tag/v0.1.2) - 2026-11-17
+
+- New CLI recordings and the recorded Pi integrations store displaced geometry in indexed segments. The current head stays available for incremental edits. Use `colocad checkout SESSION STEP_ID NEW_DIRECTORY` to recover an earlier source, receipt, exact STEP, previews and checkpoints. [Storage and compatibility](docs/indexed-sessions.md)
+- The SDK supports `ModelingSession.create(dir, {storage: 'segmented'})`. Applications that rely on permanent loose file paths can keep using the SDK default. Existing sessions keep their storage layout. [Implementation and crash-recovery tests](https://github.com/Coloopx/colocad/pull/19)
+- Reran the README's 256-edit KK60 comparison against CadQuery and build123d. The report includes whole-sandbox peaks, late growth, kernel slab, durable edit latency and independent STEP readback. [Results](docs/benchmark-revisions-0.1.2.md)
+
 ## [0.1.1](https://github.com/Coloopx/colocad/releases/tag/v0.1.1) - 2026-11-17
 
 - The host can grant separate byte budgets for input assets, STEP output and diagnostic reports. SDK, CLI, native delivery and session readback enforce the corresponding limit. [Resource budgets](docs/resource-budgets.md) · [#6](https://github.com/Coloopx/colocad/pull/6)

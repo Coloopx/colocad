@@ -8,10 +8,10 @@ export default async function colocadExtension(pi) {
   let session;
   if (process.env.COLOCAD_SESSION_DIR) {
     const directory=resolve(process.env.COLOCAD_SESSION_DIR);
-    try { session=await ModelingSession.create(directory); }
+    try { session=await ModelingSession.create(directory,{storage:'segmented'}); }
     catch(error) { if(error.code!=='EEXIST')throw error; session=await ModelingSession.open(directory); }
   }
-  for (const tool of await createPiCadTools({ outputRoot, wallMs: 30_000 }, { session })) {
+  for (const tool of await createPiCadTools({ outputRoot, idleMs: 120_000 }, { session })) {
     pi.registerTool(tool);
   }
 }

@@ -1,0 +1,16 @@
+{
+  "kind": "public-equivalent-colocad-boss",
+  "exact_maintainer_bytes": false,
+  "source_sha256": "0bff073c60773eaeeb658b74b08be20b1ae77fe182d8f57c1148e47164e2ff1f",
+  "parameters": {
+    "outer_radius_mm": 4.5,
+    "inner_radius_mm": 2.2,
+    "height_mm": 1.5,
+    "count": 129,
+    "pitch_mm": 12,
+    "columns": 16
+  },
+  "expected_single_mm3": 72.61791418772806,
+  "expected_whole_mm3": 9367.71093021692,
+  "note": "Review exposes recipe only; no public raw attachment or confirmed retained original fixture found in scoped sources. This is explicitly an equivalent fixture."
+}

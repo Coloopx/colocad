@@ -26,7 +26,7 @@ FROM scratch AS catalog
 COPY --from=catalog-builder /colocad-catalog /colocad-catalog
 
 FROM sources AS builder
-RUN --mount=type=cache,id=colocad-registry-${TARGETARCH},target=/usr/local/cargo/registry,sharing=locked --mount=type=cache,id=colocad-target-${TARGETARCH},target=/src/target,sharing=locked cargo build --release --locked -p agent-cad && cp target/release/agent-cad /agent-cad
+RUN --mount=type=cache,id=colocad-registry-${TARGETARCH},target=/usr/local/cargo/registry,sharing=locked --mount=type=cache,id=colocad-target-${TARGETARCH},target=/src/target,sharing=locked cargo build --profile distribution --locked -p agent-cad && cp target/distribution/agent-cad /agent-cad
 FROM scratch
 COPY --from=builder /agent-cad /agent-cad
 COPY --from=catalog-builder /colocad-catalog /colocad-catalog

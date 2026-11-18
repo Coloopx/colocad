@@ -10,3 +10,4 @@ export { pose, occurrence, hardwareEnvelope, envelope, simplified, blindBoss } f
 export type { HardwareKind } from './helpers.js';
 export type * from './types.js';
 export { readModelFile, writeModelFile, editModelFile, readStepArtifact, readReportFile } from './files.js';
+export { executionPolicyFromEnv } from './progress.js';

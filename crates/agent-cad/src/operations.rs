@@ -1,6 +1,6 @@
-//! [INPUT]: 声明式特征、经准入的来源、单次构建ImportCache及STEP上下文验证。
-//! [OUTPUT]: 独立BRep；缓存miss复用body上下文门禁，命中仍保留来源/模式权限。
-//! [POS]: 特征分派；保持release的mode+verifiedSHA最近单源缓存，不改单位或位姿。
+//! [INPUT]: 几何特征、原始来源、本次模式化准入槽及独立宿主计数/字节策略。
+//! [OUTPUT]: 保留每个特征身份的独立BRep与严格来源/模式验证。
+//! [POS]: part/definition共用cache准入后逐件选body；assembly/component保持完整树和字节门禁。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Geometric operations with explicit units, frames and re-evaluated selectors.
 use crate::*;
@@ -1272,9 +1272,7 @@ pub(crate) fn execute(
             if *assembly {
                 return crate::step_assembly::build(k, &a.step);
             }
-            let parsed = imports.parse(a, *definition, || {
-                crate::step_assembly::definition_model(&a.step, *definition)
-            })?;
+            let parsed = imports.parse(a, *definition)?;
             let source = parsed.bodies.get(*body_index).ok_or_else(|| {
                 CadError::new("INVALID_REFERENCE", "STEP body index out of range")
             })?;

@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: 声明模型和当前宿主STEP策略。
+ * [OUTPUT]: schema/引用/资产/有限特征预算验证。
+ * [POS]: 原生构造前静态门禁。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! Schema, reference and resource validation, without kernel execution.
 //! [INPUT]: 模型与宿主字节策略。[OUTPUT]: 身份/依赖及单源/聚合字节验证。
 //! [POS]: 默认预算不变的纯准入层。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
@@ -16,10 +22,13 @@ pub fn validate_with_resource_limits(model: &Model, limits: &ResourceLimits) -> 
             "version 1 and units mm required",
         ));
     }
-    if model.features.is_empty()
-        || model.features.len() > MAX_FEATURES
-        || model.parameters.len() > 128
-    {
+    step_import_limits::check(
+        "model_features",
+        model.features.len(),
+        step_import_limits::feature_capacity(model),
+        "model_validation",
+    )?;
+    if model.features.is_empty() || model.parameters.len() > 128 {
         return Err(CadError::new(
             "RESOURCE_LIMIT",
             "1..128 features and at most 128 parameters required",

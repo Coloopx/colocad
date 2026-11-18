@@ -10,7 +10,7 @@ await mkdir(out,{recursive:true});const orders=JSON.parse(await readFile(new URL
 const tol={linear_mm:.01,angular_rad:1e-4}, p=param=>({param}), mul=(a,b)=>({op:'mul',a,b}),add=(a,b)=>({op:'add',a,b});
 const cad=new CadClient({outputRoot:resolve(out,'imports')});
 let prior,revision,diagnostics=[],receipts=[];
-const session=await ModelingSession.create(resolve(out,'session'));
+const session=await ModelingSession.create(resolve(out,'session'),{storage:process.env.COLOCAD_BENCH_STORAGE});
 for(const o of orders){
   const changed=o.source!==prior?.source;
   let measured=prior?.measured,body=prior?.body;
@@ -43,14 +43,21 @@ for(const o of orders){
 }
 assert.deepEqual(receipts.map(r=>r.reason??'STEP'),['STEP','STEP','STEP','MOUNT_CARDINALITY','STEP']);
 const checkpoints=[],editSteps=[];
+const gcProbe=process.env.COLOCAD_BENCH_GC_PROBE;
+if(gcProbe)assert.ok(['natural','forced'].includes(gcProbe) && typeof global.gc==='function');
 if(n||edits){
   const cg=f=>readFile('/sys/fs/cgroup/'+f,'utf8');
   const snapshot=async i=>{
+    const preGcHeap=gcProbe ? process.memoryUsage().heapUsed : undefined;
+    if(gcProbe==='forced')global.gc();
     const current=Number(await cg('memory.current')),peak=Number(await cg('memory.peak'));
     const stat=Object.fromEntries((await cg('memory.stat')).trim().split('\n').map(s=>s.split(' ')));
-    checkpoints.push({[edits?'edits':'queries']:i,current,peak,...Object.fromEntries(['anon','file','kernel','file_dirty','file_writeback','shmem','file_mapped','active_file','inactive_file','slab','sock','kernel_stack'].map(k=>[k,Number(stat[k])])),heapUsed:process.memoryUsage().heapUsed,revision});
+    checkpoints.push({[edits?'edits':'queries']:i,current,peak,...Object.fromEntries(['anon','file','kernel','file_dirty','file_writeback','shmem','file_mapped','active_file','inactive_file','slab','sock','kernel_stack'].map(k=>[k,Number(stat[k])])),heapUsed:process.memoryUsage().heapUsed,...(gcProbe ? {preGcHeap,slab_reclaimable:Number(stat.slab_reclaimable),slab_unreclaimable:Number(stat.slab_unreclaimable)} : {}),revision});
   };
   await snapshot(0);
+  const allocationProbe=process.env.COLOCAD_BENCH_ALLOCATIONS
+    ? await import('../revision-attribution/allocation.mjs') : undefined;
+  if(allocationProbe)await allocationProbe.start();
   for(let i=1;i<=n;i++){
     const r=await session.query({schema:'colocad.query/1',query_revision_id:revision,target:{definition_id:'service'},space:'definition',tolerance:tol,queries:[{id:'camera',op:'edges',where:{curve_type:'circle',radius_mm:{min:1.699,max:1.701}},limit:8}]});
     assert.ok(r.ok,JSON.stringify(r.error));assert.equal(r.data.execution.geometry_build_calls,0);
@@ -60,11 +67,24 @@ if(n||edits){
   for(let i=1;i<=edits;i++){
     // Distinct configurations; fixed feature count, hole count, part count and active source size class.
     const gauge=5+((i-1)%5)*.5,cameraPitch=16+Math.floor((i-1)/5)*.25;
-    const r=await session.edit({gauge,cameraPitch});assert.ok(r.ok,JSON.stringify(r.error));
+    const start=performance.now();
+    const r=await session.edit({gauge,cameraPitch});
+    const commitMs=performance.now()-start;assert.ok(r.ok,JSON.stringify(r.error));
     assert.equal(r.data.geometry.solids,2);revision=r.data.query_revision_id;
-    editSteps.push({i,id:r.session_step,gauge,cameraPitch,revision,sha256:r.data.artifact_sha256['model.step']});
+    editSteps.push({i,commitMs,id:r.session_step,gauge,cameraPitch,revision,sha256:r.data.artifact_sha256['model.step']});
     if(i===1||i%4===0||i===edits)await snapshot(i);
   }
+  if(process.env.COLOCAD_BENCH_COLD_AUDIT) {
+    const {execFileSync}=await import('node:child_process');
+    const stats=async()=>Object.fromEntries((await cg('memory.stat')).trim().split('\n').map(row=>{const [k,v]=row.split(' ');return [k,Number(v)];}));
+    execFileSync('python',['/pkg/benchmarks/revision-attribution/cold-pages.py','warm']);
+    await new Promise(done=>setTimeout(done,250));
+    const before=await stats();
+    execFileSync('python',['/pkg/benchmarks/revision-attribution/cold-pages.py',resolve(out,'session'),join(out,'cold-pages.json')]);
+    await new Promise(done=>setTimeout(done,250));
+    await writeFile(join(out,'advice-stat.json'),JSON.stringify({before,after:await stats()}));
+  }
+  if(allocationProbe)await allocationProbe.finish(process.env.COLOCAD_BENCH_ALLOCATIONS);
   await writeFile(join(out,'cgroup-events.json'),JSON.stringify({
     limit:Number(await cg('memory.max')),swap:Number(await cg('memory.swap.max')),
     events:Object.fromEntries((await cg('memory.events')).trim().split('\n').map(line=>line.split(' ')))

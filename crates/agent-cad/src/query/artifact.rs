@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: SHA绑定的精确快照清单及固定128容量。
+ * [OUTPUT]: 完整快照捕获/重开或结构化计数拒绝。
+ * [POS]: query持久化边界，与STEP放宽分开。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! Immutable exact query artifacts. Geometry is stored separately from the manifest.
 use super::snapshot::{Binding, DefinitionSnapshot, LoadedDefinition};
 use crate::*;
@@ -7,6 +13,7 @@ use std::{
     path::{Component, Path},
 };
 
+pub(crate) const MAX_INSTANCE_PATH: usize = 513;
 pub const MANIFEST: &str = "query-manifest.json";
 pub const MAX_GEOMETRY: usize = 64 * 1024 * 1024;
 fn digest<T: Serialize>(v: &T) -> Result<String> {
@@ -114,10 +121,19 @@ impl Manifest {
                 "expected query revision differs from artifact",
             ));
         }
-        if manifest.body.definitions.is_empty()
-            || manifest.body.definitions.len() > 128
-            || manifest.body.occurrences.len() > 128
-        {
+        step_import_limits::check(
+            "query_definitions",
+            manifest.body.definitions.len(),
+            128,
+            "snapshot_reopen",
+        )?;
+        step_import_limits::check(
+            "query_occurrences",
+            manifest.body.occurrences.len(),
+            128,
+            "snapshot_reopen",
+        )?;
+        if manifest.body.definitions.is_empty() {
             return Err(CadError::new(
                 "QUERY_LIMIT",
                 "definition/occurrence budget exceeded",
@@ -392,9 +408,7 @@ impl Capture {
                         .iter()
                         .find(|g| g.id == id)
                         .and_then(|g| g.parent.clone());
-                    if path.len() > 513 {
-                        return Err(CadError::new("QUERY_LIMIT", "instance path too deep"));
-                    }
+                    step_import_limits::check("query_instance_path", path.len(), MAX_INSTANCE_PATH, "query_snapshot_capture")?;
                 }
                 path.reverse();
                 let o = Occurrence {

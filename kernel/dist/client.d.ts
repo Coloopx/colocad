@@ -7,6 +7,7 @@ export declare class CadClient {
     private readonly config;
     private readonly byteLimits;
     private readonly explicitByteLimits;
+    private readonly stepArgs;
     private previousRevision?;
     private previousQueryable;
     private readonly previewCache;

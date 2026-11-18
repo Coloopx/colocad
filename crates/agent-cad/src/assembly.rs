@@ -1,5 +1,5 @@
-//! [INPUT]: 显式实例、PR6宿主字节策略及原几何合同。
-//! [OUTPUT]: 原装配检查与受outputStepBytes约束的定义/产品树。
+//! [INPUT]: 显式实例、宿主字节策略及依赖就绪检查记录。
+//! [OUTPUT]: 复用早检后的原装配检查、受输出预算约束的定义/产品树。
 //! [POS]: 输出预算贯通提前释放和装配终态，不改变数量或几何策略。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Named instances and exact, explicitly requested assembly checks.
@@ -108,7 +108,13 @@ pub(crate) fn validate(m: &Model, features: &BTreeSet<String>) -> Result<()> {
             "choose output or assembly, not both",
         ));
     }
-    if m.assembly.len() > 128 || m.checks.len() > 64 {
+    step_import_limits::check(
+        "assembly_occurrences",
+        m.assembly.len(),
+        step_import_limits::current().max_occurrences,
+        "assembly_validation",
+    )?;
+    if m.checks.len() > 64 {
         return Err(CadError::new(
             "RESOURCE_LIMIT",
             "at most 128 instances and 64 assembly checks",
@@ -284,21 +290,17 @@ pub(crate) fn validate(m: &Model, features: &BTreeSet<String>) -> Result<()> {
             }
         }
     }
-    if pairs > 8128 {
-        return Err(CadError::new(
-            "RESOURCE_LIMIT",
-            "at most 8128 checked pairs",
-        ));
-    }
+    step_import_limits::check("checked_pairs", pairs, 8128, "assembly_validation")?;
     Ok(())
 }
-fn volume(k: &mut Kernel, b: &mut Brep) -> Result<f64> {
+pub(crate) fn volume(k: &mut Kernel, b: &mut Brep) -> Result<f64> {
     if b.face_list().is_empty() {
         return Ok(0.);
     }
     measured_volume(k, b)
 }
-fn overlapping_boxes(k: &Kernel, a: &Brep, b: &Brep) -> Result<bool> {
+
+pub(crate) fn overlapping_boxes(k: &Kernel, a: &Brep, b: &Brep) -> Result<bool> {
     let a = brep_bounding_box(k, a, true)?;
     let b = brep_bounding_box(k, b, true)?;
     Ok((0..3).all(|i| a.max_at(i).min(b.max_at(i)) - a.min_at(i).max(b.min_at(i)) > 1e-8))
@@ -329,6 +331,7 @@ impl MeasuredPart {
         times: &mut InspectionTimes,
     ) -> Result<Self> {
         let t = Instant::now();
+        k.caches.enable_validation_property_memo();
         let check = check_brep(k, b, CheckLevel::Level1)?;
         if !check.is_valid() || !brep_is_manifold_solid(b)? {
             return Err(CadError::new(
@@ -383,6 +386,7 @@ impl MeasuredPart {
 #[derive(Default)]
 pub(crate) struct EarlyParts {
     eligible: BTreeMap<String, (usize, placement::Rigid)>,
+    pub(crate) collision_checks: crate::early_checks::EarlyChecks,
     ready: BTreeMap<String, (MeasuredPart, Option<String>)>,
     volume_oracles: BTreeMap<String, f64>,
     checked_oracles: usize,
@@ -395,13 +399,18 @@ fn definition(body: &Brep, limits: &ResourceLimits) -> Result<String> {
     let step = step_assembly::write_solids(
         &exchange::to_model(body).map_err(|e| CadError::new("EXPORT_FAILED", e.to_string()))?,
     )?;
-    resources::check_bytes("outputStepBytes", step.len(), limits.output_step_bytes, false)?;
+    resources::check_bytes(
+        "outputStepBytes",
+        step.len(),
+        limits.output_step_bytes,
+        false,
+    )?;
     Ok(step)
 }
 
 impl EarlyParts {
     pub fn plan(m: &Model, uses: &BTreeMap<String, usize>, queryable: bool) -> Result<Self> {
-        let mut plan = Self::default();
+        let mut plan = Self { collision_checks: crate::early_checks::EarlyChecks::plan(m)?, ..Default::default() };
         if m.assembly.len() < 2
             || queryable
             || m.preview.is_some()
@@ -524,6 +533,8 @@ pub(crate) fn finish(
     let mut hi = [f64::NEG_INFINITY; 3];
     let early_count = early.ready.len();
     let p = &m.parameters;
+    // Fixed collision pairs were checked at their final placements. Other checks need live bodies.
+    let can_reuse = m.checks.is_empty() || (m.mates.is_none() && m.checks.iter().all(|c|matches!(c,AssemblyCheck::Collision{..})));
     for instance in &m.assembly {
         let source = instance.input.as_str();
         let pose = solved[&instance.id];
@@ -543,7 +554,7 @@ pub(crate) fn finish(
             pose.axes
                 .map(|axis| [axis.x, axis.y, axis.z].map(f64::to_bits)),
         );
-        let can_reuse = m.checks.is_empty();
+
         let previous = measurements
             .get(&key)
             .and_then(|&(origin, part): &(Vec3, MeasuredPart)| {
@@ -602,7 +613,7 @@ pub(crate) fn finish(
         ));
     }
     let mut findings = vec![];
-    for check in &m.checks {
+    for (check_index, check) in m.checks.iter().enumerate() {
         match check {
             AssemblyCheck::InterfaceCompatibility {
                 a,
@@ -669,23 +680,16 @@ pub(crate) fn finish(
                         let allowed = allowed_pairs
                             .iter()
                             .any(|p| (&p[0] == a && &p[1] == b) || (&p[0] == b && &p[1] == a));
-                        let va = &parts[a];
-                        let vb = &parts[b];
-                        let overlap = if overlapping_boxes(k, va, vb)? {
-                            let ca = solidcore::topology::brep::p3::brep_copy(k, va)?;
-                            let cb = solidcore::topology::brep::p3::brep_copy(k, vb)?;
-                            let mut common = boolean_intersection(k, ca, cb)?;
-                            volume(k, &mut common)?
+                        let finding = if let Some(overlap) =
+                            early.collision_checks.overlaps.remove(&(check_index, i, j))
+                        {
+                            crate::early_checks::finding(a,b,allowed,threshold,overlap)?
                         } else {
-                            0.
+                            crate::early_checks::collision_finding(
+                                k, &parts[a], &parts[b], a, b, allowed, threshold,
+                            )?
                         };
-                        findings.push(json!({"kind":"collision","parts":[a,b],"overlap_mm3":overlap,"allowed":allowed,"threshold_mm3":threshold}));
-                        if !allowed && overlap > threshold + 1e-6 {
-                            return Err(CadError::new(
-                                "ASSEMBLY_COLLISION",
-                                format!("{a} and {b} overlap {overlap} mm3 (limit {threshold})"),
-                            ));
-                        }
+                        findings.push(finding);
                     }
                 }
             }

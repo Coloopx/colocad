@@ -212,7 +212,6 @@ impl Contexts {
     pub(super) fn validate(
         f: &StepFile,
         model: &NeutralModel,
-        allow_assembly: bool,
     ) -> Result<Self> {
         let mut out = Self {
             reps: BTreeMap::new(),
@@ -281,7 +280,7 @@ impl Contexts {
         let summary=" distinct unit contexts; using the default fallback for bodies without an explicit context";
         let accepted = |d: &step_import::model::Diagnostic| {
             d.step_id.is_none()
-                && ((allow_assembly && d.message == counted)
+                && (d.message == counted
                     || d.message
                         .strip_suffix(summary)
                         .and_then(|n| n.parse::<usize>().ok())
@@ -289,7 +288,6 @@ impl Contexts {
         };
         if !model.skipped.is_empty()
             || model.diagnostics.iter().any(|d| !accepted(d))
-            || (!allow_assembly && model.assembly_instances > 0)
         {
             return Err(incomplete(format!(
                 "skipped={:?}; diagnostics={:?}",

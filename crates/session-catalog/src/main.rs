@@ -1,6 +1,7 @@
 mod migration;
 #[cfg(target_os = "linux")]
 mod revision_cache;
+mod segments;
 
 use rusqlite::{params, Connection, OpenFlags, OptionalExtension};
 use serde_json::{json, Value};
@@ -75,7 +76,7 @@ fn open_db(path: &Path, writable: bool) -> Result<Connection> {
         OpenFlags::SQLITE_OPEN_READ_ONLY
     };
     let db = Connection::open_with_flags(path, flags | OpenFlags::SQLITE_OPEN_NOFOLLOW)?;
-    db.execute_batch("PRAGMA cache_size=-2048; PRAGMA mmap_size=0; PRAGMA temp_store=FILE; PRAGMA trusted_schema=OFF;")?;
+    db.execute_batch("PRAGMA busy_timeout=5000; PRAGMA cache_size=-2048; PRAGMA mmap_size=0; PRAGMA temp_store=FILE; PRAGMA trusted_schema=OFF;")?;
     if writable {
         db.execute_batch("PRAGMA synchronous=FULL;")?;
     }
@@ -117,6 +118,9 @@ fn initialize(root: &Path, name: &str, mode: &str, input: Value) -> Result<Value
         if header["queryReceipts"] == "gzip-members/1" {
             tx.execute_batch("PRAGMA user_version=2")?;
         }
+        if header["geometryStorage"] == "segments/1" {
+            tx.execute_batch(segments::SCHEMA)?;
+        }
         tx.execute("INSERT INTO metadata VALUES (?1)", [header.to_string()])?;
         tx.commit()?;
         // A closed project can be mounted read-only with just its database.
@@ -140,7 +144,7 @@ fn initialize(root: &Path, name: &str, mode: &str, input: Value) -> Result<Value
         writeln!(
             file,
             "{}",
-            json!({"format":if header["queryReceipts"]=="gzip-members/1" {"colocad/session/3"} else {"colocad/session/2"},"catalog":name})
+            json!({"format":if header["geometryStorage"]=="segments/1" {"colocad/session/4"} else if header["queryReceipts"]=="gzip-members/1" {"colocad/session/3"} else {"colocad/session/2"},"catalog":name})
         )?;
         file.sync_all()?;
         File::open(root)?.sync_all()?;
@@ -312,7 +316,7 @@ fn run() -> Result<()> {
     let db = open_db(&catalog_path(root, name)?, mode == "write")?;
     let app: i64 = db.query_row("PRAGMA application_id", [], |r| r.get(0))?;
     let version: i64 = db.query_row("PRAGMA user_version", [], |r| r.get(0))?;
-    if app != APP_ID || !matches!(version, 1 | 2) {
+    if app != APP_ID || !matches!(version, 1..=3) {
         return Err("SESSION_FORMAT: unsupported SQLite catalog".into());
     }
     if mode == "read" {
@@ -321,7 +325,7 @@ fn run() -> Result<()> {
     reply(Ok(Value::Null))?;
     for line in lines {
         let request: Value = serde_json::from_str(&line?)?;
-        let seal = (version == 2 && mode == "write" && request["op"] == "finish")
+        let seal = (version >= 2 && mode == "write" && request["op"] == "finish")
             .then(|| {
                 request["step"]["id"]
                     .as_str()?
@@ -342,7 +346,21 @@ fn run() -> Result<()> {
             .as_ref()
             .and_then(|_| request["step"]["artifactDirectory"].as_str())
             .map(str::to_owned);
-        let result = dispatch(&db, request, mode == "write");
+        let housekeeping = matches!(request["op"].as_str(), Some("recover" | "finish"));
+        let result = match (version, mode, request["op"].as_str()) {
+            (3, _, Some("lookup")) => {
+                segments::lookup(&db, request["dir"].as_str().ok_or("missing directory")?)
+            }
+            (_, _, Some("lookup")) => Ok(Value::Null),
+            (3, "write", Some("finish")) => (|| -> Result<Value> {
+                let tx = db.unchecked_transaction()?;
+                segments::displace(&tx, root, &request["step"])?;
+                let result = dispatch(&tx, request, true)?;
+                tx.commit()?;
+                Ok(result)
+            })(),
+            _ => dispatch(&db, request, mode == "write"),
+        };
         #[cfg(target_os = "linux")]
         if let Some(revision) = previous.filter(|_| result.is_ok()) {
             revision.release(root);
@@ -353,6 +371,11 @@ fn run() -> Result<()> {
         }
         if let Some(n) = seal.filter(|_| result.is_ok()) {
             release_sealed_pack(root, (n - 1) / 128);
+        }
+        if version == 3 && mode == "write" && result.is_ok() && housekeeping {
+            if let Err(error) = segments::cleanup(&db, root) {
+                eprintln!("deferred segment cleanup: {error}");
+            }
         }
         reply(result)?;
     }

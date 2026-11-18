@@ -11,6 +11,7 @@ index.d.mts: 产品入口和特征树类型。
 index.mjs: 产品入口及公开SDK再导出。
 render.mjs: 会话呈现与视频导出。
 session-catalog.mjs: 会话SQLite目录及写锁。
+session-segments.mjs: 冷版本分段定位、校验和单版本物化。
 session-payload.mjs: 不可变请求与压缩回执载荷。
 session.d.mts: 会话类型及当前输出预算读取选项。
 session.mjs: 会话生命周期和SHA/当前输出预算约束的bundle/HTML。

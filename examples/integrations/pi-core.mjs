@@ -10,7 +10,7 @@ export async function createCadAgent({ model, streamFn, getApiKey, outputRoot, c
         + 'Use cad_capabilities to inspect available operations. Validate the model, '
         + 'then build and inspect its geometry. Return the saved model and STEP paths. '
         + 'Treat reported failures as failed builds and correct the indicated feature.',
-      tools: await createPiCadTools({ outputRoot, wallMs: 30_000 }, { session: cadSession }),
+      tools: await createPiCadTools({ outputRoot, idleMs: 120_000 }, { session: cadSession }),
     },
     streamFn,
     getApiKey,
