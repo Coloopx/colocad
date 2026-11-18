@@ -31,6 +31,10 @@ import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路�
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
+step_bound_order.rs: 平面外环推定与拒绝歧义回归。
+step_bound_order_delivery.rs: 闭体 STEP 读写与拒绝反向孔环。
+step_planar_projection_proof.rs: 有界曲线与完整 UV 投影一致性。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。

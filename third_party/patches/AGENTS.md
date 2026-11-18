@@ -9,4 +9,6 @@ validation-properties.patch: 固定配置/许可/构建输入；沿现有治理�
 
 变更：2026-11-15 G2补丁与Windows定向回归；不修改其它算法。
 
+step-bound-order.patch: 通过严格几何判定识别未标记的平面外环。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

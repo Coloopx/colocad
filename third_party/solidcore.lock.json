@@ -38,6 +38,27 @@
           "after": "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/step-bound-order.patch",
+      "sha256": "d1a22921f3623588023d8e76848207971443adb47efbf394bb970546d3f1be9b",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/constructor.rs",
+          "before": "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee",
+          "after": "748506b71fad71b04541cff74dffe70b490012112dfcd79ec6cee3ecdc4fc255"
+        },
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
+          "after": "a334549c0106212e57de5656de092309694c42724fa490c2b589682bb6f706cd"
+        },
+        {
+          "target": "crates/solidcore/src/curve/curve/p2.rs",
+          "before": "4ada534d0c907e1510a571ff5859c6b017f8e46bb3e1cd9c28000e14579d0690",
+          "after": "c83787e0c9fa0412d0ce8ca5bf158b0c3cd1c953698eba463e44d58809493890"
+        }
+      ]
     }
   ]
 }

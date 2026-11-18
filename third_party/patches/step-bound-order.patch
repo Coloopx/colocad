@@ -1,0 +1,489 @@
+--- a/crates/step-brep/src/constructor.rs
++++ b/crates/step-brep/src/constructor.rs
+@@ -1,2 +1,6 @@
++//! [INPUT]: 原始STEP中性Body、严格几何查询及真实Line/BSpline/Ellipse完整域。
++//! [OUTPUT]: 全域仿射控制网证书、拓扑构造及无显式outer平面环序规范化。
++//! [POS]: step-brep构造边界；归一错误必须在fallback前返回。
++//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ //! Topology-first construction: a body built from the file's own topology.
+ //!
+@@ -304,2 +308,421 @@
+     Ok(made)
+ }
++
++mod bound_order {
++    // [INPUT]: 原始中性Body、原有曲线构造及SolidCore严格几何查询。
++    // [OUTPUT]: 仅重排已证明唯一外环的平面FACE_BOUND集合；歧义返回错误。
++    // [POS]: step-brep构造前置归一；先于拓扑/stitched路径，不修绕向或公差。
++    // [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
++    use std::borrow::Cow;
++    use solidcore::curve::curve::{p8::CurveIntersectOptions, Curve};
++    use solidcore::geom::point_set::PointContainment;
++    use solidcore::geom::solution_array::{ObjectKind, Solution, SolutionObject, SolutionType};
++    use solidcore::query::r#loop::contains_uv_point;
++    use solidcore::surface::surface::p2::SurfaceKind;
++    use step_import::model::{self as sm, Body, Bound, Face};
++    use super::{construct, Kernel, Point3};
++
++    fn error(face: &Face, reason: impl std::fmt::Display) -> String {
++        format!("STEP_BOUND_ORDER face #{}: {reason}", face.step_id)
++    }
++
++    pub(super) fn normalize(body: &Body) -> Result<Cow<'_, Body>, String> {
++        let mut result = Cow::Borrowed(body);
++        let used = body.shells.iter().flat_map(|shell| shell.faces.iter().copied()).collect::<std::collections::BTreeSet<_>>();
++        for index in used {
++            let face = body.faces.get(index).ok_or("STEP_BOUND_ORDER: missing shell face")?;
++            let explicit = face.loops.iter().filter(|l| l.outer).count();
++            if explicit > 1 { return Err(error(face, "multiple explicit outer bounds")); }
++            if explicit != 0 || face.loops.len() < 2 || !matches!(face.surface, sm::Surface::Plane { .. }) { continue; }
++            let outer = enclosing_loop(body, face).map_err(|e| error(face, e))?;
++            let target = &mut result.to_mut().faces[index];
++            // 只移动整个环；边顺序、bound.orientation和face.same_sense原样保留。
++            let mut inferred = target.loops.remove(outer);
++            inferred.outer = true;
++            target.loops.insert(0, inferred);
++        }
++        Ok(result)
++    }
++
++    struct BoundaryCurve {
++        curve: Curve,
++        ring: usize,
++        start: usize,
++        end: usize,
++    }
++
++    fn point(p: [f64; 3]) -> Point3 { Point3::new(p[0], p[1], p[2]) }
++
++    fn boundary_curves(k: &Kernel, body: &Body, face: &Face, tol: f64) -> Result<Vec<BoundaryCurve>, String> {
++        let sm::Surface::Plane { frame } = face.surface else { return Err("not planar".into()); };
++        let mut curves = vec![];
++        for (ring, bound) in face.loops.iter().enumerate() {
++            let Bound::Edges(uses) = &bound.bound else { return Err("ambiguous vertex boundary".into()); };
++            if uses.is_empty() { return Err("empty boundary".into()); }
++            let mut ends = vec![];
++            for use_ in uses {
++                let edge = body.edges.get(use_.edge).ok_or("missing edge")?;
++                let (start, end) = if use_.forward { (edge.start, edge.end) } else { (edge.end, edge.start) };
++                let a = body.vertices.get(edge.start).ok_or("missing vertex")?;
++                let b = body.vertices.get(edge.end).ok_or("missing vertex")?;
++                for (s, vertex) in [(0.0, a), (1.0, b)] {
++                    let p = step_import::script::edge_point(edge, s).ok_or("unevaluable edge")?;
++                    if !p.iter().chain(vertex.point.iter()).all(|x| x.is_finite()) || point(p).distance(point(vertex.point)) > tol { return Err("edge endpoint not on source vertex".into()); }
++                }
++                let interval = (edge.t_start.min(edge.t_end), edge.t_start.max(edge.t_end));
++                if !interval.0.is_finite() || !interval.1.is_finite() || interval.0 >= interval.1 { return Err("invalid edge interval".into()); }
++                if matches!(edge.curve, sm::Curve::Circle { .. } | sm::Curve::Ellipse { .. }) && interval.1 - interval.0 > 360.0 + 64.0 * f64::EPSILON * 360.0 { return Err("conic winds more than once".into()); }
++                let curve = crate::make_curve(k, &edge.curve, Some(interval)).map_err(|e| e.to_string())?;
++                if !curve.is_on_plane(k, point(frame.origin), point(frame.z), tol, None).map_err(|e| e.to_string())?.on_plane { return Err("boundary off plane".into()); }
++                simple_curve(k, &curve, tol)?;
++                ends.push((start, end));
++                curves.push(BoundaryCurve { curve, ring, start, end });
++            }
++            for i in 0..ends.len() {
++                if ends[i].1 != ends[(i + 1) % ends.len()].0 { return Err("open boundary chain".into()); }
++                if ends.iter().skip(i + 1).any(|other| other.0 == ends[i].0) { return Err("repeated boundary vertex".into()); }
++            }
++        }
++        Ok(curves)
++    }
++
++    #[derive(Clone, Copy, PartialEq)]
++    struct ProofObject;
++    impl SolutionObject for ProofObject {
++        fn kind(&self) -> ObjectKind { ObjectKind::Curve }
++    }
++
++    fn is_point(s: &Solution<ProofObject>) -> bool {
++        matches!(s.solution_type, SolutionType::SingleValue | SolutionType::PolySingleValue)
++    }
++
++    fn endpoint(curve: &Curve, k: &Kernel, t: f64, tol: f64) -> Result<bool, String> {
++        let ivl = curve.natural_interval();
++        let p = curve.evaluate_point(k, t).map_err(|e| e.to_string())?;
++        for end in [ivl.min(), ivl.max()] {
++            let q = curve.evaluate_point(k, end).map_err(|e| e.to_string())?;
++            if p.distance(q) <= tol { return Ok(true); }
++        }
++        Ok(false)
++    }
++
++    fn simple_curve(k: &Kernel, curve: &Curve, tol: f64) -> Result<(), String> {
++        use solidcore::curve::curve::CurveKind;
++        // 有界直线和不超过一周的解析椭圆不可能自交。
++        if matches!(curve.kind(), CurveKind::Line(_) | CurveKind::Ellipse(_)) { return Ok(()); }
++        let ivl = curve.natural_interval();
++        let solutions = curve.global_curve_self_intersect::<ProofObject>(k, &ivl, tol, None, None).map_err(|e| e.to_string())?;
++        for i in 0..solutions.len() {
++            let s = solutions.get_at(i).map_err(|e| e.to_string())?;
++            let [a, b] = [s.start.parameters[0], s.start.parameters[1]];
++            if !is_point(&s) || !endpoint(curve, k, a, tol)? || !endpoint(curve, k, b, tol)? { return Err("self-intersecting or uncertain curve".into()); }
++            let slack = 64.0 * f64::EPSILON * (1.0 + ivl.min().abs().max(ivl.max().abs()));
++            if !((a - ivl.min()).abs() <= slack && (b - ivl.max()).abs() <= slack || (b - ivl.min()).abs() <= slack && (a - ivl.max()).abs() <= slack) { return Err("ambiguous self contact".into()); }
++        }
++        Ok(())
++    }
++
++    fn boundaries_disjoint(k: &Kernel, body: &Body, curves: &[BoundaryCurve], tol: f64) -> Result<(), String> {
++        let pairs = curves.len().checked_mul(curves.len().saturating_sub(1)).ok_or("boundary pair overflow")? / 2;
++        if pairs > 65_536 { return Err("boundary containment proof budget exceeded".into()); }
++        for (i, a) in curves.iter().enumerate() {
++            for b in curves.iter().skip(i + 1) {
++                let solutions = a.curve.global_curve_intersect::<ProofObject>(k, &a.curve.natural_interval(), &b.curve, &b.curve.natural_interval(), tol, &CurveIntersectOptions::default()).map_err(|e| e.to_string())?;
++                let common = [a.start, a.end].into_iter().filter(|v| a.ring == b.ring && (*v == b.start || *v == b.end)).collect::<Vec<_>>();
++                for j in 0..solutions.len() {
++                    let s = solutions.get_at(j).map_err(|e| e.to_string())?;
++                    if common.is_empty() { return Err("crossing, tangent or coincident boundaries".into()); }
++                    if !is_point(&s) || !endpoint(&a.curve, k, s.start.parameters[0], tol)? || !endpoint(&b.curve, k, s.start.parameters[1], tol)? { return Err("overlap or internal edge contact".into()); }
++                    let q = a.curve.evaluate_point(k, s.start.parameters[0]).map_err(|e| e.to_string())?;
++                    let shared = common.iter().any(|v| body.vertices.get(*v).is_some_and(|v| point(v.point).distance(q) <= tol));
++                    if !shared { return Err("intersection away from shared endpoint".into()); }
++                }
++            }
++        }
++        Ok(())
++    }
++
++    fn enclosing_loop(body: &Body, face: &Face) -> Result<usize, String> {
++        let count = face.loops.iter().try_fold(0usize, |n, l| match &l.bound {
++            Bound::Edges(edges) => n.checked_add(edges.len()).ok_or("boundary count overflow"),
++            Bound::Vertex(_) => Err("ambiguous vertex boundary"),
++        })?;
++        if count.checked_mul(count.saturating_sub(1)).ok_or("boundary pair overflow")? / 2 > 65_536 { return Err("boundary containment proof budget exceeded".into()); }
++        let mut trial = body.clone();
++        trial.kind = sm::BodyKind::ShellModel;
++        trial.faces = vec![face.clone()];
++        trial.shells = vec![sm::Shell { step_id: 0, closed: false, orientation: true, faces: vec![0] }];
++        let mut made = construct(&trial)?;
++        if !made.failures.is_empty() || made.faces.len() != 1 { return Err("incomplete containment probe".into()); }
++        made.kernel.fixes.query_statuses_pass_on = true;
++        let tol = made.brep.tolerance();
++        let curves = boundary_curves(&made.kernel, body, face, tol)?;
++        boundaries_disjoint(&made.kernel, body, &curves, tol)?;
++        let f = made.faces[0].0;
++        let loops = solidcore::topology::face::p2::loops(&made.brep, f, false, None).map_err(|e| e.to_string())?;
++        if loops.len() != face.loops.len() { return Err("boundary count changed".into()); }
++        // 包含查询只消费经原3D曲线复核的派生UV；投影失真不能决定环序。
++        solidcore::topology::face::p3::create_uv_trim_curves(&made.kernel, &mut made.brep, f, false, None).map_err(|e| e.to_string())?;
++        let fu = made.brep.face(f).map_err(|e| e.to_string())?.faceuse.ok_or("missing faceuse")?;
++        for eu in solidcore::topology::edgeuse::p1::faceuse_edgeuses(&made.brep, fu, false, None).map_err(|e| e.to_string())? {
++            let trim = solidcore::topology::edgeuse::p1::uv_trim_curve(&made.brep, eu).map_err(|e| e.to_string())?.0.ok_or("missing UV proof")?;
++            let edge_id = made.brep.edgeuse(eu).map_err(|e| e.to_string())?.edge.ok_or("missing proof edge")?;
++            let edge = made.brep.edge(edge_id).map_err(|e| e.to_string())?;
++            let original = edge.curve.as_ref().ok_or("missing proof curve")?;
++            let surface = made.brep.face(f).map_err(|e| e.to_string())?.surface.as_ref().ok_or("missing plane")?;
++            super::check_planar_uv_projection(&made.kernel, original, &edge.interval, trim, surface, tol)?;
++        }
++        let mut uv = vec![];
++        {
++            let surface = made.brep.face(f).map_err(|e| e.to_string())?.surface.as_ref().ok_or("missing plane")?;
++            let SurfaceKind::Plane(plane) = surface.kind() else { return Err("containment surface changed".into()); };
++            for bound in &face.loops {
++                let Bound::Edges(uses) = &bound.bound else { return Err("vertex boundary".into()); };
++                let edge = body.edges.get(uses[0].edge).ok_or("missing sample edge")?;
++                let sample = step_import::script::edge_point(edge, 0.5).ok_or("unevaluable boundary sample")?;
++                uv.push(plane.project_point_to_uv_domain(point(sample)));
++            }
++        }
++        let mut parents = vec![vec![]; loops.len()];
++        let mut orientations = vec![];
++        for (i, &l) in loops.iter().enumerate() {
++            let orient = solidcore::topology::face::p3::compute_loop_orientation(&made.kernel, &mut made.brep, f, l, None, false).map_err(|e| e.to_string())?;
++            if orient == solidcore::nurbs::b_spline_surface_n_lib::p2::OrientType::Unknown { return Err("degenerate or uncertain loop".into()); }
++            orientations.push(orient);
++            for (j, sample) in uv.iter().enumerate() {
++                if i == j { continue; }
++                match contains_uv_point(&made.kernel, &mut made.brep, l, None, *sample, tol).map_err(|e| e.to_string())?.containment {
++                    PointContainment::Inside => parents[j].push(i),
++                    PointContainment::Outside => (),
++                    _ => return Err("boundary contact or unknown containment".into()),
++                }
++            }
++        }
++        let roots = parents.iter().enumerate().filter_map(|(i, p)| p.is_empty().then_some(i)).collect::<Vec<_>>();
++        if roots.len() != 1 { return Err("multiple or missing enclosing boundaries".into()); }
++        let outer = roots[0];
++        if parents.iter().enumerate().any(|(i, p)| i != outer && p.as_slice() != [outer]) { return Err("nested holes or ambiguous enclosure".into()); }
++        // constructor已消费face sense建立loop-use方向；这里不能再次套source绝对符号。
++        // 只证明孔环与外环相反；不翻转任何环，绝对绕向仍交原kernel Test3检查。
++        let outer_orientation = orientations[outer];
++        if orientations.iter().enumerate().any(|(i, actual)| i != outer && *actual == outer_orientation) {
++            return Err("hole boundary winding matches enclosing boundary".into());
++        }
++        Ok(outer)
++    }
++
++}
++
++pub(crate) fn normalize_bound_order(body: &Body) -> Result<std::borrow::Cow<'_, Body>, String> {
++    bound_order::normalize(body)
++}
++
++// ---- 全域UV对应证书：不采样、不改网、不放宽tol ----------------------
++mod uv_proof {
++    // [INPUT]: 真实Line或BSpline/Ellipse的existing NURB与实际edge.interval。
++    // [OUTPUT]: 全域仿射/正有理控制网的outward L1界，无法证明则Err。
++    // [POS]: bound_order包含查询前的纯读证书；保留原kernel绕向/Level1。
++    // [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
++    use solidcore::{Vec3, curve::{curve::{Curve, CurveKind}, line::Line},
++        geom::extent1d::Extent1d, nurbs::{crv_basic::Curve as Nurb, math::{NOW, NOZ}},
++        surface::{plane::Plane, surface::{Surface, SurfaceKind}}};
++
++    #[derive(Clone, Copy)]
++    struct Bound { lo: f64, hi: f64 }
++    impl Bound {
++        const INVALID: Self = Self { lo: f64::NAN, hi: f64::NAN };
++        fn point(x: f64) -> Self { Self { lo: x, hi: x } }
++        fn valid(self) -> bool { self.lo.is_finite() && self.hi.is_finite() && self.lo <= self.hi }
++        fn add(self, b: Self) -> Self {
++            Self { lo: (self.lo+b.lo).next_down(), hi: (self.hi+b.hi).next_up() }
++        }
++        fn sub(self, b: Self) -> Self {
++            Self { lo: (self.lo-b.hi).next_down(), hi: (self.hi-b.lo).next_up() }
++        }
++        fn mul(self, b: Self) -> Self {
++            if !self.valid() || !b.valid() { return Self::INVALID; }
++            let products = [self.lo*b.lo, self.lo*b.hi, self.hi*b.lo, self.hi*b.hi];
++            if products.iter().any(|x| !x.is_finite()) { return Self::INVALID; }
++            Self { lo: products.into_iter().fold(f64::INFINITY,f64::min).next_down(),
++                hi: products.into_iter().fold(f64::NEG_INFINITY,f64::max).next_up() }
++        }
++        fn div(self, b: Self) -> Self {
++            if !b.valid() || b.lo <= 0.0 && b.hi >= 0.0 { return Self::INVALID; }
++            self.mul(Self { lo:(1.0/b.hi).next_down(), hi:(1.0/b.lo).next_up() })
++        }
++        fn abs_upper(self) -> f64 {
++            if self.valid() { self.lo.abs().max(self.hi.abs()) } else { f64::INFINITY }
++        }
++    }
++    type Point = [Bound; 3];
++    fn point(v: Vec3) -> Point { [v.x,v.y,v.z].map(Bound::point) }
++    fn norm(v: Point) -> f64 {
++        v.into_iter().fold(Bound::point(0.0),|s,x| s.add(Bound::point(x.abs_upper()))).hi
++    }
++    fn distance(a: Point, b: Point) -> f64 { norm(std::array::from_fn(|i| a[i].sub(b[i]))) }
++    fn unknown(reason: &str) -> String { format!("UV_PROOF_UNKNOWN: {reason}") }
++
++    struct Affine<'a> { plane: &'a Plane, origin: Point, u: Point, v: Point }
++    impl<'a> Affine<'a> {
++        fn new(plane: &'a Plane) -> Result<Self,String> {
++            let p=plane.position(); let scale=plane.uv_scale();
++            let out=Self { plane, origin:point(p.origin()),
++                u:point(p.x_axis()).map(|x| x.mul(Bound::point(scale.x))),
++                v:point(p.y_axis()).map(|x| x.mul(Bound::point(scale.y))) };
++            if out.origin.iter().chain(&out.u).chain(&out.v).any(|x| !x.valid()) {
++                return Err(unknown("non-finite plane affine data"));
++            }
++            Ok(out)
++        }
++        fn lift(&self, q: Point, weight: f64) -> Point {
++            std::array::from_fn(|i| self.origin[i].mul(Bound::point(weight))
++                .add(self.u[i].mul(q[0])).add(self.v[i].mul(q[1])))
++        }
++        fn clamp_bound(&self, hull: [Bound;2]) -> Result<f64,String> {
++            if self.plane.is_out_of_bounds_enabled() { return Ok(0.0); }
++            let d=self.plane.step_uv_domain();
++            let domains=[[d.u_min(),d.u_max()],[d.v_min(),d.v_max()]];
++            let mut total=Bound::point(0.0);
++            for (i, axis) in [self.u,self.v].into_iter().enumerate() {
++                let [lo,hi]=domains[i]; let h=hull[i];
++                if !h.valid() || !lo.is_finite() || !hi.is_finite() || lo>hi {
++                    return Err(unknown("invalid clamp domain/hull"));
++                }
++                let over=Bound::point(lo).sub(Bound::point(h.lo)).hi
++                    .max(Bound::point(h.hi).sub(Bound::point(hi)).hi).max(0.0);
++                total=total.add(Bound::point(over).mul(Bound::point(norm(axis))));
++            }
++            if !total.valid() { return Err(unknown("clamp bound overflow")); }
++            Ok(total.hi)
++        }
++    }
++    fn hull(points: impl IntoIterator<Item=Point>) -> Result<[Bound;2],String> {
++        let mut out=[Bound { lo:f64::INFINITY,hi:f64::NEG_INFINITY };2];
++        for p in points {
++            for i in 0..2 {
++                if !p[i].valid() { return Err(unknown("non-finite UV control hull")); }
++                out[i].lo=out[i].lo.min(p[i].lo); out[i].hi=out[i].hi.max(p[i].hi);
++            }
++        }
++        Ok(out)
++    }
++    fn accept(error: f64, clamp: f64, tol: f64) -> Result<(),String> {
++        let bound=Bound::point(error).add(Bound::point(clamp));
++        if !bound.valid() || bound.hi>tol {
++            return Err(format!("UV_PROOF_BOUND_EXCEEDS_TOL: bound={} tolerance={tol}",bound.hi));
++        }
++        Ok(())
++    }
++    fn line_end(line: &Line, t: f64) -> Result<Point,String> {
++        let n=line.natural_interval(); let a=line.step_interval();
++        if !line.is_bounded() || !t.is_finite() || t<n.min() || t>n.max()
++            || !n.min().is_finite() || !n.max().is_finite()
++            || !a.min().is_finite() || !a.max().is_finite()
++            || a.min()>=a.max() || solidcore::geom::tol::is_zero(n.length()) {
++            return Err(unknown("unbounded, degenerate or outside analytic line"));
++        }
++        let nlen=Bound::point(n.max()).sub(Bound::point(n.min()));
++        let numerator=Bound::point(t).sub(Bound::point(if line.inside_out() { n.max() } else { n.min() }));
++        let denominator=if line.inside_out() { Bound::point(0.0).sub(nlen) } else { nlen };
++        let step=Bound::point(a.min()).add(numerator.div(denominator)
++            .mul(Bound::point(a.max()).sub(Bound::point(a.min()))));
++        let origin=point(line.line_point()); let vector=point(line.line_vector());
++        let result: Point=std::array::from_fn(|i| origin[i].add(step.mul(vector[i]).mul(Bound::point(line.line_scale()))));
++        if result.iter().any(|x| !x.valid()) { return Err(unknown("analytic line bound overflow")); }
++        Ok(result)
++    }
++    fn lines(a: &Line, interval: &Extent1d, b: &Line, plane: &Affine<'_>, tol: f64) -> Result<(),String> {
++        let source=[line_end(a,interval.min())?,line_end(a,interval.max())?];
++        let n=b.natural_interval(); let uv=[line_end(b,n.min())?,line_end(b,n.max())?];
++        let lifted=uv.map(|q| plane.lift(q,1.0));
++        let forward=distance(source[0],lifted[0]).max(distance(source[1],lifted[1]));
++        let reverse=distance(source[0],lifted[1]).max(distance(source[1],lifted[0]));
++        accept(forward.min(reverse),plane.clamp_bound(hull(uv)?)?,tol)
++    }
++    fn nurb(curve: &Curve) -> Result<&Nurb,String> {
++        // Circle属于Ellipse；两者EvaluatePoint确实使用这份existing base，不重建理想conic。
++        let base=match curve.kind() {
++            CurveKind::BSpline(b)=>b, CurveKind::Ellipse(e)=>e.base(),
++            _=>return Err(unknown("unsupported curve representation")),
++        };
++        base.gw_nurb().ok_or_else(|| unknown("missing existing NURB"))
++    }
++    fn valid_nurb(c: &Nurb) -> Result<(),String> {
++        let p=c.degree(); let cp=c.cpts(); let knots=c.knots();
++        let expected=cp.len().checked_add(p).and_then(|n| n.checked_add(1));
++        if p==0 || p>=cp.len() || expected!=Some(knots.len())
++            || knots.iter().any(|x| !x.is_finite()) || knots.windows(2).any(|s| s[0]>s[1]) {
++            return Err(unknown("invalid complete NURB shape"));
++        }
++        let (lo,hi)=c.param_bounds();
++        if lo>=hi || knots[..=p].iter().any(|x| *x!=lo)
++            || knots[cp.len()..].iter().any(|x| *x!=hi) {
++            return Err(unknown("NURB is not end-clamped over its full domain"));
++        }
++        let non_rational=cp[0].w==NOW;
++        let mut repeat=1;
++        for j in p+1..cp.len() {
++            repeat=if knots[j]==knots[j-1] { repeat+1 } else { 1 };
++            if repeat>p || knots[j]<=lo || knots[j]>=hi {
++                return Err(unknown("unproven interior knot multiplicity"));
++            }
++        }
++        if cp.iter().any(|v| (v.w==NOW)!=non_rational || !v.x.is_finite() || !v.y.is_finite()
++            || (!non_rational && (!v.w.is_finite() || v.w<=0.0))) {
++            return Err(unknown("non-positive, mixed or non-finite homogeneous data"));
++        }
++        Ok(())
++    }
++    fn nets(source: &Curve, interval: &Extent1d, uv: &Curve, plane: &Affine<'_>, tol: f64) -> Result<(),String> {
++        let a=nurb(source)?; let b=nurb(uv)?; valid_nurb(a)?; valid_nurb(b)?;
++        let (lo,hi)=a.param_bounds();
++        if interval.min()!=lo || interval.max()!=hi || a.degree()!=b.degree()
++            || a.knots()!=b.knots() || a.cpts().len()!=b.cpts().len() {
++            return Err(unknown("bounded edge/full domain or rational basis mismatch"));
++        }
++        let mut error=0.0_f64; let mut uv_hull=[Bound { lo:f64::INFINITY,hi:f64::NEG_INFINITY };2];
++        for (p,q) in a.cpts().iter().zip(b.cpts()) {
++            let w=if p.w==NOW { 1.0 } else { p.w };
++            let qw=if q.w==NOW { 1.0 } else { q.w };
++            if w!=qw || !p.z.is_finite() || p.z==NOZ {
++                return Err(unknown("weights mismatch or non-3D source control"));
++            }
++            let qh=[q.x,q.y,0.0].map(Bound::point);
++            let lifted=plane.lift(qh,w); let ph=[p.x,p.y,p.z].map(Bound::point);
++            let delta: Point=std::array::from_fn(|i| ph[i].sub(lifted[i]).div(Bound::point(w)));
++            let bound=norm(delta);
++            if !bound.is_finite() { return Err(unknown("control-net bound overflow")); }
++            error=error.max(bound);
++            for i in 0..2 {
++                let v=qh[i].div(Bound::point(w));
++                if !v.valid() { return Err(unknown("control hull overflow")); }
++                uv_hull[i].lo=uv_hull[i].lo.min(v.lo); uv_hull[i].hi=uv_hull[i].hi.max(v.hi);
++            }
++        }
++        accept(error,plane.clamp_bound(uv_hull)?,tol)
++    }
++    pub(super) fn check(source: &Curve, interval: &Extent1d, uv: &Curve, surface: &Surface, tol: f64) -> Result<(),String> {
++        if !tol.is_finite() || tol<0.0 || source.dim()!=3 || uv.dim()!=2
++            || !interval.min().is_finite() || !interval.max().is_finite() || interval.min()>=interval.max() {
++            return Err(unknown("invalid dimensions, tolerance or bounded interval"));
++        }
++        let SurfaceKind::Plane(p)=surface.kind() else { return Err(unknown("not an actual plane")); };
++        let plane=Affine::new(p)?;
++        match (source.kind(),uv.kind()) {
++            (CurveKind::Line(a),CurveKind::Line(b))=>lines(a,interval,b,&plane,tol),
++            _=>nets(source,interval,uv,&plane,tol),
++        }
++    }
++}
++
++/// Proves full bounded coverage with analytic lines or a complete shared positive rational basis.
++pub(crate) fn check_planar_uv_projection(
++    _k: &Kernel,
++    source: &solidcore::curve::curve::Curve,
++    interval: &solidcore::geom::extent1d::Extent1d,
++    uv: &solidcore::curve::curve::Curve,
++    surface: &solidcore::surface::surface::Surface,
++    tol: f64,
++) -> Result<(), String> {
++    uv_proof::check(source,interval,uv,surface,tol)
++}
+--- a/crates/step-brep/src/lib.rs
++++ b/crates/step-brep/src/lib.rs
+@@ -1,2 +1,6 @@
++//! [INPUT]: STEP中性几何、构造前环包含证明与固定SolidCore。
++//! [OUTPUT]: 完整BRep构造/导入/导出；歧义环集合在所有构造路径前拒绝。
++//! [POS]: step-brep公共边界；保留Level1、绕向、公差和原几何。
++//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ //! Build solidcore B-rep bodies from the neutral [`step_import::Model`], and map a
+ //! B-rep back to [`step_import::Model`] for export.
+@@ -768,4 +772,6 @@
+     options: BuildOptions,
+ ) -> Result<BuiltBody, BuildError> {
++    let normalized = constructor::normalize_bound_order(body).map_err(|message| BuildError { message })?;
++    let body = normalized.as_ref();
+     let stitched_body = |(brep, pcurves), topology_note| BuiltBody {
+         brep,
+@@ -889,5 +895,6 @@
+ /// Why the topology-first build gave no B-rep.
+ pub fn build_from_topology(body: &Body, options: BuildOptions) -> Result<BuiltBody, BuildError> {
+-    build_topology(body, options, false)
++    let normalized = constructor::normalize_bound_order(body).map_err(|message| BuildError { message })?;
++    build_topology(normalized.as_ref(), options, false)
+         .map(|(brep, face_failures, _)| BuiltBody {
+             brep,
+@@ -1748,2 +1755,11 @@
+     }
+ }
++
++/// Checks the complete projected edge before STEP loop containment.
++/// A failed or unknown proof must not reach topology/fallback construction.
++pub fn check_planar_uv_projection(
++    k: &Kernel, source: &Curve, interval: &Extent1d, uv: &Curve, plane: &Surface, tolerance: f64,
++) -> Result<(), BuildError> {
++    constructor::check_planar_uv_projection(k, source, interval, uv, plane, tolerance)
++        .map_err(|message| BuildError { message })
++}
+--- a/crates/solidcore/src/curve/curve/p2.rs
++++ b/crates/solidcore/src/curve/curve/p2.rs
+@@ -1,2 +1,6 @@
++//! [INPUT]: 原有Curve具体几何、owner与有界递归evaluation-copy实现。
++//! [OUTPUT]: Curve公开API及保留精确knot/owner的只读evaluation copy。
++//! [POS]: SolidCore曲线对象分区；供STEP UV投影证明复用，算法不变。
++//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ //! `SmCurve`, part 2: the curve object ([`Curve`]: a concrete curve kind plus the
+ //! owner pointer) with its type queries, equality and owner links, the virtual
+@@ -788,5 +792,11 @@
+     /// NURBS data, without copy-constructor knot fix-up. Notification identity is
+     /// not copied: the temporary is not another notification target.
+-    pub(crate) fn clone_for_evaluation(&self) -> Result<Self> {
++    /// Public for downstream read-only evaluation; this is not an independently owned B-rep copy.
++    /// Unlike `Clone` or `copy`, this preserves the exact knot data without fix-up.
++    ///
++    /// # Errors
++    ///
++    /// `InvalidInput` when the geometry graph exceeds the shared nesting bound.
++    pub fn clone_for_evaluation(&self) -> Result<Self> {
+         self.clone_for_evaluation_depth(0)
+     }
