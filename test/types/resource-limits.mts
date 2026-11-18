@@ -14,3 +14,8 @@ const invalid:ResourceLimits={memoryGiB:3};
 // @ts-expect-error The active host view is immutable.
 cad.resourceLimits.stepBytes=12;
 void [model,reason,invalid];
+
+const lifecycle:Config={outputRoot:'./out',idleMs:600000,signal:new AbortController().signal,onProgress:event=>{const n:number=event.seq;void n;}};
+// @ts-expect-error Progress callbacks observe a closed native phase vocabulary.
+const badLifecycle:Config={outputRoot:'./out',onProgress:event=>{const invalid:'heartbeat'=event.phase;void invalid;}};
+void [lifecycle,badLifecycle];

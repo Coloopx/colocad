@@ -58,3 +58,4 @@ resource-budgets.md公共正文只保留资源合同、primary exporter链接和
 revision-memory-attribution.zh-CN.md: 0.1.1 revision-memory attribution, identical-byte layout experiments and proposed release gates.
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+execution-progress.md: 宿主停滞/显式墙钟/取消合同、原生事件与固定实例碰撞早检的边界。

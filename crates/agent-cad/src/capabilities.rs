@@ -1,6 +1,6 @@
-//! [INPUT]: 固定内核、宿主字节默认值及STEP计数策略。
-//! [OUTPUT]: 默认输入/独立STEP/reportBytes、固定摘要格式及STEP计数能力。
-//! [POS]: 公开执行合同，本地分支能力回执，不代表发布接受。
+//! [INPUT]: 固定内核、宿主资源策略与执行观测能力。
+//! [OUTPUT]: 字节预算、固定STEP摘要、原生进展及固定实例碰撞早检能力。
+//! [POS]: 公开执行合同，几何门限与观测生命周期分离。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Kernel policy and advertised implementation capabilities.
 use crate::*;
@@ -17,7 +17,7 @@ pub fn capabilities() -> Value {
         .filter_map(|s| s["properties"]["op"]["const"].as_str())
         .collect::<Vec<_>>();
     json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"units":["mm"],
-        "resource_limits":limits,"resource_limit_ceilings":ResourceLimits::CEILINGS,
+        "native_progress":{"schema":"colocad.progress/1","transport":"stderr_json_lines","feature_events":true,"periodic_heartbeat":false},"early_collision_checks":{"scope":"fixed_placements_without_mates","reuse_findings":true},"resource_limits":limits,"resource_limit_ceilings":ResourceLimits::CEILINGS,
         "step_artifact":{"digest_file":"model.step.sha256","digest_format":"sha256_lowerhex_newline","digest_bytes":65},
         "step_import":{"default_limits":step_import_limits::StepImportLimits::default(),"hard_limits":step_import_limits::StepImportLimits::HARD,"active_limits":step_import_limits::current(),"query_occurrences":128,"query_definitions":128,"preview_occurrences":128,"preview_definitions":128},
         "operations":operations,

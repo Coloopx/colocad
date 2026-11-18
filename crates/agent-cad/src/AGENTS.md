@@ -40,3 +40,6 @@ reportBytes：resources有界计量，main发布前双准入，executor记录che
 
 import_cache.rs: 单次构建mode+verifiedSHA单槽准入；definition只取有界本地定义，part仍完整展开/拒绝，逐件body选择不缓存。
 2026-11-15：外部STEP统一预算，内部生成预算独立；checkpoint绑定计数策略，扩展plain装配不扩大128快照/显示及8128精检对容量。
+progress.rs: 显式启用的stderr结构化特征/阶段事件，不发送定时心跳。
+
+early_checks.rs: 固定位姿下依赖就绪的精确碰撞早检，mate模型仍在求解后检查，最终收口复用原结果。

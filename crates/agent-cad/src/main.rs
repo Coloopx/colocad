@@ -1,6 +1,9 @@
-//! [INPUT]: 宿主字节/STEP计数参数与独立标准输入。[OUTPUT]: 有界CLI、STEP固定摘要和实际STEP/reportBytes回执及发布前双计量。
+//! [INPUT]: 宿主参数与独立标准输入。[OUTPUT]: 有界CLI、独立stderr进展、STEP摘要与发布前字节计量。
 //! [POS]: 模型无权覆盖宿主预算。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-use agent_cad::{build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError, Model};
+use agent_cad::{
+    build_revision_with_resource_limits, capabilities, validate_with_resource_limits, CadError,
+    Model,
+};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::io::{self, Read};
@@ -26,6 +29,11 @@ fn main() {
 fn run() -> Result<Value, CadError> {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     let count_limits = agent_cad::step_import_limits::host_args(&mut args)?;
+    if let Some(at) = args.iter().position(|arg| arg == "--progress") {
+        args.remove(at);
+        agent_cad::progress::enable();
+    }
+    agent_cad::progress::emit_command("started");
     let limits = agent_cad::resources::take_host_limits(&mut args)?;
     agent_cad::step_import_limits::with_import_limits(count_limits, || {
     let result = run_args(args, limits).and_then(|data| {
@@ -33,8 +41,12 @@ fn run() -> Result<Value, CadError> {
         Ok(data)
     });
     if let Err(error) = &result {
-        agent_cad::resources::check_report(&json!({"ok":false,"error":error}), limits.report_bytes)?;
+        agent_cad::resources::check_report(
+            &json!({"ok":false,"error":error}),
+            limits.report_bytes,
+        )?;
     }
+    agent_cad::progress::emit_command("completed");
     result
     })
 }
@@ -99,7 +111,11 @@ fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<
     if command == "query" {
         let request = serde_json::from_slice(&bytes)
             .map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-        return agent_cad::query::engine::execute_with_report_limit(Path::new(&args[2]), request, limits.report_bytes);
+        return agent_cad::query::engine::execute_with_report_limit(
+            Path::new(&args[2]),
+            request,
+            limits.report_bytes,
+        );
     }
     if command == "solve-sketch" {
         #[derive(serde::Deserialize)]
@@ -175,11 +191,19 @@ fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<
     } else {
         Default::default()
     };
-    let mut result = build_revision_with_resource_limits(&model, &mut cache, queryable.then_some(true), &limits)?;
+    let mut result = build_revision_with_resource_limits(
+        &model,
+        &mut cache,
+        queryable.then_some(true),
+        &limits,
+    )?;
     result.report["resource_usage"]["input_bytes"] = json!(bytes.len());
     let step_sha256 = format!("{:x}", Sha256::digest(result.step.as_bytes()));
     // ---------- 固定摘要与STEP同一原子目录发布；reader无需加载report ----------
-    result.artifacts.insert("model.step.sha256".into(), format!("{step_sha256}\n").into_bytes());
+    result.artifacts.insert(
+        "model.step.sha256".into(),
+        format!("{step_sha256}\n").into_bytes(),
+    );
     result.report["artifact_sha256"] = json!({"model.step":step_sha256});
     for (name, bytes) in &result.artifacts {
         result.report["artifact_sha256"][name] = json!(format!("{:x}", Sha256::digest(bytes)));

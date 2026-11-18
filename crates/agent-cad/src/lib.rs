@@ -10,6 +10,7 @@
 //! [POS]: crate公共边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 mod compound;
 mod distance;
+mod early_checks;
 pub mod engineering;
 mod exchange;
 mod grid;
@@ -21,6 +22,7 @@ mod network;
 pub mod operations;
 pub mod placement;
 pub mod preview;
+pub mod progress;
 pub mod query;
 pub mod regions;
 pub mod relationships;
@@ -70,8 +72,10 @@ mod validation;
 pub use capabilities::capabilities;
 pub(crate) use capabilities::kernel_policy;
 pub use error::CadError;
-pub use executor::{build, build_revision, build_revision_with_options, build_revision_with_resource_limits, Build};
-pub use resources::ResourceLimits;
+pub use executor::{
+    build, build_revision, build_revision_with_options, build_revision_with_resource_limits, Build,
+};
 pub(crate) use executor::{measured_volume, take_body};
 pub use model::*;
+pub use resources::ResourceLimits;
 pub use validation::{validate, validate_with_resource_limits};

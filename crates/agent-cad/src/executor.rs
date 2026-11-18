@@ -1,9 +1,7 @@
-/*
- * [INPUT]: 声明特征、宿主策略和版本缓存。
- * [OUTPUT]: 受下游容量约束的STEP/快照/显示构造回执。
- * [POS]: 原生确定性执行边界。
- * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
- */
+//! [INPUT]: 固定内核、声明特征与宿主预算。
+//! [OUTPUT]: 逐特征真实进展、依赖就绪碰撞拒绝和最终产物。
+//! [POS]: 原生特征调度；检查结果由装配复用。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Deterministic feature execution, exact validation and exports.
 //! Validates host budgets before checkpoint restore.
 //! Adjacent STEP imports share a source cache for this build.
@@ -143,7 +141,12 @@ pub fn build_revision_with_resource_limits(
     let mut imports = import_cache::ImportCache::default();
     let mut result = execute(model, cache, queryable, limits, &mut imports)?;
     result.report["step_source_cache"] = imports.report();
-    resources::check_bytes("outputStepBytes", result.step.len(), limits.output_step_bytes, false)?;
+    resources::check_bytes(
+        "outputStepBytes",
+        result.step.len(),
+        limits.output_step_bytes,
+        false,
+    )?;
     result.report["resource_limits"] = json!(limits);
     result.report["resource_usage"] = json!({"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>(),"output_step_bytes":result.step.len()});
     if let Some(recovery) = cache.recovery() { result.report["checkpoint_recovery"] = recovery; }
@@ -187,7 +190,14 @@ fn execute(
     let mut region_map = BTreeMap::new();
     let mut peak_live_bodies = 0;
     for f in &model.features {
-        if !matches!(f, Feature::ImportStep { assembly: false, .. }) {
+        crate::progress::emit("feature", "started", Some(f.id()));
+        if !matches!(
+            f,
+            Feature::ImportStep {
+                assembly: false,
+                ..
+            }
+        ) {
             imports.clear();
         }
         let tick = Instant::now();
@@ -211,6 +221,10 @@ fn execute(
                 trace.push(cached_trace);
                 bodies.insert(f.id().to_owned(), body);
                 peak_live_bodies = peak_live_bodies.max(bodies.len());
+                early
+                    .collision_checks
+                    .evaluate(&mut k, model, &bodies, f.id())?;
+                crate::progress::emit("feature", "completed", Some(f.id()));
                 early.finish_feature(&mut k, model, f.id(), &mut bodies, limits)?;
                 continue;
             }
@@ -460,7 +474,9 @@ fn execute(
                     }
                     b
                 }
-                other => operations::execute(&mut k, other, model, &mut bodies, &mut uses, imports)?,
+                other => {
+                    operations::execute(&mut k, other, model, &mut bodies, &mut uses, imports)?
+                }
             };
             if b.face_list().len() > 20_000 {
                 return Err(CadError::new("RESOURCE_LIMIT", "face budget exceeded"));
@@ -529,6 +545,10 @@ fn execute(
         }
         bodies.insert(f.id().to_string(), b);
         peak_live_bodies = peak_live_bodies.max(bodies.len());
+        early
+            .collision_checks
+            .evaluate(&mut k, model, &bodies, f.id())?;
+        crate::progress::emit("feature", "completed", Some(f.id()));
         early.finish_feature(&mut k, model, f.id(), &mut bodies, limits)?;
         region_map.retain(|id, _| uses.get(id).copied().unwrap_or(0) > 0);
     }
@@ -633,7 +653,12 @@ fn execute(
     } else {
         step_assembly::write_surface(&neutral)?
     };
-    resources::check_bytes("outputStepBytes", step.len(), limits.output_step_bytes, false)?;
+    resources::check_bytes(
+        "outputStepBytes",
+        step.len(),
+        limits.output_step_bytes,
+        false,
+    )?;
     let export_ms = tick.elapsed().as_secs_f64() * 1000.;
     let (artifacts, preview_report) = preview::finish(
         &mut k,
