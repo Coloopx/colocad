@@ -1,5 +1,7 @@
 # 正式版 0.1.1 的三后端复测
 
+[0.1.2 三后端连续改图复测](benchmark-revisions-0.1.2.md)
+
 2026 年 11 月 17 日直接从公共 npm 下载包并核对完整性。机械与版本历史使用 Linux arm64 上的 Colocad 0.1.1、CadQuery 2.8.0 和 build123d 0.13.0。正式包包含已合并的 STEP 预算、圆锥曲线极值和相邻定义解析复用改动。[English](benchmark-stable.md) · [运行标识、原生文件哈希和依赖列表](benchmarks/stable-0.1.1/observations.json)。
 
 ## 连续保存 256 个真实几何版本

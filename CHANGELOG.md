@@ -2,6 +2,12 @@
 
 Release notes cover supported geometry, package changes and measured workloads.
 
+## [0.1.2](https://github.com/Coloopx/colocad/releases/tag/v0.1.2) - 2026-11-17
+
+- New CLI recordings and the recorded Pi integrations store displaced geometry in indexed segments. The current head stays available for incremental edits. Use `colocad checkout SESSION STEP_ID NEW_DIRECTORY` to recover an earlier source, receipt, exact STEP, previews and checkpoints. [Storage and compatibility](docs/indexed-sessions.md)
+- The SDK supports `ModelingSession.create(dir, {storage: 'segmented'})`. Applications that rely on permanent loose file paths can keep using the SDK default. Existing sessions keep their storage layout. [Implementation and crash-recovery tests](https://github.com/Coloopx/colocad/pull/19)
+- Reran the README's 256-edit KK60 comparison against CadQuery and build123d. The report includes whole-sandbox peaks, late growth, kernel slab, durable edit latency and independent STEP readback. [Results](docs/benchmark-revisions-0.1.2.md)
+
 ## [0.1.1](https://github.com/Coloopx/colocad/releases/tag/v0.1.1) - 2026-11-17
 
 - The host can grant separate byte budgets for input assets, STEP output and diagnostic reports. SDK, CLI, native delivery and session readback enforce the corresponding limit. [Resource budgets](docs/resource-budgets.md) · [#6](https://github.com/Coloopx/colocad/pull/6)

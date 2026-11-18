@@ -49,10 +49,12 @@ benchmarks/: 可复现性能输入与运行脚本。
 evidence/: 固定版本测试与性能回执。
 integrations/: Agent宿主及建模接入说明。
 
-[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 本轮resource-budgets.md仅扩展PR6输出合同，静态回移不继承组合版本验收。
 
 resource-budgets.md: input/STEP默认保持，新增reportBytes默认8MiB/顶128MiB/最小1024B及精确stdout/file计量；PR6静态容量回移不继承组合版本接受。
 
 resource-budgets.md公共正文只保留资源合同、primary exporter链接和独立验收规则；内部批次/产品/控制器记录在忽略交接目录，实际buildprofile与counts待独立完成后填写。
 2026-11-15 api.md增加宿主STEP计数策略：默认/硬顶、SDK/native/Rust入口、结构化拒绝、checkpoint身份与不支持的下游容量。
+revision-memory-attribution.zh-CN.md: 0.1.1 revision-memory attribution, identical-byte layout experiments and proposed release gates.
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

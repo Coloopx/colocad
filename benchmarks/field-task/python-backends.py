@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import sqlite3
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('backend', choices=('cadquery', 'build123d'))
@@ -74,7 +75,7 @@ def checkpoint(edits):
     stats=dict(line.split() for line in (cg/'memory.stat').read_text().splitlines())
     return dict(edits=edits,current=int((cg/'memory.current').read_text()),
                 peak=int((cg/'memory.peak').read_text()),
-                **{k:int(stats[k]) for k in ('file','anon','kernel')})
+                **{k:int(stats[k]) for k in ('file','anon','kernel','slab')})
 
 orders=json.loads(Path(__file__).with_name('orders.json').read_text())
 receipts=[]; edit_steps=[]; points=[]; seq=0; prior=None
@@ -120,8 +121,10 @@ if args.edits:
     for i in range(1,args.edits+1):
         order={**orders[-1], 'gauge':5+((i-1)%5)*.5,'cameraPitch':16+((i-1)//5)*.25}
         seq+=1;path=out/f'edit-{i:03}.step'
+        start=time.perf_counter()
         sha=save(make_adapter(order,mount),order,path,seq)
-        edit_steps.append(dict(i=i,step=path.name,gauge=order['gauge'],cameraPitch=order['cameraPitch'],sha256=sha))
+        commit_ms=(time.perf_counter()-start)*1000
+        edit_steps.append(dict(i=i,commitMs=commit_ms,step=path.name,gauge=order['gauge'],cameraPitch=order['cameraPitch'],sha256=sha))
         if i==1 or i%4==0:points.append(checkpoint(i))
     db.close()
     cg=Path('/sys/fs/cgroup')
