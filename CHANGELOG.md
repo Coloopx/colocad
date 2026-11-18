@@ -2,6 +2,10 @@
 
 Release notes cover supported geometry, package changes and measured workloads.
 
+## [0.1.4](https://github.com/Coloopx/colocad/releases/tag/v0.1.4) - 2026-11-19
+
+- Restore the finite domain of STEP cylindrical faces before rebuilding the seam. In the thin-annulus regression, 16 of 16 loop representations round-trip with their bore and volume intact, compared with 8 in 0.1.3. A displaced vertex still triggers rejection. [PR #31](https://github.com/Coloopx/colocad/pull/31) · [Release verification](docs/release-0.1.4.md)
+
 ## [0.1.3](https://github.com/Coloopx/colocad/releases/tag/v0.1.3) - 2026-11-18
 
 - Native CLI builds, sessions and the modeling skill renew a host-controlled inactivity window on ordered progress. An optional wall deadline, host cancellation and structured failure receipts let a harness distinguish model repair from an execution budget expiry. [Execution policy](docs/execution-progress.md)
