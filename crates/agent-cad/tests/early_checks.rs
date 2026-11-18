@@ -78,3 +78,25 @@ fn mate_models_keep_post_solve_checks_and_rigid_group_placements_are_respected()
         json!(0.0)
     );
 }
+
+#[test]
+fn repeated_definitions_share_measurements_only_after_fixed_collision_checks() {
+    let mut v = model();
+    v["features"].as_array_mut().unwrap().truncate(1);
+    v["assembly"] = json!([{"id":"first","input":"a"},
+        {"id":"second","input":"a","translation":[20,0,0]}]);
+    let collision = v["checks"][0].clone();
+    let run = |value: &Value| {
+        build(&serde_json::from_value::<Model>(value.clone()).unwrap())
+            .unwrap()
+            .report
+    };
+    let fixed = run(&v);
+    assert_eq!(fixed["validation"]["translated_instance_reuses"], 1);
+    assert_eq!(fixed["assembly"]["checks"][0]["overlap_mm3"], 0.0);
+    v["checks"] = json!([collision, {"kind":"opening","opening":"first","target":"second","max_distance_mm":10,"min_overlap_mm3":0}]);
+    let mixed = run(&v);
+    assert_eq!(mixed["validation"]["translated_instance_reuses"], 0);
+    assert_eq!(mixed["assembly"]["checks"].as_array().unwrap().len(), 2);
+    assert_eq!(fixed["geometry"], mixed["geometry"]);
+}

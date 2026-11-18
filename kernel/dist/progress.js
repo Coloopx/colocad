@@ -41,3 +41,12 @@ export function progressReader(accept) {
         }
     };
 }
+/** Host defaults for GUI/CLI adapters launching a native command in their sandbox. */
+export function executionPolicyFromEnv(env) {
+    const idleMs = Number(env.COLOCAD_IDLE_MS ?? 120000);
+    const wallMs = env.COLOCAD_WALL_MS === undefined ? undefined : Number(env.COLOCAD_WALL_MS);
+    const onProgress = env.COLOCAD_PROGRESS === '1'
+        ? (event) => { process.stderr.write('COLOCAD_PROGRESS ' + JSON.stringify(event) + '\n'); }
+        : undefined;
+    return { idleMs, wallMs, onProgress };
+}

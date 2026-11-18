@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[0.1.3 正式版性能、内存与几何回归验收](release-0.1.3.md)
+
 正式版 `0.1.1` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
 
 [正式版 0.1.1 三后端性能、工程更改单与 256 版内存曲线](benchmark-stable.zh-CN.md)

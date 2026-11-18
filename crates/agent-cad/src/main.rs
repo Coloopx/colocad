@@ -172,11 +172,13 @@ fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<
     }
     let model: Model =
         serde_json::from_slice(&bytes).map_err(|e| CadError::new("SCHEMA_ERROR", e.to_string()))?;
-    validate_with_resource_limits(&model, &limits)?;
+    let input_bytes = bytes.len();
+    drop(bytes);
     if command == "validate" {
+        validate_with_resource_limits(&model, &limits)?;
         return Ok(
             json!({"valid":true,"scope":"schema_and_dependencies_only","model_hash":agent_cad::model_hash(&model),
-                "resource_limits":limits,"resource_usage":{"input_bytes":bytes.len(),"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>()}}),
+                "resource_limits":limits,"resource_usage":{"input_bytes":input_bytes,"total_step_bytes":model.assets.values().map(|a|a.step.len()).sum::<usize>()}}),
         );
     }
     let out = Path::new(&args[2]);
@@ -197,7 +199,7 @@ fn run_args(mut args: Vec<String>, limits: agent_cad::ResourceLimits) -> Result<
         queryable.then_some(true),
         &limits,
     )?;
-    result.report["resource_usage"]["input_bytes"] = json!(bytes.len());
+    result.report["resource_usage"]["input_bytes"] = json!(input_bytes);
     let step_sha256 = format!("{:x}", Sha256::digest(result.step.as_bytes()));
     // ---------- 固定摘要与STEP同一原子目录发布；reader无需加载report ----------
     result.artifacts.insert(

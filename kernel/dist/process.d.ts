@@ -12,6 +12,7 @@ export interface ProcessResult {
     idleTimedOut?: boolean;
     aborted?: boolean;
     lastProgress?: ExecutionProgress;
+    budgetMs?: number;
     outputBytes?: number;
     outputLimit?: number;
 }

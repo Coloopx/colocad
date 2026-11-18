@@ -19,4 +19,10 @@ A single expensive primitive can remain silent until it finishes. This change ex
 
 Collision checks with fixed placements run when both declared source features exist. They use the same exact material intersection, allowed-pair policy and overlap threshold as final assembly validation. Passing pair results are reused at final validation. A failing receipt includes both part IDs, source features, overlap and limit. The scheduler does not infer collisions from intermediate union/cut operands. Models with mates retain post-solve checking because solved placements may change.
 
-Tests use real child processes for supervision, deterministic later failures to establish early-check order, and actual native geometry for overlap, rigid placement, allowed pairs and mate fallback. Build the native executable from the same checkout before running SDK tests. This is a source change, not a published npm release.
+Tests use real child processes for supervision, deterministic later failures to establish early-check order, and actual native geometry for overlap, rigid placement, allowed pairs and mate fallback. Build the native executable from the same checkout before running SDK tests.
+
+## CLI and harness integration in 0.1.3
+
+Native CLI build, record, edit, inspect and query, and the bundled native build skill, use an inactivity window of 120,000 ms by default. Set `COLOCAD_IDLE_MS` in the host environment to admit a longer single primitive. Set `COLOCAD_WALL_MS` only when the host requires a total deadline. Set `COLOCAD_PROGRESS=1` to forward native events on stderr. Tool adapters can pass `executionPolicyFromEnv(process.env)` into `CadClient` or `ModelingSession`. Existing explicit SDK wall budgets continue to be enforced.
+
+A harness should route `ASSEMBLY_COLLISION` to model repair with the part IDs, measured overlap and threshold. On `IDLE_TIMEOUT` or `TIMEOUT`, show the failed stage and the applied host policy. Offer a changed budget or an edited recipe. Preserve host cancellation as a separate outcome. The native CLI build error includes the structured SDK receipt alongside its existing error string.

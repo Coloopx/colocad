@@ -610,6 +610,7 @@ fn execute(
     }
     let mut body = take_body(&mut k, &model.output, &mut bodies, &mut uses)?;
     let tick = Instant::now();
+    k.caches.enable_validation_property_memo();
     let check = check_brep(&mut k, &mut body, CheckLevel::Level1)?;
     if !check.is_valid() {
         return Err(CadError::new(
@@ -659,6 +660,7 @@ fn execute(
         limits.output_step_bytes,
         false,
     )?;
+    drop(neutral);
     let export_ms = tick.elapsed().as_secs_f64() * 1000.;
     let (artifacts, preview_report) = preview::finish(
         &mut k,

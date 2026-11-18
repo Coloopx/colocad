@@ -11,7 +11,7 @@ export default async function colocadExtension(pi) {
     try { session=await ModelingSession.create(directory,{storage:'segmented'}); }
     catch(error) { if(error.code!=='EEXIST')throw error; session=await ModelingSession.open(directory); }
   }
-  for (const tool of await createPiCadTools({ outputRoot, wallMs: 30_000 }, { session })) {
+  for (const tool of await createPiCadTools({ outputRoot, idleMs: 120_000 }, { session })) {
     pi.registerTool(tool);
   }
 }

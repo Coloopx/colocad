@@ -331,6 +331,7 @@ impl MeasuredPart {
         times: &mut InspectionTimes,
     ) -> Result<Self> {
         let t = Instant::now();
+        k.caches.enable_validation_property_memo();
         let check = check_brep(k, b, CheckLevel::Level1)?;
         if !check.is_valid() || !brep_is_manifold_solid(b)? {
             return Err(CadError::new(
@@ -409,7 +410,7 @@ fn definition(body: &Brep, limits: &ResourceLimits) -> Result<String> {
 
 impl EarlyParts {
     pub fn plan(m: &Model, uses: &BTreeMap<String, usize>, queryable: bool) -> Result<Self> {
-        let mut plan = Self::default();
+        let mut plan = Self { collision_checks: crate::early_checks::EarlyChecks::plan(m)?, ..Default::default() };
         if m.assembly.len() < 2
             || queryable
             || m.preview.is_some()
@@ -532,6 +533,8 @@ pub(crate) fn finish(
     let mut hi = [f64::NEG_INFINITY; 3];
     let early_count = early.ready.len();
     let p = &m.parameters;
+    // Fixed collision pairs were checked at their final placements. Other checks need live bodies.
+    let can_reuse = m.checks.is_empty() || (m.mates.is_none() && m.checks.iter().all(|c|matches!(c,AssemblyCheck::Collision{..})));
     for instance in &m.assembly {
         let source = instance.input.as_str();
         let pose = solved[&instance.id];
@@ -551,7 +554,7 @@ pub(crate) fn finish(
             pose.axes
                 .map(|axis| [axis.x, axis.y, axis.z].map(f64::to_bits)),
         );
-        let can_reuse = m.checks.is_empty();
+
         let previous = measurements
             .get(&key)
             .and_then(|&(origin, part): &(Vec3, MeasuredPart)| {
@@ -677,10 +680,10 @@ pub(crate) fn finish(
                         let allowed = allowed_pairs
                             .iter()
                             .any(|p| (&p[0] == a && &p[1] == b) || (&p[0] == b && &p[1] == a));
-                        let finding = if let Some(row) =
-                            early.collision_checks.findings.remove(&(check_index, i, j))
+                        let finding = if let Some(overlap) =
+                            early.collision_checks.overlaps.remove(&(check_index, i, j))
                         {
-                            row
+                            crate::early_checks::finding(a,b,allowed,threshold,overlap)?
                         } else {
                             crate::early_checks::collision_finding(
                                 k, &parts[a], &parts[b], a, b, allowed, threshold,

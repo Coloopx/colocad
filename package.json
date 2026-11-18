@@ -1,6 +1,6 @@
 {
   "name": "@coloopx/colocad",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Parametric feature instructions, a local Rust B-rep kernel and an experimental SolidWorks author",
   "license": "MIT",
   "type": "module",
@@ -99,7 +99,8 @@
     "showcase/hiwin-kk60/modeling-alpha9.gif",
     "examples/hybrid-enclosure",
     "docs/evidence/release-alpha.10.json",
-    "docs/benchmarks/stable-0.1.2"
+    "docs/benchmarks/stable-0.1.2",
+    "docs/benchmarks/stable-0.1.3"
   ],
   "scripts": {
     "schema": "node scripts/schema.mjs",

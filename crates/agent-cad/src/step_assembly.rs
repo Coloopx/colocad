@@ -357,7 +357,7 @@ pub(crate) struct Imported {
 }
 fn definitions(text: &str) -> Result<(StepFile, step_import::model::Model, f64)> {
     let f = step_import_limits::parse_external(text)?;
-    let model = step_import_limits::import_external(text)?;
+    let model = step_import_limits::map_external(&f,text)?;
     if !model.skipped.is_empty()||model.diagnostics.iter().any(|d|d.step_id.is_some()||d.message!=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances)){return Err(CadError::new("IMPORT_INCOMPLETE",format!("skipped={:?}; diagnostics={:?}",model.skipped,model.diagnostics)));}
     // The geometry mapper has already converted lengths to mm. Apply the same file unit to placements.
     fn unit(f: &StepFile, id: u64, depth: usize) -> Result<f64> {

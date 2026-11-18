@@ -1,5 +1,7 @@
 # Developer documentation
 
+[0.1.3 release verification and native regression cases](release-0.1.3.md)
+
 [Native execution progress and host inactivity supervision](execution-progress.md)
 
 [0.1.2 release benchmark: 256 saved edits, three CAD backends and independent STEP readback](benchmark-revisions-0.1.2.md)

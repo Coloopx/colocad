@@ -110,8 +110,16 @@ fn parse_error(error: step_import::ParseError) -> CadError {
 pub fn parse_external(text: &str) -> Result<step_import::part21::StepFile> {
     step_import::part21::parse(text.as_bytes(), &current().parser()).map_err(parse_error)
 }
-pub(crate) fn import_external(text: &str) -> Result<step_import::model::Model> {
-    let model = step_import::import(text.as_bytes(), &current().parser()).map_err(parse_error)?;
+pub(crate) fn map_external(file: &step_import::part21::StepFile, text: &str) -> Result<step_import::model::Model> {
+    // Preserve the pinned mapper's AP203 short-name normalization on its legacy path.
+    // Ordinary STEP files can map the exact syntax tree already used to validate units.
+    const SHORT: [&str; 11] = ["=FCSRF(", "=FCOTBN(", "=PLYLP(", "=CRTPNT(", "=DRCTN(", "=A2PL3D(", "=CLSSHL(", "=BSSWK(", "=BSCWK(", "=TRMCRV(", "=CMCRSG("];
+    let parser = current().parser();
+    let model = if SHORT.iter().any(|alias| text.contains(alias)) {
+        step_import::import(text.as_bytes(), &parser).map_err(parse_error)?
+    } else {
+        step_import::map::map_file(file, &parser)
+    };
     check(
         "step_definitions",
         model.bodies.len(),
