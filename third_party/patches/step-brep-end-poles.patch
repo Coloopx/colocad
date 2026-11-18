@@ -1,0 +1,61 @@
+--- a/crates/step-brep/src/constructor.rs
++++ b/crates/step-brep/src/constructor.rs
+@@ -12,6 +12,7 @@
+ //! them), up to [`skip_limit`] faces, the first failing face in file order each time.
+ //! Each left-out face is reported with the call that failed.
+ 
++use solidcore::curve::curve::{Curve, CurveKind};
+ use solidcore::geom::extent2d::Extent2d;
+ use solidcore::geom::vector3d::Point3;
+ use solidcore::kernel::Kernel;
+@@ -286,8 +287,14 @@
+             } else {
+                 (e.t_end, e.t_start)
+             };
+-            let curve = crate::make_curve(k, &e.curve, Some((lo.min(hi), lo.max(hi))))
++            let mut curve = crate::make_curve(k, &e.curve, Some((lo.min(hi), lo.max(hi))))
+                 .map_err(call("edge curve"))?;
++            if let step_import::model::Curve::BSpline(source) = &e.curve {
++                let expected = source.degree + 1;
++                if source.mults.first() == Some(&expected) && source.mults.last() == Some(&expected) {
++                    remove_zero_support_end_poles(&mut curve).map_err(call("spline endpoint"))?;
++                }
++            }
+             c.set_edge_curve(k, Some(curve), false)
+                 .map_err(call("SetEdgeCurve"))?;
+             c.set_limits(
+@@ -303,3 +310,34 @@
+     c.end_face().map_err(call("EndFace"))?;
+     Ok(made)
+ }
++
++/// Drop only the poles whose basis vectors have an exactly empty parameter
++/// interval after canonical construction. They cannot influence any span of the
++/// curve. The remaining poles, weights, knots and parameter interval stay intact.
++fn remove_zero_support_end_poles(curve: &mut Curve) -> Result<(), SolidError> {
++    let CurveKind::BSpline(spline) = curve.kind_mut() else {
++        return Ok(());
++    };
++    let Some(raw) = spline.gw_nurb() else {
++        return Ok(());
++    };
++    let knots = raw.knots();
++    let poles = raw.cpts();
++    let degree = raw.degree();
++    let first = knots.iter().take_while(|k| Some(*k) == knots.first()).count();
++    let last = knots.iter().rev().take_while(|k| Some(*k) == knots.last()).count();
++    if first < degree + 1 || last < degree + 1 {
++        return Ok(());
++    }
++    let start = first - degree - 1;
++    let end = last - degree - 1;
++    if start + end == 0 || poles.len() <= start + end + degree {
++        return Ok(());
++    }
++    let rebuilt = solidcore::nurbs::crv_basic::Curve::new(
++        poles[start..poles.len() - end].to_vec(),
++        degree,
++        knots[start..knots.len() - end].to_vec(),
++    )?;
++    spline.set_from_gw_nurb(Some(&rebuilt))
++}

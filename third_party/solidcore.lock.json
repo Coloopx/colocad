@@ -38,6 +38,17 @@
           "after": "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/step-brep-end-poles.patch",
+      "sha256": "3e3cc1e4e7f1a7ef9462939d7c7bb85aa989b749301328aa68a6b7418c76d965",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/constructor.rs",
+          "before": "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee",
+          "after": "9b748026bda52f6d773a58cfc3aaf54a974d19ec64b9b1c054d16c8ee3ff97ff"
+        }
+      ]
     }
   ]
 }

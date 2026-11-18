@@ -16,6 +16,8 @@ COPY third_party/patches/validation-properties.patch /tmp/validation-properties.
 RUN echo "81795bc323c58e63f73f8712b197881661a375df4ee07f55a324d18140a916ee  /tmp/validation-properties.patch" | sha256sum -c - && cd vendor/solidcore && patch -s -p1 < /tmp/validation-properties.patch && echo "9862a6b81c680d763e684639f0608c07945e40e59e0aa9e4013a70e3d9d1ad85  crates/solidcore/src/kernel.rs" | sha256sum -c - && echo "467598fe240eda887109387469650bf09bd01128272d907d3fc99d90186fc23c  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c -
 COPY third_party/patches/planar-conic-domain.patch /tmp/planar-conic-domain.patch
 RUN echo "081b1f711ab04506336c37c609ea92e868428e52663be8952e2447ffdccddb1e  /tmp/planar-conic-domain.patch" | sha256sum -c - && cd vendor/solidcore && echo "f6f01ffe341d010304b92ec71db252e083f144940866e878b3163a8363c09bbe  crates/step-import/src/script.rs" | sha256sum -c - && patch -s -p1 < /tmp/planar-conic-domain.patch && echo "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00  crates/step-import/src/script.rs" | sha256sum -c -
+COPY third_party/patches/step-brep-end-poles.patch /tmp/step-brep-end-poles.patch
+RUN echo "3e3cc1e4e7f1a7ef9462939d7c7bb85aa989b749301328aa68a6b7418c76d965  /tmp/step-brep-end-poles.patch" | sha256sum -c - && cd vendor/solidcore && echo "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee  crates/step-brep/src/constructor.rs" | sha256sum -c - && patch -s -p1 < /tmp/step-brep-end-poles.patch && echo "9b748026bda52f6d773a58cfc3aaf54a974d19ec64b9b1c054d16c8ee3ff97ff  crates/step-brep/src/constructor.rs" | sha256sum -c -
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds

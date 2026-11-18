@@ -9,4 +9,6 @@ validation-properties.patch: 固定配置/许可/构建输入；沿现有治理�
 
 变更：2026-11-15 G2补丁与Windows定向回归；不修改其它算法。
 
+step-brep-end-poles.patch: 拓扑重建过程删除精确零支撑 B 样条端点基函数。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
