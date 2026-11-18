@@ -223,7 +223,32 @@
      Ok((ok, sols))
  }
  
-@@ -1688,7 +1861,18 @@
+@@ -1460,8 +1633,22 @@
+             Some(d) => d,
+             None => self.degree()?,
+         };
+-        let ends_ok = mult(0)? == deg + 1 && mult(num_knots.wrapping_sub(1))? == deg + 1;
+-        rtn &= bool_report(&mut list, key, 1, ends_ok)?;
++        let (start_mult, end_mult) = (mult(0)?, mult(num_knots.wrapping_sub(1))?);
++        let ends_ok = start_mult == deg + 1 && end_mult == deg + 1;
++        rtn &= report(
++            &mut list, key, 1, ends_ok, UNDEF_DOUBLE, UNDEF_DOUBLE,
++            |entry| {
++                // Compare the raw knot vector with the tolerance-grouped knots.
++                let raw = cur.knots();
++                let raw_start = raw.iter().take_while(|knot| Some(*knot) == raw.first()).count();
++                let raw_end = raw.iter().rev().take_while(|knot| Some(*knot) == raw.last()).count();
++                let reason = entry.message.as_deref().unwrap_or("invalid endpoint knots");
++                entry.message = Some(format!(
++                    "{reason} (dimension={}, degree={deg}, grouped_start={start_mult}, grouped_end={end_mult}, raw_start={raw_start}, raw_end={raw_end})",
++                    self.dim,
++                ).into());
++            },
++        )?;
+         if !rtn {
+             return Ok(rtn);
+         }
+@@ -1688,7 +1875,18 @@
                  5.0
              };
  
@@ -243,7 +268,7 @@
                  let (first_derivs_ok, sols) = global_property_analysis(
                      k,
                      self,
-@@ -1792,7 +1976,19 @@
+@@ -1792,7 +1990,19 @@
  
              // Another type of kink check: vanishing radius of curvature.
              let mut radii = false;

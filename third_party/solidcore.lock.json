@@ -14,7 +14,7 @@
   "additional_patches": [
     {
       "path": "third_party/patches/validation-properties.patch",
-      "sha256": "52cd4d1abe53fc6e307e62bda61e37c61a9f4a8efd946eb957adadebb1d9b074",
+      "sha256": "81795bc323c58e63f73f8712b197881661a375df4ee07f55a324d18140a916ee",
       "targets": [
         {
           "target": "crates/solidcore/src/kernel.rs",
@@ -24,7 +24,7 @@
         {
           "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
           "before": "2efbdd8a7a49fe7e418bbfa011ad38522ef257b1c68986e0bc4b314650f6837e",
-          "after": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9"
+          "after": "467598fe240eda887109387469650bf09bd01128272d907d3fc99d90186fc23c"
         }
       ]
     },
