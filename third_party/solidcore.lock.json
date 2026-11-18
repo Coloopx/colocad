@@ -38,6 +38,17 @@
           "after": "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/periodic-seam-trims.patch",
+      "sha256": "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
+          "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
+        }
+      ]
     }
   ]
 }
