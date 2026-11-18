@@ -336,7 +336,10 @@ impl MeasuredPart {
         if !check.is_valid() || !brep_is_manifold_solid(b)? {
             return Err(CadError::new(
                 "GEOMETRY_VALIDATION_FAILED",
-                format!("instance {}: {}", id, check.lines().join("; ")),
+                format!(
+                    "instance {id}: {}",
+                    crate::geometry_diagnostics::failure_message(&check)
+                ),
             ));
         }
         times.level1_ms += t.elapsed().as_secs_f64() * 1000.;

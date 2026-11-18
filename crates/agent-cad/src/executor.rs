@@ -615,7 +615,7 @@ fn execute(
     if !check.is_valid() {
         return Err(CadError::new(
             "GEOMETRY_VALIDATION_FAILED",
-            check.lines().join("; "),
+            crate::geometry_diagnostics::failure_message(&check),
         ));
     }
     let level1_ms = tick.elapsed().as_secs_f64() * 1000.;

@@ -32,6 +32,8 @@ validation.rs: Schema, reference and resource validation, without kernel executi
 preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
 
+geometry_diagnostics.rs: 从已拒绝的 Level-1 回执提取高精度三维间隙和容差数值。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执；模型不能抬高预算。
 outputStepBytes贯通resources、executor、assembly及step_assembly，main同目录原子发布model.step.sha256；capabilities仅增加输出合同，原PR6几何/数量/单位不变。
