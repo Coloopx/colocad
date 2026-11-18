@@ -15,3 +15,11 @@ The same patch can reuse a completed pure spline solve for bit-identical poles, 
 The patch addresses an underestimated sampled domain that can send a planar rational-curve drop through clamping/fallback and lose an arc segment. Synthetic continuous-extrema, reversed interval, tilted plane, wrap, full turn and degenerate-projection cases are in `step_planar_conic_domain.rs`. A corrupted UV trim must still trigger the existing loop-gap check. The G3-B long-arc source is a private cross-check only: same mechanism and coverage remain unconfirmed until a fresh first-check Windows receipt. All runtime validation for this candidate is Windows/WSL2-only and currently pending.
 
 The closed-solid delivery control in `step_planar_conic_delivery.rs` rotates the seam of the public drilled-block fixture by 17 degrees together with both circular edges, cylindrical reference frame, corresponding plane pcurves, vertices and seam line. It exercises native import/build/export/readback and a deliberately inconsistent seam-vertex negative. This is a full-delivery non-regression control; it is not required to fail before the patch because the outer rectangular face already bounds the bore. Independent Windows OCP material comparisons remain unknown until actual receipts. No generated fixture, local geometry execution or G1 workaround is part of this candidate.
+
+`step-spherical-face-sense.patch` maps native spherical normal reversals
+(`swap_uv ^ inside_out`) to STEP `ADVANCED_FACE.same_sense`. STEP sphere
+frames and pcurves already use the outward analytic parameterization. The
+patch preserves the edge loops, geometric tolerances and import checks.
+Remove it when the pinned STEP bridge carries the same correction.
+[Native exchange regressions](../../crates/agent-cad/tests/step_spherical_face_sense.rs)
+cover ordinary and reflected rounded solids and enclosed spherical trims.

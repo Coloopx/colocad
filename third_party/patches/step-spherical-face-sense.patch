@@ -1,0 +1,14 @@
+--- a/crates/step-brep/src/brep_to_model.rs
++++ b/crates/step-brep/src/brep_to_model.rs
+@@ -454,6 +454,11 @@
+             let canonical = cone.canonical();
+             same_sense ^= canonical.swap_uv ^ canonical.inside_out;
+         }
++        // STEP spheres have outward normals even when the native surface reverses
++        // its NURBS normal. The analytic frame and STEP pcurves are already canonical.
++        if let solidcore::surface::surface::SurfaceKind::Sphere(sphere) = surf.kind() {
++            same_sense ^= sphere.base().swap_uv() ^ sphere.inside_out();
++        }
+         face_indices.push(faces.len());
+         face_by_id.insert(*id, faces.len());
+         faces.push(Face {

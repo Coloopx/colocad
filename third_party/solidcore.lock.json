@@ -38,6 +38,17 @@
           "after": "4f25ff2e1cf10b34f03bf7de7b0c46c1eb85d34a2e580518cc6e7d0b8d2aab00"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/step-spherical-face-sense.patch",
+      "sha256": "e435a5f73bf82053528c914acefac05861d77ce280fecd87920c76571b97108a",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/brep_to_model.rs",
+          "before": "73d1895f9947ca42cf12bbd155b27ee9bae29c90a00c30640e1fe6526a5f3fb3",
+          "after": "247f95d39ea4ad6ffe9642ef5ef6616b1036a6012fe747486ef51b91a1e129a9"
+        }
+      ]
     }
   ]
 }
