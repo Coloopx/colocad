@@ -1,6 +1,6 @@
-//! [INPUT]: PR6外部STEP合同和独立宿主输出字节预算。
-//! [OUTPUT]: 原产品树和按outputStepBytes计量的装配序列化。
-//! [POS]: STEP交换边界；实体/上下文/单位策略保持PR6基线。
+//! [INPUT]: 外部STEP实体/定义/诊断/单位共用准入与独立宿主输出字节预算。
+//! [OUTPUT]: 本地定义读取、完整产品树与按outputStepBytes计量的装配序列化。
+//! [POS]: cache definition止于共用来源准入；整树路径另查occurrence/group，几何/单位规则不变。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
 //! [INPUT]: 原始STEP和宿主单源字节策略。[OUTPUT]: 完整实例模板及原生STEP。
@@ -11,20 +11,16 @@ use step_import::part21::{self, Instance as StepInstance, Param, Record, StepFil
 fn failure(e: impl std::fmt::Display) -> CadError {
     CadError::new("STEP_ASSEMBLY", e.to_string())
 }
+#[cfg(test)]
 fn limits() -> step_import::Limits {
-    step_import::Limits {
-        max_entities: 100_000,
-        max_list_depth: 24,
-        max_ref_depth: 32,
-        max_list_len: 16_384,
-    }
+    step_import_limits::current().parser()
 }
 // Internal serialization is bounded separately from untrusted imported assets.
 // A valid lofted screw can exceed 100k STEP records before it is instanced.
 fn generated_limits() -> step_import::Limits {
     step_import::Limits {
         max_entities: 1_000_000,
-        ..limits()
+        ..step_import_limits::StepImportLimits::default().parser()
     }
 }
 fn quoted(s: &str) -> String {
@@ -354,13 +350,14 @@ pub(crate) struct ImportedGroup {
     pub local: Rigid,
 }
 pub(crate) struct Imported {
+    pub source_entities: usize,
     pub model: step_import::model::Model,
     pub instances: Vec<ImportedInstance>,
     pub groups: Vec<ImportedGroup>,
 }
-pub(crate) fn read(text: &str) -> Result<Imported> {
-    let f = part21::parse(text.as_bytes(), &limits()).map_err(failure)?;
-    let model = step_import::import(text.as_bytes(), &limits()).map_err(failure)?;
+fn definitions(text: &str) -> Result<(StepFile, step_import::model::Model, f64)> {
+    let f = step_import_limits::parse_external(text)?;
+    let model = step_import_limits::map_external(&f,text)?;
     if !model.skipped.is_empty()||model.diagnostics.iter().any(|d|d.step_id.is_some()||d.message!=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances)){return Err(CadError::new("IMPORT_INCOMPLETE",format!("skipped={:?}; diagnostics={:?}",model.skipped,model.diagnostics)));}
     // The geometry mapper has already converted lengths to mm. Apply the same file unit to placements.
     fn unit(f: &StepFile, id: u64, depth: usize) -> Result<f64> {
@@ -432,6 +429,14 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
         .unwrap()
         .parse::<f64>()
         .map_err(failure)?;
+    Ok((f, model, scale))
+}
+// -- 共用完整原件准入；单定义不消费产品树展开预算。 --
+pub(crate) fn read_definitions(text: &str) -> Result<step_import::model::Model> {
+    definitions(text).map(|(_, model, _)| model)
+}
+pub(crate) fn read(text: &str) -> Result<Imported> {
+    let (f, model, scale) = definitions(text)?;
     let body_map = model
         .bodies
         .iter()
@@ -534,6 +539,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                             .as_ref_id()
                             .ok_or_else(|| failure("representation item"))?;
                         if let Some(&body_index) = self.bodies.get(&id) {
+                            step_import_limits::check(
+                                "step_occurrences",
+                                out.len() + 1,
+                                step_import_limits::current().max_occurrences,
+                                "mapped_product",
+                            )?;
                             out.push(Owned {
                                 body_index,
                                 local: Rigid::default(),
@@ -570,6 +581,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                 for mut body in contents {
                     body.local = transform.compose(body.local);
                     body.maps.insert(0, id);
+                    step_import_limits::check(
+                        "step_occurrences",
+                        out.len() + 1,
+                        step_import_limits::current().max_occurrences,
+                        "mapped_product",
+                    )?;
                     out.push(body);
                 }
                 ancestors.remove(&id);
@@ -596,9 +613,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
             for rep in related {
                 self.collect(rep, seen, ancestors, out)?;
             }
-            if out.len() > 128 {
-                return Err(failure("at most 128 mapped instances per product"));
-            }
+            step_import_limits::check(
+                "step_occurrences",
+                out.len(),
+                step_import_limits::current().max_occurrences,
+                "mapped_product",
+            )?;
             Ok(())
         }
     }
@@ -621,9 +641,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
             if !ancestors.insert(id) || ancestors.len() > 32 {
                 return Err(failure("cyclic or too deep product tree"));
             }
-            if self.groups.len() >= 512 {
-                return Err(failure("at most 512 imported groups"));
-            }
+            step_import_limits::check(
+                "step_groups",
+                self.groups.len() + 1,
+                step_import_limits::current().max_groups,
+                "product_walk",
+            )?;
             let group_id = format!("assembly-{}", self.groups.len());
             self.groups.push(ImportedGroup {
                 id: group_id.clone(),
@@ -635,9 +658,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                     let mut parent = group_id.clone();
                     let mut entry_path = path.clone();
                     if !entry.maps.is_empty() {
-                        if self.groups.len() >= 512 {
-                            return Err(failure("at most 512 imported groups"));
-                        }
+                        step_import_limits::check(
+                            "step_groups",
+                            self.groups.len() + 1,
+                            step_import_limits::current().max_groups,
+                            "mapped_walk",
+                        )?;
                         parent = format!("mapping-{}", self.groups.len());
                         self.groups.push(ImportedGroup {
                             id: parent.clone(),
@@ -646,9 +672,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
                         });
                         entry_path.extend(entry.maps.iter().map(|id| format!("mapped-{id}")));
                     }
-                    if self.out.len() >= 128 {
-                        return Err(failure("at most 128 imported instances"));
-                    }
+                    step_import_limits::check(
+                        "step_occurrences",
+                        self.out.len() + 1,
+                        step_import_limits::current().max_occurrences,
+                        "product_walk",
+                    )?;
                     self.out.push(ImportedInstance {
                         id: format!("instance-{}", self.out.len()),
                         body_index: entry.body_index,
@@ -721,6 +750,12 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
             });
         }
     }
+    step_import_limits::check(
+        "step_occurrences",
+        walk.out.len(),
+        step_import_limits::current().max_occurrences,
+        "complete_source",
+    )?;
     let covered = walk
         .out
         .iter()
@@ -732,6 +767,7 @@ pub(crate) fn read(text: &str) -> Result<Imported> {
         ));
     }
     Ok(Imported {
+        source_entities: f.entities.len(),
         model,
         instances: walk.out,
         groups: walk.groups,
@@ -753,6 +789,9 @@ pub(crate) fn build(k: &mut Kernel, text: &str) -> Result<Brep> {
 
 /// Inspect a host-registered asset and emit a replayable, definition-sharing IR template.
 /// The host must attach the same verified asset under `source` before building it.
+pub fn inspect_with_import_limits(asset: &StepAsset, limits: StepImportLimits) -> Result<Value> {
+    step_import_limits::with_import_limits(limits, || inspect(asset))
+}
 pub fn inspect(asset: &StepAsset) -> Result<Value> {
     inspect_with_resource_limits(asset, &ResourceLimits::default())
 }
@@ -771,7 +810,7 @@ pub fn inspect_with_resource_limits(asset: &StepAsset, limits: &ResourceLimits) 
         .map(|g| json!({"id":g.id,"parent":g.parent,"pose":{"frame":frame(g.local)}}))
         .collect::<Vec<_>>();
     let instances=data.instances.iter().map(|i|json!({"id":i.id,"input":format!("definition-{}",i.body_index),"parent":i.parent,"metadata":{"step_path":i.path}})).collect::<Vec<_>>();
-    Ok(json!({"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source",
+    Ok(json!({"step_import_limits":step_import_limits::current(),"source_entities":data.source_entities,"asset_sha256":asset.sha256,"definitions":data.model.bodies.len(),"instances":data.instances.iter().map(|i|json!({"id":i.id,"body_index":i.body_index,"path":i.path,"world_placement":i.placement.json()})).collect::<Vec<_>>(),"model_template":{"version":1,"units":"mm","parameters":{},"features":features,"groups":groups,"assembly":instances},"required_asset_id":"source",
         "resource_limits":limits,"resource_usage":{"step_bytes":asset.step.len()}}))
 }
 

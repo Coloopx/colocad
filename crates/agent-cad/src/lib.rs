@@ -1,9 +1,16 @@
+/*
+ * [INPUT]: 宿主预算、声明式IR及固定原生内核。
+ * [OUTPUT]: 公开建模/验证及StepImportLimits与with_import_limits入口。
+ * [POS]: 原生库公共边界。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! A bounded, replayable feature IR over a pinned exact B-rep kernel.
 //! [INPUT]: 固定内核和声明式模型/宿主资源策略。
 //! [OUTPUT]: 默认兼容及显式宿主字节预算的Rust公共入口。
 //! [POS]: crate公共边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 mod compound;
 mod distance;
+mod early_checks;
 pub mod engineering;
 mod exchange;
 mod grid;
@@ -15,6 +22,7 @@ mod network;
 pub mod operations;
 pub mod placement;
 pub mod preview;
+pub mod progress;
 pub mod query;
 pub mod regions;
 pub mod relationships;
@@ -22,6 +30,10 @@ pub mod resources;
 pub mod sketch;
 mod solve;
 pub mod step_assembly;
+pub mod step_import_limits;
+pub use step_import_limits::{
+    build_revision_with_import_limits, validate_with_import_limits, StepImportLimits,
+};
 pub mod surfaces;
 use engineering::{Counterbore, OpenFace};
 pub mod assembly;
@@ -60,8 +72,10 @@ mod validation;
 pub use capabilities::capabilities;
 pub(crate) use capabilities::kernel_policy;
 pub use error::CadError;
-pub use executor::{build, build_revision, build_revision_with_options, build_revision_with_resource_limits, Build};
-pub use resources::ResourceLimits;
+pub use executor::{
+    build, build_revision, build_revision_with_options, build_revision_with_resource_limits, Build,
+};
 pub(crate) use executor::{measured_volume, take_body};
 pub use model::*;
+pub use resources::ResourceLimits;
 pub use validation::{validate, validate_with_resource_limits};

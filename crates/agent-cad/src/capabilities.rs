@@ -1,6 +1,6 @@
-//! [INPUT]: PR6固定内核和宿主资源默认值。
-//! [OUTPUT]: 默认输入/独立STEP/reportBytes预算及固定STEP摘要格式能力。
-//! [POS]: 公开执行合同，不添加其它未合PR能力。
+//! [INPUT]: 固定内核、宿主资源策略与执行观测能力。
+//! [OUTPUT]: 字节预算、固定STEP摘要、原生进展及固定实例碰撞早检能力。
+//! [POS]: 公开执行合同，几何门限与观测生命周期分离。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Kernel policy and advertised implementation capabilities.
 use crate::*;
@@ -17,8 +17,9 @@ pub fn capabilities() -> Value {
         .filter_map(|s| s["properties"]["op"]["const"].as_str())
         .collect::<Vec<_>>();
     json!({"protocol":"agent-cad/1","executor_version":EXECUTOR_VERSION,"execution_policy":EXECUTION_POLICY,"kernel":kernel_policy(),"units":["mm"],
-        "resource_limits":limits,"resource_limit_ceilings":ResourceLimits::CEILINGS,
+        "native_progress":{"schema":"colocad.progress/1","transport":"stderr_json_lines","feature_events":true,"periodic_heartbeat":false},"early_collision_checks":{"scope":"fixed_placements_without_mates","reuse_findings":true},"resource_limits":limits,"resource_limit_ceilings":ResourceLimits::CEILINGS,
         "step_artifact":{"digest_file":"model.step.sha256","digest_format":"sha256_lowerhex_newline","digest_bytes":65},
+        "step_import":{"default_limits":step_import_limits::StepImportLimits::default(),"hard_limits":step_import_limits::StepImportLimits::HARD,"active_limits":step_import_limits::current(),"query_occurrences":128,"query_definitions":128,"preview_occurrences":128,"preview_definitions":128},
         "operations":operations,
         "profiles":["rectangle","circle","ellipse","polygon","outline_lines_and_arcs","constrained_sketch"],
         "assembly":{"named_instances":true,"hierarchy":true,"shared_definitions":true,"construction_volumes":true,"representation_declarations":true,"poses":["normal","internal","exploded"],"checks":["collision","containment","opening","interface_compatibility","geometric_relationship"],"step":"native_product_instance_tree","mates":["fixed","coincident","concentric","plane","distance","revolute","prismatic"],"mate_direction":{"axis":["aligned","opposed","unoriented"],"frame":["aligned","opposed"],"frame_twist_deg":true,"default":"aligned","unoriented_branch":"initial_pose_fixed_during_local_solve"},"mate_physical_residual_units":["mm","rad"]},

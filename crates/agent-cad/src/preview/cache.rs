@@ -1,3 +1,9 @@
+/*
+ * [INPUT]: 显示缓存及固定128定义/实例容量。
+ * [OUTPUT]: 显示缓存重开或结构化容量拒绝。
+ * [POS]: preview边界，不以显示代替原生几何。
+ * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ */
 //! Checked display cache; no B-rep or exact measurement authority.
 use super::*;
 /// Display-only cache. It is tied to a built revision, pose and tessellation precision.
@@ -63,6 +69,18 @@ pub(super) struct Part<'a> {
 }
 impl MeshScene {
     pub(super) fn parts(&self) -> Result<Vec<Part<'_>>> {
+        step_import_limits::check(
+            "preview_occurrences",
+            self.instances.len(),
+            128,
+            "display_cache_reopen",
+        )?;
+        step_import_limits::check(
+            "preview_definitions",
+            self.meshes.len(),
+            128,
+            "display_cache_reopen",
+        )?;
         if self.schema == "agent-cad.mesh-scene.v1" && self.instances.is_empty() {
             return Ok(self
                 .meshes
@@ -74,10 +92,7 @@ impl MeshScene {
                 })
                 .collect());
         }
-        if self.schema != "agent-cad.mesh-scene.v2"
-            || self.instances.is_empty()
-            || self.instances.len() > 128
-        {
+        if self.schema != "agent-cad.mesh-scene.v2" || self.instances.is_empty() {
             return Err(CadError::new(
                 "INVALID_MESH_CACHE",
                 "invalid instance table",
@@ -139,7 +154,13 @@ pub fn observe(request: &ObserveRequest) -> Result<(BTreeMap<String, Vec<u8>>, V
             "cache schema, precision or pose differs; rebuild required",
         ));
     }
-    if scene.meshes.is_empty() || scene.meshes.len() > 128 {
+    step_import_limits::check(
+        "preview_definitions",
+        scene.meshes.len(),
+        128,
+        "display_cache_reopen",
+    )?;
+    if scene.meshes.is_empty() {
         return Err(CadError::new(
             "PREVIEW_BUDGET",
             "cache requires 1..128 meshes",

@@ -9,7 +9,7 @@ pub(crate) fn to_model(b: &Brep) -> std::result::Result<NeutralModel, step_brep:
     if brep_is_manifold_solid(b).map_err(|e| step_brep::ExportModelError {
         message: e.to_string(),
     })? {
-        let topology = (|| -> Result<Vec<step_import::model::Body>> {
+        let topology = (|| -> Result<Vec<Vec<step_import::model::Shell>>> {
             let indices = b
                 .face_list()
                 .iter()
@@ -44,15 +44,7 @@ pub(crate) fn to_model(b: &Brep) -> std::result::Result<NeutralModel, step_brep:
                 if shells.is_empty() {
                     continue;
                 }
-                let mut body = m.bodies[0].clone();
-                body.step_id = bodies.len() as u64 + 1;
-                body.kind = if shells.len() > 1 {
-                    step_import::model::BodyKind::SolidWithVoids
-                } else {
-                    step_import::model::BodyKind::ManifoldSolid
-                };
-                body.shells = shells;
-                bodies.push(body);
+                bodies.push(shells);
             }
             Ok(bodies)
         })()
@@ -60,7 +52,30 @@ pub(crate) fn to_model(b: &Brep) -> std::result::Result<NeutralModel, step_brep:
             message: e.to_string(),
         })?;
         if !topology.is_empty() {
-            m.bodies = topology;
+            // The bridge shares identical face/curve tables across its shell bodies.
+            // Move the original tables into the final region, cloning only for siblings.
+            let template = m
+                .bodies
+                .drain(..)
+                .next()
+                .expect("matched at least one shell");
+            let count = topology.len();
+            let mut source = Some(template);
+            for (i, shells) in topology.into_iter().enumerate() {
+                let mut body = if i + 1 == count {
+                    source.take().unwrap()
+                } else {
+                    source.as_ref().unwrap().clone()
+                };
+                body.step_id = i as u64 + 1;
+                body.kind = if shells.len() > 1 {
+                    step_import::model::BodyKind::SolidWithVoids
+                } else {
+                    step_import::model::BodyKind::ManifoldSolid
+                };
+                body.shells = shells;
+                m.bodies.push(body);
+            }
         }
     }
     // Solidcore's cone STEP conversion uses axial height for V. OCCT / ISO cone
@@ -111,24 +126,33 @@ pub(crate) fn build_body(k: &mut Kernel, body: &step_import::model::Body) -> Res
     if body.kind != BodyKind::SolidWithVoids {
         // The bridge shares geometry arrays across bodies. A standalone shell must not
         // feed unrelated faces to the stitched fallback, which builds every array entry.
-        let mut source = body.clone();
-        let used = source
+        let used: BTreeSet<_> = body
             .shells
             .iter()
-            .flat_map(|s| s.faces.iter().copied())
-            .collect::<BTreeSet<_>>();
-        let indices = used
-            .iter()
-            .enumerate()
-            .map(|(new, old)| (*old, new))
-            .collect::<BTreeMap<_, _>>();
-        source.faces = used.iter().map(|i| body.faces[*i].clone()).collect();
-        for shell in &mut source.shells {
-            for face in &mut shell.faces {
-                *face = indices[face];
-            }
+            .flat_map(|shell| shell.faces.iter().copied())
+            .collect();
+        if used.last().is_some_and(|&index| index >= body.faces.len()) {
+            return Err(CadError::new(
+                "IMPORT_INCOMPLETE",
+                "STEP shell references a missing face",
+            ));
         }
-        let made = step_brep::build_body(&source, step_brep::BuildOptions::default())
+        // A complete shell already uses the bridge's native face indices.
+        let mut subset;
+        let source = if used.len() == body.faces.len() {
+            body
+        } else {
+            subset = body.clone();
+            let indices: BTreeMap<_, _> = used.iter().enumerate().map(|(n, i)| (*i, n)).collect();
+            subset.faces = used.iter().map(|&i| body.faces[i].clone()).collect();
+            for shell in &mut subset.shells {
+                for face in &mut shell.faces {
+                    *face = indices[face];
+                }
+            }
+            &subset
+        };
+        let made = step_brep::build_body(source, step_brep::BuildOptions::default())
             .map_err(|e| CadError::new("IMPORT_FAILED", e.to_string()))?;
         if !made.face_failures.is_empty() {
             return Err(CadError::new("IMPORT_INCOMPLETE", "STEP body lost faces"));

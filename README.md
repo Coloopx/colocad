@@ -8,6 +8,8 @@
 
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
+**0.1.3** checks fixed-placement collisions when both source features are ready. In the 24-manifold release test, all 276 pairs were checked in **0.41 s** versus **5.89 s** in 0.1.2, with peak native RSS of **26.3 MiB** versus **46.5 MiB**. Native CLI builds renew the host inactivity budget on kernel progress. Hosts can opt into larger plain STEP assemblies. [Execution policy](docs/execution-progress.md) · [STEP import limits](docs/api.md) · [Release verification](docs/release-0.1.3.md).
+
 **[Colocad 0.1.2](https://github.com/Coloopx/colocad/releases/tag/v0.1.2)** saved 256 KK60 assembly edits in a 512 MiB sandbox with a median peak of **82.9 MiB**. All 2,304 edited STEP deliveries across three backends passed independent readback. [Memory and save latency](#memory-over-256-saved-revisions) · [Mechanical workloads on 0.1.1](#mechanical-workloads-on-linux).
 
 ## What you can build
@@ -36,7 +38,7 @@ Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 npm install @coloopx/colocad
 ```
 
-Pin this release with `npm install --save-exact @coloopx/colocad@0.1.2`. Use `colocad checkout SESSION s0001 NEW_DIRECTORY` to retrieve a historical delivery. [Public npm install and geometry readback](https://github.com/Coloopx/colocad/releases/download/v0.1.2/registry-proof.json).
+Pin this release with `npm install --save-exact @coloopx/colocad@0.1.3`. Use `colocad checkout SESSION s0001 NEW_DIRECTORY` to retrieve a historical delivery. [Public npm install and geometry readback](https://github.com/Coloopx/colocad/releases/download/v0.1.3/registry-proof.json).
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
 
@@ -218,7 +220,7 @@ In one 100-second hand queue per backend, **52 / 63 / 52** completed revisions p
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.2/release-validation.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.3/release-validation.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).

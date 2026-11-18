@@ -18,13 +18,14 @@ mates.rs: Local six-DOF rigid assembly solving, followed by exact B-rep checks.
 model.rs: Declarative input contract and bounded scalar evaluation.
 naming.rs: Semantic topology names carried by kernel copy/split/merge notifications.
 network.rs: Tensor-product Gordon interpolation of intersecting polynomial guide curves.
-operations.rs: Geometric operations with explicit units, frames and re-evaluated selectors.
+operations.rs: 显式单位/坐标/选择器的几何操作；definition复用完整几何/单位准入，assembly与普通导入保留完整位姿门禁。
 placement.rs: Rigid placement shared by model instances, STEP and constraint solving.
 regions.rs: Lazy exact inspection regions propagated along the feature DAG.
 relationships.rs: Exact solid relationships. Boundary distance and material overlap are independent predicates.
 sketch.rs: Parametric 2D constraints. Initial coordinates select a local solution branch.
 solve.rs: Bounded deterministic Levenberg–Marquardt with numerical rank diagnostics.
-step_assembly.rs: AP203/AP214 product instances with exact local B-rep definitions and rigid placements.
+step_import_limits.rs: 宿主显式STEP实体/定义/occurrence/group策略、硬顶、结构化拒绝、query实际叶祖先链513路径预检、同步作用域及with_import_limits公共API。
+step_assembly.rs: 共用实体/定义/诊断/单位准入；单定义止于本地几何，AP203/AP214整装配另做全部刚性位姿展开。
 surfaces.rs: Tensor-product Bézier patches and exact parametric C2 bridge construction.
 validation.rs: Schema, reference and resource validation, without kernel execution.
 
@@ -37,4 +38,8 @@ outputStepBytes贯通resources、executor、assembly及step_assembly，main同�
 
 reportBytes：resources有界计量，main发布前双准入，executor记录checkpoint_recovery；incremental超大旧manifest只冷建。query/engine只在PR6原算法替换报告容量，不带D1 progress/preflight/计数策略。
 
-import_cache.rs: 单次构建最近一个已准入中性来源的mode+verifiedSHA复用与计数；失配先清槽，不缓存所选Body/BRep。
+import_cache.rs: 单次构建mode+verifiedSHA单槽准入；definition只取有界本地定义，part仍完整展开/拒绝，逐件body选择不缓存。
+2026-11-15：外部STEP统一预算，内部生成预算独立；checkpoint绑定计数策略，扩展plain装配不扩大128快照/显示及8128精检对容量。
+progress.rs: 显式启用的stderr结构化特征/阶段事件，不发送定时心跳。
+
+early_checks.rs: 固定位姿下依赖就绪的精确碰撞早检，mate模型仍在求解后检查，最终收口复用原结果。

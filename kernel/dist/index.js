@@ -7,3 +7,4 @@ export { createCadTools } from './tools.js';
 export { resolveBinary, resolveBinary as resolveWorker } from './binary.js';
 export { pose, occurrence, hardwareEnvelope, envelope, simplified, blindBoss } from './helpers.js';
 export { readModelFile, writeModelFile, editModelFile, readStepArtifact, readReportFile } from './files.js';
+export { executionPolicyFromEnv } from './progress.js';

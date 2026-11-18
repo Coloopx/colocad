@@ -25,6 +25,10 @@ snapshot_adversarial.rs: truncated_and_invalid_native_payloads_fail_without_pani
 surfaces.rs: planar_patch_thickens_to_exact_solid；c2_bridge_has_matching_analytic_boundary_jets 等公开行为回归。
 validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_reference 等公开行为回归。
 
+step_definition_policy.rs: 公开等价washer129同文件单定义/cache/整装配， 公开重复product原件的单定义/默认整装配/显式129控制、本地坐标、缓存命中/别名/索引与普通模式拒绝，保留实体/定义/字节/摘要/单位门禁。
+
+import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路径边界/浅层513组和preview-only真实控制。
+
 fixtures/: 原生及独立内核产生的公开回归输入。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
@@ -37,3 +41,5 @@ step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与�
 step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例。
 
 step_import_cache.rs: 10项解析计数红绿与公开revision冷建/全restore/单BodyIdx miss及严格权限控制、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
+
+early_checks.rs: 用后继确定性几何错误证明碰撞早拒，并验证固定变换、允许相交及最终收口记录。

@@ -1,11 +1,12 @@
 /**
- * [INPUT]: 公开模型、宿主配置及原生进程边界。
- * [OUTPUT]: 不可变STEP/reportBytes下的全命令/inspect/preview回执。
+ * [INPUT]: 公开模型、宿主字节/STEP计数配置及原生进程边界。
+ * [OUTPUT]: 不可变字节与计数快照下的全命令/inspect/preview回执。
  * [POS]: SDK宿主边界；保持模型、路径及资源权限分离。
  * [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
  */
 import { realpath } from 'node:fs/promises';
 import {readReportFile} from './files.js';
+import {stepImportArgs} from './step-import-limits.js';
 import { join, relative, isAbsolute, sep } from 'node:path';
 import { artifactJob } from './artifacts.js';
 import { resolveBinary } from './binary.js';
@@ -20,6 +21,7 @@ export { attachStep } from './assets.js';
 export class CadClient {
   private readonly byteLimits: Readonly<ByteLimits>;
   private readonly explicitByteLimits: boolean;
+  private readonly stepArgs:string[];
   private previousRevision?: string;
   private previousQueryable = false;
   private readonly previewCache = new Map<string, string>();
@@ -27,9 +29,10 @@ export class CadClient {
     const hostByteLimits = config.resourceLimits;
     this.byteLimits = resourceLimits(hostByteLimits);
     this.explicitByteLimits = hostByteLimits !== undefined;
+    this.stepArgs=stepImportArgs(config.stepImportLimits);
     if (config.runner && config.runner.mode !== 'native') throw Error('CAD executes in the current sandbox. Use the sandbox test harness for Docker experiments.');
-    if (config.wallMs !== undefined && (!Number.isFinite(config.wallMs) || config.wallMs < 1 || config.wallMs > 120_000)) {
-      throw Error('wallMs must be 1..120000');
+    for(const name of ['wallMs','idleMs'] as const){
+      const value=config[name];if(value!==undefined&&(!Number.isSafeInteger(value)||value<1||value>2_147_483_647))throw Error(name+' must be a positive timer integer');
     }
   }
   /** Immutable host policy shared by trusted file codecs and native requests. */
@@ -117,8 +120,10 @@ export class CadClient {
     }
     try {
       const binary = resolveBinary(this.config.binary ?? this.config.runner?.binary);
-      const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : args;
-      return receipt(await execute(binary, nativeArgs, input, this.config.wallMs ?? 30_000,this.byteLimits.reportBytes));
+      const nativeArgs = this.explicitByteLimits ? [...args, '--resource-limits', JSON.stringify(this.byteLimits)] : [...args];
+      if(this.config.idleMs!==undefined||this.config.onProgress)nativeArgs.push('--progress');
+      return receipt(await execute(binary, [...nativeArgs, ...this.stepArgs], input, this.config.wallMs??(this.config.idleMs===undefined?30_000:null),this.byteLimits.reportBytes,
+        {idleMs:this.config.idleMs,signal:this.config.signal,onProgress:this.config.onProgress}));
     } catch (cause) { return error('LOCAL_EXECUTION_FAILED', String(cause)); }
   }
 }

@@ -15,7 +15,7 @@ import { CadClient } from "../kernel/dist/index.js";
 export async function build(
   tree,
   destination,
-  { preview = false, queryable = false, binary, assetRoot } = {},
+  { preview = false, queryable = false, binary, assetRoot, idleMs = 120000, wallMs, signal, onProgress } = {},
 ) {
   if(tree?.format==='colocad/hybrid/1'){
     if(queryable||binary) throw Error('Hybrid builds use the local hybrid kernel and report.json');
@@ -30,10 +30,10 @@ export async function build(
   const stage = await mkdtemp(join(dirname(out), ".colocad-"));
   let owned = false;
   try {
-    const client = new CadClient({ outputRoot: stage, binary, wallMs: 120000 });
+    const client = new CadClient({ outputRoot: stage, binary, idleMs, wallMs, signal, onProgress });
     const result = await client.build(model,{queryable});
     if (!result.ok)
-      throw Error(result.error.code + ": " + result.error.message);
+      throw Object.assign(new Error(result.error.code + ": " + result.error.message), { receipt: result });
     const folder = result.data.artifact_directory;
     const receipt = JSON.parse(
       await readFile(join(folder, "report.json"), "utf8"),
