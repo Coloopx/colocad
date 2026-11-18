@@ -1,5 +1,7 @@
 # Three-backend measurements for Colocad 0.1.1
 
+[0.1.2 revision-history comparison](benchmark-revisions-0.1.2.md)
+
 On November 17, 2026 the benchmark downloaded and integrity-checked the public npm release. Linux arm64 workloads used Colocad 0.1.1, CadQuery 2.8.0 and build123d 0.13.0. The package includes the merged STEP budgets, planar-conic bounds and adjacent-source reuse fixes. [中文](benchmark-stable.zh-CN.md) · [Package, native hashes and exact image dependencies](benchmarks/stable-0.1.1/observations.json).
 
 ## Memory over 256 saved revisions

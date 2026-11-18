@@ -8,7 +8,7 @@
 
 Colocad turns explicit modeling instructions into editable source, exact STEP geometry and visual review artifacts. It runs alongside the agent and its harness **inside the same sandbox**. The npm package includes the compiled Rust kernel; installed modeling needs no Python, Rust toolchain, network or separate CAD service.
 
-**[Colocad 0.1.1](https://github.com/Coloopx/colocad/releases/tag/v0.1.1)** had the lowest sandbox peak in 22/23 mechanical cases. Saving 256 geometry edits to a KK60 assembly used a median peak of **91.3 MiB** across three independent sessions. [Memory by revision](#memory-over-256-saved-revisions) · [Three-backend mechanical cases](#mechanical-workloads-on-linux) · [Five product models](#five-product-appearance-models).
+**[Colocad 0.1.2](https://github.com/Coloopx/colocad/releases/tag/v0.1.2)** saved 256 KK60 assembly edits in a 512 MiB sandbox with a median peak of **82.9 MiB**. All 2,304 edited STEP deliveries across three backends passed independent readback. [Memory and save latency](#memory-over-256-saved-revisions) · [Mechanical workloads on 0.1.1](#mechanical-workloads-on-linux).
 
 ## What you can build
 
@@ -36,7 +36,7 @@ Requires **Node.js 22+** on **Linux x64, Linux arm64 or macOS arm64**.
 npm install @coloopx/colocad
 ```
 
-The npm `latest` tag points to `0.1.1`. To pin it, run `npm install --save-exact @coloopx/colocad@0.1.1`. The release check installed from the public registry and exported the manifold with the CLI. OCCT reopened one valid 90 × 45 × 12 mm solid. [Installation and STEP readback](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json).
+Pin this release with `npm install --save-exact @coloopx/colocad@0.1.2`. Use `colocad checkout SESSION s0001 NEW_DIRECTORY` to retrieve a historical delivery. [Public npm install and geometry readback](https://github.com/Coloopx/colocad/releases/download/v0.1.2/registry-proof.json).
 
 The package ships JS/TS APIs, the CLI, native executables, viewer and complete skill. Rust source is in [crates/agent-cad](crates/agent-cad); the npm tarball contains compiled binaries. [Package and model formats](docs/concepts.md).
 
@@ -63,7 +63,7 @@ Prefer an API? Use the same kernel through a persistent session:
 ```js
 import { ModelingSession } from '@coloopx/colocad/session';
 
-const session = await ModelingSession.create('./sdk-history');
+const session = await ModelingSession.create('./sdk-history', {storage: 'segmented'});
 const result = await session.build({
   version: 1, units: 'mm', parameters: { length: 60 },
   features: [{ id: 'stock', op: 'box', origin: [0, 0, 0],
@@ -82,25 +82,23 @@ Give each backend the same source STEP. Resize the KK60 camera plate, cut a cabl
 
 ![Ten change orders replayed from the source files and the independently verified backend exports](docs/benchmarks/stable-0.1.1/engineering-changes.gif)
 
-**Colocad, CadQuery and build123d each delivered seven valid assemblies and rejected all three incompatible inputs.** Colocad exposes parameter edits, revision history and exact snapshot queries through the same SDK and CLI. In the history test, six earlier camera pitches were measured from saved native snapshots with zero geometry rebuilds. The Python adapters reopened six saved STEPs for the same measurements. Colocad used an exact circular-edge query where high-level blind-hole recognition on the imported saddle was partial. [Work orders, checks and limits](docs/benchmark-stable.md).
+**Colocad 0.1.1, CadQuery and build123d each delivered seven valid assemblies and rejected all three incompatible inputs.** Colocad exposes parameter edits, revision history and exact snapshot queries through the same SDK and CLI. In the history test, six earlier camera pitches were measured from saved native snapshots with zero geometry rebuilds. The Python adapters reopened six saved STEPs for the same measurements. Colocad used an exact circular-edge query where high-level blind-hole recognition on the imported saddle was partial. [Work orders, checks and limits](docs/benchmark-stable.md).
 
 ## Memory over 256 saved revisions
 
-Each edit changes the KK60 camera plate thickness or pitch and saves editable source, an exact STEP and a mesh preview. Each backend ran three sessions in rotated order on fresh Linux volumes with one CPU, 512 MiB and zero swap. **All 2,304 edited STEPs passed independent readback.**
+Colocad 0.1.2, CadQuery 2.8.0 and build123d 0.13.0 each revised the same KK60 camera adapter 256 times. Each backend ran three sessions in rotated order on fresh Linux volumes with one CPU, 512 MiB and zero swap. **All 2,304 edited STEPs passed independent OCCT readback.**
 
-![Median current memory by saved revision, three-run range and cumulative peak](docs/benchmarks/stable-0.1.1/revision-memory.gif)
+![Median current sandbox memory and cumulative peak by saved edit](docs/benchmarks/stable-0.1.2/revision-memory.gif)
 
-| Workflow | Peak MiB (median, range) | Current at edit 128 (MiB) | Current at edit 256 (MiB) | Last 128 edits (Δ MiB) |
-|---|---:|---:|---:|---:|
-| Colocad 0.1.1 | **91.3** (91.0–91.4) | 68.3 | 74.3 | +6.5 |
-| CadQuery 2.8.0 | **199.7** (199.6–200.3) | 195.5 | 195.9 | +0.8 |
-| build123d 0.13.0 | **268.1** (261.2–272.1) | 258.4 | 264.4 | +6.0 |
+| Backend | Peak MiB (range) | Edit 128 MiB | Edit 256 MiB | Last 128 edits Δ MiB | Edit p95 |
+|---|---:|---:|---:|---:|---:|
+| Colocad 0.1.2 | 82.9 (81.9–83.3) | 66.8 | 65.1 | -1.76 | 668 ms |
+| CadQuery 2.8.0 | 199.8 (199.7–200.0) | 195.5 | 195.8 | +0.45 | 55 ms |
+| build123d 0.13.0 | 270.9 (260.9–271.0) | 258.4 | 266.9 | +7.44 | 55 ms |
 
-Lines show post-commit cgroup memory. Shading spans the three trials. The kernel peak also captures allocations between saves. Late growth is the median paired change within a session. The Python adapters sync files and SQLite history. Colocad also retains native checkpoints and query snapshots. [Per-revision evidence and cache conditions](docs/benchmark-stable.md).
+Colocad used the new CLI's default segmented layout, selected in the SDK with `storage: 'segmented'`. Each session ended with 42 files in seven directories. Median kernel slab growth over the last 128 edits was **+0.08 MiB**. Both Python adapters completed the full edit faster on this task. Each backend retained editable input, STEP and a mesh. Colocad also retained native checkpoints and exact query snapshots. Edit p95 includes rebuilding and durable saving. Growth is the median of the within-session changes. [Method and individual trials](docs/benchmark-revisions-0.1.2.md) · [Offline single-file report](https://github.com/Coloopx/colocad/releases/download/v0.1.2/scorecard.html).
 
-The Colocad session peak was 54% below CadQuery and 66% below build123d. CadQuery 2.8.0 had the smallest paired change from edit 128 to 256 (+0.8 MiB). These 256 edits measure growth over this interval. They do not establish an asymptotic memory bound.
-
-![Late memory growth relative to each session’s own reading at edit 128](docs/benchmarks/stable-0.1.1/revision-growth.svg)
+![Change in whole-sandbox memory relative to each session's edit 128](docs/benchmarks/stable-0.1.2/revision-growth.svg)
 
 ## Sculpted housings and external meshes
 
@@ -197,7 +195,7 @@ The specified SenseCAP ellipse still fails release validation. Both timed implem
 
 ### Mechanical workloads on Linux
 
-The November 17 public-package rerun gave Colocad the lowest median peak in **22/23** cases and the shortest median time to STEP in **16/23**. Three fresh processes per backend and case produced 207 independently verified STEPs.
+The November 17 public-package test of Colocad 0.1.1 recorded the lowest median peak in **22/23** cases and the shortest median time to STEP in **16/23**. Three fresh processes per backend and case produced 207 independently verified STEPs.
 
 ![Fresh time to STEP and peak sandbox memory](docs/benchmarks/stable-0.1.1/scorecard.svg)
 
@@ -220,7 +218,7 @@ In one 100-second hand queue per backend, **52 / 63 / 52** completed revisions p
 
 ## Support and limits
 
-- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json).
+- Native packages: Linux x64/arm64 and macOS arm64, Node.js 22+. [Three-platform package verification](https://github.com/Coloopx/colocad/releases/download/v0.1.2/release-validation.json).
 - Editable JSON/programs and exact STEP are supported; STEP does not preserve a commercial CAD application's native feature tree.
 - General editable SOLIDWORKS output on Linux remains incomplete. The experimental Windows author requires licensed SOLIDWORKS, and a native rebuild pass is still unverified. [Native author status](docs/native-solidworks.md).
 - CAD checks, drawing interpretation, edit preservation, fit and manufacturing readiness are separate claims. [Validation scope](docs/validation.md).
@@ -234,7 +232,7 @@ In one 100-second hand queue per backend, **52 / 63 / 52** completed revisions p
 
 Use [exact queries and geometry-backed assembly](docs/engineering-queries.md), with a [runnable external STEP example](examples/engineering-queries/README.md). The [four ordered goals](specs/0005-capability-reliability-and-optimization.md) track functional coverage, geometry reliability, engineering usability, then benchmark-driven optimization. The SDK, CLI, tool schema and all three native targets ship together; this is a Colocad API, not CadQuery Python/API compatibility.
 
-The release passed 166 Rust tests, 88 Node tests and six integration tests. Under sandbox limits the 24-case corpus passed and 1/2 live Pi tasks passed on the first attempt. The actuator failed on its same-prompt repeat. [Sandbox results](docs/benchmark-stable.md#resident-pi-agent-and-harness) · [Release checks](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json).
+0.1.2 passed 93 SDK/CLI tests and six integration tests, including historical checkout, concurrent reads and recovery after a killed writer. [0.1.2 release checks](https://github.com/Coloopx/colocad/releases/download/v0.1.2/release-validation.json) · [0.1.1 geometry corpus and resident Pi experiments](docs/benchmark-stable.md#resident-pi-agent-and-harness).
 
 
 [Getting started](docs/getting-started.md) · [API](docs/api.md) · [Agent handbook](docs/agent-modeling-handbook.md) · [Skill](skills/colocad/SKILL.md) · [Troubleshooting](docs/troubleshooting.md) · [All documentation](docs/README.md)

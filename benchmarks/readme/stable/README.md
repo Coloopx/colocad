@@ -77,3 +77,14 @@ Run the external import check from the source checkout. Fourteen neutral fixture
 ```
 
 Use the native executable for the host running this command.
+
+## Three-backend history for 0.1.2
+
+Run from the source checkout, using an extracted 0.1.2 package with the matching native catalog in `$PKG`. Set `$PY` to Python 3.12 with OCP, NumPy, Matplotlib and Pillow. The host-side history checker uses Node and the matching host executable in the checkout. Each backend must finish and pass the independent verifier before generating the report.
+
+```sh
+"$PY" benchmarks/readme/stable/history.py "$OUT/history" --runtime "$PKG" --storage segmented --cpu 0
+"$PY" benchmarks/readme/stable/revision-release.py "$OUT/history" "$PKG" "$OUT/report"
+```
+
+The report writes a self-contained HTML page, the animated memory chart, the edit-128 growth plot, and the per-trial measurements. It verifies the session descriptor for the segmented run and records the runtime file digests. Keep the generated STEP and session files until the geometry, archive and chart checks have passed. The published 0.1.2 dataset covers this revision workload. The mechanical matrix and product studies have separate versioned datasets.

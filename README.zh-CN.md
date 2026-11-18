@@ -8,7 +8,7 @@
 
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
-**[Colocad 0.1.1 正式版](https://github.com/Coloopx/colocad/releases/tag/v0.1.1)** 在 22/23 个机械用例中沙箱峰值最低。连续保存 256 次 KK60 几何修改，三个独立会话的累计峰值中位数为 **91.3 MiB**。[逐版内存](#连续保存-256-版的内存) · [三后端机械用例](#linux-沙箱机械用例) · [五款产品外观](#五款产品的外观建模)。
+**[Colocad 0.1.2](https://github.com/Coloopx/colocad/releases/tag/v0.1.2)** 在 512 MiB 沙箱中连续保存 256 次 KK60 装配修改，三轮峰值中位数为 **82.9 MiB**。三种后端合计交付的 2,304 份改图 STEP 全部通过独立回读。[逐版内存与保存耗时](#连续保存-256-版的内存) · [机械用例（0.1.1）](#linux-沙箱机械用例)。
 
 ## 可以用来做什么
 
@@ -35,7 +35,7 @@ flowchart LR
 npm install @coloopx/colocad
 ```
 
-npm 的 `latest` 指向 `0.1.1`。如需锁定版本，使用 `npm install --save-exact @coloopx/colocad@0.1.1`。发布验收从公共注册表安装，再用 CLI 导出歧管，OCCT 回读得到一个 90 × 45 × 12 mm 的有效实体。[安装与回读记录](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json)。
+固定版本可运行 `npm install --save-exact @coloopx/colocad@0.1.2`。CLI 可用 `colocad checkout SESSION s0001 NEW_DIRECTORY` 取回旧版本。[公共 npm 安装与几何回读](https://github.com/Coloopx/colocad/releases/download/v0.1.2/registry-proof.json)。
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
 
@@ -62,7 +62,7 @@ npx colocad replay ./history ./review.html
 ```js
 import { ModelingSession } from '@coloopx/colocad/session';
 
-const session = await ModelingSession.create('./sdk-history');
+const session = await ModelingSession.create('./sdk-history', {storage: 'segmented'});
 const result = await session.build({
   version: 1, units: 'mm', parameters: { length: 60 },
   features: [{ id: 'stock', op: 'box', origin: [0, 0, 0],
@@ -81,25 +81,23 @@ await session.edit({ length: 80 });
 
 ![十条工程更改单的输入和三个后端实际输出的 STEP 回读](docs/benchmarks/stable-0.1.1/engineering-changes.gif)
 
-**Colocad、CadQuery 和 build123d 都交付了七个有效装配，并正确拒绝三个不兼容输入。** Colocad 的 SDK/CLI 自带改参、版本历史和快照查询；实测六个旧版本的孔距时，Colocad 直接查询原生快照，几何重建次数为 0；两个 Python 适配器重开六份 STEP 完成了相同测量。Colocad 的高层盲孔识别在重导入滑台上仍返回部分覆盖，实测用精确圆边找到了安装位置。[任务、几何验收和限制](docs/benchmark-stable.zh-CN.md)。
+**Colocad 0.1.1、CadQuery 和 build123d 都交付了七个有效装配，并正确拒绝三个不兼容输入。** Colocad 的 SDK/CLI 自带改参、版本历史和快照查询；实测六个旧版本的孔距时，Colocad 直接查询原生快照，几何重建次数为 0；两个 Python 适配器重开六份 STEP 完成了相同测量。Colocad 的高层盲孔识别在重导入滑台上仍返回部分覆盖，实测用精确圆边找到了安装位置。[任务、几何验收和限制](docs/benchmark-stable.zh-CN.md)。
 
 ## 连续保存 256 版的内存
 
-在 1 vCPU、512 MiB、零交换的 Linux 沙箱中，连续改变相机板厚度和孔距。每次保存可编辑源、精确 STEP 和网格预览。三个后端各跑三轮，轮换次序、使用新数据卷，**2,304 份改图 STEP 全部独立回读通过**。
+Colocad 0.1.2、CadQuery 2.8.0 和 build123d 0.13.0 分别用同一输入连续修改 KK60 相机安装板 256 次。三个后端各跑三轮，轮换先后顺序，每轮新建 1 vCPU、512 MiB、无交换的 Linux 沙箱与数据卷，**2,304 份改图 STEP 全部通过独立 OCCT 回读**。
 
-![三种后端按已保存版本对齐的当前内存中位数、三轮范围和累计峰值](docs/benchmarks/stable-0.1.1/revision-memory.gif)
+![三后端随保存次数变化的沙箱内存和累计峰值](docs/benchmarks/stable-0.1.2/revision-memory.gif)
 
-| 工作流 | 累计峰值 MiB（中位数，范围） | 第 128 版 MiB | 第 256 版 MiB | 后 128 版净增 MiB |
-|---|---:|---:|---:|---:|
-| Colocad 0.1.1 | **91.3** (91.0–91.4) | 68.3 | 74.3 | +6.5 |
-| CadQuery 2.8.0 | **199.7** (199.6–200.3) | 195.5 | 195.9 | +0.8 |
-| build123d 0.13.0 | **268.1** (261.2–272.1) | 258.4 | 264.4 | +6.0 |
+| 后端 | 峰值 MiB（范围） | 第 128 版 MiB | 第 256 版 MiB | 后 128 版净增 MiB | 保存 p95 |
+|---|---:|---:|---:|---:|---:|
+| Colocad 0.1.2 | 82.9 (81.9–83.3) | 66.8 | 65.1 | -1.76 | 668 ms |
+| CadQuery 2.8.0 | 199.8 (199.7–200.0) | 195.5 | 195.8 | +0.45 | 55 ms |
+| build123d 0.13.0 | 270.9 (260.9–271.0) | 258.4 | 266.9 | +7.44 | 55 ms |
 
-曲线取保存后的 cgroup 当前读数，阴影表示三轮范围。峰值包含两次保存间的瞬时分配。后 128 版的增量按同一会话配对后取中位数。两套 Python 适配器均持久化到 SQLite 并同步文件，Colocad 还保存原生检查点与查询快照。[逐版原始数据与缓存条件](docs/benchmark-stable.zh-CN.md)。
+Colocad 使用新 CLI 的默认分段布局，SDK 通过 `storage: 'segmented'` 选择同一模式。每轮最终保留 42 个文件、7 个目录，后 128 版内核 slab 增量中位数为 **+0.08 MiB**。这个任务里，两套 Python 适配器的完整保存都更快。三端都保存可编辑输入、STEP 和网格，Colocad 另外保存原生检查点与精确查询快照。p95 计入重建及持久化，净增先在每轮中相减再取中位数。[实验方法与各轮结果](docs/benchmark-revisions-0.1.2.md) · [单文件离线报告](https://github.com/Coloopx/colocad/releases/download/v0.1.2/scorecard.html)。
 
-整段会话中，Colocad 的峰值比 CadQuery 低 54%，比 build123d 低 66%。从第 128 版到第 256 版，净增最小的是 CadQuery 2.8.0（+0.8 MiB）。这段曲线只能衡量已测试的 256 次修改，尚不能确定长期增长阶数。
-
-![后半段内存增量，每个会话以自己的第 128 版为零点](docs/benchmarks/stable-0.1.1/revision-growth.svg)
+![第 128 至 256 版的整组沙箱内存增量](docs/benchmarks/stable-0.1.2/revision-growth.svg)
 
 ## 有机外壳与外部网格
 
@@ -196,7 +194,7 @@ SenseCAP 的指定椭圆在正式版仍未通过校验，计时的两个后端�
 
 ### Linux 沙箱机械用例
 
-11 月 17 日使用 npm 正式包复测。23 个用例中，Colocad 在 **22/23** 个用例的峰值最低，在 **16/23** 个用例交付 STEP 最快。每个用例、后端均跑三个新进程，207 份 STEP 全部通过独立检查。
+11 月 17 日使用 Colocad 0.1.1 正式包测量。23 个用例中，Colocad 在 **22/23** 个用例的峰值最低，在 **16/23** 个用例交付 STEP 最快。每个用例、后端均跑三个新进程，207 份 STEP 全部通过独立检查。
 
 ![新进程交付 STEP 的耗时和沙箱峰值](docs/benchmarks/stable-0.1.1/scorecard.svg)
 
@@ -219,7 +217,7 @@ SenseCAP 的指定椭圆在正式版仍未通过校验，计时的两个后端�
 
 ## 支持范围与限制
 
-- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json)。
+- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.2/release-validation.json)。
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。
@@ -234,7 +232,7 @@ SenseCAP 的指定椭圆在正式版仍未通过校验，计时的两个后端�
 
 从[外部 STEP 示例](examples/engineering-queries/README.md)可以上手[精确查询与几何驱动装配](docs/engineering-queries.zh-CN.md)。[四阶段目标](specs/0005-capability-reliability-and-optimization.zh-CN.md)依次为功能覆盖、几何可靠性、工程可用性和基准测试驱动的优化。SDK、CLI、工具 schema 和三平台原生内核同步交付。查询接口采用 Colocad 自身的 API。
 
-本次正式版通过 166 项 Rust、88 项 Node 和 6 项集成测试。受限沙箱内的 24 项几何回归全部通过，驻留 Pi 的四孔板任务首轮通过。82 实体执行器任务首轮和原提示词重试均未完成验收。[受限沙箱实测](docs/benchmark-stable.zh-CN.md#驻留-pi-agent-与-harness) · [发布验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/release-validation.json).
+0.1.2 通过 93 项 SDK/CLI 回归和 6 项集成测试，测试覆盖历史版本取回、并发读取和写入进程中断后的恢复。[0.1.2 发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.2/release-validation.json) · [0.1.1 的几何语料与驻留 Pi 实验](docs/benchmark-stable.zh-CN.md#驻留-pi-agent-与-harness)。
 
 
 [入门](docs/getting-started.md) · [API](docs/api.md) · [完整建模指南](docs/agent-modeling-handbook.zh-CN.md) · [Skill](skills/colocad/SKILL.md) · [故障排查](docs/troubleshooting.md) · [全部文档](docs/README.zh-CN.md)

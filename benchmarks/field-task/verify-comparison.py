@@ -3,6 +3,7 @@ import argparse
 import hashlib,json,sqlite3
 from pathlib import Path
 import struct
+import tempfile
 import numpy as np
 from verify import verify
 
@@ -22,6 +23,19 @@ db_path=next((root/'session').glob('*.sqlite')) if native else root/'history.sql
 db=sqlite3.connect(db_path.resolve().as_uri()+'?immutable=1',uri=True)
 assert db.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
 assert db.execute('SELECT count(*) FROM '+('steps' if native else 'revisions')).fetchone()[0]==260
+# Read the cold format independently of the SDK before applying the same OCCT oracle.
+scratch=tempfile.TemporaryDirectory()
+def member(rel):
+    path=root/'session'/rel
+    if path.is_file():return path
+    segment,offset,length=db.execute('SELECT segment,offset,length FROM archived WHERE dir=?',(str(Path(rel).parent),)).fetchone()
+    with (root/'session'/'segments'/f'history-{segment}.pack').open('rb') as pack:
+        pack.seek(offset); item=json.loads(pack.read(length))[Path(rel).name]
+        pack.seek(item['offset']); data=pack.read(item['length'])
+    assert len(data)==item['length'] and hashlib.sha256(data).hexdigest()==item['sha256']
+    dest=Path(scratch.name)/Path(rel).name
+    dest.write_bytes(data)
+    return dest
 edits=[]
 for i,row in enumerate(doc['editSteps'],1):
     gauge=5+((i-1)%5)*.5; pitch=16+((i-1)//5)*.25
@@ -29,10 +43,10 @@ for i,row in enumerate(doc['editSteps'],1):
     if native:
         entry=json.loads(db.execute('SELECT entry FROM steps WHERE seq=?',(i+4,)).fetchone()[0])
         assert entry['id']==row['id'] and entry['status']=='succeeded'
-        revision=root/'session'/entry['artifactDirectory']
-        step=revision/'model.step';mesh=revision/'model.stl'
-        receipt=json.loads((root/'session'/entry['receiptFile']).read_text())
-        assert sha(root/'session'/entry['inputFile'])==entry['inputSha256']
+        revision=Path(entry['artifactDirectory'])
+        step=member(revision/'model.step');mesh=member(revision/'model.stl')
+        receipt=json.loads(member(entry['receiptFile']).read_text())
+        assert sha(member(entry['inputFile']))==entry['inputSha256']
         mesh_hash=receipt['data']['artifact_sha256']['model.stl']
     else:
         model,step_path,step_hash,mesh_path,mesh_hash=db.execute('SELECT model,step,digest,mesh,mesh_digest FROM revisions WHERE seq=?',(i+4,)).fetchone()
