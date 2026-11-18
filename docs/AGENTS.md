@@ -6,7 +6,7 @@ README.zh-CN.md: 开发与接入指南
 agent-modeling-handbook.md: Agent CAD handbook
 agent-modeling-handbook.zh-CN.md: Agent CAD 完整工作指南：资料、工具、建模闭环与调优
 agent-modeling-research.md: Research basis and evidence boundaries
-api.md: SDK, CLI and tool reference
+api.md: SDK/CLI、宿主字节/计数、cache单定义边界与0.1.1分代验证记录。
 benchmark-alpha10.md: Colocad alpha.10 performance and geometry
 benchmark-alpha10.zh-CN.md: Colocad alpha.10 性能与几何复测
 benchmark-alpha11-rc1.md: Engineering edits, memory growth and time to STEP
@@ -53,7 +53,8 @@ integrations/: Agent宿主及建模接入说明。
 resource-budgets.md: input/STEP默认保持，新增reportBytes默认8MiB/顶128MiB/最小1024B及精确stdout/file计量；PR6静态容量回移不继承组合版本接受。
 
 resource-budgets.md公共正文只保留资源合同、primary exporter链接和独立验收规则；内部批次/产品/控制器记录在忽略交接目录，实际buildprofile与counts待独立完成后填写。
-
+2026-11-15 api.md增加宿主STEP计数策略：默认/硬顶、SDK/native/Rust入口、结构化拒绝、checkpoint身份与不支持的下游容量。
 revision-memory-attribution.zh-CN.md: 0.1.1 revision-memory attribution, identical-byte layout experiments and proposed release gates.
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+execution-progress.md: 宿主停滞/显式墙钟/取消合同、原生事件与固定实例碰撞早检的边界。

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { executionPolicyFromEnv } from "../kernel/dist/index.js";
 import { dirname } from "node:path";
 import { open, writeFile } from "node:fs/promises";
 import { compileTree, build, kernelModel, CadClient } from "../src/index.mjs";
@@ -9,7 +10,7 @@ import { writeSolidWorks } from "../src/solidworks.mjs";
 const [cmd, input, output, ...flags] = process.argv.slice(2);
 const help = "colocad build HYBRID.json NEW_DIRECTORY\ncolocad head SESSION_DIRECTORY\ncolocad edit SESSION_DIRECTORY PARAMETERS.json\ncolocad inspect SESSION_DIRECTORY REQUEST.json\ncolocad migrate SESSION_DIRECTORY\ncolocad history SESSION_DIRECTORY [--after CURSOR --limit COUNT | --all]\n"+
   "colocad query REVISION_DIR REQUEST.json [--out NEW_RECEIPT.json]\n"+
-  "colocad build TREE.json NEW_DIRECTORY [--preview] [--queryable]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT] [--queryable] [--storage segmented|compact]\ncolocad checkout SESSION_DIRECTORY STEP_ID NEW_DIRECTORY\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad view SESSION_DIRECTORY [--no-open] [--port PORT] [--export OUTPUT.html] [--cutaway] [--view iso|front|side|top]\ncolocad render SESSION_DIRECTORY OUTPUT.mp4|OUTPUT.gif [--width N] [--height N] [--fps N] [--seconds-per-step N]\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT";
+  "colocad build TREE.json NEW_DIRECTORY [--preview] [--queryable]\ncolocad plan TREE.json\ncolocad record MODEL.json SESSION_DIRECTORY [--label TEXT] [--queryable] [--storage segmented|compact]\ncolocad checkout SESSION_DIRECTORY STEP_ID NEW_DIRECTORY\ncolocad replay SESSION_DIRECTORY OUTPUT.html\ncolocad view SESSION_DIRECTORY [--no-open] [--port PORT] [--export OUTPUT.html] [--cutaway] [--view iso|front|side|top]\ncolocad render SESSION_DIRECTORY OUTPUT.mp4|OUTPUT.gif [--width N] [--height N] [--fps N] [--seconds-per-step N]\ncolocad solidworks NATIVE-JOB.json NEW_FILE.SLDPRT\nNative commands: COLOCAD_IDLE_MS (default 120000), COLOCAD_WALL_MS (optional), COLOCAD_PROGRESS=1";
 async function readJsonInput(path) {
   const file=await open(path,'r');
   try {
@@ -34,7 +35,7 @@ try {
   }
   else if((cmd==='inspect'||cmd==='edit') && input && output && !flags.length) {
     const data=await readJsonInput(output);
-    const session=new ModelingSession(input,{wallMs:120000});
+    const session=new ModelingSession(input,executionPolicyFromEnv(process.env));
     if(cmd==='edit' && (!data || typeof data!=='object' || Array.isArray(data) ||
         !Object.keys(data).length || !Object.values(data).every(Number.isFinite))) {
       throw Error('Expected a JSON object with numeric parameter values');
@@ -65,7 +66,7 @@ try {
   }
   else if(cmd==='query'&&input&&output&&(flags.length===0||(flags.length===2&&flags[0]==='--out'))){
     const request=await readJsonInput(output);
-    const client=new CadClient({outputRoot:input,queryRoots:[input],wallMs:120000});
+    const client=new CadClient({outputRoot:input,queryRoots:[input],...executionPolicyFromEnv(process.env)});
     const receipt=await client.query(input,request);
     if(flags.length)await writeFile(flags[1],JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});
     if(receipt.ok)console.log(JSON.stringify(receipt));else{console.error(JSON.stringify(receipt));process.exitCode=1;}
@@ -92,8 +93,8 @@ try {
     if (cmd === "record" && output) {
       let label=input,queryable,storage;for(let i=0;i<flags.length;i++){if(flags[i]==='--queryable'&&queryable===undefined)queryable=true;else if(flags[i]==='--storage'&&storage===undefined&&['segmented','compact'].includes(flags[i+1]))storage=flags[++i];else if(flags[i]==='--label'&&flags[i+1]!==undefined)label=flags[++i];else throw Error(help);}
       let session;
-      try { session=await ModelingSession.create(output,{wallMs:120000,storage:storage??'segmented'}); }
-      catch(error) { if(error.code!=="EEXIST") throw error; session=await ModelingSession.open(output,{wallMs:120000}); }
+      try { session=await ModelingSession.create(output,{...executionPolicyFromEnv(process.env),storage:storage??'segmented'}); }
+      catch(error) { if(error.code!=="EEXIST") throw error; session=await ModelingSession.open(output,executionPolicyFromEnv(process.env)); }
       res=await session.build(spec.format==="colocad/1"?kernelModel(spec):spec,{label,queryable});
       if(!res.ok) process.exitCode=1;
     }
@@ -109,13 +110,13 @@ try {
       output &&
       flags.every(flag=>['--preview','--queryable'].includes(flag))&&new Set(flags).size===flags.length
     )
-      res = await build(spec, output, { preview: flags.includes('--preview'),queryable:flags.includes('--queryable') });
+      res = await build(spec, output, { ...executionPolicyFromEnv(process.env),preview: flags.includes('--preview'),queryable:flags.includes('--queryable') });
     else if (cmd === "solidworks" && output && !flags.length)
       res = await writeSolidWorks(spec, output);
     else throw Error(help);
     console.log(JSON.stringify(res));
   }
 } catch (e) {
-  console.error(JSON.stringify(cmd==='query'?{ok:false,error:{code:'CLI_QUERY_ERROR',message:e.message}}:{ error: e.message }));
+  console.error(JSON.stringify(cmd==='query'?{ok:false,error:{code:'CLI_QUERY_ERROR',message:e.message}}:{ error: e.message, ...(e.receipt ? {receipt:e.receipt} : {}) }));
   process.exitCode = 1;
 }

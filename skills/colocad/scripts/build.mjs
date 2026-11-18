@@ -21,7 +21,7 @@ try {
     } catch (e) { if (e.code !== 'ENOENT') throw e; }
   }
   if (!entry) throw Error('Install @coloopx/colocad in the current project first.');
-  const { CadClient } = await import(pathToFileURL(entry).href);
+  const { CadClient, executionPolicyFromEnv } = await import(pathToFileURL(entry).href);
   const model = JSON.parse(await readFile(input, 'utf8'));
   if (model.version !== 1 || (!model.output && !model.assembly?.length))
     throw Error('Expected a kernel model with output or assembly. For colocad/1 feature trees use colocad build.');
@@ -41,7 +41,7 @@ try {
   const dest = resolve(output);
   await mkdir(dest, { recursive: false });
   try {
-    const result = await new CadClient({ outputRoot: dest, wallMs: 120000 }).build(model);
+    const result = await new CadClient({ outputRoot: dest, ...(executionPolicyFromEnv ? executionPolicyFromEnv(process.env) : { wallMs: 120000 }) }).build(model);
     if (!result.ok) throw Error(JSON.stringify(result.error));
     console.log(JSON.stringify({ directory: result.data.artifact_directory, geometry: result.data.geometry }));
   } catch (error) {

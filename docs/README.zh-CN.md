@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[0.1.3 正式版性能、内存与几何回归验收](release-0.1.3.md)
+
 正式版 `0.1.1` 的 npm 安装、首个 STEP 实测和三平台验收已归档。 [安装验收](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json) · [五个外观模型的冷启动、常驻重建与内存对照](benchmark-appearance.zh-CN.md)
 
 [正式版 0.1.1 三后端性能、工程更改单与 256 版内存曲线](benchmark-stable.zh-CN.md)
@@ -109,3 +111,5 @@ test ! -e .agents/skills/colocad && \
 - [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)
 
 UV参数坐标与毫米距离的校验边界、平面/局部曲面度量及回归命令见[UV曲线校验](validation.md#uv-trim-validation-metric)。
+
+[原生进度与宿主停滞监督](execution-progress.md)：解除120秒专用上限，按真实事件续期；固定实例碰撞提前检查，mate仍在求解后检查。

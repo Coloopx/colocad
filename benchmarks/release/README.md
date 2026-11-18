@@ -65,3 +65,13 @@ python3 benchmarks/release/extend-scorecard.py "$DEST"
 ```
 
 The independent readbacks need the original STEP artifacts. After completing validation and rendering, the per-trial workspaces can be losslessly archived. Keep the public JSON, charts and cover as the portable comparison.
+
+## Native construction and import regression checks
+
+Run the two installed native executables against the same manifold, assembly and KK60 STEP inputs. Each process writes to a fresh directory. The runner alternates execution order, excludes the warm-up pair from medians and preserves the raw measurements and a STEP file for each successful case.
+
+```sh
+python3 benchmarks/release/native-comparison.py /path/to/baseline/agent-cad /path/to/candidate/agent-cad out/native-comparison
+```
+
+The measurement includes executable startup and delivery. macOS uses BSD time and Linux uses GNU time for peak RSS. Pair this with the cgroup test for whole-sandbox memory over saved revisions. [Release evidence](../../docs/release-0.1.3.md) · [Durable-edit workload](../field-task/README.md).

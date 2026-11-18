@@ -35,3 +35,7 @@ uv-trim-metric.test.mjs: 公开SDK的UV缩放单体/装配、STEP回读及真实
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 vendor-patches.test.mjs: 同目标顺序补丁重复准备幂等、伪造manifest目标/补丁/归档摘要拒绝，真实tar/patch消费合成来源。
+
+step-import-limits.test.mjs: 公开等价washer129同文件单定义/cache/整装配， 公开SDK单定义/同原件整装配三路控制与cache命中/alias/模式拒绝、低group/occurrence定义提取、实体N/N+1、127/128/129 mapped/global occurrence、默认/硬顶、完整数量/位姿及低预算checkpoint拒绝；getter/原型或非枚举toJSON不得改变已校验宿主快照。
+
+progress.test.mjs: 真实子进程的有效进度、无进展、取消及显式墙钟预算回归。

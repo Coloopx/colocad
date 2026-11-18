@@ -44,7 +44,7 @@ export function build(tree:import('./hybrid.mjs').HybridModel,destination:string
 export function build(
   tree: FeatureTree,
   destination: string,
-  options?: { preview?: boolean; queryable?: boolean; binary?: string },
+  options?: { preview?: boolean; queryable?: boolean; binary?: string } & Pick<import("../kernel/dist/types.js").Config, "idleMs" | "wallMs" | "signal" | "onProgress">,
 ): Promise<{
   directory: string;
   step: string;

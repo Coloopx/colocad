@@ -28,3 +28,6 @@ Choose the correct executable input:
 Build a meaningful feature or interface milestone, inspect its receipt and the relevant projection, then accept or repair it. Stable semantic IDs and parameter relationships should survive edits. Reuse definitions for repeated parts. `cad_validate` is preflight, not proof of geometry or dimensional correctness. On failure, use the feature ID and a quantitative check to make a targeted change; retain the failed attempt. Explicit degradations remain part of the result.
 
 Deliver editable source and exact STEP with the requested review artifacts. Check the dimensions/holes/clearances that distinguish success, and independently reopen significant STEP deliveries when a verifier is available. Say which checks ran. Rendering establishes appearance; fit, motion, editability and manufacturing claims require their own evidence.
+
+
+For slow native geometry, the CLI and bundled build script accept a host inactivity window through `COLOCAD_IDLE_MS`. Use `COLOCAD_PROGRESS=1` to inspect the last reported feature. On `ASSEMBLY_COLLISION`, repair the identified parts or placement and keep the original tolerance. On `TIMEOUT` or `IDLE_TIMEOUT`, inspect the host budget and last stage before changing the recipe or budget. [Execution policy](https://github.com/Coloopx/colocad/blob/v0.1.3/docs/execution-progress.md).
