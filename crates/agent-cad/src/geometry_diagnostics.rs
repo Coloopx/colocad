@@ -5,19 +5,22 @@
 use solidcore::geom::assert_array::{labels, AssertReport};
 use solidcore::math::UNDEF_DOUBLE;
 use solidcore::topology::brep::validation::BrepCheck;
-use std::{collections::BTreeSet, fmt::Write};
+use std::{collections::BTreeMap, fmt::Write};
 
 pub(crate) fn failure_message(check: &BrepCheck) -> String {
     let mut message = check.lines().join("; ");
-    let mut reported = BTreeSet::new();
-    for measurement in check.failures().filter_map(measurement) {
-        let (name, value, tolerance) = measurement;
-        if reported.insert(name) {
-            let _ = write!(
-                message,
-                "; precise {name} [mm]: value={value:.17e}, tolerance={tolerance:.17e}"
-            );
+    let mut worst: BTreeMap<&str, (f64, f64)> = BTreeMap::new();
+    for (name, value, tolerance) in check.failures().filter_map(measurement) {
+        let previous = worst.entry(name).or_insert((value, tolerance));
+        if (value - tolerance).abs() > (previous.0 - previous.1).abs() {
+            *previous = (value, tolerance);
         }
+    }
+    for (name, (value, tolerance)) in worst {
+        let _ = write!(
+            message,
+            "; precise {name} [mm]: value={value:.17e}, tolerance={tolerance:.17e}"
+        );
     }
     message
 }
@@ -25,7 +28,8 @@ pub(crate) fn failure_message(check: &BrepCheck) -> String {
 fn measurement(report: &AssertReport) -> Option<(&'static str, f64, f64)> {
     let name = match (report.reporting_type, report.list_index, report.test_index) {
         (labels::TRIMMING_TOOLS_TYPE, 3, 0) => "trim endpoint gap",
-        (labels::BREP_TYPE, 1, 59 | 60) => "edge-to-BRep tolerance",
+        (labels::BREP_TYPE, 1, 59) => "edge-to-BRep upper tolerance",
+        (labels::BREP_TYPE, 1, 60) => "edge-to-BRep lower tolerance",
         (labels::BREP_TYPE, 2, 0 | 2) => "edge-to-vertex gap",
         (labels::BREP_TYPE, 2, 1 | 3) => "vertex-to-face gap",
         _ => return None,
@@ -78,6 +82,31 @@ mod tests {
         assert!(!check.is_valid());
         assert!(result.contains("SmBrep::Test #59"));
         assert!(result.contains(&format!("value={offset:.17e}, tolerance={tol:.17e}")));
+    }
+
+    #[test]
+    fn reports_the_worst_residual_after_a_boundary_equality() {
+        let tol = 0.01_f64;
+        let excess = tol + 2.0e-5;
+        let mut pointer_reports = AssertArray::new();
+        pointer_reports.add_unique_delete_duplicate(report(labels::BREP_TYPE, 1, 59, tol, tol));
+        let mut worst = report(labels::BREP_TYPE, 1, 59, excess, tol);
+        worst.owner = Some(solidcore::geom::assert_array::ObjectKey(2));
+        pointer_reports.add_unique_delete_duplicate(worst);
+        let check = BrepCheck {
+            pointers_status: 1001,
+            pointer_reports,
+            assert_valid: None,
+            reports: AssertArray::new(),
+        };
+        let result = failure_message(&check);
+        assert!(result.contains(&format!("value={excess:.17e}, tolerance={tol:.17e}")));
+        assert_eq!(
+            result
+                .matches("precise edge-to-BRep upper tolerance")
+                .count(),
+            1
+        );
     }
 
     #[test]
