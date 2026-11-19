@@ -1,6 +1,6 @@
-//! [INPUT]: 公开闭合钻孔块及仅cap环引用顺序变化的派生STEP。
-//! [OUTPUT]: 完整native inspect/template build/export/reopen与几何恒等回归，可选create_new公开产物证据。
-//! [POS]: G3-A闭合交付正例；全链运行仅由Win统一队列执行。
+//! [INPUT]: 公开钻孔块、无标签有理曲线棱柱及平面多边形 STEP。
+//! [OUTPUT]: 检查、模板构建、导出与回读的几何一致性回归。
+//! [POS]: 平面边界分类的闭合实体交付测试。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use agent_cad::{build_revision_with_options, Model, StepAsset};
 use serde_json::{json, Value};
@@ -12,6 +12,8 @@ use std::path::Path;
 
 const ORIGINAL: &str = include_str!("fixtures/occt-drilled-block.step");
 const INNER_FIRST: &str = include_str!("fixtures/step-bound-order/drilled-block-inner-first.step");
+const BOUNDED_RATIONAL_PRISM: &str =
+    include_str!("fixtures/step-bound-order/bounded-rational-prism.step");
 const PROVENANCE: &str =
     include_str!("fixtures/step-bound-order/drilled-block-inner-first.provenance.json");
 
@@ -121,6 +123,30 @@ fn geometry(report: &Value) {
             assert!(
                 (report["geometry"]["bbox_mm"][i][j].as_f64().unwrap() - coordinate).abs() < 1e-5
             );
+        }
+    }
+}
+
+#[test]
+fn untagged_caps_with_a_bounded_rational_edge_preserve_public_delivery() {
+    let delivered = template_build(BOUNDED_RATIONAL_PRISM);
+    let reopened = template_build(&delivered.step);
+    for output in [delivered, reopened] {
+        assert_eq!(output.report["validation"]["valid"], true);
+        assert_eq!(output.report["validation"]["manifold"], true);
+        let geometry = &output.report["geometry"];
+        assert_eq!(geometry["solids"], 1);
+        let volume = geometry["volume_mm3"].as_f64().unwrap();
+        assert!((volume - 1082.8436797944164).abs() < 1e-4, "{volume}");
+        let bounds = [[-50.0 / 7.0, -17.0 / 3.0, 0.0], [50.0 / 7.0, 10.0, 5.0]];
+        for (i, corner) in bounds.iter().enumerate() {
+            for (j, coordinate) in corner.iter().enumerate() {
+                let actual = geometry["bbox_mm"][i][j].as_f64().unwrap();
+                assert!(
+                    (actual - coordinate).abs() < 1e-5,
+                    "{actual} != {coordinate}"
+                );
+            }
         }
     }
 }

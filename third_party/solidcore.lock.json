@@ -52,12 +52,12 @@
     },
     {
       "path": "third_party/patches/step-bound-order.patch",
-      "sha256": "6eddf108d12d5358f2f036d5a4ba3354585df1db7d89aa69621e8bbc3888de04",
+      "sha256": "bad755e400f3964408f99bb6573a9009f12b0ea3d8989faa8373bebeebe28124",
       "targets": [
         {
           "target": "crates/step-brep/src/constructor.rs",
           "before": "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee",
-          "after": "f806000adf94af940dacd448780b022ed3554ea1a952000cac8153e6e5c10112"
+          "after": "69923c21c4376b5cd2acb72c3b8c908be94e6b40c05d37604389738a3dc99cc5"
         },
         {
           "target": "crates/step-brep/src/lib.rs",

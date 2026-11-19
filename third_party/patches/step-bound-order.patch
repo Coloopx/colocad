@@ -8,10 +8,11 @@
  //! Topology-first construction: a body built from the file's own topology.
  //!
  //! The faces, loops, edges and vertices the file shares are made once each and joined
-@@ -303,3 +307,538 @@
+@@ -302,4 +306,572 @@
+     }
      c.end_face().map_err(call("EndFace"))?;
      Ok(made)
- }
++}
 +
 +mod bound_order {
 +    // [INPUT]: 原始中性Body、原有曲线构造及SolidCore严格几何查询。
@@ -195,6 +196,17 @@
 +        let curves = boundary_curves(&made.kernel, body, face, tol)?;
 +        boundaries_disjoint(&made.kernel, body, &curves, tol)?;
 +        let f = made.faces[0].0;
++        {
++            let face = made.brep.face_mut(f).map_err(|e| e.to_string())?;
++            let surface = face.surface.as_mut().ok_or("missing plane")?;
++            let SurfaceKind::Plane(plane) = surface.kind_mut() else { return Err("containment surface changed".into()); };
++            // The temporary plane must include the projected control hull. A
++            // tight face domain can clip a pole even when the entire edge lies
++            // inside it, forcing the drop to approximate an exact planar curve.
++            let domain = super::uv_proof::control_hull_domain(plane, face.uv_domain, curves.iter().map(|c| &c.curve))?;
++            plane.adjust_step_uv_domain(&domain).map_err(|e| e.to_string())?;
++            face.uv_domain = domain;
++        }
 +        let loops = solidcore::topology::face::p2::loops(&made.brep, f, false, None).map_err(|e| e.to_string())?;
 +        if loops.len() != face.loops.len() { return Err("boundary count changed".into()); }
 +        // 包含查询只消费经原3D曲线复核的派生UV；投影失真不能决定环序。
@@ -259,8 +271,8 @@
 +    // [OUTPUT]: 全域仿射/正有理控制网的outward L1界，无法证明则Err。
 +    // [POS]: bound_order包含查询前的纯读证书；保留原kernel绕向/Level1。
 +    // [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-+    use solidcore::{Vec3, curve::{curve::{Curve, CurveKind}, line::Line},
-+        geom::extent1d::Extent1d, nurbs::{crv_basic::Curve as Nurb, math::{NOW, NOZ}},
++    use solidcore::{Vec2, Vec3, curve::{curve::{Curve, CurveKind}, line::Line},
++        geom::{extent1d::Extent1d, extent2d::Extent2d}, nurbs::{crv_basic::Curve as Nurb, math::{NOW, NOZ}},
 +        surface::{plane::Plane, surface::{Surface, SurfaceKind}}};
 +
 +    #[derive(Clone, Copy)]
@@ -410,6 +422,28 @@
 +        Ok(())
 +    }
 +
++    pub(super) fn control_hull_domain<'a>(
++        plane: &Plane,
++        mut domain: Extent2d,
++        curves: impl Iterator<Item = &'a Curve>,
++    ) -> Result<Extent2d, String> {
++        domain = domain.union(&plane.step_uv_domain());
++        for curve in curves.filter(|curve| !matches!(curve.kind(), CurveKind::Line(_))) {
++            let net = nurb(curve)?;
++            valid_nurb(net)?;
++            for p in net.cpts() {
++                let w = if p.w == NOW { 1.0 } else { p.w };
++                let uv = plane.project_point_to_uv_domain(Vec3::new(p.x / w, p.y / w, p.z / w));
++                if !uv.x.is_finite() || !uv.y.is_finite() || p.z == NOZ {
++                    return Err(unknown("invalid projected control hull"));
++                }
++                domain.add_point(Vec2::new(uv.x.next_down(), uv.y.next_down()));
++                domain.add_point(Vec2::new(uv.x.next_up(), uv.y.next_up()));
++            }
++        }
++        Ok(domain)
++    }
++
 +    type Pole = [Bound; 4];
 +
 +    // Boehm insertion encloses every rounded homogeneous coordinate. A full
@@ -534,7 +568,7 @@
 +            _=>nets(source,interval,uv,&plane,tol),
 +        }
 +    }
-+}
+ }
 +
 +/// Proves full bounded coverage with analytic lines or a complete shared positive rational basis.
 +pub(crate) fn check_planar_uv_projection(

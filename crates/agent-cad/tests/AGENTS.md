@@ -34,7 +34,7 @@ fixtures/: 原生及独立内核产生的公开回归输入。
 step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
 
 step_bound_order.rs: 平面外环推定与拒绝歧义回归。
-step_bound_order_delivery.rs: 闭体 STEP 读写与拒绝反向孔环。
+step_bound_order_delivery.rs: 钻孔块、360 边轮廓和有理曲线棱柱的闭体 STEP 读写，保留反向孔环拒绝。
 step_planar_projection_proof.rs: 完整与裁剪有理区间的 UV 投影证明、夹紧和坏边拒绝。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

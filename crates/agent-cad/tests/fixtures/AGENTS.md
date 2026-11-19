@@ -5,7 +5,7 @@ nested-assembly.step: 原独立OCCT嵌套装配输入。
 occt-drilled-block.step: 原独立OCCT带孔块输入。
 output-budget-box.json: 2×3×4mm公开小盒体，单体24mm³/两实例48mm³，供输出预算边界及缓存回放。
 
-step-bound-order/: 合成圆环和钻孔块的平面环边界顺序回归。
+step-bound-order/: 合成圆环、钻孔块和带有理曲线边的 OCCT 棱柱，用于平面环分类回归。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 
