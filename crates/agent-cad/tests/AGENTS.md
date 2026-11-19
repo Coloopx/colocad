@@ -35,7 +35,7 @@ step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏
 
 step_bound_order.rs: 平面外环推定与拒绝歧义回归。
 step_bound_order_delivery.rs: 闭体 STEP 读写与拒绝反向孔环。
-step_planar_projection_proof.rs: 有界曲线与完整 UV 投影一致性。
+step_planar_projection_proof.rs: 完整与裁剪有理区间的 UV 投影证明、夹紧和坏边拒绝。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。

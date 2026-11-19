@@ -1,6 +1,6 @@
 //! [INPUT]: 自有Line、全域有理网、真实Circle/Ellipse、bounded域及Plane clamp，调用生产共用proof helper。
-//! [OUTPUT]: 四个原red及十个全span/域/权重/conic正负控制，不依赖厂家CAD。
-//! [POS]: G3-A independent review I1；仅Win执行，red须先观察缺陷。
+//! [OUTPUT]: 全域、裁剪域、权重和圆锥曲线的投影证明与拒绝控制。
+//! [POS]: 平面边界排序的解析投影回归，不依赖厂家 CAD。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use solidcore::curve::{curve::Curve, line::Line};
 use solidcore::geom::axis2_placement::Axis2Placement;
@@ -167,6 +167,43 @@ fn different_knots_degree_weights_and_partial_source_domain_are_unknown() {
         2,
     );
     assert!(proof(&source, &quadratic).is_err());
+}
+
+#[test]
+fn projected_trimmed_rational_spans_cover_exactly_the_edge_interval() {
+    let plane = Plane::create_canonical(&Axis2Placement::IDENTITY).unwrap();
+    let mut kernel = Kernel::default();
+    kernel.fixes.query_statuses_pass_on = true;
+    for weights in [[NOW; 4], [1.0, 2.0, 0.5, 1.0]] {
+        let source = raw_curve(3, &CUBIC_POLES, &weights, &CUBIC_KNOTS, 3);
+        for (start, end) in [(0.0, 0.8), (0.2, 1.0), (0.2, 0.8)] {
+            let interval = Extent1d::from_min_max(start, end);
+            let dropped = plane
+                .drop_curve(
+                    &kernel,
+                    &plane.step_uv_domain(),
+                    &source,
+                    &interval,
+                    1e-5,
+                    false,
+                    true,
+                    None,
+                )
+                .unwrap();
+            assert_eq!(dropped.uv_curves.len(), 1);
+            let uv = &dropped.uv_curves[0];
+            let surface = plane.clone().into();
+            step_brep::check_planar_uv_projection(&kernel, &source, &interval, uv, &surface, 1e-5)
+                .unwrap();
+            let mut displaced = CUBIC_POLES;
+            displaced[1][2] += 0.01;
+            let off_plane = raw_curve(3, &displaced, &weights, &CUBIC_KNOTS, 3);
+            assert!(step_brep::check_planar_uv_projection(
+                &kernel, &off_plane, &interval, uv, &surface, 1e-5
+            )
+            .is_err());
+        }
+    }
 }
 
 #[test]

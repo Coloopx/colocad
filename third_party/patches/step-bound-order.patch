@@ -8,11 +8,10 @@
  //! Topology-first construction: a body built from the file's own topology.
  //!
  //! The faces, loops, edges and vertices the file shares are made once each and joined
-@@ -302,4 +306,454 @@
-     }
+@@ -303,3 +307,538 @@
      c.end_face().map_err(call("EndFace"))?;
      Ok(made)
-+}
+ }
 +
 +mod bound_order {
 +    // [INPUT]: 原始中性Body、原有曲线构造及SolidCore严格几何查询。
@@ -248,7 +247,7 @@
 +        Ok(outer)
 +    }
 +
- }
++}
 +
 +pub(crate) fn normalize_bound_order(body: &Body) -> Result<std::borrow::Cow<'_, Body>, String> {
 +    bound_order::normalize(body)
@@ -410,12 +409,97 @@
 +        }
 +        Ok(())
 +    }
++
++    type Pole = [Bound; 4];
++
++    // Boehm insertion encloses every rounded homogeneous coordinate. A full
++    // multiplicity at both limits separates the requested span without resampling.
++    fn split_knot(knots: &mut Vec<f64>, poles: &mut Vec<Pole>, u: f64, degree: usize) {
++        let first_knot = knots.partition_point(|&knot| knot < u);
++        let mut past_knot = knots.partition_point(|&knot| knot <= u);
++        while past_knot - first_knot <= degree {
++            let span = past_knot - 1;
++            let first = span - degree;
++            let last = first_knot - 1;
++            let duplicate = poles[last];
++            for i in (first + 1..=last).rev() {
++                let lower = Bound::point(knots[i]);
++                let alpha = Bound::point(u).sub(lower).div(Bound::point(knots[i + degree]).sub(lower));
++                let beta = Bound::point(1.0).sub(alpha);
++                poles[i] = std::array::from_fn(|j| poles[i - 1][j].mul(beta).add(poles[i][j].mul(alpha)));
++            }
++            poles.insert(last + 1, duplicate);
++            knots.insert(past_knot, u);
++            past_knot += 1;
++        }
++    }
++
++    fn bounded_net(
++        a: &Nurb,
++        interval: &Extent1d,
++        b: &Nurb,
++    ) -> Result<Vec<Pole>, String> {
++        let (lo, hi) = a.param_bounds();
++        let bounds = (interval.min(), interval.max());
++        if bounds.0 < lo || bounds.1 > hi || bounds == (lo, hi) || bounds != b.param_bounds()
++            || a.degree() != b.degree()
++        {
++            return Err(unknown("bounded edge/full domain or rational basis mismatch"));
++        }
++        let mut knots = a.knots().to_vec();
++        let mut poles: Vec<Pole> = a.cpts().iter().map(|p| {
++            [p.x, p.y, p.z, if p.w == NOW { 1.0 } else { p.w }].map(Bound::point)
++        }).collect();
++        if poles.iter().any(|p| !p[2].valid() || p[2].lo == NOZ) {
++            return Err(unknown("non-3D source control"));
++        }
++        let degree = a.degree();
++        split_knot(&mut knots, &mut poles, bounds.0, degree);
++        split_knot(&mut knots, &mut poles, bounds.1, degree);
++        let start = knots.partition_point(|&knot| knot < bounds.0);
++        let end = knots.partition_point(|&knot| knot <= bounds.1);
++        if &knots[start..end] != b.knots() {
++            return Err(unknown("trimmed curve has a different rational basis"));
++        }
++        Ok(poles[start..end - degree - 1].to_vec())
++    }
++
++    fn bounded_error(source: &[Pole], b: &Nurb, plane: &Affine<'_>, tol: f64) -> Result<(), String> {
++        let mut min_weight = f64::INFINITY;
++        let mut max_weight_delta = 0.0_f64;
++        let mut max_spatial_delta = 0.0_f64;
++        let mut max_lifted_distance = 0.0_f64;
++        let mut hull_points = Vec::with_capacity(source.len());
++        for (p, q) in source.iter().zip(b.cpts()) {
++            let qw = if q.w == NOW { 1.0 } else { q.w };
++            let weight = Bound::point(qw);
++            let uv = [q.x, q.y, 0.0].map(Bound::point);
++            let lifted = plane.lift(uv, qw);
++            if !p[3].valid() || p[3].lo <= 0.0 {
++                return Err(unknown("non-positive weight on trimmed interval"));
++            }
++            min_weight = min_weight.min(p[3].lo);
++            max_weight_delta = max_weight_delta.max(p[3].sub(weight).abs_upper());
++            max_spatial_delta = max_spatial_delta.max(distance([p[0], p[1], p[2]], lifted));
++            max_lifted_distance = max_lifted_distance.max(norm(lifted.map(|v| v.div(weight))));
++            hull_points.push(uv.map(|v| v.div(weight)));
++        }
++        // A/W − B/V = ((A−B) + (B/V)(V−W))/W. Identical knots make the
++        // nonnegative basis sum to one, so each maximum bounds every parameter.
++        let error = Bound::point(max_spatial_delta)
++            .add(Bound::point(max_lifted_distance).mul(Bound::point(max_weight_delta)))
++            .div(Bound::point(min_weight)).abs_upper();
++        accept(error, plane.clamp_bound(hull(hull_points)?)?, tol)
++    }
++
 +    fn nets(source: &Curve, interval: &Extent1d, uv: &Curve, plane: &Affine<'_>, tol: f64) -> Result<(),String> {
 +        let a=nurb(source)?; let b=nurb(uv)?; valid_nurb(a)?; valid_nurb(b)?;
 +        let (lo,hi)=a.param_bounds();
-+        if interval.min()!=lo || interval.max()!=hi || a.degree()!=b.degree()
-+            || a.knots()!=b.knots() || a.cpts().len()!=b.cpts().len() {
-+            return Err(unknown("bounded edge/full domain or rational basis mismatch"));
++        if interval.min()!=lo || interval.max()!=hi {
++            return bounded_error(&bounded_net(a, interval, b)?, b, plane, tol);
++        }
++        if a.degree()!=b.degree() || a.knots()!=b.knots() || a.cpts().len()!=b.cpts().len() {
++            return Err(unknown("full-domain rational basis mismatch"));
 +        }
 +        let mut error=0.0_f64; let mut uv_hull=[Bound { lo:f64::INFINITY,hi:f64::NEG_INFINITY };2];
 +        for (p,q) in a.cpts().iter().zip(b.cpts()) {
