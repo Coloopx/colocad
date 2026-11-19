@@ -1,0 +1,51 @@
+{
+  "schema": "colocad.public-closed-bound-order-fixture.v1",
+  "source": {
+    "path": "crates/agent-cad/tests/fixtures/occt-drilled-block.step",
+    "bytes": 18958,
+    "sha256": "576b003a1788fce49a3512f683aa8e1463e808fbcbd0bf6454f5c1ace7435675"
+  },
+  "derived": {
+    "path": "crates/agent-cad/tests/fixtures/step-bound-order/drilled-block-inner-first.step",
+    "bytes": 18958,
+    "sha256": "4a2abf77ea36c898478146bb49d64ec97aa16eea119a3899afc618f925bb6c61"
+  },
+  "changed_entity_ids": [
+    213,
+    342
+  ],
+  "caps": [
+    {
+      "face": 213,
+      "surface": 126,
+      "bounds_before": [
+        214,
+        262
+      ],
+      "bounds_after": [
+        262,
+        214
+      ],
+      "outer_bound_type_conversions": []
+    },
+    {
+      "face": 342,
+      "surface": 72,
+      "bounds_before": [
+        343,
+        369
+      ],
+      "bounds_after": [
+        369,
+        343
+      ],
+      "outer_bound_type_conversions": []
+    }
+  ],
+  "source_FACE_OUTER_BOUND_count": 0,
+  "unchanged_entity_count": 432,
+  "curves_points_directions_oriented_edges_bound_orientation_unchanged": true,
+  "new_or_deleted_entities": [],
+  "static_identity_check": "passed",
+  "native_red_green_and_OCP": "not_run_pending_Windows"
+}

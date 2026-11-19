@@ -49,6 +49,27 @@
           "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/step-bound-order.patch",
+      "sha256": "2757a4637340bd17999c52416f3d2458fa5bc9aab3002766fd17e6be7356e24b",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/constructor.rs",
+          "before": "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee",
+          "after": "5c275d5688cea086e8708bfffd52fbdd47b7fbc33a679a58b7087b5cef21cd00"
+        },
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3",
+          "after": "5295eb00c23ae1913501a1b2c3aba292a7d2304457a8154709043fc37a90aa66"
+        },
+        {
+          "target": "crates/solidcore/src/curve/curve/p2.rs",
+          "before": "4ada534d0c907e1510a571ff5859c6b017f8e46bb3e1cd9c28000e14579d0690",
+          "after": "c83787e0c9fa0412d0ce8ca5bf158b0c3cd1c953698eba463e44d58809493890"
+        }
+      ]
     }
   ]
 }

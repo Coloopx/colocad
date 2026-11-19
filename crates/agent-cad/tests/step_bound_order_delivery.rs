@@ -1,0 +1,312 @@
+//! [INPUT]: 公开钻孔块、无标签有理曲线棱柱及平面多边形 STEP。
+//! [OUTPUT]: 检查、模板构建、导出与回读的几何一致性回归。
+//! [POS]: 平面边界分类的闭合实体交付测试。
+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+use agent_cad::{build_revision_with_options, Model, StepAsset};
+use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
+use solidcore::topology::brep::validation::{check_brep, CheckLevel};
+use solidcore::Kernel;
+use std::io::Write;
+use std::path::Path;
+
+const ORIGINAL: &str = include_str!("fixtures/occt-drilled-block.step");
+const INNER_FIRST: &str = include_str!("fixtures/step-bound-order/drilled-block-inner-first.step");
+const BOUNDED_RATIONAL_PRISM: &str =
+    include_str!("fixtures/step-bound-order/bounded-rational-prism.step");
+const PROVENANCE: &str =
+    include_str!("fixtures/step-bound-order/drilled-block-inner-first.provenance.json");
+
+fn asset(text: &str) -> StepAsset {
+    StepAsset {
+        sha256: format!("{:x}", Sha256::digest(text.as_bytes())),
+        step: text.to_owned(),
+    }
+}
+
+fn template_build(text: &str) -> agent_cad::Build {
+    let source = asset(text);
+    let info = agent_cad::step_assembly::inspect(&source).unwrap();
+    assert_eq!(info["definitions"], 1);
+    assert_eq!(info["instances"].as_array().unwrap().len(), 1);
+    let mut model: Model = serde_json::from_value(info["model_template"].clone()).unwrap();
+    model.assets.insert("source".into(), source);
+    build_revision_with_options(&model, &mut Default::default(), Some(false)).unwrap()
+}
+
+fn write_new(directory: &Path, name: &str, bytes: &[u8]) {
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(directory.join(name))
+        .expect("evidence file must be new");
+    file.write_all(bytes).expect("write complete evidence");
+}
+
+fn retain_public_evidence(
+    original: &agent_cad::Build,
+    derived: &agent_cad::Build,
+    original_readback: &agent_cad::Build,
+    derived_readback: &agent_cad::Build,
+) {
+    let Some(directory) = std::env::var_os("COLOCAD_BOUND_ORDER_EVIDENCE_DIR") else {
+        return;
+    };
+    assert!(!directory.is_empty(), "explicit new evidence directory");
+    let directory = std::path::PathBuf::from(directory);
+    if let Some(parent) = directory.parent() {
+        std::fs::create_dir_all(parent).unwrap();
+    }
+    std::fs::create_dir(&directory).expect("preserve any prior evidence directory");
+    let mut files = Vec::new();
+    let mut save = |name: &str, bytes: &[u8]| {
+        write_new(&directory, name, bytes);
+        files.push(
+            json!({"path":name,"bytes":bytes.len(),"sha256":format!("{:x}",Sha256::digest(bytes))}),
+        );
+    };
+    let inputs = [
+        ("original", "original-input.step", ORIGINAL),
+        ("inner-first", "inner-first-input.step", INNER_FIRST),
+    ];
+    for (_, name, text) in inputs {
+        save(name, text.as_bytes());
+    }
+    save("fixture-provenance.json", PROVENANCE.as_bytes());
+    let builds = [
+        ("original-first", original),
+        ("inner-first-first", derived),
+        ("original-reopened", original_readback),
+        ("inner-first-reopened", derived_readback),
+    ];
+    for (label, build) in builds {
+        save(&format!("{label}.step"), build.step.as_bytes());
+        save(
+            &format!("{label}.report.json"),
+            &serde_json::to_vec_pretty(&build.report).unwrap(),
+        );
+    }
+    drop(save);
+    let optional_identity = |name| {
+        std::env::var(name).ok().map(|value| {
+            assert!(
+                value.len() == 64 && value.bytes().all(|c| c.is_ascii_hexdigit()),
+                "manifest SHA must be hex"
+            );
+            value
+        })
+    };
+    let manifest = json!({"schema":"colocad.g3a.public-closed-artifacts.v1",
+        "execution_kind":"Rust_integration_test_native_API_not_CLI", "phase":"green",
+        "status":"native_closed_test_delivery_passed", "models":0,
+        "source_manifest_sha256":optional_identity("COLOCAD_BOUND_ORDER_SOURCE_MANIFEST_SHA256"),
+        "vendor_manifest_sha256":optional_identity("COLOCAD_BOUND_ORDER_VENDOR_MANIFEST_SHA256"),
+        "test_binary_sha256":format!("{:x}",Sha256::digest(std::fs::read(std::env::current_exe().unwrap()).unwrap())),
+        "inputs":inputs.iter().map(|(label,name,text)|json!({"label":label,"step":name,"bytes":text.len(),"sha256":asset(text).sha256})).collect::<Vec<_>>(),
+        "deliveries":builds.iter().map(|(label,build)|json!({"label":label,"step":format!("{label}.step"),
+            "bytes":build.step.len(),"sha256":asset(&build.step).sha256,"native_report":build.report})).collect::<Vec<_>>(),
+        "files":files,"independent_OCCT":"pending_separate_verifier","private_G3_acceptance":"not_claimed"});
+    let bytes = serde_json::to_vec_pretty(&manifest).unwrap();
+    // 最后写manifest：中断只留下partial目录，不能伪造完整证据。
+    write_new(&directory, "manifest.json", &bytes);
+    write_new(&directory, "receipt.json", &bytes);
+}
+
+fn geometry(report: &Value) {
+    assert_eq!(report["validation"]["valid"], true);
+    assert_eq!(report["validation"]["manifold"], true);
+    assert_eq!(report["geometry"]["solids"], 1);
+    let expected = 20.0 * 16.0 * 10.0 - std::f64::consts::PI * 2.0_f64.powi(2) * 10.0;
+    assert!((report["geometry"]["volume_mm3"].as_f64().unwrap() - expected).abs() < 1e-4);
+    for (i, corner) in [[0.0, 0.0, 0.0], [20.0, 16.0, 10.0]].iter().enumerate() {
+        for (j, coordinate) in corner.iter().enumerate() {
+            assert!(
+                (report["geometry"]["bbox_mm"][i][j].as_f64().unwrap() - coordinate).abs() < 1e-5
+            );
+        }
+    }
+}
+
+#[test]
+fn untagged_caps_with_a_bounded_rational_edge_preserve_public_delivery() {
+    let delivered = template_build(BOUNDED_RATIONAL_PRISM);
+    let reopened = template_build(&delivered.step);
+    for output in [delivered, reopened] {
+        assert_eq!(output.report["validation"]["valid"], true);
+        assert_eq!(output.report["validation"]["manifold"], true);
+        let geometry = &output.report["geometry"];
+        assert_eq!(geometry["solids"], 1);
+        let volume = geometry["volume_mm3"].as_f64().unwrap();
+        assert!((volume - 1082.8436797944164).abs() < 1e-4, "{volume}");
+        let bounds = [[-50.0 / 7.0, -17.0 / 3.0, 0.0], [50.0 / 7.0, 10.0, 5.0]];
+        for (i, corner) in bounds.iter().enumerate() {
+            for (j, coordinate) in corner.iter().enumerate() {
+                let actual = geometry["bbox_mm"][i][j].as_f64().unwrap();
+                assert!(
+                    (actual - coordinate).abs() < 1e-5,
+                    "{actual} != {coordinate}"
+                );
+            }
+        }
+    }
+}
+
+#[test]
+fn public_closed_fixture_only_changes_two_cap_bound_lists() {
+    let provenance: Value = serde_json::from_str(PROVENANCE).unwrap();
+    assert_eq!(provenance["source"]["sha256"], asset(ORIGINAL).sha256);
+    assert_eq!(provenance["derived"]["sha256"], asset(INNER_FIRST).sha256);
+    let before = step_import::part21::parse(ORIGINAL.as_bytes(), &Default::default()).unwrap();
+    let after = step_import::part21::parse(INNER_FIRST.as_bytes(), &Default::default()).unwrap();
+    assert_eq!(before.entities.len(), after.entities.len());
+    let mut changed = vec![];
+    for (id, original) in &before.entities {
+        let mut derived = after.entities.get(id).unwrap().clone();
+        if [213, 342].contains(id) {
+            let step_import::part21::Instance::Simple(record) = &mut derived else {
+                panic!("simple cap face");
+            };
+            let step_import::part21::Param::List(bounds) = &mut record.params[1] else {
+                panic!("bound list");
+            };
+            assert_eq!(bounds.len(), 2);
+            bounds.reverse();
+            changed.push(*id);
+        }
+        assert_eq!(
+            &derived, original,
+            "geometry, topology orientation and every other record must stay exact: #{id}"
+        );
+    }
+    assert_eq!(changed, [213, 342]);
+}
+
+#[test]
+fn public_closed_inner_first_is_a_complete_native_delivery() {
+    let original = template_build(ORIGINAL);
+    let derived = template_build(INNER_FIRST);
+    geometry(&original.report);
+    geometry(&derived.report);
+    assert!(derived.step.contains("MANIFOLD_SOLID_BREP("));
+    assert!(derived.step.contains("CLOSED_SHELL("));
+    // 两次fresh执行均经历原生首轮检查，不重用被validator更新的BRep。
+    let reopened = template_build(&derived.step);
+    geometry(&reopened.report);
+    let original_reopened = template_build(&original.step);
+    geometry(&original_reopened.report);
+    assert_eq!(
+        original.report["geometry"]["faces"],
+        derived.report["geometry"]["faces"]
+    );
+    retain_public_evidence(&original, &derived, &original_reopened, &reopened);
+}
+
+#[test]
+fn public_closed_native_topology_has_no_missing_or_loose_entities() {
+    let mut counts = vec![];
+    for text in [ORIGINAL, INNER_FIRST] {
+        let model = step_import::import(text.as_bytes(), &Default::default()).unwrap();
+        assert_eq!(model.bodies.len(), 1);
+        assert_eq!(model.bodies[0].faces.len(), 7);
+        let frozen = model.bodies[0].clone();
+        let mut made =
+            step_brep::build_from_topology(&model.bodies[0], Default::default()).unwrap();
+        assert!(made.face_failures.is_empty());
+        assert!(solidcore::query::api_queries::brep_is_manifold_solid(&made.brep).unwrap());
+        assert!(
+            check_brep(&mut Kernel::default(), &mut made.brep, CheckLevel::Level1)
+                .unwrap()
+                .is_valid()
+        );
+        counts.push((
+            made.brep.face_list().len(),
+            made.brep.edge_list().len(),
+            made.brep.vertex_list().len(),
+        ));
+        assert_eq!(model.bodies[0], frozen);
+    }
+    assert_eq!(
+        counts[0], counts[1],
+        "cap reorder must not leave loose topology from retained arrays"
+    );
+}
+
+#[test]
+fn polygon_with_360_boundary_edges_and_square_bore_delivers_from_inner_first_step() {
+    let n = 360;
+    let radius = 40.0;
+    let height = 5.0;
+    // Build the foreign STEP fixture below the public sketch point limit.
+    use solidcore::{
+        boolean::api_brep::boolean_difference,
+        curve::{curve::Curve, line::Line},
+        geom::vector3d::Vec3,
+        sweep::api_brep::create_linear_sweep,
+    };
+    let polygon: Vec<_> = (0..n)
+        .map(|index| {
+            let angle = std::f64::consts::TAU * index as f64 / n as f64;
+            Vec3::new(radius * angle.cos(), radius * angle.sin(), 0.0)
+        })
+        .collect();
+    let square = [
+        Vec3::new(-2., -2., -1.),
+        Vec3::new(2., -2., -1.),
+        Vec3::new(2., 2., -1.),
+        Vec3::new(-2., 2., -1.),
+    ];
+    let sweep = |kernel: &mut Kernel, points: &[Vec3], distance| {
+        let curves: Vec<Curve> = (0..points.len())
+            .map(|index| {
+                Line::create_line_segment(
+                    3,
+                    points[index],
+                    points[(index + 1) % points.len()],
+                    None,
+                )
+                .unwrap()
+                .into()
+            })
+            .collect();
+        create_linear_sweep(
+            kernel,
+            &curves.iter().map(Some).collect::<Vec<_>>(),
+            Vec3::Z,
+            distance,
+            true,
+        )
+        .unwrap()
+    };
+    let mut kernel = Kernel::default();
+    let blank = sweep(&mut kernel, &polygon, height);
+    let bore = sweep(&mut kernel, &square, height + 2.0);
+    let control = boolean_difference(&mut kernel, blank, bore).unwrap();
+    let mut neutral = step_brep::brep_to_model(&control).unwrap();
+    let mut caps = 0;
+    for face in &mut neutral.bodies[0].faces {
+        if face.loops.len() == 2 {
+            face.loops.sort_by_key(|bound| match &bound.bound {
+                step_import::model::Bound::Edges(edges) => edges.len(),
+                _ => 0,
+            });
+            for bound in &mut face.loops {
+                bound.outer = false;
+            }
+            caps += 1;
+        }
+    }
+    assert_eq!(caps, 2);
+    let source = step_export::write(&neutral).unwrap();
+    let candidate = template_build(&source);
+    let reopened = template_build(&candidate.step);
+    let expected = (n as f64 * radius * radius * (std::f64::consts::TAU / n as f64).sin() / 2.0
+        - 16.0)
+        * height;
+    for delivery in [candidate, reopened] {
+        assert_eq!(delivery.report["validation"]["valid"], true);
+        assert_eq!(delivery.report["geometry"]["solids"], 1);
+        assert!(
+            (delivery.report["geometry"]["volume_mm3"].as_f64().unwrap() - expected).abs() < 1e-4
+        );
+    }
+}

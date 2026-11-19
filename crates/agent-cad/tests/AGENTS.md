@@ -33,6 +33,10 @@ fixtures/: 原生及独立内核产生的公开回归输入。
 
 step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
 
+step_bound_order.rs: 平面外环推定与拒绝歧义回归。
+step_bound_order_delivery.rs: 钻孔块、360 边轮廓和有理曲线棱柱的闭体 STEP 读写，保留反向孔环拒绝。
+step_planar_projection_proof.rs: 完整与裁剪有理区间的 UV 投影证明、夹紧和坏边拒绝。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。
