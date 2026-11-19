@@ -52,12 +52,12 @@
     },
     {
       "path": "third_party/patches/uv-metric-regularity.patch",
-      "sha256": "96d0f6c630aa2bc8180f6392e5ed782a4f497ed09d0350ad8a104c6261d923af",
+      "sha256": "e8b113baff7c25457904ac4056ae68aaa2b971cc43017616ef3761db37a9efe5",
       "targets": [
         {
           "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
           "before": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9",
-          "after": "a33c462808c5a21a94ca7fe903f9aa01008a1e5960a93af9b2dfb01b562c7590"
+          "after": "55d7b896f0fedf8d6f36b47dd123cbc22d2d266b56b30594f212a1c0a84c15d7"
         }
       ]
     }
