@@ -1,6 +1,7 @@
 # /docs
 > L2 | 父级: ../AGENTS.md
 
+release-0.1.4.md: Thin-annulus STEP readback and patch release verification.
 README.md: Developer documentation
 README.zh-CN.md: 开发与接入指南
 agent-modeling-handbook.md: Agent CAD handbook

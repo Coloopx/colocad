@@ -15,7 +15,25 @@
                  quadratic_regularity(self, &domain)
              } else {
                  None
-@@ -1976,12 +1976,22 @@
+@@ -1950,8 +1950,15 @@
+             let (mut radius_sized, mut radius_tol, mut radius_sep) = (sized, tol, min_sep);
+             if sized && k.fixes.uv_trim_checks_on_surface {
+                 if let Some(l) = trim_metric(k, self, bounded, ovr.trim_surface, &domain)? {
+-                    mapped = mapped_trim(self, l);
+-                    let mapped_box = match mapped.as_ref() {
++                    // An exact identity metric already measures this trim in its
++                    // own coordinates. Reuse it without allocating a second curve.
++                    let metric_curve = if l == [1.0, 0.0, 1.0] {
++                        self.nurb.as_ref().map(|_| self)
++                    } else {
++                        mapped = mapped_trim(self, l);
++                        mapped.as_ref()
++                    };
++                    let mapped_box = match metric_curve {
+                         Some(m) => ignored(m.calculate_bounding_box(
+                             &domain,
+                             BoundingBoxRequest {
+@@ -1976,12 +1983,22 @@
  
              // Another type of kink check: vanishing radius of curvature.
              let mut radii = false;

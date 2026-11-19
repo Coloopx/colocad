@@ -1,0 +1,30 @@
+--- a/crates/step-brep/src/lib.rs
++++ b/crates/step-brep/src/lib.rs
+@@ -1022,11 +1022,23 @@
+             ) => pcurves::u_offset(file, rotated),
+             _ => 0.0,
+         };
+-        let surface = make_surface(&kernel, &face.surface, frame.as_ref())?;
+-        let uv_domain = frame
++        let mut surface = make_surface(&kernel, &face.surface, frame.as_ref())?;
++        let window = frame
+             .as_ref()
+-            .and_then(|frame| face_uv_domain(&surface, frame, &points))
+-            .map_or_else(|| surface.natural_uv_domain_with_nurb(&kernel), Ok)?;
++            .and_then(|frame| face_uv_domain(&surface, frame, &points));
++        let uv_domain = match (window, &face.surface) {
++            (Some(domain), sm::Surface::Cylinder { .. }) => {
++                // Only STEP cylinders opt in. Their finite face and analytic
++                // support must share a window before closure/seam construction;
++                // otherwise a seam can extend to the unbounded generator end.
++                let step_domain = surface.convert_domain_from_nurbs_to_step(&kernel, &domain)?;
++                surface.adjust_step_uv_domain(&kernel, &step_domain)?;
++                surface.natural_uv_domain_with_nurb(&kernel)?
++            }
++            // Plane and true-cone behaviour is intentionally the baseline path.
++            (Some(domain), _) => domain,
++            (None, _) => surface.natural_uv_domain_with_nurb(&kernel)?,
++        };
+         let curves = p7::FaceCurvesInput {
+             loops: input.loops,
+             curves_3d: Some(input.curves),

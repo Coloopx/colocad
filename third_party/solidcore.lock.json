@@ -40,13 +40,24 @@
       ]
     },
     {
+      "path": "third_party/patches/periodic-seam-trims.patch",
+      "sha256": "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
+          "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
+        }
+      ]
+    },
+    {
       "path": "third_party/patches/uv-metric-regularity.patch",
-      "sha256": "3b272a974467d63dfdf31f0f6c0d6b2880bf76757cbb8af75fe1bbf0b20fa719",
+      "sha256": "96d0f6c630aa2bc8180f6392e5ed782a4f497ed09d0350ad8a104c6261d923af",
       "targets": [
         {
           "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
           "before": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9",
-          "after": "46f82f1e2dfcea5c0d8a5d2363ae87623cfb4a2cea745c9e32aa9133f56dbb8d"
+          "after": "a33c462808c5a21a94ca7fe903f9aa01008a1e5960a93af9b2dfb01b562c7590"
         }
       ]
     }
