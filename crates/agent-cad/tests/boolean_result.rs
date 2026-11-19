@@ -60,7 +60,24 @@ fn reused_operand_checkpoints_still_require_intersection_bounds() {
     let request = impossible_intersection();
     let mut operands = request.clone();
     operands.features.truncate(2);
-    operands.output = "ball".into();
+    operands.features.push(
+        serde_json::from_value(json!({
+            "id":"pipe_out","op":"translate","input":"pipe","offset":[0,0,0]
+        }))
+        .unwrap(),
+    );
+    operands.features.push(
+        serde_json::from_value(json!({
+            "id":"ball_out","op":"translate","input":"ball","offset":[100,0,0]
+        }))
+        .unwrap(),
+    );
+    operands.output.clear();
+    operands.assembly = serde_json::from_value(json!([
+        {"id":"pipe_part","input":"pipe_out"},
+        {"id":"ball_part","input":"ball_out"}
+    ]))
+    .unwrap();
     let built = build_revision(&operands, &mut Checkpoints::revision(None).unwrap()).unwrap();
     assert!(built.report["features"][1]["checkpoint"].is_string());
 
