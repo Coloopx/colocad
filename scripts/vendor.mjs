@@ -1,4 +1,7 @@
-// Verify the pinned archive and extract it atomically. Apply and verify the single reviewed downstream patch.
+// [INPUT]: 固定归档、顺序补丁前后摘要与已有依赖树清单。
+// [OUTPUT]: 原子准备并严格核验最终依赖树，重复执行保持幂等。
+// [POS]: 原生构建前置；相同目标的多补丁只接受锁定的最终文件SHA。
+// [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 import {createHash} from 'node:crypto';
 import {readFile,writeFile,mkdir,readdir,rename,rm,access,readlink} from 'node:fs/promises';
 import {spawnSync} from 'node:child_process';
@@ -36,6 +39,11 @@ for(const patch of patches){
  if(await hashFile(join(root,patch.path))!==patch.sha256)throw Error('solidcore patch checksum mismatch: '+patch.path);
 }
 async function patchTree(directory){
+ // ---- 后续补丁可以覆盖先前目标；完整树仍逐文件核最终锁定SHA ----
+ const finalTargets=new Map(patches.flatMap(p=>p.targets.map(t=>[t.target,t.after])));
+ const finalHashes=await Promise.all([...finalTargets].map(async([target,after])=>
+  await hashFile(join(directory,target))===after));
+ if(finalHashes.every(Boolean))return;
  for(const patch of patches){
   const hashes=await Promise.all(patch.targets.map(t=>hashFile(join(directory,t.target))));
   if(hashes.every((hash,i)=>hash===patch.targets[i].after))continue;

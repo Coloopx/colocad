@@ -40,18 +40,29 @@
       ]
     },
     {
+      "path": "third_party/patches/periodic-seam-trims.patch",
+      "sha256": "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
+          "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
+        }
+      ]
+    },
+    {
       "path": "third_party/patches/step-bound-order.patch",
-      "sha256": "d1a22921f3623588023d8e76848207971443adb47efbf394bb970546d3f1be9b",
+      "sha256": "4e7613db219c4765da8cbda7a16702ce49bb7f27cc7cf014b2af0a677db1ba16",
       "targets": [
         {
           "target": "crates/step-brep/src/constructor.rs",
           "before": "bae8d26a1b740f0d06f3cd8d852e863f941aff2f466cb11d2de8166d118647ee",
-          "after": "748506b71fad71b04541cff74dffe70b490012112dfcd79ec6cee3ecdc4fc255"
+          "after": "8c192870a9c71558a8410f5b5814bc4825569bb1aefd01d9bb1facf74b510b36"
         },
         {
           "target": "crates/step-brep/src/lib.rs",
-          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
-          "after": "a334549c0106212e57de5656de092309694c42724fa490c2b589682bb6f706cd"
+          "before": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3",
+          "after": "5295eb00c23ae1913501a1b2c3aba292a7d2304457a8154709043fc37a90aa66"
         },
         {
           "target": "crates/solidcore/src/curve/curve/p2.rs",

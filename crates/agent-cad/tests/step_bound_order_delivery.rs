@@ -204,3 +204,83 @@ fn public_closed_native_topology_has_no_missing_or_loose_entities() {
         "cap reorder must not leave loose topology from retained arrays"
     );
 }
+
+#[test]
+fn polygon_with_360_boundary_edges_and_square_bore_delivers_from_inner_first_step() {
+    let n = 360;
+    let radius = 40.0;
+    let height = 5.0;
+    // Build the foreign STEP fixture below the public sketch point limit.
+    use solidcore::{
+        boolean::api_brep::boolean_difference,
+        curve::{curve::Curve, line::Line},
+        geom::vector3d::Vec3,
+        sweep::api_brep::create_linear_sweep,
+    };
+    let polygon: Vec<_> = (0..n)
+        .map(|index| {
+            let angle = std::f64::consts::TAU * index as f64 / n as f64;
+            Vec3::new(radius * angle.cos(), radius * angle.sin(), 0.0)
+        })
+        .collect();
+    let square = [
+        Vec3::new(-2., -2., -1.),
+        Vec3::new(2., -2., -1.),
+        Vec3::new(2., 2., -1.),
+        Vec3::new(-2., 2., -1.),
+    ];
+    let sweep = |kernel: &mut Kernel, points: &[Vec3], distance| {
+        let curves: Vec<Curve> = (0..points.len())
+            .map(|index| {
+                Line::create_line_segment(
+                    3,
+                    points[index],
+                    points[(index + 1) % points.len()],
+                    None,
+                )
+                .unwrap()
+                .into()
+            })
+            .collect();
+        create_linear_sweep(
+            kernel,
+            &curves.iter().map(Some).collect::<Vec<_>>(),
+            Vec3::Z,
+            distance,
+            true,
+        )
+        .unwrap()
+    };
+    let mut kernel = Kernel::default();
+    let blank = sweep(&mut kernel, &polygon, height);
+    let bore = sweep(&mut kernel, &square, height + 2.0);
+    let control = boolean_difference(&mut kernel, blank, bore).unwrap();
+    let mut neutral = step_brep::brep_to_model(&control).unwrap();
+    let mut caps = 0;
+    for face in &mut neutral.bodies[0].faces {
+        if face.loops.len() == 2 {
+            face.loops.sort_by_key(|bound| match &bound.bound {
+                step_import::model::Bound::Edges(edges) => edges.len(),
+                _ => 0,
+            });
+            for bound in &mut face.loops {
+                bound.outer = false;
+            }
+            caps += 1;
+        }
+    }
+    assert_eq!(caps, 2);
+    let source = step_export::write(&neutral).unwrap();
+    let candidate = template_build(&source);
+    let reopened = template_build(&candidate.step);
+    let expected = (n as f64 * radius * radius * (std::f64::consts::TAU / n as f64).sin() / 2.0
+        - 16.0)
+        * height;
+    for delivery in [candidate, reopened] {
+        assert_eq!(delivery.report["validation"]["valid"], true);
+        assert_eq!(delivery.report["geometry"]["solids"], 1);
+        assert!(
+            (delivery.report["geometry"]["volume_mm3"].as_f64().unwrap() - expected).abs() < 1e-4
+        );
+    }
+}

@@ -31,6 +31,8 @@ import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路�
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
+step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
+
 step_bound_order.rs: 平面外环推定与拒绝歧义回归。
 step_bound_order_delivery.rs: 闭体 STEP 读写与拒绝反向孔环。
 step_planar_projection_proof.rs: 有界曲线与完整 UV 投影一致性。

@@ -31,4 +31,6 @@ file(s) it derives from in its header.
 
 Colocad downstream modification (2026-11-15): the pinned STEP importer includes continuous projected extrema of bounded circles and ellipses when constructing planar parameter domains. Other curve/surface domains retain the previous behavior. Original geometry, tolerances and validation checks are unchanged. Source, patch and resulting-file SHA-256 values are recorded in third_party/solidcore.lock.json.
 
+Colocad applies a downstream STEP cylinder-domain change in crates/step-brep/src/lib.rs to keep periodic trim reconstruction within the finite face window.
+
 Colocad applies downstream planar STEP boundary classification changes in crates/step-brep and adds a full-domain NURBS inspection helper in SolidCore curve/curve/p2.rs.
