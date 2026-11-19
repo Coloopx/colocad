@@ -31,6 +31,8 @@ import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路�
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
+step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
+
 step_gap_diagnostics.rs: 合成 STEP 正反控检验装配几何拒绝与完整浮点公差回执。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

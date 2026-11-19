@@ -7,6 +7,8 @@ use solidcore::math::UNDEF_DOUBLE;
 use solidcore::topology::brep::validation::BrepCheck;
 use std::{collections::BTreeMap, fmt::Write};
 
+#[cold]
+#[inline(never)]
 pub(crate) fn failure_message(check: &BrepCheck) -> String {
     let mut message = check.lines().join("; ");
     let mut worst: BTreeMap<&str, (f64, f64)> = BTreeMap::new();
