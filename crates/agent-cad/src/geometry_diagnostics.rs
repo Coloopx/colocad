@@ -1,9 +1,9 @@
 //! [INPUT]: 已完成的原生 B-rep 校验与精确间隙/容差数值。
-//! [OUTPUT]: 单次遍历写出原有错误码、失败文本和每类一条高精度测量。
+//! [OUTPUT]: 按原生 lines() 顺序写出状态行和失败文本，再附每类一条高精度测量。
 //! [POS]: 零件和装配实体校验的失败诊断，不参与接受判定。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::CadError;
-use solidcore::geom::assert_array::{labels, obj_type_string, AssertReport};
+use solidcore::geom::assert_array::{labels, AssertReport};
 use solidcore::math::UNDEF_DOUBLE;
 use solidcore::topology::brep::validation::BrepCheck;
 use std::fmt::Write;
@@ -30,7 +30,11 @@ impl GapKind {
 #[cold]
 #[inline(never)]
 pub(crate) fn validation_failure(check: &BrepCheck, instance: Option<&str>) -> CadError {
-    let n = check.pointer_reports.len() + check.reports.len();
+    // `lines()` is the native order, including status-only rows that `failures()` omits:
+    // pointer failure without a report, AssertValid skipped after a pointer failure,
+    // and AssertValid false without a report. Precise suffixes follow that text.
+    let native = check.lines();
+    let n = native.len();
     let mut message = String::with_capacity(
         instance.map_or(0, |id| id.len() + 11) + n.saturating_mul(192) + GapKind::LABELS.len() * 96,
     );
@@ -42,18 +46,17 @@ pub(crate) fn validation_failure(check: &BrepCheck, instance: Option<&str>) -> C
 
     let mut worst: [Option<(f64, f64)>; GapKind::LABELS.len()] = [None; GapKind::LABELS.len()];
     let mut started = false;
-    for report in check.failures() {
+    for line in &native {
         if started {
             message.push_str("; ");
         }
         started = true;
-        append_native_line(&mut message, report);
-        if let Some((kind, value, tolerance)) = measurement(report) {
-            let slot = &mut worst[kind as usize];
-            if slot.is_none_or(|(v, tol)| (value - tolerance).abs() > (v - tol).abs()) {
-                *slot = Some((value, tolerance));
-            }
-        }
+        message.push_str(line);
+    }
+    let pointer_blocked = check.pointer_reports.reports().iter().any(|report| !report.ok);
+    record_measurements(&mut worst, check.pointer_reports.reports());
+    if !pointer_blocked {
+        record_measurements(&mut worst, check.reports.reports());
     }
     for (name, sample) in GapKind::LABELS.into_iter().zip(worst) {
         if let Some((value, tolerance)) = sample {
@@ -70,17 +73,14 @@ pub(crate) fn validation_failure(check: &BrepCheck, instance: Option<&str>) -> C
     CadError::new("GEOMETRY_VALIDATION_FAILED", message)
 }
 
-fn append_native_line(message: &mut String, report: &AssertReport) {
-    let _ = write!(
-        message,
-        "{}::Test #{} {}: {}",
-        obj_type_string(report.reporting_type),
-        report.test_index,
-        report.name,
-        report.format_log_message(),
-    );
-    if let Some(owner) = report.owner_type_string {
-        let _ = write!(message, " [owner {owner}]");
+fn record_measurements(worst: &mut [Option<(f64, f64)>], reports: &[AssertReport]) {
+    for report in reports.iter().filter(|report| !report.ok && !report.is_warning()) {
+        if let Some((kind, value, tolerance)) = measurement(report) {
+            let slot = &mut worst[kind as usize];
+            if slot.is_none_or(|(v, tol)| (value - tolerance).abs() > (v - tol).abs()) {
+                *slot = Some((value, tolerance));
+            }
+        }
     }
 }
 
@@ -202,6 +202,48 @@ mod tests {
                 "precise {name} [mm]: value={worst:.17e}, tolerance={tol:.17e}"
             )));
         }
+    }
+
+    #[test]
+    fn retains_skipped_and_status_only_native_lines() {
+        let tol = 0.01_f64;
+        let mut pointer_reports = AssertArray::new();
+        pointer_reports.add_unique_delete_duplicate(report(labels::BREP_TYPE, 0, 7, tol + 1.0e-4, tol));
+        let mut ignored = AssertArray::new();
+        ignored.add_unique_delete_duplicate(report(labels::BREP_TYPE, 2, 0, 1.0, tol));
+        let skipped = BrepCheck {
+            pointers_status: 1001,
+            pointer_reports,
+            assert_valid: None,
+            reports: ignored,
+        };
+        let skipped_message = validation_failure(&skipped, None).message;
+        assert_eq!(skipped_message, skipped.lines().join("; "));
+        assert!(skipped_message.contains("AssertValid skipped: ValidatePointers failed"));
+        assert!(!skipped_message.contains("edge-to-vertex"));
+
+        let pointers_only = BrepCheck {
+            pointers_status: 1001,
+            pointer_reports: AssertArray::new(),
+            assert_valid: None,
+            reports: AssertArray::new(),
+        };
+        let pointers_message = validation_failure(&pointers_only, None).message;
+        assert_eq!(
+            pointers_message,
+            "SmBrep::ValidatePointers failed with status 1001"
+        );
+        assert_eq!(pointers_message, pointers_only.lines().join("; "));
+
+        let assert_only = BrepCheck {
+            pointers_status: 1000,
+            pointer_reports: AssertArray::new(),
+            assert_valid: Some(false),
+            reports: AssertArray::new(),
+        };
+        let assert_message = validation_failure(&assert_only, None).message;
+        assert_eq!(assert_message, "SmBrep::AssertValid failed without a report");
+        assert_eq!(assert_message, assert_only.lines().join("; "));
     }
 
     #[test]
