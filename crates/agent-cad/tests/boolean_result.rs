@@ -2,8 +2,10 @@
 //! [OUTPUT]: 拒绝原生错误成功，保留两序合法交并的精确体积。
 //! [POS]: 从公开 Model/Build 入口执行的布尔结果回归。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
-use agent_cad::{build, Model};
+use agent_cad::{build, build_revision, incremental::Checkpoints, CadError, Model};
 use serde_json::{json, Value};
+use sha2::{Digest, Sha256};
+use std::{fs, path::PathBuf};
 
 fn model(left: Value, right: Value, op: &str, ids: [&str; 2]) -> Model {
     serde_json::from_value(json!({
@@ -14,8 +16,7 @@ fn model(left: Value, right: Value, op: &str, ids: [&str; 2]) -> Model {
     .unwrap()
 }
 
-#[test]
-fn intersection_cannot_extend_outside_either_operand() {
+fn impossible_intersection() -> Model {
     let axis_length = 371_f64.sqrt();
     let axis_factor = 1. - 2. / axis_length;
     let pipe = json!({
@@ -26,9 +27,10 @@ fn intersection_cannot_extend_outside_either_operand() {
         "id":"ball","op":"sphere",
         "center":[3. * axis_factor,-axis_factor,19. * axis_factor],"radius":2.02
     });
-    let error = build(&model(pipe, ball, "intersect", ["pipe", "ball"]))
-        .err()
-        .expect("the pinned kernel returned intersection vertices outside the sphere");
+    model(pipe, ball, "intersect", ["pipe", "ball"])
+}
+
+fn assert_bounds_refused(error: CadError) {
     assert_eq!(error.code, "GEOMETRY_VALIDATION_FAILED");
     assert_eq!(error.feature_id.as_deref(), Some("result"));
     let details = error.details.unwrap();
@@ -36,8 +38,54 @@ fn intersection_cannot_extend_outside_either_operand() {
     assert_eq!(details["operation"], "intersect");
     let x = details["vertices_bbox_mm"][1][0].as_f64().unwrap();
     let max_x = details["enclosing_bbox_mm"][1][0].as_f64().unwrap();
+    let axis_factor = 1. - 2. / 371_f64.sqrt();
     assert!((max_x - (3. * axis_factor + 2.02)).abs() < 1e-4);
     assert!(x > max_x + 0.2);
+}
+
+#[test]
+fn intersection_cannot_extend_outside_either_operand() {
+    assert_bounds_refused(build(&impossible_intersection()).err().unwrap());
+}
+
+struct RevisionDirectory(PathBuf);
+impl Drop for RevisionDirectory {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.0);
+    }
+}
+
+#[test]
+fn reused_operand_checkpoints_still_require_intersection_bounds() {
+    let request = impossible_intersection();
+    let mut operands = request.clone();
+    operands.features.truncate(2);
+    operands.output = "ball".into();
+    let built = build_revision(&operands, &mut Checkpoints::revision(None).unwrap()).unwrap();
+    assert!(built.report["features"][1]["checkpoint"].is_string());
+
+    let path = RevisionDirectory(
+        std::env::temp_dir().join(format!("colocad-boolean-checkpoint-{}", std::process::id())),
+    );
+    fs::create_dir(&path.0).unwrap();
+    let mut report = built.report;
+    report["artifact_sha256"] = json!({});
+    for (name, bytes) in &built.artifacts {
+        fs::write(path.0.join(name), bytes).unwrap();
+        report["artifact_sha256"][name] = json!(format!("{:x}", Sha256::digest(bytes)));
+    }
+    fs::write(
+        path.0.join("report.json"),
+        serde_json::to_vec(&report).unwrap(),
+    )
+    .unwrap();
+
+    let mut cache = Checkpoints::revision(Some(&path.0)).unwrap();
+    let warm = build_revision(&operands, &mut cache).unwrap();
+    assert_eq!(warm.report["features"][1]["cache_hit"], true);
+
+    let mut cache = Checkpoints::revision(Some(&path.0)).unwrap();
+    assert_bounds_refused(build_revision(&request, &mut cache).err().unwrap());
 }
 
 #[test]
