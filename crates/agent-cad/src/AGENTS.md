@@ -2,7 +2,7 @@
 > L2 | 父级: ../../../AGENTS.md
 
 assembly.rs: Named instances and exact, explicitly requested assembly checks.
-boolean_result.rs: 显式实体 union/intersect 的顶点与包围盒拒收诊断。
+boolean_result.rs: 显式实体 union/intersect 的顶点与包围盒拒收诊断；run/read/check 禁止内联，拒收细节不用 json!，无布尔导入不纳入该 TEXT。
 capabilities.rs: Kernel policy and advertised implementation capabilities.
 compound.rs: Preserve independent solids, including overlapping copies; never fuse a pattern.
 distance.rs: Exact topology distance adapter; no sampled-mesh distance fallback.

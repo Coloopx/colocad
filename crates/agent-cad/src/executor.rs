@@ -1,6 +1,6 @@
 //! [INPUT]: 固定内核、声明特征与宿主预算。
 //! [OUTPUT]: 逐特征进展、显式实体布尔验真、依赖就绪碰撞拒绝和最终产物。
-//! [POS]: 原生特征调度；检查结果由装配复用。
+//! [POS]: 原生特征调度；union/intersect 守卫禁止内联进导入匹配臂；检查结果由装配复用。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Deterministic feature execution, exact validation and exports.
 //! Validates host budgets before checkpoint restore.
