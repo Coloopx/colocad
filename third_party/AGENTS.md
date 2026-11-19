@@ -8,6 +8,6 @@ solidcore-LICENSE: 固定配置/许可/构建输入；沿现有治理消费。
 solidcore-NOTICE: 固定配置/许可/构建输入；沿现有治理消费。
 solidcore.lock.json: 固定配置/许可/构建输入；沿现有治理消费。
 
-变更：2026-11-15 G2补丁与Windows定向回归；不修改其它算法。
+变更：2026-11-19 球面STEP补丁改为sense helper与单壳表move，同步lock摘要。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

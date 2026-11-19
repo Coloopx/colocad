@@ -18,10 +18,14 @@ The closed-solid delivery control in `step_planar_conic_delivery.rs` rotates the
 
 `periodic-seam-trims.patch` aligns a STEP cylinder’s analytic support with its finite face parameter window before constructing edge trims. It keeps the source geometry and existing validation tolerances. The synthetic annulus regression verifies cyclic loop starts, equivalent loop directions, a through-hole, mass properties and rejection of an off-curve vertex. Remove the patch when the pinned STEP bridge derives the same bounded cylinder domain.
 
-`step-spherical-face-sense.patch` maps native spherical normal reversals
-(`swap_uv ^ inside_out`) to STEP `ADVANCED_FACE.same_sense`. STEP sphere
-frames and pcurves already use the outward analytic parameterization. The
-patch preserves the edge loops, geometric tolerances and import checks.
-Remove it when the pinned STEP bridge carries the same correction.
+`step-spherical-face-sense.patch` maps native spherical and conical normal
+reversals (`swap_uv ^ inside_out`, const surface flags only) to STEP
+`ADVANCED_FACE.same_sense` in a non-inlined helper. A single shell, or every
+shell of one material solid (outer plus enclosed voids), owns the face/edge/
+vertex tables by move. Compound B-reps keep one body per shell so product
+assemblies stay separate solids. STEP sphere frames and pcurves already use
+the outward analytic parameterization. The patch preserves the edge loops,
+geometric tolerances and import checks. Remove it when the pinned STEP
+bridge carries the same correction.
 [Native exchange regressions](../../crates/agent-cad/tests/step_spherical_face_sense.rs)
 cover ordinary and reflected rounded solids and enclosed spherical trims.

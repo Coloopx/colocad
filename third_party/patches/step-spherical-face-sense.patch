@@ -1,14 +1,187 @@
 --- a/crates/step-brep/src/brep_to_model.rs
 +++ b/crates/step-brep/src/brep_to_model.rs
-@@ -454,6 +454,11 @@
-             let canonical = cone.canonical();
-             same_sense ^= canonical.swap_uv ^ canonical.inside_out;
-         }
-+        // STEP spheres have outward normals even when the native surface reverses
-+        // its NURBS normal. The analytic frame and STEP pcurves are already canonical.
-+        if let solidcore::surface::surface::SurfaceKind::Sphere(sphere) = surf.kind() {
-+            same_sense ^= sphere.base().swap_uv() ^ sphere.inside_out();
+@@ -11,7 +11,7 @@
+ //! used twice carries the two pcurves the writer joins into one `SEAM_CURVE`; a closed
+ //! edge used once (a cap circle) is no seam.
+ 
+-use std::collections::BTreeMap;
++use std::collections::{BTreeMap, BTreeSet};
+ 
+ use solidcore::curve::curve::p1::ApproximateCurveOptions;
+ use solidcore::curve::curve::p2::CurveKind;
+@@ -258,7 +258,90 @@
+         SurfaceKind::SurfOfRevolution(revolution) => (true, conic(revolution.gen_curve())),
+         SurfaceKind::SurfOfExtrusion(extrusion) => (conic(extrusion.gen_curve()), false),
+         _ => (false, false),
++    }
++}
++
++/// Keep cone/sphere sense flags out of the face loop so the extra match is not
++/// inlined into that body. Both `swap_uv` and `inside_out` are const surface flags.
++#[inline(never)]
++fn xor_analytic_same_sense(same_sense: bool, surf: &solidcore::surface::surface::Surface) -> bool {
++    use solidcore::surface::surface::SurfaceKind;
++    match surf.kind() {
++        SurfaceKind::Cone(cone) => {
++            let canonical = cone.canonical();
++            same_sense ^ canonical.swap_uv ^ canonical.inside_out
 +        }
++        SurfaceKind::Sphere(sphere) => same_sense ^ sphere.base().swap_uv() ^ sphere.inside_out(),
++        _ => same_sense,
++    }
++}
++
++fn export_body(
++    step_id: u64,
++    sheet: bool,
++    voids: bool,
++    shells: Vec<Shell>,
++    faces: Vec<Face>,
++    edges: Vec<Edge>,
++    vertices: Vec<Vertex>,
++) -> Body {
++    Body {
++        step_id,
++        name: None,
++        kind: if sheet {
++            BodyKind::ShellModel
++        } else if voids {
++            BodyKind::SolidWithVoids
++        } else {
++            BodyKind::ManifoldSolid
++        },
++        unit_mm: 1.0,
++        uncertainty_mm: None,
++        shells,
++        faces,
++        edges,
++        vertices,
+     }
++}
++
++/// One shell, or one solid's outer+void shells, can own the geometry tables.
++/// A compound keeps a body per shell so product assemblies stay separate solids.
++#[inline(never)]
++fn export_shell_bodies(
++    sheet: bool,
++    material_solids: usize,
++    shells: Vec<Shell>,
++    faces: Vec<Face>,
++    edges: Vec<Edge>,
++    vertices: Vec<Vertex>,
++) -> Vec<Body> {
++    let share = shells.len() == 1 || (!sheet && material_solids == 1);
++    if share {
++        return vec![export_body(
++            1,
++            sheet,
++            !sheet && shells.len() > 1,
++            shells,
++            faces,
++            edges,
++            vertices,
++        )];
++    }
++    shells
++        .into_iter()
++        .enumerate()
++        .map(|(index, shell)| {
++            export_body(
++                index as u64 + 1,
++                sheet,
++                false,
++                vec![shell],
++                faces.clone(),
++                edges.clone(),
++                vertices.clone(),
++            )
++        })
++        .collect()
+ }
+ 
+ /// Maps one B-rep to the neutral STEP model.
+@@ -441,19 +524,16 @@
+                 bound: Bound::Edges(oriented),
+             });
+         }
+-        let mut same_sense = brep
+-            .faceuse(faceuse)
+-            .map_err(|e| err(e.to_string()))?
+-            .orientation
+-            == solidcore::nurbs::b_spline_surface_n_lib::p2::OrientType::Same;
+-        // STEP cones/cylinders use the canonical outward parameterisation. The
+-        // kernel also permits swapped UV directions and inside-out cones; each
+-        // reverses its normal without changing the exported axis and radius.
+-        // Keep the directed boundary and express that reversal in ADVANCED_FACE.
+-        if let solidcore::surface::surface::SurfaceKind::Cone(cone) = surf.kind() {
+-            let canonical = cone.canonical();
+-            same_sense ^= canonical.swap_uv ^ canonical.inside_out;
+-        }
++        // STEP cones/cylinders/spheres use the canonical outward parameterisation.
++        // Native swap_uv / inside_out reverse the NURBS normal; keep the directed
++        // boundary and express that reversal in ADVANCED_FACE.
++        let same_sense = xor_analytic_same_sense(
++            brep.faceuse(faceuse)
++                .map_err(|e| err(e.to_string()))?
++                .orientation
++                == solidcore::nurbs::b_spline_surface_n_lib::p2::OrientType::Same,
++            surf,
++        );
          face_indices.push(faces.len());
          face_by_id.insert(*id, faces.len());
          faces.push(Face {
+@@ -470,7 +550,20 @@
+     let sheet = is_sheet(&mut kernel, brep).map_err(|e| err(e.to_string()))?;
+     let mut shell_records = Vec::new();
+     let mut seen_shell_faces: Vec<Vec<usize>> = Vec::new();
++    let mut material_solids = BTreeSet::new();
+     for (shell_position, shell_id) in brep.shells().ids().enumerate() {
++        let region_id = brep.shell(shell_id).map_err(|e| err(e.to_string()))?.region;
++        if let Some(region_id) = region_id {
++            if Some(region_id) != brep.infinite_region()
++                && brep
++                    .region(region_id)
++                    .map_err(|e| err(e.to_string()))?
++                    .is_void()
++                    == 0
++            {
++                material_solids.insert(region_id);
++            }
++        }
+         let mut shell_faces = Vec::new();
+         for faceuse in brep
+             .shell(shell_id)
+@@ -510,25 +603,14 @@
+             faces: face_indices,
+         });
+     }
+-    let bodies = shell_records
+-        .into_iter()
+-        .enumerate()
+-        .map(|(index, shell)| Body {
+-            step_id: index as u64 + 1,
+-            name: None,
+-            kind: if sheet {
+-                BodyKind::ShellModel
+-            } else {
+-                BodyKind::ManifoldSolid
+-            },
+-            unit_mm: 1.0,
+-            uncertainty_mm: None,
+-            shells: vec![shell],
+-            faces: faces.clone(),
+-            edges: edges.clone(),
+-            vertices: vertices.clone(),
+-        })
+-        .collect();
++    let bodies = export_shell_bodies(
++        sheet,
++        material_solids.len(),
++        shell_records,
++        faces,
++        edges,
++        vertices,
++    );
+     Ok(Model {
+         bodies,
+         pcurves,

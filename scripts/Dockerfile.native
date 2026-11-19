@@ -1,6 +1,6 @@
 # [INPUT]: SHA固定SolidCore归档、顺序补丁与Colocad源码。
 # [OUTPUT]: Linux agent-cad与catalog镜像。
-# [POS]: 原生构建与scripts/vendor.mjs消费同一锁定补丁集合。
+# [POS]: 原生构建与scripts/vendor.mjs消费同一锁定补丁集合。2026-11-19 同步球面补丁 after 摘要。
 # [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 # Use a minimal context containing Cargo.toml, Cargo.lock, crates/ and third_party/.
 FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS sources
@@ -19,7 +19,7 @@ RUN echo "081b1f711ab04506336c37c609ea92e868428e52663be8952e2447ffdccddb1e  /tmp
 COPY third_party/patches/periodic-seam-trims.patch /tmp/periodic-seam-trims.patch
 RUN echo "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12  /tmp/periodic-seam-trims.patch" | sha256sum -c - && cd vendor/solidcore && echo "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f  crates/step-brep/src/lib.rs" | sha256sum -c - && patch -s -p1 < /tmp/periodic-seam-trims.patch && echo "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3  crates/step-brep/src/lib.rs" | sha256sum -c -
 COPY third_party/patches/step-spherical-face-sense.patch /tmp/step-spherical-face-sense.patch
-RUN echo "e435a5f73bf82053528c914acefac05861d77ce280fecd87920c76571b97108a  /tmp/step-spherical-face-sense.patch" | sha256sum -c - && cd vendor/solidcore && echo "73d1895f9947ca42cf12bbd155b27ee9bae29c90a00c30640e1fe6526a5f3fb3  crates/step-brep/src/brep_to_model.rs" | sha256sum -c - && patch -s -p1 --fuzz=0 < /tmp/step-spherical-face-sense.patch && echo "247f95d39ea4ad6ffe9642ef5ef6616b1036a6012fe747486ef51b91a1e129a9  crates/step-brep/src/brep_to_model.rs" | sha256sum -c -
+RUN echo "76d3df7344632e127e44880104c0700174b9c15d917fd0e0ee698095011de4aa  /tmp/step-spherical-face-sense.patch" | sha256sum -c - && cd vendor/solidcore && echo "73d1895f9947ca42cf12bbd155b27ee9bae29c90a00c30640e1fe6526a5f3fb3  crates/step-brep/src/brep_to_model.rs" | sha256sum -c - && patch -s -p1 --fuzz=0 < /tmp/step-spherical-face-sense.patch && echo "5b82dd478fd3b4151487cb412fe8c72df3139e37423c3964434e294c6f5388c8  crates/step-brep/src/brep_to_model.rs" | sha256sum -c -
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds
