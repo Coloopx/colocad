@@ -1,6 +1,6 @@
 //! [INPUT]: 原Part21 representation/item归属、引用关系与mapper的mm化body。
 //! [OUTPUT]: body单位覆盖、几何/位姿context一致性及纯描述元数据隔离。
-//! [POS]: STEP边界的上下文证据；不改vendor，不修几何/容差/预算。
+//! [POS]: STEP边界的上下文证据；单声明或同尺度不建入边图；不改vendor，不修几何/容差/预算。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use super::*;
 use step_import::model::Model as NeutralModel;
@@ -231,8 +231,8 @@ fn context(f: &StepFile, id: u64) -> Result<UnitContext> {
 }
 
 fn verify_length_contexts(f: &StepFile, contexts: &Contexts, declared: &[u64]) -> Result<()> {
-    // 所有声明都能解释为同一长度时，metadata 分类不影响结论。
-    if declared.is_empty() {
+    // 0/1 个声明无可混合尺度；全部可解释且同长度时 metadata 分类不影响结论。
+    if declared.len() <= 1 {
         return Ok(());
     }
     if let Ok(first) = context(f, declared[0]) {
@@ -340,22 +340,30 @@ impl Contexts {
                 expected = Some(unit);
             }
         }
-        verify_length_contexts(f, &out, &declared)?;
-        let counted=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances);
-        let summary=" distinct unit contexts; using the default fallback for bodies without an explicit context";
-        let accepted = |d: &step_import::model::Diagnostic| {
-            d.step_id.is_none()
-                && (d.message == counted
-                    || d.message
-                        .strip_suffix(summary)
+        if declared.len() > 1 {
+            verify_length_contexts(f, &out, &declared)?;
+        }
+        if !model.skipped.is_empty() || !model.diagnostics.is_empty() {
+            let counted = " assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates";
+            let summary = " distinct unit contexts; using the default fallback for bodies without an explicit context";
+            let accepted = |d: &step_import::model::Diagnostic| {
+                d.step_id.is_none()
+                    && (d
+                        .message
+                        .strip_suffix(counted)
                         .and_then(|n| n.parse::<usize>().ok())
-                        .is_some_and(|n| n > 1))
-        };
-        if !model.skipped.is_empty() || model.diagnostics.iter().any(|d| !accepted(d)) {
-            return Err(incomplete(format!(
-                "skipped={:?}; diagnostics={:?}",
-                model.skipped, model.diagnostics
-            )));
+                        .is_some_and(|n| n == model.assembly_instances)
+                        || d.message
+                            .strip_suffix(summary)
+                            .and_then(|n| n.parse::<usize>().ok())
+                            .is_some_and(|n| n > 1))
+            };
+            if !model.skipped.is_empty() || model.diagnostics.iter().any(|d| !accepted(d)) {
+                return Err(incomplete(format!(
+                    "skipped={:?}; diagnostics={:?}",
+                    model.skipped, model.diagnostics
+                )));
+            }
         }
         Ok(out)
     }
