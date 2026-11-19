@@ -34,6 +34,7 @@ impl Bounds {
     }
 }
 
+#[inline(never)]
 pub(crate) fn run(k: &mut Kernel, left: Brep, right: Brep, op: Operation) -> Result<Brep> {
     let inputs = if brep_is_manifold_solid(&left)? && brep_is_manifold_solid(&right)? {
         Some([Bounds::read(k, &left)?, Bounds::read(k, &right)?])
@@ -81,6 +82,8 @@ fn check(op: Operation, left: &Bounds, right: &Bounds, result: &Bounds) -> Resul
     Ok(())
 }
 
+#[cold]
+#[inline(never)]
 fn outside_bounds(name: &str, vertices: &Extent3d, enclosing: &Extent3d) -> CadError {
     let corners = |b: &Extent3d| {
         [
