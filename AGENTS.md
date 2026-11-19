@@ -8,6 +8,8 @@ test/: public SDK/CLI and independent validation.
 docs/: API and verification boundaries.
 third_party/: pinned source archive and reviewed patches; generated vendor files are not committed.
 out/: ignored local reproductions, plans and validation evidence.
+B4: explicit body context proof for same-length multi-context STEP; mixed-length placement support remains refused, see docs/step-import-contexts.md.
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 
 宿主输入、STEP输出和报告分别设定有限预算；Rust resources与SDK resource-limits维持同一默认/硬上限。模型与producer不能授权，session及文件读取使用当前host快照。原生发布前分别检查实际stdout与report文件，旧超大checkpoint只冷建；几何/容差/原件SHA检查保持独立。

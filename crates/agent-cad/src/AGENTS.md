@@ -25,7 +25,7 @@ relationships.rs: Exact solid relationships. Boundary distance and material over
 sketch.rs: Parametric 2D constraints. Initial coordinates select a local solution branch.
 solve.rs: Bounded deterministic Levenberg–Marquardt with numerical rank diagnostics.
 step_import_limits.rs: 宿主显式STEP实体/定义/occurrence/group策略、硬顶、结构化拒绝、query实际叶祖先链513路径预检、同步作用域及with_import_limits公共API。
-step_assembly.rs: 共用实体/定义/诊断/单位准入；单定义止于本地几何，AP203/AP214整装配另做全部刚性位姿展开。
+step_assembly.rs: 共用实体/定义、逐 body 单位上下文和诊断准入；单定义止于本地几何，整装配另核 occurrence/group 并按表示上下文展开位姿。
 surfaces.rs: Tensor-product Bézier patches and exact parametric C2 bridge construction.
 validation.rs: Schema, reference and resource validation, without kernel execution.
 
@@ -33,6 +33,9 @@ preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
 
 
+step_assembly/: body归属/归一证明和representation尺度下的刚体解析，见step_assembly/AGENTS.md。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执；模型不能抬高预算。
 outputStepBytes贯通resources、executor、assembly及step_assembly，main同目录原子发布model.step.sha256；capabilities仅增加输出合同，原PR6几何/数量/单位不变。
 
