@@ -32,7 +32,7 @@ validation.rs: Schema, reference and resource validation, without kernel executi
 preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
 
-geometry_diagnostics.rs: 统一构造 Level-1 错误，用固定槽位记录每类三维间隙和容差的最差测量。
+geometry_diagnostics.rs: 统一构造 Level-1 错误，单次遍历写出每类三维间隙和容差的最差高精度测量。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执；模型不能抬高预算。

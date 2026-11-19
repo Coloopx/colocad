@@ -1,9 +1,9 @@
 //! [INPUT]: 已完成的原生 B-rep 校验与精确间隙/容差数值。
-//! [OUTPUT]: 保留原有错误码和失败文本，附有限的高精度测量值。
+//! [OUTPUT]: 单次遍历写出原有错误码、失败文本和每类一条高精度测量。
 //! [POS]: 零件和装配实体校验的失败诊断，不参与接受判定。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 use crate::CadError;
-use solidcore::geom::assert_array::{labels, AssertReport};
+use solidcore::geom::assert_array::{labels, obj_type_string, AssertReport};
 use solidcore::math::UNDEF_DOUBLE;
 use solidcore::topology::brep::validation::BrepCheck;
 use std::fmt::Write;
@@ -30,27 +30,58 @@ impl GapKind {
 #[cold]
 #[inline(never)]
 pub(crate) fn validation_failure(check: &BrepCheck, instance: Option<&str>) -> CadError {
-    let lines = check.lines().join("; ");
-    let mut message = match instance {
-        Some(id) => format!("instance {id}: {lines}"),
-        None => lines,
-    };
+    let n = check.pointer_reports.len() + check.reports.len();
+    let mut message = String::with_capacity(
+        instance.map_or(0, |id| id.len() + 11) + n.saturating_mul(192) + GapKind::LABELS.len() * 96,
+    );
+    if let Some(id) = instance {
+        message.push_str("instance ");
+        message.push_str(id);
+        message.push_str(": ");
+    }
+
     let mut worst: [Option<(f64, f64)>; GapKind::LABELS.len()] = [None; GapKind::LABELS.len()];
-    for (kind, value, tolerance) in check.failures().filter_map(measurement) {
-        let slot = &mut worst[kind as usize];
-        if slot.is_none_or(|(v, tol)| (value - tolerance).abs() > (v - tol).abs()) {
-            *slot = Some((value, tolerance));
+    let mut started = false;
+    for report in check.failures() {
+        if started {
+            message.push_str("; ");
+        }
+        started = true;
+        append_native_line(&mut message, report);
+        if let Some((kind, value, tolerance)) = measurement(report) {
+            let slot = &mut worst[kind as usize];
+            if slot.is_none_or(|(v, tol)| (value - tolerance).abs() > (v - tol).abs()) {
+                *slot = Some((value, tolerance));
+            }
         }
     }
     for (name, sample) in GapKind::LABELS.into_iter().zip(worst) {
         if let Some((value, tolerance)) = sample {
+            if started {
+                message.push_str("; ");
+            }
+            started = true;
             let _ = write!(
                 message,
-                "; precise {name} [mm]: value={value:.17e}, tolerance={tolerance:.17e}"
+                "precise {name} [mm]: value={value:.17e}, tolerance={tolerance:.17e}"
             );
         }
     }
     CadError::new("GEOMETRY_VALIDATION_FAILED", message)
+}
+
+fn append_native_line(message: &mut String, report: &AssertReport) {
+    let _ = write!(
+        message,
+        "{}::Test #{} {}: {}",
+        obj_type_string(report.reporting_type),
+        report.test_index,
+        report.name,
+        report.format_log_message(),
+    );
+    if let Some(owner) = report.owner_type_string {
+        let _ = write!(message, " [owner {owner}]");
+    }
 }
 
 fn measurement(report: &AssertReport) -> Option<(GapKind, f64, f64)> {
@@ -135,6 +166,42 @@ mod tests {
                 .count(),
             1
         );
+    }
+
+    #[test]
+    fn formatter_emits_exactly_one_precise_slot_per_category() {
+        let tol = 0.01_f64;
+        let mut reports = AssertArray::new();
+        let samples = [
+            (labels::BREP_TYPE, 1, 60, GapKind::EdgeLowerTolerance),
+            (labels::BREP_TYPE, 1, 59, GapKind::EdgeUpperTolerance),
+            (labels::BREP_TYPE, 2, 0, GapKind::EdgeToVertex),
+            (labels::TRIMMING_TOOLS_TYPE, 3, 0, GapKind::TrimEndpoint),
+            (labels::BREP_TYPE, 2, 3, GapKind::VertexToFace),
+        ];
+        for (i, &(class, list, test, _)) in samples.iter().enumerate() {
+            let milder = tol + 1.0e-5 * (i as f64 + 1.0);
+            let worst = milder + 1.0e-5;
+            reports.add_unique_delete_duplicate(report(class, list, test, milder, tol));
+            let mut extra = report(class, list, test, worst, tol);
+            extra.owner = Some(solidcore::geom::assert_array::ObjectKey(i as u64 + 1));
+            reports.add_unique_delete_duplicate(extra);
+        }
+        let check = BrepCheck {
+            pointers_status: 1000,
+            pointer_reports: AssertArray::new(),
+            assert_valid: Some(false),
+            reports,
+        };
+        let result = validation_failure(&check, None).message;
+        for (i, &(_, _, _, kind)) in samples.iter().enumerate() {
+            let name = GapKind::LABELS[kind as usize];
+            assert_eq!(result.matches(&format!("precise {name}")).count(), 1);
+            let worst = tol + 1.0e-5 * (i as f64 + 1.0) + 1.0e-5;
+            assert!(result.contains(&format!(
+                "precise {name} [mm]: value={worst:.17e}, tolerance={tol:.17e}"
+            )));
+        }
     }
 
     #[test]
