@@ -1,5 +1,7 @@
 # Developer documentation
 
+[0.1.4 release verification for cylindrical STEP seams and annuli](release-0.1.4.md)
+
 [0.1.3 release verification and native regression cases](release-0.1.3.md)
 
 [Native execution progress and host inactivity supervision](execution-progress.md)

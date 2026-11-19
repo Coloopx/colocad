@@ -16,6 +16,8 @@ The patch addresses an underestimated sampled domain that can send a planar rati
 
 The closed-solid delivery control in `step_planar_conic_delivery.rs` rotates the seam of the public drilled-block fixture by 17 degrees together with both circular edges, cylindrical reference frame, corresponding plane pcurves, vertices and seam line. It exercises native import/build/export/readback and a deliberately inconsistent seam-vertex negative. This is a full-delivery non-regression control; it is not required to fail before the patch because the outer rectangular face already bounds the bore. Independent Windows OCP material comparisons remain unknown until actual receipts. No generated fixture, local geometry execution or G1 workaround is part of this candidate.
 
+`periodic-seam-trims.patch` aligns a STEP cylinder’s analytic support with its finite face parameter window before constructing edge trims. It keeps the source geometry and existing validation tolerances. The synthetic annulus regression verifies cyclic loop starts, equivalent loop directions, a through-hole, mass properties and rejection of an off-curve vertex. Remove the patch when the pinned STEP bridge derives the same bounded cylinder domain.
+
 `step-spherical-face-sense.patch` maps native spherical normal reversals
 (`swap_uv ^ inside_out`) to STEP `ADVANCED_FACE.same_sense`. STEP sphere
 frames and pcurves already use the outward analytic parameterization. The

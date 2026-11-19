@@ -40,6 +40,17 @@
       ]
     },
     {
+      "path": "third_party/patches/periodic-seam-trims.patch",
+      "sha256": "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
+          "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
+        }
+      ]
+    },
+    {
       "path": "third_party/patches/step-spherical-face-sense.patch",
       "sha256": "e435a5f73bf82053528c914acefac05861d77ce280fecd87920c76571b97108a",
       "targets": [
