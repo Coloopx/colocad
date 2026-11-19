@@ -16,36 +16,54 @@ fn representation(item: &StepInstance) -> Option<&Record> {
     }
 }
 // ---- 仅无入边的纯描述representation可免长度；维数不是豁免依据 ----
-fn references(param: &Param, out: &mut BTreeSet<u64>) {
+fn record_owners(
+    param: &Param,
+    owner: u64,
+    targets: &BTreeSet<u64>,
+    owners: &mut BTreeMap<u64, BTreeSet<u64>>,
+) {
     match param {
-        Param::Ref(id) => { out.insert(*id); }
-        Param::List(items) => items.iter().for_each(|p| references(p, out)),
-        Param::Typed(_, value) => references(value, out),
+        Param::Ref(id) if targets.contains(id) => {
+            owners.entry(*id).or_default().insert(owner);
+        }
+        Param::List(items) => {
+            for item in items {
+                record_owners(item, owner, targets, owners);
+            }
+        }
+        Param::Typed(_, value) => record_owners(value, owner, targets, owners),
         _ => {}
     }
 }
+
 fn reference_owners(f: &StepFile, targets: &BTreeSet<u64>) -> BTreeMap<u64, BTreeSet<u64>> {
-    let mut out = BTreeMap::<u64, BTreeSet<u64>>::new();
-    for (owner, item) in &f.entities {
+    let mut owners = BTreeMap::new();
+    for (&owner, item) in &f.entities {
         let records = match item {
-            StepInstance::Simple(r) => std::slice::from_ref(r),
-            StepInstance::Complex(rs) => rs,
+            StepInstance::Simple(record) => std::slice::from_ref(record),
+            StepInstance::Complex(records) => records,
         };
-        let mut refs = BTreeSet::new();
-        for r in records {
-            for p in &r.params { references(p, &mut refs); }
-        }
-        for id in refs.intersection(targets) {
-            out.entry(*id).or_default().insert(*owner);
+        for record in records {
+            for param in &record.params {
+                record_owners(param, owner, targets, &mut owners);
+            }
         }
     }
-    out
+    owners
 }
 fn descriptive_metadata(f: &StepFile, id: u64, owners: &BTreeMap<u64, BTreeSet<u64>>) -> bool {
-    if owners.contains_key(&id) { return false; }
-    let Some(StepInstance::Simple(r)) = f.entities.get(&id) else { return false; };
-    if r.name != "REPRESENTATION" || r.params.len() != 3 { return false; }
-    let Some(items) = r.params.get(1).and_then(Param::as_list) else { return false; };
+    if owners.contains_key(&id) {
+        return false;
+    }
+    let Some(StepInstance::Simple(r)) = f.entities.get(&id) else {
+        return false;
+    };
+    if r.name != "REPRESENTATION" || r.params.len() != 3 {
+        return false;
+    }
+    let Some(items) = r.params.get(1).and_then(Param::as_list) else {
+        return false;
+    };
     !items.is_empty() && items.iter().all(|p| {
         let Some(item_id) = p.as_ref_id() else { return false; };
         owners.get(&item_id).is_some_and(|users| users.len() == 1 && users.contains(&id))
@@ -204,20 +222,60 @@ fn context(f: &StepFile, id: u64) -> Result<UnitContext> {
     Ok(units)
 }
 
+fn verify_length_contexts(f: &StepFile, contexts: &Contexts, declared: &[u64]) -> Result<()> {
+    // 单一有效的长度上下文不会产生混合尺度，且每个 body 已验证显式归属。
+    // 单一但声明不合法的情形仍须区分未引用声明和实际消费者。
+    if declared.is_empty()
+        || (declared.len() == 1 && declared.first().is_some_and(|id| context(f, *id).is_ok()))
+    {
+        return Ok(());
+    }
+    let targets = declared
+        .iter()
+        .chain(contexts.reps.keys())
+        .chain(contexts.owners.keys())
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let owners = reference_owners(f, &targets);
+    let metadata = contexts
+        .reps
+        .keys()
+        .filter(|id| descriptive_metadata(f, **id, &owners))
+        .copied()
+        .collect::<BTreeSet<_>>();
+    let mut length = None;
+    for &id in declared {
+        // 未使用的声明无几何含义；context/item/rep的任何未知入边均保守保留。
+        if !owners
+            .get(&id)
+            .is_some_and(|users| users.iter().any(|rep| !metadata.contains(rep)))
+        {
+            continue;
+        }
+        let mm = context(f, id)?.mm;
+        if length.is_some_and(|prior| prior != mm) {
+            return Err(incomplete("mixed length contexts are not supported"));
+        }
+        length = Some(mm);
+    }
+    Ok(())
+}
+
 pub(super) struct Contexts {
     reps: BTreeMap<u64, u64>,
     owners: BTreeMap<u64, Vec<u64>>,
 }
 impl Contexts {
-    pub(super) fn validate(
-        f: &StepFile,
-        model: &NeutralModel,
-    ) -> Result<Self> {
+    pub(super) fn validate(f: &StepFile, model: &NeutralModel) -> Result<Self> {
         let mut out = Self {
             reps: BTreeMap::new(),
             owners: BTreeMap::new(),
         };
+        let mut declared = Vec::new();
         for (id, item) in &f.entities {
+            if item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT").is_some() {
+                declared.push(*id);
+            }
             if let Some(r) = representation(item) {
                 if let (Some(items), Some(ctx)) = (
                     r.params.get(1).and_then(Param::as_list),
@@ -256,26 +314,7 @@ impl Contexts {
                 expected = Some(unit);
             }
         }
-        // 仅审计已声明单位的context；无GUC的UV参数域维持既有处理。
-        let declared = f.entities.iter().filter_map(|(id, item)|
-            item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT").map(|_| *id)).collect::<BTreeSet<_>>();
-        let targets = declared.iter().chain(out.reps.keys()).chain(out.owners.keys())
-            .copied().collect::<BTreeSet<_>>();
-        let owners = reference_owners(f, &targets);
-        let metadata = out.reps.keys().filter(|id| descriptive_metadata(f, **id, &owners))
-            .copied().collect::<BTreeSet<_>>();
-        let mut length = None;
-        for id in declared {
-            // 未使用的声明无几何含义；context/item/rep的任何未知入边均保守保留。
-            if !owners.get(&id).is_some_and(|users| users.iter().any(|rep| !metadata.contains(rep))) {
-                continue;
-            }
-            let mm = context(f, id)?.mm;
-            if length.is_some_and(|prior| prior != mm) {
-                return Err(incomplete("mixed length contexts are not supported"));
-            }
-            length = Some(mm);
-        }
+        verify_length_contexts(f, &out, &declared)?;
         let counted=format!("{} assembly instance(s) are counted but not applied; bodies are in their defining representation coordinates",model.assembly_instances);
         let summary=" distinct unit contexts; using the default fallback for bodies without an explicit context";
         let accepted = |d: &step_import::model::Diagnostic| {
@@ -286,9 +325,7 @@ impl Contexts {
                         .and_then(|n| n.parse::<usize>().ok())
                         .is_some_and(|n| n > 1))
         };
-        if !model.skipped.is_empty()
-            || model.diagnostics.iter().any(|d| !accepted(d))
-        {
+        if !model.skipped.is_empty() || model.diagnostics.iter().any(|d| !accepted(d)) {
             return Err(incomplete(format!(
                 "skipped={:?}; diagnostics={:?}",
                 model.skipped, model.diagnostics
