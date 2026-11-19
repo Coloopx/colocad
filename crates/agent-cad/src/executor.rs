@@ -613,10 +613,7 @@ fn execute(
     k.caches.enable_validation_property_memo();
     let check = check_brep(&mut k, &mut body, CheckLevel::Level1)?;
     if !check.is_valid() {
-        return Err(CadError::new(
-            "GEOMETRY_VALIDATION_FAILED",
-            check.lines().join("; "),
-        ));
+        return Err(crate::geometry_diagnostics::validation_failure(&check, None));
     }
     let level1_ms = tick.elapsed().as_secs_f64() * 1000.;
     let manifold = brep_is_manifold_solid(&body)?;

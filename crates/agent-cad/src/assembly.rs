@@ -334,9 +334,8 @@ impl MeasuredPart {
         k.caches.enable_validation_property_memo();
         let check = check_brep(k, b, CheckLevel::Level1)?;
         if !check.is_valid() || !brep_is_manifold_solid(b)? {
-            return Err(CadError::new(
-                "GEOMETRY_VALIDATION_FAILED",
-                format!("instance {}: {}", id, check.lines().join("; ")),
+            return Err(crate::geometry_diagnostics::validation_failure(
+                &check, Some(id),
             ));
         }
         times.level1_ms += t.elapsed().as_secs_f64() * 1000.;

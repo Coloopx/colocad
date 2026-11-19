@@ -13,6 +13,7 @@ mod distance;
 mod early_checks;
 pub mod engineering;
 mod exchange;
+mod geometry_diagnostics;
 mod grid;
 mod hollow;
 mod import_cache;
