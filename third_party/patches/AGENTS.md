@@ -9,6 +9,8 @@ validation-properties.patch: 固定配置/许可/构建输入；沿现有治理�
 
 变更：2026-11-15 G2补丁与Windows定向回归；不修改其它算法。
 
+periodic-seam-trims.patch: 在构建 STEP 圆柱面前同步有限参数域，修复周期接缝回读。
+
 step-brep-end-poles.patch: 拓扑重建过程删除精确零支撑 B 样条端点基函数。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

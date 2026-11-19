@@ -31,7 +31,9 @@ import_policy_review.rs: I2深group链预检、无效STEP执行哨兵、513路�
 
 fixtures/: 原生及独立内核产生的公开回归输入。
 
-step_spline_knot_receipts.rs: 合成曲线端节点实测重数和原生拒绝行为。
+step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
+
+step_spline_knot_receipts.rs: 合成线性及有理三次样条的端节点重数、强制缝合和公开 STEP 交付回读。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。

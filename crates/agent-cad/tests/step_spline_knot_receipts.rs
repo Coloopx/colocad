@@ -66,7 +66,7 @@ fn synthetic_step_edges_with_close_knots_keep_the_box() {
     }))
     .unwrap();
     let baseline = build(&model).unwrap();
-    for near_start in [false, true] {
+    for (degree, near_start) in [(1, false), (1, true), (3, false), (3, true)] {
         let mut neutral =
             step_import::import(baseline.step.as_bytes(), &Default::default()).unwrap();
         let body = &mut neutral.bodies[0];
@@ -78,12 +78,25 @@ fn synthetic_step_edges_with_close_knots_keep_the_box() {
         } else {
             (b, 1.0 - 1e-14)
         };
+        let points = match degree {
+            1 => vec![a, middle, b],
+            3 => {
+                let on_edge =
+                    |t: f64| std::array::from_fn(|axis| a[axis] + t * (b[axis] - a[axis]));
+                if near_start {
+                    vec![a, a, on_edge(1.0 / 3.0), on_edge(2.0 / 3.0), b]
+                } else {
+                    vec![a, on_edge(1.0 / 3.0), on_edge(2.0 / 3.0), b, b]
+                }
+            }
+            _ => unreachable!(),
+        };
         edge.curve = Curve::BSpline(BSplineCurve {
-            degree: 1,
-            points: vec![a, middle, b],
-            weights: None,
+            degree,
+            points,
+            weights: (degree == 3).then_some(vec![1.0, 1.0, 0.85, 1.0, 1.0]),
             knots: vec![0.0, near, 1.0],
-            mults: vec![2, 1, 2],
+            mults: vec![degree + 1, 1, degree + 1],
         });
         edge.same_sense = true;
         edge.t_start = 0.0;
@@ -112,7 +125,9 @@ fn synthetic_step_edges_with_close_knots_keep_the_box() {
             )
             .collect::<Vec<_>>();
         assert_eq!(rebuilt.len(), 1);
-        assert_eq!(rebuilt[0].knots(None).unwrap().1, [2, 2]);
+        let multiplicities = rebuilt[0].knots(None).unwrap().1;
+        assert_eq!(multiplicities.first(), Some(&((degree + 1) as usize)));
+        assert_eq!(multiplicities.last(), Some(&((degree + 1) as usize)));
 
         let attrs = PropertyAttributes {
             store: &AttributeStore::default(),
@@ -120,5 +135,69 @@ fn synthetic_step_edges_with_close_knots_keep_the_box() {
         };
         let volume = brep_volume(&Kernel::default(), &mut candidate.brep, 1e-5, &attrs).unwrap();
         assert!((volume.abs() - 480.0).abs() < 1e-8, "{volume}");
+
+        let mut stitched = step_brep::build_body(
+            &imported.bodies[0],
+            step_brep::BuildOptions {
+                mode: step_brep::BuildMode::StitchOnly,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(stitched.path, step_brep::BuildPath::Stitch);
+        let checked = solidcore::topology::brep::validation::check_brep(
+            &mut Kernel::default(),
+            &mut stitched.brep,
+            solidcore::topology::brep::validation::CheckLevel::Level1,
+        )
+        .unwrap();
+        assert!(checked.is_valid(), "{}", checked.lines().join("; "));
+        let volume = brep_volume(&Kernel::default(), &mut stitched.brep, 1e-5, &attrs).unwrap();
+        assert!((volume.abs() - 480.0).abs() < 1e-8, "{volume}");
+
+        for definition in [false, true] {
+            let imported = import_model(&step, definition);
+            assert_box_delivery(&imported);
+            assert_box_delivery(&import_model(&imported.step, definition));
+        }
+        let source = step_asset(&step);
+        let info = agent_cad::step_assembly::inspect(&source).unwrap();
+        let mut template: Model = serde_json::from_value(info["model_template"].clone()).unwrap();
+        template.assets.insert("source".into(), source);
+        let delivered = build(&template).unwrap();
+        assert_box_delivery(&delivered);
+        assert_box_delivery(&import_model(&delivered.step, false));
+    }
+}
+
+fn step_asset(step: &str) -> agent_cad::StepAsset {
+    use sha2::{Digest, Sha256};
+    agent_cad::StepAsset {
+        sha256: format!("{:x}", Sha256::digest(step.as_bytes())),
+        step: step.to_owned(),
+    }
+}
+
+fn import_model(step: &str, definition: bool) -> agent_cad::Build {
+    let model = serde_json::from_value(serde_json::json!({
+        "version": 1, "units": "mm", "parameters": {},
+        "assets": {"source": step_asset(step)},
+        "features": [{"id":"part","op":"import_step","asset":"source","definition":definition}],
+        "output":"part"
+    }))
+    .unwrap();
+    agent_cad::build(&model).unwrap()
+}
+
+fn assert_box_delivery(delivered: &agent_cad::Build) {
+    let report = &delivered.report;
+    assert_eq!(report["validation"]["valid"], true);
+    assert_eq!(report["geometry"]["solids"], 1);
+    assert!((report["geometry"]["volume_mm3"].as_f64().unwrap() - 480.0).abs() < 1e-5);
+    for (side, expected) in [[0.0, 0.0, 0.0], [10.0, 8.0, 6.0]].iter().enumerate() {
+        for (axis, value) in expected.iter().enumerate() {
+            let actual = report["geometry"]["bbox_mm"][side][axis].as_f64().unwrap();
+            assert!((actual - value).abs() < 1e-5, "{actual} != {value}");
+        }
     }
 }

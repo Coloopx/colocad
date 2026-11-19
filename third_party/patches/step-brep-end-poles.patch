@@ -1,41 +1,33 @@
---- a/crates/step-brep/src/constructor.rs
-+++ b/crates/step-brep/src/constructor.rs
-@@ -12,6 +12,7 @@
- //! them), up to [`skip_limit`] faces, the first failing face in file order each time.
- //! Each left-out face is reported with the call that failed.
- 
-+use solidcore::curve::curve::{Curve, CurveKind};
- use solidcore::geom::extent2d::Extent2d;
- use solidcore::geom::vector3d::Point3;
- use solidcore::kernel::Kernel;
-@@ -286,8 +287,14 @@
-             } else {
-                 (e.t_end, e.t_start)
-             };
--            let curve = crate::make_curve(k, &e.curve, Some((lo.min(hi), lo.max(hi))))
-+            let mut curve = crate::make_curve(k, &e.curve, Some((lo.min(hi), lo.max(hi))))
-                 .map_err(call("edge curve"))?;
-+            if let step_import::model::Curve::BSpline(source) = &e.curve {
-+                let expected = source.degree + 1;
-+                if source.mults.first() == Some(&expected) && source.mults.last() == Some(&expected) {
-+                    remove_zero_support_end_poles(&mut curve).map_err(call("spline endpoint"))?;
-+                }
+--- a/crates/step-brep/src/lib.rs
++++ b/crates/step-brep/src/lib.rs
+@@ -172,7 +172,7 @@
+                 .map(|(low, high)| Extent1d::from_min_max(low, high));
+             let points: Vec<Point3> = spline.points.iter().map(|point| v3(*point)).collect();
+             let mults = usizes(&spline.mults);
+-            Ok(Curve::from(BSplineCurve::create_canonical(
++            let mut curve = BSplineCurve::create_canonical(
+                 &CanonicalData {
+                     dim: 3,
+                     degree: spline.degree as usize,
+@@ -184,11 +184,44 @@
+                     weights: spline.weights.as_deref(),
+                     trim,
+                 },
+-            )?))
++            )?;
++            let expected = spline.degree + 1;
++            if spline.mults.first() == Some(&expected) && spline.mults.last() == Some(&expected) {
++                remove_zero_support_end_poles(&mut curve)?;
 +            }
-             c.set_edge_curve(k, Some(curve), false)
-                 .map_err(call("SetEdgeCurve"))?;
-             c.set_limits(
-@@ -303,3 +310,34 @@
-     c.end_face().map_err(call("EndFace"))?;
-     Ok(made)
++            Ok(Curve::from(curve))
+         }
+     }
  }
-+
+ 
 +/// Drop only the poles whose basis vectors have an exactly empty parameter
 +/// interval after canonical construction. They cannot influence any span of the
 +/// curve. The remaining poles, weights, knots and parameter interval stay intact.
-+fn remove_zero_support_end_poles(curve: &mut Curve) -> Result<(), SolidError> {
-+    let CurveKind::BSpline(spline) = curve.kind_mut() else {
-+        return Ok(());
-+    };
++fn remove_zero_support_end_poles(spline: &mut BSplineCurve) -> Result<(), SolidError> {
 +    let Some(raw) = spline.gw_nurb() else {
 +        return Ok(());
 +    };
@@ -59,3 +51,7 @@
 +    )?;
 +    spline.set_from_gw_nurb(Some(&rebuilt))
 +}
++
+ fn make_surface(
+     kernel: &Kernel,
+     surface: &sm::Surface,
