@@ -11,6 +11,6 @@ validation-properties.patch: 固定配置/许可/构建输入；沿现有治理�
 
 periodic-seam-trims.patch: 在构建 STEP 圆柱面前同步有限参数域，修复周期接缝回读。
 
-step-bound-order.patch: 通过严格几何判定识别未标记的平面外环；显式外环体跳过包含探针。
+step-bound-order.patch: 通过严格几何判定识别未标记的平面外环；显式外环在独立编译单元外返回，直线段仅在可证明分离时跳过求交。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

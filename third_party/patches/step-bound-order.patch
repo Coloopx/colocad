@@ -23,48 +23,9 @@
          self.clone_for_evaluation_depth(0)
      }
  
---- a/crates/step-brep/src/constructor.rs
-+++ b/crates/step-brep/src/constructor.rs
-@@ -1,3 +1,7 @@
-+//! [INPUT]: 原始STEP中性Body、严格几何查询及真实Line/BSpline/Ellipse完整域。
-+//! [OUTPUT]: 全域仿射控制网证书、拓扑构造及无显式outer平面环序规范化。
-+//! [POS]: step-brep构造边界；归一错误必须在fallback前返回。
-+//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
- //! Topology-first construction: a body built from the file's own topology.
- //!
- //! The faces, loops, edges and vertices the file shares are made once each and joined
-@@ -302,4 +306,701 @@
-     }
-     c.end_face().map_err(call("EndFace"))?;
-     Ok(made)
-+}
-+
-+/// True only if a used planar face has no explicit outer and at least two loops.
-+fn needs_bound_order(body: &Body) -> Result<bool, String> {
-+    let mut needed = false;
-+    for shell in &body.shells {
-+        for &index in &shell.faces {
-+            let face = body.faces.get(index).ok_or("STEP_BOUND_ORDER: missing shell face")?;
-+            let explicit = face.loops.iter().filter(|l| l.outer).count();
-+            if explicit > 1 {
-+                return Err(format!("STEP_BOUND_ORDER face #{}: multiple explicit outer bounds", face.step_id));
-+            }
-+            needed |= explicit == 0
-+                && face.loops.len() >= 2
-+                && matches!(face.surface, step_import::model::Surface::Plane { .. });
-+        }
-+    }
-+    Ok(needed)
-+}
-+
-+pub(crate) fn normalize_bound_order(body: &Body) -> Result<std::borrow::Cow<'_, Body>, String> {
-+    if !needs_bound_order(body)? {
-+        return Ok(std::borrow::Cow::Borrowed(body));
-+    }
-+    bound_order::normalize(body)
-+}
-+
-+mod bound_order {
+--- a/crates/step-brep/src/bound_order.rs
++++ b/crates/step-brep/src/bound_order.rs
+@@ -0,0 +1,757 @@
 +    // [INPUT]: 原始中性Body、原有曲线构造及SolidCore严格几何查询。
 +    // [OUTPUT]: 仅重排已证明唯一外环的平面FACE_BOUND集合；歧义返回错误。
 +    // [POS]: step-brep构造前置归一；先于拓扑/stitched路径，不修绕向或公差。
@@ -82,6 +43,8 @@
 +        format!("STEP_BOUND_ORDER face #{}: {reason}", face.step_id)
 +    }
 +
++    #[cold]
++    #[inline(never)]
 +    pub(super) fn normalize(body: &Body) -> Result<Cow<'_, Body>, String> {
 +        let mut result = Cow::Borrowed(body);
 +        let used = body.shells.iter().flat_map(|shell| shell.faces.iter().copied()).collect::<std::collections::BTreeSet<_>>();
@@ -256,6 +219,88 @@
 +        Ok(())
 +    }
 +
++
++    fn line_segments_apart(k: &Kernel, a: &BoundaryCurve, b: &BoundaryCurve, tol: f64) -> Result<bool, String> {
++        use solidcore::curve::curve::CurveKind;
++        if !matches!(a.curve.kind(), CurveKind::Line(_)) || !matches!(b.curve.kind(), CurveKind::Line(_)) {
++            return Ok(false);
++        }
++        let segment = |curve: &Curve| -> Result<([f64; 3], [f64; 3]), String> {
++            let interval = curve.natural_interval();
++            let p = curve.evaluate_point(k, interval.min()).map_err(|e| e.to_string())?;
++            let q = curve.evaluate_point(k, interval.max()).map_err(|e| e.to_string())?;
++            Ok(([p.x, p.y, p.z], [q.x, q.y, q.z]))
++        };
++        let (a0, a1) = segment(&a.curve)?;
++        let (b0, b1) = segment(&b.curve)?;
++        let scale = [a0, a1, b0, b1].into_iter().flatten().fold(0.0_f64, |m, v| m.max(v.abs()));
++        let padding = 64.0 * f64::EPSILON * (1.0 + scale);
++        // A lower bound above `tol` means the kernel tolerance cannot see a hit.
++        // The clamped closest-point formula can overestimate, so it is not used here.
++        Ok(segment_separation_lower(a0, a1, b0, b1, padding) > tol + padding)
++    }
++
++    /// Distance from a point to a segment. Exact up to a few ulps for finite inputs.
++    fn point_segment_distance(p: [f64; 3], a: [f64; 3], b: [f64; 3]) -> f64 {
++        let ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
++        let ap = [p[0] - a[0], p[1] - a[1], p[2] - a[2]];
++        let ab2 = ab[0] * ab[0] + ab[1] * ab[1] + ab[2] * ab[2];
++        let t = if ab2 <= 1e-18 {
++            0.0
++        } else {
++            ((ap[0] * ab[0] + ap[1] * ab[1] + ap[2] * ab[2]) / ab2).clamp(0.0, 1.0)
++        };
++        let d = [p[0] - (a[0] + t * ab[0]), p[1] - (a[1] + t * ab[1]), p[2] - (a[2] + t * ab[2])];
++        (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
++    }
++
++    /// A number that is at most the Euclidean segment distance, aside from the
++    /// rounding covered by `padding`. Parallel segments use the perpendicular
++    /// gap. Every other pair uses the infinite-line distance, which cannot
++    /// exceed the segment distance in exact arithmetic.
++    fn segment_separation_lower(p0: [f64; 3], p1: [f64; 3], q0: [f64; 3], q1: [f64; 3], padding: f64) -> f64 {
++        let sub = |a: [f64; 3], b: [f64; 3]| [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
++        let dot = |a: [f64; 3], b: [f64; 3]| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
++        let cross = |a: [f64; 3], b: [f64; 3]| {
++            [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]
++        };
++        let u = sub(p1, p0);
++        let v = sub(q1, q0);
++        let w = sub(q0, p0);
++        let a = dot(u, u);
++        let e = dot(v, v);
++        if a <= 1e-18 && e <= 1e-18 {
++            return dot(w, w).sqrt();
++        }
++        if a <= 1e-18 {
++            return point_segment_distance(p0, q0, q1);
++        }
++        if e <= 1e-18 {
++            return point_segment_distance(q0, p0, p1);
++        }
++        let u_len = a.sqrt();
++        let v_len = e.sqrt();
++        let n = cross(u, v);
++        let denom = dot(n, n);
++        let sin_theta = denom.sqrt() / (u_len * v_len);
++        let parallel_slack = sin_theta * u_len.max(v_len);
++        if parallel_slack <= padding {
++            let perp = dot(cross(u, w), cross(u, w)).sqrt() / u_len;
++            let axis = [u[0] / u_len, u[1] / u_len, u[2] / u_len];
++            let project = |p: [f64; 3]| dot(p, axis);
++            let (mut lo_a, mut hi_a) = (project(p0), project(p1));
++            let (mut lo_b, mut hi_b) = (project(q0), project(q1));
++            if lo_a > hi_a { std::mem::swap(&mut lo_a, &mut hi_a); }
++            if lo_b > hi_b { std::mem::swap(&mut lo_b, &mut hi_b); }
++            let gap = if hi_a < lo_b { lo_b - hi_a } else if hi_b < lo_a { lo_a - hi_b } else { 0.0 };
++            return ((perp * perp + gap * gap).sqrt() - parallel_slack).max(0.0);
++        }
++        if denom <= 1e-30 {
++            return 0.0;
++        }
++        dot(w, n).abs() / denom.sqrt()
++    }
++
 +    #[inline(never)]
 +    fn boundaries_disjoint(k: &Kernel, body: &Body, curves: &[BoundaryCurve], tol: f64) -> Result<(), String> {
 +        let mut candidates = 0;
@@ -263,6 +308,7 @@
 +            for b in curves.iter().skip(i + 1) {
 +                if adjacent_same_ring(a, b) { continue; }
 +                if separated(a, b, tol) { continue; }
++                if line_segments_apart(k, a, b, tol)? { continue; }
 +                candidates += 1;
 +                if candidates > 65_536 { return Err("boundary containment proof budget exceeded".into()); }
 +                let solutions = a.curve.global_curve_intersect::<ProofObject>(k, &a.curve.natural_interval(), &b.curve, &b.curve.natural_interval(), tol, &CurveIntersectOptions::default()).map_err(|e| e.to_string())?;
@@ -361,7 +407,7 @@
 +            // The temporary plane must include the projected control hull. A
 +            // tight face domain can clip a pole even when the entire edge lies
 +            // inside it, forcing the drop to approximate an exact planar curve.
-+            let domain = super::uv_proof::control_hull_domain(plane, face.uv_domain, curves.iter().map(|c| &c.curve))?;
++            let domain = uv_proof::control_hull_domain(plane, face.uv_domain, curves.iter().map(|c| &c.curve))?;
 +            plane.adjust_step_uv_domain(&domain).map_err(|e| e.to_string())?;
 +            face.uv_domain = domain;
 +        }
@@ -376,7 +422,7 @@
 +            let edge = made.brep.edge(edge_id).map_err(|e| e.to_string())?;
 +            let original = edge.curve.as_ref().ok_or("missing proof curve")?;
 +            let surface = made.brep.face(f).map_err(|e| e.to_string())?.surface.as_ref().ok_or("missing plane")?;
-+            super::check_planar_uv_projection(&made.kernel, original, &edge.interval, trim, surface, tol)?;
++            check_planar_uv_projection(&made.kernel, original, &edge.interval, trim, surface, tol)?;
 +        }
 +        let mut uv = vec![];
 +        {
@@ -417,7 +463,7 @@
 +        Ok(outer)
 +    }
 +
-+}
++
 +
 +// ---- 全域UV对应证书：不采样、不改网、不放宽tol ----------------------
 +mod uv_proof {
@@ -576,6 +622,7 @@
 +        Ok(())
 +    }
 +
++    #[inline(never)]
 +    pub(super) fn control_hull_domain<'a>(
 +        plane: &Plane,
 +        mut domain: Extent2d,
@@ -710,6 +757,7 @@
 +        }
 +        accept(error,plane.clamp_bound(uv_hull)?,tol)
 +    }
++    #[inline(never)]
 +    pub(super) fn check(source: &Curve, interval: &Extent1d, uv: &Curve, surface: &Surface, tol: f64) -> Result<(),String> {
 +        if !tol.is_finite() || tol<0.0 || source.dim()!=3 || uv.dim()!=2
 +            || !interval.min().is_finite() || !interval.max().is_finite() || interval.min()>=interval.max() {
@@ -724,16 +772,73 @@
 +    }
 +}
 +
++
++    pub(super) fn check_planar_uv_projection(
++        _k: &Kernel,
++        source: &Curve,
++        interval: &solidcore::geom::extent1d::Extent1d,
++        uv: &Curve,
++        surface: &solidcore::surface::surface::Surface,
++        tol: f64,
++    ) -> Result<(), String> {
++        uv_proof::check(source, interval, uv, surface, tol)
++    }
+--- a/crates/step-brep/src/constructor.rs
++++ b/crates/step-brep/src/constructor.rs
+@@ -1,3 +1,7 @@
++//! [INPUT]: 原始STEP中性Body、严格几何查询及真实Line/BSpline/Ellipse完整域。
++//! [OUTPUT]: 全域仿射控制网证书、拓扑构造及无显式outer平面环序规范化。
++//! [POS]: step-brep构造边界；归一错误必须在fallback前返回。
++//! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+ //! Topology-first construction: a body built from the file's own topology.
+ //!
+ //! The faces, loops, edges and vertices the file shares are made once each and joined
+@@ -302,4 +306,46 @@
+     }
+     c.end_face().map_err(call("EndFace"))?;
+     Ok(made)
++}
++
++/// True only if a used planar face has no explicit outer and at least two loops.
++fn needs_bound_order(body: &Body) -> Result<bool, String> {
++    let mut needed = false;
++    for shell in &body.shells {
++        for &index in &shell.faces {
++            let face = body.faces.get(index).ok_or("STEP_BOUND_ORDER: missing shell face")?;
++            let explicit = face.loops.iter().filter(|l| l.outer).count();
++            if explicit > 1 {
++                return Err(format!("STEP_BOUND_ORDER face #{}: multiple explicit outer bounds", face.step_id));
++            }
++            needed |= explicit == 0
++                && face.loops.len() >= 2
++                && matches!(face.surface, step_import::model::Surface::Plane { .. });
++        }
++    }
++    Ok(needed)
++}
++
++#[inline(never)]
++pub(crate) fn normalize_bound_order(body: &Body) -> Result<std::borrow::Cow<'_, Body>, String> {
++    if !needs_bound_order(body)? {
++        return Ok(std::borrow::Cow::Borrowed(body));
++    }
++    bound_order::normalize(body)
++}
++
++#[path = "bound_order.rs"]
++mod bound_order;
++
 +/// Proves full bounded coverage with analytic lines or a complete shared positive rational basis.
++#[inline(never)]
 +pub(crate) fn check_planar_uv_projection(
-+    _k: &Kernel,
++    k: &Kernel,
 +    source: &solidcore::curve::curve::Curve,
 +    interval: &solidcore::geom::extent1d::Extent1d,
 +    uv: &solidcore::curve::curve::Curve,
 +    surface: &solidcore::surface::surface::Surface,
 +    tol: f64,
 +) -> Result<(), String> {
-+    uv_proof::check(source,interval,uv,surface,tol)
++    bound_order::check_planar_uv_projection(k, source, interval, uv, surface, tol)
  }
 --- a/crates/step-brep/src/lib.rs
 +++ b/crates/step-brep/src/lib.rs
