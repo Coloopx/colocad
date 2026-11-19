@@ -24,3 +24,14 @@ The spline validation overlay also reports raw and tolerance-grouped endpoint kn
 `uv-metric-regularity.patch` applies that existing certificate to the actual metric-mapped trim. The original UV certificate continues to govern the original first-derivative check; it is never reused as a certificate of the mapped curvature. The mapped curve must independently satisfy the original positive-weight, finite-coordinate, knot-span, projection-roundoff and eight-times-threshold guards, using the unchanged mapped tolerance. If sizing or certification fails, or cancellation/strict status/zero-speed-end policies require it, the original solver remains. Knot, internal-control-point, topology and manifold checks still execute. An exact identity metric reuses the source trim and its existing bounding box for the radius check and never allocates a mapped clone. Mapped-trim sizing and mapped regularity live in a non-inlined helper so identity and analytic validation do not keep that TEXT in the main check CGU; `quadratic_regularity` is not called on a mapped clone when mapping produced `None`. The coincident-pole check also uses the source trim directly for identity metrics. Non-identity metrics still use the mapped control net.
 
 The vendor verifier accepts a prepared sequence only when every patched target matches its final hash in the trusted lock, in addition to the archive, patch and whole-tree checks. This permits repeated builds when a later patch modifies an earlier target. A forged local manifest cannot grant a different patched-target hash. The public synthetic [patch-chain regression](../../test/vendor-patches.test.mjs) checks this case and target, patch and archive tampering.
+`step-spherical-face-sense.patch` maps native spherical and conical normal
+reversals (`swap_uv ^ inside_out`, const surface flags only) to STEP
+`ADVANCED_FACE.same_sense` in a non-inlined helper. A single shell, or every
+shell of one material solid (outer plus enclosed voids), owns the face/edge/
+vertex tables by move. Compound B-reps keep one body per shell so product
+assemblies stay separate solids. STEP sphere frames and pcurves already use
+the outward analytic parameterization. The patch preserves the edge loops,
+geometric tolerances and import checks. Remove it when the pinned STEP
+bridge carries the same correction.
+[Native exchange regressions](../../crates/agent-cad/tests/step_spherical_face_sense.rs)
+cover ordinary and reflected rounded solids and enclosed spherical trims.

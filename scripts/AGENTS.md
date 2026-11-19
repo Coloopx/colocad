@@ -12,5 +12,6 @@ vendor.mjs: 验证归档、补丁前后文件及整树摘要；同目标有序�
 
 变更：2026-11-19 冷路径零支撑端点重建；端节点诊断仅失败路径。
 变更：2026-11-19 Dockerfile.native 锁定 uv-metric-regularity 新补丁与after摘要。
+变更：2026-11-19 Dockerfile.native 同步球面补丁 fuzz=0 前后摘要。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
