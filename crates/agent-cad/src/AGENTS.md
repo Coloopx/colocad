@@ -8,11 +8,11 @@ distance.rs: Exact topology distance adapter; no sampled-mesh distance fallback.
 engineering.rs: Product structure operations: exact offsets, openings and fitting lids.
 error.rs: 稳定错误码、来源字段和SolidCore错误适配。
 exchange.rs: STEP boundary conventions, isolated from the pinned kernel sources.
-executor.rs: Deterministic feature execution, exact validation and exports.
+executor.rs: 宿主字节准入、调用内ImportCache、公共UV度量、完整校验与STEP/report交付；解析统计先于reportBytes最终准入。
 grid.rs: Direct analytic topology for proven rectangular through-hole stock.
 hollow.rs: Closed cavities with the facade's explicit affine fallback policy and measured clearance.
 incremental.rs: 版本内几何缓存、传递依赖摘要及恢复校验。
-lib.rs: A bounded, replayable feature IR over a pinned exact B-rep kernel.
+lib.rs: 固定内核的公共构建与资源预算入口；ImportCache保持私有且仅单次调用。
 main.rs: 原生CLI命令分发、JSON回执和原子产物写出。
 mates.rs: Local six-DOF rigid assembly solving, followed by exact B-rep checks.
 model.rs: Declarative input contract and bounded scalar evaluation.
@@ -32,7 +32,7 @@ validation.rs: Schema, reference and resource validation, without kernel executi
 preview/: 原生显示网格、视图与预算处理。
 query/: 精确几何快照、选择器、datum与查询合同。
 
-[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+
 resources.rs: 宿主显式字节策略、固定硬上限和结构化超限回执；模型不能抬高预算。
 outputStepBytes贯通resources、executor、assembly及step_assembly，main同目录原子发布model.step.sha256；capabilities仅增加输出合同，原PR6几何/数量/单位不变。
 
@@ -43,3 +43,5 @@ import_cache.rs: 单次构建mode+verifiedSHA单槽准入；definition只取有�
 progress.rs: 显式启用的stderr结构化特征/阶段事件，不发送定时心跳。
 
 early_checks.rs: 固定位姿下依赖就绪的精确碰撞早检，mate模型仍在求解后检查，最终收口复用原结果。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

@@ -43,6 +43,7 @@ The local session catalog supports [indexed history, pagination and migration](i
 | Model efficiently from dimensions or views | [Best practices](best-practices.md) |
 | Query, declare installation intent, replace a part and verify edits | [Practical workflow and runnable example](best-practices.md#query-declare-intent-assemble-then-challenge-the-edit), [query API](engineering-queries.md) |
 | Diagnose a failed call or installation | [Troubleshooting](troubleshooting.md) |
+| Understand UV trim checks and unchanged geometry tolerances | [Validation metric and regressions](validation.md#uv-trim-validation-metric) |
 | Run examples and contribute a change | [Contributing](../CONTRIBUTING.md) |
 | Compare execution performance and limits | [Performance evidence](performance.md) |
 | Control memory as parts/history grow | [Three-backend memory study](memory-persistence-report.md), [alpha.9 persistence project](../specs/0006-bounded-memory-persistence.md) |

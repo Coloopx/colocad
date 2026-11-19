@@ -23,7 +23,7 @@ relationships.rs: exact_relationship_distinguishes_gap_contact_penetration_and_c
 sketch.rs: parametric_sketch_drives_exact_solid；underconstraint_and_conflict_are_explicit 等公开行为回归。
 snapshot_adversarial.rs: truncated_and_invalid_native_payloads_fail_without_panicking 等公开行为回归。
 surfaces.rs: planar_patch_thickens_to_exact_solid；c2_bridge_has_matching_analytic_boundary_jets 等公开行为回归。
-validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_reference 等公开行为回归。
+validation_properties.rs: 未映射/映射二次曲线的毫米度量保守证明、缩放/偏斜平面、严格求解器及真实小曲率负例的原报告对照。
 
 step_definition_policy.rs: 公开等价washer129同文件单定义/cache/整装配， 公开重复product原件的单定义/默认整装配/显式129控制、本地坐标、缓存命中/别名/索引与普通模式拒绝，保留实体/定义/字节/摘要/单位门禁。
 
@@ -41,9 +41,13 @@ output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边
 
 report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精确边界，沿用已RED控制，PR6适配尚待Windows。
 
+uv_trim_metric.rs: physically_valid_hole_survives_uv_rescaling_in_public_build；physically_valid_hole_survives_uv_rescaling_in_assembly 等公开行为回归。
+
 step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与严格负例，等价需Win独立OCP。
-step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例。
+step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例；只在Windows验收。
 
 step_import_cache.rs: 10项解析计数红绿与公开revision冷建/全restore/单BodyIdx miss及严格权限控制、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
 
 early_checks.rs: 用后继确定性几何错误证明碰撞早拒，并验证固定变换、允许相交及最终收口记录。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

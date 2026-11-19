@@ -60,6 +60,17 @@
           "after": "f36c9a77a0cbbc7b941e029f0365ec1c13e823e4b7a553d10778ed99b13d9bc6"
         }
       ]
+    },
+    {
+      "path": "third_party/patches/uv-metric-regularity.patch",
+      "sha256": "4131f330bcffdb530de3ec21734b0df925d6f2d3214e1569b8315f05f49213ea",
+      "targets": [
+        {
+          "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
+          "before": "9cfc3b6d57393681241fae43470c7c1526d2ee29fea2c8d2f2b99d32654972ff",
+          "after": "01b88e2c3ae5f1de33a309c3ae83c0ff99661c2c03965bac2a2144eca7910778"
+        }
+      ]
     }
   ]
 }

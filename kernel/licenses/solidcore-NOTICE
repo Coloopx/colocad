@@ -30,3 +30,9 @@ state instead of a global context). Each ported Rust file names the upstream
 file(s) it derives from in its header.
 
 Colocad downstream modification (2026-11-15): the pinned STEP importer includes continuous projected extrema of bounded circles and ellipses when constructing planar parameter domains. Other curve/surface domains retain the previous behavior. Original geometry, tolerances and validation checks are unchanged. Source, patch and resulting-file SHA-256 values are recorded in third_party/solidcore.lock.json.
+
+Colocad downstream modification: uv-metric-regularity.patch reuses the existing
+conservative rational-quadratic bounds on the actual metric-mapped trim curve.
+Identity metrics skip mapped clones; mapped regularity is isolated from the
+main check. The pinned source revision, validation thresholds, topology checks
+and generic solver fallback remain unchanged; see third_party/solidcore.lock.json.

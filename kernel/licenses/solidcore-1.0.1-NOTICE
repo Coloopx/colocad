@@ -36,3 +36,8 @@ Colocad applies a downstream STEP cylinder-domain change in crates/step-brep/src
 Colocad adds endpoint multiplicity details to the B-spline knot failure report in crates/solidcore/src/nurbs/b_spline_curve/p3.rs.
 
 Colocad applies a downstream change in crates/step-brep/src/lib.rs to remove exactly zero-support endpoint poles after construction of a previously clamped STEP edge.
+Colocad downstream modification: uv-metric-regularity.patch reuses the existing
+conservative rational-quadratic bounds on the actual metric-mapped trim curve.
+Identity metrics skip mapped clones; mapped regularity is isolated from the
+main check. The pinned source revision, validation thresholds, topology checks
+and generic solver fallback remain unchanged; see third_party/solidcore.lock.json.

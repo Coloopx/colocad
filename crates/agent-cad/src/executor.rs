@@ -1,5 +1,5 @@
 //! [INPUT]: 固定内核、声明特征与宿主预算。
-//! [OUTPUT]: 逐特征真实进展、依赖就绪碰撞拒绝和最终产物。
+//! [OUTPUT]: 逐特征真实进展、依赖就绪碰撞拒绝、UV 曲面度量校验和最终产物。
 //! [POS]: 原生特征调度；检查结果由装配复用。
 //! [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 //! Deterministic feature execution, exact validation and exports.
@@ -170,6 +170,7 @@ fn execute(
     k.fixes.transform_model_size_from_body_box = true;
     k.fixes.fillet_chamfer_cone_on_arc = true;
     k.fixes.shell_edges_on_analytics_exact = true;
+    k.fixes.uv_trim_checks_on_surface = true;
     let mut bodies = BTreeMap::new();
     let mut uses = BTreeMap::<String, usize>::new();
     for f in &model.features {

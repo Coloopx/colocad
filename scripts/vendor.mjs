@@ -1,6 +1,6 @@
 // [INPUT]: 固定归档、顺序补丁前后摘要与已有依赖树清单。
 // [OUTPUT]: 原子准备并严格核验最终依赖树，重复执行保持幂等。
-// [POS]: 原生构建前置；相同目标的多补丁只接受锁定的最终文件SHA。
+// [POS]: 原生构建前置；相同目标的多补丁只接受锁定的最终文件SHA；uv-metric after隔离后重锁。
 // [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 import {createHash} from 'node:crypto';
 import {readFile,writeFile,mkdir,readdir,rename,rm,access,readlink} from 'node:fs/promises';
