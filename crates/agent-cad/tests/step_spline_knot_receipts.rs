@@ -160,13 +160,9 @@ fn synthetic_step_edges_with_close_knots_keep_the_box() {
             assert_box_delivery(&imported);
             assert_box_delivery(&import_model(&imported.step, definition));
         }
-        let source = step_asset(&step);
-        let info = agent_cad::step_assembly::inspect(&source).unwrap();
-        let mut template: Model = serde_json::from_value(info["model_template"].clone()).unwrap();
-        template.assets.insert("source".into(), source);
-        let delivered = build(&template).unwrap();
+        let delivered = import_template(&step);
         assert_box_delivery(&delivered);
-        assert_box_delivery(&import_model(&delivered.step, false));
+        assert_box_delivery(&import_template(&delivered.step));
     }
 }
 
@@ -186,7 +182,21 @@ fn import_model(step: &str, definition: bool) -> agent_cad::Build {
         "output":"part"
     }))
     .unwrap();
-    agent_cad::build(&model).unwrap()
+    agent_cad::build(&model).unwrap_or_else(|error| {
+        panic!(
+            "definition={definition}, mapped items={}: {error:?}",
+            step.matches("MAPPED_ITEM(").count()
+        )
+    })
+}
+
+fn import_template(step: &str) -> agent_cad::Build {
+    let source = step_asset(step);
+    let info = agent_cad::step_assembly::inspect(&source).unwrap();
+    let mut template =
+        serde_json::from_value::<agent_cad::Model>(info["model_template"].clone()).unwrap();
+    template.assets.insert("source".into(), source);
+    agent_cad::build(&template).unwrap()
 }
 
 fn assert_box_delivery(delivered: &agent_cad::Build) {
