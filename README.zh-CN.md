@@ -8,6 +8,8 @@
 
 Colocad 把明确的建模指令转成可编辑源、精确 STEP 和可视化产物。Agent、harness 与 CAD 程序都在**同一个沙箱内部**。npm 包自带编译好的 Rust 内核，安装后建模无需 Python、Rust 工具链、网络或独立 CAD 服务。
 
+**0.1.5** 更新了缩放 UV 参数的 STEP 面、已绑定的 STEP 单位上下文、镜像球面、布尔结果边界、STEP 样条端点的处理。[几何样件与性能实测](docs/release-0.1.5.md)。
+
 **0.1.4** 修复了薄圆环的 STEP 导入。圆柱接缝采用不同的环起点或方向时，16 个样件往返后均保留中心孔，0.1.3 通过其中 8 个。[几何及性能验收](docs/release-0.1.4.md)。
 
 **0.1.3** 在两侧来源特征就绪后检查固定位姿碰撞。24 件歧管装配的 276 对检查从 0.1.2 的 **5.89 秒** 降至 **0.41 秒**，原生进程峰值 RSS 从 **46.5 MiB** 降至 **26.3 MiB**。原生 CLI 构建收到内核进度后续期停滞计时，宿主可单独放宽普通 STEP 装配的导入数量。[执行策略](docs/execution-progress.md) · [STEP 导入额度](docs/api.md) · [版本验收](docs/release-0.1.3.md)。
@@ -39,7 +41,7 @@ flowchart LR
 npm install @coloopx/colocad
 ```
 
-固定版本可运行 `npm install --save-exact @coloopx/colocad@0.1.4`。CLI 可用 `colocad checkout SESSION s0001 NEW_DIRECTORY` 取回旧版本。[公共 npm 安装与几何回读](https://github.com/Coloopx/colocad/releases/download/v0.1.4/registry-proof.json)。
+固定版本可运行 `npm install --save-exact @coloopx/colocad@0.1.5`。CLI 可用 `colocad checkout SESSION s0001 NEW_DIRECTORY` 取回旧版本。[公共 npm 安装与几何回读](https://github.com/Coloopx/colocad/releases/download/v0.1.5/registry-proof.json)。
 
 安装包包含 JS/TS API、CLI、原生可执行文件、查看器和完整 skill。Rust 源码位于 [crates/agent-cad](crates/agent-cad)，npm 包携带编译产物。[模型与产物格式](docs/concepts.md)。
 
@@ -221,7 +223,7 @@ SenseCAP 的指定椭圆在正式版仍未通过校验，计时的两个后端�
 
 ## 支持范围与限制
 
-- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.4/release-validation.json)。
+- 原生包支持 Linux x64/arm64、macOS arm64，要求 Node.js 22+。[三平台发包验收](https://github.com/Coloopx/colocad/releases/download/v0.1.5/release-validation.json)。
 - 支持可编辑 JSON/程序和精确 STEP；STEP 不保存商业 CAD 软件的原生特征树。
 - Linux 通用可编辑 SOLIDWORKS 输出尚未完成。实验性 Windows author 需要授权 SOLIDWORKS，软件内重建验收仍未通过验证。[原生导出状态](docs/native-solidworks.md)。
 - 几何有效、读图正确、可编辑、能配合和可制造需要各自的证据。[验证范围](docs/validation.md)。

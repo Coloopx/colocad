@@ -1,5 +1,7 @@
 # Developer documentation
 
+[0.1.5 geometry and resource verification](release-0.1.5.md)
+
 [0.1.4 release verification for cylindrical STEP seams and annuli](release-0.1.4.md)
 
 [0.1.3 release verification and native regression cases](release-0.1.3.md)

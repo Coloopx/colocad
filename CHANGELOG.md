@@ -2,6 +2,16 @@
 
 Release notes cover supported geometry, package changes and measured workloads.
 
+## [0.1.5](https://github.com/Coloopx/colocad/releases/tag/v0.1.5) - 2026-11-19
+
+- Reconstruct valid faces whose supporting surface rescales the UV coordinates. The 20 × 20 × 6 mm drilled plate retains its 1 mm bore and 2381.15041 mm³ volume. [PR #3](https://github.com/Coloopx/colocad/pull/3)
+- Import explicitly bound, equivalent-length STEP representation contexts. The Mushroom product imports with ten solids. [PR #8](https://github.com/Coloopx/colocad/pull/8)
+- Preserve the outward face sense when exporting reflected spherical trims. The mirrored filleted block and the hollow capsule both import back as single solids. The capsule retains its enclosed void. [PR #25](https://github.com/Coloopx/colocad/pull/25)
+- Test closed Boolean union and intersection results against necessary spatial bounds. The pipe/sphere example now returns a structured geometry failure before writing an impossible intersection. This guard also applies after updating a saved session. [PR #26](https://github.com/Coloopx/colocad/pull/26)
+- Remove zero-support endpoint poles when reconstructing clamped STEP B-splines. Four endpoint variants pass ordinary import, definition import and inspection-template replay, including export and reimport. [PR #34](https://github.com/Coloopx/colocad/pull/34)
+
+[Release verification](docs/release-0.1.5.md)
+
 ## [0.1.4](https://github.com/Coloopx/colocad/releases/tag/v0.1.4) - 2026-11-19
 
 - Restore the finite domain of STEP cylindrical faces before rebuilding the seam. In the thin-annulus regression, 16 of 16 loop representations round-trip with their bore and volume intact, compared with 8 in 0.1.3. A displaced vertex still triggers rejection. [PR #31](https://github.com/Coloopx/colocad/pull/31) · [Release verification](docs/release-0.1.4.md)

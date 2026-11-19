@@ -1,6 +1,7 @@
 # /docs
 > L2 | 父级: ../AGENTS.md
 
+release-0.1.5.md: STEP/geometry maintenance release and sandbox measurements.
 release-0.1.4.md: Thin-annulus STEP readback and patch release verification.
 README.md: Developer documentation
 README.zh-CN.md: 开发与接入指南

@@ -36,3 +36,5 @@ conservative rational-quadratic bounds on the actual metric-mapped trim curve.
 Identity metrics skip mapped clones; mapped regularity is isolated from the
 main check. The pinned source revision, validation thresholds, topology checks
 and generic solver fallback remain unchanged; see third_party/solidcore.lock.json.
+
+Colocad modifies STEP export of spherical and conical trimmed faces to preserve face orientation after reflection. The source revision, patch and resulting hashes are recorded in third_party/solidcore.lock.json.
