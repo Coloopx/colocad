@@ -51,27 +51,35 @@ fn reference_owners(f: &StepFile, targets: &BTreeSet<u64>) -> BTreeMap<u64, BTre
     }
     owners
 }
-fn descriptive_metadata(f: &StepFile, id: u64, owners: &BTreeMap<u64, BTreeSet<u64>>) -> bool {
-    if owners.contains_key(&id) {
-        return false;
-    }
-    let Some(StepInstance::Simple(r)) = f.entities.get(&id) else {
-        return false;
+fn descriptive_items(f: &StepFile, id: u64) -> Option<Vec<u64>> {
+    let StepInstance::Simple(record) = f.entities.get(&id)? else {
+        return None;
     };
-    if r.name != "REPRESENTATION" || r.params.len() != 3 {
-        return false;
+    if record.name != "REPRESENTATION" || record.params.len() != 3 {
+        return None;
     }
-    let Some(items) = r.params.get(1).and_then(Param::as_list) else {
-        return false;
-    };
-    !items.is_empty() && items.iter().all(|p| {
-        let Some(item_id) = p.as_ref_id() else { return false; };
-        owners.get(&item_id).is_some_and(|users| users.len() == 1 && users.contains(&id))
-            && matches!(f.entities.get(&item_id),
-                Some(StepInstance::Simple(item)) if item.name == "DESCRIPTIVE_REPRESENTATION_ITEM"
-                    && item.params.len() == 2 && item.params.iter().all(|p| matches!(p, Param::Str(_))))
-    })
+    let items = record.params.get(1)?.as_list()?;
+    if items.is_empty() {
+        return None;
+    }
+    items
+        .iter()
+        .map(|item| {
+            let id = item.as_ref_id()?;
+            match f.entities.get(&id) {
+                Some(StepInstance::Simple(record))
+                    if record.name == "DESCRIPTIVE_REPRESENTATION_ITEM"
+                        && record.params.len() == 2
+                        && record.params.iter().all(|p| matches!(p, Param::Str(_))) =>
+                {
+                    Some(id)
+                }
+                _ => None,
+            }
+        })
+        .collect()
 }
+
 #[derive(Clone, Copy, PartialEq)]
 struct UnitContext {
     mm: f64,
@@ -223,25 +231,40 @@ fn context(f: &StepFile, id: u64) -> Result<UnitContext> {
 }
 
 fn verify_length_contexts(f: &StepFile, contexts: &Contexts, declared: &[u64]) -> Result<()> {
-    // 单一有效的长度上下文不会产生混合尺度，且每个 body 已验证显式归属。
-    // 单一但声明不合法的情形仍须区分未引用声明和实际消费者。
-    if declared.is_empty()
-        || (declared.len() == 1 && declared.first().is_some_and(|id| context(f, *id).is_ok()))
-    {
+    // 所有声明都能解释为同一长度时，metadata 分类不影响结论。
+    if declared.is_empty() {
         return Ok(());
     }
-    let targets = declared
-        .iter()
-        .chain(contexts.reps.keys())
-        .chain(contexts.owners.keys())
-        .copied()
-        .collect::<BTreeSet<_>>();
-    let owners = reference_owners(f, &targets);
-    let metadata = contexts
+    if let Ok(first) = context(f, declared[0]) {
+        if declared[1..]
+            .iter()
+            .all(|id| context(f, *id).is_ok_and(|next| next.mm == first.mm))
+        {
+            return Ok(());
+        }
+    }
+    let descriptions: Vec<_> = contexts
         .reps
         .keys()
-        .filter(|id| descriptive_metadata(f, **id, &owners))
-        .copied()
+        .filter_map(|&id| descriptive_items(f, id).map(|items| (id, items)))
+        .collect();
+    let mut targets = declared.iter().copied().collect::<BTreeSet<_>>();
+    for (id, items) in &descriptions {
+        targets.insert(*id);
+        targets.extend(items.iter().copied());
+    }
+    let owners = reference_owners(f, &targets);
+    let metadata = descriptions
+        .into_iter()
+        .filter_map(|(id, items)| {
+            (!owners.contains_key(&id)
+                && items.iter().all(|item| {
+                    owners
+                        .get(item)
+                        .is_some_and(|users| users.len() == 1 && users.contains(&id))
+                }))
+            .then_some(id)
+        })
         .collect::<BTreeSet<_>>();
     let mut length = None;
     for &id in declared {
@@ -271,6 +294,7 @@ impl Contexts {
             reps: BTreeMap::new(),
             owners: BTreeMap::new(),
         };
+        let body_ids: BTreeSet<_> = model.bodies.iter().map(|body| body.step_id).collect();
         let mut declared = Vec::new();
         for (id, item) in &f.entities {
             if item.record("GLOBAL_UNIT_ASSIGNED_CONTEXT").is_some() {
@@ -283,7 +307,9 @@ impl Contexts {
                 ) {
                     out.reps.insert(*id, ctx);
                     for item in items.iter().filter_map(Param::as_ref_id) {
-                        out.owners.entry(item).or_default().push(*id);
+                        if body_ids.contains(&item) {
+                            out.owners.entry(item).or_default().push(*id);
+                        }
                     }
                 }
             }
