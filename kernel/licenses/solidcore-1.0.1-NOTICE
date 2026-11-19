@@ -35,5 +35,6 @@ Colocad applies a downstream STEP cylinder-domain change in crates/step-brep/src
 
 Colocad downstream modification: uv-metric-regularity.patch reuses the existing
 conservative rational-quadratic bounds on the actual metric-mapped trim curve.
-The pinned source revision, validation thresholds, topology checks and generic
-solver fallback remain unchanged; see third_party/solidcore.lock.json.
+Identity metrics skip mapped clones; mapped regularity is isolated from the
+main check. The pinned source revision, validation thresholds, topology checks
+and generic solver fallback remain unchanged; see third_party/solidcore.lock.json.

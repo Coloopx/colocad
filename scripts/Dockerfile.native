@@ -1,6 +1,6 @@
 # [INPUT]: SHA固定SolidCore归档、顺序补丁与Colocad源码。
 # [OUTPUT]: Linux agent-cad与catalog镜像。
-# [POS]: 原生构建与scripts/vendor.mjs消费同一锁定补丁集合。
+# [POS]: 原生构建与scripts/vendor.mjs消费同一锁定补丁集合；uv-metric mapped regularity隔离后重锁。
 # [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 # Use a minimal context containing Cargo.toml, Cargo.lock, crates/ and third_party/.
 FROM rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS sources
@@ -19,7 +19,7 @@ RUN echo "081b1f711ab04506336c37c609ea92e868428e52663be8952e2447ffdccddb1e  /tmp
 COPY third_party/patches/periodic-seam-trims.patch /tmp/periodic-seam-trims.patch
 RUN echo "444ffc26b4cda9681e96524771c89bd3a40e71d58b5e3a896445c469a5b7aa12  /tmp/periodic-seam-trims.patch" | sha256sum -c - && cd vendor/solidcore && echo "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f  crates/step-brep/src/lib.rs" | sha256sum -c - && patch -s -p1 < /tmp/periodic-seam-trims.patch && echo "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3  crates/step-brep/src/lib.rs" | sha256sum -c -
 COPY third_party/patches/uv-metric-regularity.patch /tmp/uv-metric-regularity.patch
-RUN echo "e8b113baff7c25457904ac4056ae68aaa2b971cc43017616ef3761db37a9efe5  /tmp/uv-metric-regularity.patch" | sha256sum -c - && cd vendor/solidcore && echo "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c - && patch -s -p1 --fuzz=0 < /tmp/uv-metric-regularity.patch && echo "55d7b896f0fedf8d6f36b47dd123cbc22d2d266b56b30594f212a1c0a84c15d7  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c -
+RUN echo "4131f330bcffdb530de3ec21734b0df925d6f2d3214e1569b8315f05f49213ea  /tmp/uv-metric-regularity.patch" | sha256sum -c - && cd vendor/solidcore && echo "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c - && patch -s -p1 --fuzz=0 < /tmp/uv-metric-regularity.patch && echo "4d7c061f9bd9f84b5fa7d6e2e4182817ddee893680dd9f9ea2e2175bb8b459df  crates/solidcore/src/nurbs/b_spline_curve/p3.rs" | sha256sum -c -
 COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 # Separate target caches and lock registry extraction: concurrent platform builds

@@ -1,6 +1,124 @@
 --- a/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
 +++ b/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
-@@ -1861,11 +1861,11 @@
+@@ -100,6 +100,7 @@
+ use crate::geom::axis2_placement::Axis2Placement;
+ use crate::geom::extent1d::Extent1d;
+ use crate::geom::extent2d::Extent2d;
++use crate::geom::extent3d::Extent3d;
+ use crate::geom::geom_utility::p1::{
+     line_closest_point, line_point_distance, plane_point_distance, point_project_to_plane,
+     segment_point_distance,
+@@ -724,6 +725,7 @@
+ /// A copy of `trim` with its control points mapped by [`trim_metric`]'s `l` (the
+ /// fork's `sm_MappedTrim`): linear, so it maps homogeneous control points as it maps
+ /// cartesian ones. `None` when the copy has no NURB.
++#[inline(never)]
+ fn mapped_trim(trim: &BSplineCurve, l: [f64; 3]) -> Option<BSplineCurve> {
+     let mut copy = trim.clone();
+     let nurb = copy.nurb.as_mut()?;
+@@ -735,6 +737,101 @@
+     Some(copy)
+ }
+ 
++struct UvMappedRadius {
++    mapped: Option<BSplineCurve>,
++    metric: bool,
++    radius_sized: bool,
++    radius_tol: f64,
++    radius_sep: f64,
++    radius_regularity: Option<(f64, f64)>,
++}
++
++/// Map a UV trim by its surface metric and recertify mapped curvature.
++/// Kept out of `assert_valid_with` so identity/analytic checks do not retain
++/// mapped-curve TEXT in the main validation CGU.
++#[inline(never)]
++fn uv_trim_mapped_radius(
++    k: &Kernel,
++    trim: &BSplineCurve,
++    bounded: bool,
++    surface: Option<&Surface>,
++    domain: &Extent1d,
++    size_t: f64,
++    bbox: Option<Extent3d>,
++    regularity_allowed: bool,
++    regularity: Option<(f64, f64)>,
++    sized: bool,
++    tol: f64,
++    min_sep: f64,
++) -> Result<UvMappedRadius> {
++    let mut mapped = None;
++    let (mut radius_sized, mut radius_tol, mut radius_sep) = (sized, tol, min_sep);
++    let mut radius_regularity = regularity;
++    let Some(l) = trim_metric(k, trim, bounded, surface, domain)? else {
++        return Ok(UvMappedRadius {
++            mapped,
++            metric: false,
++            radius_sized,
++            radius_tol,
++            radius_sep,
++            radius_regularity,
++        });
++    };
++    // Exact identity uses the same curve and bounding-box request as the speed check.
++    let mapped_box = if l == [1.0, 0.0, 1.0] {
++        bbox.filter(|_| trim.nurb.is_some())
++    } else {
++        mapped = mapped_trim(trim, l);
++        match mapped.as_ref() {
++            Some(m) => ignored(m.calculate_bounding_box(
++                domain,
++                BoundingBoxRequest {
++                    normal: true,
++                    pseudo: false,
++                    polar: false,
++                },
++            ))?
++            .and_then(|b| b.normal),
++            None => None,
++        }
++    };
++    radius_sized = mapped_box.is_some();
++    if let Some(mapped_box) = mapped_box {
++        let mapped_size = mapped_box.size().length();
++        radius_tol = (mapped_size / size_t) / 10000.0;
++        radius_sep = mapped_size / max2(20., size_t);
++    }
++    // Curvature proof uses millimetre-mapped poles; the UV certificate is not reused.
++    radius_regularity = match mapped.as_ref() {
++        Some(curve) if regularity_allowed && radius_sized => quadratic_regularity(curve, domain),
++        Some(_) => None,
++        None => regularity,
++    };
++    Ok(UvMappedRadius {
++        mapped,
++        metric: true,
++        radius_sized,
++        radius_tol,
++        radius_sep,
++        radius_regularity,
++    })
++}
++
++/// Non-identity metrics only; identity coincident-pole checks keep the source trim.
++#[inline(never)]
++fn uv_mapped_pole(
++    k: &Kernel,
++    trim: &BSplineCurve,
++    bounded: bool,
++    surface: Option<&Surface>,
++) -> Result<Option<BSplineCurve>> {
++    let interval = trim.natural_interval();
++    Ok(match trim_metric(k, trim, bounded, surface, &interval)? {
++        Some(l) if l != [1.0, 0.0, 1.0] => mapped_trim(trim, l),
++        _ => None,
++    })
++}
++
+ /// `SmCurve::IsAnalytic` of a B-spline: the base `FALSE` (`SmBSplineCurve` does not
+ /// override it; see [`crate::curve::curve::Curve::is_analytic`]).
+ const fn curve_is_analytic(_curve: &BSplineCurve) -> bool {
+@@ -1861,11 +1958,11 @@
                  5.0
              };
  
@@ -15,10 +133,13 @@
                  quadratic_regularity(self, &domain)
              } else {
                  None
-@@ -1950,18 +1950,24 @@
+@@ -1948,40 +2045,43 @@
+             // mapped trim that cannot be sized fails test 13 and is not analysed.
+             let mut mapped: Option<BSplineCurve> = None;
              let (mut radius_sized, mut radius_tol, mut radius_sep) = (sized, tol, min_sep);
++            let mut radius_regularity = regularity;
              if sized && k.fixes.uv_trim_checks_on_surface {
-                 if let Some(l) = trim_metric(k, self, bounded, ovr.trim_surface, &domain)? {
+-                if let Some(l) = trim_metric(k, self, bounded, ovr.trim_surface, &domain)? {
 -                    mapped = mapped_trim(self, l);
 -                    let mapped_box = match mapped.as_ref() {
 -                        Some(m) => ignored(m.calculate_bounding_box(
@@ -31,40 +152,41 @@
 -                        ))?
 -                        .and_then(|b| b.normal),
 -                        None => None,
-+                    // Exact identity uses the same curve and bounding-box request
-+                    // as the speed check above.
-+                    let mapped_box = if l == [1.0, 0.0, 1.0] {
-+                        bbox_opt.filter(|_| self.nurb.is_some())
-+                    } else {
-+                        mapped = mapped_trim(self, l);
-+                        match &mapped {
-+                            Some(m) => ignored(m.calculate_bounding_box(
-+                                &domain,
-+                                BoundingBoxRequest {
-+                                    normal: true,
-+                                    pseudo: false,
-+                                    polar: false,
-+                                },
-+                            ))?
-+                            .and_then(|b| b.normal),
-+                            None => None,
-+                        }
-                     };
-                     radius_sized = mapped_box.is_some();
+-                    };
+-                    radius_sized = mapped_box.is_some();
++                let setup = uv_trim_mapped_radius(
++                    k,
++                    self,
++                    bounded,
++                    ovr.trim_surface,
++                    &domain,
++                    size_t,
++                    bbox_opt,
++                    regularity_allowed,
++                    regularity,
++                    sized,
++                    tol,
++                    min_sep,
++                )?;
++                mapped = setup.mapped;
++                radius_sized = setup.radius_sized;
++                radius_tol = setup.radius_tol;
++                radius_sep = setup.radius_sep;
++                radius_regularity = setup.radius_regularity;
++                if setup.metric {
                      rtn &= bool_report(&mut list, key, 13, radius_sized)?;
-@@ -1976,12 +1982,22 @@
+-                    if let Some(mapped_box) = mapped_box {
+-                        let mapped_size = mapped_box.size().length();
+-                        radius_tol = (mapped_size / size_t) / 10000.0;
+-                        radius_sep = mapped_size / max2(20., size_t);
+-                    }
+                 }
+             }
+             let copy_curve = mapped.as_ref().unwrap_or(self);
  
              // Another type of kink check: vanishing radius of curvature.
              let mut radii = false;
 -            let radius_proven = regularity.is_some_and(|(_, radius)| {
-+            // ---- 曲率证明使用实际毫米映射后的控制点，不能复用原UV证明 ----
-+            let radius_regularity = match mapped.as_ref() {
-+                Some(curve) if regularity_allowed && radius_sized => {
-+                    quadratic_regularity(curve, &domain)
-+                }
-+                Some(_) => None,
-+                None => regularity,
-+            };
 +            let radius_speed_proven = radius_regularity.is_some_and(|(speed, _)| {
 +                radius_tol.is_finite() && radius_tol >= 0. && speed > 8. * radius_tol
 +            });
@@ -78,14 +200,15 @@
                  && radius_sized
                  && !k.fixes.curve_check_zero_speed_tangent_end
              {
-@@ -2090,7 +2106,9 @@
+@@ -2089,10 +2189,7 @@
+         // surface, as the radius test above.
          let mut pole_curve: Option<BSplineCurve> = None;
          if k.fixes.uv_trim_checks_on_surface {
-             let interval = self.natural_interval();
+-            let interval = self.natural_interval();
 -            if let Some(l) = trim_metric(k, self, ovr.bounded, ovr.trim_surface, &interval)? {
-+            if let Some(l) = trim_metric(k, self, ovr.bounded, ovr.trim_surface, &interval)?
-+                .filter(|metric| *metric != [1.0, 0.0, 1.0])
-+            {
-                 pole_curve = mapped_trim(self, l);
-             }
+-                pole_curve = mapped_trim(self, l);
+-            }
++            pole_curve = uv_mapped_pole(k, self, ovr.bounded, ovr.trim_surface)?;
          }
+         let has_internal_pole = pole_curve
+             .as_ref()

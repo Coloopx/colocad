@@ -93,4 +93,4 @@ These are fetched at run time (never committed) and used only by difftest's
 
 ## Colocad downstream validation optimization
 
-The hash-locked `uv-metric-regularity.patch` applies the existing conservative quadratic regularity bounds to metric-mapped UV trims. It does not change the pinned upstream revision, geometry or validation thresholds; unresolved cases retain the original solver.
+The hash-locked `uv-metric-regularity.patch` applies the existing conservative quadratic regularity bounds to metric-mapped UV trims. Identity metrics reuse the source trim without a mapped clone. Mapped-trim regularity is isolated from the main validation function. It does not change the pinned upstream revision, geometry or validation thresholds; unresolved cases retain the original solver.

@@ -19,4 +19,4 @@ See third_party/patches/README.md for the pinned planar conic domain patch and c
 
 Adjacent STEP definition imports reuse one admitted source in the native build. See crates/agent-cad/src/import_cache.rs and crates/agent-cad/tests/step_import_cache.rs.
 
-UV 曲面度量在公共执行中启用；顺序 vendor 补丁均验证最终摘要，曲线保守证明失败时沿用原求解器。参见 docs/validation.md。
+UV 曲面度量在公共执行中启用；identity 度量不分配映射克隆，mapped regularity 隔离于主校验函数。顺序 vendor 补丁均验证最终摘要，曲线保守证明失败时沿用原求解器。参见 docs/validation.md。
