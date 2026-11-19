@@ -8,6 +8,7 @@
 //! [INPUT]: 固定内核和声明式模型/宿主资源策略。
 //! [OUTPUT]: 默认兼容及显式宿主字节预算的Rust公共入口。
 //! [POS]: crate公共边界。[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+mod boolean_result;
 mod compound;
 mod distance;
 mod early_checks;

@@ -2,6 +2,7 @@
 > L2 | 父级: ../../../AGENTS.md
 
 assembly_tree.rs: nested_shared_instances_roundtrip_with_native_placements；independent_occt_nested_asset_applies_both_transforms 等公开行为回归。
+boolean_result.rs: 斜管球相交错误成功与双方顺序的长方体解析体积回归。
 capabilities.rs: enclosure_and_fitting_lid_have_exact_wall_and_floor；oriented_openings_counterbores_and_split 等公开行为回归。
 datums.rs: derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit；ambiguous_datum_does_not_pick_first_face 等公开行为回归。
 foreign_queries.rs: imported_axial_and_angular_cylinder_splits_form_one_physical_bore；imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition 等公开行为回归。
