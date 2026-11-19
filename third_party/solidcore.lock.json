@@ -14,7 +14,7 @@
   "additional_patches": [
     {
       "path": "third_party/patches/validation-properties.patch",
-      "sha256": "52cd4d1abe53fc6e307e62bda61e37c61a9f4a8efd946eb957adadebb1d9b074",
+      "sha256": "e04a63173c313ebb56bcb547112e8b650ed35faa3790423fe69c4eb01512131c",
       "targets": [
         {
           "target": "crates/solidcore/src/kernel.rs",
@@ -24,7 +24,7 @@
         {
           "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
           "before": "2efbdd8a7a49fe7e418bbfa011ad38522ef257b1c68986e0bc4b314650f6837e",
-          "after": "a2cd330bc6b08a333b73ec1c240a8dbf73a422344447d4ea31671f91562e4cc9"
+          "after": "9cfc3b6d57393681241fae43470c7c1526d2ee29fea2c8d2f2b99d32654972ff"
         }
       ]
     },
@@ -47,6 +47,39 @@
           "target": "crates/step-brep/src/lib.rs",
           "before": "35d46a92e877f297e8ada5f1e9f505dfd555c6362e15c842b5d8a410808a3e8f",
           "after": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3"
+        }
+      ]
+    },
+    {
+      "path": "third_party/patches/step-brep-end-poles.patch",
+      "sha256": "2bf54095bdd419044eaa06a1153d2501150d47658cac7223c4797ed45f1644d1",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/lib.rs",
+          "before": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3",
+          "after": "f36c9a77a0cbbc7b941e029f0365ec1c13e823e4b7a553d10778ed99b13d9bc6"
+        }
+      ]
+    },
+    {
+      "path": "third_party/patches/uv-metric-regularity.patch",
+      "sha256": "4131f330bcffdb530de3ec21734b0df925d6f2d3214e1569b8315f05f49213ea",
+      "targets": [
+        {
+          "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
+          "before": "9cfc3b6d57393681241fae43470c7c1526d2ee29fea2c8d2f2b99d32654972ff",
+          "after": "01b88e2c3ae5f1de33a309c3ae83c0ff99661c2c03965bac2a2144eca7910778"
+        }
+      ]
+    },
+    {
+      "path": "third_party/patches/step-spherical-face-sense.patch",
+      "sha256": "76d3df7344632e127e44880104c0700174b9c15d917fd0e0ee698095011de4aa",
+      "targets": [
+        {
+          "target": "crates/step-brep/src/brep_to_model.rs",
+          "before": "73d1895f9947ca42cf12bbd155b27ee9bae29c90a00c30640e1fe6526a5f3fb3",
+          "after": "5b82dd478fd3b4151487cb412fe8c72df3139e37423c3964434e294c6f5388c8"
         }
       ]
     }

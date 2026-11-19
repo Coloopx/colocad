@@ -6,10 +6,10 @@ resolver = "2"
 [profile.release]
 strip = true
 
-# Cross-crate dead-code elimination keeps the shipped kernel small.
+# Whole-program optimization reduces the demand-paged code footprint of the shipped kernel.
 [profile.distribution]
 inherits = "release"
-lto = "thin"
+lto = "fat"
 opt-level = 2
 
 # Favor smaller SDK/CLI and exchange code paths. Keep geometry crates at O2.

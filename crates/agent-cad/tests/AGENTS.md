@@ -2,6 +2,7 @@
 > L2 | 父级: ../../../AGENTS.md
 
 assembly_tree.rs: nested_shared_instances_roundtrip_with_native_placements；independent_occt_nested_asset_applies_both_transforms 等公开行为回归。
+boolean_result.rs: 斜管球相交错误成功与双方顺序的长方体解析体积回归。
 capabilities.rs: enclosure_and_fitting_lid_have_exact_wall_and_floor；oriented_openings_counterbores_and_split 等公开行为回归。
 datums.rs: derived_axis_and_plane_drive_mates_and_recompute_after_parameter_edit；ambiguous_datum_does_not_pick_first_face 等公开行为回归。
 foreign_queries.rs: imported_axial_and_angular_cylinder_splits_form_one_physical_bore；imported_spline_conical_tip_and_intersecting_bores_do_not_claim_complete_recognition 等公开行为回归。
@@ -23,7 +24,7 @@ relationships.rs: exact_relationship_distinguishes_gap_contact_penetration_and_c
 sketch.rs: parametric_sketch_drives_exact_solid；underconstraint_and_conflict_are_explicit 等公开行为回归。
 snapshot_adversarial.rs: truncated_and_invalid_native_payloads_fail_without_panicking 等公开行为回归。
 surfaces.rs: planar_patch_thickens_to_exact_solid；c2_bridge_has_matching_analytic_boundary_jets 等公开行为回归。
-validation_properties.rs: certificate_cache_and_stricter_policy_agree_with_reference 等公开行为回归。
+validation_properties.rs: 未映射/映射二次曲线的毫米度量保守证明、缩放/偏斜平面、严格求解器及真实小曲率负例的原报告对照。
 
 step_definition_policy.rs: 公开等价washer129同文件单定义/cache/整装配， 公开重复product原件的单定义/默认整装配/显式129控制、本地坐标、缓存命中/别名/索引与普通模式拒绝，保留实体/定义/字节/摘要/单位门禁。
 
@@ -33,15 +34,25 @@ fixtures/: 原生及独立内核产生的公开回归输入。
 
 step_periodic_seam.rs: 合成圆环的周期接缝、孔洞与真实端点损坏回归。
 
+step_spline_knot_receipts.rs: 合成线性及有理三次样条的端节点重数、强制缝合和公开 STEP 交付回读。
+step_units.rs: 同长度body上下文、公开OCCT嵌套及review8纯描述metadata对照/关联与刚体负例；拒绝mixed、缺归属与冲突，旧手造mapped控制不冒称独立source一致。
+support/: 合成STEP构造助手，不承载期望单位/位姿算法。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource_limits.rs: UTF-8/聚合边界、CLI宿主选项、默认/硬上限及下界回执回归。
 output_step_budgets.rs: 独立输出默认/硬顶、单体/共享装配精确边界与checkpoint回放、CLI拒绝不发布及IR不能授权；Windows待验。
 
 report_capacity.rs: 公开真实旧manifest冷建/损坏控制及compact/file精确边界，沿用已RED控制，PR6适配尚待Windows。
 
+uv_trim_metric.rs: physically_valid_hole_survives_uv_rescaling_in_public_build；physically_valid_hole_survives_uv_rescaling_in_assembly 等公开行为回归。
+
 step_planar_conic_delivery.rs: 完整闭合STEP import/build/export/readback与严格负例，等价需Win独立OCP。
+step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例；只在Windows验收。
 step_planar_conic_domain.rs: G2平面conic连续域与严格UV gap负例。
+step_spherical_face_sense.rs: 圆角块与胶囊闭腔的镜像 STEP 回读，验证实体、空腔、尺寸和体积。
 
 step_import_cache.rs: 10项解析计数红绿与公开revision冷建/全restore/单BodyIdx miss及严格权限控制、32实例literal世界frame/逐件bbox、不同body选择及来源/模式拒绝控制；红断言前可保存公开几何回执。
 
 early_checks.rs: 用后继确定性几何错误证明碰撞早拒，并验证固定变换、允许相交及最终收口记录。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md

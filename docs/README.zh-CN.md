@@ -1,5 +1,7 @@
 # 开发与接入指南
 
+[0.1.5 几何变更与资源复验](release-0.1.5.md)
+
 [0.1.4 圆柱接缝、薄圆环 STEP 往返及发布验收](release-0.1.4.md)
 
 [0.1.3 正式版性能、内存与几何回归验收](release-0.1.3.md)
@@ -111,5 +113,7 @@ test ! -e .agents/skills/colocad && \
 - [ROADMAP](../ROADMAP.zh-CN.md)：当前架构、验收范围、benchmark 与 RSI 规划。
 - [三后端内存压力与持久化报告](memory-persistence-report.zh-CN.md)及 [alpha.9 有界内存立项](../specs/0006-bounded-memory-persistence.zh-CN.md)。
 - [四阶段目标与 benchmark / 回溯优化](../specs/0005-capability-reliability-and-optimization.zh-CN.md)
+
+UV参数坐标与毫米距离的校验边界、平面/局部曲面度量及回归命令见[UV曲线校验](validation.md#uv-trim-validation-metric)。
 
 [原生进度与宿主停滞监督](execution-progress.md)：解除120秒专用上限，按真实事件续期；固定实例碰撞提前检查，mate仍在求解后检查。

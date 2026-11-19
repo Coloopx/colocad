@@ -24,12 +24,24 @@ validation/: 原生与打包入口的独立几何/集成审计。
 evidence/: 已保存的历史失败文本。
 types/: 公开查询和宿主资源配置的编译合同与负例。
 
+
+step-units.test.mjs: 公开SDK同长度与review8元数据/去元数据对照，保存inspect/build/STEP回执。
+step-units-occt.py: OCP只读合成输入/输出，对独立手算bbox/体积/实体数断言；不匹配实例序号。
+
+step-units-occt.mjs: 锁定OCCT WASM独立核对合成与公开嵌套源/交付常量，旧raw mapped源仅诊断；可选case名单独立审计SDK元数据交付。
+
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 resource-limits.test.mjs: 公开SDK注册/UTF-8/JSON/聚合字节、宿主预算及原生摘要/回读守卫回归。
 output-step-budgets.test.mjs: 输出容量、SHA reader、session/HTML当前授权、文件回读及摘要元数据拒绝；Windows待验。
 
 report-capacity.test.mjs: 原7项真实reportBytes/冷建RED及负例，等待PR6 Windows验证。
 report-session-budget.test.mjs: 当前session文件/packed预算和SHA，等待PR6 Windows验证。
+
+uv-trim-metric.test.mjs: 公开SDK的UV缩放单体/装配、STEP回读及真实缓存命中回归。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
+vendor-patches.test.mjs: 同目标顺序补丁重复准备幂等、伪造manifest目标/补丁/归档摘要拒绝，真实tar/patch消费合成来源。
+
 step-import-limits.test.mjs: 公开等价washer129同文件单定义/cache/整装配， 公开SDK单定义/同原件整装配三路控制与cache命中/alias/模式拒绝、低group/occurrence定义提取、实体N/N+1、127/128/129 mapped/global occurrence、默认/硬顶、完整数量/位姿及低预算checkpoint拒绝；getter/原型或非枚举toJSON不得改变已校验宿主快照。
 
 progress.test.mjs: 真实子进程的有效进度、无进展、取消及显式墙钟预算回归。

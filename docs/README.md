@@ -1,5 +1,7 @@
 # Developer documentation
 
+[0.1.5 geometry and resource verification](release-0.1.5.md)
+
 [0.1.4 release verification for cylindrical STEP seams and annuli](release-0.1.4.md)
 
 [0.1.3 release verification and native regression cases](release-0.1.3.md)
@@ -13,6 +15,8 @@
 Release 0.1.1 has a verified public npm installation and native builds for all three supported platforms. [Public install check](https://github.com/Coloopx/colocad/releases/download/v0.1.1/registry-proof.json) · [Fresh builds, loaded rebuilds and memory for five products](benchmark-appearance.md)
 
 [Stable 0.1.1 benchmarks, engineering changes and 256-edit memory](benchmark-stable.md)
+
+[STEP representation contexts and supported unit boundaries](step-import-contexts.md)
 
 [Freeform shells, mesh import and hybrid assembly](hybrid.md)
 
@@ -43,6 +47,7 @@ The local session catalog supports [indexed history, pagination and migration](i
 | Model efficiently from dimensions or views | [Best practices](best-practices.md) |
 | Query, declare installation intent, replace a part and verify edits | [Practical workflow and runnable example](best-practices.md#query-declare-intent-assemble-then-challenge-the-edit), [query API](engineering-queries.md) |
 | Diagnose a failed call or installation | [Troubleshooting](troubleshooting.md) |
+| Understand UV trim checks and unchanged geometry tolerances | [Validation metric and regressions](validation.md#uv-trim-validation-metric) |
 | Run examples and contribute a change | [Contributing](../CONTRIBUTING.md) |
 | Compare execution performance and limits | [Performance evidence](performance.md) |
 | Control memory as parts/history grow | [Three-backend memory study](memory-persistence-report.md), [alpha.9 persistence project](../specs/0006-bounded-memory-persistence.md) |

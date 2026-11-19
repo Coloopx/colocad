@@ -1,6 +1,7 @@
 # /docs
 > L2 | 父级: ../AGENTS.md
 
+release-0.1.5.md: STEP/geometry maintenance release and sandbox measurements.
 release-0.1.4.md: Thin-annulus STEP readback and patch release verification.
 README.md: Developer documentation
 README.zh-CN.md: 开发与接入指南
@@ -14,7 +15,6 @@ benchmark-alpha11-rc1.md: Engineering edits, memory growth and time to STEP
 benchmark-alpha11-rc1.zh-CN.md: 连续改图、装配换件和 STEP 交付
 benchmark-alpha9.md: Alpha.9 benchmark: choose by workload
 benchmark-alpha9.zh-CN.md: alpha.9：什么时候该选 Colocad
-benchmark-stable.md and benchmark-stable.zh-CN.md: public npm release performance and verified revision history.
 benchmark-appearance.md: Five product models on macOS arm64
 benchmark-appearance.zh-CN.md: 五款产品外观的 macOS arm64 建模实测
 benchmark-bounded-candidate.md: Three-backend measurements and assembly validation costs
@@ -50,6 +50,9 @@ benchmarks/: 可复现性能输入与运行脚本。
 evidence/: 固定版本测试与性能回执。
 integrations/: Agent宿主及建模接入说明。
 
+step-import-contexts.md: 同长度/metadata上下文证明、release预算/cache合并边界及分代Windows验收。
+
+[PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
 本轮resource-budgets.md仅扩展PR6输出合同，静态回移不继承组合版本验收。
 
 resource-budgets.md: input/STEP默认保持，新增reportBytes默认8MiB/顶128MiB/最小1024B及精确stdout/file计量；PR6静态容量回移不继承组合版本接受。
