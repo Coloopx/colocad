@@ -14,7 +14,7 @@
   "additional_patches": [
     {
       "path": "third_party/patches/validation-properties.patch",
-      "sha256": "81795bc323c58e63f73f8712b197881661a375df4ee07f55a324d18140a916ee",
+      "sha256": "e04a63173c313ebb56bcb547112e8b650ed35faa3790423fe69c4eb01512131c",
       "targets": [
         {
           "target": "crates/solidcore/src/kernel.rs",
@@ -24,7 +24,7 @@
         {
           "target": "crates/solidcore/src/nurbs/b_spline_curve/p3.rs",
           "before": "2efbdd8a7a49fe7e418bbfa011ad38522ef257b1c68986e0bc4b314650f6837e",
-          "after": "467598fe240eda887109387469650bf09bd01128272d907d3fc99d90186fc23c"
+          "after": "9cfc3b6d57393681241fae43470c7c1526d2ee29fea2c8d2f2b99d32654972ff"
         }
       ]
     },
@@ -52,12 +52,12 @@
     },
     {
       "path": "third_party/patches/step-brep-end-poles.patch",
-      "sha256": "6b7b650803c6b320a051b061d7dd6ca2e4bc2df8734f1b3576629ed61e882027",
+      "sha256": "2bf54095bdd419044eaa06a1153d2501150d47658cac7223c4797ed45f1644d1",
       "targets": [
         {
           "target": "crates/step-brep/src/lib.rs",
           "before": "accd25d0d4520888a2bd457ea7508d48e7a5336a31bb032adfc9cbd1a16f7ef3",
-          "after": "5ecea27e90d03450ac8cffa36b1191b05b9cf637e53aef634eb8553a58534084"
+          "after": "f36c9a77a0cbbc7b941e029f0365ec1c13e823e4b7a553d10778ed99b13d9bc6"
         }
       ]
     }

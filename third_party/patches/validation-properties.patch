@@ -27,10 +27,13 @@
          *self = Self::default();
 --- a/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
 +++ b/crates/solidcore/src/nurbs/b_spline_curve/p3.rs
-@@ -254,6 +254,160 @@
-     }
- }
- 
+@@ -251,7 +251,161 @@
+ impl SolutionObject for SelfCurve {
+     fn kind(&self) -> ObjectKind {
+         ObjectKind::Curve
++    }
++}
++
 +/// Only successful output of a pure, unowned BSpline property solver is shared.
 +/// The entire key is compared after hashing. Bound input and output sizes as well
 +/// as entry count, independently of how many definitions the assembly contains.
@@ -181,13 +184,11 @@
 +            1.5 * (dprime / (wmin * wmin) + 2. * magnitude * wprime / (wmin * wmin * wmin));
 +        speed = speed.min(velocity / dt);
 +        radius = radius.min(velocity * velocity / acceleration);
-+    }
+     }
 +    (speed.is_finite() && radius.is_finite()).then_some((speed, radius))
-+}
-+
+ }
+ 
  /// `SmCurve::GlobalPropertyAnalysis` of `curve` over `domain` (no extra arguments) with
- /// minimum separation `min_sep`: whether the call returned `SM_SUCCESS` and the
- /// solutions' start ends (including any partial solutions found before a failure, as
 @@ -266,6 +420,15 @@
      property: CurveProperty,
      min_sep: f64,
@@ -223,7 +224,38 @@
      Ok((ok, sols))
  }
  
-@@ -1460,8 +1633,22 @@
+@@ -637,6 +810,30 @@
+         UNDEF_DOUBLE,
+         |_| {},
+     )
++}
++
++/// Compare the raw knot vector with the tolerance-grouped knots. Only the
++/// failing endpoint-multiplicity report builds this text.
++#[inline(never)]
++#[cold]
++fn attach_endpoint_knot_message(
++    entry: &mut AssertReport,
++    cur: &crate::nurbs::crv_basic::Curve,
++    dim: u64,
++    deg: usize,
++    start_mult: usize,
++    end_mult: usize,
++) {
++    let raw = cur.knots();
++    let raw_start = raw.iter().take_while(|knot| Some(*knot) == raw.first()).count();
++    let raw_end = raw.iter().rev().take_while(|knot| Some(*knot) == raw.last()).count();
++    let reason = entry.message.as_deref().unwrap_or("invalid endpoint knots");
++    entry.message = Some(
++        format!(
++            "{reason} (dimension={dim}, degree={deg}, grouped_start={start_mult}, grouped_end={end_mult}, raw_start={raw_start}, raw_end={raw_end})"
++        )
++        .into(),
++    );
+ }
+ 
+ impl BSplineCurve {
+@@ -1460,8 +1657,20 @@
              Some(d) => d,
              None => self.degree()?,
          };
@@ -231,24 +263,22 @@
 -        rtn &= bool_report(&mut list, key, 1, ends_ok)?;
 +        let (start_mult, end_mult) = (mult(0)?, mult(num_knots.wrapping_sub(1))?);
 +        let ends_ok = start_mult == deg + 1 && end_mult == deg + 1;
-+        rtn &= report(
-+            &mut list, key, 1, ends_ok, UNDEF_DOUBLE, UNDEF_DOUBLE,
-+            |entry| {
-+                // Compare the raw knot vector with the tolerance-grouped knots.
-+                let raw = cur.knots();
-+                let raw_start = raw.iter().take_while(|knot| Some(*knot) == raw.first()).count();
-+                let raw_end = raw.iter().rev().take_while(|knot| Some(*knot) == raw.last()).count();
-+                let reason = entry.message.as_deref().unwrap_or("invalid endpoint knots");
-+                entry.message = Some(format!(
-+                    "{reason} (dimension={}, degree={deg}, grouped_start={start_mult}, grouped_end={end_mult}, raw_start={raw_start}, raw_end={raw_end})",
-+                    self.dim,
-+                ).into());
-+            },
-+        )?;
++        rtn &= if ends_ok {
++            bool_report(&mut list, key, 1, true)?
++        } else {
++            report(
++                &mut list, key, 1, false, UNDEF_DOUBLE, UNDEF_DOUBLE,
++                |entry| {
++                    attach_endpoint_knot_message(
++                        entry, cur, self.dim, deg, start_mult, end_mult,
++                    )
++                },
++            )?
++        };
          if !rtn {
              return Ok(rtn);
          }
-@@ -1688,7 +1875,18 @@
+@@ -1688,7 +1897,18 @@
                  5.0
              };
  
@@ -268,7 +298,7 @@
                  let (first_derivs_ok, sols) = global_property_analysis(
                      k,
                      self,
-@@ -1792,7 +1990,19 @@
+@@ -1792,7 +2012,19 @@
  
              // Another type of kink check: vanishing radius of curvature.
              let mut radii = false;

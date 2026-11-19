@@ -9,7 +9,7 @@
                  &CanonicalData {
                      dim: 3,
                      degree: spline.degree as usize,
-@@ -184,11 +184,44 @@
+@@ -184,11 +184,63 @@
                      weights: spline.weights.as_deref(),
                      trim,
                  },
@@ -22,31 +22,50 @@
 +            Ok(Curve::from(curve))
          }
      }
- }
- 
++}
++
 +/// Drop only the poles whose basis vectors have an exactly empty parameter
 +/// interval after canonical construction. They cannot influence any span of the
 +/// curve. The remaining poles, weights, knots and parameter interval stay intact.
 +fn remove_zero_support_end_poles(spline: &mut BSplineCurve) -> Result<(), SolidError> {
++    let (start, end) = {
++        let Some(raw) = spline.gw_nurb() else {
++            return Ok(());
++        };
++        let knots = raw.knots();
++        let poles = raw.cpts();
++        let degree = raw.degree();
++        let first = knots.iter().take_while(|k| Some(*k) == knots.first()).count();
++        let last = knots.iter().rev().take_while(|k| Some(*k) == knots.last()).count();
++        if first < degree + 1 || last < degree + 1 {
++            return Ok(());
++        }
++        let start = first - degree - 1;
++        let end = last - degree - 1;
++        if start + end == 0 || poles.len() <= start + end + degree {
++            return Ok(());
++        }
++        (start, end)
++    };
++    rebuild_without_zero_support_end_poles(spline, start, end)
+ }
+ 
++/// Allocate a shrunken NURB only after empty-support ends are confirmed.
++#[inline(never)]
++#[cold]
++fn rebuild_without_zero_support_end_poles(
++    spline: &mut BSplineCurve,
++    start: usize,
++    end: usize,
++) -> Result<(), SolidError> {
 +    let Some(raw) = spline.gw_nurb() else {
 +        return Ok(());
 +    };
-+    let knots = raw.knots();
 +    let poles = raw.cpts();
-+    let degree = raw.degree();
-+    let first = knots.iter().take_while(|k| Some(*k) == knots.first()).count();
-+    let last = knots.iter().rev().take_while(|k| Some(*k) == knots.last()).count();
-+    if first < degree + 1 || last < degree + 1 {
-+        return Ok(());
-+    }
-+    let start = first - degree - 1;
-+    let end = last - degree - 1;
-+    if start + end == 0 || poles.len() <= start + end + degree {
-+        return Ok(());
-+    }
++    let knots = raw.knots();
 +    let rebuilt = solidcore::nurbs::crv_basic::Curve::new(
 +        poles[start..poles.len() - end].to_vec(),
-+        degree,
++        raw.degree(),
 +        knots[start..knots.len() - end].to_vec(),
 +    )?;
 +    spline.set_from_gw_nurb(Some(&rebuilt))

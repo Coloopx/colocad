@@ -10,6 +10,6 @@ publish-npm.mjs: usr/bin/env node；Release tooling only. Credentials stay in th
 schema.mjs: Generate public JSON/TypeScript contracts from the development native binary.
 vendor.mjs: Verify the pinned archive and extract it atomically. Apply and verify the single reviewed downstream patch.
 
-变更：2026-11-15 G2补丁与Windows定向回归；不修改其它算法。
+变更：2026-11-19 冷路径零支撑端点重建；端节点诊断仅失败路径。
 
 [PROTOCOL]: 变更时更新此头部，然后检查 AGENTS.md
